@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x *)",
+      "Bash(scripts/generate-spring-service.sh api-gateway *)",
+      "Bash(scripts/generate-spring-service.sh config-server *)",
+      "Bash(scripts/generate-spring-service.sh discovery-server *)"
+    ]
+  }
+}

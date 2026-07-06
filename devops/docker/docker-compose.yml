@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  discovery-server:
+    build:
+      context: ../../backend/discovery-server
+      dockerfile: ../../devops/docker/discovery-server/Dockerfile
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+
+  config-server:
+    build:
+      context: ../../backend/config-server
+      dockerfile: ../../devops/docker/config-server/Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    depends_on:
+      - discovery-server
+
+  api-gateway:
+    build:
+      context: ../../backend/api-gateway
+      dockerfile: ../../devops/docker/api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    depends_on:
+      - discovery-server
+      - config-server
+
+  # Add other services as needed
+  # Example:
+  # auth-service:
+  #   build:
+  #     context: ../../backend/auth-service
+  #     dockerfile: ../../devops/docker/auth-service/Dockerfile
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - SPRING_PROFILES_ACTIVE=default
+  #   depends_on:
+  #     - discovery-server
+  #     - config-server
+
+networks:
+  default:
+    name: cartezy-network
+    driver: bridge
