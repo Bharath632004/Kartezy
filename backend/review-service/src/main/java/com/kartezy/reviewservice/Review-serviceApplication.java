@@ -1,11 +1,11 @@
-package com.kartezy.review_service;
+package com.kartezy.reviewservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Review-serviceApplication {
+public class ReviewServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Review-serviceApplication.class, args);
+        SpringApplication.run(ReviewServiceApplication.class, args);
     }
 }

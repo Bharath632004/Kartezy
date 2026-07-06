@@ -1,10 +1,10 @@
-package com.kartezy.review_service;
+package com.kartezy.reviewservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Review-serviceController {
+public class ReviewServiceController {
 
     @GetMapping("/")
     public String home() {

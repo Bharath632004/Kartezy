@@ -1,10 +1,10 @@
-package com.kartezy.config_server;
+package com.kartezy.configserver;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Config-serverController {
+public class ConfigServerController {
 
     @GetMapping("/")
     public String home() {

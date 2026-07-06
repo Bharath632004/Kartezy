@@ -1,11 +1,11 @@
-package com.kartezy.wallet_service;
+package com.kartezy.walletservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Wallet-serviceApplication {
+public class WalletServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Wallet-serviceApplication.class, args);
+        SpringApplication.run(WalletServiceApplication.class, args);
     }
 }

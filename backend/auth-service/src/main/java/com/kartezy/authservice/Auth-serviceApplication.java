@@ -1,11 +1,11 @@
-package com.kartezy.auth_service;
+package com.kartezy.authservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Auth-serviceApplication {
+public class AuthServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Auth-serviceApplication.class, args);
+        SpringApplication.run(AuthServiceApplication.class, args);
     }
 }

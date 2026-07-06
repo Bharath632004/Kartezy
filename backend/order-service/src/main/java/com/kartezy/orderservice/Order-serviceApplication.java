@@ -1,11 +1,11 @@
-package com.kartezy.order_service;
+package com.kartezy.orderservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Order-serviceApplication {
+public class OrderServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Order-serviceApplication.class, args);
+        SpringApplication.run(OrderServiceApplication.class, args);
     }
 }

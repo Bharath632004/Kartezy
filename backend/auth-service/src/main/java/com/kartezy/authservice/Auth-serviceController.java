@@ -1,10 +1,10 @@
-package com.kartezy.auth_service;
+package com.kartezy.authservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Auth-serviceController {
+public class AuthServiceController {
 
     @GetMapping("/")
     public String home() {

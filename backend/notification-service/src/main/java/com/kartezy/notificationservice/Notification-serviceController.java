@@ -1,10 +1,10 @@
-package com.kartezy.notification_service;
+package com.kartezy.notificationservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Notification-serviceController {
+public class NotificationServiceController {
 
     @GetMapping("/")
     public String home() {

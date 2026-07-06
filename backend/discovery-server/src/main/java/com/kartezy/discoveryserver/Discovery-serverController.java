@@ -1,10 +1,10 @@
-package com.kartezy.discovery_server;
+package com.kartezy.discoveryserver;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Discovery-serverController {
+public class DiscoveryServerController {
 
     @GetMapping("/")
     public String home() {

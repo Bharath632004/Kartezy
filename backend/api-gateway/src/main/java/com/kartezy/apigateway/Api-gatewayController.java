@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Api-gatewayController {
+public class ApiGatewayController {
 
     @GetMapping("/")
     public String home() {

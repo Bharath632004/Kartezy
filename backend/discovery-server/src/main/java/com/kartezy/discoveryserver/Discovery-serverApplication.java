@@ -1,11 +1,11 @@
-package com.kartezy.discovery_server;
+package com.kartezy.discoveryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Discovery-serverApplication {
+public class DiscoveryServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Discovery-serverApplication.class, args);
+        SpringApplication.run(DiscoveryServerApplication.class, args);
     }
 }

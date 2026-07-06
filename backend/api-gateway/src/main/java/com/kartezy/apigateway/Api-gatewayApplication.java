@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Api-gatewayApplication {
+public class ApiGatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Api-gatewayApplication.class, args);
+        SpringApplication.run(ApiGatewayApplication.class, args);
     }
 }

@@ -1,11 +1,11 @@
-package com.kartezy.config_server;
+package com.kartezy.configserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Config-serverApplication {
+public class ConfigServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Config-serverApplication.class, args);
+        SpringApplication.run(ConfigServerApplication.class, args);
     }
 }

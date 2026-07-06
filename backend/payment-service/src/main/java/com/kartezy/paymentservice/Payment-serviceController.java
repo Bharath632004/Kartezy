@@ -1,10 +1,10 @@
-package com.kartezy.payment_service;
+package com.kartezy.paymentservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Payment-serviceController {
+public class PaymentServiceController {
 
     @GetMapping("/")
     public String home() {

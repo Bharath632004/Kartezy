@@ -1,10 +1,10 @@
-package com.kartezy.delivery_service;
+package com.kartezy.deliveryservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Delivery-serviceController {
+public class DeliveryServiceController {
 
     @GetMapping("/")
     public String home() {

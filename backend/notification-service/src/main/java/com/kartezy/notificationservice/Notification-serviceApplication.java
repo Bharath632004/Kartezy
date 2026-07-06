@@ -1,11 +1,11 @@
-package com.kartezy.notification_service;
+package com.kartezy.notificationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Notification-serviceApplication {
+public class NotificationServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Notification-serviceApplication.class, args);
+        SpringApplication.run(NotificationServiceApplication.class, args);
     }
 }

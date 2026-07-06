@@ -1,10 +1,10 @@
-package com.kartezy.order_service;
+package com.kartezy.orderservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Order-serviceController {
+public class OrderServiceController {
 
     @GetMapping("/")
     public String home() {
