@@ -44,10 +44,6 @@ public class ErrorResponse {
         return errorCode;
     }
 
-    public void setErrorCode(String errorCode getErrorCode() {
-        return errorCode;
-    }
-
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
     }

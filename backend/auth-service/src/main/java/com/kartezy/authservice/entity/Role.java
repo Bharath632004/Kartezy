@@ -34,6 +34,10 @@ public class Role extends AuditableEntity {
     )
     private Set<Permission> permissions = new HashSet<>();
 
+    // Many-to-Many with User (via user_roles)
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
+
     // Convenience methods
     public void addPermission(Permission permission) {
         this.permissions.add(permission);

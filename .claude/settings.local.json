@@ -13,7 +13,23 @@
       "Bash(mvn clean *)",
       "Bash(mvn *)",
       "Bash(MAVEN_OPTS=\"-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true\" mvn *)",
-      "Bash(Continue the *)"
+      "Bash(Continue the *)",
+      "Bash(awk *)",
+      "Bash(sed -i '49,53d' /tmp/pom.xml)",
+      "Bash(sed -i '42s/2.2.0/2.8.9/' /tmp/pom.xml)",
+      "Bash(cp pom.xml.bak pom.xml)",
+      "Bash(sed -i '50,53d' pom.xml)",
+      "Bash(sed -i '43s/2.2.0/2.8.9/' pom.xml)",
+      "Bash(export *)",
+      "Bash(java *)",
+      "Bash(findstr \"java.home\")",
+      "Bash(tee mvn_output.log)",
+      "Bash(MAVEN_OPTS=\"-Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true\" mvn clean verify -Dmaven.test.skip=true)",
+      "Bash(tee debug.log)",
+      "Bash(openssl s_client -connect repo.maven.apache.org:443)",
+      "Bash(sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p')",
+      "Bash(exit 1)",
+      "Bash(keytool -import -alias maven -keystore truststore.jks -file maven.pem -storepass changeit -noprompt)"
     ]
   }
 }

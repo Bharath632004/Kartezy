@@ -1,11 +1,11 @@
-package com.kartezy.inventory_service;
+package com.kartezy.inventoryservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Inventory-serviceApplication {
+public class InventoryServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Inventory-serviceApplication.class, args);
+        SpringApplication.run(InventoryServiceApplication.class, args);
     }
 }

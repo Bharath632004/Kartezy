@@ -1,11 +1,11 @@
-package com.kartezy.analytics_service;
+package com.kartezy.merchantservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Analytics-serviceApplication {
+public class MerchantServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Analytics-serviceApplication.class, args);
+        SpringApplication.run(MerchantServiceApplication.class, args);
     }
 }

@@ -1,18 +1,18 @@
-package com.kartezy.merchant_service;
+package com.kartezy.recommendationservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Merchant-serviceController {
+public class RecommendationServiceController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to merchant-service service";
+        return "Welcome to recommendation-service service";
     }
 
     @GetMapping("/health")
     public String health() {
-        return "merchant-service is healthy";
+        return "recommendation-service is healthy";
     }
 }

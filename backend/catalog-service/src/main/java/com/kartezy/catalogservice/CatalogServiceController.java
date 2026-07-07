@@ -1,10 +1,10 @@
-package com.kartezy.catalog_service;
+package com.kartezy.catalogservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Catalog-serviceController {
+public class CatalogServiceController {
 
     @GetMapping("/")
     public String home() {

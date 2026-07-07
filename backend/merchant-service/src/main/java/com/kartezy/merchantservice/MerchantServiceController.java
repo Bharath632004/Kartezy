@@ -1,18 +1,18 @@
-package com.kartezy.inventory_service;
+package com.kartezy.merchantservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Inventory-serviceController {
+public class MerchantServiceController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to inventory-service service";
+        return "Welcome to merchant-service service";
     }
 
     @GetMapping("/health")
     public String health() {
-        return "inventory-service is healthy";
+        return "merchant-service is healthy";
     }
 }

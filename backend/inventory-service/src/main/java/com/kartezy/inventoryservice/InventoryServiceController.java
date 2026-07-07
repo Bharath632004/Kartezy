@@ -1,18 +1,18 @@
-package com.kartezy.recommendation_service;
+package com.kartezy.inventoryservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Recommendation-serviceController {
+public class InventoryServiceController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to recommendation-service service";
+        return "Welcome to inventory-service service";
     }
 
     @GetMapping("/health")
     public String health() {
-        return "recommendation-service is healthy";
+        return "inventory-service is healthy";
     }
 }

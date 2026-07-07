@@ -1,10 +1,10 @@
-package com.kartezy.analytics_service;
+package com.kartezy.analyticsservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Analytics-serviceController {
+public class AnalyticsServiceController {
 
     @GetMapping("/")
     public String home() {
