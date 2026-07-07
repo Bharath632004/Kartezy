@@ -1,4 +1,4 @@
-package com.kartezy.api_gateway;
+package com.kartezy.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

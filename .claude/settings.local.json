@@ -4,7 +4,11 @@
       "Bash(chmod +x *)",
       "Bash(scripts/generate-spring-service.sh api-gateway *)",
       "Bash(scripts/generate-spring-service.sh config-server *)",
-      "Bash(scripts/generate-spring-service.sh discovery-server *)"
+      "Bash(scripts/generate-spring-service.sh discovery-server *)",
+      "Bash(xargs ls -la)",
+      "Bash(find . -type f -not -path \"*/node_modules/*\" -not -path \"*/\\\\.*\")",
+      "Bash(git mv *)",
+      "Bash(git add *)"
     ]
   }
 }

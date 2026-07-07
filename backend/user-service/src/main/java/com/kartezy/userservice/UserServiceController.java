@@ -1,10 +1,10 @@
-package com.kartezy.user_service;
+package com.kartezy.userservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class User-serviceController {
+public class UserServiceController {
 
     @GetMapping("/")
     public String home() {
