@@ -15,8 +15,6 @@ import com.kartezy.shared.audit.AuditableEntity;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-
 /**
  * Wishlist entity for customer's wishlists.
  */
@@ -28,10 +26,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Wishlist extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

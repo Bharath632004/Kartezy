@@ -13,8 +13,6 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 
-import java.util.UUID;
-
 /**
  * Favorite store entity for customer's favorite stores.
  */
@@ -26,10 +24,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class FavoriteStore extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

@@ -13,11 +13,10 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 
-import java.time.LocalDate;
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
+import java.time.LocalDate;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Customer profile extending the auth user with additional profile information.
@@ -30,10 +29,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class CustomerProfile extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     // Reference to the auth service user (by user id)
     @Column(name = "user_id", nullable = false, updatable = false, unique = true)

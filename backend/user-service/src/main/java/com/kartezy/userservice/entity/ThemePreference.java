@@ -13,8 +13,6 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 
-import java.util.UUID;
-
 /**
  * Theme preference entity for customer's UI theme preferences (light/dark mode, etc.)
  */
@@ -26,10 +24,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class ThemePreference extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

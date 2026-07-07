@@ -12,9 +12,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Login history entity for tracking customer's login attempts.
@@ -27,10 +25,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class LoginHistory extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

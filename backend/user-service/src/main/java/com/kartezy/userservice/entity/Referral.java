@@ -12,9 +12,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Referral entity for tracking referral relationships between users.
@@ -27,10 +25,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Referral extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "referrer_id", nullable = false)

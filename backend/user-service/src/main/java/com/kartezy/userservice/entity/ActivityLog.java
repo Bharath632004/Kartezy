@@ -28,9 +28,6 @@ import java.util.UUID;
 @Builder
 public class ActivityLog extends AuditableEntity {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

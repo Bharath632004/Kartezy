@@ -13,8 +13,6 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 
-import java.util.UUID;
-
 /**
  * Wishlist item entity representing a product in a wishlist.
  */
@@ -26,10 +24,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class WishlistItem extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wishlist_id", nullable = false)

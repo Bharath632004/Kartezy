@@ -12,9 +12,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Delete account request entity for tracking account deletion requests.
@@ -27,10 +25,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class DeleteAccountRequest extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

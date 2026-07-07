@@ -12,9 +12,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
-
 import java.time.LocalDate;
-import java.util.UUID;
 
 /**
  * Membership entity for customer's membership/subscription details.
@@ -27,10 +25,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Membership extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

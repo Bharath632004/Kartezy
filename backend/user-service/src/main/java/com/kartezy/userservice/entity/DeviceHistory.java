@@ -14,8 +14,6 @@ import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 /**
  * Device history entity for tracking customer's device usage.
  */
@@ -27,10 +25,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class DeviceHistory extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

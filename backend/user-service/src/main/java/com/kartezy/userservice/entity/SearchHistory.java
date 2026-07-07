@@ -14,7 +14,6 @@ import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Search history entity for tracking customer's search queries.
@@ -27,10 +26,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class SearchHistory extends AuditableEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)

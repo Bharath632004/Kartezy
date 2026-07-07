@@ -34,7 +34,14 @@
       "Bash(xargs grep -l \"@Service\\\\|@Service\")",
       "Bash(nano *)",
       "Bash(</Reward.java)",
-      "Bash(</parameter)"
+      "Bash(</parameter)",
+      "Bash(timeout 30 /c/Users/chaka/Kartezy/backend/mvnw.cmd clean install -DskipTests)",
+      "Bash(tee build.log)",
+      "Bash(flutter create *)",
+      "Bash(cd *)",
+      "Bash(flutter pub *)",
+      "Bash(flutter clean *)",
+      "Bash(flutter run *)"
     ]
   }
 }
