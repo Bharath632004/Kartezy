@@ -41,7 +41,14 @@
       "Bash(cd *)",
       "Bash(flutter pub *)",
       "Bash(flutter clean *)",
-      "Bash(flutter run *)"
+      "Bash(flutter run *)",
+      "Bash(flutter kill *)",
+      "Bash(flutter config *)",
+      "Bash(taskkill *)",
+      "Bash(tasklist)",
+      "Bash(kill *)",
+      "Bash(flutter build *)",
+      "Bash(flutter analyze *)"
     ]
   }
 }

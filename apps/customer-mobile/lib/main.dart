@@ -2,13 +2,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:customer_mobile/core/theme/theme_provider.dart';
 import 'package:customer_mobile/navigation/router.dart';
+import 'package:customer_mobile/core/storage/hive_manager.dart';
+import 'package:customer_mobile/core/storage/secure_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  runApp(const ProviderScope(child: MyApp()));
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: '',
+      appId: '',
+      messagingSenderId: '',
+      projectId: '',
+    ),
+  );
+
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  // Initialize Hive
+  final hiveManager = HiveManager();
+  await hiveManager.init();
+
+  runApp(ProviderScope(
+    overrides: [
+      // Override providers if needed for testing
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends ConsumerWidget {

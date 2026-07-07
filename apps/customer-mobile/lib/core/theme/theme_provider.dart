@@ -1,47 +1,67 @@
-import 'package:flutter/material.dart';
+// lib/core/theme/theme_provider.dart
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+import 'package:customer_mobile/core/storage/hive_manager.dart';
 import 'theme.dart';
 
-/// Theme state notifier
-class ThemeNotifier extends StateNotifier<ThemeMode> {
-  ThemeNotifier() : super(ThemeMode.system);
+enum AppThemeMode { light, dark, system }
 
-  void toggleTheme(bool isDark) {
-    state = isDark ? ThemeMode.dark : ThemeMode.light;
+class ThemeNotifier extends StateNotifier<AppThemeMode> {
+  ThemeNotifier(this._ref) : super(AppThemeMode.system) {
+    _loadFromPreferences();
   }
 
-  void setThemeMode(ThemeMode mode) {
+  final Ref _ref;
+  late final Box _settingsBox;
+
+  Future<void> _loadFromPreferences() async {
+    final hiveManager = _ref.read(hiveManagerProvider);
+    _settingsBox = await hiveManager.getBox<bool>(boxName: 'settings');
+    final themeMode = _settingsBox.get('themeMode', defaultValue: AppThemeMode.system.index);
+    state = AppThemeMode.values[themeMode];
+  }
+
+  void setThemeMode(AppThemeMode mode) {
     state = mode;
+    _settingsBox.put('themeMode', mode.index);
   }
 
-  void enableHighContrast(bool enable) {
-    // For simplicity, we'll just toggle between light and high contrast
-    // In a more complex app, you might have a separate state for high contrast
-    if (enable) {
-      // We don't have a ThemeMode for high contrast, so we'll use a custom approach
-      // For now, we'll just use light theme with high contrast colors
-      // This is a simplification; in reality, you might need a custom ThemeMode or
-      // a different way to handle high contrast.
-      // We'll just set to light and rely on the high contrast theme in the theme data.
-      // We'll handle this in the theme selection logic.
-    } else {
-      // Reset to previous mode? This is a simplified example.
+  bool get isDarkMode {
+    final brightness = WidgetsBinding.instance.window.platformBrightness;
+    switch (state) {
+      case AppThemeMode.system:
+        return brightness == Brightness.dark;
+      case AppThemeMode.light:
+        return false;
+      case AppThemeMode.dark:
+        return true;
     }
   }
 }
 
 /// Provider for theme notifier
-final themeNotifierProvider =
-    StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
-  return ThemeNotifier();
+final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, AppThemeMode>((ref) {
+  return ThemeNotifier(ref);
 });
 
 /// Provider to get the current ThemeData based on theme mode and high contrast
 final themeProvider = Provider<ThemeData>((ref) {
   final themeMode = ref.watch(themeNotifierProvider);
-  final brightness = WidgetsBinding.instance.window.platformBrightness;
-  final isDark = themeMode == ThemeMode.dark ||
-      (themeMode == ThemeMode.system && brightness == Brightness.dark);
+  bool isDark;
+  switch (themeMode) {
+    case AppThemeMode.light:
+      isDark = false;
+      break;
+    case AppThemeMode.dark:
+      isDark = true;
+      break;
+    case AppThemeMode.system:
+      final brightness = WidgetsBinding.instance.window.platformBrightness;
+      isDark = brightness == Brightness.dark;
+      break;
+  }
   // For high contrast, we would need additional state; for now, we ignore.
   return AppTheme.getTheme(isDark: isDark, highContrast: false);
 });

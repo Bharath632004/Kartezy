@@ -1,3 +1,4 @@
+// lib/core/theme/theme.dart
 import 'package:flutter/material.dart';
 
 /// App theme configuration
@@ -36,7 +37,10 @@ class AppTheme {
   );
 
   /// Returns the appropriate theme based on brightness and high contrast flag
-  static ThemeData getTheme({bool isDark = false, bool highContrast = false}) {
+  static ThemeData getTheme({
+    required bool isDark,
+    required bool highContrast,
+  }) {
     if (highContrast) {
       return highContrastTheme;
     }

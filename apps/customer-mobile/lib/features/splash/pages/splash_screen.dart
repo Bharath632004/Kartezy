@@ -1,25 +1,22 @@
 // lib/features/splash/pages/splash_screen.dart
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Simulate splash screen delay
-    Future.delayed(const Duration(seconds: 2), () {
-      // TODO: Replace with actual authentication check
-      // For now, we'll go to login
-      if (mounted) {
-        context.go('/login');
-      }
+    // Simulate a short delay for splash screen
+    Future.delayed(const Duration(seconds: 2)).then((_) {
+      // After the delay, we do nothing; the router will redirect based on auth state
+      // We can trigger a rebuild by setting state, but it's not necessary.
     });
   }
 

@@ -1,22 +1,18 @@
 // lib/features/authentication/pages/login_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:customer_mobile/features/authentication/domain/usecase/login_usecase.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
-  String? _errorMessage;
 
   @override
   void dispose() {
@@ -26,28 +22,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
+    setState(() => _isLoading = true);
     try {
-      final email = _emailController.text.trim();
-      final password = _passwordController.text;
-      final loginUseCase = ref.read(loginUseCaseProvider);
-      final success = await loginUseCase.call(email, password);
-      if (success && mounted) {
-        // Assuming login successful, go to home
+      // TODO: Implement actual login logic using auth repository
+      // For now, simulate a delay and then navigate to home
+      await Future.delayed(const Duration(seconds: 2));
+      if (mounted) {
+        // Assuming login successful
         context.go('/home');
-      } else if (mounted) {
-        setState(() {
-          _errorMessage = 'Invalid email or password';
-        });
       }
     } catch (e) {
+      // TODO: Show error message
       if (mounted) {
-        setState(() {
-          _errorMessage = 'Something went wrong: $e';
-        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: $e')),
+        );
       }
     } finally {
       if (mounted) {
@@ -84,18 +73,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
               obscureText: true,
             ),
-            const SizedBox(height: 16),
-            if (_errorMessage != null)
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             _isLoading
                 ? const CircularProgressIndicator()
-                : AppButton(
-                    text: 'Login',
+                : ElevatedButton(
                     onPressed: _login,
+                    child: const Text('Login'),
                   ),
             const SizedBox(height: 16),
             TextButton(
