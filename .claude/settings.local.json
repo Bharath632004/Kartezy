@@ -29,7 +29,8 @@
       "Bash(openssl s_client -connect repo.maven.apache.org:443)",
       "Bash(sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p')",
       "Bash(exit 1)",
-      "Bash(keytool -import -alias maven -keystore truststore.jks -file maven.pem -storepass changeit -noprompt)"
+      "Bash(keytool -import -alias maven -keystore truststore.jks -file maven.pem -storepass changeit -noprompt)",
+      "Bash(git checkout *)"
     ]
   }
 }

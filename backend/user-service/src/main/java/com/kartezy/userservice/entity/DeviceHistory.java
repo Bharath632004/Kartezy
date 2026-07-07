@@ -1,0 +1,65 @@
+package com.kartezy.userservice.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+/**
+ * Device history entity for tracking customer's device usage.
+ */
+@Entity
+@Table(name = "device_histories")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class DeviceHistory extends AuditableEntity {
+
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_profile_id", nullable = false)
+    private CustomerProfile customerProfile;
+
+    @NotBlank
+    @Size(max = 255)
+    @Column(name = "device_id", length = 255)
+    private String deviceId; // Unique device identifier
+
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "device_type", length = 100)
+    private String deviceType; // e.g., MOBILE, TABLET, DESKTOP
+
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "operating_system", length = 100)
+    private String operatingSystem; // e.g., ANDROID, IOS, WINDOWS, MACOS
+
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "os_version", length = 100)
+    private String osVersion;
+
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "app_version", length = 100)
+    private String appVersion;
+
+    @Column(name = "last_used")
+    private LocalDateTime lastUsed;
+
+    @Column(name = "is_active")
+    private boolean isActive = false;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+}
