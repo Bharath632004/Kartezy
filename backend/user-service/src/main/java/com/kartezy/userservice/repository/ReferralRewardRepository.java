@@ -1,7 +1,7 @@
 package com.kartezy.userservice.repository;
 
 import com.kartezy.userservice.entity.CustomerProfile;
-import com.kartezy/userservice.entity.ReferralReward;
+import com.kartezy.userservice.entity.ReferralReward;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

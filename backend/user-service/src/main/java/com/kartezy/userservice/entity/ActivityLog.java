@@ -1,7 +1,17 @@
 package com.kartezy.userservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 import lombok.*;
+import com.kartezy.shared.audit.AuditableEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

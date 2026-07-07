@@ -30,7 +30,11 @@
       "Bash(sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p')",
       "Bash(exit 1)",
       "Bash(keytool -import -alias maven -keystore truststore.jks -file maven.pem -storepass changeit -noprompt)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(xargs grep -l \"@Service\\\\|@Service\")",
+      "Bash(nano *)",
+      "Bash(</Reward.java)",
+      "Bash(</parameter)"
     ]
   }
 }
