@@ -12,16 +12,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> login(String email, String password) async {
     try {
-      final remoteDataSource = _read(authRemoteDataSourceProvider);
-      final response = await remoteDataSource.login(email, password);
-      final token = response['accessToken'];
-      final refreshToken = response['refreshToken'];
-
-      // Store tokens in secure storage
-      final secureStorage = _read(secureStorageProvider);
-      await secureStorage.write(key: 'accessToken', value: token);
-      await secureStorage.write(key: 'refreshToken', value: refreshToken);
-
+      final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
+      final user = await remoteDataSource.login(email, password);
+      // Store user info or token
+      final secureStorage = _ref.read(secureStorageProvider);
+      await secureStorage.write(key: 'userId', value: user.id.toString());
+      await secureStorage.write(key: 'accessToken', value: user.accessToken);
+      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
       return true;
     } catch (e) {
       return false;
@@ -31,22 +28,23 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logout() async {
     try {
-      final remoteDataSource = _read(authRemoteDataSourceProvider);
+      final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
       await remoteDataSource.logout();
     } catch (_) {
       // Ignore errors on logout
     } finally {
       // Clear tokens from secure storage
-      final secureStorage = _read(secureStorageProvider);
+      final secureStorage = _ref.read(secureStorageProvider);
       await secureStorage.delete(key: 'accessToken');
       await secureStorage.delete(key: 'refreshToken');
+      await secureStorage.delete(key: 'userId');
     }
   }
 
   @override
   Future<String?> getCurrentUserId() async {
-    // TODO: Implement getting user ID from token or secure storage
-    return null;
+    final secureStorage = _ref.read(secureStorageProvider);
+    return await secureStorage.read(key: 'userId');
   }
 }
 

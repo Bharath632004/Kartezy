@@ -1,5 +1,6 @@
 // lib/features/authentication/domain/usecase/login_usecase.dart
 import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
+import 'package:customer_mobile/features/authentication/data/repository/auth_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginUseCase {
@@ -14,6 +15,6 @@ class LoginUseCase {
 
 /// Provider for login use case
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
-  final repository = ref.read(authRepositoryProvider);
+  final repository = _ref.read(authRepositoryProvider);
   return LoginUseCase(repository);
 });

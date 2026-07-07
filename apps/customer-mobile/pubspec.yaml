@@ -57,3 +57,4 @@ dev_dependencies:
   lint: ^2.3.0
   flutter_lints: ^6.0.0
   custom_lint: ^0.6.4
+  analyzer: ^6.4.1

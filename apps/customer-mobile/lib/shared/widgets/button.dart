@@ -32,7 +32,7 @@ class AppButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
     final buttonColor = color ?? (disabled ? Colors.grey : theme.colorScheme.primary);
-    final textColor = textColor ?? (disabled ? Colors.grey.shade400 : theme.colorScheme.onPrimary);
+    final textColor = this.textColor ?? (disabled ? Colors.grey.shade400 : theme.colorScheme.onPrimary);
 
     return SizedBox(
       width: width,

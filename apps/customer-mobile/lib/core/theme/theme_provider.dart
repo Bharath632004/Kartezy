@@ -1,12 +1,9 @@
 // lib/core/theme/theme_provider.dart
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:customer_mobile/core/storage/hive_manager.dart';
+import 'package:flutter/material.dart';
 import 'theme.dart';
-
-enum AppThemeMode { light, dark, system }
 
 class ThemeNotifier extends StateNotifier<AppThemeMode> {
   ThemeNotifier(this._ref) : super(AppThemeMode.system) {
@@ -42,26 +39,14 @@ class ThemeNotifier extends StateNotifier<AppThemeMode> {
 }
 
 /// Provider for theme notifier
-final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, AppThemeMode>((ref) {
+final themeNotifierProvider =
+    StateNotifierProvider<ThemeNotifier, AppThemeMode>((ref) {
   return ThemeNotifier(ref);
 });
 
 /// Provider to get the current ThemeData based on theme mode and high contrast
 final themeProvider = Provider<ThemeData>((ref) {
   final themeMode = ref.watch(themeNotifierProvider);
-  bool isDark;
-  switch (themeMode) {
-    case AppThemeMode.light:
-      isDark = false;
-      break;
-    case AppThemeMode.dark:
-      isDark = true;
-      break;
-    case AppThemeMode.system:
-      final brightness = WidgetsBinding.instance.window.platformBrightness;
-      isDark = brightness == Brightness.dark;
-      break;
-  }
   // For high contrast, we would need additional state; for now, we ignore.
-  return AppTheme.getTheme(isDark: isDark, highContrast: false);
+  return AppTheme.getTheme(themeMode: themeMode, highContrast: false);
 });
