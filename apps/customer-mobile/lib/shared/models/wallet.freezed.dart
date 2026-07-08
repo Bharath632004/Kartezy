@@ -12,8 +12,7 @@ part of 'wallet.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Wallet _$WalletFromJson(Map<String, dynamic> json) {
   return _Wallet.fromJson(json);
@@ -55,32 +54,28 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
     Object? currency = freezed,
     Object? lastUpdated = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            balance: null == balance
-                ? _value.balance
-                : balance // ignore: cast_nullable_to_non_nullable
-                      as double,
-            currency: freezed == currency
-                ? _value.currency
-                : currency // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            lastUpdated: freezed == lastUpdated
-                ? _value.lastUpdated
-                : lastUpdated // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      balance: null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastUpdated: freezed == lastUpdated
+          ? _value.lastUpdated
+          : lastUpdated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$WalletImplCopyWith<$Res> implements $WalletCopyWith<$Res> {
   factory _$$WalletImplCopyWith(
-    _$WalletImpl value,
-    $Res Function(_$WalletImpl) then,
-  ) = __$$WalletImplCopyWithImpl<$Res>;
+          _$WalletImpl value, $Res Function(_$WalletImpl) then) =
+      __$$WalletImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double balance, String? currency, DateTime? lastUpdated});
@@ -91,9 +86,8 @@ class __$$WalletImplCopyWithImpl<$Res>
     extends _$WalletCopyWithImpl<$Res, _$WalletImpl>
     implements _$$WalletImplCopyWith<$Res> {
   __$$WalletImplCopyWithImpl(
-    _$WalletImpl _value,
-    $Res Function(_$WalletImpl) _then,
-  ) : super(_value, _then);
+      _$WalletImpl _value, $Res Function(_$WalletImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -102,22 +96,20 @@ class __$$WalletImplCopyWithImpl<$Res>
     Object? currency = freezed,
     Object? lastUpdated = freezed,
   }) {
-    return _then(
-      _$WalletImpl(
-        balance: null == balance
-            ? _value.balance
-            : balance // ignore: cast_nullable_to_non_nullable
-                  as double,
-        currency: freezed == currency
-            ? _value.currency
-            : currency // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        lastUpdated: freezed == lastUpdated
-            ? _value.lastUpdated
-            : lastUpdated // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-      ),
-    );
+    return _then(_$WalletImpl(
+      balance: null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastUpdated: freezed == lastUpdated
+          ? _value.lastUpdated
+          : lastUpdated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
   }
 }
 
@@ -165,16 +157,17 @@ class _$WalletImpl implements _Wallet {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$WalletImplToJson(this);
+    return _$$WalletImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Wallet implements Wallet {
-  const factory _Wallet({
-    required final double balance,
-    final String? currency,
-    final DateTime? lastUpdated,
-  }) = _$WalletImpl;
+  const factory _Wallet(
+      {required final double balance,
+      final String? currency,
+      final DateTime? lastUpdated}) = _$WalletImpl;
 
   factory _Wallet.fromJson(Map<String, dynamic> json) = _$WalletImpl.fromJson;
 
