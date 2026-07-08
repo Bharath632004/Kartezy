@@ -63,7 +63,21 @@
       "Bash(awk '/^dev_dependencies:/ { print \"  # Authentication dependencies\\\\n  google_sign_in: ^6.2.1\\\\n  apple_sign_in: ^0.2.0+1\\\\n  local_auth: ^2.2.10\\\\n\"; print } { print }' pubspec.yaml)",
       "Bash(mv pubspec.yaml.tmp pubspec.yaml)",
       "Bash(dart format *)",
-      "Bash(find . -type f -not -path \"*/\\\\.*\")"
+      "Bash(find . -type f -not -path \"*/\\\\.*\")",
+      "Bash(timeout 10 tail -f /c/Users/chaka/Kartezy/backend/config-server/logs/config-server.log)",
+      "Read(//tmp/**)",
+      "Bash(findstr :8888)",
+      "Bash(netstat -ano)",
+      "Bash(cmd /c taskkill /PID 27852 /F)",
+      "Bash(exit *)",
+      "Bash(/c/Windows/System32/taskkill.exe *)",
+      "Bash(findstr :8889)",
+      "Bash(findstr :8762)",
+      "Bash(cmd /c \"taskkill /PID 27852 /F\")",
+      "Bash(bash)",
+      "Bash(cmd /c \"taskkill /pid 27852 /f\")",
+      "Bash(cmd /c \"C:\\\\Windows\\\\System32\\\\taskkill.exe /pid 27852 /f\")",
+      "Bash(cmd /c \"taskkill /pid 27852 /f && exit\")"
     ]
   }
 }
