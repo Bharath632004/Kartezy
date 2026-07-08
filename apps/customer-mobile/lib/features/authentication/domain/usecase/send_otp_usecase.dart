@@ -1,7 +1,8 @@
 // lib/features/authentication/domain/usecase/send_otp_usecase.dart
 import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
-import 'package:customer_mobile/shared/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:customer_mobile/shared/models/user.dart';
+import 'package:customer_mobile/features/authentication/provider/provider.dart';
 
 class SendOtpUseCase {
   final AuthRepository _repository;

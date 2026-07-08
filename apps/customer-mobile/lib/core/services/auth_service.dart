@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/core/storage/secure_storage.dart';
 import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
+import 'package:customer_mobile/features/authentication/data/repository/auth_repository_impl.dart';
 
 class AuthService {
   final Ref _ref;

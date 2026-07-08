@@ -2,6 +2,7 @@
 import 'package:customer_mobile/features/categories/domain/repository/category_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/categories/provider/provider.dart';
+import 'package:customer_mobile/shared/models/category.dart';
 
 class GetCategoriesUseCase {
   final CategoryRepository _repository;

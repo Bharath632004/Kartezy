@@ -26,7 +26,8 @@ class SearchResult with _$SearchResult {
   final List<Category> categories;
   final int totalResults;
   final List<String> suggestions;
-  final Map<String, dynamic>? facets; // For faceted search (price ranges, ratings, etc.)
+  final Map<String, dynamic>?
+  facets; // For faceted search (price ranges, ratings, etc.)
 
   factory SearchResult.fromJson(Map<String, dynamic> json) =>
       _$SearchResultFromJson(json);
