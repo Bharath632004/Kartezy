@@ -14,7 +14,9 @@ class GetSimilarProductsUseCase {
 }
 
 /// Provider for get similar products use case
-final getSimilarProductsUseCaseProvider = Provider<GetSimilarProductsUseCase>((ref) {
+final getSimilarProductsUseCaseProvider = Provider<GetSimilarProductsUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return GetSimilarProductsUseCase(repository);
 });

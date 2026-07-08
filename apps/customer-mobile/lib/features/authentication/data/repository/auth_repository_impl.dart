@@ -18,12 +18,20 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.login(email, password);
       // Store user info or token
       final secureStorage = _ref.read(secureStorageProvider);
+      if (user.accessToken == null) {
+        throw Exception('Access token is null');
+      }
+      if (user.refreshToken == null) {
+        throw Exception('Refresh token is null');
+      }
+      final accessToken = user.accessToken!;
+      final refreshToken = user.refreshToken!;
       await secureStorage.write(key: 'userId', value: user.id.toString());
-      await secureStorage.write(key: 'accessToken', value: user.accessToken);
-      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+      await secureStorage.write(key: 'accessToken', value: accessToken);
+      await secureStorage.write(key: 'refreshToken', value: refreshToken);
       // Store user in Hive for quick access
       final hiveManager = _ref.read(hiveManagerProvider);
-      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      final userBox = hiveManager.getBox<User>(boxName: 'user');
       await userBox.put('currentUser', user);
       return user;
     } catch (e) {
@@ -42,8 +50,14 @@ class AuthRepositoryImpl implements AuthRepository {
       // For now, we'll just return the user (which might have a token for verification step).
       final secureStorage = _ref.read(secureStorageProvider);
       if (user.accessToken != null && user.accessToken!.isNotEmpty) {
-        await secureStorage.write(key: 'accessToken', value: user.accessToken);
-        await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+        final accessToken = user.accessToken!;
+        await secureStorage.write(key: 'accessToken', value: accessToken);
+        if (user.refreshToken != null && user.refreshToken!.isNotEmpty) {
+          await secureStorage.write(
+            key: 'refreshToken',
+            value: user.refreshToken!,
+          );
+        }
         await secureStorage.write(key: 'userId', value: user.id.toString());
       }
       return user;
@@ -59,12 +73,20 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.verifyOtp(phoneNumber, otp);
       // Store user info or token
       final secureStorage = _ref.read(secureStorageProvider);
+      if (user.accessToken == null) {
+        throw Exception('Access token is null');
+      }
+      if (user.refreshToken == null) {
+        throw Exception('Refresh token is null');
+      }
+      final accessToken = user.accessToken!;
+      final refreshToken = user.refreshToken!;
       await secureStorage.write(key: 'userId', value: user.id.toString());
-      await secureStorage.write(key: 'accessToken', value: user.accessToken);
-      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+      await secureStorage.write(key: 'accessToken', value: accessToken);
+      await secureStorage.write(key: 'refreshToken', value: refreshToken);
       // Store user in Hive for quick access
       final hiveManager = _ref.read(hiveManagerProvider);
-      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      final userBox = hiveManager.getBox<User>(boxName: 'user');
       await userBox.put('currentUser', user);
       return user;
     } catch (e) {
@@ -87,7 +109,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await secureStorage.delete(key: 'userId');
       // Clear user from Hive
       final hiveManager = _ref.read(hiveManagerProvider);
-      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      final userBox = hiveManager.getBox<User>(boxName: 'user');
       await userBox.delete('currentUser');
     }
   }
@@ -105,11 +127,19 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.refreshToken(refreshToken);
       // Update stored tokens
       final secureStorage = _ref.read(secureStorageProvider);
-      await secureStorage.write(key: 'accessToken', value: user.accessToken);
-      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+      if (user.accessToken == null) {
+        throw Exception('Access token is null');
+      }
+      if (user.refreshToken == null) {
+        throw Exception('Refresh token is null');
+      }
+      final accessToken = user.accessToken!;
+      final refreshTokenValue = user.refreshToken!;
+      await secureStorage.write(key: 'accessToken', value: accessToken);
+      await secureStorage.write(key: 'refreshToken', value: refreshTokenValue);
       // Update user in Hive
       final hiveManager = _ref.read(hiveManagerProvider);
-      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      final userBox = hiveManager.getBox<User>(boxName: 'user');
       await userBox.put('currentUser', user);
       return user;
     } catch (e) {

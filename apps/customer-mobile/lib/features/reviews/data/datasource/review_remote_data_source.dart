@@ -29,10 +29,10 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<void> addReview(String productId, Review review) async {
     final dio = _ref.read(dioProvider);
-    await dio.post('/reviews', data: {
-      'productId': productId,
-      ...review.toJson(),
-    });
+    await dio.post(
+      '/reviews',
+      data: {'productId': productId, ...review.toJson()},
+    );
   }
 
   @override

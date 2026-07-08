@@ -1,6 +1,6 @@
 // lib/core/theme/theme.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'dart:ui';
 
 enum AppThemeMode { light, dark, system }
 
@@ -35,9 +35,21 @@ class AppTheme {
       bodyLarge: TextStyle(fontSize: 16, color: Colors.white70),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.white70),
       bodySmall: TextStyle(fontSize: 12, color: Colors.white70),
-      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-      titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-      titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+      titleLarge: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+      titleSmall: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
     ),
   );
 
@@ -47,17 +59,26 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.deepPurple,
       brightness: Brightness.light,
-    ).copyWith(
-      surface: Colors.white,
-      onSurface: Colors.black,
-    ),
+    ).copyWith(surface: Colors.white, onSurface: Colors.black),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(fontSize: 16, color: Colors.black),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.black),
       bodySmall: TextStyle(fontSize: 12, color: Colors.black),
-      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-      titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-      titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+      titleLarge: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+      titleSmall: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
     ),
   );
 
@@ -71,7 +92,7 @@ class AppTheme {
     }
     switch (themeMode) {
       case AppThemeMode.system:
-        final brightness = WidgetsBinding.instance.window.platformBrightness;
+        final brightness = PlatformDispatcher.instance.platformBrightness;
         return brightness == Brightness.dark ? darkTheme : lightTheme;
       case AppThemeMode.light:
         return lightTheme;

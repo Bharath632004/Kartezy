@@ -14,10 +14,7 @@ import 'package:customer_mobile/shared/models/product.dart';
 class ProductDetailsPage extends ConsumerStatefulWidget {
   final String productId;
 
-  const ProductDetailsPage({
-    super.key,
-    required this.productId,
-  });
+  const ProductDetailsPage({super.key, required this.productId});
 
   @override
   ConsumerState<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -36,8 +33,9 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
 
   Future<void> _loadProductDetails() async {
     try {
-      final product = await ref
-          .read(getProductDetailsUseCaseProvider)(widget.productId);
+      final product = await ref.read(getProductDetailsUseCaseProvider)(
+        widget.productId,
+      );
       if (mounted) {
         setState(() {
           _product = product;
@@ -57,17 +55,13 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     if (_error.isNotEmpty) {
       return Scaffold(
         appBar: AppBar(title: const Text('Product Details')),
-        body: Center(
-          child: Text('Error loading product: $_error'),
-        ),
+        body: Center(child: Text('Error loading product: $_error')),
       );
     }
 

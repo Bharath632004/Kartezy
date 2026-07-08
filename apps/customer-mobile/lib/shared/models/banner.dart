@@ -4,7 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'banner.freezed.dart';
 part 'banner.g.dart';
 
-@freeze class Banner with _$Banner {
+@freeze
+class Banner with _$Banner {
   const Banner({
     required this.id,
     required this.imageUrl,

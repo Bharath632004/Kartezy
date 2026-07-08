@@ -26,7 +26,8 @@ class SearchResult with _$SearchResult {
   final List<Category> categories;
   final int totalResults;
   final List<String> suggestions;
-  final Map<String, dynamic>? facets; // For faceted search (price ranges, ratings, etc.)
+  final Map<String, dynamic>?
+  facets; // For faceted search (price ranges, ratings, etc.)
 
   factory SearchResult.fromJson(Map<String, dynamic> json) =>
       _$SearchResultFromJson(json);
@@ -58,11 +59,7 @@ class Store with _$Store {
 // Brand model (simplified - would be expanded based on actual API)
 @freeze
 class Brand with _$Brand {
-  const Brand({
-    required this.id,
-    required this.name,
-    required this.logoUrl,
-  });
+  const Brand({required this.id, required this.name, required this.logoUrl});
 
   final String id;
   final String name;

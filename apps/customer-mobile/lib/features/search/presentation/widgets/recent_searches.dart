@@ -19,25 +19,26 @@ class RecentSearchesWidget extends ConsumerWidget {
       children: [
         const Text(
           'Recent Searches',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: recentSearches.map((search) => Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Chip(
-                label: Text(search),
-                onDeleted: () {
-                  // In a real app, you might want to remove from history
-                },
-                avatar: const Icon(Icons.history, size: 16),
-              ),
-            )).toList(),
+            children: recentSearches
+                .map(
+                  (search) => Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Chip(
+                      label: Text(search),
+                      onDeleted: () {
+                        // In a real app, you might want to remove from history
+                      },
+                      avatar: const Icon(Icons.history, size: 16),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ],

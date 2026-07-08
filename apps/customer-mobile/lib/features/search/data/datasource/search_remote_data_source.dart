@@ -46,13 +46,16 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   }) async {
     final dio = _ref.read(dioProvider);
 
-    final response = await dio.post('/search/products', data: {
-      'query': query,
-      'limit': limit,
-      'offset': offset,
-      'filters': filters,
-      'sort_by': sortBy,
-    });
+    final response = await dio.post(
+      '/search/products',
+      data: {
+        'query': query,
+        'limit': limit,
+        'offset': offset,
+        'filters': filters,
+        'sort_by': sortBy,
+      },
+    );
 
     final List<dynamic> data = response.data['products'] ?? [];
     return data.map((json) => Product.fromJson(json)).toList();
@@ -61,10 +64,10 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<List<String>> getSuggestions(String query) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.get('/search/suggest', queryParameters: {
-      'q': query,
-      'limit': 10,
-    });
+    final response = await dio.get(
+      '/search/suggest',
+      queryParameters: {'q': query, 'limit': 10},
+    );
 
     final List<dynamic> data = response.data['suggestions'] ?? [];
     return data.map((e) => e.toString()).toList();
@@ -125,7 +128,9 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<List<Product>> getFrequentlyBoughtTogether(String productId) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.get('/products/$productId/frequently-bought-together');
+    final response = await dio.get(
+      '/products/$productId/frequently-bought-together',
+    );
 
     final List<dynamic> data = response.data['products'] ?? [];
     return data.map((json) => Product.fromJson(json)).toList();
@@ -134,10 +139,10 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<void> saveSearchQuery(String query) async {
     final dio = _ref.read(dioProvider);
-    await dio.post('/search/history', data: {
-      'query': query,
-      'timestamp': DateTime.now().toIso8601String(),
-    });
+    await dio.post(
+      '/search/history',
+      data: {'query': query, 'timestamp': DateTime.now().toIso8601String()},
+    );
   }
 
   @override
@@ -158,9 +163,13 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<List<Product>> searchByImage(String imagePath) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post('/search/image', data: {
-      'image': imagePath, // In practice, this would be a base64 encoded image or upload token
-    });
+    final response = await dio.post(
+      '/search/image',
+      data: {
+        'image':
+            imagePath, // In practice, this would be a base64 encoded image or upload token
+      },
+    );
 
     final List<dynamic> data = response.data['products'] ?? [];
     return data.map((json) => Product.fromJson(json)).toList();

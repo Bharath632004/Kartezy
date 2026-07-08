@@ -38,10 +38,7 @@ class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
           tooltip: 'Voice Search',
         ),
         const SizedBox(height: 4),
-        Text(
-          'Voice',
-          style: TextStyle(fontSize: 12),
-        ),
+        Text('Voice', style: TextStyle(fontSize: 12)),
       ],
     );
   }

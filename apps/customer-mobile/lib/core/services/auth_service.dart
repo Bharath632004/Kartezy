@@ -34,8 +34,16 @@ class AuthService {
       final user = await authRepository.refreshToken(refreshToken);
       // Update stored tokens
       final secureStorage = _ref.read(secureStorageProvider);
-      await secureStorage.write(key: 'accessToken', value: user.accessToken);
-      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+      final accessToken = user.accessToken;
+      final refreshTokenValue = user.refreshToken;
+      if (accessToken == null) {
+        throw Exception('Access token is null');
+      }
+      if (refreshTokenValue == null) {
+        throw Exception('Refresh token is null');
+      }
+      await secureStorage.write(key: 'accessToken', value: accessToken);
+      await secureStorage.write(key: 'refreshToken', value: refreshTokenValue);
       return true;
     } catch (e) {
       return false;
@@ -49,10 +57,14 @@ class AuthService {
   }
 
   // Additional methods for token storage
-  Future<void> saveTokens({required String accessToken, required String refreshToken}) async {
+  Future<void> saveTokens({String? accessToken, String? refreshToken}) async {
     final secureStorage = _ref.read(secureStorageProvider);
-    await secureStorage.write(key: 'accessToken', value: accessToken);
-    await secureStorage.write(key: 'refreshToken', value: refreshToken);
+    if (accessToken != null && accessToken.isNotEmpty) {
+      await secureStorage.write(key: 'accessToken', value: accessToken);
+    }
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await secureStorage.write(key: 'refreshToken', value: refreshToken);
+    }
   }
 
   Future<String?> getUserId() async {

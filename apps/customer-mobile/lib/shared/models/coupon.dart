@@ -1,7 +1,7 @@
 // lib/shared/models/coupon.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'coupon.freezed.dart';
+part 'coupon.freezet.dart';
 part 'coupon.g.dart';
 
 @freezed
@@ -14,7 +14,7 @@ class Coupon with _$Coupon {
     String? discountPercentage,
     DateTime? validFrom,
     DateTime? validUntil,
-    bool isActive,
+    bool? isActive,
   }) = _Coupon;
 
   factory Coupon.fromJson(Map<String, dynamic> json) => _$CouponFromJson(json);

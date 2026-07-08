@@ -13,7 +13,9 @@ class GetRecentSearchesUseCase {
 }
 
 /// Provider for get recent searches use case
-final getRecentSearchesUseCaseProvider = Provider<GetRecentSearchesUseCase>((ref) {
+final getRecentSearchesUseCaseProvider = Provider<GetRecentSearchesUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return GetRecentSearchesUseCase(repository);
 });

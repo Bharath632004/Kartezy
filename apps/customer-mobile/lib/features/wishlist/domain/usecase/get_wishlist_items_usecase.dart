@@ -14,7 +14,9 @@ class GetWishlistItemsUseCase {
 }
 
 /// Provider for get wishlist items use case
-final getWishlistItemsUseCaseProvider = Provider<GetWishlistItemsUseCase>((ref) {
+final getWishlistItemsUseCaseProvider = Provider<GetWishlistItemsUseCase>((
+  ref,
+) {
   final repository = ref.read(wishlistRepositoryProvider);
   return GetWishlistItemsUseCase(repository);
 });

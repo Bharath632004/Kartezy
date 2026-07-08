@@ -38,10 +38,7 @@ class _ImageSearchButtonState extends ConsumerState<ImageSearchButton> {
           tooltip: 'Image Search',
         ),
         const SizedBox(height: 4),
-        Text(
-          'Image',
-          style: TextStyle(fontSize: 12),
-        ),
+        Text('Image', style: TextStyle(fontSize: 12)),
       ],
     );
   }

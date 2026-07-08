@@ -13,7 +13,8 @@ class GetAutocompleteSuggestionsUseCase {
 }
 
 /// Provider for get autocomplete suggestions use case
-final getAutocompleteSuggestionsUseCaseProvider = Provider<GetAutocompleteSuggestionsUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetAutocompleteSuggestionsUseCase(repository);
-});
+final getAutocompleteSuggestionsUseCaseProvider =
+    Provider<GetAutocompleteSuggestionsUseCase>((ref) {
+      final repository = ref.read(searchRepositoryProvider);
+      return GetAutocompleteSuggestionsUseCase(repository);
+    });

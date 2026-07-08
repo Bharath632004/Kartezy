@@ -13,7 +13,9 @@ class GetTrendingSearchesUseCase {
 }
 
 /// Provider for get trending searches use case
-final getTrendingSearchesUseCaseProvider = Provider<GetTrendingSearchesUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetTrendingSearchesUseCase(repository);
-});
+final getTrendingSearchesUseCaseProvider = Provider<GetTrendingSearchesUseCase>(
+  (ref) {
+    final repository = ref.read(searchRepositoryProvider);
+    return GetTrendingSearchesUseCase(repository);
+  },
+);

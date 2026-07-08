@@ -1,8 +1,6 @@
 // lib/core/storage/hive_manager.dart
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:customer_mobile/core/config/app_constants.dart';
 
 /// Hive manager for local storage operations.
 class HiveManager {

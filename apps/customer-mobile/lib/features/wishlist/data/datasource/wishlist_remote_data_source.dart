@@ -28,17 +28,13 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
   @override
   Future<void> addToWishlist(String productId) async {
     final dio = _ref.read(dioProvider);
-    await dio.post('/wishlist/add', data: {
-      'productId': productId,
-    });
+    await dio.post('/wishlist/add', data: {'productId': productId});
   }
 
   @override
   Future<void> removeFromWishlist(String productId) async {
     final dio = _ref.read(dioProvider);
-    await dio.post('/wishlist/remove', data: {
-      'productId': productId,
-    });
+    await dio.post('/wishlist/remove', data: {'productId': productId});
   }
 
   @override
@@ -56,6 +52,8 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
 }
 
 /// Provider for wishlist remote data source
-final wishlistRemoteDataSourceProvider = Provider<WishlistRemoteDataSource>((ref) {
+final wishlistRemoteDataSourceProvider = Provider<WishlistRemoteDataSource>((
+  ref,
+) {
   return WishlistRemoteDataSourceImpl(ref);
 });

@@ -58,7 +58,11 @@
       "Bash(xargs -l grep -l \"banner\")",
       "Bash(xargs grep -l \"getCategoriesUseCaseProvider\")",
       "Bash(xargs grep -l \"categoryRepositoryProvider\")",
-      "Bash(appscustomer-mobilelibfeaturescoupons *)"
+      "Bash(appscustomer-mobilelibfeaturescoupons *)",
+      "Bash(flutter *)",
+      "Bash(awk '/^dev_dependencies:/ { print \"  # Authentication dependencies\\\\n  google_sign_in: ^6.2.1\\\\n  apple_sign_in: ^0.2.0+1\\\\n  local_auth: ^2.2.10\\\\n\"; print } { print }' pubspec.yaml)",
+      "Bash(mv pubspec.yaml.tmp pubspec.yaml)",
+      "Bash(dart format *)"
     ]
   }
 }

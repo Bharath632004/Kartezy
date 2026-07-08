@@ -14,7 +14,9 @@ class SearchCategoriesUseCase {
 }
 
 /// Provider for search categories use case
-final searchCategoriesUseCaseProvider = Provider<SearchCategoriesUseCase>((ref) {
+final searchCategoriesUseCaseProvider = Provider<SearchCategoriesUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return SearchCategoriesUseCase(repository);
 });

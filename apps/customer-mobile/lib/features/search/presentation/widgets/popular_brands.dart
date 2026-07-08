@@ -10,9 +10,15 @@ class PopularBrandsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // In a real app, this would fetch from a brands service
     final List<Map<String, String>> popularBrands = [
-      {'name': 'Nestle', 'logo': 'https://via.placeholder.com/80x40?text=Nestle'},
+      {
+        'name': 'Nestle',
+        'logo': 'https://via.placeholder.com/80x40?text=Nestle',
+      },
       {'name': 'Amul', 'logo': 'https://via.placeholder.com/80x40?text=Amul'},
-      {'name': 'Britannia', 'logo': 'https://via.placeholder.com/80x40?text=Britannia'},
+      {
+        'name': 'Britannia',
+        'logo': 'https://via.placeholder.com/80x40?text=Britannia',
+      },
       {'name': 'Parle', 'logo': 'https://via.placeholder.com/80x40?text=Parle'},
       {'name': 'ITC', 'logo': 'https://via.placeholder.com/80x40?text=ITC'},
       {'name': 'Dabur', 'logo': 'https://via.placeholder.com/80x40?text=Dabur'},
@@ -23,10 +29,7 @@ class PopularBrandsWidget extends ConsumerWidget {
       children: [
         const Text(
           'Popular Brands',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         SizedBox(
@@ -56,13 +59,25 @@ class PopularBrandsWidget extends ConsumerWidget {
                           fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) =>
                               Container(
-                                color: Theme.of(context).colorScheme.secondaryContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.secondaryContainer,
                                 child: Icon(
                                   Icons.business,
                                   color: Theme.of(context).iconTheme.color,
                                 ),
                               ),
+                        ),
                       ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      brand['name']!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),

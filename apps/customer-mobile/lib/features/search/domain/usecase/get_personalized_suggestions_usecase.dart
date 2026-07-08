@@ -13,7 +13,8 @@ class GetPersonalizedSuggestionsUseCase {
 }
 
 /// Provider for get personalized suggestions use case
-final getPersonalizedSuggestionsUseCaseProvider = Provider<GetPersonalizedSuggestionsUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetPersonalizedSuggestionsUseCase(repository);
-});
+final getPersonalizedSuggestionsUseCaseProvider =
+    Provider<GetPersonalizedSuggestionsUseCase>((ref) {
+      final repository = ref.read(searchRepositoryProvider);
+      return GetPersonalizedSuggestionsUseCase(repository);
+    });

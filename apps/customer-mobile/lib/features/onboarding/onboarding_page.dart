@@ -21,12 +21,14 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   static const List<Map<String, String>> _pages = [
     {
       'title': 'Welcome to Kartezy',
-      'description': 'Get groceries and essentials delivered to your doorstep in minutes.',
+      'description':
+          'Get groceries and essentials delivered to your doorstep in minutes.',
       'image': 'assets/onboarding/welcome.png',
     },
     {
       'title': 'Fast & Reliable Delivery',
-      'description': 'Our network of local stores ensures you get what you need, when you need it.',
+      'description':
+          'Our network of local stores ensures you get what you need, when you need it.',
       'image': 'assets/onboarding/fast_delivery.png',
     },
     {
@@ -36,7 +38,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     },
     {
       'title': 'Exclusive Member Benefits',
-      'description': 'Join our loyalty program for discounts, free delivery, and early access to sales.',
+      'description':
+          'Join our loyalty program for discounts, free delivery, and early access to sales.',
       'image': 'assets/onboarding/member_benefits.png',
     },
   ];
@@ -56,7 +59,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     setState(() => _isLoading = true);
     try {
       final hiveManager = ref.read(hiveManagerProvider);
-      final settingsBox = await hiveManager.getBox<bool>(boxName: 'settings');
+      final settingsBox = hiveManager.getBox<bool>(boxName: 'settings');
       await settingsBox.put('onboardingCompleted', true);
       if (mounted) {
         // Navigate to login or home based on auth status
@@ -137,7 +140,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   decoration: BoxDecoration(
                     color: _currentPage == index
                         ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                        : Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -149,15 +154,21 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             left: 24,
             right: 24,
             child: ElevatedButton(
-              onPressed: _isLoading ? null : _currentPage == _pages.length - 1 ? _completeOnboarding : () {
-                _pageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
-              },
+              onPressed: _isLoading
+                  ? null
+                  : _currentPage == _pages.length - 1
+                  ? _completeOnboarding
+                  : () {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               child: Text(
                 _currentPage == _pages.length - 1 ? 'Get Started' : 'Next',
@@ -170,12 +181,14 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
               bottom: 24,
               left: 24,
               child: TextButton(
-                onPressed: _isLoading ? null : () {
-                  _pageController.previousPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () {
+                        _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
                 child: const Text('Back'),
               ),
             ),

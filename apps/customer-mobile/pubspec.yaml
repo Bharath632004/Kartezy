@@ -21,7 +21,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^9.2.2
-  firebase_core: ^2.29.0
+  firebase_core: ^2.31.1
   firebase_messaging: ^14.9.4
   firebase_crashlytics: ^3.5.6
   firebase_analytics: ^10.9.5
@@ -50,6 +50,16 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
   country_code_picker: ^2.0.2   # Added for country code picker
+  # New dependencies for search and product details
+  speech_to_text: ^6.6.0
+  mobile_scanner: ^5.0.0
+  image_picker: ^1.0.0
+  share_plus: ^7.0.0
+  video_player: ^2.8.0
+
+  # Authentication dependencies
+  google_sign_in: ^6.2.1
+  local_auth: ^2.2.10
 
 dev_dependencies:
   flutter_test:

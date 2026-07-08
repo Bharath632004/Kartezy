@@ -14,7 +14,9 @@ class GetProductDetailsUseCase {
 }
 
 /// Provider for get product details use case
-final getProductDetailsUseCaseProvider = Provider<GetProductDetailsUseCase>((ref) {
+final getProductDetailsUseCaseProvider = Provider<GetProductDetailsUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return GetProductDetailsUseCase(repository);
 });

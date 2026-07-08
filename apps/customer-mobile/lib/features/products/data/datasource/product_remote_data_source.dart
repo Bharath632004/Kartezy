@@ -10,17 +10,24 @@ class ProductRemoteDataSource {
   ProductRemoteDataSource(this._dio);
 
   Future<List<Product>> getProductsByFilter(String filter) async {
-    final response = await _dio.get('/products', queryParameters: {
-      'filter': filter,
-      'limit': 20, // default limit
-    });
+    final response = await _dio.get(
+      '/products',
+      queryParameters: {
+        'filter': filter,
+        'limit': 20, // default limit
+      },
+    );
     final List<dynamic> data = response.data;
-    return data.map((json) => Product.fromJson(json as Map<String, dynamic>)).toList();
+    return data
+        .map((json) => Product.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 }
 
 /// Provider for product remote data source
-final productRemoteDataSourceProvider = Provider<ProductRemoteDataSource>((ref) {
+final productRemoteDataSourceProvider = Provider<ProductRemoteDataSource>((
+  ref,
+) {
   final dio = ref.read(dioProvider);
   return ProductRemoteDataSource(dio);
 });

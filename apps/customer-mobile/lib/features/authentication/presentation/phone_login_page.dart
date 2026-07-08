@@ -1,4 +1,4 @@
-// lib/features/authentication/presentation/phone_login_page/phone_login_page.dart
+// lib/features/authentication/presentation/phone_login_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,9 +37,7 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
       await sendOtpUseCase.call(phoneNumber);
       // OTP sent successfully, navigate to verification screen
       if (mounted) {
-        context.go('/otp-verification', extra: {
-          'phoneNumber': phoneNumber,
-        });
+        context.go('/otp-verification', extra: {'phoneNumber': phoneNumber});
       }
     } catch (e) {
       if (mounted) {
@@ -57,9 +55,7 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login with Phone'),
-      ),
+      appBar: AppBar(title: const Text('Login with Phone')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -79,7 +75,7 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
                   child: CountryCodePicker(
                     onChanged: (CountryCode countryCode) {
                       setState(() {
-                        _selectedCountryCode = countryCode.code;
+                        _selectedCountryCode = countryCode.code ?? 'US';
                       });
                     },
                     initialSelection: 'US',
@@ -105,17 +101,11 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
             ),
             const SizedBox(height: 16),
             if (_errorMessage != null)
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
+              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 16),
             _isSending
                 ? const CircularProgressIndicator()
-                : AppButton(
-                    text: 'Send OTP',
-                    onPressed: _sendOtp,
-                  ),
+                : AppButton(text: 'Send OTP', onPressed: _sendOtp),
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {

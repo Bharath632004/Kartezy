@@ -1,5 +1,4 @@
 // lib/features/authentication/data/datasource/auth_remote_data_source.dart
-import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/user.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +19,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<User> login(String email, String password) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post('/auth/login', data: {
-      'email': email,
-      'password': password,
-    });
+    final response = await dio.post(
+      '/auth/login',
+      data: {'email': email, 'password': password},
+    );
     return User.fromJson(response.data);
   }
 
@@ -36,28 +35,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<User> refreshToken(String refreshToken) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post('/auth/refresh', data: {
-      'refresh_token': refreshToken,
-    });
+    final response = await dio.post(
+      '/auth/refresh',
+      data: {'refresh_token': refreshToken},
+    );
     return User.fromJson(response.data);
   }
 
   @override
   Future<User> sendOtp(String phoneNumber) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post('/auth/send-otp', data: {
-      'phone_number': phoneNumber,
-    });
+    final response = await dio.post(
+      '/auth/send-otp',
+      data: {'phone_number': phoneNumber},
+    );
     return User.fromJson(response.data);
   }
 
   @override
   Future<User> verifyOtp(String phoneNumber, String otp) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post('/auth/verify-otp', data: {
-      'phone_number': phoneNumber,
-      'otp': otp,
-    });
+    final response = await dio.post(
+      '/auth/verify-otp',
+      data: {'phone_number': phoneNumber, 'otp': otp},
+    );
     return User.fromJson(response.data);
   }
 }

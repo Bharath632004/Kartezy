@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/authentication/domain/usecase/login_usecase.dart';
-import 'package:customer_mobile/shared/models/user.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
-import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -35,8 +33,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     try {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-      final loginUseCase = ref.read(loginUseCaseProvider);
-      final user = await loginUseCase.call(email, password);
+      await ref.read(loginUseCaseProvider).call(email, password);
       if (mounted) {
         // Login successful, navigate to home
         context.go('/home');
@@ -57,9 +54,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -84,21 +79,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 16),
             if (_errorMessage != null)
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
+              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 16),
             _isLoading
                 ? const CircularProgressIndicator()
-                : AppButton(
-                    text: 'Login',
-                    onPressed: _login,
-                  ),
+                : AppButton(text: 'Login', onPressed: _login),
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                // TODO: Implement forgot password
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Forgot password feature coming soon!')),
+                );
               },
               child: const Text('Forgot Password?'),
             ),
@@ -113,7 +104,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                // TODO: Implement sign up
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Sign up feature coming soon!')),
+                );
               },
               child: const Text('Create Account'),
             ),

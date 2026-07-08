@@ -49,10 +49,7 @@ class ProductGrid extends ConsumerWidget {
 class ProductCardWidget extends ConsumerWidget {
   final Product product;
 
-  const ProductCardWidget({
-    super.key,
-    required this.product,
-  });
+  const ProductCardWidget({super.key, required this.product});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -76,7 +73,7 @@ class ProductCardWidget extends ConsumerWidget {
                     child: CircularProgressIndicator(
                       value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
+                                loadingProgress.expectedTotalBytes!
                           : null,
                     ),
                   );
@@ -84,10 +81,7 @@ class ProductCardWidget extends ConsumerWidget {
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: Theme.of(context).colorScheme.secondaryContainer,
-                    child: const Icon(
-                      Icons.image_not_supported,
-                      size: 40,
-                    ),
+                    child: const Icon(Icons.image_not_supported, size: 40),
                   );
                 },
               ),
@@ -126,9 +120,7 @@ class ProductCardWidget extends ConsumerWidget {
                             product.isFavorite
                                 ? Icons.favorite
                                 : Icons.favorite_border,
-                            color: product.isFavorite
-                                ? Colors.red
-                                : null,
+                            color: product.isFavorite ? Colors.red : null,
                           ),
                           onPressed: () {
                             // TODO: Toggle favorite

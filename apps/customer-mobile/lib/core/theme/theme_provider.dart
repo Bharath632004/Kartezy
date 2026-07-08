@@ -1,9 +1,9 @@
-// lib/core/theme/theme_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:customer_mobile/core/storage/hive_manager.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
+import 'dart:ui';
 
 class ThemeNotifier extends StateNotifier<AppThemeMode> {
   ThemeNotifier(this._ref) : super(AppThemeMode.system) {
@@ -13,10 +13,13 @@ class ThemeNotifier extends StateNotifier<AppThemeMode> {
   final Ref _ref;
   late final Box _settingsBox;
 
-  Future<void> _loadFromPreferences() async {
+  void _loadFromPreferences() {
     final hiveManager = _ref.read(hiveManagerProvider);
-    _settingsBox = await hiveManager.getBox<bool>(boxName: 'settings');
-    final themeMode = _settingsBox.get('themeMode', defaultValue: AppThemeMode.system.index);
+    _settingsBox = hiveManager.getBox<bool>(boxName: 'settings');
+    final themeMode = _settingsBox.get(
+      'themeMode',
+      defaultValue: AppThemeMode.system.index,
+    );
     state = AppThemeMode.values[themeMode];
   }
 
@@ -26,7 +29,7 @@ class ThemeNotifier extends StateNotifier<AppThemeMode> {
   }
 
   bool get isDarkMode {
-    final brightness = WidgetsBinding.instance.window.platformBrightness;
+    final brightness = PlatformDispatcher.instance.platformBrightness;
     switch (state) {
       case AppThemeMode.system:
         return brightness == Brightness.dark;
@@ -41,8 +44,8 @@ class ThemeNotifier extends StateNotifier<AppThemeMode> {
 /// Provider for theme notifier
 final themeNotifierProvider =
     StateNotifierProvider<ThemeNotifier, AppThemeMode>((ref) {
-  return ThemeNotifier(ref);
-});
+      return ThemeNotifier(ref);
+    });
 
 /// Provider to get the current ThemeData based on theme mode and high contrast
 final themeProvider = Provider<ThemeData>((ref) {

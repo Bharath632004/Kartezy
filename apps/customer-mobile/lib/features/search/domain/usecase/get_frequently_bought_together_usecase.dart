@@ -14,7 +14,8 @@ class GetFrequentlyBoughtTogetherUseCase {
 }
 
 /// Provider for get frequently bought together use case
-final getFrequentlyBoughtTogetherUseCaseProvider = Provider<GetFrequentlyBoughtTogetherUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetFrequentlyBoughtTogetherUseCase(repository);
-});
+final getFrequentlyBoughtTogetherUseCaseProvider =
+    Provider<GetFrequentlyBoughtTogetherUseCase>((ref) {
+      final repository = ref.read(searchRepositoryProvider);
+      return GetFrequentlyBoughtTogetherUseCase(repository);
+    });

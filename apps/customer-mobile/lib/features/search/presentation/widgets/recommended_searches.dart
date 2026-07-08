@@ -8,7 +8,9 @@ class RecommendedSearchesWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final suggestionsAsync = ref.watch(getPersonalizedSuggestionsUseCaseProvider);
+    final suggestionsAsync = ref.watch(
+      getPersonalizedSuggestionsUseCaseProvider,
+    );
 
     return suggestionsAsync.when(
       data: (suggestions) {
@@ -17,30 +19,30 @@ class RecommendedSearchesWidget extends ConsumerWidget {
           children: [
             const Text(
               'Recommended Searches',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: suggestions.map((suggestion) => Chip(
-                label: Text(suggestion),
-                onDeleted: () {
-                  // In a real app, you might remove from recommendations
-                },
-                avatar: const Icon(Icons.robot_2, size: 16),
-              )).toList(),
+              children: suggestions
+                  .map(
+                    (suggestion) => Chip(
+                      label: Text(suggestion),
+                      onDeleted: () {
+                        // In a real app, you might remove from recommendations
+                      },
+                      avatar: const Icon(Icons.robot_2, size: 16),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Center(
-        child: Text('Error loading recommendations: $error'),
-      ),
+      error: (error, stackTrace) =>
+          Center(child: Text('Error loading recommendations: $error')),
     );
   }
 }

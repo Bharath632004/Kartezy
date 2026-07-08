@@ -6,7 +6,8 @@ class BarcodeScannerButton extends ConsumerStatefulWidget {
   const BarcodeScannerButton({super.key});
 
   @override
-  ConsumerState<BarcodeScannerButton> createState() => _BarcodeScannerButtonState();
+  ConsumerState<BarcodeScannerButton> createState() =>
+      _BarcodeScannerButtonState();
 }
 
 class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
@@ -38,10 +39,7 @@ class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
           tooltip: 'Barcode Scanner',
         ),
         const SizedBox(height: 4),
-        Text(
-          'Barcode',
-          style: TextStyle(fontSize: 12),
-        ),
+        Text('Barcode', style: TextStyle(fontSize: 12)),
       ],
     );
   }

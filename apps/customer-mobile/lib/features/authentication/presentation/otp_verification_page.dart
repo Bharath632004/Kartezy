@@ -3,23 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/authentication/domain/usecase/verify_otp_usecase.dart';
+import 'package:customer_mobile/features/authentication/domain/usecase/send_otp_usecase.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
 
 class OtpVerificationPage extends ConsumerStatefulWidget {
   final String phoneNumber;
 
-  const OtpVerificationPage({
-    super.key,
-    required this.phoneNumber,
-  });
+  const OtpVerificationPage({super.key, required this.phoneNumber});
 
   @override
-  ConsumerState<OtpVerificationPage> createState() => _OtpVerificationPageState();
+  ConsumerState<OtpVerificationPage> createState() =>
+      _OtpVerificationPageState();
 }
 
 class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
-  final List<TextEditingController> _otpControllers =
-      List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _otpControllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   bool _isVerifying = false;
   String? _errorMessage;
   bool _canResend = false;
@@ -68,9 +69,6 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     for (var controller in _otpControllers) {
       controller.clear();
     }
-    if (mounted) {
-      _otpControllers.first.focus();
-    }
   }
 
   Future<void> _verifyOtp() async {
@@ -87,8 +85,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
       _errorMessage = null;
     });
     try {
-      final verifyOtpUseCase = ref.read(verifyOtpUseCaseProvider);
-      final user = await verifyOtpUseCase.call(phoneNumber, otp);
+      await ref.read(verifyOtpUseCaseProvider).call(widget.phoneNumber, otp);
       if (mounted) {
         // OTP verification successful, navigate to home
         context.go('/home');
@@ -107,29 +104,38 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
     }
   }
 
-  void _resendOtp() {
-    // In a real app, we would call the sendOtp use case again.
-    // For simplicity, we just restart the timer.
+  void _resendOtp() async {
     setState(() {
       _errorMessage = null;
     });
-    _startResendTimer();
-    // TODO: Actually resend OTP via API
+    try {
+      await ref.read(sendOtpUseCaseProvider).call(widget.phoneNumber);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('OTP resent successfully')),
+        );
+      }
+      _startResendTimer();
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'Failed to resend OTP: $e';
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Verify OTP'),
-      ),
+      appBar: AppBar(title: const Text('Verify OTP')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'We have sent an OTP to $phoneNumber',
+              'We have sent an OTP to ${widget.phoneNumber}',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16),
             ),
@@ -164,17 +170,11 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
             ),
             const SizedBox(height: 24),
             if (_errorMessage != null)
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
+              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 16),
             _isVerifying
                 ? const CircularProgressIndicator()
-                : AppButton(
-                    text: 'Verify OTP',
-                    onPressed: _verifyOtp,
-                  ),
+                : AppButton(text: 'Verify OTP', onPressed: _verifyOtp),
             const SizedBox(height: 16),
             if (!_canResend)
               Text(

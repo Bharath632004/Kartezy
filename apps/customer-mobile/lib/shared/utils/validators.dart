@@ -24,7 +24,10 @@ class Validators {
     return null;
   }
 
-  static String? validateConfirmPassword(String? password, String? confirmPassword) {
+  static String? validateConfirmPassword(
+    String? password,
+    String? confirmPassword,
+  ) {
     if (confirmPassword == null || confirmPassword.isEmpty) {
       return 'Please confirm password';
     }
@@ -63,7 +66,11 @@ class Validators {
     return null;
   }
 
-  static String? validateMinLength(String? value, int minLength, {String fieldName = 'Field'}) {
+  static String? validateMinLength(
+    String? value,
+    int minLength, {
+    String fieldName = 'Field',
+  }) {
     if (value == null || value.isEmpty) {
       return '$fieldName is required';
     }
@@ -73,7 +80,11 @@ class Validators {
     return null;
   }
 
-  static String? validateMaxLength(String? value, int maxLength, {String fieldName = 'Field'}) {
+  static String? validateMaxLength(
+    String? value,
+    int maxLength, {
+    String fieldName = 'Field',
+  }) {
     if (value == null) {
       return null;
     }

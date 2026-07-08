@@ -13,7 +13,9 @@ class ClearSearchHistoryUseCase {
 }
 
 /// Provider for clear search history use case
-final clearSearchHistoryUseCaseProvider = Provider<ClearSearchHistoryUseCase>((ref) {
+final clearSearchHistoryUseCaseProvider = Provider<ClearSearchHistoryUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return ClearSearchHistoryUseCase(repository);
 });

@@ -34,7 +34,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // Check if onboarding has been shown
       final hiveManager = ref.read(hiveManagerProvider);
       final settingsBox = await hiveManager.getBox<bool>(boxName: 'settings');
-      _isOnboardingComplete = settingsBox.get('onboardingCompleted', defaultValue: false);
+      _isOnboardingComplete = settingsBox.get(
+        'onboardingCompleted',
+        defaultValue: false,
+      );
 
       // Check authentication status
       final authService = ref.read(authServiceProvider);
@@ -84,9 +87,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (_isLoading) {
       return const Scaffold(
         backgroundColor: Colors.blue,
-        body: Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
+        body: Center(child: CircularProgressIndicator(color: Colors.white)),
       );
     }
 

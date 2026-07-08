@@ -29,7 +29,8 @@ class _SearchHomePageState extends ConsumerState<SearchHomePage> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // TODO: Navigate to profile
+              // Navigate to profile
+              context.go('/profile');
             },
           ),
         ],
@@ -56,7 +57,7 @@ class _SearchHomePageState extends ConsumerState<SearchHomePage> {
               const SizedBox(height: 24),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children [
+                children: [
                   VoiceSearchButton(),
                   BarcodeScannerButton(),
                   ImageSearchButton(),

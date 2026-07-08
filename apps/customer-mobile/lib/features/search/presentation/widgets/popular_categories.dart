@@ -18,10 +18,7 @@ class PopularCategoriesWidget extends ConsumerWidget {
           children: [
             const Text(
               'Popular Categories',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             SizedBox(
@@ -49,9 +46,14 @@ class PopularCategoriesWidget extends ConsumerWidget {
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) =>
                                 Container(
-                              color: Theme.of(context).colorScheme.secondaryContainer,
-                              child: Icon(Icons.category, color: Theme.of(context).iconTheme.color),
-                            ),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.secondaryContainer,
+                                  child: Icon(
+                                    Icons.category,
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                ),
                           ),
                         ),
                       ),
@@ -72,9 +74,8 @@ class PopularCategoriesWidget extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Center(
-        child: Text('Error loading categories: $error'),
-      ),
+      error: (error, stackTrace) =>
+          Center(child: Text('Error loading categories: $error')),
     );
   }
 }

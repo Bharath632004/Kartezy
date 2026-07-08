@@ -9,10 +9,7 @@ import 'package:customer_mobile/features/reviews/domain/usecase/get_reviews_usec
 class ReviewsPage extends ConsumerStatefulWidget {
   final String productId;
 
-  const ReviewsPage({
-    super.key,
-    required this.productId,
-  });
+  const ReviewsPage({super.key, required this.productId});
 
   @override
   ConsumerState<ReviewsPage> createState() => _ReviewsPageState();
@@ -49,14 +46,16 @@ class _ReviewsPageState extends ConsumerState<ReviewsPage> {
           Expanded(
             child: Consumer(
               builder: (context, ref, _) {
-                final reviewsAsync = ref.watch(getReviewsUseCaseProvider)(widget.productId);
+                final reviewsAsync = ref.watch(getReviewsUseCaseProvider)(
+                  widget.productId,
+                );
 
                 return reviewsAsync.when(
                   data: (reviews) => ReviewList(reviews: reviews),
-                  loading: () => const Center(child: CircularProgressIndicator()),
-                  error: (error, stackTrace) => Center(
-                    child: Text('Error loading reviews: $error'),
-                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) =>
+                      Center(child: Text('Error loading reviews: $error')),
                 );
               },
             ),

@@ -9,10 +9,7 @@ import 'package:customer_mobile/shared/models/product.dart';
 class SearchResultsPage extends ConsumerStatefulWidget {
   final String query;
 
-  const SearchResultsPage({
-    super.key,
-    required this.query,
-  });
+  const SearchResultsPage({super.key, required this.query});
 
   @override
   ConsumerState<SearchResultsPage> createState() => _SearchResultsPageState();
@@ -52,7 +49,9 @@ class _SearchResultsPageState extends ConsumerState<SearchResultsPage> {
     // In a real app, you would use pagination with offset
     // For now, we'll just load the same results again
     try {
-      final results = await ref.read(searchProductsUseCaseProvider)(widget.query);
+      final results = await ref.read(searchProductsUseCaseProvider)(
+        widget.query,
+      );
       // In a real app, you would append to existing results
       // For demo purposes, we'll just update the state
       ref.read(searchResultsProvider.notifier).updateResults(results);

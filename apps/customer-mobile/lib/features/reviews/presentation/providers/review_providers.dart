@@ -9,7 +9,9 @@ import 'package:customer_mobile/features/reviews/domain/usecase/update_review_us
 import 'package:customer_mobile/shared/models/review.dart';
 
 // Reviews provider
-final reviewsProvider = StateNotifierProvider<ReviewsNotifier, List<Review>>((ref) {
+final reviewsProvider = StateNotifierProvider<ReviewsNotifier, List<Review>>((
+  ref,
+) {
   return ReviewsNotifier();
 });
 
@@ -27,11 +29,7 @@ class ReviewsNotifier extends StateNotifier<List<Review>> {
   void updateReview(Review review) {
     final index = state.indexWhere((r) => r.id == review.id);
     if (index != -1) {
-      state = [
-        ...state.sublist(0, index),
-        review,
-        ...state.sublist(index + 1)
-      ];
+      state = [...state.sublist(0, index), review, ...state.sublist(index + 1)];
     }
   }
 

@@ -35,12 +35,15 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
     // Simulate debounce (in real app, use a debouncer)
     Future.delayed(const Duration(milliseconds: 300), () {
       if (_controller.text == query) {
-        ref.read(searchProductsUseCaseProvider)(query).then((results) {
-          ref.read(searchResultsProvider.notifier).updateResults(results);
-          setState(() => _isLoading = false);
-        }).catchError((_) {
-          setState(() => _isLoading = false);
-        });
+        ref
+            .read(searchProductsUseCaseProvider)(query)
+            .then((results) {
+              ref.read(searchResultsProvider.notifier).updateResults(results);
+              setState(() => _isLoading = false);
+            })
+            .catchError((_) {
+              setState(() => _isLoading = false);
+            });
       } else {
         setState(() => _isLoading = false);
       }
@@ -66,10 +69,7 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).dividerColor,
-          width: 1.0,
-        ),
+        border: Border.all(color: Theme.of(context).dividerColor, width: 1.0),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -79,9 +79,7 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
         onSubmitted: _onSearchSubmitted,
         decoration: InputDecoration(
           hintText: 'Search for products, stores, brands...',
-          hintStyle: TextStyle(
-            color: Theme.of(context).hintColor,
-          ),
+          hintStyle: TextStyle(color: Theme.of(context).hintColor),
           prefixIcon: const Icon(Icons.search),
           suffixIcon: _controller.text.isNotEmpty
               ? IconButton(

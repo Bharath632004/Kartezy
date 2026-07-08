@@ -15,23 +15,26 @@ class TrendingSearchesWidget extends ConsumerWidget {
       children: [
         const Text(
           'Trending Searches',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: trendingSearches.map((search) => Chip(
-            label: Text(search),
-            onDeleted: () {
-              // In a real app, you might want to remove from trending
-            },
-            avatar: const Icon(Icons.trending_up, size: 16),
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          )).toList(),
+          children: trendingSearches
+              .map(
+                (search) => Chip(
+                  label: Text(search),
+                  onDeleted: () {
+                    // In a real app, you might want to remove from trending
+                  },
+                  avatar: const Icon(Icons.trending_up, size: 16),
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer,
+                ),
+              )
+              .toList(),
         ),
       ],
     );

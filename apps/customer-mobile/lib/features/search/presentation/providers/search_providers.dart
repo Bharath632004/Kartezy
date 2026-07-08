@@ -19,12 +19,13 @@ import 'package:customer_mobile/features/search/domain/usecase/search_categories
 import 'package:customer_mobile/shared/models/search_result.dart';
 
 // Search results provider
-final searchResultsProvider = StateNotifierProvider<SearchResultsNotifier, SearchResult>((ref) {
-  return SearchResultsNotifier();
-});
+final searchResultsProvider =
+    StateNotifierProvider<SearchResultsNotifier, SearchResult>((ref) {
+      return SearchResultsNotifier();
+    });
 
 class SearchResultsNotifier extends StateNotifier<SearchResult> {
-  SearchResultsNotifier() : super(const SearchResult(products: []);
+  SearchResultsNotifier() : super(const SearchResult(products: []));
 
   void updateResults(SearchResult result) {
     state = result;
@@ -74,19 +75,21 @@ final searchProductsUseCaseProvider = Provider<SearchProductsUseCase>((ref) {
 // Search stores use case provider
 final searchStoresUseCaseProvider = Provider<SearchStoresUseCase>((ref) {
   final repository = ref.read(searchRepositoryProvider);
-  return SearchStoresUseCase(repository);
+  return searchStoresUseCase(repository);
 });
 
 // Search brands use case provider
 final searchBrandsUseCaseProvider = Provider<SearchBrandsUseCase>((ref) {
   final repository = ref.read(searchRepositoryProvider);
-  return SearchBrandsUseCase(repository);
+  return searchBrandsUseCase(repository);
 });
 
 // Search categories use case provider
-final searchCategoriesUseCaseProvider = Provider<SearchCategoriesUseCase>((ref) {
+final searchCategoriesUseCaseProvider = Provider<SearchCategoriesUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
-  return SearchCategoriesUseCase(repository);
+  return searchCategoriesUseCase(repository);
 });
 
 // Get suggestions use case provider
@@ -96,40 +99,48 @@ final getSuggestionsUseCaseProvider = Provider<GetSuggestionsUseCase>((ref) {
 });
 
 // Get autocomplete suggestions use case provider
-final getAutocompleteSuggestionsUseCaseProvider = Provider<GetAutocompleteSuggestionsUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetAutocompleteSuggestionsUseCase(repository);
-});
+final getAutocompleteSuggestionsUseCaseProvider =
+    Provider<GetAutocompleteSuggestionsUseCase>((ref) {
+      final repository = ref.read(searchRepositoryProvider);
+      return GetAutocompleteSuggestionsUseCase(repository);
+    });
 
 // Save search query use case provider
 final saveSearchQueryUseCaseProvider = Provider<SaveSearchQueryUseCase>((ref) {
   final repository = ref.read(searchRepositoryProvider);
-  return SaveSearchQueryUseCase(repository);
+  return saveSearchQueryUseCase(repository);
 });
 
 // Clear search history use case provider
-final clearSearchHistoryUseCaseProvider = Provider<ClearSearchHistoryUseCase>((ref) {
+final clearSearchHistoryUseCaseProvider = Provider<ClearSearchHistoryUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
-  return ClearSearchHistoryUseCase(repository);
+  return clearSearchHistoryUseCase(repository);
 });
 
 // Get product details use case provider
-final getProductDetailsUseCaseProvider = Provider<GetProductDetailsUseCase>((ref) {
+final getProductDetailsUseCaseProvider = Provider<GetProductDetailsUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return GetProductDetailsUseCase(repository);
 });
 
 // Get similar products use case provider
-final getSimilarProductsUseCaseProvider = Provider<GetSimilarProductsUseCase>((ref) {
+final getSimilarProductsUseCaseProvider = Provider<GetSimilarProductsUseCase>((
+  ref,
+) {
   final repository = ref.read(searchRepositoryProvider);
   return GetSimilarProductsUseCase(repository);
 });
 
 // Get frequently bought together use case provider
-final getFrequentlyBoughtTogetherUseCaseProvider = Provider<GetFrequentlyBoughtTogetherUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetFrequentlyBoughtTogetherUseCase(repository);
-});
+final getFrequentlyBoughtTogetherUseCaseProvider =
+    Provider<GetFrequentlyBoughtTogetherUseCase>((ref) {
+      final repository = ref.read(searchRepositoryProvider);
+      return GetFrequentlyBoughtTogetherUseCase(repository);
+    });
 
 // Scan barcode use case provider
 final scanBarcodeUseCaseProvider = Provider<ScanBarcodeUseCase>((ref) {

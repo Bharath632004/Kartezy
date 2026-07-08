@@ -29,12 +29,14 @@ void main() async {
   final hiveManager = HiveManager();
   await hiveManager.init();
 
-  runApp(ProviderScope(
-    overrides: [
-      // Override providers if needed for testing
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    ProviderScope(
+      overrides: [
+        // Override providers if needed for testing
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {

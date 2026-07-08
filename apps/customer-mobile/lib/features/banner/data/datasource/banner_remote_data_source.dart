@@ -12,7 +12,9 @@ class BannerRemoteDataSource {
   Future<List<Banner>> getBanners() async {
     final response = await _dio.get('/banners');
     final List<dynamic> data = response.data;
-    return data.map((json) => Banner.fromJson(json as Map<String, dynamic>)).toList();
+    return data
+        .map((json) => Banner.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 }
 

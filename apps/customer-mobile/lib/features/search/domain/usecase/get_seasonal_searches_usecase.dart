@@ -13,7 +13,9 @@ class GetSeasonalSearchesUseCase {
 }
 
 /// Provider for get seasonal searches use case
-final getSeasonalSearchesUseCaseProvider = Provider<GetSeasonalSearchesUseCase>((ref) {
-  final repository = ref.read(searchRepositoryProvider);
-  return GetSeasonalSearchesUseCase(repository);
-});
+final getSeasonalSearchesUseCaseProvider = Provider<GetSeasonalSearchesUseCase>(
+  (ref) {
+    final repository = ref.read(searchRepositoryProvider);
+    return GetSeasonalSearchesUseCase(repository);
+  },
+);
