@@ -12,8 +12,7 @@ part of 'brand.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Brand _$BrandFromJson(Map<String, dynamic> json) {
   return _Brand.fromJson(json);
@@ -23,7 +22,7 @@ Brand _$BrandFromJson(Map<String, dynamic> json) {
 mixin _$Brand {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get logoUrl => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +34,7 @@ abstract class $BrandCopyWith<$Res> {
   factory $BrandCopyWith(Brand value, $Res Function(Brand) then) =
       _$BrandCopyWithImpl<$Res, Brand>;
   @useResult
-  $Res call({String id, String name, String logoUrl});
+  $Res call({String id, String name, String imageUrl});
 }
 
 /// @nodoc
@@ -50,36 +49,36 @@ class _$BrandCopyWithImpl<$Res, $Val extends Brand>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? id = null, Object? name = null, Object? logoUrl = null}) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            name: null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String,
-            logoUrl: null == logoUrl
-                ? _value.logoUrl
-                : logoUrl // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$BrandImplCopyWith<$Res> implements $BrandCopyWith<$Res> {
   factory _$$BrandImplCopyWith(
-    _$BrandImpl value,
-    $Res Function(_$BrandImpl) then,
-  ) = __$$BrandImplCopyWithImpl<$Res>;
+          _$BrandImpl value, $Res Function(_$BrandImpl) then) =
+      __$$BrandImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String logoUrl});
+  $Res call({String id, String name, String imageUrl});
 }
 
 /// @nodoc
@@ -87,40 +86,38 @@ class __$$BrandImplCopyWithImpl<$Res>
     extends _$BrandCopyWithImpl<$Res, _$BrandImpl>
     implements _$$BrandImplCopyWith<$Res> {
   __$$BrandImplCopyWithImpl(
-    _$BrandImpl _value,
-    $Res Function(_$BrandImpl) _then,
-  ) : super(_value, _then);
+      _$BrandImpl _value, $Res Function(_$BrandImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? id = null, Object? name = null, Object? logoUrl = null}) {
-    return _then(
-      _$BrandImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        name: null == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String,
-        logoUrl: null == logoUrl
-            ? _value.logoUrl
-            : logoUrl // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$BrandImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$BrandImpl implements _Brand {
-  const _$BrandImpl({
-    required this.id,
-    required this.name,
-    required this.logoUrl,
-  });
+  const _$BrandImpl(
+      {required this.id, required this.name, required this.imageUrl});
 
   factory _$BrandImpl.fromJson(Map<String, dynamic> json) =>
       _$$BrandImplFromJson(json);
@@ -130,11 +127,11 @@ class _$BrandImpl implements _Brand {
   @override
   final String name;
   @override
-  final String logoUrl;
+  final String imageUrl;
 
   @override
   String toString() {
-    return 'Brand(id: $id, name: $name, logoUrl: $logoUrl)';
+    return 'Brand(id: $id, name: $name, imageUrl: $imageUrl)';
   }
 
   @override
@@ -144,12 +141,13 @@ class _$BrandImpl implements _Brand {
             other is _$BrandImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl));
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, logoUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -159,16 +157,17 @@ class _$BrandImpl implements _Brand {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BrandImplToJson(this);
+    return _$$BrandImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Brand implements Brand {
-  const factory _Brand({
-    required final String id,
-    required final String name,
-    required final String logoUrl,
-  }) = _$BrandImpl;
+  const factory _Brand(
+      {required final String id,
+      required final String name,
+      required final String imageUrl}) = _$BrandImpl;
 
   factory _Brand.fromJson(Map<String, dynamic> json) = _$BrandImpl.fromJson;
 
@@ -177,7 +176,7 @@ abstract class _Brand implements Brand {
   @override
   String get name;
   @override
-  String get logoUrl;
+  String get imageUrl;
   @override
   @JsonKey(ignore: true)
   _$$BrandImplCopyWith<_$BrandImpl> get copyWith =>

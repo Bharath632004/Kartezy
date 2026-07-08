@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/profile/domain/usecase/get_profile_usecase.dart';
 import 'package:customer_mobile/shared/models/user.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
+import 'package:customer_mobile/core/services/auth_service.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});

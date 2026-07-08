@@ -9,6 +9,7 @@ import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/otp_verification_page.dart';
 import 'package:customer_mobile/features/profile/presentation/profile_page.dart';
+import 'package:customer_mobile/core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -19,18 +20,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         return '/splash';
       }
       final loggedIn = authState.valueOrNull ?? false;
-      final loggingIn = state.subloc == '/login';
-      final loggingOut = state.subloc == '/logout';
-      final signingUp = state.subloc == '/sign-up';
-      final verifyingOtp = state.subloc == '/otp-verification';
-      final phoneLogin = state.subloc == '/phone-login';
+      final loggingIn = state.location == '/login';
+      final loggingOut = state.location == '/logout';
+      final signingUp = state.location == '/sign-up';
+      final verifyingOtp = state.location == '/otp-verification';
+      final phoneLogin = state.location == '/phone-login';
       // If not logged in and trying to access a protected route, redirect to login
       if (!loggedIn &&
           !loggingIn &&
           !signingUp &&
           !verifyingOtp &&
           !phoneLogin &&
-          !state.subloc.startsWith('/splash')) {
+          !state.location.startsWith('/splash')) {
         return '/login';
       }
       // If logged in and trying to access login or sign up page, redirect to home

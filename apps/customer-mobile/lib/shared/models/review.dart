@@ -1,9 +1,11 @@
-// lib/shared/models/review.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 part 'review.freezed.dart';
 part 'review.g.dart';
 
 @freezed
+@JsonSerializable()
 class Review with _$Review {
   const factory Review({
     required String id,
@@ -22,6 +24,5 @@ class Review with _$Review {
   }) = _Review;
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
-
   Map<String, dynamic> toJson() => _$ReviewToJson(this);
 }

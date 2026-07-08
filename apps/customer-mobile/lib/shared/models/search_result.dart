@@ -1,5 +1,5 @@
-// lib/shared/models/search_result.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:customer_mobile/shared/models/product.dart';
 import 'package:customer_mobile/shared/models/store.dart';
 import 'package:customer_mobile/shared/models/brand.dart';
@@ -9,6 +9,7 @@ part 'search_result.freezed.dart';
 part 'search_result.g.dart';
 
 @freezed
+@JsonSerializable()
 class SearchResult with _$SearchResult {
   const factory SearchResult({
     required this.products,
@@ -26,8 +27,7 @@ class SearchResult with _$SearchResult {
   final List<Category> categories;
   final int totalResults;
   final List<String> suggestions;
-  final Map<String, dynamic>?
-  facets; // For faceted search (price ranges, ratings, etc.)
+  final Map<String, dynamic>? facets;
 
   factory SearchResult.fromJson(Map<String, dynamic> json) =>
       _$SearchResultFromJson(json);

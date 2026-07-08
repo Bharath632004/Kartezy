@@ -1,9 +1,11 @@
-// lib/shared/models/user.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
+@JsonSerializable()
 class User with _$User {
   const factory User({
     required String id,
