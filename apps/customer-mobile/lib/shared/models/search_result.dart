@@ -8,9 +8,9 @@ import 'package:customer_mobile/shared/models/category.dart';
 part 'search_result.freezed.dart';
 part 'search_result.g.dart';
 
-@freeze
+@Freezed()
 class SearchResult with _$SearchResult {
-  const SearchResult({
+  const factory SearchResult({
     required this.products,
     this.stores = const [],
     this.brands = const [],
@@ -18,7 +18,7 @@ class SearchResult with _$SearchResult {
     this.totalResults = 0,
     this.suggestions = const [],
     this.facets,
-  });
+  }) = _SearchResult;
 
   final List<Product> products;
   final List<Store> stores;
@@ -36,15 +36,15 @@ class SearchResult with _$SearchResult {
 }
 
 // Store model (simplified - would be expanded based on actual API)
-@freeze
+@Freezed()
 class Store with _$Store {
-  const Store({
+  const factory Store({
     required this.id,
     required this.name,
     required this.imageUrl,
     required this.distance,
     required this.isOpen,
-  });
+  }) = _Store;
 
   final String id;
   final String name;
@@ -57,9 +57,10 @@ class Store with _$Store {
 }
 
 // Brand model (simplified - would be expanded based on actual API)
-@freeze
+@Freezed()
 class Brand with _$Brand {
-  const Brand({required this.id, required this.name, required this.logoUrl});
+  const factory Brand({required this.id, required this.name, required this.logoUrl})
+      = _Brand;
 
   final String id;
   final String name;

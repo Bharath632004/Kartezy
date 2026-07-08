@@ -7,20 +7,22 @@ part of 'review.dart';
 // **************************************************************************
 
 _$ReviewImpl _$$ReviewImplFromJson(Map<String, dynamic> json) => _$ReviewImpl(
-  id: json['id'] as String,
-  productId: json['productId'] as String,
-  userId: json['userId'] as String,
-  userName: json['userName'] as String,
-  rating: (json['rating'] as num).toDouble(),
-  title: json['title'] as String,
-  comment: json['comment'] as String,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  isVerifiedPurchase: json['isVerifiedPurchase'] as bool,
-  images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  videos: (json['videos'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  helpfulCount: (json['helpfulCount'] as num?)?.toInt(),
-  notHelpfulCount: (json['notHelpfulCount'] as num?)?.toInt(),
-);
+      id: json['id'] as String,
+      productId: json['productId'] as String,
+      userId: json['userId'] as String,
+      userName: json['userName'] as String,
+      rating: (json['rating'] as num).toDouble(),
+      title: json['title'] as String,
+      comment: json['comment'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      isVerifiedPurchase: json['isVerifiedPurchase'] as bool,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      videos:
+          (json['videos'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      helpfulCount: (json['helpfulCount'] as num?)?.toInt(),
+      notHelpfulCount: (json['notHelpfulCount'] as num?)?.toInt(),
+    );
 
 Map<String, dynamic> _$$ReviewImplToJson(_$ReviewImpl instance) =>
     <String, dynamic>{

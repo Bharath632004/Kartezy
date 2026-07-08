@@ -1,18 +1,12 @@
-// lib/shared/models/banner.dart
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'banner.freezed.dart';
-part 'banner.g.dart';
-
-@freeze
+@Freezed()
 class Banner with _$Banner {
-  const Banner({
+  const factory Banner({
     required this.id,
     required this.imageUrl,
     required this.targetUrl,
     this.targetType, // e.g., 'category', 'product', 'store'
     this.title,
-  });
+  }) = _Banner;
 
   factory Banner.fromJson(Map<String, dynamic> json) => _$BannerFromJson(json);
   Map<String, String> toJson() => _$BannerToJson(this);
