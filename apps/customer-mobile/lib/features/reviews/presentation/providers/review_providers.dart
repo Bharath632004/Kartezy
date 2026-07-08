@@ -39,12 +39,6 @@ class ReviewsNotifier extends StateNotifier<List<Review>> {
   }
 }
 
-// Get reviews use case provider
-final getReviewsUseCaseProvider = Provider<GetReviewsUseCase>((ref) {
-  final repository = ref.read(reviewRepositoryProvider);
-  return GetReviewsUseCase(repository);
-});
-
 // Add review use case provider
 final addReviewUseCaseProvider = Provider<AddReviewUseCase>((ref) {
   final repository = ref.read(reviewRepositoryProvider);

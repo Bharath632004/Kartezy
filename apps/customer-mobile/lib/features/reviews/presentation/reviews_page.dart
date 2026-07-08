@@ -19,9 +19,10 @@ class _ReviewsPageState extends ConsumerState<ReviewsPage> {
   @override
   void initState() {
     super.initState();
-    // Load reviews when the page loads
-    Future.microtask(() {
-      ref.read(getReviewsUseCaseProvider)(widget.productId);
+    // Load reviews when the page loads (fire and forget)
+    final useCase = ref.read(getReviewsUseCaseProvider);
+    useCase.call(widget.productId).catchError((e) {
+      // Ignore errors in initState
     });
   }
 
@@ -46,14 +47,11 @@ class _ReviewsPageState extends ConsumerState<ReviewsPage> {
           Expanded(
             child: Consumer(
               builder: (context, ref, _) {
-                final reviewsAsync = ref.watch(getReviewsUseCaseProvider)(
-                  widget.productId,
-                );
+                final reviewsAsync = ref.watch(getReviewsProvider(widget.productId));
 
                 return reviewsAsync.when(
                   data: (reviews) => ReviewList(reviews: reviews),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator()),
                   error: (error, stackTrace) =>
                       Center(child: Text('Error loading reviews: $error')),
                 );

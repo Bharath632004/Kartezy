@@ -14,9 +14,12 @@ class SearchRepositoryImpl implements SearchRepository {
     final result = await _remoteDataSource.searchProducts(query);
     return SearchResult(
       products: result.products,
-      totalResults: result.totalResults,
+      stores: const [],
+      brands: const [],
+      categories: const [],
       suggestions: result.suggestions,
       facets: result.facets,
+      totalResults: result.totalResults,
     );
   }
 
@@ -24,9 +27,13 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<SearchResult> searchStores(String query) async {
     final result = await _remoteDataSource.searchStores(query);
     return SearchResult(
+      products: const [],
       stores: result.stores,
-      totalResults: result.totalResults,
+      brands: const [],
+      categories: const [],
       suggestions: result.suggestions,
+      facets: const {},
+      totalResults: result.totalResults,
     );
   }
 
@@ -34,9 +41,13 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<SearchResult> searchBrands(String query) async {
     final result = await _remoteDataSource.searchBrands(query);
     return SearchResult(
+      products: const [],
+      stores: const [],
       brands: result.brands,
-      totalResults: result.totalResults,
+      categories: const [],
       suggestions: result.suggestions,
+      facets: const {},
+      totalResults: result.totalResults,
     );
   }
 
@@ -44,9 +55,13 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<SearchResult> searchCategories(String query) async {
     final result = await _remoteDataSource.searchCategories(query);
     return SearchResult(
+      products: const [],
+      stores: const [],
+      brands: const [],
       categories: result.categories,
-      totalResults: result.totalResults,
       suggestions: result.suggestions,
+      facets: const {},
+      totalResults: result.totalResults,
     );
   }
 

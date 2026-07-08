@@ -28,10 +28,9 @@ class TrendingSearchesWidget extends ConsumerWidget {
                   onDeleted: () {
                     // In a real app, you might want to remove from trending
                   },
-                  avatar: const Icon(Icons.trending_up, size: 16),
-                  backgroundColor: Theme.of(
+                                    backgroundColor: Theme.of(
                     context,
-                  ).colorScheme.primaryContainer,
+                  ).colorScheme.primaryContainer
                 ),
               )
               .toList(),

@@ -2,6 +2,9 @@
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/search_result.dart';
 import 'package:customer_mobile/shared/models/product.dart';
+import 'package:customer_mobile/shared/models/store.dart';
+import 'package:customer_mobile/shared/models/brand.dart';
+import 'package:customer_mobile/shared/models/category.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,11 +17,14 @@ abstract class SearchRemoteDataSource {
     String? sortBy,
   });
 
-  Future<List<String>> getSuggestions(String query);
+  Future<List<String>> getAutocompleteSuggestions(String query);
   Future<List<String>> getRecentSearches();
   Future<List<String>> getTrendingSearches();
   Future<List<String>> getPersonalizedSuggestions();
   Future<List<String>> getSeasonalSearches();
+  Future<SearchResult> searchStores(String query);
+  Future<SearchResult> searchBrands(String query);
+  Future<SearchResult> searchCategories(String query);
 
   Future<Product> getProductById(String productId);
   Future<List<Product>> getSimilarProducts(String productId);
@@ -62,7 +68,7 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getSuggestions(String query) async {
+  Future<List<String>> getAutocompleteSuggestions(String query) async {
     final dio = _ref.read(dioProvider);
     final response = await dio.get(
       '/search/suggest',
@@ -107,6 +113,91 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
 
     final List<dynamic> data = response.data['searches'] ?? [];
     return data.map((e) => e.toString()).toList();
+  }
+
+  @override
+  Future<SearchResult> searchStores(String query) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post(
+      '/search/stores',
+      data: {'query': query},
+    );
+
+    final List<dynamic> storesData = response.data['stores'] ?? [];
+    final List<Store> stores = storesData.map((json) => Store.fromJson(json)).toList();
+    final int totalResults = response.data['totalResults'] ?? 0;
+    final List<String> suggestions = (response.data['suggestions'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList() ?? [];
+    final Map<String, dynamic>? facets =
+        response.data['facets'] != null ? Map<String, dynamic>.from(response.data['facets']) : null;
+
+    return SearchResult(
+      stores: stores,
+      products: [], // empty list for other types
+      brands: [],
+      categories: [],
+      suggestions: suggestions,
+      facets: facets,
+      totalResults: totalResults,
+    );
+  }
+
+  @override
+  Future<SearchResult> searchBrands(String query) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post(
+      '/search/brands',
+      data: {'query': query},
+    );
+
+    final List<dynamic> brandsData = response.data['brands'] ?? [];
+    final List<Brand> brands = brandsData.map((json) => Brand.fromJson(json)).toList();
+    final int totalResults = response.data['totalResults'] ?? 0;
+    final List<String> suggestions = (response.data['suggestions'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList() ?? [];
+    final Map<String, dynamic>? facets =
+        response.data['facets'] != null ? Map<String, dynamic>.from(response.data['facets']) : null;
+
+    return SearchResult(
+      brands: brands,
+      products: [],
+      stores: [],
+      categories: [],
+      suggestions: suggestions,
+      facets: facets,
+      totalResults: totalResults,
+    );
+  }
+
+  @override
+  Future<SearchResult> searchCategories(String query) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post(
+      '/search/categories',
+      data: {'query': query},
+    );
+
+    final List<dynamic> categoriesData = response.data['categories'] ?? [];
+    final List<Category> categories =
+        categoriesData.map((json) => Category.fromJson(json)).toList();
+    final int totalResults = response.data['totalResults'] ?? 0;
+    final List<String> suggestions = (response.data['suggestions'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList() ?? [];
+    final Map<String, dynamic>? facets =
+        response.data['facets'] != null ? Map<String, dynamic>.from(response.data['facets']) : null;
+
+    return SearchResult(
+      categories: categories,
+      products: [],
+      stores: [],
+      brands: [],
+      suggestions: suggestions,
+      facets: facets,
+      totalResults: totalResults,
+    );
   }
 
   @override

@@ -15,7 +15,7 @@ class ReviewList extends StatelessWidget {
         final review = reviews[index];
         return ListTile(
           title: Text(review.title),
-          subtitle: Text(review.content),
+          subtitle: Text(review.comment),
         );
       },
     );

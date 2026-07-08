@@ -81,7 +81,9 @@
       "Bash(dart run *)",
       "Bash(grep -A2 -B2 '_$UserToJson\\\\|_$UserFromJson\\\\|undefined_method\\\\|not defined for the type')",
       "Bash(docker compose *)",
-      "Bash(xargs -I {} sh -c 'echo \"File: {}\"; grep -H \"part.*\\\\.g\\\\.dart\" {} || echo \"  MISSING .g.dart part\"')"
+      "Bash(xargs -I {} sh -c 'echo \"File: {}\"; grep -H \"part.*\\\\.g\\\\.dart\" {} || echo \"  MISSING .g.dart part\"')",
+      "Bash(xargs grep -l \"Provider\")",
+      "Bash(dir *)"
     ]
   }
 }

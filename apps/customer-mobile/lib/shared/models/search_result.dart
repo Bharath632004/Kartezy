@@ -10,23 +10,14 @@ part 'search_result.g.dart';
 @freezed
 class SearchResult with _$SearchResult {
   const factory SearchResult({
-    required this.products,
-    required this.stores,
-    required this.brands,
-    required this.categories,
-    required this.totalResults,
-    required this.suggestions,
-    this.facets,
+    required List<Product> products,
+    required List<Store> stores,
+    required List<Brand> brands,
+    required List<Category> categories,
+    required List<String> suggestions,
+    required Map<String, dynamic>? facets,
+    required int totalResults,
   }) = _SearchResult;
 
-  final List<Product> products;
-  final List<Store> stores;
-  final List<Brand> brands;
-  final List<Category> categories;
-  final int totalResults;
-  final List<String> suggestions;
-  final Map<String, dynamic>? facets;
-
-  factory SearchResult.fromJson(Map<String, dynamic> json) =>
-      _$SearchResultFromJson(json);
+  factory SearchResult.fromJson(Map<String, dynamic> json) => _$SearchResultFromJson(json);
 }

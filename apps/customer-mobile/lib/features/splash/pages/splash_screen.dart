@@ -33,11 +33,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     try {
       // Check if onboarding has been shown
       final hiveManager = ref.read(hiveManagerProvider);
-      final settingsBox = await hiveManager.getBox<bool>(boxName: 'settings');
+      final settingsBox = hiveManager.getBox<bool>(boxName: 'settings');
       _isOnboardingComplete = settingsBox.get(
         'onboardingCompleted',
         defaultValue: false,
-      );
+      ) as bool;
 
       // Check authentication status
       final authService = ref.read(authServiceProvider);
@@ -53,8 +53,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             _isAuthenticated = true;
           } else {
             // Token expired, try refresh
-            final refreshed = await authService.refreshToken();
-            if (refreshed) {
+            final refrescted = await authService.refreshToken();
+            if (refrescted) {
               // After refresh, we need to check the new token's expiration?
               // For simplicity, we'll consider authenticated if refresh succeeded.
               _isAuthenticated = true;
@@ -101,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             textAlign: TextAlign.center,
           ),
         ),
-      );
+      };
     }
 
     // Redirect based on state

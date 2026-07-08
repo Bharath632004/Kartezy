@@ -24,9 +24,9 @@ mixin _$SearchResult {
   List<Store> get stores => throw _privateConstructorUsedError;
   List<Brand> get brands => throw _privateConstructorUsedError;
   List<Category> get categories => throw _privateConstructorUsedError;
-  int get totalResults => throw _privateConstructorUsedError;
   List<String> get suggestions => throw _privateConstructorUsedError;
   Map<String, dynamic>? get facets => throw _privateConstructorUsedError;
+  int get totalResults => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,9 +45,9 @@ abstract class $SearchResultCopyWith<$Res> {
       List<Store> stores,
       List<Brand> brands,
       List<Category> categories,
-      int totalResults,
       List<String> suggestions,
-      Map<String, dynamic>? facets});
+      Map<String, dynamic>? facets,
+      int totalResults});
 }
 
 /// @nodoc
@@ -67,9 +67,9 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
     Object? stores = null,
     Object? brands = null,
     Object? categories = null,
-    Object? totalResults = null,
     Object? suggestions = null,
     Object? facets = freezed,
+    Object? totalResults = null,
   }) {
     return _then(_value.copyWith(
       products: null == products
@@ -88,10 +88,6 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<Category>,
-      totalResults: null == totalResults
-          ? _value.totalResults
-          : totalResults // ignore: cast_nullable_to_non_nullable
-              as int,
       suggestions: null == suggestions
           ? _value.suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
@@ -100,6 +96,10 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
           ? _value.facets
           : facets // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      totalResults: null == totalResults
+          ? _value.totalResults
+          : totalResults // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -117,9 +117,9 @@ abstract class _$$SearchResultImplCopyWith<$Res>
       List<Store> stores,
       List<Brand> brands,
       List<Category> categories,
-      int totalResults,
       List<String> suggestions,
-      Map<String, dynamic>? facets});
+      Map<String, dynamic>? facets,
+      int totalResults});
 }
 
 /// @nodoc
@@ -137,9 +137,9 @@ class __$$SearchResultImplCopyWithImpl<$Res>
     Object? stores = null,
     Object? brands = null,
     Object? categories = null,
-    Object? totalResults = null,
     Object? suggestions = null,
     Object? facets = freezed,
+    Object? totalResults = null,
   }) {
     return _then(_$SearchResultImpl(
       products: null == products
@@ -158,10 +158,6 @@ class __$$SearchResultImplCopyWithImpl<$Res>
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<Category>,
-      totalResults: null == totalResults
-          ? _value.totalResults
-          : totalResults // ignore: cast_nullable_to_non_nullable
-              as int,
       suggestions: null == suggestions
           ? _value._suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
@@ -170,6 +166,10 @@ class __$$SearchResultImplCopyWithImpl<$Res>
           ? _value._facets
           : facets // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      totalResults: null == totalResults
+          ? _value.totalResults
+          : totalResults // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -182,9 +182,9 @@ class _$SearchResultImpl implements _SearchResult {
       required final List<Store> stores,
       required final List<Brand> brands,
       required final List<Category> categories,
-      required this.totalResults,
       required final List<String> suggestions,
-      final Map<String, dynamic>? facets})
+      required final Map<String, dynamic>? facets,
+      required this.totalResults})
       : _products = products,
         _stores = stores,
         _brands = brands,
@@ -227,8 +227,6 @@ class _$SearchResultImpl implements _SearchResult {
     return EqualUnmodifiableListView(_categories);
   }
 
-  @override
-  final int totalResults;
   final List<String> _suggestions;
   @override
   List<String> get suggestions {
@@ -248,8 +246,11 @@ class _$SearchResultImpl implements _SearchResult {
   }
 
   @override
+  final int totalResults;
+
+  @override
   String toString() {
-    return 'SearchResult(products: $products, stores: $stores, brands: $brands, categories: $categories, totalResults: $totalResults, suggestions: $suggestions, facets: $facets)';
+    return 'SearchResult(products: $products, stores: $stores, brands: $brands, categories: $categories, suggestions: $suggestions, facets: $facets, totalResults: $totalResults)';
   }
 
   @override
@@ -262,11 +263,11 @@ class _$SearchResultImpl implements _SearchResult {
             const DeepCollectionEquality().equals(other._brands, _brands) &&
             const DeepCollectionEquality()
                 .equals(other._categories, _categories) &&
-            (identical(other.totalResults, totalResults) ||
-                other.totalResults == totalResults) &&
             const DeepCollectionEquality()
                 .equals(other._suggestions, _suggestions) &&
-            const DeepCollectionEquality().equals(other._facets, _facets));
+            const DeepCollectionEquality().equals(other._facets, _facets) &&
+            (identical(other.totalResults, totalResults) ||
+                other.totalResults == totalResults));
   }
 
   @JsonKey(ignore: true)
@@ -277,9 +278,9 @@ class _$SearchResultImpl implements _SearchResult {
       const DeepCollectionEquality().hash(_stores),
       const DeepCollectionEquality().hash(_brands),
       const DeepCollectionEquality().hash(_categories),
-      totalResults,
       const DeepCollectionEquality().hash(_suggestions),
-      const DeepCollectionEquality().hash(_facets));
+      const DeepCollectionEquality().hash(_facets),
+      totalResults);
 
   @JsonKey(ignore: true)
   @override
@@ -301,9 +302,9 @@ abstract class _SearchResult implements SearchResult {
       required final List<Store> stores,
       required final List<Brand> brands,
       required final List<Category> categories,
-      required final int totalResults,
       required final List<String> suggestions,
-      final Map<String, dynamic>? facets}) = _$SearchResultImpl;
+      required final Map<String, dynamic>? facets,
+      required final int totalResults}) = _$SearchResultImpl;
 
   factory _SearchResult.fromJson(Map<String, dynamic> json) =
       _$SearchResultImpl.fromJson;
@@ -317,11 +318,11 @@ abstract class _SearchResult implements SearchResult {
   @override
   List<Category> get categories;
   @override
-  int get totalResults;
-  @override
   List<String> get suggestions;
   @override
   Map<String, dynamic>? get facets;
+  @override
+  int get totalResults;
   @override
   @JsonKey(ignore: true)
   _$$SearchResultImplCopyWith<_$SearchResultImpl> get copyWith =>

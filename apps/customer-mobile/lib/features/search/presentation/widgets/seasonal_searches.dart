@@ -1,4 +1,4 @@
-// lib/features/search/seasonal_searches.dart
+// lib/features/search/presentation/widgets/seasonal_searches.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/search/domain/usecase/get_seasonal_searches_usecase.dart';
@@ -27,7 +27,6 @@ class SeasonalSearchesWidget extends ConsumerWidget {
                   .map(
                     (suggestion) => Chip(
                       label: Text(suggestion),
-                      avatar: const Icon(Icons.seasonal_1, size: 16),
                     ),
                   )
                   .toList(),

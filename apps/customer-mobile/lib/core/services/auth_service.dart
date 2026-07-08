@@ -2,7 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/core/storage/secure_storage.dart';
 import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
-import 'package:customer_mobile/features/authentication/data/repository/auth_repository_impl.dart';
+import 'package:customer_mobile/features/authentication/provider/provider.dart';
 
 class AuthService {
   final Ref _ref;
@@ -12,7 +12,10 @@ class AuthService {
   Future<bool> isLoggedIn() async {
     final secureStorage = _ref.read(secureStorageProvider);
     final token = await secureStorage.read(key: 'accessToken');
-    return token != null && token.isNotEmpty;
+    final isLoggedIn = token != null && token.isNotEmpty;
+    // Update the auth state provider
+    _ref.read(authStateProvider.notifier).state = isLoggedIn;
+    return isLoggedIn;
   }
 
   Future<String?> getAccessToken() async {
@@ -45,6 +48,8 @@ class AuthService {
       }
       await secureStorage.write(key: 'accessToken', value: accessToken);
       await secureStorage.write(key: 'refreshToken', value: refreshTokenValue);
+      // Update auth state to true
+      _ref.read(authStateProvider.notifier).state = true;
       return true;
     } catch (e) {
       return false;
@@ -55,6 +60,8 @@ class AuthService {
     final secureStorage = _ref.read(secureStorageProvider);
     await secureStorage.delete(key: 'accessToken');
     await secureStorage.delete(key: 'refreshToken');
+    // Update auth state to false
+    _ref.read(authStateProvider.notifier).state = false;
   }
 
   // Additional methods for token storage
@@ -66,6 +73,8 @@ class AuthService {
     if (refreshToken != null && refreshToken.isNotEmpty) {
       await secureStorage.write(key: 'refreshToken', value: refreshToken);
     }
+    // Update auth state to true (assuming we have a token)
+    _ref.read(authStateProvider.notifier).state = true;
   }
 
   Future<String?> getUserId() async {
@@ -74,15 +83,19 @@ class AuthService {
   }
 }
 
+/// Provider to check if the user is logged in (StateProvider)
+final authStateProvider = StateProvider<bool>((ref) => false);
+
+/// Provider to initialize the auth state at app startup
+final initializeAuthProvider = FutureProvider<bool>((ref) async {
+  final authService = ref.read(authServiceProvider);
+  final isLoggedIn = await authService.isLoggedIn();
+  return isLoggedIn;
+});
+
 /// Provider for auth service
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService(ref);
-});
-
-/// Provider to check if the user is logged in (Future)
-final authStateProvider = FutureProvider<bool>((ref) {
-  final authService = ref.read(authServiceProvider);
-  return authService.isLoggedIn();
 });
 
 /// Provider to get the access token (Future)

@@ -14,7 +14,14 @@ class GetReviewsUseCase {
   }
 }
 
-/// Provider for get reviews use case
+/// Provider for getting reviews (returns a Future<List<Review>>)
+final getReviewsProvider = FutureProvider<List<Review>>.family((ref, String productId) {
+  final repository = ref.read(reviewRepositoryProvider);
+  final useCase = GetReviewsUseCase(repository);
+  return useCase.call(productId);
+});
+
+// Keep the use case provider if needed elsewhere
 final getReviewsUseCaseProvider = Provider<GetReviewsUseCase>((ref) {
   final repository = ref.read(reviewRepositoryProvider);
   return GetReviewsUseCase(repository);

@@ -20,11 +20,11 @@ _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
       categories: (json['categories'] as List<dynamic>)
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalResults: (json['totalResults'] as num).toInt(),
       suggestions: (json['suggestions'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
       facets: json['facets'] as Map<String, dynamic>?,
+      totalResults: (json['totalResults'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) =>
@@ -33,7 +33,7 @@ Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) =>
       'stores': instance.stores,
       'brands': instance.brands,
       'categories': instance.categories,
-      'totalResults': instance.totalResults,
       'suggestions': instance.suggestions,
       'facets': instance.facets,
+      'totalResults': instance.totalResults,
     };

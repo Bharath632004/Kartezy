@@ -13,13 +13,23 @@ import 'package:customer_mobile/core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    refreshListenable: Listenable.merge([ref.read(authStateProvider)]),
+    refreshListenable: [
+      ref.read(authStateProvider.notifier),
+      ref.read(initializeAuthProvider.notifier),
+    ],
     redirect: (context, state) {
       final authState = ref.watch(authStateProvider);
-      if (authState.isLoading) {
+      final isInitializing = ref.watch(initializeAuthProvider).maybeWhen(
+        loading: () => true,
+        error: () => false,
+        data: (_) => false,
+      );
+
+      if (isInitializing) {
         return '/splash';
       }
-      final loggedIn = authState.valueOrNull ?? false;
+
+      final loggedIn = authState;
       final loggingIn = state.location == '/login';
       final loggingOut = state.location == '/logout';
       final signingUp = state.location == '/sign-up';
