@@ -1,19 +1,17 @@
-@Freezed()
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'banner.freezed.dart';
+part 'banner.g.dart';
+
+@freezed
 class Banner with _$Banner {
   const factory Banner({
-    required this.id,
-    required this.imageUrl,
-    required this.targetUrl,
-    this.targetType, // e.g., 'category', 'product', 'store'
-    this.title,
+    required String id,
+    required String imageUrl,
+    required String targetUrl,
+    String? targetType, // e.g., 'category', 'product', 'store'
+    String? title,
   }) = _Banner;
 
   factory Banner.fromJson(Map<String, dynamic> json) => _$BannerFromJson(json);
-  Map<String, String> toJson() => _$BannerToJson(this);
-
-  final String id;
-  final String imageUrl;
-  final String targetUrl;
-  final String? targetType;
-  final String? title;
+  Map<String, dynamic> toJson() => _$BannerToJson(this);
 }

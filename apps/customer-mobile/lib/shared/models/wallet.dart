@@ -13,4 +13,5 @@ class Wallet with _$Wallet {
   }) = _Wallet;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
+  Map<String, dynamic> toJson() => _$WalletToJson(this);
 }

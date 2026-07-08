@@ -77,7 +77,8 @@
       "Bash(bash)",
       "Bash(cmd /c \"taskkill /pid 27852 /f\")",
       "Bash(cmd /c \"C:\\\\Windows\\\\System32\\\\taskkill.exe /pid 27852 /f\")",
-      "Bash(cmd /c \"taskkill /pid 27852 /f && exit\")"
+      "Bash(cmd /c \"taskkill /pid 27852 /f && exit\")",
+      "Bash(dart run *)"
     ]
   }
 }

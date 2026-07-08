@@ -2,7 +2,6 @@
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/category.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoryRemoteDataSource {
   final Dio _dio;
@@ -17,11 +16,3 @@ class CategoryRemoteDataSource {
         .toList();
   }
 }
-
-/// Provider for category remote data source
-final categoryRemoteDataSourceProvider = Provider<CategoryRemoteDataSource>((
-  ref,
-) {
-  final dio = ref.read(dioProvider);
-  return CategoryRemoteDataSource(dio);
-});
