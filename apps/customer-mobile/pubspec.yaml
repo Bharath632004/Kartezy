@@ -2,6 +2,7 @@ name: customer_mobile
 description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
+
 environment:
   sdk: ^3.12.2
 
@@ -48,6 +49,7 @@ dependencies:
   collection: ^1.18.0
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
+  country_code_picker: ^2.0.2   # Added for country code picker
 
 dev_dependencies:
   flutter_test:

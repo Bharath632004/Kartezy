@@ -48,7 +48,17 @@
       "Bash(tasklist)",
       "Bash(kill *)",
       "Bash(flutter build *)",
-      "Bash(flutter analyze *)"
+      "Bash(flutter analyze *)",
+      "Bash(But we saw shared/utils/formatters.dart and validators.dart. 'Lets examine those. *)",
+      "Bash(But first, 'lets check the main.dart to see the app entry point. *)",
+      "Bash(xargs grep -l -i \"home\\\\|banner\\\\|recommend\\\\|product\\\\|coupon\\\\|wallet\\\\|membership\")",
+      "Bash(xargs grep -l -i banner)",
+      "Bash(xargs -l grep -l \"banner\\\\|Banner\")",
+      "Bash(xargs -l grep -l \"category\\\\|Category\")",
+      "Bash(xargs -l grep -l \"banner\")",
+      "Bash(xargs grep -l \"getCategoriesUseCaseProvider\")",
+      "Bash(xargs grep -l \"categoryRepositoryProvider\")",
+      "Bash(appscustomer-mobilelibfeaturescoupons *)"
     ]
   }
 }

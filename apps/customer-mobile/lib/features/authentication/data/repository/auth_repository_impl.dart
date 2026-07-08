@@ -1,7 +1,9 @@
 // lib/features/authentication/data/repository/auth_repository_impl.dart
 import 'package:customer_mobile/core/storage/secure_storage.dart';
+import 'package:customer_mobile/core/storage/hive_manager.dart';
 import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
 import 'package:customer_mobile/features/authentication/data/datasource/auth_remote_data_source.dart';
+import 'package:customer_mobile/shared/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -10,7 +12,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._ref);
 
   @override
-  Future<bool> login(String email, String password) async {
+  Future<User> login(String email, String password) async {
     try {
       final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
       final user = await remoteDataSource.login(email, password);
@@ -19,9 +21,54 @@ class AuthRepositoryImpl implements AuthRepository {
       await secureStorage.write(key: 'userId', value: user.id.toString());
       await secureStorage.write(key: 'accessToken', value: user.accessToken);
       await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
-      return true;
+      // Store user in Hive for quick access
+      final hiveManager = _ref.read(hiveManagerProvider);
+      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      await userBox.put('currentUser', user);
+      return user;
     } catch (e) {
-      return false;
+      rethrow;
+    }
+  }
+
+  @override
+  Future<User> sendOtp(String phoneNumber) async {
+    try {
+      final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
+      final user = await remoteDataSource.sendOtp(phoneNumber);
+      // Note: We might not have a user yet, but the backend might return a temporary token or just success.
+      // We'll store any tokens if present, but for OTP sending, we might not need to store user.
+      // However, the backend might return a transaction ID or something. We'll adjust as needed.
+      // For now, we'll just return the user (which might have a token for verification step).
+      final secureStorage = _ref.read(secureStorageProvider);
+      if (user.accessToken != null && user.accessToken!.isNotEmpty) {
+        await secureStorage.write(key: 'accessToken', value: user.accessToken);
+        await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+        await secureStorage.write(key: 'userId', value: user.id.toString());
+      }
+      return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<User> verifyOtp(String phoneNumber, String otp) async {
+    try {
+      final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
+      final user = await remoteDataSource.verifyOtp(phoneNumber, otp);
+      // Store user info or token
+      final secureStorage = _ref.read(secureStorageProvider);
+      await secureStorage.write(key: 'userId', value: user.id.toString());
+      await secureStorage.write(key: 'accessToken', value: user.accessToken);
+      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+      // Store user in Hive for quick access
+      final hiveManager = _ref.read(hiveManagerProvider);
+      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      await userBox.put('currentUser', user);
+      return user;
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -38,6 +85,10 @@ class AuthRepositoryImpl implements AuthRepository {
       await secureStorage.delete(key: 'accessToken');
       await secureStorage.delete(key: 'refreshToken');
       await secureStorage.delete(key: 'userId');
+      // Clear user from Hive
+      final hiveManager = _ref.read(hiveManagerProvider);
+      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      await userBox.delete('currentUser');
     }
   }
 
@@ -45,6 +96,25 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<String?> getCurrentUserId() async {
     final secureStorage = _ref.read(secureStorageProvider);
     return await secureStorage.read(key: 'userId');
+  }
+
+  @override
+  Future<User> refreshToken(String refreshToken) async {
+    try {
+      final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
+      final user = await remoteDataSource.refreshToken(refreshToken);
+      // Update stored tokens
+      final secureStorage = _ref.read(secureStorageProvider);
+      await secureStorage.write(key: 'accessToken', value: user.accessToken);
+      await secureStorage.write(key: 'refreshToken', value: user.refreshToken);
+      // Update user in Hive
+      final hiveManager = _ref.read(hiveManagerProvider);
+      final userBox = await hiveManager.getBox<User>(boxName: 'user');
+      await userBox.put('currentUser', user);
+      return user;
+    } catch (e) {
+      throw Exception('Failed to refresh token: $e');
+    }
   }
 }
 

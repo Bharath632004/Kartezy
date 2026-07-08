@@ -11,15 +11,19 @@ class User with _$User {
     required this.name,
     this.phone,
     this.avatarUrl,
+    this.accessToken,
+    this.refreshToken,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  Map<String, String> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   final String id;
   final String email;
   final String name;
   final String? phone;
   final String? avatarUrl;
+  final String? accessToken;
+  final String? refreshToken;
 }

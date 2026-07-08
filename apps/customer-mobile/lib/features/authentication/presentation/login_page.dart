@@ -1,18 +1,24 @@
-// lib/features/authentication/pages/login_page.dart
+// lib/features/authentication/presentation/login_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:customer_mobile/features/authentication/domain/usecase/login_usecase.dart';
+import 'package:customer_mobile/shared/models/user.dart';
+import 'package:customer_mobile/shared/widgets/button.dart';
+import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -22,21 +28,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
     try {
-      // TODO: Implement actual login logic using auth repository
-      // For now, simulate a delay and then navigate to home
-      await Future.delayed(const Duration(seconds: 2));
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
+      final loginUseCase = ref.read(loginUseCaseProvider);
+      final user = await loginUseCase.call(email, password);
       if (mounted) {
-        // Assuming login successful
+        // Login successful, navigate to home
         context.go('/home');
       }
     } catch (e) {
-      // TODO: Show error message
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: $e')),
-        );
+        setState(() {
+          _errorMessage = 'Something went wrong: $e';
+        });
       }
     } finally {
       if (mounted) {
@@ -73,12 +82,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               obscureText: true,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            if (_errorMessage != null)
+              Text(
+                _errorMessage!,
+                style: const TextStyle(color: Colors.red),
+              ),
+            const SizedBox(height: 16),
             _isLoading
                 ? const CircularProgressIndicator()
-                : ElevatedButton(
+                : AppButton(
+                    text: 'Login',
                     onPressed: _login,
-                    child: const Text('Login'),
                   ),
             const SizedBox(height: 16),
             TextButton(
@@ -86,6 +101,21 @@ class _LoginPageState extends State<LoginPage> {
                 // TODO: Implement forgot password
               },
               child: const Text('Forgot Password?'),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                // Navigate to phone login
+                context.go('/phone-login');
+              },
+              child: const Text('Login with Phone'),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                // TODO: Implement sign up
+              },
+              child: const Text('Create Account'),
             ),
           ],
         ),

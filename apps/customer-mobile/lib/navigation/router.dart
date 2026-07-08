@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/splash/pages/splash_screen.dart';
 import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
 import 'package:customer_mobile/features/home/home_page.dart';
-import 'package:customer_mobile/core/services/auth_service.dart';
+import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
+import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
+import 'package:customer_mobile/features/authentication/presentation/otp_verification_page.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -20,12 +22,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final loggedIn = authState.valueOrNull ?? false;
       final loggingIn = state.subloc == '/login';
       final loggingOut = state.subloc == '/logout';
+      final signingUp = state.subloc == '/sign-up';
+      final verifyingOtp = state.subloc == '/otp-verification';
+      final phoneLogin = state.subloc == '/phone-login';
       // If not logged in and trying to access a protected route, redirect to login
-      if (!loggedIn && !loggingIn && !state.subloc.startsWith('/splash')) {
+      if (!loggedIn && !loggingIn && !signingUp && !verifyingOtp && !phoneLogin && !state.subloc.startsWith('/splash')) {
         return '/login';
       }
-      // If logged in and trying to access login page, redirect to home
-      if (loggedIn && loggingIn) {
+      // If logged in and trying to access login or sign up page, redirect to home
+      if (loggedIn && (loggingIn || signingUp)) {
         return '/home';
       }
       return null; // No redirect needed
@@ -36,8 +41,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => const OnboardingPage(),
+      ),
+      GoRoute(
         path: '/login',
         builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: '/phone-login',
+        builder: (context, state) => const PhoneLoginPage(),
+      ),
+      GoRoute(
+        path: '/otp-verification',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final phoneNumber = extra?['phoneNumber'] as String?;
+          return OtpVerificationPage(phoneNumber: phoneNumber ?? '');
+        },
       ),
       GoRoute(
         path: '/home',

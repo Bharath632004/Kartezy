@@ -7,6 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 abstract class AuthRemoteDataSource {
   Future<User> login(String email, String password);
   Future<void> logout();
+  Future<User> refreshToken(String refreshToken);
+  Future<User> sendOtp(String phoneNumber);
+  Future<User> verifyOtp(String phoneNumber, String otp);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -28,6 +31,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     final dio = _ref.read(dioProvider);
     await dio.post('/auth/logout');
+  }
+
+  @override
+  Future<User> refreshToken(String refreshToken) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post('/auth/refresh', data: {
+      'refresh_token': refreshToken,
+    });
+    return User.fromJson(response.data);
+  }
+
+  @override
+  Future<User> sendOtp(String phoneNumber) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post('/auth/send-otp', data: {
+      'phone_number': phoneNumber,
+    });
+    return User.fromJson(response.data);
+  }
+
+  @override
+  Future<User> verifyOtp(String phoneNumber, String otp) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post('/auth/verify-otp', data: {
+      'phone_number': phoneNumber,
+      'otp': otp,
+    });
+    return User.fromJson(response.data);
   }
 }
 
