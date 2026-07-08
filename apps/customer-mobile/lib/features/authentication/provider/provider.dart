@@ -13,5 +13,5 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
 // Provider for auth repository
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final remoteDataSource = ref.read(authRemoteDataSourceProvider);
-  return AuthRepositoryImpl(remoteDataSource);
+  return AuthRepositoryImpl(ref);
 });

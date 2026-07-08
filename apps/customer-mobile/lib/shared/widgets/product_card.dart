@@ -13,14 +13,25 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(product.imageUrl ?? '', height: 100, width: double.infinity, fit: BoxFit.cover),
+          Image.network(
+            product.imageUrl ?? '',
+            height: 100,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(product.name ?? '', style: Theme.of(context).textTheme.titleSmall),
-                Text('\$${product.price?.toStringAsFixed(2) ?? '0.00'}', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  product.name ?? '',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Text(
+                  '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ],
             ),
           ),

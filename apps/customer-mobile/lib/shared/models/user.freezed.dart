@@ -12,7 +12,8 @@ part of 'user.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return _User.fromJson(json);
@@ -38,14 +39,15 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call(
-      {String id,
-      String email,
-      String name,
-      String? phone,
-      String? avatarUrl,
-      String? accessToken,
-      String? refreshToken});
+  $Res call({
+    String id,
+    String email,
+    String name,
+    String? phone,
+    String? avatarUrl,
+    String? accessToken,
+    String? refreshToken,
+  });
 }
 
 /// @nodoc
@@ -69,54 +71,59 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? accessToken = freezed,
     Object? refreshToken = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessToken: freezed == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshToken: freezed == refreshToken
-          ? _value.refreshToken
-          : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            phone: freezed == phone
+                ? _value.phone
+                : phone // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            avatarUrl: freezed == avatarUrl
+                ? _value.avatarUrl
+                : avatarUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            accessToken: freezed == accessToken
+                ? _value.accessToken
+                : accessToken // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            refreshToken: freezed == refreshToken
+                ? _value.refreshToken
+                : refreshToken // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$UserImplCopyWith(
-          _$UserImpl value, $Res Function(_$UserImpl) then) =
-      __$$UserImplCopyWithImpl<$Res>;
+    _$UserImpl value,
+    $Res Function(_$UserImpl) then,
+  ) = __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String email,
-      String name,
-      String? phone,
-      String? avatarUrl,
-      String? accessToken,
-      String? refreshToken});
+  $Res call({
+    String id,
+    String email,
+    String name,
+    String? phone,
+    String? avatarUrl,
+    String? accessToken,
+    String? refreshToken,
+  });
 }
 
 /// @nodoc
@@ -124,7 +131,7 @@ class __$$UserImplCopyWithImpl<$Res>
     extends _$UserCopyWithImpl<$Res, _$UserImpl>
     implements _$$UserImplCopyWith<$Res> {
   __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -137,50 +144,53 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? refreshToken = freezed,
   }) {
-    return _then(_$UserImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessToken: freezed == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshToken: freezed == refreshToken
-          ? _value.refreshToken
-          : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$UserImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        phone: freezed == phone
+            ? _value.phone
+            : phone // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        avatarUrl: freezed == avatarUrl
+            ? _value.avatarUrl
+            : avatarUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        accessToken: freezed == accessToken
+            ? _value.accessToken
+            : accessToken // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        refreshToken: freezed == refreshToken
+            ? _value.refreshToken
+            : refreshToken // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
-  const _$UserImpl(
-      {required this.id,
-      required this.email,
-      required this.name,
-      this.phone,
-      this.avatarUrl,
-      this.accessToken,
-      this.refreshToken});
+  const _$UserImpl({
+    required this.id,
+    required this.email,
+    required this.name,
+    this.phone,
+    this.avatarUrl,
+    this.accessToken,
+    this.refreshToken,
+  });
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -224,8 +234,16 @@ class _$UserImpl implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, name, phone,
-      avatarUrl, accessToken, refreshToken);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    email,
+    name,
+    phone,
+    avatarUrl,
+    accessToken,
+    refreshToken,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -235,21 +253,20 @@ class _$UserImpl implements _User {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserImplToJson(
-      this,
-    );
+    return _$$UserImplToJson(this);
   }
 }
 
 abstract class _User implements User {
-  const factory _User(
-      {required final String id,
-      required final String email,
-      required final String name,
-      final String? phone,
-      final String? avatarUrl,
-      final String? accessToken,
-      final String? refreshToken}) = _$UserImpl;
+  const factory _User({
+    required final String id,
+    required final String email,
+    required final String name,
+    final String? phone,
+    final String? avatarUrl,
+    final String? accessToken,
+    final String? refreshToken,
+  }) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 

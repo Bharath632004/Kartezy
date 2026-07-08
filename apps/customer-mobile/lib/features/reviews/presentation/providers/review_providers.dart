@@ -7,6 +7,7 @@ import 'package:customer_mobile/features/reviews/domain/usecase/like_review_usec
 import 'package:customer_mobile/features/reviews/domain/usecase/report_review_usecase.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/update_review_usecase.dart';
 import 'package:customer_mobile/shared/models/review.dart';
+import 'package:customer_mobile/features/reviews/data/repository/review_repository_impl.dart';
 
 // Reviews provider
 final reviewsProvider = StateNotifierProvider<ReviewsNotifier, List<Review>>((

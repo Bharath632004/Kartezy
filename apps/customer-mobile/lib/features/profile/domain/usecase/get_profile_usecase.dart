@@ -2,6 +2,7 @@
 import 'package:customer_mobile/features/profile/domain/repository/profile_repository.dart';
 import 'package:customer_mobile/shared/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:customer_mobile/features/profile/data/repository/profile_repository_impl.dart';
 
 class GetProfileUseCase {
   final ProfileRepository _repository;

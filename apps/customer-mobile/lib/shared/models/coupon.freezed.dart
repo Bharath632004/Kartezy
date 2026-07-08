@@ -12,7 +12,8 @@ part of 'coupon.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Coupon _$CouponFromJson(Map<String, dynamic> json) {
   return _Coupon.fromJson(json);
@@ -39,15 +40,16 @@ abstract class $CouponCopyWith<$Res> {
   factory $CouponCopyWith(Coupon value, $Res Function(Coupon) then) =
       _$CouponCopyWithImpl<$Res, Coupon>;
   @useResult
-  $Res call(
-      {String id,
-      String code,
-      String description,
-      double discountAmount,
-      String? discountPercentage,
-      DateTime? validFrom,
-      DateTime? validUntil,
-      bool? isActive});
+  $Res call({
+    String id,
+    String code,
+    String description,
+    double discountAmount,
+    String? discountPercentage,
+    DateTime? validFrom,
+    DateTime? validUntil,
+    bool? isActive,
+  });
 }
 
 /// @nodoc
@@ -72,59 +74,64 @@ class _$CouponCopyWithImpl<$Res, $Val extends Coupon>
     Object? validUntil = freezed,
     Object? isActive = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      code: null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      discountAmount: null == discountAmount
-          ? _value.discountAmount
-          : discountAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      discountPercentage: freezed == discountPercentage
-          ? _value.discountPercentage
-          : discountPercentage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      validFrom: freezed == validFrom
-          ? _value.validFrom
-          : validFrom // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      validUntil: freezed == validUntil
-          ? _value.validUntil
-          : validUntil // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      isActive: freezed == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            code: null == code
+                ? _value.code
+                : code // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            discountAmount: null == discountAmount
+                ? _value.discountAmount
+                : discountAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            discountPercentage: freezed == discountPercentage
+                ? _value.discountPercentage
+                : discountPercentage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            validFrom: freezed == validFrom
+                ? _value.validFrom
+                : validFrom // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            validUntil: freezed == validUntil
+                ? _value.validUntil
+                : validUntil // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            isActive: freezed == isActive
+                ? _value.isActive
+                : isActive // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CouponImplCopyWith<$Res> implements $CouponCopyWith<$Res> {
   factory _$$CouponImplCopyWith(
-          _$CouponImpl value, $Res Function(_$CouponImpl) then) =
-      __$$CouponImplCopyWithImpl<$Res>;
+    _$CouponImpl value,
+    $Res Function(_$CouponImpl) then,
+  ) = __$$CouponImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String code,
-      String description,
-      double discountAmount,
-      String? discountPercentage,
-      DateTime? validFrom,
-      DateTime? validUntil,
-      bool? isActive});
+  $Res call({
+    String id,
+    String code,
+    String description,
+    double discountAmount,
+    String? discountPercentage,
+    DateTime? validFrom,
+    DateTime? validUntil,
+    bool? isActive,
+  });
 }
 
 /// @nodoc
@@ -132,8 +139,9 @@ class __$$CouponImplCopyWithImpl<$Res>
     extends _$CouponCopyWithImpl<$Res, _$CouponImpl>
     implements _$$CouponImplCopyWith<$Res> {
   __$$CouponImplCopyWithImpl(
-      _$CouponImpl _value, $Res Function(_$CouponImpl) _then)
-      : super(_value, _then);
+    _$CouponImpl _value,
+    $Res Function(_$CouponImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -147,55 +155,58 @@ class __$$CouponImplCopyWithImpl<$Res>
     Object? validUntil = freezed,
     Object? isActive = freezed,
   }) {
-    return _then(_$CouponImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      code: null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      discountAmount: null == discountAmount
-          ? _value.discountAmount
-          : discountAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      discountPercentage: freezed == discountPercentage
-          ? _value.discountPercentage
-          : discountPercentage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      validFrom: freezed == validFrom
-          ? _value.validFrom
-          : validFrom // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      validUntil: freezed == validUntil
-          ? _value.validUntil
-          : validUntil // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      isActive: freezed == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ));
+    return _then(
+      _$CouponImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        code: null == code
+            ? _value.code
+            : code // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        discountAmount: null == discountAmount
+            ? _value.discountAmount
+            : discountAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        discountPercentage: freezed == discountPercentage
+            ? _value.discountPercentage
+            : discountPercentage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        validFrom: freezed == validFrom
+            ? _value.validFrom
+            : validFrom // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        validUntil: freezed == validUntil
+            ? _value.validUntil
+            : validUntil // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        isActive: freezed == isActive
+            ? _value.isActive
+            : isActive // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CouponImpl implements _Coupon {
-  const _$CouponImpl(
-      {required this.id,
-      required this.code,
-      required this.description,
-      required this.discountAmount,
-      this.discountPercentage,
-      this.validFrom,
-      this.validUntil,
-      this.isActive});
+  const _$CouponImpl({
+    required this.id,
+    required this.code,
+    required this.description,
+    required this.discountAmount,
+    this.discountPercentage,
+    this.validFrom,
+    this.validUntil,
+    this.isActive,
+  });
 
   factory _$CouponImpl.fromJson(Map<String, dynamic> json) =>
       _$$CouponImplFromJson(json);
@@ -245,8 +256,17 @@ class _$CouponImpl implements _Coupon {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, code, description,
-      discountAmount, discountPercentage, validFrom, validUntil, isActive);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    code,
+    description,
+    discountAmount,
+    discountPercentage,
+    validFrom,
+    validUntil,
+    isActive,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -256,22 +276,21 @@ class _$CouponImpl implements _Coupon {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CouponImplToJson(
-      this,
-    );
+    return _$$CouponImplToJson(this);
   }
 }
 
 abstract class _Coupon implements Coupon {
-  const factory _Coupon(
-      {required final String id,
-      required final String code,
-      required final String description,
-      required final double discountAmount,
-      final String? discountPercentage,
-      final DateTime? validFrom,
-      final DateTime? validUntil,
-      final bool? isActive}) = _$CouponImpl;
+  const factory _Coupon({
+    required final String id,
+    required final String code,
+    required final String description,
+    required final double discountAmount,
+    final String? discountPercentage,
+    final DateTime? validFrom,
+    final DateTime? validUntil,
+    final bool? isActive,
+  }) = _$CouponImpl;
 
   factory _Coupon.fromJson(Map<String, dynamic> json) = _$CouponImpl.fromJson;
 

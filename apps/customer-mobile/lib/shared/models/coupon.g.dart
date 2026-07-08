@@ -7,19 +7,19 @@ part of 'coupon.dart';
 // **************************************************************************
 
 _$CouponImpl _$$CouponImplFromJson(Map<String, dynamic> json) => _$CouponImpl(
-      id: json['id'] as String,
-      code: json['code'] as String,
-      description: json['description'] as String,
-      discountAmount: (json['discountAmount'] as num).toDouble(),
-      discountPercentage: json['discountPercentage'] as String?,
-      validFrom: json['validFrom'] == null
-          ? null
-          : DateTime.parse(json['validFrom'] as String),
-      validUntil: json['validUntil'] == null
-          ? null
-          : DateTime.parse(json['validUntil'] as String),
-      isActive: json['isActive'] as bool?,
-    );
+  id: json['id'] as String,
+  code: json['code'] as String,
+  description: json['description'] as String,
+  discountAmount: (json['discountAmount'] as num).toDouble(),
+  discountPercentage: json['discountPercentage'] as String?,
+  validFrom: json['validFrom'] == null
+      ? null
+      : DateTime.parse(json['validFrom'] as String),
+  validUntil: json['validUntil'] == null
+      ? null
+      : DateTime.parse(json['validUntil'] as String),
+  isActive: json['isActive'] as bool?,
+);
 
 Map<String, dynamic> _$$CouponImplToJson(_$CouponImpl instance) =>
     <String, dynamic>{
