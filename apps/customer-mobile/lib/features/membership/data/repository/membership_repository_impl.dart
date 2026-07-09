@@ -1,4 +1,5 @@
 // lib/features/membership/data/repository/membership_repository_impl.dart
+ .data/repository/membership_repository_impl.dart
 import 'package:customer_mobile/features/membership/data/datasource/membership_remote_data_source.dart';
 import 'package:customer_mobile/features/membership/domain/repository/membership_repository.dart';
 import 'package:customer_mobile/shared/models/membership.dart';
@@ -13,8 +14,8 @@ class MembershipRepositoryImpl implements MembershipRepository {
       _remoteDataSource.getMembershipPlans();
 
   @override
-  Future<MembershipUser> getMembershipInfo() =>
-      _remoteDataSource.getMembershipInfo();
+  Future<Membership> getMembershipInfo(String userId) =>
+      _remoteDataSource.getUserMembership(userId);
 
   @override
   Future<void> purchaseMembership(String planId) =>

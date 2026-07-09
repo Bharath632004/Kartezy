@@ -1,6 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/api_constants.dart';
+
+final authServiceProvider = Provider<AuthService>((ref) {
+  return AuthService();
+});
 
 class AuthService {
   final Dio _dio;
@@ -14,8 +19,6 @@ class AuthService {
       )) {
     // We don't add any interceptors here to avoid infinite loops during token refresh.
   }
-
-  Dio get _dioInstance => _dio;
 
   Future<void> loginWithEmail(String email, String password) async {
     try {
@@ -128,13 +131,126 @@ class AuthService {
 }
 
 // Provider for authentication state
-final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
-});
-
-// Provider for authentication state
 final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
   return AuthStateNotifier(ref.read(authServiceProvider));
 });
 
-// We no longer need the dioClientProvider in this file.
+class AuthStateNotifier extends StateNotifier<AuthState> {
+  final AuthService _authService;
+
+  AuthStateNotifier(this._authService) : super(AuthState.initial()) {
+    _checkAuthStatus();
+  }
+
+  Future<void> _checkAuthStatus() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      final isLoggedIn = await _authService.isLoggedIn();
+      if (isLoggedIn) {
+        final accessToken = await _authService.getAccessToken();
+        state = state.copyWith(isLoggedIn: true, userToken: accessToken);
+      } else {
+        state = state.copyWith(isLoggedIn: false);
+      }
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> loginWithEmail(String email, String password) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _authService.loginWithEmail(email, password);
+      final accessToken = await _authService.getAccessToken();
+      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(error: e.toString(), isLoading: false);
+      rethrow;
+    }
+  }
+
+  Future<void> loginWithPhone(String phone, String otp) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _authService.loginWithPhone(phone, otp);
+      final accessToken = await _authService.getAccessToken();
+      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(error: e.toString(), isLoading: false);
+      rethrow;
+    }
+  }
+
+  Future<void> loginWithGoogle(String idToken) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _authService.loginWithGoogle(idToken);
+      final accessToken = await _authService.getAccessToken();
+      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(error: e.toString(), isLoading: false);
+      rethrow;
+    }
+  }
+
+  Future<void> logout() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      await _authService.logout();
+      state = state.copyWith(isLoggedIn: false, userToken: null);
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> register(String email, String password, String fullName) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _authService.register(email, password, fullName);
+      final accessToken = await _authService.getAccessToken();
+      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(error: e.toString(), isLoading: false);
+      rethrow;
+    }
+  }
+}
+
+enum AuthStatus { authenticated, unauthenticated, loading }
+
+class AuthState {
+  final bool isLoggedIn;
+  final String? userToken;
+  final bool isLoading;
+  final String? error;
+
+  AuthState({
+    required this.isLoggedIn,
+    this.userToken,
+    required this.isLoading,
+    this.error,
+  });
+
+  factory AuthState.initial() => AuthState(
+        isLoggedIn: false,
+        isLoading: false,
+      );
+
+  AuthState copyWith({
+    bool? isLoggedIn,
+    String? userToken,
+    bool? isLoading,
+    String? error,
+  }) {
+    return AuthState(
+      isLoggedIn: isLoggedIn ?? this.isLoggedIn,
+      userToken: userToken ?? this.userToken,
+      isLoading: isLoading ?? this.isLoading,
+      error: error ?? this.error,
+    );
+  }
+}

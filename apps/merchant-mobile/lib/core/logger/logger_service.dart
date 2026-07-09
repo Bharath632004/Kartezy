@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:flutter/foundation.dart';
 
 class LoggerService {
   LoggerService._();
@@ -8,63 +9,48 @@ class LoggerService {
 
   late final Logger _logger;
 
-  LoggerService._internal() {
-    _logger = Logger(
-      printer: PrettyPrinter(
-        methodCount: 2,
-        colors: true,
-        printEmojis: true,
-        printTime: true,
-      ),
-    );
-  }
-
-  factory LoggerService() {
-    return _instance;
-  }
-
-  Logger get logger => _logger;
-
   void init() {
-    // If in release mode, we might want to log less
-    if (!kReleaseMode) {
+    if (kReleaseMode) {
+      // In release mode, we only want to log warnings and errors
+      _logger = Logger(
+        filter: DevelopmentFilter(), // logs only in debug
+        printer: PrettyPrinter(methodCount: 0),
+      );
+    } else {
+      // In debug mode, log everything
       _logger = Logger(
         printer: PrettyPrinter(
           methodCount: 2,
           colors: true,
           printEmojis: true,
-          printTime: true,
+          dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
         ),
-      );
-    } else {
-      _logger = Logger(
-        filter: null, // Use default LogFilter (-> only log level > debug)
-        printer: PrettyPrinter(methodCount: 0),
       );
     }
   }
 
-  void d(Object? object, {int? time, Object? error, StackTrace? stackTrace}) {
-    _logger.d(object, time: time, error: error, stackTrace: stackTrace);
+  void v(String message, [dynamic error, StackTrace? stackTrace]) {
+    _logger.v(message, error, stackTrace);
   }
 
-  void e(Object? object, {int? time, Object? error, StackTrace? stackTrace}) {
-    _logger.e(object, time: time, error: error, stackTrace: stackTrace);
+  void d(String message, [dynamic error, StackTrace? stackTrace]) {
+    _logger.d(message, error, stackTrace);
   }
 
-  void f(Object? object, {int? time, Object? error, StackTrace? stackTrace}) {
-    _logger.f(object, time: time, error: error, stackTrace: stackTrace);
+  void i(String message, [dynamic error, StackTrace? stackTrace]) {
+    _logger.i(message, error, stackTrace);
   }
 
-  void i(Object? object, {int? time, Object? error, StackTrace? stackTrace}) {
-    _logger.i(object, time: time, error: error, stackTrace: stackTrace);
+  void w(String message, [dynamic error, StackTrace? stackTrace]) {
+    _logger.w(message, error, stackTrace);
   }
 
-  void w(Object? object, {int? time, Object? error, StackTrace? stackTrace}) {
-    _logger.w(object, time: time, error: error, stackTrace: stackTrace);
+  void e(String message, [dynamic error, StackTrace? stackTrace]) {
+    _logger.e(message, error, stackTrace);
   }
 
-  void wtf(Object? object, {int? time, Object? error, StackTrace? stackTrace}) {
-    _logger.wtf(object, time: time, error: error, stackTrace: stackTrace);
+  void wtf(String message, [dynamic error, StackTrace? stackTrace]) {
+    // wtf is deprecated, use nothing or just log as error with a message
+    _logger.wtf(message, error, stackTrace);
   }
 }

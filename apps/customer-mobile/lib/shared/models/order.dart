@@ -1,7 +1,8 @@
+// lib/shared/models/order.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:customer_mobile/shared/models/address.dart';
-import 'package:customer_mobile/shared/models/cart_item.dart';
+import 'package:customer_mobile/shared/models/order_item.dart';
 
 part 'order.freezed.dart';
 part 'order.g.dart';
@@ -12,7 +13,7 @@ class Order with _$Order, EquatableMixin {
     required String id,
     required String? userId, // nullable for guest user
     required String cartId, // id of the cart that was converted to order
-    required List<CartItem> items, // snapshot of cart items at the time of order
+    required List<OrderItem> items, // snapshot of cart items at the time of order
     // Financial breakdown (similar to Cart)
     required double discountAmount,
     required double totalAmount,
