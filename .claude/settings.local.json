@@ -83,7 +83,10 @@
       "Bash(docker compose *)",
       "Bash(xargs -I {} sh -c 'echo \"File: {}\"; grep -H \"part.*\\\\.g\\\\.dart\" {} || echo \"  MISSING .g.dart part\"')",
       "Bash(xargs grep -l \"Provider\")",
-      "Bash(dir *)"
+      "Bash(dir *)",
+      "Bash(xargs grep -i wallet)",
+      "Bash(xargs grep -l \"voice\\\\|speech\")",
+      "Bash(tee /tmp/summary.txt)"
     ]
   }
 }

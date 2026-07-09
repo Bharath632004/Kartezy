@@ -2,13 +2,13 @@ import 'package:customer_mobile/shared/models/cart.dart';
 import 'package:customer_mobile/shared/models/cart_item.dart';
 
 abstract class CartRepository {
-  Future<Cart> getCart();
+  Future<Cart> getCart(String? userId);
 
-  Future<Cart> addToCart(CartItem item);
+  Future<Cart> addToCart(String productId, int quantity, Map<String, String> variants);
 
-  Future<Cart> updateCartItemQuantity(String itemId, int quantity);
+  Future<Cart> updateCartItem(String cartItemId, int quantity);
 
-  Future<Cart> removeFromCart(String itemId);
+  Future<Cart> removeCartItem(String cartItemId);
 
   Future<Cart> clearCart();
 
@@ -16,11 +16,15 @@ abstract class CartRepository {
 
   Future<Cart> removeCoupon();
 
-  Future<Cart> updateCartItemVariants(String itemId, Map<String, String> variants);
+  Future<Cart> saveForLater(String cartItemId);
 
-  Future<Cart> saveForLater(String itemId);
+  Future<Cart> moveToWishlist(String cartItemId);
 
-  Future<Cart> moveToWishlist(String itemId);
+  Future<Cart> restoreFromSaveForLater(String cartItemId);
 
-  // Additional methods for wallet deduction, etc. might be in payment/checkout
+  Future<Cart> updateWalletAmount(double amount);
+
+  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants);
+
+  Future<Cart> mergeGuestCart(String guestCartId, String userId);
 }

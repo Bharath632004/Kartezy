@@ -1,6 +1,8 @@
 // lib/features/search/presentation/widgets/voice_search_button.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
 
 class VoiceSearchButton extends ConsumerStatefulWidget {
   const VoiceSearchButton({super.key});
@@ -11,17 +13,69 @@ class VoiceSearchButton extends ConsumerStatefulWidget {
 
 class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
   bool _isListening = false;
+  bool _isAvailable = false;
+  late SpeechToText _speech;
+  String _lastWords = '';
 
-  void _toggleListening() {
-    setState(() => _isListening = !_isListening);
-    // In a real app, you would start/stop speech recognition here
-    if (_isListening) {
-      // Start listening
-      // TODO: Implement speech recognition
-    } else {
-      // Stop listening and process results
-      // TODO: Stop speech recognition and get results
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  /// This has to happen only once per app
+  void _initSpeech() async {
+    _speech = SpeechToText();
+    _isAvailable = await _speech.initialize(
+      onStatus: (val) => print('onStatus: $val'),
+      onError: (val) => print('onError: $val'),
+    );
+    if (!mounted) return;
+    setState(() {});
+  }
+
+  void _startListening() async {
+    await _speech.listen(
+      onResult: (val) => setState(() {
+        _lastWords = val.recognizedWords;
+        if (val.hasConfidenceRating && val.confidence > 0) {
+          // If we have a confident result, use it to search
+          if (val.finalResult || val.confidence > 0.8) {
+            _performSearch(_lastWords);
+          }
+        }
+      }),
+    );
+    if (!mounted) return;
+    setState(() => _isListening = true);
+  }
+
+  void _stopListening() async {
+    await _speech.stop();
+    if (!mounted) return;
+    setState(() => _isListening = false);
+    // If we have a final result, use it to search
+    if (_lastWords.isNotEmpty) {
+      _performSearch(_lastWords);
     }
+  }
+
+  void _performSearch(String query) {
+    if (query.trim().isNotEmpty) {
+      // Save the search query
+      ref.read(saveSearchQueryUseCaseProvider)(query.trim());
+      // Perform the search
+      ref.read(searchProductsUseCaseProvider)(query.trim());
+      // Navigate to search results
+      // Note: In a real app, we'd navigate to search results page
+      // For now, we'll just update the search results provider
+    }
+  }
+
+  @override
+  void dispose() {
+    _speech.stop();
+    super.dispose();
   }
 
   @override
@@ -34,7 +88,7 @@ class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
             _isListening ? Icons.mic : Icons.mic_none,
             color: _isListening ? Theme.of(context).colorScheme.primary : null,
           ),
-          onPressed: _toggleListening,
+          onPressed: _isListening ? _stopListening : _startListening,
           tooltip: 'Voice Search',
         ),
         const SizedBox(height: 4),

@@ -1,27 +1,56 @@
 // lib/features/search/presentation/widgets/barcode_scanner_button.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
 
 class BarcodeScannerButton extends ConsumerStatefulWidget {
   const BarcodeScannerButton({super.key});
 
   @override
-  ConsumerState<BarcodeScannerButton> createState() =>
-      _BarcodeScannerButtonState();
+  ConsumerState<BarcodeScannerButton> createState() => _BarcodeScannerButtonState();
 }
 
 class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
   bool _isScanning = false;
 
-  void _toggleScanning() {
-    setState(() => _isScanning = !_isScanning);
-    // In a real app, you would start/stop barcode scanning here
-    if (_isScanning) {
-      // Start scanning
-      // TODO: Implement barcode scanning
-    } else {
-      // Stop scanning
-      // TODO: Stop barcode scanning
+  void _startScanning() async {
+    // Show a scanner overlay or navigate to a full-screen scanner
+    // For simplicity, we'll show a dialog with the scanner
+    await showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => AlertDialog(
+        content: SizedBox(
+          width: 300,
+          height: 400,
+          child: MobileScanner(
+            allowDuplicates: false,
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              for (final barcode in barcodes) {
+                if (barcode.rawValue != null) {
+                  final String code = barcode.rawValue!;
+                  // Close the dialogContext?.pop(); // Close the dialog
+                  _scanBarcode(code);
+                  break;
+                }
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _scanBarcode(String barcode) {
+    if (barcode.trim().isNotEmpty) {
+      // Save the barcode as a search query
+      ref.read(saveSearchQueryUseCaseProvider)('barcode:$barcode');
+      // Search for products by barcode
+      ref.read(scanBarcodeUseCaseProvider)(barcode.trim());
+      // Navigate to search results
+      // Note: In a real app, we'd navigate to search results page
     }
   }
 
@@ -35,7 +64,7 @@ class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
             _isScanning ? Icons.qr_code_scanner : Icons.qr_code,
             color: _isScanning ? Theme.of(context).colorScheme.primary : null,
           ),
-          onPressed: _toggleScanning,
+          onPressed: _startScanning,
           tooltip: 'Barcode Scanner',
         ),
         const SizedBox(height: 4),
