@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../api/dio_client.dart';
-import '../../api/api_constants.dart';
+import '../api/dio_client.dart';
+import '../api/api_constants.dart';
 
 final marketingServiceProvider = Provider<MarketingService>((ref) {
   final dioClient = ref.read(dioClientProvider);
@@ -208,7 +208,7 @@ class MarketingService {
   }
 
   // Create Sponsored Product
-  Future<Map<String, dynamic>> createSdynamic<String, dynamic>> createSponsoredProduct(Map<String, dynamic> sponsoredProductData) async {
+  Future<Map<String, dynamic>> createSponsoredProduct(Map<String, dynamic> sponsoredProductData) async {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}',

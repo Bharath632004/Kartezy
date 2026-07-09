@@ -1,5 +1,6 @@
 // lib/core/utils/formatters.dart
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 
 String formatDate(DateTime date, {String pattern = 'dd MMM yyyy'}) {
   return DateFormat(pattern).format(date);
@@ -12,5 +13,5 @@ String formatTimeOfDay(TimeOfDay timeOfDay) {
 }
 
 String formatCurrency(double amount, {String symbol = '\$', int decimalPlaces = 2}) {
-  return '${symbol}${amount.toStringAsFixed(decimalPlaces)}';
+  return '\$${amount.toStringAsFixed(decimalPlaces)}';
 }

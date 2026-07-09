@@ -93,7 +93,8 @@
       "Bash(xargs grep -L \"Equatable\")",
       "Bash(lib/features/cart/domain/usecase/remove_coupon_usecase.dart *)",
       "Bash(cp *)",
-      "Bash(pubspec.yaml)"
+      "Bash(pubspec.yaml)",
+      "Bash(dart pub *)"
     ]
   }
 }

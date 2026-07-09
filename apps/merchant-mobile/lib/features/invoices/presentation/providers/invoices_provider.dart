@@ -21,19 +21,13 @@ class InvoicesNotifier extends StateNotifier<InvoicesState> {
 
     try {
       final invoices = await _invoicesService.getInvoices(
-        page: state.invoices.isEmpty ? 1 : (state.invoices.length ~/ 20 + 1,
+        page: state.invoices.isEmpty ? 1 : (state.invoices.length ~/ 20 + 1),
         limit: 20,
       );
 
       if (refresh) {
         state = state.copyWith(
           isLoading: false,
-          invoices: invoices,
-          hasMore: invoices.length ~/ 20) + 1,
-        limit: 2);s
-s
-      ongoing)open.sta
-let s false,
           invoices: invoices,
           hasMore: invoices.length >= 20,
         );
@@ -51,6 +45,10 @@ let s false,
 
   Future<void> refreshInvoices() async {
     await _loadInvoices(refresh: true);
+  }
+
+  Future<void> loadMoreInvoices() async {
+    await _loadInvoices(refresh: false);
   }
 
   Future<Map<String, dynamic>> getInvoiceDetails(String invoiceId) async {

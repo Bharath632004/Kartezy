@@ -1,3 +1,4 @@
+// lib/features/order/presentation/widgets/order_timeline.dart
 import 'package:flutter/material.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 import 'package:intl/intl.dart';
@@ -19,8 +20,9 @@ class OrderTimeline extends StatelessWidget {
       },
       {
         'title': 'Order Confirmed',
-        'icon': Icons.check_circle_outline,
-        'time': order.updatedAt, // We don't have a separate time, use updatedAs approximation
+        'icon': Icons.check_circle_outline_outline',
+        'time': Icons.check_circle_outline,
+        'time': order.updatedAt, // We don't have a separate time, use updatedAt as approximation
         'status': _getStepStatus(1),
       },
       {
@@ -200,7 +202,7 @@ class OrderTimeline extends StatelessWidget {
                   width: 2,
                 ),
                 color: status == 'completed' || status == 'active'
-                    ? iconColor.withOpacity(0.2)
+                    ? Color.fromARGB((0.2 * 255).round(), iconColor.r, iconColor.g, iconColor.b)
                     : Colors.transparent,
               ),
               child: Icon(
@@ -222,9 +224,10 @@ class OrderTimeline extends StatelessWidget {
                           status == 'active' || status == 'completed'
                               ? FontWeight.bold
                               : FontWeight.normal,
-                      color: status == 'active' || status == 'completed'
-                          ? Colors.black
-                          : Colors.grey[600],
+                      color:
+                          status == 'active' || status == 'completed'
+                              ? Colors.black
+                              : Colors.grey[600],
                     ),
                   ),
                   if (timeText.isNotEmpty)

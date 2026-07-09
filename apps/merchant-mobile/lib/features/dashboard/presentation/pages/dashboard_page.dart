@@ -229,4 +229,129 @@ class DashboardPage extends ConsumerWidget {
       ),
     );
   }
+
+  Widget _buildFeaturesCard() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Quick Access',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 3,
+              childAspectRatio: 1.2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              children: [
+                _buildFeatureItem(
+                  icon: Icons.local_offer,
+                  label: 'Promotions',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const PromotionsPage(),
+                      ),
+                    );
+                  },
+                ),
+                _buildFeatureItem(
+                  icon: Icons.account_balance_wallet,
+                  label: 'Finance',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const FinanceDashboardPage(),
+                      ),
+                    );
+                  },
+                ),
+                _buildFeatureItem(
+                  icon: Icons.analytics,
+                  label: 'Analytics',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const AnalyticsDashboardPage(),
+                      ),
+                    );
+                  },
+                ),
+                _buildFeatureItem(
+                  icon: Icons.description,
+                  label: 'Reports',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ReportsPage(),
+                      ),
+                    );
+                  },
+                ),
+                _buildFeatureItem(
+                  icon: Icons.campaign,
+                  label: 'Marketing',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const MarketingDashboardPage(),
+                      ),
+                    );
+                  },
+                ),
+                _buildFeatureItem(
+                  icon: Icons.receipt_long,
+                  label: 'Invoices',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const InvoicesPage(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureItem({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 28, color: Theme.of(context).primaryColor),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 12),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
 }

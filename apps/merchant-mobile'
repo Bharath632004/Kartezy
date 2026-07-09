@@ -97,6 +97,8 @@ class AnalyticsService {
         '${ApiConstants.baseUrl}${ApiConstants.analyticsProducts}',
         queryParameters: Map.fromEntries(
           {
+            'start_date': Map.fromEntries(
+          {
             'start_date': startDate,
             'end_date': endDate,
           }

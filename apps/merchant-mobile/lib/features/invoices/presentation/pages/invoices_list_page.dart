@@ -1,9 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:  void _loadMore() {
+import 'package:merchant_mobile/features/invoices/presentation/providers/invoices_provider.dart';
+
+class InvoicesPage extends ConsumerStatefulWidget {
+  const InvoicesPage({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<InvoicesPage> createState() => _InvoicesPageState();
+}
+
+class _InvoicesPageState extends ConsumerState<InvoicesPage> {
+  late final ScrollController _scrollController;
+  bool _isLoadingMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      if (!ref.read(invoicesProvider).isLoading &&
+          ref.read(invoicesProvider).hasMore &&
+          !_isLoadingMore) {
+        _loadMore();
+      }
+    }
+  }
+
+  void _loadMore() {
     setState(() => _isLoadingMore = true);
-    ref.read(invoicesProvider.notifier)._loadInvoices().then((_) {
+    ref.read(invoicesProvider.notifier).loadMoreInvoices().then((_) {
       setState(() => _isLoadingMore = false);
     });
   }
@@ -85,7 +122,7 @@ import 'package:  void _loadMore() {
                     },
                   ),
                 ),
-    );
+      );
   }
 
   void _handlePopupMenuSelection(String value, String invoiceId) async {
@@ -229,7 +266,7 @@ import 'package:  void _loadMore() {
         ),
         actions: [
           TextButton(
-            onPressed:() => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
         ],

@@ -29,28 +29,27 @@ class LoggerService {
     }
   }
 
-  void v(String message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.v(message, error, stackTrace);
+  void t(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.t(message, error: error, stackTrace: stackTrace);
   }
 
-  void d(String message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.d(message, error, stackTrace);
+  void d(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.d(message, error: error, stackTrace: stackTrace);
   }
 
-  void i(String message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.i(message, error, stackTrace);
+  void i(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.i(message, error: error, stackTrace: stackTrace);
   }
 
-  void w(String message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.w(message, error, stackTrace);
+  void w(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.w(message, error: error, stackTrace: stackTrace);
   }
 
-  void e(String message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.e(message, error, stackTrace);
+  void e(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.e(message, error: error, stackTrace: stackTrace);
   }
 
-  void wtf(String message, [dynamic error, StackTrace? stackTrace]) {
-    // wtf is deprecated, use nothing or just log as error with a message
-    _logger.wtf(message, error, stackTrace);
+  void f(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.f(message, error: error, stackTrace: stackTrace);
   }
 }

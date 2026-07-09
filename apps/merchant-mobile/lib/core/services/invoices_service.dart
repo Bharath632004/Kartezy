@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../api/dio_client.dart';
-import '../../api/api_constants.dart';
+import '../api/dio_client.dart';
+import '../api/api_constants.dart';
 
 final invoicesServiceProvider = Provider<InvoicesService>((ref) {
   final dioClient = ref.read(dioClientProvider);
@@ -98,6 +98,4 @@ class InvoicesService {
       return response.data as List<int>;
     } catch (e) {
       throw Exception('Failed to export invoices: $e');
-    }
-  }
 }

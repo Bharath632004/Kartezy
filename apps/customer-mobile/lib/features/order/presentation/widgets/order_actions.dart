@@ -1,3 +1,4 @@
+// lib/features/order/presentation/widgets/order_actions.dart
 import 'package:flutter/material.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 
@@ -211,7 +212,7 @@ class OrderActions extends StatelessWidget {
       label: Text(label),
       style: ElevatedButton.styleFrom(
         minimumSize: const Size.fromHeight(40),
-        enabled: enabled,
+        // Remove the enabled property here
       ),
     );
   }

@@ -1,6 +1,7 @@
 // lib/features/authentication/data/datasource/auth_remote_data_source.dart
 import 'package:delivery_mobile/shared/models/user.dart';
 import 'package:delivery_mobile/core/providers/network_provider.dart';
+import 'package:delivery_mobile/core/api/api_constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class AuthRemoteDataSource {
@@ -20,7 +21,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<User> login(String email, String password) async {
     final dio = _ref.read(dioProvider);
     final response = await dio.post(
-      '/auth/login',
+      ApiConstants.deliveryPartnerAuthLogin,
       data: {'email': email, 'password': password},
     );
     return User.fromJson(response.data);
@@ -29,14 +30,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     final dio = _ref.read(dioProvider);
-    await dio.post('/auth/logout');
+    await dio.post(ApiConstants.deliveryPartnerAuthLogout);
   }
 
   @override
   Future<User> refreshToken(String refreshToken) async {
     final dio = _ref.read(dioProvider);
     final response = await dio.post(
-      '/auth/refresh',
+      ApiConstants.deliveryPartnerAuthRefresh,
       data: {'refresh_token': refreshToken},
     );
     return User.fromJson(response.data);
@@ -46,7 +47,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<User> sendOtp(String phoneNumber) async {
     final dio = _ref.read(dioProvider);
     final response = await dio.post(
-      '/auth/send-otp',
+      ApiConstants.deliveryPartnerAuthSendOtp,
       data: {'phone_number': phoneNumber},
     );
     return User.fromJson(response.data);
@@ -56,7 +57,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<User> verifyOtp(String phoneNumber, String otp) async {
     final dio = _ref.read(dioProvider);
     final response = await dio.post(
-      '/auth/verify-otp',
+      ApiConstants.deliveryPartnerAuthVerifyOtp,
       data: {'phone_number': phoneNumber, 'otp': otp},
     );
     return User.fromJson(response.data);

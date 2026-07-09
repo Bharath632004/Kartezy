@@ -1,3 +1,4 @@
+// lib/features/order/provider/provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/order/data/datasource/order_remote_data_source.dart';
 import 'package:customer_mobile/features/order/data/repository/order_repository_impl.dart';
@@ -27,9 +28,10 @@ final placeOrderUseCaseProvider = Provider<PlaceOrderUseCase>((ref) {
   return PlaceOrderUseCase(repository);
 });
 
-final getOrderUseCaseProvider = Provider<GetOrderUseCase>((ref) {
+final getOrderUseCaseProvider = FutureProvider.family<Order, String>((ref, orderId) async {
   final repository = ref.read(orderRepositoryProvider);
-  return GetOrderUseCase(repository);
+  final useCase = GetOrderUseCase(repository);
+  return await useCase(orderId);
 });
 
 final getUserOrdersUseCaseProvider = Provider<GetUserOrdersUseCase>((ref) {
@@ -50,22 +52,26 @@ final cancelOrderUseCaseProvider = Provider<CancelOrderUseCase>((ref) {
 // Example: OrderStateNotifier for managing a list of user orders.
 class OrderState {
   final List<Order> orders;
+  final bool isLocked; // TODO: Add other fields if needed
   final bool isLoading;
   final String? errorMessage;
 
   const OrderState({
     this.orders = const [],
+    this.isLocked = false,
     this.isLoading = false,
     this.errorMessage,
   });
 
   OrderState copyWith({
     List<Order>? orders,
+    bool? isLocked,
     bool? isLoading,
     String? errorMessage,
   }) {
     return OrderState(
       orders: orders ?? this.orders,
+      isLocked: isLocked ?? this.isLocked,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
     );

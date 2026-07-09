@@ -1,3 +1,4 @@
+// lib/features/order/presentation/pages/order_history_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/order/provider/provider.dart';
@@ -64,12 +65,12 @@ class OrderHistoryPage extends ConsumerWidget {
                           orderState.orders?.where((o) => o.orderStatus == 'refunded').toList() ?? []),
                     ],
                   ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Navigate to new order/cart
-        },
-        child: const Icon(Icons.shopping_cart),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // TODO: Navigate to new order/cart
+          },
+          child: const Icon(Icons.shopping_cart),
+        ),
       ),
     );
   }
