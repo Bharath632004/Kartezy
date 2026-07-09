@@ -3,6 +3,7 @@ import 'package:customer_mobile/features/authentication/domain/repository/auth_r
 import 'package:customer_mobile/shared/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/authentication/provider/provider.dart';
+import 'package:customer_mobile/features/cart/provider/provider.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/merge_guest_cart_usecase.dart';
 import 'package:hive/hive.dart';
 

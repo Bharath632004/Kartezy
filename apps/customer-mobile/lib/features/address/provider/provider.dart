@@ -8,6 +8,7 @@ import 'package:customer_mobile/features/address/domain/usecase/update_address_u
 import 'package:customer_mobile/features/address/domain/usecase/delete_address_usecase.dart';
 import 'package:customer_mobile/features/address/domain/usecase/set_default_address_usecase.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/shared/models/address.dart';
 
 // Providers for data source and repository
 final addressRemoteDataSourceProvider = Provider<AddressRemoteDataSource>((ref) {

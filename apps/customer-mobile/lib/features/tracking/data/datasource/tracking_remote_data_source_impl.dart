@@ -1,3 +1,4 @@
+// lib/features/tracking/data/datasource/tracking_remote_data_source_impl.dart
 import 'package:customer_mobile/features/tracking/data/datasource.dart';
 import 'package:customer_mobile/features/tracking/tracking_remote_data_source.dart';
 import 'package:customer_mobile/features/tracking/domain/models/driver_info.dart';
@@ -26,9 +27,9 @@ class TrackingRemoteDataSourceImpl implements TrackingRemoteDataSource {
         ),
       );
 
-      await for var event in response.data.stream
+      await for (var event in response.data.stream
           .transform(utf8.decoder)
-          .transform(const LineSplitter()) {
+          .transform(const LineSplitter())) {
         if (event.isNotEmpty) {
           try {
             final Map<String, dynamic> json = jsonDecode(event);

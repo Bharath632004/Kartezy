@@ -53,8 +53,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             _isAuthenticated = true;
           } else {
             // Token expired, try refresh
-            final refrescted = await authService.refreshToken();
-            if (refrescted) {
+            final refreshed = await authService.refreshToken();
+            if (refreshed) {
               // After refresh, we need to check the new token's expiration?
               // For simplicity, we'll consider authenticated if refresh succeeded.
               _isAuthenticated = true;
@@ -101,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             textAlign: TextAlign.center,
           ),
         ),
-      };
+      );
     }
 
     // Redirect based on state

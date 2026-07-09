@@ -1,3 +1,4 @@
+// lib/features/tracking/presentation/pages/tracking_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -90,7 +91,7 @@ class TrackingPage extends ConsumerWidget {
                   ),
                 )
               : trackingState.value == null
-                  ? const Center(child): Center(child: Text('No tracking data available'))
+                  ? const Center(child: Text('No tracking data available'))
                   : _buildTrackingView(context, trackingState.value!),
     );
   }
@@ -156,7 +157,9 @@ class TrackingPage extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.grey.shade300)),
+            border: Border(
+              top: BorderSide(color: Colors.grey.shade300),
+            ),
           ),
           child: Row(
             children: [
@@ -293,7 +296,7 @@ class TrackingPage extends ConsumerWidget {
       case 'delivered':
         return Icons.check_circle;
       case 'out_for_delivery':
-        return APIs.delivery_dining;
+        return Icons.local_shipping;
       case 'preparing':
         return Icons.restaurant_menu;
       default:

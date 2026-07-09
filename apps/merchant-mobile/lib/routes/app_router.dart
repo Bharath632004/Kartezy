@@ -4,6 +4,7 @@ import 'package:merchant_mobile/features/auth/presentation/pages/login_page.dart
 import 'package:merchant_mobile/features/auth/presentation/pages/register_page.dart';
 import 'package:merchant_mobile/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:merchant_mobile/features/registration/presentation/pages/merchant_registration_page.dart';
+import 'package:merchant_mobile/features/profile/presentation/pages/profile_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -23,6 +24,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/merchant-register',
       builder: (context, state) => const MerchantRegistrationPage(),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfilePage(),
     ),
   ],
 );
