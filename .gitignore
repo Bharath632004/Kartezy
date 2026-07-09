@@ -51,10 +51,12 @@ node_modules/
 .idea/
 .idea/
 .vscode/
+.claude/
 
 # IDEs and editors
 .idea/
 .vscode/
+.claude/
 *.sublime-workspace
 *.sublime-project
 *.sublime-settings
@@ -134,7 +136,7 @@ gradle-wrapper.properties
 # Maven
 target/
 pom.xml.tmp
-pom.xml.**.backup
+pom.xml*.backup
 release.properties
 release.properties backup
 release.properties.*;
@@ -305,6 +307,7 @@ kustomization.yml
 
 # IDEs
 .vscode/
+.claude/
 .idea/
 *.sublime-workspace
 *.sublime-project

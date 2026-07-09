@@ -267,7 +267,7 @@ services:
       discovery-server:
         condition: service_healthy
       config-server:
-      }
+        condition: service_healthy
       postgres:
         condition: service_healthy
       redis:
