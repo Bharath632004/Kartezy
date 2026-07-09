@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
 part 'payment.freezed.dart';
 part 'payment.g.dart';
 
 @freezed
-class Payment with _$Payment {
+class Payment with _$Payment, EquatableMixin {
   const factory Payment({
     required String id,
     required String orderId,

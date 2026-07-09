@@ -7,6 +7,7 @@ import 'package:customer_mobile/features/tracking/domain/usecase/get_driver_info
 import 'package:customer_mobile/features/tracking/domain/usecase/get_route_info_usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:customer_mobile/core/error/failures.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 class TrackingState {
   final bool isLoading;

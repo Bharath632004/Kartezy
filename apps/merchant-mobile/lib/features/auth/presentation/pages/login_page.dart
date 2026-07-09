@@ -202,7 +202,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.g_translate, color: Colors.red[400]),
+                      Icon(Icons.g_translate, color: Colors.red.shade400),
                       const SizedBox(width: 8),
                       const Text('Continue with Google'),
                     ],

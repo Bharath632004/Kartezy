@@ -8,6 +8,7 @@ import 'package:customer_mobile/features/order/domain/usecase/get_user_orders_us
 import 'package:customer_mobile/features/order/domain/usecase/place_order_usecase.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/shared/models/order.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final orderRemoteDataSourceProvider = Provider<OrderRemoteDataSource>((ref) {

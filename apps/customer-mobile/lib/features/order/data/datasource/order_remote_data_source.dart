@@ -1,6 +1,6 @@
-import 'package:customer_mobile/core/network/dio_client.dart';
-import 'package:customer_mobile/shared/models/order.dart';
+// lib/features/order/data/datasource/order_remote_data_source.dart
 import 'package:dio/dio.dart';
+import 'package:customer_mobile/shared/models/order.dart';
 
 abstract class OrderRemoteDataSource {
   Future<Order> getOrder(String orderId);
@@ -10,19 +10,19 @@ abstract class OrderRemoteDataSource {
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
-  final DioClient _dioClient;
+  final Dio _dio;
 
-  OrderRemoteDataSourceImpl(this._dioClient);
+  OrderRemoteDataSourceImpl(this._dio);
 
   @override
   Future<Order> getOrder(String orderId) async {
-    final response = await _dioClient.get('/orders/$orderId');
+    final response = await _dio.get('/orders/$orderId');
     return Order.fromJson(response.data);
   }
 
   @override
   Future<List<Order>> getUserOrders(String? userId) async {
-    final response = await _dioClient.get(
+    final response = await _dio.get(
       '/orders',
       queryParameters: {
         if (userId != null) 'userId': userId,
@@ -34,13 +34,13 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
   @override
   Future<Order> createOrder(Map<String, dynamic> orderData) async {
-    final response = await _dioClient.post('/orders', data: orderData);
+    final response = await _dio.post('/orders', data: orderData);
     return Order.fromJson(response.data);
   }
 
   @override
   Future<Order> cancelOrder(String orderId) async {
-    final response = await _dioClient.delete('/orders/$orderId');
+    final response = await _dio.delete('/orders/$orderId');
     return Order.fromJson(response.data);
   }
 }

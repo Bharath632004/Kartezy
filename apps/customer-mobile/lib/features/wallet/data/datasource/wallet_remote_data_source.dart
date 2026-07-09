@@ -1,7 +1,7 @@
 // lib/features/wallet/data/datasource/wallet_remote_data_source.dart
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/wallet.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WalletRemoteDataSource {

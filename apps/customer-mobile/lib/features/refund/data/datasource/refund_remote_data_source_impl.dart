@@ -1,21 +1,20 @@
 import 'package:customer_mobile/features/refund/data/datasource/refund_remote_data_source.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:dio/dio.dart';
 
 class RefundRemoteDataSourceImpl implements RefundRemoteDataSource {
-  final DioClient dioClient;
+  final Dio dio;
 
-  RefundRemoteDataSourceImpl(this.dioClient);
+  RefundRemoteDataSourceImpl(this.dio);
 
   @override
   Future<Map<String, dynamic>> getRefundStatus(String orderId) async {
-    final response = await dioClient.dio.get('/refund/$orderId');
+    final response = await dio.get('/refund/$orderId');
     return response.data;
   }
 
   @override
   Future<Map<String, dynamic>> requestRefund(String orderId, String reason) async {
-    final response = await dioClient.dio.post(
+    final response = await dio.post(
       '/refund/request',
       data: {
         'orderId': orderId,

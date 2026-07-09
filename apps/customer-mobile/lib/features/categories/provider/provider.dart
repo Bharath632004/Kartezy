@@ -4,6 +4,7 @@ import 'package:customer_mobile/features/categories/data/datasource/category_rem
 import 'package:customer_mobile/features/categories/data/repository/category_repository_impl.dart';
 import 'package:customer_mobile/features/categories/domain/repository/category_repository.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Provider for category remote data source
 final categoryRemoteDataSourceProvider = Provider<CategoryRemoteDataSource>((

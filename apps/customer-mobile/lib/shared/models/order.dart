@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 import 'package:customer_mobile/shared/models/address.dart';
 import 'package:customer_mobile/shared/models/cart_item.dart';
 
@@ -6,7 +7,7 @@ part 'order.freezed.dart';
 part 'order.g.dart';
 
 @freezed
-class Order with _$Order {
+class Order with _$Order, EquatableMixin {
   const factory Order({
     required String id,
     required String? userId, // nullable for guest user

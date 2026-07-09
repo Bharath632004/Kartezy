@@ -87,7 +87,11 @@
       "Bash(xargs grep -i wallet)",
       "Bash(xargs grep -l \"voice\\\\|speech\")",
       "Bash(tee /tmp/summary.txt)",
-      "Bash(delete)"
+      "Bash(delete)",
+      "Bash(exist *)",
+      "Bash(xargs sed -i \"s|import 'package:customer_mobile/core/network/dio_provider.dart;|import 'package:customer_mobile/core/providers/network_provider.dart;|g\")",
+      "Bash(xargs grep -L \"Equatable\")",
+      "Bash(lib/features/cart/domain/usecase/remove_coupon_usecase.dart *)"
     ]
   }
 }

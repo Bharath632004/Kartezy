@@ -10,8 +10,8 @@ _$AddressImpl _$$AddressImplFromJson(Map<String, dynamic> json) =>
     _$AddressImpl(
       id: json['id'] as String,
       userId: json['userId'] as String?,
-      recipientName: json['recipientName'] as String,
-      phoneNumber: json['phoneNumber'] as String,
+      name: json['recipientName'] as String,
+      phone: json['phoneNumber'] as String,
       addressLine1: json['addressLine1'] as String,
       addressLine2: json['addressLine2'] as String,
       city: json['city'] as String,
@@ -29,8 +29,8 @@ Map<String, dynamic> _$$AddressImplToJson(_$AddressImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
-      'recipientName': instance.recipientName,
-      'phoneNumber': instance.phoneNumber,
+      'recipientName': instance.name,
+      'phoneNumber': instance.phone,
       'addressLine1': instance.addressLine1,
       'addressLine2': instance.addressLine2,
       'city': instance.city,

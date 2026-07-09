@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/dio_client.dart';
 import '../api/api_constants.dart';
-import '../error/exceptions.dart';
 
 final merchantServiceProvider = Provider<MerchantService>((ref) {
   final dioClient = ref.read(dioClientProvider);
@@ -14,7 +13,7 @@ class MerchantService {
 
   MerchantService(this._dioClient);
 
-  Dio get _dio => _dioClient.getInstance();
+  Dio get _dio => _dioClient.instance;
 
   Future<void> registerMerchant(Map<String, dynamic> merchantData) async {
     try {

@@ -1,6 +1,6 @@
-import 'package:customer_mobile/core/network/dio_client.dart';
-import 'package:customer_mobile/shared/models/payment.dart';
+// lib/features/payment/data/datasource/payment_remote_data_source.dart
 import 'package:dio/dio.dart';
+import 'package:customer_mobile/shared/models/payment.dart';
 
 abstract class PaymentRemoteDataSource {
   Future<Payment> initiatePayment(Map<String, dynamic> paymentData);
@@ -11,25 +11,25 @@ abstract class PaymentRemoteDataSource {
 }
 
 class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
-  final DioClient _dioClient;
+  final Dio _dio;
 
-  PaymentRemoteDataSourceImpl(this._dioClient);
+  PaymentRemoteDataSourceImpl(this._dio);
 
   @override
   Future<Payment> initiatePayment(Map<String, dynamic> paymentData) async {
-    final response = await _dioClient.post('/payments', data: paymentData);
+    final response = await _dio.post('/payments', data: paymentData);
     return Payment.fromJson(response.data);
   }
 
   @override
   Future<Payment> getPayment(String paymentId) async {
-    final response = await _dioClient.get('/payments/$paymentId');
+    final response = await _dio.get('/payments/$paymentId');
     return Payment.fromJson(response.data);
   }
 
   @override
   Future<Payment> refundPayment(String paymentId, double? amount) async {
-    final response = await _dioClient.post(
+    final response = await _dio.post(
       '/payments/$paymentId/refund',
       data: {'amount': amount},
     );
@@ -38,7 +38,7 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
 
   @override
   Future<List<Payment>> getPaymentsByOrder(String orderId) async {
-    final response = await _dioClient.get(
+    final response = await _dio.get(
       '/payments',
       queryParameters: {'orderId': orderId},
     );
@@ -48,7 +48,7 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
 
   @override
   Future<List<Payment>> getUserPayments(String? userId) async {
-    final response = await _dioClient.get(
+    final response = await _dio.get(
       '/payments/user',
       queryParameters: {'userId': userId},
     );

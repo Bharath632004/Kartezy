@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:merchant_mobile/core/firebase/firebase_service.dart';
+import 'package:merchant_mobile/core/logger/logger_service.dart';
 import 'package:merchant_mobile/routes/app_router.dart';
+import 'package:flutter/foundation.dart';
 
-void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive
+  await Hive.initFlutter();
+  // TODO: Register adapters for any Hive objects
+
+  // Initialize services
+  await FirebaseService.instance.initialize();
+  LoggerService.instance.init();
+
+  // Set up error handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    LoggerService.instance.e('Flutter Error', error: details.exception, stackTrace: details.stackTrace);
+    FirebaseService.instance.recordError(details.exception, details.stackTrace);
+  };
+
+  // Platform dispatcher errors (for Flutter errors in release)
+  if (!kIsWeb) {
+    PlatformDispatcher.instance.onError = (error, stackTrace) {
+      LoggerService.instance.e('Platform Dispatcher Error', error: error, stackTrace: stackTrace);
+      FirebaseService.instance.recordError(error, stackTrace);
+      return true;
+    };
+  }
+
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -15,6 +40,20 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Set the error widget builder
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      LoggerService.instance.e('UI Error', error: details.exception, stackTrace: details.stackTrace);
+      FirebaseService.instance.recordError(details.exception, details.stackTrace);
+      return Scaffold(
+        body: Center(
+          child: Text(
+            'Something went wrong',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        ),
+      );
+    };
+
     return MaterialApp.router(
       title: 'Merchant App',
       theme: ThemeData(

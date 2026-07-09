@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:customer_mobile/features/order/domain/models/order.dart';
+import 'package:customer_mobile/shared/models/order.dart';
 
 class OrderActions extends StatelessWidget {
   final Order order;

@@ -1,7 +1,6 @@
 // lib/features/categories/data/datasource/category_remote_data_source.dart
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/category.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 
 class CategoryRemoteDataSource {
   final Dio _dio;

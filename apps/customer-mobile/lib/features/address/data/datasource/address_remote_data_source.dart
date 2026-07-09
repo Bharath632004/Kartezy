@@ -1,7 +1,7 @@
 import 'package:customer_mobile/shared/models/address.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
 
 abstract class AddressRemoteDataSource {
   Future<List<Address>> getAddresses(String? userId);
@@ -18,8 +18,8 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
 
   @override
   Future<List<Address>> getAddresses(String? userId) async {
-    final dio = _ref.read(dioProvider);
-    final response = await dio.get(
+    final dioClient = _ref.read(dioProvider);
+    final response = await dioClient.get(
       '/addresses',
       queryParameters: {
         if (userId != null) 'userId': userId,
@@ -31,8 +31,8 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
 
   @override
   Future<Address> addAddress(Address address) async {
-    final dio = _ref.read(dioProvider);
-    final response = await dio.post(
+    final dioClient = _ref.read(dioProvider);
+    final response = await dioClient.post(
       '/addresses',
       data: address.toJson(),
     );
@@ -41,8 +41,8 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
 
   @override
   Future<Address> updateAddress(String addressId, Address address) async {
-    final dio = _ref.read(dioProvider);
-    final response = await dio.put(
+    final dioClient = _ref.read(dioProvider);
+    final response = await dioClient.put(
       '/addresses/$addressId',
       data: address.toJson(),
     );
@@ -51,14 +51,14 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
 
   @override
   Future<void> deleteAddress(String addressId) async {
-    final dio = _ref.read(dioProvider);
-    await dio.delete('/addresses/$addressId');
+    final dioClient = _ref.read(dioProvider);
+    await dioClient.delete('/addresses/$addressId');
   }
 
   @override
   Future<Address> setDefaultAddress(String addressId) async {
-    final dio = _ref.read(dioProvider);
-    final response = await dio.post(
+    final dioClient = _ref.read(dioProvider);
+    final response = await dioClient.post(
       '/addresses/$addressId/set-default',
     );
     return Address.fromJson(response.data);

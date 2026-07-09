@@ -5,6 +5,7 @@ import 'package:customer_mobile/features/coupons/domain/repository/coupon_reposi
 import 'package:customer_mobile/features/coupons/domain/usecase/get_coupons_usecase.dart';
 import 'package:customer_mobile/features/coupons/domain/usecase/validate_coupon_usecase.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final couponRemoteDataSourceProvider = Provider<CouponRemoteDataSource>((ref) {

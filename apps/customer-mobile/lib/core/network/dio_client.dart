@@ -1,217 +1,212 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
-import 'package:customer_mobile/core/config/app_constants.dart';
 import 'package:customer_mobile/core/services/auth_service.dart';
+import 'package:customer_mobile/core/network/api_constants.dart';
 
 class DioClient {
-  DioClient(this._ref) {
-    _initialize();
+  final Dio dio;
+
+  DioClient({required Ref ref})
+      : dio = Dio(
+          BaseOptions(
+            baseUrl: ApiConstants.baseUrl,
+            connectTimeout: const Duration(seconds: 15),
+            receiveTimeout: const Duration(seconds: 15),
+            receiveDataWhenStatusError: true,
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          ),
+        ) {
+    _initInterceptors(ref);
   }
 
-  final Ref _ref;
+  void _initInterceptors(Ref ref) {
+    // Token injection interceptor
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final authService = ref.read(authServiceProvider);
+        final token = await authService.getAccessToken();
+        if (token != null && token.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        return handler.next(options);
+      },
+    ));
 
-  late Dio _dio;
+    // Token refresh interceptor
+    dio.interceptors.add(InterceptorsWrapper(
+      onError: (DioException error, handler) async {
+        if (error.response?.statusCode == 401) {
+          final authService = ref.read(authServiceProvider);
+          final isRefreshed = await authService.refreshToken();
+          if (isRefreshed) {
+            // Retry the original request with new token
+            final authService = ref.read(authServiceProvider);
+            final token = await authService.getAccessToken();
+            error.requestOptions.headers['Authorization'] = 'Bearer $token';
+            try {
+              final response = await dio.fetch(error.requestOptions);
+              return handler.resolve(response);
+            } catch (e) {
+              if (e is DioException) {
+                return handler.reject(e);
+              } else {
+                return handler.reject(DioException(
+                  requestOptions: error.requestOptions,
+                  error: e,
+                ));
+              }
+            }
+          }
+        }
+        return handler.next(error);
+      },
+    ));
 
-  Dio get instance => _dio;
-
-  void _initialize() {
-    final baseUrl = AppConstants.baseUrl;
-
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 15),
-        receiveTimeout: const Duration(seconds: 15),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      ),
-    );
-
-    // Add logging interceptor in debug mode
+    // Logging interceptor in debug mode
     if (kDebugMode) {
-      _dio.interceptors.add(
-        PrettyDioLogger(
-          requestHeader: true,
+      dio.interceptors.add(
+        LogInterceptor(
+          request: true,
           requestBody: true,
           responseBody: true,
           responseHeader: false,
-          compact: true,
-          maxWidth: 90,
         ),
       );
     }
-
-    // Add authentication interceptor
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          final authService = _ref.read(authServiceProvider);
-          final token = await authService.getAccessToken();
-          if (token != null && token.isNotEmpty) {
-            options.headers['Authorization'] = 'Bearer $token';
-          }
-          return handler.next(options);
-        },
-        onError: (DioException e, handler) async {
-          // If we get a 401 and haven't already tried to refresh, attempt to refresh token
-          if (e.response?.statusCode == 401) {
-            final authService = _ref.read(authServiceProvider);
-            final isRefreshed = await authService.refreshToken();
-            if (isRefreshed) {
-              // Retry the original request with the new token
-              final opts = e.response?.requestOptions;
-              if (opts != null) {
-                try {
-                  final response = await _dio.fetch<dynamic>(opts);
-                  return handler.resolve(response);
-                } catch (_) {
-                  // If retry fails, let the original error go through
-                  return handler.next(e);
-                }
-              }
-            } else {
-              // If refresh fails, log out the user
-              await authService.logout();
-            }
-          }
-          return handler.next(e);
-        },
-      ),
-    );
-
-    // Add retry policy using dio_smart_retry
-    // _dio.interceptors.add(RetryInterceptor(dio: _dio));
   }
 
-  Future<Response<T>> get<T>(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    bool populateResponseData = true,
-  }) {
-    return _dio.get<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
+  Future<Response> get(String path,
+      {Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken}) async {
+    try {
+      final response = await dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 
-  Future<Response<T>> post<T>(
-    String path, {
-    data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.post<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
+  Future<Response> post(String path,
+      {dynamic data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken}) async {
+    try {
+      final response = await dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 
-  Future<Response<T>> put<T>(
-    String path, {
-    data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.put<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
+  Future<Response> put(String path,
+      {dynamic data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken}) async {
+    try {
+      final response = await dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 
-  Future<Response<T>> patch<T>(
-    String path, {
-    data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.patch<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
+  Future<Response> patch(String path,
+      {dynamic data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken}) async {
+    try {
+      final response = await dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 
-  Future<Response<T>> delete<T>(
-    String path, {
-    data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.delete<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
+  Future<Response> delete(String path,
+      {dynamic data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken}) async {
+    try {
+      final response = await dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 
-  Future<Response<dynamic>> upload(
-    String path, {
-    required FormData data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) {
-    return _dio.post(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
+  Future<Response> upload(String path, FormData formData,
+      {Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken}) async {
+    try {
+      final response = await dio.post(
+        path,
+        data: formData,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 
-  Future<Response<dynamic>> download(
-    String urlPath,
-    String savePath, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    bool deleteOnError = true,
-    ProgressCallback? onReceiveProgress,
-  }) {
-    return _dio.download(
-      urlPath,
-      savePath,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-      deleteOnError: deleteOnError,
-      onReceiveProgress: onReceiveProgress,
-    );
+  Future<Response> download(String urlPath, String savePath,
+      {Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken,
+      bool deleteOnError = true}) async {
+    try {
+      final response = await dio.download(
+        urlPath,
+        savePath,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        deleteOnError: deleteOnError,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
   }
 }
-
-/// Provider for Dio client
-final dioProvider = Provider<Dio>((ref) {
-  final dioClient = DioClient(ref);
-  return dioClient.instance;
-});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:customer_mobile/features/order/domain/models/order.dart';
+import 'package:customer_mobile/shared/models/order.dart';
 import 'package:intl/intl.dart';
 
 class OrderTimeline extends StatelessWidget {

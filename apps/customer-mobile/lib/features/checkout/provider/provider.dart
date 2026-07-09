@@ -15,6 +15,7 @@ import 'package:customer_mobile/features/checkout/domain/usecase/select_delivery
 import 'package:customer_mobile/features/cart/provider/provider.dart';
 import 'package:customer_mobile/shared/models/address.dart';
 import 'package:customer_mobile/shared/models/cart.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final checkoutRemoteDataSourceProvider = Provider<CheckoutRemoteDataSource>((ref) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/order/provider/provider.dart';
-import 'package:customer_mobile/features/order/domain/models/order.dart';
+import 'package:customer_mobile/shared/models/order.dart';
 import 'package:customer_mobile/shared/widgets/card.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
 
@@ -31,12 +31,12 @@ class OrderHistoryPage extends ConsumerWidget {
         ),
         body: orderState.isLoading
             ? const Center(child: CircularProgressIndicator())
-            : orderState.hasError
+            : orderState.errorMessage != null
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Error: ${orderState.error}'),
+                        Text('Error: ${orderState.errorMessage}'),
                         ElevatedButton(
                           onPressed: () {
                             // Refetch orders
@@ -49,19 +49,19 @@ class OrderHistoryPage extends ConsumerWidget {
                   )
                 : TabBarView(
                     children: [
-                      _buildOrderList(orderState.value ?? []), // All
+                      _buildOrderList(orderState.orders ?? []), // All
                       _buildOrderList(
-                          orderState.value?.where((o) => _isActiveStatus(o.orderStatus)).toList() ?? []),
+                          orderState.orders?.where((o) => _isActiveStatus(o.orderStatus)).toList() ?? []),
                       _buildOrderList(
-                          orderState.value?.where((o) => o.orderStatus == 'scheduled').toList() ?? []),
+                          orderState.orders?.where((o) => o.orderStatus == 'scheduled').toList() ?? []),
                       _buildOrderList(
-                          orderState.value?.where((o) => o.orderStatus == 'delivered').toList() ?? []),
+                          orderState.orders?.where((o) => o.orderStatus == 'delivered').toList() ?? []),
                       _buildOrderList(
-                          orderState.value?.where((o) => o.orderStatus == 'cancelled').toList() ?? []),
+                          orderState.orders?.where((o) => o.orderStatus == 'cancelled').toList() ?? []),
                       _buildOrderList(
-                          orderState.value?.where((o) => o.orderStatus == 'returned').toList() ?? []),
+                          orderState.orders?.where((o) => o.orderStatus == 'returned').toList() ?? []),
                       _buildOrderList(
-                          orderState.value?.where((o) => o.orderStatus == 'refunded').toList() ?? []),
+                          orderState.orders?.where((o) => o.orderStatus == 'refunded').toList() ?? []),
                     ],
                   ),
       ),
@@ -110,7 +110,7 @@ class OrderHistoryItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
             order.items.isNotEmpty
-                ? order.items.first.productImageUrl ?? ''
+                ? order.items.first.product.imageUrl ?? ''
                 : 'https://via.placeholder.com/60',
             width: 60,
             height: 60,

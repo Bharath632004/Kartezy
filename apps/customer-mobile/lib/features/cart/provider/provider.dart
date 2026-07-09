@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:customer_mobile/features/cart/data/datasource/cart_remote_data_source.dart';
 import 'package:customer_mobile/features/cart/data/repository/cart_repository_impl.dart';
@@ -17,6 +17,7 @@ import 'package:customer_mobile/features/cart/domain/usecase/update_cart_item_va
 import 'package:customer_mobile/features/cart/domain/usecase/update_wallet_amount_usecase.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/merge_guest_cart_usecase.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:customer_mobile/shared/models/cart.dart';
 import 'package:customer_mobile/core/storage/hive_manager.dart';
 import 'package:hive/hive.dart';

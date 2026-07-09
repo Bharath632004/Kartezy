@@ -1,4 +1,4 @@
-import 'package:customer_mobile/features/order/domain/models/order.dart';
+import 'package:customer_mobile/shared/models/order.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TrackingInfo {

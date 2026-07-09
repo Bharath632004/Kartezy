@@ -9,6 +9,7 @@ import 'package:customer_mobile/features/payment/domain/usecase/get_payments_by_
 import 'package:customer_mobile/features/payment/domain/usecase/get_user_payments_usecase.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/shared/models/payment.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final paymentRemoteDataSourceProvider = Provider<PaymentRemoteDataSource>((ref) {

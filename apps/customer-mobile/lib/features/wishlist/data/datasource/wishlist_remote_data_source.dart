@@ -1,7 +1,7 @@
 // lib/features/wishlist/data/datasource/wishlist_remote_data_source.dart
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/product.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class WishlistRemoteDataSource {
@@ -52,8 +52,6 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
 }
 
 /// Provider for wishlist remote data source
-final wishlistRemoteDataSourceProvider = Provider<WishlistRemoteDataSource>((
-  ref,
-) {
+final wishlistRemoteDataSourceProvider = Provider<WishlistRemoteDataSource>((ref) {
   return WishlistRemoteDataSourceImpl(ref);
 });

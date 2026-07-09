@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riderpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/order/provider/provider.dart';
 import 'package:customer_mobile/features/order/domain/usecase/get_order_usecase.dart';
-import 'package:customer_mobile/features/order/domain/models/order.dart';
+import 'package:customer_mobile/shared/models/order.dart';
 import 'package:customer_mobile/shared/widgets/card.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
 import 'package:customer_mobile/core/utils/formatters.dart';
@@ -72,7 +72,7 @@ class OrderDetailPage extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
                           order.items.isNotEmpty
-                              ? order.items.first.productImageUrl ?? ''
+                              ? order.items.first.product.imageUrl ?? ''
                               : 'https://via.placeholder.com/80',
                           width: 80,
                           height: 80,

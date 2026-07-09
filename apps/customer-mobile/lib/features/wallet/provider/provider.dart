@@ -6,6 +6,7 @@ import 'package:customer_mobile/features/wallet/domain/usecase/get_wallet_balanc
 import 'package:customer_mobile/features/wallet/domain/usecase/add_wallet_money_usecase.dart';
 import 'package:customer_mobile/features/wallet/domain/usecase/withdraw_wallet_money_usecase.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSource>((ref) {

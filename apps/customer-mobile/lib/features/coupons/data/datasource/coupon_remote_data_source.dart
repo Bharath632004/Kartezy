@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:customer_mobile/core/providers/network_provider.dart';
 
 class CouponRemoteDataSource {
   final Dio _dio;

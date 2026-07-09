@@ -1,15 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
 part 'address.freezed.dart';
 part 'address.g.dart';
 
 @freezed
-class Address with _$Address {
+class Address with _$Address, EquatableMixin {
   const factory Address({
     required String id,
     required String? userId, // nullable for guest user
-    required String recipientName,
-    required String phoneNumber,
+    @JsonKey(name: 'recipientName') required String name,
+    @JsonKey(name: 'phoneNumber') required String phone,
     required String addressLine1,
     required String addressLine2,
     required String city,

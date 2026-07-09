@@ -54,3 +54,18 @@ Map<String, dynamic> _$$RewardLevelImplToJson(_$RewardLevelImpl instance) =>
       'minPoints': instance.minPoints,
       'benefits': instance.benefits,
     };
+
+_$RewardImpl _$$RewardImplFromJson(Map<String, dynamic> json) => _$RewardImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      pointsRequired: (json['pointsRequired'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$RewardImplToJson(_$RewardImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'pointsRequired': instance.pointsRequired,
+    };
