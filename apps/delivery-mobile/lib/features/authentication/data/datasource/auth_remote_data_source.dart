@@ -1,6 +1,6 @@
 // lib/features/authentication/data/datasource/auth_remote_data_source.dart
-import 'package:customer_mobile/shared/models/user.dart';
-import 'package:customer_mobile/core/providers/network_provider.dart';
+import 'package:delivery_mobile/shared/models/user.dart';
+import 'package:delivery_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class AuthRemoteDataSource {

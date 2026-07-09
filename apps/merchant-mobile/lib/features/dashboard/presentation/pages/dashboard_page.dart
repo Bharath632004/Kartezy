@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:merchant_mobile/features/promotions/presentation/pages/promotions_page.dart';
+import 'package:merchant_mobile/features/finance/presentation/pages/finance_dashboard_page.dart';
+import 'package:merchant_mobile/features/analytics/presentation/pages/analytics_dashboard_page.dart';
+import 'package:merchant_mobile/features/reports/presentation/pages/reports_page.dart';
+import 'package:merchant_mobile/features/marketing/presentation/pages/marketing_dashboard_page.dart';
+import 'package:merchant_mobile/features/invoices/presentation/pages/invoices_page.dart';
 import '../providers.dart';
 
 class DashboardPage extends ConsumerWidget {

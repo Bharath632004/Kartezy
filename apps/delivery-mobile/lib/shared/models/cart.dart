@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:equatable/equatable.dart';
-import 'package:customer_mobile/shared/models/cart_item.dart';
+import 'package:delivery_mobile/shared/models/cart_item.dart';
 
 part 'cart.freezed.dart';
 part 'cart.g.dart';

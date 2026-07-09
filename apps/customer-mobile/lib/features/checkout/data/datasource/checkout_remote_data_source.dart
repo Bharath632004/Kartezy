@@ -1,9 +1,10 @@
+// lib/features/checkout/data/datasource/checkout_remote_data_source.dart
 import 'package:dio/dio.dart';
-import 'package:customer_mobile/shared/models/cart.dart';
+import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 
 abstract class CheckoutRemoteDataSource {
-  Future<Cart> getCheckoutSummary(String? userId);
+  Future<CheckoutSummary> getCheckoutSummary(String? userId);
   Future<Order> placeOrder(Map<String, dynamic> orderData);
   Future<void> saveAddress(String addressId, bool isDefault);
   Future<void> setDeliveryInstructions(String instructions);
@@ -11,8 +12,8 @@ abstract class CheckoutRemoteDataSource {
   Future<void> setInstantDelivery(bool value);
   Future<void> setScheduledDelivery(DateTime dateTime);
   Future<void> selectDeliverySlot(String slot);
-  Future<Cart> applyCoupon(String couponCode);
-  Future<Cart> removeCoupon();
+  Future<CheckoutSummary> applyCoupon(String couponCode);
+  Future<CheckoutSummary> removeCoupon();
 }
 
 class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
@@ -21,12 +22,12 @@ class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
   CheckoutRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<Cart> getCheckoutSummary(String? userId) async {
+  Future<CheckoutSummary> getCheckoutSummary(String? userId) async {
     final response = await _dio.get(
       userId == null ? '/checkout/guest-summary' : '/checkout/user-summary',
       queryParameters: {'userId': userId},
     );
-    return Cart.fromJson(response.data);
+    return CheckoutSummary.fromJson(response.data);
   }
 
   @override
@@ -79,16 +80,16 @@ class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
   }
 
   @override
-  Future<Cart> applyCoupon(String couponCode) async {
+  Future<CheckoutSummary> applyCoupon(String couponCode) async {
     final response = await _dio.post('/checkout/apply-coupon', data: {
       'couponCode': couponCode,
     });
-    return Cart.fromJson(response.data);
+    return CheckoutSummary.fromJson(response.data);
   }
 
   @override
-  Future<Cart> removeCoupon() async {
+  Future<CheckoutSummary> removeCoupon() async {
     final response = await _dio.post('/checkout/remove-coupon');
-    return Cart.fromJson(response.data);
+    return CheckoutSummary.fromJson(response.data);
   }
 }

@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:customer_mobile/shared/models/product.dart';
-import 'package:customer_mobile/shared/models/store.dart';
-import 'package:customer_mobile/shared/models/brand.dart';
-import 'package:customer_mobile/shared/models/category.dart';
+import 'package:delivery_mobile/shared/models/product.dart';
+import 'package:delivery_mobile/shared/models/store.dart';
+import 'package:delivery_mobile/shared/models/brand.dart';
+import 'package:delivery_mobile/shared/models/category.dart';
 
 part 'search_result.freezed.dart';
 part 'search_result.g.dart';

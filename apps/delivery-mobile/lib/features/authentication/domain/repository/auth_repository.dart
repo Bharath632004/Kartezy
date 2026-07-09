@@ -1,5 +1,5 @@
 // lib/features/authentication/domain/repository/auth_repository.dart
-import 'package:customer_mobile/shared/models/user.dart';
+import 'package:delivery_mobile/shared/models/user.dart';
 
 abstract class AuthRepository {
   Future<User> login(String email, String password);

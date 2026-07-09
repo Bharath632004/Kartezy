@@ -2,14 +2,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:customer_mobile/features/splash/pages/splash_screen.dart';
-import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
-import 'package:customer_mobile/features/home/home_page.dart';
-import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
-import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
-import 'package:customer_mobile/features/authentication/presentation/otp_verification_page.dart';
-import 'package:customer_mobile/features/profile/presentation/profile_page.dart';
-import 'package:customer_mobile/core/services/auth_service.dart';
+import 'package:delivery_mobile/features/splash/pages/splash_screen.dart';
+import 'package:delivery_mobile/features/authentication/presentation/login_page.dart';
+import 'package:delivery_mobile/features/home/home_page.dart';
+import 'package:delivery_mobile/features/delivery_onboarding/onboarding_page.dart';
+import 'package:delivery_mobile/features/authentication/presentation/phone_login_page.dart';
+import 'package:delivery_mobile/features/authentication/presentation/otp_verification_page.dart';
+import 'package:delivery_mobile/features/profile/presentation/profile_page.dart';
+import 'package:kartezy_core/core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(

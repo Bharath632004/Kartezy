@@ -1,6 +1,6 @@
 // lib/shared/widgets/button.dart
 import 'package:flutter/material.dart';
-import 'package:customer_mobile/core/theme/theme_provider.dart';
+import 'package:kartezy_core/core/theme/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// A customizable button widget

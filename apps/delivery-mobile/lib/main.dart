@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:delivery_mobile/core/storage/hive_manager.dart';
+import 'package:kartezy_core/core/storage/hive_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:delivery_mobile/core/theme/theme_provider.dart';
+import 'package:kartezy_core/core/theme/theme_provider.dart';
 import 'package:delivery_mobile/navigation/router.dart';
 
 void main() async {

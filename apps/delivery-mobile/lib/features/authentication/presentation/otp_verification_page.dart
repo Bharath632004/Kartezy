@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:customer_mobile/features/authentication/domain/usecase/verify_otp_usecase.dart';
-import 'package:customer_mobile/features/authentication/domain/usecase/send_otp_usecase.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
+import 'package:delivery_mobile/features/authentication/domain/usecase/verify_otp_usecase.dart';
+import 'package:delivery_mobile/features/authentication/domain/usecase/send_otp_usecase.dart';
+import 'package:delivery_mobile/shared/widgets/button.dart';
 
 class OtpVerificationPage extends ConsumerStatefulWidget {
   final String phoneNumber;

@@ -46,7 +46,7 @@ class DashboardState {
     String? error,
   }) {
     return DashboardState(
-      todaySales: todaySale ?? this.todaySales,
+      todaySales: todaySales ?? this.todaySales,
       revenue: revenue ?? this.revenue,
       orders: orders ?? this.orders,
       pendingOrders: pendingOrders ?? this.pendingOrders,

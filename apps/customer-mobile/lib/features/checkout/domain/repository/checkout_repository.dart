@@ -1,8 +1,9 @@
-import 'package:customer_mobile/shared/models/cart.dart';
+// lib/features/checkout/domain/repository/checkout_repository.dart
+import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 
 abstract class CheckoutRepository {
-  Future<Cart> getCheckoutSummary(String? userId);
+  Future<CheckoutSummary> getCheckoutSummary(String? userId);
   Future<Order> placeOrder(Map<String, dynamic> orderData);
   Future<void> saveAddress(String addressId, bool isDefault);
   Future<void> setDeliveryInstructions(String instructions);
@@ -10,6 +11,6 @@ abstract class CheckoutRepository {
   Future<void> setInstantDelivery(bool value);
   Future<void> setScheduledDelivery(DateTime dateTime);
   Future<void> selectDeliverySlot(String slot);
-  Future<Cart> applyCoupon(String couponCode);
-  Future<Cart> removeCoupon();
+  Future<CheckoutSummary> applyCoupon(String couponCode);
+  Future<CheckoutSummary> removeCoupon();
 }

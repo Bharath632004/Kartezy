@@ -1,6 +1,6 @@
 # customer_mobile
 
-A new Flutter project.
+A new Flutter project for delivery partners.
 
 ## Getting Started
 

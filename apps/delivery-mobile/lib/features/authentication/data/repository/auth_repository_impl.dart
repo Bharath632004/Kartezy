@@ -1,9 +1,9 @@
 // lib/features/authentication/data/repository/auth_repository_impl.dart
-import 'package:customer_mobile/core/storage/secure_storage.dart';
-import 'package:customer_mobile/core/storage/hive_manager.dart';
-import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
-import 'package:customer_mobile/features/authentication/data/datasource/auth_remote_data_source.dart';
-import 'package:customer_mobile/shared/models/user.dart';
+import 'package:delivery_mobile/core/storage/secure_storage.dart';
+import 'package:delivery_mobile/core/storage/hive_manager.dart';
+import 'package:delivery_mobile/features/authentication/domain/repository/auth_repository.dart';
+import 'package:delivery_mobile/features/authentication/data/datasource/auth_remote_data_source.dart';
+import 'package:delivery_mobile/shared/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthRepositoryImpl implements AuthRepository {

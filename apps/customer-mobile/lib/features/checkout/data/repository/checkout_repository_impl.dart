@@ -1,6 +1,7 @@
+// lib/features/checkout/data/repository/checkout_repository_impl.dart
 import 'package:customer_mobile/features/checkout/data/datasource/checkout_remote_data_source.dart';
 import 'package:customer_mobile/features/checkout/domain/repository/checkout_repository.dart';
-import 'package:customer_mobile/shared/models/cart.dart';
+import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 
 class CheckoutRepositoryImpl implements CheckoutRepository {
@@ -9,7 +10,7 @@ class CheckoutRepositoryImpl implements CheckoutRepository {
   CheckoutRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<Cart> getCheckoutSummary(String? userId) =>
+  Future<CheckoutSummary> getCheckoutSummary(String? userId) =>
       _remoteDataSource.getCheckoutSummary(userId);
 
   @override
@@ -30,7 +31,7 @@ class CheckoutRepositoryImpl implements CheckoutRepository {
 
   @override
   Future<void> setInstantDelivery(bool value) =>
-      _remoteDataSource.setInstantDelivery(value);
+      _remoteDataSource(_remoteDataSource.setSource(_remoteDataSource.setInstantDelivery(value);
 
   @override
   Future<void> setScheduledDelivery(DateTime dateTime) =>
@@ -41,10 +42,10 @@ class CheckoutRepositoryImpl implements CheckoutRepository {
       _remoteDataSource.selectDeliverySlot(slot);
 
   @override
-  Future<Cart> applyCoupon(String couponCode) =>
+  Future<CheckoutSummary> applyCoupon(String couponCode) =>
       _remoteDataSource.applyCoupon(couponCode);
 
   @override
-  Future<Cart> removeCoupon() =>
+  Future<CheckoutSummary> removeCoupon() =>
       _remoteDataSource.removeCoupon();
 }

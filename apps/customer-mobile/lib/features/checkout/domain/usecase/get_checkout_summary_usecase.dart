@@ -1,9 +1,17 @@
-import 'package:customer_mobile/features/cart/domain/usecase/get_cart_usecase.dart';
+// lib/features/checkout/domain/usecase/get_checkout_summary_usecase.dart
+import 'package:customer_mobile/features/checkout/domain/repository/checkout_repository.dart';
+import 'package:customer_mobile/shared/models/checkout_summary.dart';
 
 class GetCheckoutSummaryUseCase {
-  final GetCartUseCase _getCartUseCase;
+  final CheckoutRepository _repository;
 
-  GetCheckoutSummaryUseCase(this._getCartUseCase);
+  GetCheckoutSummaryUseCase(this._repository);
 
-  Future<Cart> call([String? userId]) => _getCartUseCase(userId);
+  Future<CheckoutSummary> call([String? userId]) => _repository.getCheckoutSummary(userId);
 }
+
+/// Provider for get checkout summary use case
+final getCheckoutSummaryUseCaseProvider = Provider<GetCheckoutSummaryUseCase>((ref) {
+  final repository = ref.read(checkoutRepositoryProvider);
+  return GetCheckoutSummaryUseCase(repository);
+});
