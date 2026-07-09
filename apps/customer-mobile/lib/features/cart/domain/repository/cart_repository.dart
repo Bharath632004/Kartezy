@@ -26,5 +26,7 @@ abstract class CartRepository {
 
   Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants);
 
+  Future<Cart> updateCartItemQuantity(String cartItemId, int quantity);
+
   Future<Cart> mergeGuestCart(String guestCartId, String userId);
 }

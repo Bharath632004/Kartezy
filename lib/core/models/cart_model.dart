@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'cart_model.freezed.dart';
 part 'cart_model.g.dart';
 
-@freeze
+@freezed
 class CartModel with _$CartModel {
   const CartModel._();
 
@@ -27,7 +27,7 @@ class CartModel with _$CartModel {
       _$CartModelFromJson(json);
 }
 
-@freeze
+@freezed
 class CartItemModel with _$CartItemModel {
   const CartItemModel._();
 

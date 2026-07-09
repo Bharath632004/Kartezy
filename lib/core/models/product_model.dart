@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'product_model.freezed.dart';
 part 'product_model.g.dart';
 
-@freeze
+@freezed
 class ProductModel with _$ProductModel {
   const ProductModel._();
 

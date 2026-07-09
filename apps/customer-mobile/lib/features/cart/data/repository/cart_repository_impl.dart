@@ -56,6 +56,10 @@ class CartRepositoryImpl implements CartRepository {
       _remoteDataSource.updateCartItemVariants(cartItemId, variants);
 
   @override
+  Future<Cart> updateCartItemQuantity(String cartItemId, int quantity) =>
+      _remoteDataSource.updateCartItem(cartItemId, quantity);
+
+  @override
   Future<Cart> mergeGuestCart(String guestCartId, String userId) =>
       _remoteDataSource.mergeGuestCart(guestCartId, userId);
 }

@@ -16,6 +16,8 @@ abstract class CartRemoteDataSource {
   Future<Cart> restoreFromSaveForLater(String cartItemId);
   Future<Cart> updateWalletAmount(double amount);
   Future<Cart> mergeGuestCart(String guestCartId, String userId);
+  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants);
+  Future<Cart> updateCartItemQuantity(String cartItemId, int quantity);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -125,6 +127,24 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         'guestCartId': guestCartId,
         'userId': userId,
       },
+    );
+    return Cart.fromJson(response.data);
+  }
+
+  @override
+  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants) async {
+    final response = await _dioClient.put(
+      '/cart/item/$cartItemId',
+      data: {'variants': variants},
+    );
+    return Cart.fromJson(response.data);
+  }
+
+  @override
+  Future<Cart> updateCartItemQuantity(String cartItemId, int quantity) async {
+    final response = await _dioClient.put(
+      '/cart/item/$cartItemId',
+      data: {'quantity': quantity},
     );
     return Cart.fromJson(response.data);
   }

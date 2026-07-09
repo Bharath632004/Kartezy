@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'address_model.freezed.dart';
 part 'address_model.g.dart';
 
-@freeze
+@freezed
 class AddressModel with _$AddressModel {
   const AddressModel._();
 

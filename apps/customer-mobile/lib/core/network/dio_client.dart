@@ -7,7 +7,9 @@ import 'package:customer_mobile/core/config/app_constants.dart';
 import 'package:customer_mobile/core/services/auth_service.dart';
 
 class DioClient {
-  DioClient(this._ref);
+  DioClient(this._ref) {
+    _initialize();
+  }
 
   final Ref _ref;
 
@@ -15,7 +17,7 @@ class DioClient {
 
   Dio get instance => _dio;
 
-  void initialize() {
+  void _initialize() {
     final baseUrl = AppConstants.baseUrl;
 
     _dio = Dio(
@@ -85,11 +87,131 @@ class DioClient {
     // Add retry policy using dio_smart_retry
     // _dio.interceptors.add(RetryInterceptor(dio: _dio));
   }
+
+  Future<Response<T>> get<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    bool populateResponseData = true,
+  }) {
+    return _dio.get<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  Future<Response<T>> post<T>(
+    String path, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) {
+    return _dio.post<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  Future<Response<T>> put<T>(
+    String path, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) {
+    return _dio.put<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  Future<Response<T>> patch<T>(
+    String path, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) {
+    return _dio.patch<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  Future<Response<T>> delete<T>(
+    String path, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) {
+    return _dio.delete<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  Future<Response<dynamic>> upload(
+    String path, {
+    required FormData data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) {
+    return _dio.post(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  Future<Response<dynamic>> download(
+    String urlPath,
+    String savePath, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    bool deleteOnError = true,
+    ProgressCallback? onReceiveProgress,
+  }) {
+    return _dio.download(
+      urlPath,
+      savePath,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      deleteOnError: deleteOnError,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
 }
 
 /// Provider for Dio client
 final dioProvider = Provider<Dio>((ref) {
   final dioClient = DioClient(ref);
-  dioClient.initialize();
   return dioClient.instance;
 });

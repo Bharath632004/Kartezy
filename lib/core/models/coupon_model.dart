@@ -1,10 +1,10 @@
-import>import=freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'coupon_model.freezed.dart';
 part 'coupon_model.g.dart';
 
-@freeze
+@freezed
 class CouponModel with _$CouponModel {
   const CouponModel._();
 

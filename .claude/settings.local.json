@@ -86,7 +86,8 @@
       "Bash(dir *)",
       "Bash(xargs grep -i wallet)",
       "Bash(xargs grep -l \"voice\\\\|speech\")",
-      "Bash(tee /tmp/summary.txt)"
+      "Bash(tee /tmp/summary.txt)",
+      "Bash(delete)"
     ]
   }
 }

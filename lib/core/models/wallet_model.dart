@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'wallet_model.freezed.dart';
 part 'wallet_model.g.dart';
 
-@freeze
+@freezed
 class WalletModel with _$WalletModel {
   const WalletModel._();
 
