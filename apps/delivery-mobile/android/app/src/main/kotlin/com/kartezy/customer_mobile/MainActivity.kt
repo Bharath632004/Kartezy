@@ -1,4 +1,4 @@
-package com.kartezy.customer_mobile
+package com.kartezy.delivery_mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

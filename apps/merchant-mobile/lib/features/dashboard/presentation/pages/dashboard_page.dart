@@ -99,6 +99,9 @@ class DashboardPage extends ConsumerWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      // Featured Features
+                      _buildFeaturesCard(),
                     ],
                   ),
                 ),
