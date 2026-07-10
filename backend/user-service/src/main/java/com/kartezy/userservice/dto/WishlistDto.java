@@ -28,5 +28,6 @@ public class WishlistDto {
     @Size(max = 500)
     private String description;
 
+    @Builder.Default
     private Set<WishlistItemDto> items = java.util.Set.of();
 }

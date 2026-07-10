@@ -30,6 +30,7 @@ public class OTP extends AuditableEntity {
     private Instant expiresAt;
 
     @Column(name = "is_used", nullable = false)
+    @Builder.Default
     private boolean used = false;
 
     // Many-to-One with User (optional, as OTP may be sent before user exists)

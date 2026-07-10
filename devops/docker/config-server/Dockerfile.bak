@@ -1,13 +1,10 @@
 FROM maven:3.9.6-eclipse-temurin-21-alpine as build
-RUN apk add --no-cache ca-certificates ca-certificates-utils && update-ca-certificates
 WORKDIR /app
-RUN apk add --no-cache ca-certificates ca-certificates-utils && update-ca-certificates
-ENV MAVEN_OPTS="-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true"
+RUN apk add --no-cache ca-certificates
 COPY . .
 RUN mvn -pl config-server -am -DskipTests package
 
 FROM eclipse-temurin:21-jre-alpine
-RUN apk add --no-cache ca-certificates ca-certificates-utils && update-ca-certificates
 WORKDIR /app
 COPY --from=0 /app/config-server/target/*.jar app.jar
 EXPOSE 8888

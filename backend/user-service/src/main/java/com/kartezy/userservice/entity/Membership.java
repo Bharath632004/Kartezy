@@ -42,9 +42,11 @@ public class Membership extends AuditableEntity {
     private LocalDate endDate;
 
     @Column(name = "is_active")
+    @Builder.Default
     private boolean isActive = false;
 
     @Column(name = "auto_renew")
+    @Builder.Default
     private boolean autoRenew = false;
 
     @Column(name = "price")

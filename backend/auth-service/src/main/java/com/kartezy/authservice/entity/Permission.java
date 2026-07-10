@@ -27,6 +27,7 @@ public class Permission extends AuditableEntity {
 
     // Many-to-Many with Role (mappedBy)
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
     // Convenience methods

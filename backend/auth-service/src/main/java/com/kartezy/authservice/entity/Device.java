@@ -38,6 +38,7 @@ public class Device extends AuditableEntity {
     @Column(name = "last_used_at")
     private Instant lastUsedAt;
 
+    @Builder.Default
     @Column(name = "is_trusted")
     private boolean trusted = false;
 

@@ -29,10 +29,8 @@ public class MembershipDto {
 
     private LocalDate endDate;
 
+    @Builder.Default
     private boolean isActive = false;
-
-    private boolean autoRenew = false;
-
     private Double price;
 
     @Size(max = 3)

@@ -33,6 +33,8 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
       - SPRING_CLOUD_SERVER_GIT_URI=file:///config-repo
       - SPRING_CLOUD_SERVER_GIT_CLONE_ON_START=true
+    volumes:
+      - ../../config-repo:/config-repo
     depends_on:
       discovery-server:
         condition: service_healthy

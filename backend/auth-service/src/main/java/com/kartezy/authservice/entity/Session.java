@@ -40,5 +40,6 @@ public class Session extends AuditableEntity {
 
     // Indicates if the session is valid
     @Column(name = "is_valid", nullable = false)
+    @Builder.Default
     private boolean valid = true;
 }

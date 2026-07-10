@@ -1,9 +1,12 @@
-FROM eclipse-temurin:21-jdk-alpine as build
+FROM maven:3.9.6-eclipse-temurin-21 as build
+RUN apt-get update && apt-get install -y ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates
 WORKDIR /app
 COPY . .
-RUN ./mvnw -B package -DskipTests
+RUN mvn -B package -DskipTests
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre
+RUN apt-get update && apt-get install -y ca-certificates
 WORKDIR /app
 COPY --from=0 /app/target/*.jar app.jar
 EXPOSE 8080

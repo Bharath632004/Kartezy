@@ -32,6 +32,7 @@ public class RefreshToken extends AuditableEntity {
     private User user;
 
     // Indicates if the token has been revoked
+    @Builder.Default
     @Column(name = "revoked", nullable = false)
     private boolean revoked = false;
 }

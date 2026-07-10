@@ -40,15 +40,19 @@ public class User extends AuditableEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
+    @Builder.Default
     private UserStatus status = UserStatus.INACTIVE;
 
     @Column(name = "email_verified", nullable = false)
+    @Builder.Default
     private boolean emailVerified = false;
 
     @Column(name = "phone_verified", nullable = false)
+    @Builder.Default
     private boolean phoneVerified = false;
 
     @Column(name = "mfa_enabled", nullable = false)
+    @Builder.Default
     private boolean mfaEnabled = false;
 
     // Many-to-Many with Role (via user_roles)
@@ -58,26 +62,32 @@ public class User extends AuditableEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
     // One-to-Many with RefreshToken
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<RefreshToken> refreshTokens = new HashSet<>();
 
     // One-to-Many with Session
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Session> sessions = new HashSet<>();
 
     // One-to-Many with Device
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Device> devices = new HashSet<>();
 
     // One-to-Many with OTP
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<OTP> otps = new HashSet<>();
 
     // One-to-Many with OAuthAccount
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<OAuthAccount> oauthAccounts = new HashSet<>();
 
     // Convenience methods

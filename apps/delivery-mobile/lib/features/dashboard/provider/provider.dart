@@ -30,8 +30,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 2));
     // In a real app, we would call a dashboard service here
-    // For now, we'll mock the data
-    final mockData = {
+        final mockData = {
       'isOnline': true,
       'todayEarnings': 125.50,
       'weeklyEarnings': 875.25,

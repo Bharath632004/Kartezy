@@ -49,6 +49,7 @@ public class LoginHistory extends AuditableEntity {
     private String userAgent;
 
     @Column(name = "is_successful")
+    @Builder.Default
     private boolean isSuccessful = false;
 
     @Column(name = "failure_reason")

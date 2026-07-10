@@ -43,6 +43,7 @@ public class Referral extends AuditableEntity {
     private LocalDateTime referredAt;
 
     @Column(name = "reward_claimed")
+    @Builder.Default
     private boolean rewardClaimed = false;
 
     @Column(name = "reward_amount")
