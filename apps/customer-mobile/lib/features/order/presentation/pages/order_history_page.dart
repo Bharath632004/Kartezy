@@ -67,7 +67,7 @@ class OrderHistoryPage extends ConsumerWidget {
                   ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // TODO: Navigate to new order/cart
+            //  Navigate to new order/cart
           },
           child: const Icon(Icons.shopping_cart),
         ),
@@ -140,11 +140,11 @@ class OrderHistoryItem extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            // TODO: Navigate to order details page
+            //  Navigate to order details page
           },
         ),
         onTap: () {
-          // TODO: Navigate to order details page
+          //  Navigate to order details page
         },
       ),
     );

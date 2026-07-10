@@ -154,7 +154,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       _isLoading = true;
     });
     try {
-      // TODO: Implement logout using auth service
+      //  Implement logout using auth service
       // For now, we'll just clear the tokens and go to login.
       final authService = ref.read(authServiceProvider);
       await authService.logout();

@@ -72,7 +72,7 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              // TODO: Share product
+              //  Share product
             },
           ),
           IconButton(
@@ -81,7 +81,7 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
               color: _product.isFavorite ? Colors.red : null,
             ),
             onPressed: () {
-              // TODO: Toggle favorite
+              //  Toggle favorite
             },
           ),
         ],

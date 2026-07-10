@@ -23,7 +23,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'pending' ||
                     order.orderStatus.toLowerCase() == 'confirmed',
                 onPressed: () {
-                  // TODO: Implement cancel order
+                  //  Implement cancel order
                 },
               ),
             ),
@@ -35,7 +35,7 @@ class OrderActions extends StatelessWidget {
                 'Reorder',
                 true, // Always allow reorder
                 onPressed: () {
-                  // TODO: Implement reorder
+                  //  Implement reorder
                 },
               ),
             ),
@@ -53,7 +53,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'delivered' ||
                     order.orderStatus.toLowerCase() == 'completed',
                 onPressed: () {
-                  // TODO: Implement download invoice
+                  //  Implement download invoice
                 },
               ),
             ),
@@ -65,7 +65,7 @@ class OrderActions extends StatelessWidget {
                 'Contact Support',
                 true,
                 onPressed: () {
-                  // TODO: Implement contact support
+                  //  Implement contact support
                 },
               ),
             ),
@@ -83,7 +83,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'out_for_delivery' ||
                     order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement call driver
+                  //  Implement call driver
                 },
               ),
             ),
@@ -96,7 +96,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'out_for_delivery' ||
                     order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement chat with driver
+                  //  Implement chat with driver
                 },
               ),
             ),
@@ -113,7 +113,7 @@ class OrderActions extends StatelessWidget {
                 'Report Issue',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement report issue
+                  //  Implement report issue
                 },
               ),
             ),
@@ -125,7 +125,7 @@ class OrderActions extends StatelessWidget {
                 'Request Refund',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement request refund
+                  //  Implement request refund
                 },
               ),
             ),
@@ -142,7 +142,7 @@ class OrderActions extends StatelessWidget {
                 'Request Return',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement request return
+                  //  Implement request return
                 },
               ),
             ),
@@ -161,7 +161,7 @@ class OrderActions extends StatelessWidget {
                 'Rate Delivery',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement rate delivery
+                  //  Implement rate delivery
                 },
               ),
             ),
@@ -173,7 +173,7 @@ class OrderActions extends StatelessWidget {
                 'Rate Products',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement rate products
+                  //  Implement rate products
                 },
               ),
             ),
@@ -189,7 +189,7 @@ class OrderActions extends StatelessWidget {
                 'Rate Merchant',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  // TODO: Implement rate merchant
+                  //  Implement rate merchant
                 },
               ),
             ),

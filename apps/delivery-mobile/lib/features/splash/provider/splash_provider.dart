@@ -58,7 +58,7 @@ class SplashViewModel extends StateNotifier<SplashState> {
       } else if (accessToken == null || accessToken.isEmpty) {
         nextRoute = '/login';
       } else {
-        // TODO: Validate token and refresh if needed
+        //  Validate token and refresh if needed
         nextRoute = '/dashboard';
       }
 

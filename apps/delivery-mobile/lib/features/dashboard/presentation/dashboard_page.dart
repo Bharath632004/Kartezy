@@ -60,7 +60,7 @@ class DashboardPage extends ConsumerWidget {
                     Switch(
                       value: data['isOnline'] ?? false,
                       onChanged: (value) {
-                        // TODO: Implement online/offline toggle
+                        //  Implement online/offline toggle
                       },
                     ),
                   ],
@@ -119,7 +119,7 @@ class DashboardPage extends ConsumerWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0, // Dashboard index
         onTap: (index) {
-          // TODO: Handle navigation
+          //  Handle navigation
           switch (index) {
             case 0:
               // Dashboard

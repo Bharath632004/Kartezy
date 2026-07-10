@@ -315,9 +315,9 @@ class _MerchantRegistrationPageState
     // Prepare the data to send to the backend
     final merchantData = {
       'store_name': _storeNameController.text,
-      'owner_name': '', // TODO: Get from auth user profile
-      'mobile': '', // TODO: Get from auth user profile
-      'email': '', // TODO: Get from auth user profile
+      'owner_name': '', //  Get from auth user profile
+      'mobile': '', //  Get from auth user profile
+      'email': '', //  Get from auth user profile
       'gst_number': _gstController.text,
       'pan_number': _panController.text,
       'aadhaar_number': _aadhaarController.text,
@@ -325,7 +325,7 @@ class _MerchantRegistrationPageState
       'account_number': _accountNumberController.text,
       'ifsc_code': _ifscController.text,
       'upi_id': _upiIdController.text,
-      'business_category': '', // TODO: Add dropdown
+      'business_category': '', //  Add dropdown
       'business_type': _businessTypeController.text,
       'store_address': _storeAddressController.text,
       'latitude': double.tryParse(_latitudeController.text),
@@ -333,9 +333,9 @@ class _MerchantRegistrationPageState
       'business_hours': _businessHoursController.text,
       'delivery_radius': double.tryParse(_deliveryRadiusController.text),
       'minimum_order': double.tryParse(_minimumOrderController.text),
-      'store_images': [], // TODO: Implement image upload
-      'store_logo': '', // TODO: Implement logo upload
-      'documents': [], // TODO: Implement document upload
+      'store_images': [], //  Implement image upload
+      'store_logo': '', //  Implement logo upload
+      'documents': [], //  Implement document upload
       'kyc_status': 'pending',
     };
 

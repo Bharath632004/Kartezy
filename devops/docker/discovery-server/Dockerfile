@@ -1,7 +1,7 @@
-FROM eclipse-temurin:21-jdk-alpine as build
+FROM maven:3.9.6-eclipse-temurin-21-alpine as build
 WORKDIR /app
 COPY . .
-RUN ./mvnw -B package -DskipTests
+RUN mvn -B package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app

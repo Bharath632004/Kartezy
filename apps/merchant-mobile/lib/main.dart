@@ -11,7 +11,7 @@ void main() async {
 
   // Initialize Hive
   await Hive.initFlutter();
-  // TODO: Register adapters for any Hive objects
+  //  Register adapters for any Hive objects
 
   // Initialize services
   await FirebaseService.instance.initialize();

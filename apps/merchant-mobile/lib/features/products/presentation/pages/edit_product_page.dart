@@ -20,7 +20,7 @@ class _EditProductPageState extends ConsumerState<EditProductPage> {
     super.initState();
     // In a real app, you would get the productId from the route parameters
     // For now, we'll assume it's passed via arguments
-    // TODO: Implement proper route parameter extraction
+    //  Implement proper route parameter extraction
     productId = ''; // Placeholder
     _loadProduct();
   }

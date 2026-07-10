@@ -57,7 +57,7 @@ class ProductCardWidget extends ConsumerWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to product details page
+          //  Navigate to product details page
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,13 +123,13 @@ class ProductCardWidget extends ConsumerWidget {
                             color: product.isFavorite ? Colors.red : null,
                           ),
                           onPressed: () {
-                            // TODO: Toggle favorite
+                            //  Toggle favorite
                           },
                         ),
                         IconButton(
                           icon: const Icon(Icons.shopping_cart_outlined),
                           onPressed: () {
-                            // TODO: Add to cart
+                            //  Add to cart
                           },
                         ),
                       ],

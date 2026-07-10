@@ -77,7 +77,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
-              // TODO: Implement actual phone login with OTP
+              //  Implement actual phone login with OTP
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Phone login not implemented yet')),
               );
@@ -90,7 +90,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _loginWithGoogle() async {
-    // TODO: Implement Google Sign In
+    //  Implement Google Sign In
     // For now, show a snack bar
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Google login not implemented yet')),

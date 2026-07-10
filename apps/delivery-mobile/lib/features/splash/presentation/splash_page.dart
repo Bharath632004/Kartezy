@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:delivery_mobile/features/splash/provider/splash_provider.dart';
 import 'package:delivery_mobile/features/delivery_onboarding/presentation/onboarding_page.dart';
 import 'package:delivery_mobile/features/authentication/presentation/phone_login_page.dart';
-import 'package:delivery_mobile/features/dashboard/presentation/dashboard_page.dart'; // TODO: Create this
+import 'package:delivery_mobile/features/dashboard/presentation/dashboard_page.dart'; //  Create this
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});

@@ -3,8 +3,8 @@ version: '3.8'
 services:
   discovery-server:
     build:
-      context: ../../backend/discovery-server
-      dockerfile: ../../devops/docker/discovery-server/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/discovery-server/Dockerfile
     ports:
       - "8761:8761"
     environment:
@@ -23,8 +23,8 @@ services:
 
   config-server:
     build:
-      context: ../../backend/config-server
-      dockerfile: ../../devops/docker/config-server/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/config-server/Dockerfile
     ports:
       - "8888:8888"
     environment:
@@ -48,8 +48,8 @@ services:
 
   api-gateway:
     build:
-      context: ../../backend/api-gateway
-      dockerfile: ../../devops/docker/api-gateway/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/api-gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -74,8 +74,8 @@ services:
 
   auth-service:
     build:
-      context: ../../backend/auth-service
-      dockerfile: ../../devops/docker/auth-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/auth-service/Dockerfile
     ports:
       - "8081:8081"
     environment:
@@ -109,8 +109,8 @@ services:
 
   user-service:
     build:
-      context: ../../backend/user-service
-      dockerfile: ../../devops/docker/user-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/user-service/Dockerfile
     ports:
       - "8082:8082"
     environment:
@@ -144,8 +144,8 @@ services:
 
   merchant-service:
     build:
-      context: ../../backend/merchant-service
-      dockerfile: ../../devops/docker/merchant-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/merchant-service/Dockerfile
     ports:
       - "8083:8083"
     environment:
@@ -179,8 +179,8 @@ services:
 
   catalog-service:
     build:
-      context: ../../backend/catalog-service
-      dockerfile: ../../devops/docker/catalog-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/catalog-service/Dockerfile
     ports:
       - "8084:8084"
     environment:
@@ -214,8 +214,8 @@ services:
 
   inventory-service:
     build:
-      context: ../../backend/inventory-service
-      dockerfile: ../../devops/docker/inventory-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/inventory-service/Dockerfile
     ports:
       - "8085:8085"
     environment:
@@ -249,8 +249,8 @@ services:
 
   order-service:
     build:
-      context: ../../backend/order-service
-      dockerfile: ../../devops/docker/order-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/order-service/Dockerfile
     ports:
       - "8086:8086"
     environment:
@@ -284,8 +284,8 @@ services:
 
   payment-service:
     build:
-      context: ../../backend/payment-service
-      dockerfile: ../../devops/docker/payment-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/payment-service/Dockerfile
     ports:
       - "8087:8087"
     environment:
@@ -319,8 +319,8 @@ services:
 
   delivery-service:
     build:
-      context: ../../backend/delivery-service
-      dockerfile: ../../devops/docker/delivery-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/delivery-service/Dockerfile
     ports:
       - "8088:8088"
     environment:
@@ -354,8 +354,8 @@ services:
 
   notification-service:
     build:
-      context: ../../backend/notification-service
-      dockerfile: ../../devops/docker/notification-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/notification-service/Dockerfile
     ports:
       - "8089:8089"
     environment:
@@ -389,8 +389,8 @@ services:
 
   wallet-service:
     build:
-      context: ../../backend/wallet-service
-      dockerfile: ../../devops/docker/wallet-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/wallet-service/Dockerfile
     ports:
       - "8090:8090"
     environment:
@@ -424,8 +424,8 @@ services:
 
   review-service:
     build:
-      context: ../../backend/review-service
-      dockerfile: ../../devops/docker/review-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/review-service/Dockerfile
     ports:
       - "8091:8091"
     environment:
@@ -459,8 +459,8 @@ services:
 
   recommendation-service:
     build:
-      context: ../../backend/recommendation-service
-      dockerfile: ../../devops/docker/recommendation-service/Dockerfile
+      context: ../../backend
+      dockerfile: ../devops/docker/recommendation-service/Dockerfile
     ports:
       - "8092:8092"
     environment:
@@ -495,7 +495,7 @@ services:
   analytics-service:
     build:
       context: ../../backend/analytics-service
-      dockerfile: ../../devops/docker/analytics-service/Dockerfile
+      dockerfile: ../devops/docker/analytics-service/Dockerfile
     ports:
       - "8093:8093"
     environment:
