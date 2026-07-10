@@ -1,5 +1,4 @@
 // lib/features/search/data/datasource/search_remote_data_source.dart
-import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/search_result.dart';
 import 'package:customer_mobile/shared/models/product.dart';
 import 'package:customer_mobile/shared/models/store.dart';

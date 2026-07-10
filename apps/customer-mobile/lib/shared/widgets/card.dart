@@ -6,14 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// A custom card widget with elevation and shadow
 class AppCard extends ConsumerWidget {
   const AppCard({
-    Key? key,
+    super.key,
     required this.child,
     this.elevation = 2,
     this.radius = 12,
     this.color,
     this.margin,
     this.padding,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final double elevation;
@@ -34,7 +34,7 @@ class AppCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(radius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 6,
             offset: const Offset(0, 3),
           ),

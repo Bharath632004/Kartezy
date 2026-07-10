@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/shared/models/product.dart';
-import 'package:customer_mobile/shared/widgets/product_card.dart';
 
 class ProductGrid extends ConsumerWidget {
   final List<Product> products;

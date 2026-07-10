@@ -1,5 +1,4 @@
 // lib/features/wishlist/data/datasource/wishlist_remote_data_source.dart
-import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/product.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

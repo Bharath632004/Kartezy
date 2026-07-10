@@ -12,7 +12,7 @@ class BarcodeScannerButton extends ConsumerStatefulWidget {
 }
 
 class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
-  bool _isScanning = false;
+  final bool _isScanning = false;
 
   void _startScanning() async {
     // Show a scanner overlay or navigate to a full-screen scanner

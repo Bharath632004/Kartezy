@@ -29,7 +29,7 @@ class ProductCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Text(
-                  '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
+                  '\$${product.price.toStringAsFixed(2) ?? '0.00'}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],

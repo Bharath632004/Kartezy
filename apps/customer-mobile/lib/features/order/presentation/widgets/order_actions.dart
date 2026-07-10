@@ -5,7 +5,7 @@ import 'package:customer_mobile/shared/models/order.dart';
 class OrderActions extends StatelessWidget {
   final Order order;
 
-  const OrderActions({Key? key, required this.order}) : super(key: key);
+  const OrderActions({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {

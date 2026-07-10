@@ -2,7 +2,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/add_review_usecase.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/delete_review_usecase.dart';
-import 'package:customer_mobile/features/reviews/domain/usecase/get_reviews_usecase.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/like_review_usecase.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/report_review_usecase.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/update_review_usecase.dart';

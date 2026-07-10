@@ -4,15 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:customer_mobile/features/order/provider/provider.dart';
 import 'package:customer_mobile/shared/models/order.dart';
-import 'package:customer_mobile/shared/widgets/card.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
 import 'package:customer_mobile/features/order/presentation/widgets/order_timeline.dart';
 import 'package:customer_mobile/features/order/presentation/widgets/order_actions.dart';
 
 class OrderDetailPage extends ConsumerWidget {
   final String orderId;
 
-  const OrderDetailPage({Key? key, required this.orderId}) : super(key: key);
+  const OrderDetailPage({super.key, required this.orderId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class OrderTimeline extends StatelessWidget {
   final Order order;
 
-  const OrderTimeline({Key? key, required this.order}) : super(key: key);
+  const OrderTimeline({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {

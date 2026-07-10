@@ -1,5 +1,4 @@
 // lib/navigation/router.dart
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/splash/pages/splash_screen.dart';
@@ -30,18 +29,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       final loggedIn = authState;
-      final loggingIn = state.location == '/login';
-      final loggingOut = state.location == '/logout';
-      final signingUp = state.location == '/sign-up';
-      final verifyingOtp = state.location == '/otp-verification';
-      final phoneLogin = state.location == '/phone-login';
+      final loggingIn = state.uri.toString() == '/login';
+      final loggingOut = state.uri.toString() == '/logout';
+      final signingUp = state.uri.toString() == '/sign-up';
+      final verifyingOtp = state.uri.toString() == '/otp-verification';
+      final phoneLogin = state.uri.toString() == '/phone-login';
       // If not logged in and trying to access a protected route, redirect to login
       if (!loggedIn &&
           !loggingIn &&
           !signingUp &&
           !verifyingOtp &&
           !phoneLogin &&
-          !state.location.startsWith('/splash')) {
+          !state.uri.toString().startsWith('/splash')) {
         return '/login';
       }
       // If logged in and trying to access login or sign up page, redirect to home

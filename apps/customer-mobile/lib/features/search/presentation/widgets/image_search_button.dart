@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
-import 'dart:io';
 
 class ImageSearchButton extends ConsumerStatefulWidget {
   const ImageSearchButton({super.key});

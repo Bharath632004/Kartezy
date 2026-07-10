@@ -7,7 +7,6 @@ import 'package:customer_mobile/features/order/domain/usecase/cancel_order_useca
 import 'package:customer_mobile/features/order/domain/usecase/get_order_usecase.dart';
 import 'package:customer_mobile/features/order/domain/usecase/get_user_orders_usecase.dart';
 import 'package:customer_mobile/features/order/domain/usecase/place_order_usecase.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
@@ -84,13 +83,10 @@ class OrderNotifier extends StateNotifier<OrderState> {
   final CancelOrderUseCase _cancelOrderUseCase;
 
   OrderNotifier({
-    required GetUserOrdersUseCase getUserOrdersUseCase,
-    required PlaceOrderUseCase placeOrderUseCase,
-    required CancelOrderUseCase cancelOrderUseCase,
-  }) : _getUserOrdersUseCase = getUserOrdersUseCase,
-        _placeOrderUseCase = placeOrderUseCase,
-        _cancelOrderUseCase = cancelOrderUseCase,
-        super(const OrderState());
+    required this._getUserOrdersUseCase,
+    required this._placeOrderUseCase,
+    required this._cancelOrderUseCase,
+  }) : super(const OrderState());
 
   Future<void> fetchUserOrders(String? userId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);

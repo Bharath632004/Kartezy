@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// A customizable button widget
 class AppButton extends ConsumerWidget {
   const AppButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.color,
@@ -16,7 +16,7 @@ class AppButton extends ConsumerWidget {
     this.borderRadius = 8.0,
     this.height = 48.0,
     this.width = double.infinity,
-  }) : super(key: key);
+  });
 
   final String text;
   final VoidCallback onPressed;

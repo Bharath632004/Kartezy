@@ -1,4 +1,3 @@
-import 'package:customer_mobile/shared/models/order.dart';
 
 abstract class TrackingRepository {
   /// Get real-time tracking information for an order.

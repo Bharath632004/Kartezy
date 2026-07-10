@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/authentication/data/datasource/auth_remote_data_source.dart';
 import 'package:customer_mobile/features/authentication/data/repository/auth_repository_impl.dart';
 import 'package:customer_mobile/features/authentication/domain/repository/auth_repository.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 
 // Provider for auth remote data source
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {

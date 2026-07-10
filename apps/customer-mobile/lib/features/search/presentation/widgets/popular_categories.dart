@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/categories/domain/usecase/get_categories_usecase.dart';
-import 'package:customer_mobile/shared/models/category.dart';
 
 class PopularCategoriesWidget extends ConsumerWidget {
   const PopularCategoriesWidget({super.key});

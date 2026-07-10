@@ -5,9 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/core/storage/hive_manager.dart';
 import 'package:customer_mobile/core/services/auth_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
-import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
-import 'package:customer_mobile/features/home/home_page.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});

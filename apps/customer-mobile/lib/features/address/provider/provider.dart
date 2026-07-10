@@ -7,7 +7,6 @@ import 'package:customer_mobile/features/address/domain/usecase/add_address_usec
 import 'package:customer_mobile/features/address/domain/usecase/update_address_usecase.dart';
 import 'package:customer_mobile/features/address/domain/usecase/delete_address_usecase.dart';
 import 'package:customer_mobile/features/address/domain/usecase/set_default_address_usecase.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/shared/models/address.dart';
 
 // Providers for data source and repository
@@ -79,17 +78,12 @@ class AddressNotifier extends StateNotifier<AddressState> {
   final SetDefaultAddressUseCase _setDefaultAddressUseCase;
 
   AddressNotifier({
-    required GetAddressesUseCase getAddressesUseCase,
-    required AddAddressUseCase addAddressUseCase,
-    required UpdateAddressUseCase updateAddressUseCase,
-    required DeleteAddressUseCase deleteAddressUseCase,
-    required SetDefaultAddressUseCase setDefaultAddressUseCase,
-  }) : _getAddressesUseCase = getAddressesUseCase,
-        _addAddressUseCase = addAddressUseCase,
-        _updateAddressUseCase = updateAddressUseCase,
-        _deleteAddressUseCase = deleteAddressUseCase,
-        _setDefaultAddressUseCase = setDefaultAddressUseCase,
-        super(const AddressState());
+    required this._getAddressesUseCase,
+    required this._addAddressUseCase,
+    required this._updateAddressUseCase,
+    required this._deleteAddressUseCase,
+    required this._setDefaultAddressUseCase,
+  }) : super(const AddressState());
 
   Future<void> fetchAddresses(String? userId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);

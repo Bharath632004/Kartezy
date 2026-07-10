@@ -1,7 +1,6 @@
 // lib/features/cart/data/datasource/cart_remote_data_source.dart
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/cart.dart';
-import 'package:customer_mobile/shared/models/cart_item.dart';
 
 abstract class CartRemoteDataSource {
   Future<Cart> getCart(String? userId);

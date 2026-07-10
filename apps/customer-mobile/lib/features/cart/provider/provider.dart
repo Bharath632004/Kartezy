@@ -16,12 +16,9 @@ import 'package:customer_mobile/features/cart/domain/usecase/update_cart_item_qu
 import 'package:customer_mobile/features/cart/domain/usecase/update_cart_item_variants_usecase.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/update_wallet_amount_usecase.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/merge_guest_cart_usecase.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:customer_mobile/shared/models/cart.dart';
-import 'package:customer_mobile/core/storage/hive_manager.dart';
 import 'package:hive/hive.dart';
-import 'package:uuid/uuid.dart';
 
 // Providers for data source and repository
 final cartRemoteDataSourceProvider = Provider<CartRemoteDataSource>((ref) {
@@ -136,31 +133,19 @@ class CartNotifier extends StateNotifier<CartState> {
   final MergeGuestCartUseCase _mergeGuestCartUseCase;
 
   CartNotifier({
-    required GetCartUseCase getCartUseCase,
-    required AddToCartUseCase addToCartUseCase,
-    required UpdateCartItemQuantityUseCase updateCartItemQuantityUseCase,
-    required UpdateCartItemVariantsUseCase updateCartItemVariantsUseCase,
-    required RemoveCartItemUseCase removeCartItemUseCase,
-    required ClearCartUseCase clearCartUseCase,
-    required ApplyCouponUseCase applyCouponUseCase,
-    required RemoveCouponUseCase removeCouponUseCase,
-    required SaveForLaterUseCase saveForLaterUseCase,
-    required MoveToWishlistUseCase moveToWishlistUseCase,
-    required UpdateWalletAmountUseCase updateWalletAmountUseCase,
-    required MergeGuestCartUseCase mergeGuestCartUseCase,
-  }) : _getCartUseCase = getCartUseCase,
-        _addToCartUseCase = addToCartUseCase,
-        _updateCartItemQuantityUseCase = updateCartItemQuantityUseCase,
-        _updateCartItemVariantsUseCase = updateCartItemVariantsUseCase,
-        _removeCartItemUseCase = removeCartItemUseCase,
-        _clearCartUseCase = clearCartUseCase,
-        _applyCouponUseCase = applyCouponUseCase,
-        _removeCouponUseCase = removeCouponUseCase,
-        _saveForLaterUseCase = saveForLaterUseCase,
-        _moveToWishlistUseCase = moveToWishlistUseCase,
-        _updateWalletAmountUseCase = updateWalletAmountUseCase,
-        _mergeGuestCartUseCase = mergeGuestCartUseCase,
-        super(const CartState());
+    required this._getCartUseCase,
+    required this._addToCartUseCase,
+    required this._updateCartItemQuantityUseCase,
+    required this._updateCartItemVariantsUseCase,
+    required this._removeCartItemUseCase,
+    required this._clearCartUseCase,
+    required this._applyCouponUseCase,
+    required this._removeCouponUseCase,
+    required this._saveForLaterUseCase,
+    required this._moveToWishlistUseCase,
+    required this._updateWalletAmountUseCase,
+    required this._mergeGuestCartUseCase,
+  }) : super(const CartState());
 
   /// Returns the guest cart ID from local storage, generating a new one if none exists.
   Future<String> _getGuestCartId() async {

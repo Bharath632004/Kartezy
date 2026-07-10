@@ -1,5 +1,4 @@
 // lib/features/reviews/data/datasource/review_remote_data_source.dart
-import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/review.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

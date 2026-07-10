@@ -146,27 +146,17 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
   final RemoveCouponUseCase _removeCouponUseCase;
 
   CheckoutNotifier({
-    required GetCheckoutSummaryUseCase getCheckoutSummaryUseCase,
-    required PlaceOrderUseCase placeOrderUseCase,
-    required SaveAddressUseCase saveAddressUseCase,
-    required SetDeliveryInstructionsUseCase setDeliveryInstructionsUseCase,
-    required SetContactlessDeliveryUseCase setContactlessDeliveryUseCase,
-    required SetInstantDeliveryUseCase setInstantDeliveryUseCase,
-    required SetScheduledDeliveryUseCase setScheduledDeliveryUseCase,
-    required SelectDeliverySlotUseCase selectDeliverySlotUseCase,
-    required ApplyCouponUseCase applyCouponUseCase,
-    required RemoveCouponUseCase removeCouponUseCase,
-  }) : _getCheckoutSummaryUseCase = getCheckoutSummaryUseCase,
-        _placeOrderUseCase = placeOrderUseCase,
-        _saveAddressUseCase = saveAddressUseCase,
-        _setDeliveryInstructionsUseCase = setDeliveryInstructionsUseCase,
-        _setContactlessDeliveryUseCase = setContactlessDeliveryUseCase,
-        _setInstantDeliveryUseCase = setInstantDeliveryUseCase,
-        _setScheduledDeliveryUseCase = setScheduledDeliveryUseCase,
-        _selectDeliverySlotUseCase = selectDeliverySlotUseCase,
-        _applyCouponUseCase = applyCouponUseCase,
-        _removeCouponUseCase = removeCouponUseCase,
-        super(const CheckoutState());
+    required this._getCheckoutSummaryUseCase,
+    required this._placeOrderUseCase,
+    required this._saveAddressUseCase,
+    required this._setDeliveryInstructionsUseCase,
+    required this._setContactlessDeliveryUseCase,
+    required this._setInstantDeliveryUseCase,
+    required this._setScheduledDeliveryUseCase,
+    required this._selectDeliverySlotUseCase,
+    required this._applyCouponUseCase,
+    required this._removeCouponUseCase,
+  }) : super(const CheckoutState());
 
   /// Loads the cart summary for checkout.
   Future<void> loadCartSummary([String? userId]) async {

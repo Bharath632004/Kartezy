@@ -12,7 +12,7 @@ import 'package:customer_mobile/core/constants/app_constants.dart';
 class TrackingPage extends ConsumerWidget {
   final String orderId;
 
-  const TrackingPage({Key? key, required this.orderId}) : super(key: key);
+  const TrackingPage({super.key, required this.orderId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

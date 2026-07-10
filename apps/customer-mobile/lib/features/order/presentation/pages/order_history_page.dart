@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/order/provider/provider.dart';
 import 'package:customer_mobile/shared/models/order.dart';
-import 'package:customer_mobile/shared/widgets/card.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
 
 class OrderHistoryPage extends ConsumerWidget {
-  const OrderHistoryPage({Key? key}) : super(key: key);
+  const OrderHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,17 +50,17 @@ class OrderHistoryPage extends ConsumerWidget {
                     children: [
                       _buildOrderList(orderState.orders ?? []), // All
                       _buildOrderList(
-                          orderState.orders?.where((o) => _isActiveStatus(o.orderStatus)).toList() ?? []),
+                          orderState.orders.where((o) => _isActiveStatus(o.orderStatus)).toList() ?? []),
                       _buildOrderList(
-                          orderState.orders?.where((o) => o.orderStatus == 'scheduled').toList() ?? []),
+                          orderState.orders.where((o) => o.orderStatus == 'scheduled').toList() ?? []),
                       _buildOrderList(
-                          orderState.orders?.where((o) => o.orderStatus == 'delivered').toList() ?? []),
+                          orderState.orders.where((o) => o.orderStatus == 'delivered').toList() ?? []),
                       _buildOrderList(
-                          orderState.orders?.where((o) => o.orderStatus == 'cancelled').toList() ?? []),
+                          orderState.orders.where((o) => o.orderStatus == 'cancelled').toList() ?? []),
                       _buildOrderList(
-                          orderState.orders?.where((o) => o.orderStatus == 'returned').toList() ?? []),
+                          orderState.orders.where((o) => o.orderStatus == 'returned').toList() ?? []),
                       _buildOrderList(
-                          orderState.orders?.where((o) => o.orderStatus == 'refunded').toList() ?? []),
+                          orderState.orders.where((o) => o.orderStatus == 'refunded').toList() ?? []),
                     ],
                   ),
         floatingActionButton: FloatingActionButton(
@@ -100,7 +98,7 @@ class OrderHistoryPage extends ConsumerWidget {
 class OrderHistoryItem extends StatelessWidget {
   final Order order;
 
-  const OrderHistoryItem({Key? key, required this.order}) : super(key: key);
+  const OrderHistoryItem({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {

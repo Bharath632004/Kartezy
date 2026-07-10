@@ -1,6 +1,5 @@
 // lib/features/reviews/domain/usecase/like_review_usecase.dart
 import 'package:customer_mobile/features/reviews/domain/repository/review_repository.dart';
-import 'package:customer_mobile/shared/models/review.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/reviews/data/repository/review_repository_impl.dart';
 

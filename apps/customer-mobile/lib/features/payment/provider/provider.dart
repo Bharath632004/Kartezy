@@ -7,7 +7,6 @@ import 'package:customer_mobile/features/payment/domain/usecase/get_payment_usec
 import 'package:customer_mobile/features/payment/domain/usecase/refund_payment_usecase.dart';
 import 'package:customer_mobile/features/payment/domain/usecase/get_payments_by_order_usecase.dart';
 import 'package:customer_mobile/features/payment/domain/usecase/get_user_payments_usecase.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/shared/models/payment.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
@@ -85,17 +84,12 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
   final GetUserPaymentsUseCase _getUserPaymentsUseCase;
 
   PaymentNotifier({
-    required InitiatePaymentUseCase initiatePaymentUseCase,
-    required GetPaymentUseCase getPaymentUseCase,
-    required RefundPaymentUseCase refundPaymentUseCase,
-    required GetPaymentsByOrderUseCase getPaymentsByOrderUseCase,
-    required GetUserPaymentsUseCase getUserPaymentsUseCase,
-  }) : _initiatePaymentUseCase = initiatePaymentUseCase,
-        _getPaymentUseCase = getPaymentUseCase,
-        _refundPaymentUseCase = refundPaymentUseCase,
-        _getPaymentsByOrderUseCase = getPaymentsByOrderUseCase,
-        _getUserPaymentsUseCase = getUserPaymentsUseCase,
-        super(const PaymentState());
+    required this._initiatePaymentUseCase,
+    required this._getPaymentUseCase,
+    required this._refundPaymentUseCase,
+    required this._getPaymentsByOrderUseCase,
+    required this._getUserPaymentsUseCase,
+  }) : super(const PaymentState());
 
   Future<void> initiatePayment(Map<String, dynamic> paymentData) async {
     state = state.copyWith(isLoading: true, errorMessage: null);

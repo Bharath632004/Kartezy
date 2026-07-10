@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/search_bar.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/product_grid.dart';
 import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
-import 'package:customer_mobile/shared/models/product.dart';
 
 class SearchResultsPage extends ConsumerStatefulWidget {
   final String query;
@@ -18,7 +17,7 @@ class SearchResultsPage extends ConsumerStatefulWidget {
 class _SearchResultsPageState extends ConsumerState<SearchResultsPage> {
   late final ScrollController _scrollController;
   bool _isLoading = false;
-  bool _hasMoreResults = true;
+  final bool _hasMoreResults = true;
 
   @override
   void initState() {

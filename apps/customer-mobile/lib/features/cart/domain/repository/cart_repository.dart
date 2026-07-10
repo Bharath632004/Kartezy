@@ -1,5 +1,4 @@
 import 'package:customer_mobile/shared/models/cart.dart';
-import 'package:customer_mobile/shared/models/cart_item.dart';
 
 abstract class CartRepository {
   Future<Cart> getCart(String? userId);

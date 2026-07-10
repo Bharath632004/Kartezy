@@ -25,7 +25,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await _dio.get(
       '/orders',
       queryParameters: {
-        if (userId != null) 'userId': userId,
+        'userId': ?userId,
       },
     );
     final List<dynamic> data = response.data;
