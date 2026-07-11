@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback } from 'react';
 
 type FormValues = Record<string, any>;

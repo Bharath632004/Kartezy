@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -8,9 +10,10 @@ import {
   Link,
   Stack,
   Container,
+  Grid,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useForm } from '@/hooks/useForm'; // We'll create this hook later
+import { useForm } from '@/hooks/useForm';
 import api from '@/lib/api';
 
 export default function LoginPage() {
