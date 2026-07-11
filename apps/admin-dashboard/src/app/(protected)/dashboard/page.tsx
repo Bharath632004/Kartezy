@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Grid, Typography, CircularProgress, Container, Skeleton } from '@mui/material';
+import { Box, Card, CardContent, Grid, Typography, Container, Skeleton } from '@mui/material';
 import { useEffect } from 'react';
 import { useDashboardStore } from '@/store/dashboardStore';
 import { useAnalyticsStore } from '@/store/analyticsStore';
@@ -186,7 +186,6 @@ export default function DashboardPage() {
                 </Typography>
                 <Typography variant="h4">
                   {deliveryPartners !== null ? deliveryPartners.toLocaleString() : '0'}
-                .toString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -213,7 +212,6 @@ export default function DashboardPage() {
                 </Typography>
                 <Typography variant="h4">
                   {categories !== null ? categories.toLocaleString() : '0'}
-                .toString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -227,7 +225,6 @@ export default function DashboardPage() {
                 </Typography>
                 <Typography variant="h4">
                   {inventoryAlerts !== null ? inventoryAlerts.toLocaleString() : '0'}
-                .toString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -238,7 +235,9 @@ export default function DashboardPage() {
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   Refund Requests
-                .toString() : '0'}
+                </Typography>
+                <Typography variant="h4">
+                  {refundRequests !== null ? refundRequests.toLocaleString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -249,7 +248,9 @@ export default function DashboardPage() {
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   Support Tickets
-                .toString() : '0'}
+                </Typography>
+                <Typography variant="h4">
+                  {supportTickets !== null ? supportTickets.toLocaleString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -260,7 +261,9 @@ export default function DashboardPage() {
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   Wallet Balance
-                .toString() : '0'}
+                </Typography>
+                <Typography variant="h4">
+                  {walletBalance !== null ? walletBalance.toLocaleString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -271,7 +274,9 @@ export default function DashboardPage() {
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   Active Promotions
-                .toString() : '0'}
+                </Typography>
+                <Typography variant="h4">
+                  {activePromotions !== null ? activePromotions.toLocaleString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
@@ -281,18 +286,26 @@ export default function DashboardPage() {
             <Card sx={{ height: '100%' }}>
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                  Today's Sales
-                .toString() : '0'}
+                  Today&apos;s Sales
+                </Typography>
+                <Typography variant="h4">
+                  {todaySales !== null ? todaySales.toLocaleString() : '0'}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
           {/* Monthly Revenue */}
           <Grid item xs={12} sm={6} md={3}>
-            <Carbody2" color="text.secondary">
-              Monthly Revenue
-            </Typography>
-            {monthlyRevenue !== null ? `$${monthlyRevenue.toLocaleString()}` : '$0'}
+            <Card sx={{ height: '100%' }}>
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  Monthly Revenue
+                </Typography>
+                <Typography variant="h4">
+                  {monthlyRevenue !== null ? `$${monthlyRevenue.toLocaleString()}` : '$0'}
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
 

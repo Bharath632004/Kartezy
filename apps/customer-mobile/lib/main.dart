@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:customer_mobile/core/theme/theme_provider.dart';
 import 'package:customer_mobile/navigation/router.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,12 +15,7 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: '',
-      appId: '',
-      messagingSenderId: '',
-      projectId: '',
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   // Pass all uncaught errors from the framework to Crashlytics.

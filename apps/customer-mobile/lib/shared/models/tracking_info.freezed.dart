@@ -29,6 +29,7 @@ mixin _$TrackingInfo {
       throw _privateConstructorUsedError; // in kilometers
   Duration get eta =>
       throw _privateConstructorUsedError; // estimated time of arrival
+  @LatLngJsonConverter()
   LatLng get currentLocation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +52,7 @@ abstract class $TrackingInfoCopyWith<$Res> {
       DateTime lastUpdated,
       double distanceRemaining,
       Duration eta,
-      LatLng currentLocation});
+      @LatLngJsonConverter() LatLng currentLocation});
 
   $DriverInfoCopyWith<$Res> get driver;
 }
@@ -139,7 +140,7 @@ abstract class _$$TrackingInfoImplCopyWith<$Res>
       DateTime lastUpdated,
       double distanceRemaining,
       Duration eta,
-      LatLng currentLocation});
+      @LatLngJsonConverter() LatLng currentLocation});
 
   @override
   $DriverInfoCopyWith<$Res> get driver;
@@ -213,7 +214,7 @@ class _$TrackingInfoImpl implements _TrackingInfo {
       required this.lastUpdated,
       required this.distanceRemaining,
       required this.eta,
-      required this.currentLocation});
+      @LatLngJsonConverter() required this.currentLocation});
 
   factory _$TrackingInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TrackingInfoImplFromJson(json);
@@ -235,6 +236,7 @@ class _$TrackingInfoImpl implements _TrackingInfo {
   final Duration eta;
 // estimated time of arrival
   @override
+  @LatLngJsonConverter()
   final LatLng currentLocation;
 
   @JsonKey(ignore: true)
@@ -253,14 +255,15 @@ class _$TrackingInfoImpl implements _TrackingInfo {
 
 abstract class _TrackingInfo implements TrackingInfo {
   const factory _TrackingInfo(
-      {required final String orderId,
-      required final DriverInfo driver,
-      required final RouteInfo route,
-      required final String currentStatus,
-      required final DateTime lastUpdated,
-      required final double distanceRemaining,
-      required final Duration eta,
-      required final LatLng currentLocation}) = _$TrackingInfoImpl;
+          {required final String orderId,
+          required final DriverInfo driver,
+          required final RouteInfo route,
+          required final String currentStatus,
+          required final DateTime lastUpdated,
+          required final double distanceRemaining,
+          required final Duration eta,
+          @LatLngJsonConverter() required final LatLng currentLocation}) =
+      _$TrackingInfoImpl;
 
   factory _TrackingInfo.fromJson(Map<String, dynamic> json) =
       _$TrackingInfoImpl.fromJson;
@@ -280,6 +283,7 @@ abstract class _TrackingInfo implements TrackingInfo {
   @override // in kilometers
   Duration get eta;
   @override // estimated time of arrival
+  @LatLngJsonConverter()
   LatLng get currentLocation;
   @override
   @JsonKey(ignore: true)

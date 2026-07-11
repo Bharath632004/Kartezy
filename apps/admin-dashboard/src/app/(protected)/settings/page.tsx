@@ -1,5 +1,12 @@
-import { Box, Typography, Container, Card, CardContent, CardHeader, Button, Stack } from '@mui/material';
-import Link from 'next/link';
+import { Typography, Container, Card, CardContent, CardHeader, Button } from '@mui/material';
+import {
+  SettingsIcon,
+  AttachMoneyIcon,
+  ShieldIcon,
+  PaletteIcon,
+  LanguageIcon,
+  FeaturedPlayListIcon,
+} from '@mui/icons-material';
 
 const SettingsPage = () => {
   return (
@@ -7,7 +14,8 @@ const SettingsPage = () => {
       <Typography variant="h4" gutterBottom>
         Settings
       </Typography>
-      <Stack spacing={3} mt={2}>
+      {/* In a real app, you would use a proper stack or grid layout */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
         <Card>
           <CardHeader title="Platform Settings" />
           <CardContent>
@@ -92,7 +100,7 @@ const SettingsPage = () => {
             </Button>
           </CardContent>
         </Card>
-      </Stack>
+      </div>
     </Container>
   );
 };

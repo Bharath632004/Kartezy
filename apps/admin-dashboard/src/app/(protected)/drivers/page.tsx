@@ -5,7 +5,6 @@ export default function DriversPage() {
     <Container maxWidth="lg" py={4}>
       <Typography variant="h3" gutterBottom>
         Drivers Management
-<|tool_call_begin|>Drivers Management
       </Typography>
       <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 2, p: 3 }}>
         <Typography color="text.secondary">

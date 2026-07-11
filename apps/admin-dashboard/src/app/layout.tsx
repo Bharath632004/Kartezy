@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { ReactNode, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Providers from './providers';
-import { CssBaseline, Box } from '@mui/material';
+import { CssBaseline, Box, Drawer } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from './components/layout/Header';
 import Sidebar from './components/layout/Sidebar';
@@ -59,7 +59,7 @@ export default function RootLayout({
                   variant="temporary"
                   open={isMobile && mobileOpen}
                   onClose={() => setMobileOpen(false)}
-                  sx={{ width: 240 }}
+                  sx={{ width: { xs: '100%', sm: 240 } }}
                   ModalProps={{
                     keepMounted: true,
                   }}

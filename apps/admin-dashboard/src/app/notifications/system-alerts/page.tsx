@@ -78,7 +78,7 @@ const SystemAlertsPage = () => {
               />
             </FormGroup>
 
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 } disabled={!enabled}}>
+            <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled}>
               Save Settings
             </Button>
           </>

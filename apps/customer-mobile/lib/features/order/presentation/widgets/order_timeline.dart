@@ -20,8 +20,7 @@ class OrderTimeline extends StatelessWidget {
       },
       {
         'title': 'Order Confirmed',
-        'icon': Icons.check_circle_outline_outline',
-        'time': Icons.check_circle_outline,
+        'icon': Icons.check_circle_outline,
         'time': order.updatedAt, // We don't have a separate time, use updatedAt as approximation
         'status': _getStepStatus(1),
       },

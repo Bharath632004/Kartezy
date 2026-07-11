@@ -13,8 +13,8 @@ import 'package:customer_mobile/core/services/auth_service.dart';
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     refreshListenable: [
-      ref.read(authStateProvider.notifier),
-      ref.read(initializeAuthProvider.notifier),
+      ref.read(authStateProvider),
+      ref.read(initializeAuthProvider.future),
     ],
     redirect: (context, state) {
       final authState = ref.watch(authStateProvider);
@@ -22,6 +22,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         loading: () => true,
         error: () => false,
         data: (_) => false,
+        orElse: () => false,
       );
 
       if (isInitializing) {
@@ -29,18 +30,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       final loggedIn = authState;
-      final loggingIn = state.uri.toString() == '/login';
-      final loggingOut = state.uri.toString() == '/logout';
-      final signingUp = state.uri.toString() == '/sign-up';
-      final verifyingOtp = state.uri.toString() == '/otp-verification';
-      final phoneLogin = state.uri.toString() == '/phone-login';
+      final loggingIn = state.location == '/login';
+      final loggingOut = state.location == '/logout';
+      final signingUp = state.location == '/sign-up';
+      final verifyingOtp = state.location == '/otp-verification';
+      final phoneLogin = state.location == '/phone-login';
       // If not logged in and trying to access a protected route, redirect to login
       if (!loggedIn &&
           !loggingIn &&
           !signingUp &&
           !verifyingOtp &&
           !phoneLogin &&
-          !state.uri.toString().startsWith('/splash')) {
+          !state.location.startsWith('/splash')) {
         return '/login';
       }
       // If logged in and trying to access login or sign up page, redirect to home

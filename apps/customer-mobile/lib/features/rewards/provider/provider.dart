@@ -52,7 +52,7 @@ class RewardsNotifier extends StateNotifier<RewardsState> {
     this._earnRewardPoints,
     this._redeemRewardPoints,
     this._getRewardLevels,
-  ) : super(const RewardsState());
+  ) : super(RewardsState());
 
   Future<void> loadRewardPoints() async {
     state = state.copyWith(isLoading: true, error: null);
@@ -90,11 +90,11 @@ class RewardsNotifier extends StateNotifier<RewardsState> {
   }) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final points = await _earnRewardPoints(
+      final earnedPoints = await _earnRewardPoints(
         points: points,
         description: description,
       );
-      state = state.copyWith(points: points, isLoading: false);
+      state = state.copyWith(points: earnedPoints, isLoading: false);
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
     }
@@ -106,11 +106,11 @@ class RewardsNotifier extends StateNotifier<RewardsState> {
   }) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final points = await _redeemRewardPoints(
+      final redeemedPoints = await _redeemRewardPoints(
         points: points,
         rewardId: rewardId,
       );
-      state = state.copyWith(points: points, isLoading: false);
+      state = state.copyWith(points: redeemedPoints, isLoading: false);
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
     }

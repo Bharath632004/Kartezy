@@ -11,15 +11,15 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<SearchResult> searchProducts(String query) async {
-    final result = await _remoteDataSource.searchProducts(query);
+    final List<Product> products = await _remoteDataSource.searchProducts(query: query);
     return SearchResult(
-      products: result.products,
+      products: products,
       stores: const [],
       brands: const [],
       categories: const [],
-      suggestions: result.suggestions,
-      facets: result.facets,
-      totalResults: result.totalResults,
+      suggestions: const [],
+      facets: const {},
+      totalResults: products.length,
     );
   }
 

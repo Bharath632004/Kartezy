@@ -31,11 +31,13 @@ const darkPalette = {
 
 export const theme = (mode: 'light' | 'dark') => {
   const palette = mode === 'light' ? lightPalette : darkPalette;
-  return createTheme({
+  const baseTheme = createTheme({
     palette,
+  });
+  return createTheme(baseTheme, {
     // You can customize other theme properties here
     shape: {
       borderRadius: 8,
     },
-  } as ThemeOptions);
+  });
 };

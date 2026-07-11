@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect } from 'react';
-import { ThemeProvider, createTheme, CssBaseline, useColorScheme } from '@mui/material';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/authStore';
+import { theme } from '@/theme/theme';
+import { useColorScheme } from '@mui/material';
+import { Global, css } from '@emotion/react';
 
 const queryClient = new QueryClient();
 
@@ -20,12 +23,6 @@ export default function Providers({
       ? (colorScheme === 'dark' ? 'dark' : 'light')
       : initialMode;
 
-  const theme = createTheme({
-    palette: {
-      mode,
-    },
-  });
-
   // Initialize auth state from localStorage and fetch user
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -41,9 +38,34 @@ export default function Providers({
     }
   }, []);
 
+  const themeMode = theme(mode);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={themeMode}>
       <CssBaseline />
+      <Global
+        styles={css`
+          html {
+            height: 100%;
+          }
+          body {
+            height: 100%;
+            background-color: ${themeMode.palette.background.default};
+            color: ${themeMode.palette.text.primary};
+            transition: background-color ${themeMode.transitions.duration.short}ms
+                ${themeMode.transitions.easing.easeInOut},
+              color ${themeMode.transitions.duration.short}ms
+                ${themeMode.transitions.easing.easeInOut};
+          }
+          #__next {
+            min-height: 100vh;
+            transition: background-color ${themeMode.transitions.duration.short}ms
+                ${themeMode.transitions.easing.easeInOut},
+              color ${themeMode.transitions.duration.short}ms
+                ${themeMode.transitions.easing.easeInOut};
+          }
+        `}
+      />
       <QueryClientProvider client={queryClient}>
         {children}
       </QueryClientProvider>
