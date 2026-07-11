@@ -57,10 +57,10 @@ class FirebaseService {
         AndroidNotification? android = message.notification?.android;
         if (notification != null && android != null) {
           _flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
+            id: notification.hashCode,
+            title: notification.title,
+            body: notification.body,
+            notificationDetails: NotificationDetails(
               android: AndroidNotificationDetails(
                 'high_importance_channel',
                 'Important Notifications',
@@ -97,12 +97,7 @@ class FirebaseService {
         InitializationSettings(android: initializationSettingsAndroid);
 
     await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: (String? payload) async {
-        if (payload != null) {
-          debugPrint('Notification payload: $payload');
-        }
-      },
+      settings: initializationSettings,
     );
   }
 

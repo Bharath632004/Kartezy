@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:customer_mobile/shared/models/product.dart';
 
 part 'order_item.freezed.dart';
 part 'order_item.g.dart';
@@ -14,6 +15,7 @@ class OrderItem with _$OrderItem, EquatableMixin {
     required int quantity,
     required Map<String, String> selectedVariants, // e.g., {'size': 'M', 'color': 'Red'}
     required double total,
+    required Product product,
   }) = _OrderItem;
 
   factory OrderItem.fromJson(Map<String, dynamic> json) =>

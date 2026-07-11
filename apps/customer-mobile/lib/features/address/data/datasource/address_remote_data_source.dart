@@ -20,9 +20,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
     final dioClient = _ref.read(dioProvider);
     final response = await dioClient.get(
       '/addresses',
-      queryParameters: {
-        if (userId != null) 'userId': userId,
-      },
+      queryParameters: userId != null ? {'userId': userId} : {},
     );
     final List<dynamic> data = response.data;
     return data.map((json) => Address.fromJson(json)).toList();

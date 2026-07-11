@@ -6,6 +6,6 @@ class SaveAddressUseCase {
 
   SaveAddressUseCase(this.repository);
 
-  Future<Address> call(Address address) =>
-      repository.saveAddress(address);
+  Future<void> call(Address address) =>
+      repository.saveAddress(address.id, address.isDefault);
 }

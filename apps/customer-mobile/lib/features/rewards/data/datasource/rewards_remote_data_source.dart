@@ -2,7 +2,7 @@
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:customer_mobile/shared/models/reward.dart';
+import 'package:customer_mobile/shared/models/rewards.dart';
 
 abstract class RewardsRemoteDataSource {
   Future<RewardPoints> getRewardPoints();

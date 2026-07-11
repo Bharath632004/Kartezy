@@ -13,6 +13,8 @@ class BarcodeScannerButton extends ConsumerStatefulWidget {
 
 class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
   final bool _isScanning = false;
+  String? _lastScannedCode;
+  DateTime? _lastScanTime;
 
   void _startScanning() async {
     // Show a scanner overlay or navigate to a full-screen scanner
@@ -25,13 +27,24 @@ class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
           width: 300,
           height: 400,
           child: MobileScanner(
-            allowDuplicates: false,
             onDetect: (capture) {
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
                 if (barcode.rawValue != null) {
                   final String code = barcode.rawValue!;
-                  // Close the dialogContext?.pop(); // Close the dialog
+                  // Avoid duplicate scans within 2 seconds
+                  final now = DateTime.now();
+                  if (_lastScannedCode == code &&
+                      _lastScanTime != null &&
+                      now.difference(_lastScanTime!) < const Duration(seconds: 2)) {
+                    continue;
+                  }
+                  _lastScannedCode = code;
+                  _lastScanTime = now;
+                  // Close the dialog
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                   _scanBarcode(code);
                   break;
                 }

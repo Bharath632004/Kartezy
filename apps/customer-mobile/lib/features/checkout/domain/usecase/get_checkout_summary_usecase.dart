@@ -9,9 +9,3 @@ class GetCheckoutSummaryUseCase {
 
   Future<CheckoutSummary> call([String? userId]) => _repository.getCheckoutSummary(userId);
 }
-
-/// Provider for get checkout summary use case
-final getCheckoutSummaryUseCaseProvider = Provider<GetCheckoutSummaryUseCase>((ref) {
-  final repository = ref.read(checkoutRepositoryProvider);
-  return GetCheckoutSummaryUseCase(repository);
-});

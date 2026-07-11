@@ -4,7 +4,6 @@ import 'package:customer_mobile/features/search/domain/repository/search_reposit
 import 'package:customer_mobile/shared/models/search_result.dart';
 import 'package:customer_mobile/shared/models/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:customer_mobile/shared/shared/models/shared/models/product.dart';
 
 class SearchRepositoryImpl implements SearchRepository {
   final SearchRemoteDataSource _remoteDataSource;

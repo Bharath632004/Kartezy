@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpodsod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/finance_service.dart';
 
 class FinanceDashboardPage extends ConsumerWidget {

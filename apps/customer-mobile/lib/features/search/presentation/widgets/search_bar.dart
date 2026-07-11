@@ -4,7 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
 
 class SearchBarWidget extends ConsumerStatefulWidget {
-  const SearchBarWidget({super.key});
+  final String? initialText;
+  final ValueChanged<String>? onSubmitted;
+
+  const SearchBarWidget({super.key, this.initialText, this.onSubmitted});
 
   @override
   ConsumerState<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -14,6 +17,22 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
   final TextEditingController _controller = TextEditingController();
   bool _isLoading = false;
   bool _hasFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialText != null) {
+      _controller.text = widget.initialText;
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchBarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialText != oldWidget.initialText) {
+      _controller.text = widget.initialText ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -52,6 +71,10 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
 
   void _onSearchSubmitted(String query) {
     if (query.isNotEmpty) {
+      if (widget.onSubmitted != null) {
+        widget.onSubmitted!(query);
+      }
+      // Also save the search query
       ref.read(saveSearchQueryUseCaseProvider)(query);
       _onSearchChanged(query);
     }

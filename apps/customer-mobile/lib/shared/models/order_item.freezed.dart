@@ -28,6 +28,7 @@ mixin _$OrderItem {
   Map<String, String> get selectedVariants =>
       throw _privateConstructorUsedError; // e.g., {'size': 'M', 'color': 'Red'}
   double get total => throw _privateConstructorUsedError;
+  Product get product => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,10 @@ abstract class $OrderItemCopyWith<$Res> {
       double price,
       int quantity,
       Map<String, String> selectedVariants,
-      double total});
+      double total,
+      Product product});
+
+  $ProductCopyWith<$Res> get product;
 }
 
 /// @nodoc
@@ -70,6 +74,7 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
     Object? quantity = null,
     Object? selectedVariants = null,
     Object? total = null,
+    Object? product = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,7 +105,19 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as double,
+      product: null == product
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as Product,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ProductCopyWith<$Res> get product {
+    return $ProductCopyWith<$Res>(_value.product, (value) {
+      return _then(_value.copyWith(product: value) as $Val);
+    });
   }
 }
 
@@ -119,7 +136,11 @@ abstract class _$$OrderItemImplCopyWith<$Res>
       double price,
       int quantity,
       Map<String, String> selectedVariants,
-      double total});
+      double total,
+      Product product});
+
+  @override
+  $ProductCopyWith<$Res> get product;
 }
 
 /// @nodoc
@@ -140,6 +161,7 @@ class __$$OrderItemImplCopyWithImpl<$Res>
     Object? quantity = null,
     Object? selectedVariants = null,
     Object? total = null,
+    Object? product = null,
   }) {
     return _then(_$OrderItemImpl(
       id: null == id
@@ -170,6 +192,10 @@ class __$$OrderItemImplCopyWithImpl<$Res>
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as double,
+      product: null == product
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as Product,
     ));
   }
 }
@@ -184,7 +210,8 @@ class _$OrderItemImpl implements _OrderItem {
       required this.price,
       required this.quantity,
       required final Map<String, String> selectedVariants,
-      required this.total})
+      required this.total,
+      required this.product})
       : _selectedVariants = selectedVariants;
 
   factory _$OrderItemImpl.fromJson(Map<String, dynamic> json) =>
@@ -211,6 +238,8 @@ class _$OrderItemImpl implements _OrderItem {
 // e.g., {'size': 'M', 'color': 'Red'}
   @override
   final double total;
+  @override
+  final Product product;
 
   @JsonKey(ignore: true)
   @override
@@ -234,7 +263,8 @@ abstract class _OrderItem implements OrderItem {
       required final double price,
       required final int quantity,
       required final Map<String, String> selectedVariants,
-      required final double total}) = _$OrderItemImpl;
+      required final double total,
+      required final Product product}) = _$OrderItemImpl;
 
   factory _OrderItem.fromJson(Map<String, dynamic> json) =
       _$OrderItemImpl.fromJson;
@@ -253,6 +283,8 @@ abstract class _OrderItem implements OrderItem {
   Map<String, String> get selectedVariants;
   @override // e.g., {'size': 'M', 'color': 'Red'}
   double get total;
+  @override
+  Product get product;
   @override
   @JsonKey(ignore: true)
   _$$OrderItemImplCopyWith<_$OrderItemImpl> get copyWith =>

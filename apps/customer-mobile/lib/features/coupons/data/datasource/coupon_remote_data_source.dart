@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
-class CouponRemoteDataSource {
+class CouponRemoteDataSourceImpl {
   final Dio _dio;
 
-  CouponRemoteDataSource(this._dio);
+  CouponRemoteDataSourceImpl(this._dio);
 
   Future<List<dynamic>> getCoupons() async {
     final response = await _dio.get('/coupons');
@@ -15,7 +15,7 @@ class CouponRemoteDataSource {
 }
 
 /// Provider for coupon remote data source
-final couponRemoteDataSourceProvider = Provider<CouponRemoteDataSource>((ref) {
+final couponRemoteDataSourceProvider = Provider<CouponRemoteDataSourceImpl>((ref) {
   final dio = ref.read(dioProvider);
-  return CouponRemoteDataSource(dio);
+  return CouponRemoteDataSourceImpl(dio);
 });

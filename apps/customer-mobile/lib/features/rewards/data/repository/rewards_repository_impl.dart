@@ -2,6 +2,7 @@
 import 'package:customer_mobile/features/rewards/data/datasource/rewards_remote_data_source.dart';
 import 'package:customer_mobile/features/rewards/domain/repository/rewards_repository.dart';
 import 'package:customer_mobile/shared/models/rewards.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RewardsRepositoryImpl implements RewardsRepository {
   final RewardsRemoteDataSource _remoteDataSource;

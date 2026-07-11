@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import '../services/auth_service.dart';
+import './auth_service.dart';
+import '../api/dio_client.dart';
 
 abstract class BaseService {
   final AuthService _authService;

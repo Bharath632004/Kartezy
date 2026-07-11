@@ -16,6 +16,7 @@ _$OrderItemImpl _$$OrderItemImplFromJson(Map<String, dynamic> json) =>
       selectedVariants:
           Map<String, String>.from(json['selectedVariants'] as Map),
       total: (json['total'] as num).toDouble(),
+      product: Product.fromJson(json['product'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$OrderItemImplToJson(_$OrderItemImpl instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$$OrderItemImplToJson(_$OrderItemImpl instance) =>
       'quantity': instance.quantity,
       'selectedVariants': instance.selectedVariants,
       'total': instance.total,
+      'product': instance.product,
     };

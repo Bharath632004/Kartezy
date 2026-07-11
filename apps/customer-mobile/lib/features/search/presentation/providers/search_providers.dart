@@ -6,6 +6,7 @@ import 'package:customer_mobile/features/search/domain/usecase/get_trending_sear
 import 'package:customer_mobile/features/search/domain/usecase/get_personalized_suggestions_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/get_seasonal_searches_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/get_autocomplete_suggestions_usecase.dart';
+import 'package:customer_mobile/features/search/domain/usecase/get_suggestions_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/save_search_query_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/clear_search_history_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/get_product_details_usecase.dart';
@@ -16,6 +17,7 @@ import 'package:customer_mobile/features/search/domain/usecase/search_by_image_u
 import 'package:customer_mobile/features/search/domain/usecase/search_stores_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/search_brands_usecase.dart';
 import 'package:customer_mobile/features/search/domain/usecase/search_categories_usecase.dart';
+import 'package:customer_mobile/features/search/data/repository/search_repository_impl.dart';
 import 'package:customer_mobile/shared/models/search_result.dart';
 
 // Search results provider
@@ -25,14 +27,29 @@ final searchResultsProvider =
     });
 
 class SearchResultsNotifier extends StateNotifier<SearchResult> {
-  SearchResultsNotifier() : super(const SearchResult(products: []));
+  SearchResultsNotifier() : super(const SearchResult(
+        products: [],
+        stores: [],
+        brands: [],
+        categories: [],
+        suggestions: [],
+        facets: {},
+        totalResults: 0,
+      ));
 
   void updateResults(SearchResult result) {
     state = result;
   }
 
   void clearResults() {
-    state = const SearchResult(products: []);
+    state = const SearchResult(
+        products: [],
+        stores: [],
+        brands: [],
+        categories: [],
+        suggestions: [],
+        facets: {},
+        totalResults: 0);
   }
 }
 
@@ -61,9 +78,9 @@ final seasonalSearchesProvider = FutureProvider<List<String>>((ref) {
 });
 
 // Autocomplete suggestions provider
-final autocompleteSuggestionsProvider = FutureProvider<List<String>>((ref) {
+final autocompleteSuggestionsProvider = FutureProvider.family<List<String>, String>((ref, query) {
   final useCase = ref.read(getAutocompleteSuggestionsUseCaseProvider);
-  return useCase();
+  return useCase(query);
 });
 
 // Search products use case provider
@@ -75,13 +92,13 @@ final searchProductsUseCaseProvider = Provider<SearchProductsUseCase>((ref) {
 // Search stores use case provider
 final searchStoresUseCaseProvider = Provider<SearchStoresUseCase>((ref) {
   final repository = ref.read(searchRepositoryProvider);
-  return searchStoresUseCase(repository);
+  return SearchStoresUseCase(repository);
 });
 
 // Search brands use case provider
 final searchBrandsUseCaseProvider = Provider<SearchBrandsUseCase>((ref) {
   final repository = ref.read(searchRepositoryProvider);
-  return searchBrandsUseCase(repository);
+  return SearchBrandsUseCase(repository);
 });
 
 // Search categories use case provider
@@ -89,7 +106,7 @@ final searchCategoriesUseCaseProvider = Provider<SearchCategoriesUseCase>((
   ref,
 ) {
   final repository = ref.read(searchRepositoryProvider);
-  return searchCategoriesUseCase(repository);
+  return SearchCategoriesUseCase(repository);
 });
 
 // Get suggestions use case provider
@@ -108,7 +125,7 @@ final getAutocompleteSuggestionsUseCaseProvider =
 // Save search query use case provider
 final saveSearchQueryUseCaseProvider = Provider<SaveSearchQueryUseCase>((ref) {
   final repository = ref.read(searchRepositoryProvider);
-  return saveSearchQueryUseCase(repository);
+  return SaveSearchQueryUseCase(repository);
 });
 
 // Clear search history use case provider
@@ -116,7 +133,7 @@ final clearSearchHistoryUseCaseProvider = Provider<ClearSearchHistoryUseCase>((
   ref,
 ) {
   final repository = ref.read(searchRepositoryProvider);
-  return clearSearchHistoryUseCase(repository);
+  return ClearSearchHistoryUseCase(repository);
 });
 
 // Get product details use case provider

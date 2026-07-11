@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../api/dio_client.dart';
-import '../../api/api_constants.dart';
+import '../api/dio_client.dart';
+import '../api/api_constants.dart';
 
 final promotionServiceProvider = Provider<PromotionService>((ref) {
   final dioClient = ref.read(dioClientProvider);

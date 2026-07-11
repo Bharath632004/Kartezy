@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../api/dio_client.dart';
-import '../../api/api_constants.dart';
+import '../api/dio_client.dart';
+import '../api/api_constants.dart';
 
 final financeServiceProvider = Provider<FinanceService>((ref) {
   final dioClient = ref.read(dioClientProvider);
@@ -23,10 +23,10 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeRevenue}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)),
       );
       return response.data;
     } catch (e) {
@@ -37,19 +37,21 @@ class FinanceService {
   // Sales Summary
   Future<Map<String, dynamic>> getSalesSummary({
     String? startDate,
+  Future<Map<String, dynamic>> getSalesSummary({
+    String? startDate,
     String? endDate,
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.financeSalesSummary}',
+        "${ApiConstants.baseUrl}${ApiConstants.financeSalesSummary}",
         queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+          if (startDate != null) "start_date": startDate,
+          if (endDate != null) "end_date": endDate,
+        },
       );
       return response.data;
     } catch (e) {
-      throw Exception('Failed to fetch sales summary: $e');
+      throw Exception("Failed to fetch sales summary: $e");
     }
   }
 
@@ -60,35 +62,35 @@ class FinanceService {
     int? page,
     int limit = 20,
   }) async {
-    try {
-      final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.financeSettlementHistory}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-          'page': page,
-          'limit': limit,
-        }.where((_, value) => value != null).toMap(),
-      );
-      final List<dynamic> data = response.data['data'] ?? [];
-      return data.map((json) => json as Map<String, dynamic>).toList();
-    } catch (e) {
-      throw Exception('Failed to fetch settlement history: $e');
-    }
-  }
-
-  // Pending Settlements
-  Future<List<Map<String, dynamic>>> getPendingSettlements({
+  Future<List<Map<String, dynamic>>> getSettlementHistory({
+    String? startDate,
+    String? endDate,
     int? page,
     int limit = 20,
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.financePendingSettlements}',
+        "${ApiConstants.baseUrl}${ApiConstants.financeSettlementHistory}",
         queryParameters: {
+          if (startDate != null) "start_date": startDate,
+          if (endDate != null) "end_date": endDate,
+          if (page != null) "page": page,
+          if (limit != null) "limit": limit,
+        },
+      );
+      final List<dynamic> data = response.data["data"] ?? [];
+      return data.map((json) => json as Map<String, dynamic>).toList();
+    } catch (e) {
+      throw Exception("Failed to fetch settlement history: $e");
+    }
+  }
+    try {
+      final response = await _dio.get(
+        '${ApiConstants.baseUrl}${ApiConstants.financePendingSettlements}',
+        queryParameters: Map.fromEntries({
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -117,10 +119,10 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeCommissionDetails}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       return response.data;
     } catch (e) {
@@ -139,13 +141,13 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeTransactionHistory}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
           'type': type,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -164,12 +166,12 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeRefundHistory}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -186,10 +188,10 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeTaxSummary}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       return response.data;
     } catch (e) {
@@ -205,10 +207,10 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeGstReports}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       return response.data;
     } catch (e) {
@@ -224,10 +226,10 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeProfitLoss}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       return response.data;
     } catch (e) {
@@ -245,12 +247,12 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financePayoutHistory}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -269,12 +271,12 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeBankTransfers}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'start_date': startDate,
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -290,9 +292,9 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financePaymentStatus}',
-        queryParameters: {
+        queryParameters: Map.fromEntries({
           'transaction_id': transactionId,
-        }.where((_, value) => value != null).toMap(),
+        }.where((entry) => entry.value != null)).toMap()),
       );
       return response.data;
     } catch (e) {

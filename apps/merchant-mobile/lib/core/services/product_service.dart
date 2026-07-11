@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../api/dio_client.dart';
-import '../../api/api_constants.dart';
-import '../../models/product_model.dart';
+import '../api/dio_client.dart';
+import '../api/api_constants.dart';
+import '../models/product_model.dart';
 
 final productServiceProvider = Provider<ProductService>((ref) {
   final dioClient = ref.read(dioClientProvider);

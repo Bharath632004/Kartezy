@@ -1,6 +1,5 @@
 // lib/features/tracking/data/datasource/tracking_remote_data_source_impl.dart
-import 'package:customer_mobile/features/tracking/data/datasource.dart';
-import 'package:customer_mobile/features/tracking/tracking_remote_data_source.dart';
+import 'package:customer_mobile/features/tracking/data/datasource/tracking_remote_data_source.dart';
 import 'package:customer_mobile/features/tracking/domain/models/driver_info.dart';
 import 'package:customer_mobile/features/tracking/domain/models/route_info.dart';
 import 'package:customer_mobile/features/tracking/domain/models/tracking_info.dart';
@@ -20,7 +19,7 @@ class TrackingRemoteDataSourceImpl implements TrackingRemoteDataSource {
       final response = await dio.get(
         '/tracking/$orderId',
         options: Options(
-          responseType: StreamType,
+          responseType: ResponseType.stream,
           followRedirects: false,
           validateStatus: (status) => true,
         ),

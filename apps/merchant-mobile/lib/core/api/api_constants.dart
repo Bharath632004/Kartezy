@@ -99,6 +99,12 @@ class ApiConstants {
   static const String marketingEmailCampaigns = 'marketing/email-campaigns';
   static const String marketingSmsCampaigns = 'marketing/sms-campaigns';
 
+  // Product endpoints
+  static const String product = 'product';
+
+  // Inventory endpoints
+  static const String inventory = 'inventory';
+
   // Invoices endpoints
   static const String invoicesList = 'invoices';
   static const String invoicesDetail = 'invoices/{id}';

@@ -1,6 +1,7 @@
 // lib/features/search/presentation/search_home_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/search_bar.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/recent_searches.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/trending_searches.dart';

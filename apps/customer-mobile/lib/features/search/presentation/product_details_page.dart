@@ -10,6 +10,7 @@ import 'package:customer_mobile/features/search/presentation/widgets/product_des
 import 'package:customer_mobile/features/search/presentation/widgets/product_reviews_tab.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/product_related_items.dart';
 import 'package:customer_mobile/shared/models/product.dart';
+import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
 
 class ProductDetailsPage extends ConsumerStatefulWidget {
   final String productId;

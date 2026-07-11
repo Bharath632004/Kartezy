@@ -64,137 +64,6 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
           ),
         ],
       ),
-      body: promotionState.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () => ref.read(promotionProvider.notifier).fetchPromotions(refresh: true),
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: promotionState.promotions.length +
-                    (_isLoadingMore ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index < promotionState.promotions.length) {
-                    final promotion = promotionState.promotions[index];
-                    return ListTile(
-                      title: Text(promotion['name'] ?? 'Unnamed Promotion'),
-                      subtitle: Text(promotion['type'] ?? 'Unknown Type'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => _editPromotion(context, promotion['id']),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => _deletePromotion(promotion['id']),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                },
-              ),
-            ),
-    );
-  }
-
-  void _showAddPromotionDialog(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController typeController = TextEditingController();
-    final TextEditingController discountController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add Promotion'),
-        content: SingleChildScrollView(
-
-Now, we should be around the button: continue with the promotions page UI and the file
-)
-}
-
-,
-    }
-  );
-
-}
-}
-
-I'll complete the implementation of the promotions page and then move on to creating similar structures for the other features (finance, analytics, reports). Let me finish the promotions page first<tool_call>
-<function=Write>
-<parameter=content>
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/promotion_service.dart';
-import 'providers/promotion_provider.dart';
-
-class PromotionsPage extends ConsumerStatefulWidget {
-  const PromotionsPage({Key? key}) : super(key: super(key: key);
-
-  @override
-  ConsumerState<PromotionsPage> createState() => _PromotionsPageState();
-}
-
-class _PromotionsPageState extends ConsumerState<PromotionsPage> {
-  final ScrollController _scrollController = ScrollController();
-  bool _isLoadingMore = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadInitialData();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _loadInitialData() {
-    ref.read(promotionProvider.notifier).fetchPromotions(refresh: true);
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      if (!ref.read(promotionProvider).isLoading &&
-          ref.read(promotionProvider).hasMore &&
-          !_isLoadingMore) {
-        _loadMore();
-      }
-    }
-  }
-
-  void _loadMore() {
-    setState(() => _isLoadingMore = true);
-    ref.read(promotionProvider.notifier).fetchPromotions(refresh: false).then((_) {
-      setState(() => _isLoadingMore = false);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final promotionState = ref.watch(promotionProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Promotions'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _showAddPromotionDialog(context),
-          ),
-        ],
-      ),
       body: promotionState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : promotionState.error != null
@@ -300,10 +169,11 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                   const SnackBar(content: Text('Promotion created successfully')),
                 );
               } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
+                if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Failed to create promotion')),
+                    SnackBar(content: Text('Failed to create promotion: $e')),
                   );
+                }
               }
             },
             child: const Text('Add'),
@@ -378,9 +248,11 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                     const SnackBar(content: Text('Promotion updated successfully')),
                   );
                 } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Failed to update promotion')),
-                  );
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to update promotion: $e')),
+                    );
+                  }
                 }
               },
               child: const Text('Update'),
@@ -389,10 +261,11 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
         ),
       );
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading promotion: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading promotion: $e')),
+        );
+      }
     }
   }
 
@@ -416,10 +289,12 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                   const SnackBar(content: Text('Promotion deleted successfully')),
                 );
               } catch (e) {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to delete promotion: $e')),
-                );
+                if (mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to delete promotion: $e')),
+                  );
+                }
               }
             },
             style: ElevatedButton.styleFrom(

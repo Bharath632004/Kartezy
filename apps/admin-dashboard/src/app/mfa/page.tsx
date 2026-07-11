@@ -43,7 +43,7 @@ const MfaPage = () => {
     return codes;
   };
 
-  const handleEnable() => {
+  const handleEnable = () => {
     setIsSettingUp(true);
     const secret = generateSecret();
     setSecret(secret);
@@ -134,7 +134,7 @@ const MfaPage = () => {
                 Clear
               </Button>
               <Button
-                variant="contracted"
+                variant="contained"
                 color="success"
                 onClick={handleVerify}
                 disabled={!verificationCode || verificationCode.length !== 6}

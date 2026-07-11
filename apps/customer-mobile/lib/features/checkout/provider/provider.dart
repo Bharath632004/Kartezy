@@ -12,9 +12,8 @@ import 'package:customer_mobile/features/checkout/domain/usecase/set_delivery_in
 import 'package:customer_mobile/features/checkout/domain/usecase/set_instant_delivery_usecase.dart';
 import 'package:customer_mobile/features/checkout/domain/usecase/set_scheduled_delivery_usecase.dart';
 import 'package:customer_mobile/features/checkout/domain/usecase/select_delivery_slot_usecase.dart';
-import 'package:customer_mobile/features/cart/provider/provider.dart';
 import 'package:customer_mobile/shared/models/address.dart';
-import 'package:customer_mobile/shared/models/cart.dart';
+import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
@@ -30,8 +29,8 @@ final checkoutRepositoryProvider = Provider<CheckoutRepository>((ref) {
 
 // Providers for use cases
 final getCheckoutSummaryUseCaseProvider = Provider<GetCheckoutSummaryUseCase>((ref) {
-  final getCartUseCase = ref.read(getCartUseCaseProvider);
-  return GetCheckoutSummaryUseCase(getCartUseCase);
+  final repository = ref.read(checkoutRepositoryProvider);
+  return GetCheckoutSummaryUseCase(repository);
 });
 
 final placeOrderUseCaseProvider = Provider<PlaceOrderUseCase>((ref) {
@@ -81,7 +80,7 @@ final removeCouponUseCaseProvider = Provider<RemoveCouponUseCase>((ref) {
 
 // State holder for the checkout.
 class CheckoutState {
-  final Cart? cartSummary;
+  final CheckoutSummary? cartSummary;
   final Address? selectedAddress;
   final String? deliveryInstructions;
   final bool contactlessDelivery;
@@ -106,7 +105,7 @@ class CheckoutState {
   });
 
   CheckoutState copyWith({
-    Cart? cartSummary,
+    CheckoutSummary? cartSummary,
     Address? selectedAddress,
     String? deliveryInstructions,
     bool? contactlessDelivery,
@@ -173,8 +172,8 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
   Future<void> saveAddress(Address address) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final savedAddress = await _saveAddressUseCase.call(address);
-      state = state.copyWith(selectedAddress: savedAddress, isLoading: false);
+      await _saveAddressUseCase.call(address);
+      state = state.copyWith(selectedAddress: address, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -291,7 +290,7 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
       };
       // Remove null values
       orderData.removeWhere((key, value) => value == null);
-      final order = await _placeOrderUseCase.call(orderData);
+      await _placeOrderUseCase.call(orderData);
       // Optionally, you can emit an event or update state with the order
       // For now, we just return the order; the UI can handle navigation.
       state = state.copyWith(isLoading: false);

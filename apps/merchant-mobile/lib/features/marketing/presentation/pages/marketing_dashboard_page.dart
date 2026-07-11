@@ -125,32 +125,46 @@ class MarketingDashboardPage extends ConsumerWidget {
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Banner Campaigns',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 8),
+                              SizedBox(
+                                height: 120,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (marketingState.bannerCampaigns ?? []).length,
+                                  itemBuilder: (context, index) {
+                                    final campaign = marketingState.bannerCampaigns![index];
+                                    return Container(
+                                      width: 120,
+                                      margin: const EdgeInsets.only(right: 12),
+                                      child: Card(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              campaign['name'] ?? 'Unknown Campaign',
+                                              style: const TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                            Text('Impressions: ${campaign['impressions'] ?? 0}'),
+                                            Text('Clicks: ${campaign['clicks'] ?? 0}'),
+                                            Text('CTR: ${((campaign['clicks'] ?? 0) / (campaign['impressions'] ?? 1) * 100).toStringAsFixed(2)}%'),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Text(
-                    'Banner Campaigns',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: (marketingState.bannerCampaigns ?? []).length,
-                    itemBuilder: (context, index) {
-                      final campaign = marketingState.bannerCampaigns![index];
-                      return ListTile(
-                        title: Text(campaign['name'] ?? 'Unnamed Campaign'),
-                        subtitle: Text('Impressions: ${campaign['impressions'] ?? 0}'),
-                        trailing: Text('CTR: ${(campaign['click_through_rate'] ?? 0).toStringAsFixed(2)}%'),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:uuid/uuid.dart';
 import 'package:customer_mobile/features/cart/data/datasource/cart_remote_data_source.dart';
 import 'package:customer_mobile/features/cart/data/repository/cart_repository_impl.dart';
 import 'package:customer_mobile/features/cart/domain/repository/cart_repository.dart';
@@ -147,28 +146,10 @@ class CartNotifier extends StateNotifier<CartState> {
     required this._mergeGuestCartUseCase,
   }) : super(const CartState());
 
-  /// Returns the guest cart ID from local storage, generating a new one if none exists.
-  Future<String> _getGuestCartId() async {
-    final box = await Hive.openBox<String>('guestCart');
-    final guestCartId = box.get('cartId');
-    if (guestCartId != null && guestCartId.isNotEmpty) {
-      return guestCartId;
-    }
-    final newId = const Uuid().v4();
-    await box.put('cartId', newId);
-    return newId;
-  }
-
   /// Saves the guest cart ID to local storage.
   Future<void> _saveGuestCartId(String cartId) async {
     final box = await Hive.openBox<String>('guestCart');
     await box.put('cartId', cartId);
-  }
-
-  /// Clears the guest cart ID from local storage.
-  Future<void> _clearGuestCartId() async {
-    final box = await Hive.openBox<String>('guestCart');
-    await box.delete('cartId');
   }
 
   /// Fetches the cart for the given userId (null for guest cart).

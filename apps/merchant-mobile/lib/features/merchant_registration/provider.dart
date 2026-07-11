@@ -33,7 +33,7 @@ class MerchantRegistrationNotifier extends StateNotifier<MerchantRegistrationSta
     state = state.copyWith(isLoading: true, error: null);
     try {
       // Convert merchantData to MerchantProfile entity
-      final merchantProfile = MerchantProfile.fromJson(merchantDataJson(merchantData);
+      final merchantProfile = MerchantProfile.fromJson(merchantData);
       await _registerMerchantUseCase(merchantProfile);
       state = state.copyWith(isLoading: false);
     } catch (e) {

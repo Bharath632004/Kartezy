@@ -201,7 +201,7 @@ class OrderTimeline extends StatelessWidget {
                   width: 2,
                 ),
                 color: status == 'completed' || status == 'active'
-                    ? Color.fromARGB((0.2 * 255).round(), iconColor.r, iconColor.g, iconColor.b)
+                    ? iconColor.withOpacity(0.2)
                     : Colors.transparent,
               ),
               child: Icon(

@@ -98,4 +98,6 @@ class InvoicesService {
       return response.data as List<int>;
     } catch (e) {
       throw Exception('Failed to export invoices: $e');
+    }
+  }
 }
