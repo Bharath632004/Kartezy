@@ -28,8 +28,8 @@ Map<String, dynamic> _$$MembershipPlanImplToJson(
       'isPopular': instance.isPopular,
     };
 
-_$MembershipUserImpl _$$MembershipUserImplFromJson(Map<String, dynamic> json) =>
-    _$MembershipUserImpl(
+_$MembershipImpl _$$MembershipImplFromJson(Map<String, dynamic> json) =>
+    _$MembershipImpl(
       planId: json['planId'] as String,
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
@@ -39,8 +39,7 @@ _$MembershipUserImpl _$$MembershipUserImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$MembershipUserImplToJson(
-        _$MembershipUserImpl instance) =>
+Map<String, dynamic> _$$MembershipImplToJson(_$MembershipImpl instance) =>
     <String, dynamic>{
       'planId': instance.planId,
       'startDate': instance.startDate.toIso8601String(),

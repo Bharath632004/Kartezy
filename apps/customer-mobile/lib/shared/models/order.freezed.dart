@@ -25,7 +25,7 @@ mixin _$Order {
       throw _privateConstructorUsedError; // nullable for guest user
   String get cartId =>
       throw _privateConstructorUsedError; // id of the cart that was converted to order
-  List<CartItem> get items =>
+  List<OrderItem> get items =>
       throw _privateConstructorUsedError; // snapshot of cart items at the time of order
 // Financial breakdown (similar to Cart)
   double get discountAmount => throw _privateConstructorUsedError;
@@ -73,7 +73,7 @@ abstract class $OrderCopyWith<$Res> {
       {String id,
       String? userId,
       String cartId,
-      List<CartItem> items,
+      List<OrderItem> items,
       double discountAmount,
       double totalAmount,
       int itemCount,
@@ -159,7 +159,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<CartItem>,
+              as List<OrderItem>,
       discountAmount: null == discountAmount
           ? _value.discountAmount
           : discountAmount // ignore: cast_nullable_to_non_nullable
@@ -287,7 +287,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
       {String id,
       String? userId,
       String cartId,
-      List<CartItem> items,
+      List<OrderItem> items,
       double discountAmount,
       double totalAmount,
       int itemCount,
@@ -373,7 +373,7 @@ class __$$OrderImplCopyWithImpl<$Res>
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<CartItem>,
+              as List<OrderItem>,
       discountAmount: null == discountAmount
           ? _value.discountAmount
           : discountAmount // ignore: cast_nullable_to_non_nullable
@@ -477,7 +477,7 @@ class _$OrderImpl implements _Order {
       {required this.id,
       required this.userId,
       required this.cartId,
-      required final List<CartItem> items,
+      required final List<OrderItem> items,
       required this.discountAmount,
       required this.totalAmount,
       required this.itemCount,
@@ -514,10 +514,10 @@ class _$OrderImpl implements _Order {
   @override
   final String cartId;
 // id of the cart that was converted to order
-  final List<CartItem> _items;
+  final List<OrderItem> _items;
 // id of the cart that was converted to order
   @override
-  List<CartItem> get items {
+  List<OrderItem> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_items);
@@ -598,7 +598,7 @@ abstract class _Order implements Order {
       {required final String id,
       required final String? userId,
       required final String cartId,
-      required final List<CartItem> items,
+      required final List<OrderItem> items,
       required final double discountAmount,
       required final double totalAmount,
       required final int itemCount,
@@ -632,7 +632,7 @@ abstract class _Order implements Order {
   @override // nullable for guest user
   String get cartId;
   @override // id of the cart that was converted to order
-  List<CartItem> get items;
+  List<OrderItem> get items;
   @override // snapshot of cart items at the time of order
 // Financial breakdown (similar to Cart)
   double get discountAmount;

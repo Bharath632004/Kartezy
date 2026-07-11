@@ -31,7 +31,7 @@ class CheckoutRepositoryImpl implements CheckoutRepository {
 
   @override
   Future<void> setInstantDelivery(bool value) =>
-      _remoteDataSource(_remoteDataSource.setSource(_remoteDataSource.setInstantDelivery(value);
+      _remoteDataSource.setInstantDelivery(value);
 
   @override
   Future<void> setScheduledDelivery(DateTime dateTime) =>

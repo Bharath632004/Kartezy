@@ -11,7 +11,7 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
       userId: json['userId'] as String?,
       cartId: json['cartId'] as String,
       items: (json['items'] as List<dynamic>)
-          .map((e) => CartItem.fromJson(e as Map<String, dynamic>))
+          .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       discountAmount: (json['discountAmount'] as num).toDouble(),
       totalAmount: (json['totalAmount'] as num).toDouble(),

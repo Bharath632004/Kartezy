@@ -198,31 +198,6 @@ class _$MembershipPlanImpl implements _MembershipPlan {
   @override
   final bool isPopular;
 
-  @override
-  String toString() {
-    return 'MembershipPlan(id: $id, name: $name, price: $price, duration: $duration, benefits: $benefits, isPopular: $isPopular)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MembershipPlanImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration) &&
-            const DeepCollectionEquality().equals(other._benefits, _benefits) &&
-            (identical(other.isPopular, isPopular) ||
-                other.isPopular == isPopular));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, name, price, duration,
-      const DeepCollectionEquality().hash(_benefits), isPopular);
-
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -268,12 +243,12 @@ abstract class _MembershipPlan implements MembershipPlan {
       throw _privateConstructorUsedError;
 }
 
-MembershipUser _$MembershipUserFromJson(Map<String, dynamic> json) {
-  return _MembershipUser.fromJson(json);
+Membership _$MembershipFromJson(Map<String, dynamic> json) {
+  return _Membership.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MembershipUser {
+mixin _$Membership {
   String get planId => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
@@ -282,15 +257,15 @@ mixin _$MembershipUser {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MembershipUserCopyWith<MembershipUser> get copyWith =>
+  $MembershipCopyWith<Membership> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MembershipUserCopyWith<$Res> {
-  factory $MembershipUserCopyWith(
-          MembershipUser value, $Res Function(MembershipUser) then) =
-      _$MembershipUserCopyWithImpl<$Res, MembershipUser>;
+abstract class $MembershipCopyWith<$Res> {
+  factory $MembershipCopyWith(
+          Membership value, $Res Function(Membership) then) =
+      _$MembershipCopyWithImpl<$Res, Membership>;
   @useResult
   $Res call(
       {String planId,
@@ -301,9 +276,9 @@ abstract class $MembershipUserCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MembershipUserCopyWithImpl<$Res, $Val extends MembershipUser>
-    implements $MembershipUserCopyWith<$Res> {
-  _$MembershipUserCopyWithImpl(this._value, this._then);
+class _$MembershipCopyWithImpl<$Res, $Val extends Membership>
+    implements $MembershipCopyWith<$Res> {
+  _$MembershipCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -345,11 +320,11 @@ class _$MembershipUserCopyWithImpl<$Res, $Val extends MembershipUser>
 }
 
 /// @nodoc
-abstract class _$$MembershipUserImplCopyWith<$Res>
-    implements $MembershipUserCopyWith<$Res> {
-  factory _$$MembershipUserImplCopyWith(_$MembershipUserImpl value,
-          $Res Function(_$MembershipUserImpl) then) =
-      __$$MembershipUserImplCopyWithImpl<$Res>;
+abstract class _$$MembershipImplCopyWith<$Res>
+    implements $MembershipCopyWith<$Res> {
+  factory _$$MembershipImplCopyWith(
+          _$MembershipImpl value, $Res Function(_$MembershipImpl) then) =
+      __$$MembershipImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -361,11 +336,11 @@ abstract class _$$MembershipUserImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MembershipUserImplCopyWithImpl<$Res>
-    extends _$MembershipUserCopyWithImpl<$Res, _$MembershipUserImpl>
-    implements _$$MembershipUserImplCopyWith<$Res> {
-  __$$MembershipUserImplCopyWithImpl(
-      _$MembershipUserImpl _value, $Res Function(_$MembershipUserImpl) _then)
+class __$$MembershipImplCopyWithImpl<$Res>
+    extends _$MembershipCopyWithImpl<$Res, _$MembershipImpl>
+    implements _$$MembershipImplCopyWith<$Res> {
+  __$$MembershipImplCopyWithImpl(
+      _$MembershipImpl _value, $Res Function(_$MembershipImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -377,7 +352,7 @@ class __$$MembershipUserImplCopyWithImpl<$Res>
     Object? isActive = null,
     Object? usedBenefits = null,
   }) {
-    return _then(_$MembershipUserImpl(
+    return _then(_$MembershipImpl(
       planId: null == planId
           ? _value.planId
           : planId // ignore: cast_nullable_to_non_nullable
@@ -404,8 +379,8 @@ class __$$MembershipUserImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MembershipUserImpl implements _MembershipUser {
-  const _$MembershipUserImpl(
+class _$MembershipImpl implements _Membership {
+  const _$MembershipImpl(
       {required this.planId,
       required this.startDate,
       required this.endDate,
@@ -413,8 +388,8 @@ class _$MembershipUserImpl implements _MembershipUser {
       required final List<String> usedBenefits})
       : _usedBenefits = usedBenefits;
 
-  factory _$MembershipUserImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MembershipUserImplFromJson(json);
+  factory _$MembershipImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MembershipImplFromJson(json);
 
   @override
   final String planId;
@@ -432,56 +407,30 @@ class _$MembershipUserImpl implements _MembershipUser {
     return EqualUnmodifiableListView(_usedBenefits);
   }
 
-  @override
-  String toString() {
-    return 'MembershipUser(planId: $planId, startDate: $startDate, endDate: $endDate, isActive: $isActive, usedBenefits: $usedBenefits)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MembershipUserImpl &&
-            (identical(other.planId, planId) || other.planId == planId) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.isActive, isActive) ||
-                other.isActive == isActive) &&
-            const DeepCollectionEquality()
-                .equals(other._usedBenefits, _usedBenefits));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, planId, startDate, endDate,
-      isActive, const DeepCollectionEquality().hash(_usedBenefits));
-
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MembershipUserImplCopyWith<_$MembershipUserImpl> get copyWith =>
-      __$$MembershipUserImplCopyWithImpl<_$MembershipUserImpl>(
-          this, _$identity);
+  _$$MembershipImplCopyWith<_$MembershipImpl> get copyWith =>
+      __$$MembershipImplCopyWithImpl<_$MembershipImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MembershipUserImplToJson(
+    return _$$MembershipImplToJson(
       this,
     );
   }
 }
 
-abstract class _MembershipUser implements MembershipUser {
-  const factory _MembershipUser(
+abstract class _Membership implements Membership {
+  const factory _Membership(
       {required final String planId,
       required final DateTime startDate,
       required final DateTime endDate,
       required final bool isActive,
-      required final List<String> usedBenefits}) = _$MembershipUserImpl;
+      required final List<String> usedBenefits}) = _$MembershipImpl;
 
-  factory _MembershipUser.fromJson(Map<String, dynamic> json) =
-      _$MembershipUserImpl.fromJson;
+  factory _Membership.fromJson(Map<String, dynamic> json) =
+      _$MembershipImpl.fromJson;
 
   @override
   String get planId;
@@ -495,7 +444,7 @@ abstract class _MembershipUser implements MembershipUser {
   List<String> get usedBenefits;
   @override
   @JsonKey(ignore: true)
-  _$$MembershipUserImplCopyWith<_$MembershipUserImpl> get copyWith =>
+  _$$MembershipImplCopyWith<_$MembershipImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -632,27 +581,6 @@ class _$MembershipBenefitImpl implements _MembershipBenefit {
   final String description;
   @override
   final String icon;
-
-  @override
-  String toString() {
-    return 'MembershipBenefit(id: $id, title: $title, description: $description, icon: $icon)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MembershipBenefitImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.icon, icon) || other.icon == icon));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, title, description, icon);
 
   @JsonKey(ignore: true)
   @override

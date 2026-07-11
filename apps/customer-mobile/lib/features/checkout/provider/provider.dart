@@ -109,12 +109,12 @@ class CheckoutState {
     Cart? cartSummary,
     Address? selectedAddress,
     String? deliveryInstructions,
-    Bool? contactlessDelivery,
-    Bool? instantDelivery,
+    bool? contactlessDelivery,
+    bool? instantDelivery,
     DateTime? scheduledDeliveryDateTime,
     String? deliverySlot,
     String? orderNotes,
-    Bool? isLoading,
+    bool? isLoading,
     String? errorMessage,
   }) {
     return CheckoutState(
