@@ -25,10 +25,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Link,
+  Badge,
+  Circle,
+  StarBorder,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import {
-  DeleteOutlined,
+  CheckCircleOutlined,
   EditOutlined,
   FilterAltOutlined,
   RefreshOutlined,
@@ -43,9 +47,9 @@ const DeliveryList = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openSuspendDialog, setOpenSuspendDialog] = useState(false);
   const [openActivateDialog, setOpenActivateDialog] = useState(false);
+  const [openApproveDialog, setOpenApproveDialog] = useState(false);
 
   const {
     data: response,
@@ -62,11 +66,6 @@ const DeliveryList = () => {
       }),
   });
 
-  const handleDeleteClick = (id: string) => {
-    setSelectedDriverId(id);
-    setOpenDeleteDialog(true);
-  };
-
   const handleSuspendClick = (id: string) => {
     setSelectedDriverId(id);
     setOpenSuspendDialog(true);
@@ -77,16 +76,19 @@ const DeliveryList = () => {
     setOpenActivateDialog(true);
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleApproveClick = (id: string) => {
+    setSelectedDriverId(id);
+    setOpenApproveDialog(true);
+  };
+
+  const handleApproveConfirm = async () => {
     if (selectedDriverId) {
       try {
-        // Assuming we have a delete or deactivate service; for now, we'll use suspend as delete? Not ideal.
-        // We'll just show a toast or something, but for now, we'll call suspend.
-        await deliveryService.suspend(selectedDriverId);
-        setOpenDeleteDialog(false);
+        await deliveryService.approve(selectedDriverId);
+        setOpenApproveDialog(false);
         setSelectedDriverId(null);
       } catch (err) {
-        console.error('Error deleting driver:', err);
+        console.error('Error approving driver:', err);
       }
     }
   };
@@ -145,6 +147,7 @@ const DeliveryList = () => {
             onChange={(e) => setStatusFilter(e.target.value)}
           >
             <MenuItem value="all">All</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
             <MenuItem value="active">Active</MenuItem>
             <MenuItem value="suspended">Suspended</MenuItem>
           </Select>
@@ -171,7 +174,9 @@ const DeliveryList = () => {
             {drivers.map((driver: any) => (
               <TableRow key={driver.id}>
                 <TableCell component="th" scope="row">
-                  {driver.firstName} {driver.lastName}
+                  <Link href={`/dashboard/delivery/${driver.id}`} underline="hover" color="inherit">
+                    {driver.firstName} {driver.lastName}
+                  </Link>
                 </TableCell>
                 <TableCell align="right">{driver.email}</TableCell>
                 <TableCell align="right">{driver.phoneNumber}</TableCell>
@@ -194,6 +199,17 @@ const DeliveryList = () => {
                   ${parseFloat(driver.earnings || 0).toFixed(2)}
                 </TableCell>
                 <TableCell align="right">
+                  {/* Approve Button */}
+                  {driver.status === 'PENDING' && (
+                    <Tooltip title="Approve Driver">
+                      <IconButton
+                        onClick={() => handleApproveClick(driver.id)}
+                        disabled={driver.status !== 'PENDING'}
+                      >
+                        {driver.status !== 'PENDING' ? null : <CheckCircleOutlined />}
+                      </IconButton>
+                    </Tooltip>
+                  )}
                   <Tooltip title="Suspend Driver">
                     <IconButton
                       onClick={() => handleSuspendClick(driver.id)}
@@ -273,20 +289,6 @@ const DeliveryList = () => {
           )}
         </Box>
       </Box>
-
-      {/* Delete Dialog */}
-      <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
-        <DialogTitle>Delete Driver</DialogTitle>
-        <DialogContent>
-          Are you sure you want to delete this driver? This action cannot be undone.
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Suspend Dialog */}
       <Dialog open={openSuspendDialog} onClose={() => setOpenSuspendDialog(false)}>

@@ -25,15 +25,19 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Link,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import {
-  DeleteOutlined,
   EditOutlined,
   FilterAltOutlined,
   RefreshOutlined,
   Block,
   RestoreAltOutlined,
+  CheckCircleOutlined,
+  CancelOutlined,
+  PauseCircleOutlined,
+  PlayCircleOutlined,
 } from '@mui/icons-material';
 import { merchantService } from '@/lib/api';
 
@@ -43,7 +47,6 @@ const MerchantList = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedMerchantId, setSelectedMerchantId] = useState<string | null>(null);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openSuspendDialog, setOpenSuspendDialog] = useState(false);
   const [openActivateDialog, setOpenActivateDialog] = useState(false);
   const [openRejectDialog, setOpenRejectDialog] = useState(false);
@@ -63,11 +66,6 @@ const MerchantList = () => {
       }),
   });
 
-  const handleDeleteClick = (id: string) => {
-    setSelectedMerchantId(id);
-    setOpenDeleteDialog(true);
-  };
-
   const handleSuspendClick = (id: string) => {
     setSelectedMerchantId(id);
     setOpenSuspendDialog(true);
@@ -86,18 +84,6 @@ const MerchantList = () => {
   const handleApproveClick = (id: string) => {
     setSelectedMerchantId(id);
     setOpenApproveDialog(true);
-  };
-
-  const handleDeleteConfirm = async () => {
-    if (selectedMerchantId) {
-      try {
-        await merchantService.deleteUser(selectedMerchantId); // Assuming there's a delete method; if not, adjust
-        setOpenDeleteDialog(false);
-        setSelectedMerchantId(null);
-      } catch (err) {
-        console.error('Error deleting merchant:', err);
-      }
-    }
   };
 
   const handleSuspendConfirm = async () => {
@@ -205,7 +191,9 @@ const MerchantList = () => {
             {merchants.map((merchant: any) => (
               <TableRow key={merchant.id}>
                 <TableCell component="th" scope="row">
-                  {merchant.name}
+                  <Link href={`/dashboard/merchants/${merchant.id}`} underline="hover" color="inherit">
+                    {merchant.name}
+                  </Link>
                 </TableCell>
                 <TableCell align="right">{merchant.email}</TableCell>
                 <TableCell align="right">{merchant.phoneNumber}</TableCell>
@@ -250,24 +238,20 @@ const MerchantList = () => {
                       </IconButton>
                     </Tooltip>
                   )}
-                  <Tooltip title="Delete">
-                    <IconButton onClick={() => handleDeleteClick(merchant.id)}>
-                      <DeleteOutlined />
-                    </IconButton>
-                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-            <>
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box>
+          {totalElements > 0 && (
             <>
               Showing
               &nbsp;<strong>{page * rowsPerPage + 1}</strong>&nbsp;-
               &nbsp;<strong>{Math.min((page + 1) * rowsPerPage, totalElements)}</strong>&nbsp;of&nbsp;
               &nbsp;<strong>{totalElements}</strong>&nbsp;
-            </>
             </>
           )}
         </Box>
@@ -317,20 +301,6 @@ const MerchantList = () => {
           )}
         </Box>
       </Box>
-
-      {/* Delete Dialog */}
-      <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
-        <DialogTitle>Delete Merchant</DialogTitle>
-        <DialogContent>
-          Are you sure you want to delete this merchant? This action cannot be undone.
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Suspend Dialog */}
       <Dialog open={openSuspendDialog} onClose={() => setOpenSuspendDialog(false)}>
