@@ -23,7 +23,7 @@ type AnalyticsState = {
   fetchRevenueTrend: (period: string) => Promise<void>;
   fetchOrdersTrend: (period: string) => Promise<void>;
   fetchCustomerGrowth: (period: string) => Promise<void>;
-  fetchMerchantGrowth: (parameter: string) => Promise<void>;
+  fetchMerchantGrowth: (period: string) => Promise<void>;
   fetchDeliveryPerformance: () => Promise<void>;
   fetchCategorySales: () => Promise<void>;
   fetchProductSales: () => Promise<void>;
@@ -98,7 +98,7 @@ export const useAnalyticsStore = create<AnalyticsState>()(
       fetchDeliveryPerformance: async () => {
         try {
           const response = await analyticsService.getDeliveryPerformance();
-          get().setDeliveryPurchased(response.data);
+          get().setDeliveryPerformance(response.data);
         } catch (error) {
           console.error('Failed to fetch delivery performance', error);
         }
@@ -146,4 +146,5 @@ export const useAnalyticsStore = create<AnalyticsState>()(
       },
     }),
     { name: 'AnalyticsStore' }
-  );
+  )
+);

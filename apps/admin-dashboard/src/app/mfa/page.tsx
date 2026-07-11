@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography, Container, Button, Stack, Alert, TextField } from '@mui/material';
 import { Qrcode, CheckCircle, ErrorOutline } from '@mui/icons-material';
 import { useState } from 'react';
@@ -41,7 +43,7 @@ const MfaPage = () => {
     return codes;
   };
 
-  const handleEnable = () => {
+  const handleEnable() => {
     setIsSettingUp(true);
     const secret = generateSecret();
     setSecret(secret);
@@ -132,7 +134,7 @@ const MfaPage = () => {
                 Clear
               </Button>
               <Button
-                variant="contained"
+                variant="contracted"
                 color="success"
                 onClick={handleVerify}
                 disabled={!verificationCode || verificationCode.length !== 6}

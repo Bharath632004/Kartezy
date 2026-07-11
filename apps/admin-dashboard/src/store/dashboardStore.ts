@@ -30,20 +30,20 @@ export const useDashboardStore = create<DashboardState>()(
     (set, get) => ({
       gmv: null,
       revenue: null,
-      totalOrders: number | null;
-      activeOrders: number | null;
-      customers: number | null;
-      merchants: number | null;
-      deliveryPartners: number | null;
-      products: number | null;
-      categories: number | null;
-      inventoryAlerts: number | null;
-      refundRequests: number | null;
-      supportTickets: number | null;
-      walletBalance: number | null;
-      activePromotions: number | null;
-      todaySales: number | null;
-      monthlyRevenue: number | null;
+      totalOrders: null,
+      activeOrders: null,
+      customers: null,
+      merchants: null,
+      deliveryPartners: null,
+      products: null,
+      categories: null,
+      inventoryAlerts: null,
+      refundRequests: null,
+      supportTickets: null,
+      walletBalance: null,
+      activePromotions: null,
+      todaySales: null,
+      monthlyRevenue: null,
       loading: false,
       setStats: (stats) => set((state) => ({ ...state, ...stats })),
       reset: () =>
@@ -58,7 +58,7 @@ export const useDashboardStore = create<DashboardState>()(
           products: null,
           categories: null,
           inventoryAlerts: null,
-          requestRequests: null,
+          refundRequests: null,
           supportTickets: null,
           walletBalance: null,
           activePromotions: null,

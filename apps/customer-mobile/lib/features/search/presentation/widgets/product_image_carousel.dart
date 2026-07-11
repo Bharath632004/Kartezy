@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 
 class ProductImageCarousel extends StatelessWidget {
-  const ProductImageCarousel({super.key});
+  final List<String> images;
+
+  const ProductImageCarousel({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {

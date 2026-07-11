@@ -82,7 +82,7 @@ const StoreMonitoring = () => {
         </Tooltip>
         <Tooltip title={`Auto-refresh: ${refreshInterval ? 'ON' : 'OFF'}`}>
           <IconButton onClick={handleToggleAutoRefresh}>
-            {intervalId ? <RefreshOutlined /> <br /> <span>OFF</span> : <RefreshOutlined /> <br /> <span>ON</span>}
+            {intervalId ? <RefreshOutlined /> <br /> <span>ON</span> : <RefreshOutlined /> <br /> <span>OFF</span>}
           </IconButton>
         </Tooltip>
       </Toolbar>

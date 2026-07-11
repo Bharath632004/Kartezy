@@ -2,7 +2,9 @@
 import 'package:customer_mobile/features/search/data/datasource/search_remote_data_source.dart';
 import 'package:customer_mobile/features/search/domain/repository/search_repository.dart';
 import 'package:customer_mobile/shared/models/search_result.dart';
+import 'package:customer_mobile/shared/models/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:customer_mobile/shared/shared/models/shared/models/product.dart';
 
 class SearchRepositoryImpl implements SearchRepository {
   final SearchRemoteDataSource _remoteDataSource;
@@ -11,15 +13,15 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<SearchResult> searchProducts(String query) async {
-    final List<Product> products = await _remoteDataSource.searchProducts(query: query);
+    final List<Product> productList = await _remoteDataSource.searchProducts(query: query);
     return SearchResult(
-      products: products,
+      products: productList,
       stores: const [],
       brands: const [],
       categories: const [],
       suggestions: const [],
       facets: const {},
-      totalResults: products.length,
+      totalResults: productList.length,
     );
   }
 

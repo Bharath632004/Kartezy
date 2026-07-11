@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography, Container, Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton, Tooltip, CircularProgress } from '@mui/material';
 import { History, Reload, CheckCircleIcon, CancelIcon } from '@mui/icons-material';
 import { useState, useEffect } from 'react';

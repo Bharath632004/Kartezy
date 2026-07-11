@@ -1,3 +1,5 @@
+'use client';
+
 import './globals.css';
 import type { Metadata } from 'next';
 import { ReactNode, useState, useEffect } from 'react';

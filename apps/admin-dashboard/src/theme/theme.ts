@@ -39,5 +39,31 @@ export const theme = (mode: 'light' | 'dark') => {
     shape: {
       borderRadius: 8,
     },
+    transitions: {
+      // Create a theme transition for common properties
+      duration: {
+        shortest: 150,
+        shorter: 200,
+        short: 250,
+        // most basic recommended timing
+        standard: 300,
+        // this is to be used for complex animations
+        complex: 375,
+        // recommended timing for entering a screen
+        enteringScreen: 225,
+        // recommended timing for leaving a screen
+        leavingScreen: 195,
+      },
+      easing: {
+        // This is the most common easing curve.
+        easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        // Enter -> exit
+        easeOut: 'cubic-bezier(0.0, 0, 0.2, 1)',
+        // Exit -> enter
+        easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+        // Sharp curve
+        sharp: 'cubic-bezier(0.4, 0, 0.6, 1)',
+      },
+    },
   });
 };

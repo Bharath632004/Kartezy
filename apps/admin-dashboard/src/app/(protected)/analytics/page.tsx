@@ -1,18 +1,19 @@
-import { Box, Typography, Container, Skeleton } from '@mui/material';
+'use client';
+
+import { Box, Typography, Container, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAnalyticsStore } from '@/store/analyticsStore';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
-  const analyticsStore = useAnalyticsStore();
 
   // Fetch analytics data
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        await analyticsStore.getState().fetchAll('month');
+        await useAnalyticsStore.getState().fetchAll('month');
       } catch (error) {
         console.error('Failed to fetch analytics data', error);
       } finally {
@@ -21,7 +22,7 @@ export default function AnalyticsPage() {
     };
 
     fetchData();
-  }, [analyticsStore]); // Added analyticsStore to dependencies
+  }, []);
 
   if (loading) {
     return (
@@ -37,7 +38,7 @@ export default function AnalyticsPage() {
                 <Typography variant="h5" gutterBottom>
                   Chart Placeholder
                 </Typography>
-                <Skeleton variant="rectangle" width={300} height={200} sx={{ display: 'block', margin: '0 auto' }} />
+                <Skeleton variant="rectangular" width={300} height={200} sx={{ display: 'block', margin: '0 auto' }} />
               </Box>
             ))}
           </Box>
@@ -54,7 +55,7 @@ export default function AnalyticsPage() {
     categorySales,
     productSales,
     heatMapData,
-  } = analyticsStore.getState();
+  } = useAnalyticsStore();
 
   return (
     <Container maxWidth="lg">
@@ -189,20 +190,49 @@ export default function AnalyticsPage() {
               </Typography>
             )}
           </Box>
-          {/* Heat Map Chart */}
+          {/* Heat Map Table */}
           <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 2, p: 2 }}>
             <Typography variant="h5" gutterBottom>
               Heat Map (Orders by Day/Hour)
             </Typography>
             {heatMapData.length > 0 ? (
-              <div>
-                {/* For simplicity, we'll show a placeholder. Heatmap requires a different chart type.
-                We can use a heatmap from a library like 'react-heatmap-grid' or just show a table.
-                For now, we'll show a message. */}
-                <Typography color="text.secondary">
-                  Heatmap visualization would go here (requires specialized chart)
-                </Typography>
-              </div>
+              <Paper>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Day/Hour</TableCell>
+                        {/* Generate hour headers (0-23) */}
+                        {Array.from({ length: 24 }, (_, i) => (
+                          <TableCell key={i} align="center">
+                            {i}:00
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {/* Days of the week */}
+                      {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, dayIndex) => (
+                        <TableRow key={day}>
+                          <TableCell>{day}</TableCell>
+                          {/* Hours for this day */}
+                          {Array.from({ length: 24 }, (_, hourIndex) => {
+                            // Find the value for this day and hour
+                            const entry = heatMapData.find(
+                              d => d.day === day && d.hour === `${hourIndex}:00`
+                            );
+                            return (
+                              <TableCell key={hourIndex} align="center">
+                                {entry ? entry.value : '-'}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
             ) : (
               <Typography color="text.secondary">
                 Loading heat map data...
