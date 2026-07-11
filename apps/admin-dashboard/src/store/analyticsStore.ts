@@ -23,7 +23,7 @@ type AnalyticsState = {
   fetchRevenueTrend: (period: string) => Promise<void>;
   fetchOrdersTrend: (period: string) => Promise<void>;
   fetchCustomerGrowth: (period: string) => Promise<void>;
-  fetchMerchantGrowth: (period: string) => Promise<void>;
+  fetchMerchantGrowth: (parameter: string) => Promise<void>;
   fetchDeliveryPerformance: () => Promise<void>;
   fetchCategorySales: () => Promise<void>;
   fetchProductSales: () => Promise<void>;
@@ -63,33 +63,33 @@ export const useAnalyticsStore = create<AnalyticsState>()(
           heatMapData: [],
           loading: false,
         }),
-      fetchRevenueTrend: async (parot: string) => {
+      fetchRevenueTrend: async (p: string) => {
         try {
-          const response = await analyticsService.getRevenueTrend(parot);
+          const response = await analyticsService.getRevenueTrend(p);
           get().setRevenueTrend(response.data);
         } catch (error) {
           console.error('Failed to fetch revenue trend', error);
         }
       },
-      fetchOrdersTrend: async (parot: string) => {
+      fetchOrdersTrend: async (p: string) => {
         try {
-          const response = await analyticsService.getOrdersTrend(parot);
+          const response = await analyticsService.getOrdersTrend(p);
           get().setOrdersTrend(response.data);
         } catch (error) {
           console.error('Failed to fetch orders trend', error);
         }
       },
-      fetchCustomerGrowth: async (parot: string) => {
+      fetchCustomerGrowth: async (p: string) => {
         try {
-          const response = await analyticsService.getCustomerGrowth(parot);
+          const response = await analyticsService.getCustomerGrowth(p);
           get().setCustomerGrowth(response.data);
         } catch (error) {
           console.error('Failed to fetch customer growth', error);
         }
       },
-      fetchMerchantGrowth: async (parot: string) => {
+      fetchMerchantGrowth: async (p: string) => {
         try {
-          const response = await analyticsService.getMerchantGrowth(parot);
+          const response = await analyticsService.getMerchantGrowth(p);
           get().setMerchantGrowth(response.data);
         } catch (error) {
           console.error('Failed to fetch merchant growth', error);
@@ -98,7 +98,7 @@ export const useAnalyticsStore = create<AnalyticsState>()(
       fetchDeliveryPerformance: async () => {
         try {
           const response = await analyticsService.getDeliveryPerformance();
-          get().setDeliveryPerformance(response.data);
+          get().setDeliveryPurchased(response.data);
         } catch (error) {
           console.error('Failed to fetch delivery performance', error);
         }
@@ -131,10 +131,10 @@ export const useAnalyticsStore = create<AnalyticsState>()(
         set({ loading: true });
         try {
           await Promise.allSettled([
-            get().fetchRevenueTrend(parot),
-            get().fetchOrdersTrend(parot),
-            get().fetchCustomerGrowth(parot),
-            get().fetchMerchantGrowth(parot),
+            get().fetchRevenueTrend(period),
+            get().fetchOrdersTrend(period),
+            get().fetchCustomerGrowth(period),
+            get().fetchMerchantGrowth(period),
             get().fetchDeliveryPerformance(),
             get().fetchCategorySales(),
             get().fetchProductSales(),
@@ -146,5 +146,4 @@ export const useAnalyticsStore = create<AnalyticsState>()(
       },
     }),
     { name: 'AnalyticsStore' }
-  )
-;
+  );

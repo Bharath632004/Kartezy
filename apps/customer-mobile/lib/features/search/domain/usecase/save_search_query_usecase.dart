@@ -1,6 +1,7 @@
 // lib/features/search/domain/usecase/save_search_query_usecase.dart
 import 'package:customer_mobile/features/search/domain/repository/search_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:customer_mobile/features/search/data/repository/search_repository_impl.dart';
 
 class SaveSearchQueryUseCase {
   final SearchRepository _repository;

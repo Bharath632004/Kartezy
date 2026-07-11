@@ -97,6 +97,11 @@ const OrdersList = () => {
     setOpenAssignDriverDialog(true);
   };
 
+  const handleReassignDriverClick = (id: string) => {
+    setSelectedOrderId(id);
+    setOpenReassignDriverDialog(true);
+  };
+
   const handleCancelConfirm = async () => {
     if (selectedOrderId) {
       try {
