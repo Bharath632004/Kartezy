@@ -21,7 +21,8 @@ class OrderTimeline extends StatelessWidget {
       {
         'title': 'Order Confirmed',
         'icon': Icons.check_circle_outline,
-        'time': order.updatedAt, // We don't have a separate time, use updatedAt as approximation
+        'time': order
+            .updatedAt, // We don't have a separate time, use updatedAt as approximation
         'status': _getStepStatus(1),
       },
       {
@@ -45,7 +46,9 @@ class OrderTimeline extends StatelessWidget {
       {
         'title': 'Delivered',
         'icon': Icons.check_circle,
-        'time': order.orderStatus.toLowerCase() == 'delivered' ? order.updatedAt : null,
+        'time': order.orderStatus.toLowerCase() == 'delivered'
+            ? order.updatedAt
+            : null,
         'status': _getStepStatus(5),
       },
     ];
@@ -125,7 +128,11 @@ class OrderTimeline extends StatelessWidget {
     }
   }
 
-  Widget _buildTimelineStep(BuildContext context, Map<String, dynamic> step, bool isLast) {
+  Widget _buildTimelineStep(
+    BuildContext context,
+    Map<String, dynamic> step,
+    bool isLast,
+  ) {
     final String status = step['status'];
     final IconData icon = step['icon'];
     final String title = step['title'];
@@ -182,11 +189,7 @@ class OrderTimeline extends StatelessWidget {
                 width: 24,
                 height: 24,
                 alignment: Alignment.center,
-                child: Container(
-                  width: 2,
-                  height: 24,
-                  color: lineColor,
-                ),
+                child: Container(width: 2, height: 24, color: lineColor),
               )
             else
               const SizedBox(width: 24),
@@ -196,19 +199,12 @@ class OrderTimeline extends StatelessWidget {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: iconColor,
-                  width: 2,
-                ),
+                border: Border.all(color: iconColor, width: 2),
                 color: status == 'completed' || status == 'active'
-                    ? iconColor.withOpacity(0.2)
+                    ? iconColor.withValues(alpha: 0.2)
                     : Colors.transparent,
               ),
-              child: Icon(
-                icon,
-                size: 18,
-                color: iconColor,
-              ),
+              child: Icon(icon, size: 18, color: iconColor),
             ),
             const SizedBox(width: 12),
             // Content
@@ -219,23 +215,18 @@ class OrderTimeline extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      fontWeight:
-                          status == 'active' || status == 'completed'
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                      color:
-                          status == 'active' || status == 'completed'
-                              ? Colors.black
-                              : Colors.grey[600],
+                      fontWeight: status == 'active' || status == 'completed'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      color: status == 'active' || status == 'completed'
+                          ? Colors.black
+                          : Colors.grey[600],
                     ),
                   ),
                   if (timeText.isNotEmpty)
                     Text(
                       timeText,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
                 ],
               ),

@@ -20,7 +20,9 @@ final walletRepositoryProvider = Provider<WalletRepository>((ref) {
 });
 
 // Providers for use cases
-final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((ref) {
+final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((
+  ref,
+) {
   final repository = ref.read(walletRepositoryProvider);
   return GetWalletBalanceUseCase(repository);
 });
@@ -30,7 +32,9 @@ final addWalletMoneyUseCaseProvider = Provider<AddWalletMoneyUseCase>((ref) {
   return AddWalletMoneyUseCase(repository);
 });
 
-final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>((ref) {
-  final repository = ref.read(walletRepositoryProvider);
-  return WithdrawWalletMoneyUseCase(repository);
-});
+final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>(
+  (ref) {
+    final repository = ref.read(walletRepositoryProvider);
+    return WithdrawWalletMoneyUseCase(repository);
+  },
+);

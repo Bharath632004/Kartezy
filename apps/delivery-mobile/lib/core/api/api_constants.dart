@@ -9,6 +9,7 @@ class ApiConstants {
   static const String deliveryPartnerAuthRefresh = 'delivery-partner/auth/refresh';
   static const String deliveryPartnerAuthSendOtp = 'delivery-partner/auth/send-otp';
   static const String deliveryPartnerAuthVerifyOtp = 'delivery-partner/auth/verify-otp';
+  static const String deliveryPartnerAuthRegister = 'delivery-partner/auth/register';
 
   // Other endpoints (common or for other features)
   static const String cart = 'cart';

@@ -118,6 +118,25 @@ class _$RewardPointsImpl implements _RewardPoints {
   @override
   final DateTime? expiresAt;
 
+  @override
+  String toString() {
+    return 'RewardPoints(points: $points, expiresAt: $expiresAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RewardPointsImpl &&
+            (identical(other.points, points) || other.points == points) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, points, expiresAt);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -310,6 +329,30 @@ class _$RewardTransactionImpl implements _RewardTransaction {
   @override
   final DateTime timestamp;
 
+  @override
+  String toString() {
+    return 'RewardTransaction(id: $id, type: $type, points: $points, description: $description, timestamp: $timestamp)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RewardTransactionImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.points, points) || other.points == points) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, type, points, description, timestamp);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -478,6 +521,27 @@ class _$RewardLevelImpl implements _RewardLevel {
     return EqualUnmodifiableListView(_benefits);
   }
 
+  @override
+  String toString() {
+    return 'RewardLevel(level: $level, minPoints: $minPoints, benefits: $benefits)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RewardLevelImpl &&
+            (identical(other.level, level) || other.level == level) &&
+            (identical(other.minPoints, minPoints) ||
+                other.minPoints == minPoints) &&
+            const DeepCollectionEquality().equals(other._benefits, _benefits));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, level, minPoints,
+      const DeepCollectionEquality().hash(_benefits));
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -643,6 +707,29 @@ class _$RewardImpl implements _Reward {
   final String description;
   @override
   final int pointsRequired;
+
+  @override
+  String toString() {
+    return 'Reward(id: $id, name: $name, description: $description, pointsRequired: $pointsRequired)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RewardImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.pointsRequired, pointsRequired) ||
+                other.pointsRequired == pointsRequired));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, description, pointsRequired);
 
   @JsonKey(ignore: true)
   @override

@@ -9,19 +9,14 @@ class RedeemRewardPointsUseCase {
 
   RedeemRewardPointsUseCase(this._repository);
 
-  Future<RewardPoints> call({
-    required int points,
-    required String rewardId,
-  }) =>
-      _repository.redeemRewardPoints(
-        points: points,
-        rewardId: rewardId,
-      );
+  Future<RewardPoints> call({required int points, required String rewardId}) =>
+      _repository.redeemRewardPoints(points: points, rewardId: rewardId);
 }
 
 /// Provider for redeem reward points use case
-final redeemRewardPointsUseCaseProvider =
-    Provider<RedeemRewardPointsUseCase>((ref) {
+final redeemRewardPointsUseCaseProvider = Provider<RedeemRewardPointsUseCase>((
+  ref,
+) {
   final repository = ref.read(rewardsRepositoryProvider);
   return RedeemRewardPointsUseCase(repository);
 });

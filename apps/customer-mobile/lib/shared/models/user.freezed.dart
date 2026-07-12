@@ -248,6 +248,39 @@ class _$UserImpl implements _User {
   @override
   final DateTime updatedAt;
 
+  @override
+  String toString() {
+    return 'User(id: $id, email: $email, name: $name, phone: $phone, avatarUrl: $avatarUrl, accessToken: $accessToken, refreshToken: $refreshToken, isVerified: $isVerified, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl) &&
+            (identical(other.accessToken, accessToken) ||
+                other.accessToken == accessToken) &&
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken) &&
+            (identical(other.isVerified, isVerified) ||
+                other.isVerified == isVerified) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, email, name, phone,
+      avatarUrl, accessToken, refreshToken, isVerified, createdAt, updatedAt);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

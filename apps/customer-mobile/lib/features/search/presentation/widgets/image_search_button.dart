@@ -19,7 +19,7 @@ class _ImageSearchButtonState extends ConsumerState<ImageSearchButton> {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      
+
       if (image != null && mounted) {
         // Perform image search
         await _searchByImage(image.path);
@@ -38,7 +38,9 @@ class _ImageSearchButtonState extends ConsumerState<ImageSearchButton> {
 
   Future<void> _searchByImage(String imagePath) async {
     // Save the image search as a query
-    await ref.read(saveSearchQueryUseCaseProvider)('image:${imagePath.split('/').last}');
+    await ref.read(saveSearchQueryUseCaseProvider)(
+      'image:${imagePath.split('/').last}',
+    );
     // Perform the search by image
     await ref.read(searchByImageUseCaseProvider)(imagePath);
     // Navigate to search results

@@ -10,7 +10,9 @@ import 'package:customer_mobile/features/address/domain/usecase/set_default_addr
 import 'package:customer_mobile/shared/models/address.dart';
 
 // Providers for data source and repository
-final addressRemoteDataSourceProvider = Provider<AddressRemoteDataSource>((ref) {
+final addressRemoteDataSourceProvider = Provider<AddressRemoteDataSource>((
+  ref,
+) {
   return AddressRemoteDataSourceImpl(ref);
 });
 
@@ -40,7 +42,9 @@ final deleteAddressUseCaseProvider = Provider<DeleteAddressUseCase>((ref) {
   return DeleteAddressUseCase(repository);
 });
 
-final setDefaultAddressUseCaseProvider = Provider<SetDefaultAddressUseCase>((ref) {
+final setDefaultAddressUseCaseProvider = Provider<SetDefaultAddressUseCase>((
+  ref,
+) {
   final repository = ref.read(addressRepositoryProvider);
   return SetDefaultAddressUseCase(repository);
 });
@@ -112,12 +116,10 @@ class AddressNotifier extends StateNotifier<AddressState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final updatedAddress = await _updateAddressUseCase(addressId, address);
-      final updatedAddresses = state.addresses.map((addr) =>
-          addr.id == addressId ? updatedAddress : addr).toList();
-      state = state.copyWith(
-        addresses: updatedAddresses,
-        isLoading: false,
-      );
+      final updatedAddresses = state.addresses
+          .map((addr) => addr.id == addressId ? updatedAddress : addr)
+          .toList();
+      state = state.copyWith(addresses: updatedAddresses, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -128,7 +130,9 @@ class AddressNotifier extends StateNotifier<AddressState> {
     try {
       await _deleteAddressUseCase(addressId);
       state = state.copyWith(
-        addresses: state.addresses.where((addr) => addr.id != addressId).toList(),
+        addresses: state.addresses
+            .where((addr) => addr.id != addressId)
+            .toList(),
         isLoading: false,
       );
     } catch (e) {
@@ -140,12 +144,10 @@ class AddressNotifier extends StateNotifier<AddressState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final updatedAddress = await _setDefaultAddressUseCase(addressId);
-      final updatedAddresses = state.addresses.map((addr) =>
-          addr.id == addressId ? updatedAddress : addr).toList();
-      state = state.copyWith(
-        addresses: updatedAddresses,
-        isLoading: false,
-      );
+      final updatedAddresses = state.addresses
+          .map((addr) => addr.id == addressId ? updatedAddress : addr)
+          .toList();
+      state = state.copyWith(addresses: updatedAddresses, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -153,7 +155,9 @@ class AddressNotifier extends StateNotifier<AddressState> {
 }
 
 // Provider for the AddressNotifier
-final addressProvider = StateNotifierProvider<AddressNotifier, AddressState>((ref) {
+final addressProvider = StateNotifierProvider<AddressNotifier, AddressState>((
+  ref,
+) {
   return AddressNotifier(
     getAddressesUseCase: ref.read(getAddressesUseCaseProvider),
     addAddressUseCase: ref.read(addAddressUseCaseProvider),

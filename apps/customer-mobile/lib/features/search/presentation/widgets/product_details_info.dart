@@ -14,10 +14,7 @@ class ProductDetailsInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            product.name,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
+          Text(product.name, style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: 8),
           Text(
             product.description,
@@ -27,9 +24,9 @@ class ProductDetailsInfo extends StatelessWidget {
           Text(
             '\$${product.price.toStringAsFixed(2)}',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

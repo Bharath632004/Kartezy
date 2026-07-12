@@ -1,11 +1,11 @@
+// lib/shared/models/membership.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'membership.freezed.dart';
 part 'membership.g.dart';
 
 @freezed
-class MembershipPlan with _$MembershipPlan, EquatableMixin {
+class MembershipPlan with _$MembershipPlan {
   const factory MembershipPlan({
     required String id,
     required String name,
@@ -20,7 +20,7 @@ class MembershipPlan with _$MembershipPlan, EquatableMixin {
 }
 
 @freezed
-class Membership with _$Membership, EquatableMixin {
+class Membership with _$Membership {
   const factory Membership({
     required String planId,
     required DateTime startDate,
@@ -34,7 +34,7 @@ class Membership with _$Membership, EquatableMixin {
 }
 
 @freezed
-class MembershipBenefit with _$MembershipBenefit, EquatableMixin {
+class MembershipBenefit with _$MembershipBenefit {
   const factory MembershipBenefit({
     required String id,
     required String title,

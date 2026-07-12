@@ -24,11 +24,7 @@ class SeasonalSearchesWidget extends ConsumerWidget {
               spacing: 8,
               runSpacing: 8,
               children: seasonal
-                  .map(
-                    (season) => Chip(
-                      label: Text(season),
-                    ),
-                  )
+                  .map((season) => Chip(label: Text(season)))
                   .toList(),
             ),
           ],

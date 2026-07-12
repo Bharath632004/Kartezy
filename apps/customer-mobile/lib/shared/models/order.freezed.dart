@@ -579,6 +579,101 @@ class _$OrderImpl implements _Order {
   @override
   final DateTime updatedAt;
 
+  @override
+  String toString() {
+    return 'Order(id: $id, userId: $userId, cartId: $cartId, items: $items, discountAmount: $discountAmount, totalAmount: $totalAmount, itemCount: $itemCount, platformFee: $platformFee, deliveryCharges: $deliveryCharges, packagingFee: $packagingFee, gstAmount: $gstAmount, tipAmount: $tipAmount, walletAmount: $walletAmount, netAmount: $netAmount, deliveryAddress: $deliveryAddress, billingAddress: $billingAddress, orderStatus: $orderStatus, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod, deliveryInstructions: $deliveryInstructions, contactlessDelivery: $contactlessDelivery, deliverySlotStart: $deliverySlotStart, deliverySlotEnd: $deliverySlotEnd, estimatedDeliveryTime: $estimatedDeliveryTime, couponCode: $couponCode, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OrderImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.cartId, cartId) || other.cartId == cartId) &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.discountAmount, discountAmount) ||
+                other.discountAmount == discountAmount) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
+            (identical(other.itemCount, itemCount) ||
+                other.itemCount == itemCount) &&
+            (identical(other.platformFee, platformFee) ||
+                other.platformFee == platformFee) &&
+            (identical(other.deliveryCharges, deliveryCharges) ||
+                other.deliveryCharges == deliveryCharges) &&
+            (identical(other.packagingFee, packagingFee) ||
+                other.packagingFee == packagingFee) &&
+            (identical(other.gstAmount, gstAmount) ||
+                other.gstAmount == gstAmount) &&
+            (identical(other.tipAmount, tipAmount) ||
+                other.tipAmount == tipAmount) &&
+            (identical(other.walletAmount, walletAmount) ||
+                other.walletAmount == walletAmount) &&
+            (identical(other.netAmount, netAmount) ||
+                other.netAmount == netAmount) &&
+            (identical(other.deliveryAddress, deliveryAddress) ||
+                other.deliveryAddress == deliveryAddress) &&
+            (identical(other.billingAddress, billingAddress) ||
+                other.billingAddress == billingAddress) &&
+            (identical(other.orderStatus, orderStatus) ||
+                other.orderStatus == orderStatus) &&
+            (identical(other.paymentStatus, paymentStatus) ||
+                other.paymentStatus == paymentStatus) &&
+            (identical(other.paymentMethod, paymentMethod) ||
+                other.paymentMethod == paymentMethod) &&
+            (identical(other.deliveryInstructions, deliveryInstructions) ||
+                other.deliveryInstructions == deliveryInstructions) &&
+            (identical(other.contactlessDelivery, contactlessDelivery) ||
+                other.contactlessDelivery == contactlessDelivery) &&
+            (identical(other.deliverySlotStart, deliverySlotStart) ||
+                other.deliverySlotStart == deliverySlotStart) &&
+            (identical(other.deliverySlotEnd, deliverySlotEnd) ||
+                other.deliverySlotEnd == deliverySlotEnd) &&
+            (identical(other.estimatedDeliveryTime, estimatedDeliveryTime) ||
+                other.estimatedDeliveryTime == estimatedDeliveryTime) &&
+            (identical(other.couponCode, couponCode) ||
+                other.couponCode == couponCode) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        userId,
+        cartId,
+        const DeepCollectionEquality().hash(_items),
+        discountAmount,
+        totalAmount,
+        itemCount,
+        platformFee,
+        deliveryCharges,
+        packagingFee,
+        gstAmount,
+        tipAmount,
+        walletAmount,
+        netAmount,
+        deliveryAddress,
+        billingAddress,
+        orderStatus,
+        paymentStatus,
+        paymentMethod,
+        deliveryInstructions,
+        contactlessDelivery,
+        deliverySlotStart,
+        deliverySlotEnd,
+        estimatedDeliveryTime,
+        couponCode,
+        createdAt,
+        updatedAt
+      ]);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

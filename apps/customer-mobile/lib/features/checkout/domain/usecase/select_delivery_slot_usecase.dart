@@ -5,6 +5,5 @@ class SelectDeliverySlotUseCase {
 
   SelectDeliverySlotUseCase(this.repository);
 
-  Future<void> call(String slot) =>
-      repository.selectDeliverySlot(slot);
+  Future<void> call(String slot) => repository.selectDeliverySlot(slot);
 }

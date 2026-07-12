@@ -12,7 +12,8 @@ class OrderHistoryPage extends ConsumerWidget {
     final orderState = ref.watch(orderProvider);
 
     return DefaultTabController(
-      length: 7, // All, Active, Scheduled, Completed, Cancelled, Returned, Refunded
+      length:
+          7, // All, Active, Scheduled, Completed, Cancelled, Returned, Refunded
       child: Scaffold(
         appBar: AppBar(
           title: const Text('My Orders'),
@@ -31,38 +32,62 @@ class OrderHistoryPage extends ConsumerWidget {
         body: orderState.isLoading
             ? const Center(child: CircularProgressIndicator())
             : orderState.errorMessage != null
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Error: ${orderState.errorMessage}'),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Refetch orders
-                            ref.refresh(orderProvider);
-                          },
-                          child: const Text('Retry'),
-                        ),
-                      ],
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Error: ${orderState.errorMessage}'),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Refetch orders
+                        ref.refresh(orderProvider);
+                      },
+                      child: const Text('Retry'),
                     ),
-                  )
-                : TabBarView(
-                    children: [
-                      _buildOrderList(orderState.orders ?? []), // All
-                      _buildOrderList(
-                          orderState.orders.where((o) => _isActiveStatus(o.orderStatus)).toList() ?? []),
-                      _buildOrderList(
-                          orderState.orders.where((o) => o.orderStatus == 'scheduled').toList() ?? []),
-                      _buildOrderList(
-                          orderState.orders.where((o) => o.orderStatus == 'delivered').toList() ?? []),
-                      _buildOrderList(
-                          orderState.orders.where((o) => o.orderStatus == 'cancelled').toList() ?? []),
-                      _buildOrderList(
-                          orderState.orders.where((o) => o.orderStatus == 'returned').toList() ?? []),
-                      _buildOrderList(
-                          orderState.orders.where((o) => o.orderStatus == 'refunded').toList() ?? []),
-                    ],
+                  ],
+                ),
+              )
+            : TabBarView(
+                children: [
+                  _buildOrderList(orderState.orders ?? []), // All
+                  _buildOrderList(
+                    orderState.orders
+                            .where((o) => _isActiveStatus(o.orderStatus))
+                            .toList() ??
+                        [],
                   ),
+                  _buildOrderList(
+                    orderState.orders
+                            .where((o) => o.orderStatus == 'scheduled')
+                            .toList() ??
+                        [],
+                  ),
+                  _buildOrderList(
+                    orderState.orders
+                            .where((o) => o.orderStatus == 'delivered')
+                            .toList() ??
+                        [],
+                  ),
+                  _buildOrderList(
+                    orderState.orders
+                            .where((o) => o.orderStatus == 'cancelled')
+                            .toList() ??
+                        [],
+                  ),
+                  _buildOrderList(
+                    orderState.orders
+                            .where((o) => o.orderStatus == 'returned')
+                            .toList() ??
+                        [],
+                  ),
+                  _buildOrderList(
+                    orderState.orders
+                            .where((o) => o.orderStatus == 'refunded')
+                            .toList() ??
+                        [],
+                  ),
+                ],
+              ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             //  Navigate to new order/cart
@@ -75,9 +100,7 @@ class OrderHistoryPage extends ConsumerWidget {
 
   Widget _buildOrderList(List<Order> orders) {
     if (orders.isEmpty) {
-      return const Center(
-        child: Text('No orders found'),
-      );
+      return const Center(child: Text('No orders found'));
     }
 
     return ListView.builder(
@@ -90,8 +113,13 @@ class OrderHistoryPage extends ConsumerWidget {
   }
 
   bool _isActiveStatus(String status) {
-    return ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery']
-        .contains(status.toLowerCase());
+    return [
+      'pending',
+      'confirmed',
+      'preparing',
+      'ready_for_pickup',
+      'out_for_delivery',
+    ].contains(status.toLowerCase());
   }
 }
 
@@ -114,10 +142,8 @@ class OrderHistoryItem extends StatelessWidget {
             width: 60,
             height: 60,
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => const Icon(
-              Icons.image_not_supported,
-              size: 60,
-            ),
+            errorBuilder: (context, error, stackTrace) =>
+                const Icon(Icons.image_not_supported, size: 60),
           ),
         ),
         title: Text('Order #${order.id.substring(0, 8)}'),

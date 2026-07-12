@@ -146,4 +146,32 @@ class AuthRepositoryImpl implements AuthRepository {
       throw Exception('Failed to refresh token: $e');
     }
   }
+
+  @override
+  Future<User> register(String email, String password, Map<String, dynamic> profileData) async {
+    try {
+      final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
+      final user = await remoteDataSource.register(email, password, profileData);
+      // Store user info or token
+      final secureStorage = _ref.read(secureStorageProvider);
+      if (user.accessToken == null) {
+        throw Exception('Access token is null');
+      }
+      if (user.refreshToken == null) {
+        throw Exception('Refresh token is null');
+      }
+      final accessToken = user.accessToken!;
+      final refreshToken = user.refreshToken!;
+      await secureStorage.write(key: 'userId', value: user.id.toString());
+      await secureStorage.write(key: 'accessToken', value: accessToken);
+      await secureStorage.write(key: 'refreshToken', value: refreshToken);
+      // Store user in Hive for quick access
+      final hiveManager = _ref.read(hiveManagerProvider);
+      final userBox = hiveManager.getBox<User>(boxName: 'user');
+      await userBox.put('currentUser', user);
+      return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

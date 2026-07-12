@@ -21,7 +21,9 @@ class GetMembershipInfoUseCase {
 }
 
 /// Provider for get membership info use case
-final getMembershipInfoUseCaseProvider = Provider<GetMembershipInfoUseCase>((ref) {
+final getMembershipInfoUseCaseProvider = Provider<GetMembershipInfoUseCase>((
+  ref,
+) {
   final repository = ref.read(membershipRepositoryProvider);
   return GetMembershipInfoUseCase(repository);
 });

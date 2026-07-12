@@ -12,7 +12,9 @@ class PurchaseMembershipUseCase {
 }
 
 /// Provider for purchase membership use case
-final purchaseMembershipUseCaseProvider = Provider<PurchaseMembershipUseCase>((ref) {
+final purchaseMembershipUseCaseProvider = Provider<PurchaseMembershipUseCase>((
+  ref,
+) {
   final repository = ref.read(membershipRepositoryProvider);
   return PurchaseMembershipUseCase(repository);
 });

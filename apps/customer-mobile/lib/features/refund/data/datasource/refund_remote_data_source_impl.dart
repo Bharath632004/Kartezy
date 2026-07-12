@@ -13,13 +13,13 @@ class RefundRemoteDataSourceImpl implements RefundRemoteDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> requestRefund(String orderId, String reason) async {
+  Future<Map<String, dynamic>> requestRefund(
+    String orderId,
+    String reason,
+  ) async {
     final response = await dio.post(
       '/refund/request',
-      data: {
-        'orderId': orderId,
-        'reason': reason,
-      },
+      data: {'orderId': orderId, 'reason': reason},
     );
     return response.data;
   }

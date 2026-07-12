@@ -70,11 +70,11 @@ class RouteInfo extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        polylineCoordinates,
-        startPoint,
-        endPoint,
-        totalDistance,
-        estimatedDuration,
-      ];
+    id,
+    polylineCoordinates,
+    startPoint,
+    endPoint,
+    totalDistance,
+    estimatedDuration,
+  ];
 }

@@ -7,5 +7,6 @@ class GetCheckoutSummaryUseCase {
 
   GetCheckoutSummaryUseCase(this._repository);
 
-  Future<CheckoutSummary> call([String? userId]) => _repository.getCheckoutSummary(userId);
+  Future<CheckoutSummary> call([String? userId]) =>
+      _repository.getCheckoutSummary(userId);
 }

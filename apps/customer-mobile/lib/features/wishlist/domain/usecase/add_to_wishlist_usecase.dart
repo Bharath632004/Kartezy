@@ -14,9 +14,7 @@ class AddToWishlistUseCase {
 }
 
 /// Provider for add to wishlist use case
-final addToWishlistUseCaseProvider = Provider<AddToWishlistUseCase>((
-  ref,
-) {
+final addToWishlistUseCaseProvider = Provider<AddToWishlistUseCase>((ref) {
   final repository = ref.read(wishlistRepositoryProvider);
   return AddToWishlistUseCase(repository);
 });

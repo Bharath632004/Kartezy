@@ -8,10 +8,20 @@ String formatDate(DateTime date, {String pattern = 'dd MMM yyyy'}) {
 
 String formatTimeOfDay(TimeOfDay timeOfDay) {
   final now = DateTime.now();
-  final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+  final dateTime = DateTime(
+    now.year,
+    now.month,
+    now.day,
+    timeOfDay.hour,
+    timeOfDay.minute,
+  );
   return DateFormat.jm().format(dateTime); // e.g., 4:30 PM
 }
 
-String formatCurrency(double amount, {String symbol = '\$', int decimalPlaces = 2}) {
+String formatCurrency(
+  double amount, {
+  String symbol = '\$',
+  int decimalPlaces = 2,
+}) {
   return '\$${amount.toStringAsFixed(decimalPlaces)}';
 }

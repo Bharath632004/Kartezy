@@ -6,6 +6,9 @@ class AddToCartUseCase {
 
   AddToCartUseCase(this.repository);
 
-  Future<Cart> call(String productId, int quantity, Map<String, String> variants) =>
-      repository.addToCart(productId, quantity, variants);
+  Future<Cart> call(
+    String productId,
+    int quantity,
+    Map<String, String> variants,
+  ) => repository.addToCart(productId, quantity, variants);
 }

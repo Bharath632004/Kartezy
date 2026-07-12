@@ -38,52 +38,52 @@ class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
 
   @override
   Future<void> saveAddress(String addressId, bool isDefault) async {
-    await _dio.post('/address/save', data: {
-      'addressId': addressId,
-      'isDefault': isDefault,
-    });
+    await _dio.post(
+      '/address/save',
+      data: {'addressId': addressId, 'isDefault': isDefault},
+    );
   }
 
   @override
   Future<void> setDeliveryInstructions(String instructions) async {
-    await _dio.post('/checkout/set-delivery-instructions', data: {
-      'instructions': instructions,
-    });
+    await _dio.post(
+      '/checkout/set-delivery-instructions',
+      data: {'instructions': instructions},
+    );
   }
 
   @override
   Future<void> setContactlessDelivery(bool value) async {
-    await _dio.post('/checkout/set-contactless-delivery', data: {
-      'value': value,
-    });
+    await _dio.post(
+      '/checkout/set-contactless-delivery',
+      data: {'value': value},
+    );
   }
 
   @override
   Future<void> setInstantDelivery(bool value) async {
-    await _dio.post('/checkout/set-instant-delivery', data: {
-      'value': value,
-    });
+    await _dio.post('/checkout/set-instant-delivery', data: {'value': value});
   }
 
   @override
   Future<void> setScheduledDelivery(DateTime dateTime) async {
-    await _dio.post('/checkout/set-scheduled-delivery', data: {
-      'dateTime': dateTime.toIso8601String(),
-    });
+    await _dio.post(
+      '/checkout/set-scheduled-delivery',
+      data: {'dateTime': dateTime.toIso8601String()},
+    );
   }
 
   @override
   Future<void> selectDeliverySlot(String slot) async {
-    await _dio.post('/checkout/select-delivery-slot', data: {
-      'slot': slot,
-    });
+    await _dio.post('/checkout/select-delivery-slot', data: {'slot': slot});
   }
 
   @override
   Future<CheckoutSummary> applyCoupon(String couponCode) async {
-    final response = await _dio.post('/checkout/apply-coupon', data: {
-      'couponCode': couponCode,
-    });
+    final response = await _dio.post(
+      '/checkout/apply-coupon',
+      data: {'couponCode': couponCode},
+    );
     return CheckoutSummary.fromJson(response.data);
   }
 

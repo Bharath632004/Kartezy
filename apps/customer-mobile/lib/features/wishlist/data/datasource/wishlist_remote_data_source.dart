@@ -51,6 +51,8 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
 }
 
 /// Provider for wishlist remote data source
-final wishlistRemoteDataSourceProvider = Provider<WishlistRemoteDataSource>((ref) {
+final wishlistRemoteDataSourceProvider = Provider<WishlistRemoteDataSource>((
+  ref,
+) {
   return WishlistRemoteDataSourceImpl(ref);
 });

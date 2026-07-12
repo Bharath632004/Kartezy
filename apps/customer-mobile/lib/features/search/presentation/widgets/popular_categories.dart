@@ -8,10 +8,12 @@ class PopularCategoriesWidget extends ConsumerStatefulWidget {
   const PopularCategoriesWidget({super.key});
 
   @override
-  ConsumerState<PopularCategoriesWidget> createState() => _PopularCategoriesWidgetState();
+  ConsumerState<PopularCategoriesWidget> createState() =>
+      _PopularCategoriesWidgetState();
 }
 
-class _PopularCategoriesWidgetState extends ConsumerState<PopularCategoriesWidget> {
+class _PopularCategoriesWidgetState
+    extends ConsumerState<PopularCategoriesWidget> {
   bool _isLoading = true;
   List<Category> _categories = [];
   String? _error;
@@ -85,25 +87,22 @@ class _PopularCategoriesWidgetState extends ConsumerState<PopularCategoriesWidge
                     height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Theme.of(context).dividerColor,
-                      ),
+                      border: Border.all(color: Theme.of(context).dividerColor),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
                         category.imageUrl,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                              child: Icon(
-                                Icons.category,
-                                color: Theme.of(context).iconTheme.color,
-                              ),
-                            ),
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
+                          child: Icon(
+                            Icons.category,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                        ),
                       ),
                     ),
                   ),

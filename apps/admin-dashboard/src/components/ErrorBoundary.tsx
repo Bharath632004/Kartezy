@@ -46,12 +46,12 @@ export default class ErrorBoundary extends React.Component<
 
       return (
         <Box
-          sx={
+          sx={{
             p: 4,
             textAlign: 'center',
             bgcolor: 'background.default',
             color: 'text.primary'
-          }
+          }}
         >
           <Typography variant="h4" color="error.main">
             Something went wrong.

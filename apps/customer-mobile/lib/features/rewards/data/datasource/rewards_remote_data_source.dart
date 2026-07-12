@@ -1,5 +1,4 @@
 // lib/features/rewards/data/datasource/rewards/data/data/datasource/rewards_remote_data_source.dart
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/shared/models/rewards.dart';
@@ -46,10 +45,7 @@ class RewardsRemoteDataSourceImpl implements RewardsRemoteDataSource {
     final dioClient = _ref.read(dioProvider);
     final response = await dioClient.post(
       '/rewards/earn',
-      data: {
-        'points': points,
-        'description': description,
-      },
+      data: {'points': points, 'description': description},
     );
     return RewardPoints.fromJson(response.data);
   }
@@ -62,10 +58,7 @@ class RewardsRemoteDataSourceImpl implements RewardsRemoteDataSource {
     final dioClient = _ref.read(dioProvider);
     final response = await dioClient.post(
       '/rewards/redeem',
-      data: {
-        'points': points,
-        'reward_id': rewardId,
-      },
+      data: {'points': points, 'reward_id': rewardId},
     );
     return RewardPoints.fromJson(response.data);
   }
@@ -80,7 +73,8 @@ class RewardsRemoteDataSourceImpl implements RewardsRemoteDataSource {
 }
 
 /// Provider for rewards remote data source
-final rewardsRemoteDataSourceProvider =
-    Provider<RewardsRemoteDataSource>((ref) {
+final rewardsRemoteDataSourceProvider = Provider<RewardsRemoteDataSource>((
+  ref,
+) {
   return RewardsRemoteDataSourceImpl(ref);
 });

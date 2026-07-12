@@ -36,7 +36,20 @@ class AuthService {
     }
   }
 
-  Future<void> loginWithPhone(String phone, String otp) async {
+  Future<void> sendOtp(String phone) async {
+    try {
+      await _dio.post(
+        '${ApiConstants.baseUrl}${ApiConstants.sendOtp}',
+        data: {
+          'phone': phone,
+        },
+      );
+    } catch (e) {
+      throw Exception('Failed to send OTP: $e');
+    }
+  }
+
+  Future<void> verifyOtp(String phone, String otp) async {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.verifyOtp}',
@@ -47,8 +60,13 @@ class AuthService {
       );
       await _saveTokens(response.data['access_token'], response.data['refresh_token']);
     } catch (e) {
-      throw Exception('Phone login failed: $e');
+      throw Exception('Invalid OTP: $e');
     }
+  }
+
+  Future<void> loginWithPhone(String phone, String otp) async {
+    // For backward compatibility, we can call verifyOtp
+    await verifyOtp(phone, otp);
   }
 
   Future<void> loginWithGoogle(String idToken) async {

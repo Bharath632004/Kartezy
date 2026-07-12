@@ -13,7 +13,9 @@ class GetRewardHistoryUseCase {
 }
 
 /// Provider for get reward history use case
-final getRewardHistoryUseCaseProvider = Provider<GetRewardHistoryUseCase>((ref) {
+final getRewardHistoryUseCaseProvider = Provider<GetRewardHistoryUseCase>((
+  ref,
+) {
   final repository = ref.read(rewardsRepositoryProvider);
   return GetRewardHistoryUseCase(repository);
 });

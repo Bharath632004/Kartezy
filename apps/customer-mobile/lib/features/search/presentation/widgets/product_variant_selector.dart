@@ -16,10 +16,7 @@ class ProductVariantSelector extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Variants',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Text('Variants', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           const Text('No variants available for this product.'),
         ],

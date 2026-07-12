@@ -1,22 +1,20 @@
 // lib/shared/models/rewards.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'rewards.freezed.dart';
 part 'rewards.g.dart';
 
 @freezed
-class RewardPoints with _$RewardPoints, EquatableMixin {
-  const factory RewardPoints({
-    required int points,
-    DateTime? expiresAt,
-  }) = _RewardPoints;
+class RewardPoints with _$RewardPoints {
+  const factory RewardPoints({required int points, DateTime? expiresAt}) =
+      _RewardPoints;
 
-  factory RewardPoints.fromJson(Map<String, dynamic> json) => _$RewardPointsFromJson(json);
+  factory RewardPoints.fromJson(Map<String, dynamic> json) =>
+      _$RewardPointsFromJson(json);
 }
 
 @freezed
-class RewardTransaction with _$RewardTransaction, EquatableMixin {
+class RewardTransaction with _$RewardTransaction {
   const factory RewardTransaction({
     required String id,
     required String type, // earn, redeem, adjustment
@@ -25,23 +23,25 @@ class RewardTransaction with _$RewardTransaction, EquatableMixin {
     required DateTime timestamp,
   }) = _RewardTransaction;
 
-  factory RewardTransaction.fromJson(Map<String, dynamic> json) => _$RewardTransactionFromJson(json);
+  factory RewardTransaction.fromJson(Map<String, dynamic> json) =>
+      _$RewardTransactionFromJson(json);
 }
 
 @freezed
-class RewardLevel with _$RewardLevel, EquatableMixin {
+class RewardLevel with _$RewardLevel {
   const factory RewardLevel({
     required String level,
     required int minPoints,
     required List<String> benefits,
   }) = _RewardLevel;
 
-  factory RewardLevel.fromJson(Map<String, dynamic> json) => _$RewardLevelFromJson(json);
+  factory RewardLevel.fromJson(Map<String, dynamic> json) =>
+      _$RewardLevelFromJson(json);
 }
 
 // Missing Reward model as per spec
 @freezed
-class Reward with _$Reward, EquatableMixin {
+class Reward with _$Reward {
   const factory Reward({
     required String id,
     required String name,
@@ -49,5 +49,6 @@ class Reward with _$Reward, EquatableMixin {
     required int pointsRequired,
   }) = _Reward;
 
-  factory Reward.fromJson(Map<String, dynamic> json) => _$RewardFromJson(json);
+  factory Reward.fromJson(Map<String, dynamic> json) =>
+      _$RewardFromJson(json);
 }

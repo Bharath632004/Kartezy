@@ -326,6 +326,62 @@ class _$CheckoutSummaryImpl implements _CheckoutSummary {
   @override
   final double netAmount;
 
+  @override
+  String toString() {
+    return 'CheckoutSummary(id: $id, userId: $userId, items: $items, couponCode: $couponCode, discountAmount: $discountAmount, totalAmount: $totalAmount, itemCount: $itemCount, platformFee: $platformFee, deliveryCharges: $deliveryCharges, packagingFee: $packagingFee, gstAmount: $gstAmount, tipAmount: $tipAmount, walletAmount: $walletAmount, netAmount: $netAmount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CheckoutSummaryImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.couponCode, couponCode) ||
+                other.couponCode == couponCode) &&
+            (identical(other.discountAmount, discountAmount) ||
+                other.discountAmount == discountAmount) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
+            (identical(other.itemCount, itemCount) ||
+                other.itemCount == itemCount) &&
+            (identical(other.platformFee, platformFee) ||
+                other.platformFee == platformFee) &&
+            (identical(other.deliveryCharges, deliveryCharges) ||
+                other.deliveryCharges == deliveryCharges) &&
+            (identical(other.packagingFee, packagingFee) ||
+                other.packagingFee == packagingFee) &&
+            (identical(other.gstAmount, gstAmount) ||
+                other.gstAmount == gstAmount) &&
+            (identical(other.tipAmount, tipAmount) ||
+                other.tipAmount == tipAmount) &&
+            (identical(other.walletAmount, walletAmount) ||
+                other.walletAmount == walletAmount) &&
+            (identical(other.netAmount, netAmount) ||
+                other.netAmount == netAmount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      userId,
+      const DeepCollectionEquality().hash(_items),
+      couponCode,
+      discountAmount,
+      totalAmount,
+      itemCount,
+      platformFee,
+      deliveryCharges,
+      packagingFee,
+      gstAmount,
+      tipAmount,
+      walletAmount,
+      netAmount);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

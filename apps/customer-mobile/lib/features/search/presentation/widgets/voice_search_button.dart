@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
+import 'dart:developer';
 
 class VoiceSearchButton extends ConsumerStatefulWidget {
   const VoiceSearchButton({super.key});
@@ -13,7 +14,6 @@ class VoiceSearchButton extends ConsumerStatefulWidget {
 
 class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
   bool _isListening = false;
-  bool _isAvailable = false;
   late SpeechToText _speech;
   String _lastWords = '';
 
@@ -26,9 +26,9 @@ class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
   /// This has to happen only once per app
   void _initSpeech() async {
     _speech = SpeechToText();
-    _isAvailable = await _speech.initialize(
-      onStatus: (val) => print('onStatus: $val'),
-      onError: (val) => print('onError: $val'),
+    await _speech.initialize(
+      onStatus: (val) => log('onStatus: $val'),
+      onError: (val) => log('onError: $val'),
     );
     if (!mounted) return;
     setState(() {});
@@ -37,7 +37,7 @@ class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
   void _startListening() async {
     await _speech.listen(
       onResult: (val) => setState(() {
-        _lastWords = val.recognizedWords;
+        _lastWords = val.recognizedWords ?? '';
         if (val.hasConfidenceRating && val.confidence > 0) {
           // If we have a confident result, use it to search
           if (val.finalResult || val.confidence > 0.8) {

@@ -40,16 +40,16 @@ class TrackingInfo {
   }
 
   Map<String, dynamic> toJson() => {
-        'orderId': orderId,
-        'driver': driver.toJson(),
-        'route': route.toJson(),
-        'currentStatus': currentStatus,
-        'lastUpdated': lastUpdated.toIso8601String(),
-        'distanceRemaining': distanceRemaining,
-        'eta': eta.inSeconds,
-        'currentLocation': {
-          'latitude': currentLocation.latitude,
-          'longitude': currentLocation.longitude,
-        },
-      };
+    'orderId': orderId,
+    'driver': driver.toJson(),
+    'route': route.toJson(),
+    'currentStatus': currentStatus,
+    'lastUpdated': lastUpdated.toIso8601String(),
+    'distanceRemaining': distanceRemaining,
+    'eta': eta.inSeconds,
+    'currentLocation': {
+      'latitude': currentLocation.latitude,
+      'longitude': currentLocation.longitude,
+    },
+  };
 }

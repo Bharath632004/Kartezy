@@ -73,10 +73,8 @@ class OrderDetailPage extends ConsumerWidget {
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.image_not_supported,
-                            size: 80,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(Icons.image_not_supported, size: 80),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -125,7 +123,9 @@ class OrderDetailPage extends ConsumerWidget {
                         'Subtotal:',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text('\$${(order.totalAmount - order.deliveryCharges).toStringAsFixed(2)}'),
+                      Text(
+                        '\$${(order.totalAmount - order.deliveryCharges).toStringAsFixed(2)}',
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),

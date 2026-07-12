@@ -198,6 +198,31 @@ class _$MembershipPlanImpl implements _MembershipPlan {
   @override
   final bool isPopular;
 
+  @override
+  String toString() {
+    return 'MembershipPlan(id: $id, name: $name, price: $price, duration: $duration, benefits: $benefits, isPopular: $isPopular)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MembershipPlanImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            const DeepCollectionEquality().equals(other._benefits, _benefits) &&
+            (identical(other.isPopular, isPopular) ||
+                other.isPopular == isPopular));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, price, duration,
+      const DeepCollectionEquality().hash(_benefits), isPopular);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -407,6 +432,31 @@ class _$MembershipImpl implements _Membership {
     return EqualUnmodifiableListView(_usedBenefits);
   }
 
+  @override
+  String toString() {
+    return 'Membership(planId: $planId, startDate: $startDate, endDate: $endDate, isActive: $isActive, usedBenefits: $usedBenefits)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MembershipImpl &&
+            (identical(other.planId, planId) || other.planId == planId) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            const DeepCollectionEquality()
+                .equals(other._usedBenefits, _usedBenefits));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, planId, startDate, endDate,
+      isActive, const DeepCollectionEquality().hash(_usedBenefits));
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -581,6 +631,27 @@ class _$MembershipBenefitImpl implements _MembershipBenefit {
   final String description;
   @override
   final String icon;
+
+  @override
+  String toString() {
+    return 'MembershipBenefit(id: $id, title: $title, description: $description, icon: $icon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MembershipBenefitImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.icon, icon) || other.icon == icon));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, description, icon);
 
   @JsonKey(ignore: true)
   @override

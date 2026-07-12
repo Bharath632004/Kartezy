@@ -8,12 +8,14 @@ class CartRepositoryImpl implements CartRepository {
   CartRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<Cart> getCart(String? userId) =>
-      _remoteDataSource.getCart(userId);
+  Future<Cart> getCart(String? userId) => _remoteDataSource.getCart(userId);
 
   @override
-  Future<Cart> addToCart(String productId, int quantity, Map<String, String> variants) =>
-      _remoteDataSource.addToCart(productId, quantity, variants);
+  Future<Cart> addToCart(
+    String productId,
+    int quantity,
+    Map<String, String> variants,
+  ) => _remoteDataSource.addToCart(productId, quantity, variants);
 
   @override
   Future<Cart> updateCartItem(String cartItemId, int quantity) =>
@@ -24,16 +26,14 @@ class CartRepositoryImpl implements CartRepository {
       _remoteDataSource.removeCartItem(cartItemId);
 
   @override
-  Future<Cart> clearCart() =>
-      _remoteDataSource.clearCart();
+  Future<Cart> clearCart() => _remoteDataSource.clearCart();
 
   @override
   Future<Cart> applyCoupon(String couponCode) =>
       _remoteDataSource.applyCoupon(couponCode);
 
   @override
-  Future<Cart> removeCoupon() =>
-      _remoteDataSource.removeCoupon();
+  Future<Cart> removeCoupon() => _remoteDataSource.removeCoupon();
 
   @override
   Future<Cart> saveForLater(String cartItemId) =>
@@ -52,8 +52,10 @@ class CartRepositoryImpl implements CartRepository {
       _remoteDataSource.updateWalletAmount(amount);
 
   @override
-  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants) =>
-      _remoteDataSource.updateCartItemVariants(cartItemId, variants);
+  Future<Cart> updateCartItemVariants(
+    String cartItemId,
+    Map<String, String> variants,
+  ) => _remoteDataSource.updateCartItemVariants(cartItemId, variants);
 
   @override
   Future<Cart> updateCartItemQuantity(String cartItemId, int quantity) =>

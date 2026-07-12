@@ -10,6 +10,7 @@ abstract class AuthRemoteDataSource {
   Future<User> refreshToken(String refreshToken);
   Future<User> sendOtp(String phoneNumber);
   Future<User> verifyOtp(String phoneNumber, String otp);
+  Future<User> register(String email, String password, Map<String, dynamic> profileData);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -59,6 +60,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final response = await dio.post(
       ApiConstants.deliveryPartnerAuthVerifyOtp,
       data: {'phone_number': phoneNumber, 'otp': otp},
+    );
+    return User.fromJson(response.data);
+  }
+
+  @override
+  Future<User> register(String email, String password, Map<String, dynamic> profileData) async {
+    final dio = _ref.read(dioProvider);
+    final response = await dio.post(
+      ApiConstants.deliveryPartnerAuthRegister,
+      data: {
+        'email': email,
+        'password': password,
+        ...profileData, // Spread the profile data
+      },
     );
     return User.fromJson(response.data);
   }

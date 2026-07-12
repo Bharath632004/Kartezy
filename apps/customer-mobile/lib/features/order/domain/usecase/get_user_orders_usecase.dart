@@ -6,6 +6,5 @@ class GetUserOrdersUseCase {
 
   GetUserOrdersUseCase(this.repository);
 
-  Future<List<Order>> call(String? userId) =>
-      repository.getUserOrders(userId);
+  Future<List<Order>> call(String? userId) => repository.getUserOrders(userId);
 }

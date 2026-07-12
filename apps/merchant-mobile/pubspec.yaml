@@ -55,6 +55,7 @@ dependencies:
   equatable: ^2.1.0
   dartz: ^0.10.1
   flutter_local_notifications: ^22.0.1
+  smooth_page_indicator: ^2.0.1
   # For secure storage, we also need flutter_secure_storage for web and other platforms.
   # For Firebase, we need to configure it separately.
 

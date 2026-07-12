@@ -30,28 +30,21 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
   @override
   Future<Membership> getUserMembership(String userId) async {
     final dioClient = _ref.read(dioProvider);
-    final response = await dioClient.get(
-      '/membership/user/$userId',
-    );
+    final response = await dioClient.get('/membership/user/$userId');
     return Membership.fromJson(response.data);
   }
 
   @override
   Future<bool> cancelMembership(String membershipId) async {
     final dioClient = _ref.read(dioProvider);
-    final response = await dioClient.delete(
-      '/membership/$membershipId/cancel',
-    );
+    final response = await dioClient.delete('/membership/$membershipId/cancel');
     return response.data['success'] ?? false;
   }
 
   @override
   Future<void> purchaseMembership(String planId) async {
     final dioClient = _ref.read(dioProvider);
-    await dioClient.post(
-      '/membership/purchase',
-      data: {'planId': planId},
-    );
+    await dioClient.post('/membership/purchase', data: {'planId': planId});
   }
 
   @override
@@ -63,10 +56,7 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
   @override
   Future<void> upgradeMembership(String newPlanId) async {
     final dioClient = _ref.read(dioProvider);
-    await dioClient.post(
-      '/membership/upgrade',
-      data: {'newPlanId': newPlanId},
-    );
+    await dioClient.post('/membership/upgrade', data: {'newPlanId': newPlanId});
   }
 
   @override
@@ -88,7 +78,8 @@ class MembershipRemoteDataSourceImpl implements MembershipRemoteDataSource {
 }
 
 /// Provider for membership remote data source
-final membershipRemoteDataSourceProvider =
-    Provider<MembershipRemoteDataSource>((ref) {
-  return MembershipRemoteDataSourceImpl(ref);
-});
+final membershipRemoteDataSourceProvider = Provider<MembershipRemoteDataSource>(
+  (ref) {
+    return MembershipRemoteDataSourceImpl(ref);
+  },
+);

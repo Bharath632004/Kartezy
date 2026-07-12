@@ -8,8 +8,7 @@ class OrderRepositoryImpl implements OrderRepository {
   OrderRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<Order> getOrder(String orderId) =>
-      _remoteDataSource.getOrder(orderId);
+  Future<Order> getOrder(String orderId) => _remoteDataSource.getOrder(orderId);
 
   @override
   Future<List<Order>> getUserOrders(String? userId) =>

@@ -3,7 +3,11 @@ import 'package:customer_mobile/shared/models/cart.dart';
 abstract class CartRepository {
   Future<Cart> getCart(String? userId);
 
-  Future<Cart> addToCart(String productId, int quantity, Map<String, String> variants);
+  Future<Cart> addToCart(
+    String productId,
+    int quantity,
+    Map<String, String> variants,
+  );
 
   Future<Cart> updateCartItem(String cartItemId, int quantity);
 
@@ -23,7 +27,10 @@ abstract class CartRepository {
 
   Future<Cart> updateWalletAmount(double amount);
 
-  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants);
+  Future<Cart> updateCartItemVariants(
+    String cartItemId,
+    Map<String, String> variants,
+  );
 
   Future<Cart> updateCartItemQuantity(String cartItemId, int quantity);
 

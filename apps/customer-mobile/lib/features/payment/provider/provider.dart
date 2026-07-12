@@ -11,7 +11,9 @@ import 'package:customer_mobile/shared/models/payment.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
-final paymentRemoteDataSourceProvider = Provider<PaymentRemoteDataSource>((ref) {
+final paymentRemoteDataSourceProvider = Provider<PaymentRemoteDataSource>((
+  ref,
+) {
   final dioClient = ref.read(dioProvider);
   return PaymentRemoteDataSourceImpl(dioClient);
 });
@@ -37,7 +39,9 @@ final refundPaymentUseCaseProvider = Provider<RefundPaymentUseCase>((ref) {
   return RefundPaymentUseCase(repository);
 });
 
-final getPaymentsByOrderUseCaseProvider = Provider<GetPaymentsByOrderUseCase>((ref) {
+final getPaymentsByOrderUseCaseProvider = Provider<GetPaymentsByOrderUseCase>((
+  ref,
+) {
   final repository = ref.read(paymentRepositoryProvider);
   return GetPaymentsByOrderUseCase(repository);
 });
@@ -95,10 +99,7 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final payment = await _initiatePaymentUseCase(paymentData);
-      state = state.copyWith(
-        currentPayment: payment,
-        isLoading: false,
-      );
+      state = state.copyWith(currentPayment: payment, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -108,10 +109,7 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final payment = await _getPaymentUseCase(paymentId);
-      state = state.copyWith(
-        currentPayment: payment,
-        isLoading: false,
-      );
+      state = state.copyWith(currentPayment: payment, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -123,7 +121,9 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
       final payment = await _refundPaymentUseCase(paymentId, amount);
       // Update the current payment if it's the one being refunded
       state = state.copyWith(
-        currentPayment: state.currentPayment?.id == paymentId ? payment : state.currentPayment,
+        currentPayment: state.currentPayment?.id == paymentId
+            ? payment
+            : state.currentPayment,
         isLoading: false,
       );
     } catch (e) {
@@ -135,10 +135,7 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final payments = await _getPaymentsByOrderUseCase(orderId);
-      state = state.copyWith(
-        payments: payments,
-        isLoading: false,
-      );
+      state = state.copyWith(payments: payments, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -148,10 +145,7 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final payments = await _getUserPaymentsUseCase(userId);
-      state = state.copyWith(
-        payments: payments,
-        isLoading: false,
-      );
+      state = state.copyWith(payments: payments, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -159,7 +153,9 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
 }
 
 // Provider for the PaymentNotifier
-final paymentProvider = StateNotifierProvider<PaymentNotifier, PaymentState>((ref) {
+final paymentProvider = StateNotifierProvider<PaymentNotifier, PaymentState>((
+  ref,
+) {
   return PaymentNotifier(
     initiatePaymentUseCase: ref.read(initiatePaymentUseCaseProvider),
     getPaymentUseCase: ref.read(getPaymentUseCaseProvider),

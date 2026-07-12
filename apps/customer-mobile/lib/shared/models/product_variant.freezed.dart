@@ -197,6 +197,32 @@ class _$ProductVariantImpl implements _ProductVariant {
   @override
   final bool isDefault;
 
+  @override
+  String toString() {
+    return 'ProductVariant(id: $id, productId: $productId, sku: $sku, price: $price, attributes: $attributes, isDefault: $isDefault)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProductVariantImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.sku, sku) || other.sku == sku) &&
+            (identical(other.price, price) || other.price == price) &&
+            const DeepCollectionEquality()
+                .equals(other._attributes, _attributes) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, productId, sku, price,
+      const DeepCollectionEquality().hash(_attributes), isDefault);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

@@ -5,6 +5,5 @@ class SetContactlessDeliveryUseCase {
 
   SetContactlessDeliveryUseCase(this.repository);
 
-  Future<void> call(bool value) =>
-      repository.setContactlessDelivery(value);
+  Future<void> call(bool value) => repository.setContactlessDelivery(value);
 }

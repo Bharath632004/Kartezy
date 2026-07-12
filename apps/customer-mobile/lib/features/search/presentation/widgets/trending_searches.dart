@@ -32,7 +32,7 @@ class TrendingSearchesWidget extends ConsumerWidget {
                       },
                       backgroundColor: Theme.of(
                         context,
-                      ).colorScheme.primaryContainer
+                      ).colorScheme.primaryContainer,
                     ),
                   )
                   .toList(),

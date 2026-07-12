@@ -31,10 +31,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // Check if onboarding has been shown
       final hiveManager = ref.read(hiveManagerProvider);
       final settingsBox = hiveManager.getBox<bool>(boxName: 'settings');
-      _isOnboardingComplete = settingsBox.get(
-        'onboardingCompleted',
-        defaultValue: false,
-      ) as bool;
+      _isOnboardingComplete =
+          settingsBox.get('onboardingCompleted', defaultValue: false) as bool;
 
       // Check authentication status
       final authService = ref.read(authServiceProvider);

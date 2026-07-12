@@ -22,7 +22,7 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
   void initState() {
     super.initState();
     if (widget.initialText != null) {
-      _controller.text = widget.initialText;
+      _controller.text = widget.initialText!;
     }
   }
 

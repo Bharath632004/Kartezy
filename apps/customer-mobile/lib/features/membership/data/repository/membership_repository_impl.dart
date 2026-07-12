@@ -22,8 +22,7 @@ class MembershipRepositoryImpl implements MembershipRepository {
       _remoteDataSource.purchaseMembership(planId);
 
   @override
-  Future<void> renewMembership() =>
-      _remoteDataSource.renewMembership();
+  Future<void> renewMembership() => _remoteDataSource.renewMembership();
 
   @override
   Future<void> upgradeMembership(String newPlanId) =>

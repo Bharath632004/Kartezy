@@ -41,15 +41,17 @@ final addToCartUseCaseProvider = Provider<AddToCartUseCase>((ref) {
   return AddToCartUseCase(repository);
 });
 
-final updateCartItemQuantityUseCaseProvider = Provider<UpdateCartItemQuantityUseCase>((ref) {
-  final repository = ref.read(cartRepositoryProvider);
-  return UpdateCartItemQuantityUseCase(repository);
-});
+final updateCartItemQuantityUseCaseProvider =
+    Provider<UpdateCartItemQuantityUseCase>((ref) {
+      final repository = ref.read(cartRepositoryProvider);
+      return UpdateCartItemQuantityUseCase(repository);
+    });
 
-final updateCartItemVariantsUseCaseProvider = Provider<UpdateCartItemVariantsUseCase>((ref) {
-  final repository = ref.read(cartRepositoryProvider);
-  return UpdateCartItemVariantsUseCase(repository);
-});
+final updateCartItemVariantsUseCaseProvider =
+    Provider<UpdateCartItemVariantsUseCase>((ref) {
+      final repository = ref.read(cartRepositoryProvider);
+      return UpdateCartItemVariantsUseCase(repository);
+    });
 
 final removeCartItemUseCaseProvider = Provider<RemoveCartItemUseCase>((ref) {
   final repository = ref.read(cartRepositoryProvider);
@@ -81,7 +83,9 @@ final moveToWishlistUseCaseProvider = Provider<MoveToWishlistUseCase>((ref) {
   return MoveToWishlistUseCase(repository);
 });
 
-final updateWalletAmountUseCaseProvider = Provider<UpdateWalletAmountUseCase>((ref) {
+final updateWalletAmountUseCaseProvider = Provider<UpdateWalletAmountUseCase>((
+  ref,
+) {
   final repository = ref.read(cartRepositoryProvider);
   return UpdateWalletAmountUseCase(repository);
 });
@@ -97,17 +101,9 @@ class CartState {
   final bool isLoading;
   final String? errorMessage;
 
-  const CartState({
-    this.cart,
-    this.isLoading = false,
-    this.errorMessage,
-  });
+  const CartState({this.cart, this.isLoading = false, this.errorMessage});
 
-  CartState copyWith({
-    Cart? cart,
-    bool? isLoading,
-    String? errorMessage,
-  }) {
+  CartState copyWith({Cart? cart, bool? isLoading, String? errorMessage}) {
     return CartState(
       cart: cart ?? this.cart,
       isLoading: isLoading ?? this.isLoading,
@@ -168,7 +164,11 @@ class CartNotifier extends StateNotifier<CartState> {
   }
 
   /// Adds a product to the cart.
-  Future<void> addToCart(String productId, int quantity, Map<String, String> variants) async {
+  Future<void> addToCart(
+    String productId,
+    int quantity,
+    Map<String, String> variants,
+  ) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final cart = await _addToCartUseCase(productId, quantity, variants);
@@ -190,7 +190,10 @@ class CartNotifier extends StateNotifier<CartState> {
   }
 
   /// Updates the variant of a cart item.
-  Future<void> updateCartItemVariants(String cartItemId, Map<String, String> variants) async {
+  Future<void> updateCartItemVariants(
+    String cartItemId,
+    Map<String, String> variants,
+  ) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final cart = await _updateCartItemVariantsUseCase(cartItemId, variants);
@@ -294,8 +297,12 @@ final cartProvider = StateNotifierProvider<CartNotifier, CartState>((ref) {
   return CartNotifier(
     getCartUseCase: ref.read(getCartUseCaseProvider),
     addToCartUseCase: ref.read(addToCartUseCaseProvider),
-    updateCartItemQuantityUseCase: ref.read(updateCartItemQuantityUseCaseProvider),
-    updateCartItemVariantsUseCase: ref.read(updateCartItemVariantsUseCaseProvider),
+    updateCartItemQuantityUseCase: ref.read(
+      updateCartItemQuantityUseCaseProvider,
+    ),
+    updateCartItemVariantsUseCase: ref.read(
+      updateCartItemVariantsUseCaseProvider,
+    ),
     removeCartItemUseCase: ref.read(removeCartItemUseCaseProvider),
     clearCartUseCase: ref.read(clearCartUseCaseProvider),
     applyCouponUseCase: ref.read(applyCouponUseCaseProvider),

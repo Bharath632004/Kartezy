@@ -49,18 +49,19 @@ dependencies:
   collection: ^1.18.0
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
-  country_code_picker: ^2.0.2   # Added for country code picker
+  country_code_picker: ^3.4.1   # Added for country code picker
   # New dependencies for search and product details
-  speech_to_text: ^6.6.0
   mobile_scanner: ^5.0.0
   image_picker: ^1.0.0
   share_plus: ^7.0.0
   video_player: ^2.8.0
   dartz: ^0.10.1
+  speech_to_text: ^6.6.0
 
   # Authentication dependencies
   google_sign_in: ^6.2.1
   local_auth: ^2.2.10
+  path_provider: ^2.0.15   # Added for path_provider
 
 dev_dependencies:
   flutter_test:
@@ -71,3 +72,6 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   custom_lint: ^0.6.4
   analyzer: ^6.4.1
+
+flutter:
+  uses-material-design: true

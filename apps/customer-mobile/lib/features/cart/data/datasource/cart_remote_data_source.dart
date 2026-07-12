@@ -4,7 +4,11 @@ import 'package:customer_mobile/shared/models/cart.dart';
 
 abstract class CartRemoteDataSource {
   Future<Cart> getCart(String? userId);
-  Future<Cart> addToCart(String productId, int quantity, Map<String, String> variants);
+  Future<Cart> addToCart(
+    String productId,
+    int quantity,
+    Map<String, String> variants,
+  );
   Future<Cart> updateCartItem(String cartItemId, int quantity);
   Future<Cart> removeCartItem(String cartItemId);
   Future<Cart> clearCart();
@@ -15,7 +19,10 @@ abstract class CartRemoteDataSource {
   Future<Cart> restoreFromSaveForLater(String cartItemId);
   Future<Cart> updateWalletAmount(double amount);
   Future<Cart> mergeGuestCart(String guestCartId, String userId);
-  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants);
+  Future<Cart> updateCartItemVariants(
+    String cartItemId,
+    Map<String, String> variants,
+  );
   Future<Cart> updateCartItemQuantity(String cartItemId, int quantity);
 }
 
@@ -34,7 +41,11 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   }
 
   @override
-  Future<Cart> addToCart(String productId, int quantity, Map<String, String> variants) async {
+  Future<Cart> addToCart(
+    String productId,
+    int quantity,
+    Map<String, String> variants,
+  ) async {
     final response = await _dio.post(
       '/cart/add',
       data: {
@@ -122,16 +133,16 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   Future<Cart> mergeGuestCart(String guestCartId, String userId) async {
     final response = await _dio.post(
       '/cart/merge-guest',
-      data: {
-        'guestCartId': guestCartId,
-        'userId': userId,
-      },
+      data: {'guestCartId': guestCartId, 'userId': userId},
     );
     return Cart.fromJson(response.data);
   }
 
   @override
-  Future<Cart> updateCartItemVariants(String cartItemId, Map<String, String> variants) async {
+  Future<Cart> updateCartItemVariants(
+    String cartItemId,
+    Map<String, String> variants,
+  ) async {
     final response = await _dio.put(
       '/cart/item/$cartItemId',
       data: {'variants': variants},

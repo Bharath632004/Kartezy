@@ -13,7 +13,9 @@ class GetMembershipPlansUseCase {
 }
 
 /// Provider for get membership plans use case
-final getMembershipPlansUseCaseProvider = Provider<GetMembershipPlansUseCase>((ref) {
+final getMembershipPlansUseCaseProvider = Provider<GetMembershipPlansUseCase>((
+  ref,
+) {
   final repository = ref.read(membershipRepositoryProvider);
   return GetMembershipPlansUseCase(repository);
 });

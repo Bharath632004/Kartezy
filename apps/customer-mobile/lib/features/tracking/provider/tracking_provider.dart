@@ -14,11 +14,7 @@ class TrackingState {
   final TrackingInfo? value;
   final String? error;
 
-  const TrackingState({
-    this.isLoading = false,
-    this.value,
-    this.error,
-  });
+  const TrackingState({this.isLoading = false, this.value, this.error});
 
   bool get hasError => error != null;
 
@@ -39,15 +35,21 @@ class TrackingNotifier extends StateNotifier<TrackingState> {
   final GetOrderTrackingUseCase _getOrderTrackingUseCase;
   StreamSubscription<Either<Failure, TrackingInfo>>? _subscription;
 
-  TrackingNotifier(this._getOrderTrackingUseCase) : super(const TrackingState());
+  TrackingNotifier(this._getOrderTrackingUseCase)
+    : super(const TrackingState());
 
   void startTracking(String orderId) {
     state = state.copyWith(isLoading: true, error: null);
     _subscription?.cancel();
     _subscription = _getOrderTrackingUseCase(orderId).listen((either) {
       either.fold(
-        (failure) => state = state.copyWith(isLoading: false, error: failure.message),
-        (trackingInfo) => state = state.copyWith(isLoading: false, value: trackingInfo, error: null),
+        (failure) =>
+            state = state.copyWith(isLoading: false, error: failure.message),
+        (trackingInfo) => state = state.copyWith(
+          isLoading: false,
+          value: trackingInfo,
+          error: null,
+        ),
       );
     });
   }
@@ -65,17 +67,17 @@ class TrackingNotifier extends StateNotifier<TrackingState> {
 }
 
 // Provider for the tracking notifier
-final trackingProvider = StateNotifierProvider<TrackingNotifier, TrackingState>((ref) {
-  return TrackingNotifier(
-    ref.read(getOrderTrackingUseCaseProvider),
-  );
-});
+final trackingProvider = StateNotifierProvider<TrackingNotifier, TrackingState>(
+  (ref) {
+    return TrackingNotifier(ref.read(getOrderTrackingUseCaseProvider));
+  },
+);
 
 // Provider for the use case
-final getOrderTrackingUseCaseProvider = Provider<GetOrderTrackingUseCase>((ref) {
-  return GetOrderTrackingUseCase(
-    ref.read(trackingRepositoryProvider),
-  );
+final getOrderTrackingUseCaseProvider = Provider<GetOrderTrackingUseCase>((
+  ref,
+) {
+  return GetOrderTrackingUseCase(ref.read(trackingRepositoryProvider));
 });
 
 // Now DriverProvider
@@ -84,19 +86,11 @@ class DriverState {
   final DriverInfo? value;
   final String? error;
 
-  const DriverState({
-    this.isLoading = false,
-    this.value,
-    this.error,
-  });
+  const DriverState({this.isLoading = false, this.value, this.error});
 
   bool get hasError => error != null;
 
-  DriverState copyWith({
-    bool? isLoading,
-    DriverInfo? value,
-    String? error,
-  }) {
+  DriverState copyWith({bool? isLoading, DriverInfo? value, String? error}) {
     return DriverState(
       isLoading: isLoading ?? this.isLoading,
       value: value ?? this.value,
@@ -114,24 +108,24 @@ class DriverNotifier extends StateNotifier<DriverState> {
     state = state.copyWith(isLoading: true, error: null);
     final result = await _getDriverInfoUseCase(orderId);
     result.fold(
-      (failure) => state = state.copyWith(isLoading: false, error: failure.message),
-      (driverInfo) => state = state.copyWith(isLoading: false, value: driverInfo),
+      (failure) =>
+          state = state.copyWith(isLoading: false, error: failure.message),
+      (driverInfo) =>
+          state = state.copyWith(isLoading: false, value: driverInfo),
     );
   }
 }
 
 // Provider for the driver notifier
-final driverProvider = StateNotifierProvider<DriverNotifier, DriverState>((ref) {
-  return DriverNotifier(
-    ref.read(getDriverInfoUseCaseProvider),
-  );
+final driverProvider = StateNotifierProvider<DriverNotifier, DriverState>((
+  ref,
+) {
+  return DriverNotifier(ref.read(getDriverInfoUseCaseProvider));
 });
 
 // Provider for the use case
 final getDriverInfoUseCaseProvider = Provider<GetDriverInfoUseCase>((ref) {
-  return GetDriverInfoUseCase(
-    ref.read(trackingRepositoryProvider),
-  );
+  return GetDriverInfoUseCase(ref.read(trackingRepositoryProvider));
 });
 
 // Now RouteProvider
@@ -140,19 +134,11 @@ class RouteState {
   final RouteInfo? value;
   final String? error;
 
-  const RouteState({
-    this.isLoading = false,
-    this.value,
-    this.error,
-  });
+  const RouteState({this.isLoading = false, this.value, this.error});
 
   bool get hasError => error != null;
 
-  RouteState copyWith({
-    bool? isLoading,
-    RouteInfo? value,
-    String? error,
-  }) {
+  RouteState copyWith({bool? isLoading, RouteInfo? value, String? error}) {
     return RouteState(
       isLoading: isLoading ?? this.isLoading,
       value: value ?? this.value,
@@ -170,7 +156,8 @@ class RouteNotifier extends StateNotifier<RouteState> {
     state = state.copyWith(isLoading: true, error: null);
     final result = await _getRouteInfoUseCase(orderId);
     result.fold(
-      (failure) => state = state.copyWith(isLoading: false, error: failure.message),
+      (failure) =>
+          state = state.copyWith(isLoading: false, error: failure.message),
       (routeInfo) => state = state.copyWith(isLoading: false, value: routeInfo),
     );
   }
@@ -178,28 +165,22 @@ class RouteNotifier extends StateNotifier<RouteState> {
 
 // Provider for the route notifier
 final routeProvider = StateNotifierProvider<RouteNotifier, RouteState>((ref) {
-  return RouteNotifier(
-    ref.read(getRouteInfoUseCaseProvider),
-  );
+  return RouteNotifier(ref.read(getRouteInfoUseCaseProvider));
 });
 
 // Provider for the use case
 final getRouteInfoUseCaseProvider = Provider<GetRouteInfoUseCase>((ref) {
-  return GetRouteInfoUseCase(
-    ref.read(trackingRepositoryProvider),
-  );
+  return GetRouteInfoUseCase(ref.read(trackingRepositoryProvider));
 });
 
 // Repository provider
 final trackingRepositoryProvider = Provider<TrackingRepository>((ref) {
-  return TrackingRepositoryImpl(
-    ref.read(trackingRemoteDataSourceProvider),
-  );
+  return TrackingRepositoryImpl(ref.read(trackingRemoteDataSourceProvider));
 });
 
 // Remote data source provider
-final trackingRemoteDataSourceProvider = Provider<TrackingRemoteDataSource>((ref) {
-  return TrackingRemoteDataSourceImpl(
-    ref.read(dioProvider),
-  );
+final trackingRemoteDataSourceProvider = Provider<TrackingRemoteDataSource>((
+  ref,
+) {
+  return TrackingRemoteDataSourceImpl(ref.read(dioProvider));
 });

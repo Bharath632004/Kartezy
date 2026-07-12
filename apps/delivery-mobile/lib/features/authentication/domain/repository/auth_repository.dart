@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<User> refreshToken(String refreshToken);
   Future<User> sendOtp(String phoneNumber);
   Future<User> verifyOtp(String phoneNumber, String otp);
+  Future<User> register(String email, String password, Map<String, dynamic> profileData);
 }

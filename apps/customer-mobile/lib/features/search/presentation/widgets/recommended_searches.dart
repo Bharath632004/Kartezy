@@ -26,11 +26,8 @@ class RecommendedSearchesWidget extends ConsumerWidget {
               children: recommendations
                   .map(
                     (recommendation) => Chip(
-                      label: Text(recommendation),
-                      onDeleted: () {
-                        // In a real app, you might remove from recommendations
-                      },
-                      avatar: const Icon(Icons.robot_2, size: 16),
+                      label: Text(recommendation ?? ''),
+                      avatar: const Icon(Icons.search, size: 16),
                     ),
                   )
                   .toList(),

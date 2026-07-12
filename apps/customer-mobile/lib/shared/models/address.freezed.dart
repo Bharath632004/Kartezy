@@ -339,6 +339,61 @@ class _$AddressImpl implements _Address {
   @override
   final DateTime updatedAt;
 
+  @override
+  String toString() {
+    return 'Address(id: $id, userId: $userId, name: $name, phone: $phone, addressLine1: $addressLine1, addressLine2: $addressLine2, city: $city, state: $state, postalCode: $postalCode, country: $country, isDefault: $isDefault, latitude: $latitude, longitude: $longitude, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AddressImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.addressLine1, addressLine1) ||
+                other.addressLine1 == addressLine1) &&
+            (identical(other.addressLine2, addressLine2) ||
+                other.addressLine2 == addressLine2) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.postalCode, postalCode) ||
+                other.postalCode == postalCode) &&
+            (identical(other.country, country) || other.country == country) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      userId,
+      name,
+      phone,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      postalCode,
+      country,
+      isDefault,
+      latitude,
+      longitude,
+      createdAt,
+      updatedAt);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

@@ -1,11 +1,11 @@
+// lib/shared/models/address.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'address.freezed.dart';
 part 'address.g.dart';
 
 @freezed
-class Address with _$Address, EquatableMixin {
+class Address with _$Address {
   const factory Address({
     required String id,
     required String? userId, // nullable for guest user
@@ -24,5 +24,6 @@ class Address with _$Address, EquatableMixin {
     required DateTime updatedAt,
   }) = _Address;
 
-  factory Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 }

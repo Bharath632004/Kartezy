@@ -239,6 +239,35 @@ class _$TrackingInfoImpl implements _TrackingInfo {
   @LatLngJsonConverter()
   final LatLng currentLocation;
 
+  @override
+  String toString() {
+    return 'TrackingInfo(orderId: $orderId, driver: $driver, route: $route, currentStatus: $currentStatus, lastUpdated: $lastUpdated, distanceRemaining: $distanceRemaining, eta: $eta, currentLocation: $currentLocation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TrackingInfoImpl &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.driver, driver) || other.driver == driver) &&
+            (identical(other.route, route) || other.route == route) &&
+            (identical(other.currentStatus, currentStatus) ||
+                other.currentStatus == currentStatus) &&
+            (identical(other.lastUpdated, lastUpdated) ||
+                other.lastUpdated == lastUpdated) &&
+            (identical(other.distanceRemaining, distanceRemaining) ||
+                other.distanceRemaining == distanceRemaining) &&
+            (identical(other.eta, eta) || other.eta == eta) &&
+            (identical(other.currentLocation, currentLocation) ||
+                other.currentLocation == currentLocation));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, orderId, driver, route,
+      currentStatus, lastUpdated, distanceRemaining, eta, currentLocation);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

@@ -15,7 +15,9 @@ class CouponRemoteDataSourceImpl {
 }
 
 /// Provider for coupon remote data source
-final couponRemoteDataSourceProvider = Provider<CouponRemoteDataSourceImpl>((ref) {
+final couponRemoteDataSourceProvider = Provider<CouponRemoteDataSourceImpl>((
+  ref,
+) {
   final dio = ref.read(dioProvider);
   return CouponRemoteDataSourceImpl(dio);
 });

@@ -321,6 +321,55 @@ class _$ReviewImpl implements _Review {
   @override
   final int? notHelpfulCount;
 
+  @override
+  String toString() {
+    return 'Review(id: $id, productId: $productId, userId: $userId, userName: $userName, rating: $rating, title: $title, comment: $comment, createdAt: $createdAt, isVerifiedPurchase: $isVerifiedPurchase, images: $images, videos: $videos, helpfulCount: $helpfulCount, notHelpfulCount: $notHelpfulCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ReviewImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.isVerifiedPurchase, isVerifiedPurchase) ||
+                other.isVerifiedPurchase == isVerifiedPurchase) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality().equals(other._videos, _videos) &&
+            (identical(other.helpfulCount, helpfulCount) ||
+                other.helpfulCount == helpfulCount) &&
+            (identical(other.notHelpfulCount, notHelpfulCount) ||
+                other.notHelpfulCount == notHelpfulCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      productId,
+      userId,
+      userName,
+      rating,
+      title,
+      comment,
+      createdAt,
+      isVerifiedPurchase,
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_videos),
+      helpfulCount,
+      notHelpfulCount);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

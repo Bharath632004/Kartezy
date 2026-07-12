@@ -4,7 +4,6 @@ import 'package:customer_mobile/features/tracking/domain/models/driver_info.dart
 import 'package:customer_mobile/features/tracking/domain/models/route_info.dart';
 import 'package:customer_mobile/features/tracking/domain/models/tracking_info.dart';
 import 'package:dio/dio.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:convert';
 import 'dart:async';
 
@@ -25,9 +24,10 @@ class TrackingRemoteDataSourceImpl implements TrackingRemoteDataSource {
         ),
       );
 
-      await for (var event in response.data.stream
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())) {
+      await for (var event
+          in response.data.stream
+              .transform(utf8.decoder)
+              .transform(const LineSplitter())) {
         if (event.isNotEmpty) {
           try {
             final Map<String, dynamic> json = jsonDecode(event);

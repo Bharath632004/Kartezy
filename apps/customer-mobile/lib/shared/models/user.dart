@@ -1,11 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class User with _$User, EquatableMixin {
+class User with _$User {
   const factory User({
     required String id,
     required String email,

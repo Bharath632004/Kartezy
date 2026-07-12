@@ -5,6 +5,5 @@ class SetInstantDeliveryUseCase {
 
   SetInstantDeliveryUseCase(this.repository);
 
-  Future<void> call(bool value) =>
-      repository.setInstantDelivery(value);
+  Future<void> call(bool value) => repository.setInstantDelivery(value);
 }

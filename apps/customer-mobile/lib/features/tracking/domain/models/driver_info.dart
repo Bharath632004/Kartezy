@@ -30,12 +30,12 @@ class DriverInfo {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'photoUrl': photoUrl,
-        'vehicleNumber': vehicleNumber,
-        'vehicleType': vehicleType,
-        'rating': rating,
-        'phoneNumber': phoneNumber,
-      };
+    'id': id,
+    'name': name,
+    'photoUrl': photoUrl,
+    'vehicleNumber': vehicleNumber,
+    'vehicleType': vehicleType,
+    'rating': rating,
+    'phoneNumber': phoneNumber,
+  };
 }

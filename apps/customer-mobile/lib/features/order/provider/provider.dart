@@ -27,7 +27,10 @@ final placeOrderUseCaseProvider = Provider<PlaceOrderUseCase>((ref) {
   return PlaceOrderUseCase(repository);
 });
 
-final getOrderUseCaseProvider = FutureProvider.family<Order, String>((ref, orderId) async {
+final getOrderUseCaseProvider = FutureProvider.family<Order, String>((
+  ref,
+  orderId,
+) async {
   final repository = ref.read(orderRepositoryProvider);
   final useCase = GetOrderUseCase(repository);
   return await useCase(orderId);
@@ -117,11 +120,10 @@ class OrderNotifier extends StateNotifier<OrderState> {
     try {
       final order = await _cancelOrderUseCase(orderId);
       // Update the order in the list
-      final updatedOrders = state.orders.map((o) => o.id == orderId ? order : o).toList();
-      state = state.copyWith(
-        orders: updatedOrders,
-        isLoading: false,
-      );
+      final updatedOrders = state.orders
+          .map((o) => o.id == orderId ? order : o)
+          .toList();
+      state = state.copyWith(orders: updatedOrders, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }

@@ -293,6 +293,55 @@ class _$PaymentImpl implements _Payment {
   @override
   final bool isEscrow;
 
+  @override
+  String toString() {
+    return 'Payment(id: $id, orderId: $orderId, userId: $userId, amount: $amount, currency: $currency, paymentMethod: $paymentMethod, paymentStatus: $paymentStatus, transactionId: $transactionId, gatewayResponse: $gatewayResponse, initiatedAt: $initiatedAt, completedAt: $completedAt, isEscrow: $isEscrow)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PaymentImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            (identical(other.paymentMethod, paymentMethod) ||
+                other.paymentMethod == paymentMethod) &&
+            (identical(other.paymentStatus, paymentStatus) ||
+                other.paymentStatus == paymentStatus) &&
+            (identical(other.transactionId, transactionId) ||
+                other.transactionId == transactionId) &&
+            (identical(other.gatewayResponse, gatewayResponse) ||
+                other.gatewayResponse == gatewayResponse) &&
+            (identical(other.initiatedAt, initiatedAt) ||
+                other.initiatedAt == initiatedAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            (identical(other.isEscrow, isEscrow) ||
+                other.isEscrow == isEscrow));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      orderId,
+      userId,
+      amount,
+      currency,
+      paymentMethod,
+      paymentStatus,
+      transactionId,
+      gatewayResponse,
+      initiatedAt,
+      completedAt,
+      isEscrow);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

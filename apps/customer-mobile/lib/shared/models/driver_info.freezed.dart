@@ -204,6 +204,34 @@ class _$DriverInfoImpl implements _DriverInfo {
   @override
   final String phoneNumber;
 
+  @override
+  String toString() {
+    return 'DriverInfo(id: $id, name: $name, photoUrl: $photoUrl, vehicleNumber: $vehicleNumber, vehicleType: $vehicleType, rating: $rating, phoneNumber: $phoneNumber)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DriverInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.photoUrl, photoUrl) ||
+                other.photoUrl == photoUrl) &&
+            (identical(other.vehicleNumber, vehicleNumber) ||
+                other.vehicleNumber == vehicleNumber) &&
+            (identical(other.vehicleType, vehicleType) ||
+                other.vehicleType == vehicleType) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, photoUrl,
+      vehicleNumber, vehicleType, rating, phoneNumber);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

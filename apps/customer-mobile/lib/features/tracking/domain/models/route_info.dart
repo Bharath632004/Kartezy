@@ -21,28 +21,38 @@ class RouteInfo {
     return RouteInfo(
       id: json['id'] as String,
       polylineCoordinates: (json['polylineCoordinates'] as List<dynamic>)
-          .map((e) => LatLng(
-              (e['latitude'] as double), (e['longitude'] as double)))
+          .map(
+            (e) =>
+                LatLng((e['latitude'] as double), (e['longitude'] as double)),
+          )
           .toList(),
       startPoint: LatLng(
-          (json['startPoint']['latitude'] as double),
-          (json['startPoint']['longitude'] as double)),
+        (json['startPoint']['latitude'] as double),
+        (json['startPoint']['longitude'] as double),
+      ),
       endPoint: LatLng(
-          (json['endPoint']['latitude'] as double),
-          (json['endPoint']['longitude'] as double)),
+        (json['endPoint']['latitude'] as double),
+        (json['endPoint']['longitude'] as double),
+      ),
       totalDistance: (json['totalDistance'] as num).toDouble(),
       estimatedDuration: Duration(seconds: (json['estimatedDuration'] as int)),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'polylineCoordinates': polylineCoordinates
-            .map((e) => {'latitude': e.latitude, 'longitude': e.longitude})
-            .toList(),
-        'startPoint': {'latitude': startPoint.latitude, 'longitude': startPoint.longitude},
-        'endPoint': {'latitude': endPoint.latitude, 'longitude': endPoint.longitude},
-        'totalDistance': totalDistance,
-        'estimatedDuration': estimatedDuration.inSeconds,
-      };
+    'id': id,
+    'polylineCoordinates': polylineCoordinates
+        .map((e) => {'latitude': e.latitude, 'longitude': e.longitude})
+        .toList(),
+    'startPoint': {
+      'latitude': startPoint.latitude,
+      'longitude': startPoint.longitude,
+    },
+    'endPoint': {
+      'latitude': endPoint.latitude,
+      'longitude': endPoint.longitude,
+    },
+    'totalDistance': totalDistance,
+    'estimatedDuration': estimatedDuration.inSeconds,
+  };
 }

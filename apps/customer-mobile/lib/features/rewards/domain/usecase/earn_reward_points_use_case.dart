@@ -12,15 +12,13 @@ class EarnRewardPointsUseCase {
   Future<RewardPoints> call({
     required int points,
     required String description,
-  }) =>
-      _repository.earnRewardPoints(
-        points: points,
-        description: description,
-      );
+  }) => _repository.earnRewardPoints(points: points, description: description);
 }
 
 /// Provider for earn reward points use case
-final earnRewardPointsUseCaseProvider = Provider<EarnRewardPointsUseCase>((ref) {
+final earnRewardPointsUseCaseProvider = Provider<EarnRewardPointsUseCase>((
+  ref,
+) {
   final repository = ref.read(rewardsRepositoryProvider);
   return EarnRewardPointsUseCase(repository);
 });

@@ -17,7 +17,9 @@ import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
-final checkoutRemoteDataSourceProvider = Provider<CheckoutRemoteDataSource>((ref) {
+final checkoutRemoteDataSourceProvider = Provider<CheckoutRemoteDataSource>((
+  ref,
+) {
   final dioClient = ref.read(dioProvider);
   return CheckoutRemoteDataSourceImpl(dioClient);
 });
@@ -28,7 +30,9 @@ final checkoutRepositoryProvider = Provider<CheckoutRepository>((ref) {
 });
 
 // Providers for use cases
-final getCheckoutSummaryUseCaseProvider = Provider<GetCheckoutSummaryUseCase>((ref) {
+final getCheckoutSummaryUseCaseProvider = Provider<GetCheckoutSummaryUseCase>((
+  ref,
+) {
   final repository = ref.read(checkoutRepositoryProvider);
   return GetCheckoutSummaryUseCase(repository);
 });
@@ -43,27 +47,34 @@ final saveAddressUseCaseProvider = Provider<SaveAddressUseCase>((ref) {
   return SaveAddressUseCase(repository);
 });
 
-final setDeliveryInstructionsUseCaseProvider = Provider<SetDeliveryInstructionsUseCase>((ref) {
-  final repository = ref.read(checkoutRepositoryProvider);
-  return SetDeliveryInstructionsUseCase(repository);
-});
+final setDeliveryInstructionsUseCaseProvider =
+    Provider<SetDeliveryInstructionsUseCase>((ref) {
+      final repository = ref.read(checkoutRepositoryProvider);
+      return SetDeliveryInstructionsUseCase(repository);
+    });
 
-final setContactlessDeliveryUseCaseProvider = Provider<SetContactlessDeliveryUseCase>((ref) {
-  final repository = ref.read(checkoutRepositoryProvider);
-  return SetContactlessDeliveryUseCase(repository);
-});
+final setContactlessDeliveryUseCaseProvider =
+    Provider<SetContactlessDeliveryUseCase>((ref) {
+      final repository = ref.read(checkoutRepositoryProvider);
+      return SetContactlessDeliveryUseCase(repository);
+    });
 
-final setInstantDeliveryUseCaseProvider = Provider<SetInstantDeliveryUseCase>((ref) {
+final setInstantDeliveryUseCaseProvider = Provider<SetInstantDeliveryUseCase>((
+  ref,
+) {
   final repository = ref.read(checkoutRepositoryProvider);
   return SetInstantDeliveryUseCase(repository);
 });
 
-final setScheduledDeliveryUseCaseProvider = Provider<SetScheduledDeliveryUseCase>((ref) {
-  final repository = ref.read(checkoutRepositoryProvider);
-  return SetScheduledDeliveryUseCase(repository);
-});
+final setScheduledDeliveryUseCaseProvider =
+    Provider<SetScheduledDeliveryUseCase>((ref) {
+      final repository = ref.read(checkoutRepositoryProvider);
+      return SetScheduledDeliveryUseCase(repository);
+    });
 
-final selectDeliverySlotUseCaseProvider = Provider<SelectDeliverySlotUseCase>((ref) {
+final selectDeliverySlotUseCaseProvider = Provider<SelectDeliverySlotUseCase>((
+  ref,
+) {
   final repository = ref.read(checkoutRepositoryProvider);
   return SelectDeliverySlotUseCase(repository);
 });
@@ -122,7 +133,8 @@ class CheckoutState {
       deliveryInstructions: deliveryInstructions ?? this.deliveryInstructions,
       contactlessDelivery: contactlessDelivery ?? this.contactlessDelivery,
       instantDelivery: instantDelivery ?? this.instantDelivery,
-      scheduledDeliveryDateTime: scheduledDeliveryDateTime ?? this.scheduledDeliveryDateTime,
+      scheduledDeliveryDateTime:
+          scheduledDeliveryDateTime ?? this.scheduledDeliveryDateTime,
       deliverySlot: deliverySlot ?? this.deliverySlot,
       orderNotes: orderNotes ?? this.orderNotes,
       isLoading: isLoading ?? this.isLoading,
@@ -184,7 +196,10 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       await _setDeliveryInstructionsUseCase.call(instructions);
-      state = state.copyWith(deliveryInstructions: instructions, isLoading: false);
+      state = state.copyWith(
+        deliveryInstructions: instructions,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -195,10 +210,7 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       await _setContactlessDeliveryUseCase.call(value);
-      state = state.copyWith(
-        contactlessDelivery: value,
-        isLoading: false,
-      );
+      state = state.copyWith(contactlessDelivery: value, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -209,10 +221,7 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       await _setInstantDeliveryUseCase.call(value);
-      state = state.copyWith(
-        instantDelivery: value,
-        isLoading: false,
-      );
+      state = state.copyWith(instantDelivery: value, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -237,10 +246,7 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       await _selectDeliverySlotUseCase.call(slot);
-      state = state.copyWith(
-        deliverySlot: slot,
-        isLoading: false,
-      );
+      state = state.copyWith(deliverySlot: slot, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -283,8 +289,8 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
         'deliveryInstructions': state.deliveryInstructions,
         'contactlessDelivery': state.contactlessDelivery,
         'instantDelivery': state.instantDelivery,
-        'scheduledDeliveryDateTime':
-            state.scheduledDeliveryDateTime?.toIso8601String(),
+        'scheduledDeliveryDateTime': state.scheduledDeliveryDateTime
+            ?.toIso8601String(),
         'deliverySlot': state.deliverySlot,
         'orderNotes': state.orderNotes,
       };
@@ -303,21 +309,25 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
 }
 
 // Provider for the CheckoutNotifier.
-final checkoutProvider =
-    StateNotifierProvider<CheckoutNotifier, CheckoutState>((ref) {
-  return CheckoutNotifier(
-    getCheckoutSummaryUseCase: ref.read(getCheckoutSummaryUseCaseProvider),
-    placeOrderUseCase: ref.read(placeOrderUseCaseProvider),
-    saveAddressUseCase: ref.read(saveAddressUseCaseProvider),
-    setDeliveryInstructionsUseCase:
-        ref.read(setDeliveryInstructionsUseCaseProvider),
-    setContactlessDeliveryUseCase:
-        ref.read(setContactlessDeliveryUseCaseProvider),
-    setInstantDeliveryUseCase: ref.read(setInstantDeliveryUseCaseProvider),
-    setScheduledDeliveryUseCase:
-        ref.read(setScheduledDeliveryUseCaseProvider),
-    selectDeliverySlotUseCase: ref.read(selectDeliverySlotUseCaseProvider),
-    applyCouponUseCase: ref.read(applyCouponUseCaseProvider),
-    removeCouponUseCase: ref.read(removeCouponUseCaseProvider),
-  );
-});
+final checkoutProvider = StateNotifierProvider<CheckoutNotifier, CheckoutState>(
+  (ref) {
+    return CheckoutNotifier(
+      getCheckoutSummaryUseCase: ref.read(getCheckoutSummaryUseCaseProvider),
+      placeOrderUseCase: ref.read(placeOrderUseCaseProvider),
+      saveAddressUseCase: ref.read(saveAddressUseCaseProvider),
+      setDeliveryInstructionsUseCase: ref.read(
+        setDeliveryInstructionsUseCaseProvider,
+      ),
+      setContactlessDeliveryUseCase: ref.read(
+        setContactlessDeliveryUseCaseProvider,
+      ),
+      setInstantDeliveryUseCase: ref.read(setInstantDeliveryUseCaseProvider),
+      setScheduledDeliveryUseCase: ref.read(
+        setScheduledDeliveryUseCaseProvider,
+      ),
+      selectDeliverySlotUseCase: ref.read(selectDeliverySlotUseCaseProvider),
+      applyCouponUseCase: ref.read(applyCouponUseCaseProvider),
+      removeCouponUseCase: ref.read(removeCouponUseCaseProvider),
+    );
+  },
+);

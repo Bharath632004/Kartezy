@@ -1,11 +1,11 @@
+// lib/shared/models/driver_info.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'driver_info.freezed.dart';
 part 'driver_info.g.dart';
 
 @freezed
-class DriverInfo with _$DriverInfo, EquatableMixin {
+class DriverInfo with _$DriverInfo {
   const factory DriverInfo({
     required String id,
     required String name,

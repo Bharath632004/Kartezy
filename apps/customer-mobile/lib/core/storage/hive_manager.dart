@@ -4,17 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Hive manager for local storage operations.
 class HiveManager {
-  HiveManager._internal();
+  HiveManager.internal();
 
-  static final HiveManager _instance = HiveManager._internal();
+  static final HiveManager _instance = HiveManager.internal();
 
   factory HiveManager() => _instance;
+
+  /// Constructor for testing.
+  HiveManager.test() : this.internal();
 
   /// Initialize Hive with adapters and open boxes.
   Future<void> init() async {
     await Hive.initFlutter();
 
-    // Register adapters for your models (if ();
+    // Register adapters for your models (if ())
 
     // Open boxes
     await _openBoxes();

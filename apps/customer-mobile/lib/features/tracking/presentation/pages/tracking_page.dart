@@ -76,23 +76,25 @@ class TrackingPage extends ConsumerWidget {
       body: trackingState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : trackingState.hasError
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Error: ${trackingState.error}'),
-                      ElevatedButton(
-                        onPressed: () {
-                          ref.read(trackingProvider.notifier).startTracking(orderId);
-                        },
-                        child: const Text('Retry'),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Error: ${trackingState.error}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref
+                          .read(trackingProvider.notifier)
+                          .startTracking(orderId);
+                    },
+                    child: const Text('Retry'),
                   ),
-                )
-              : trackingState.value == null
-                  ? const Center(child: Text('No tracking data available'))
-                  : _buildTrackingView(context, trackingState.value!),
+                ],
+              ),
+            )
+          : trackingState.value == null
+          ? const Center(child: Text('No tracking data available'))
+          : _buildTrackingView(context, trackingState.value!),
     );
   }
 
@@ -157,9 +159,7 @@ class TrackingPage extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: Colors.grey.shade300),
-            ),
+            border: Border(top: BorderSide(color: Colors.grey.shade300)),
           ),
           child: Row(
             children: [

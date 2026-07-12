@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:merchant_mobile/core/services/auth_service.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/services/auth_service.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +25,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _loginWithEmail() async {
     if (!_formKey.currentState!.validate()) return;
-    final authStateNotifier = ref.read(authStateProvider.notifier);
+    final authStateNotifier = ref.read(authServiceProvider.notifier);
     try {
       await authStateNotifier.loginWithEmail(
         _emailController.text.trim(),
@@ -32,7 +33,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       );
       // If successful, navigate to dashboard
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/dashboard');
+        // Assuming the authStateNotifier will update the state and the router will redirect
+        // We can also navigate directly if needed
+        // But we'll rely on the redirect logic in the router
       }
     } catch (e) {
       if (mounted) {
@@ -43,63 +46,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
   }
 
-  Future<void> _loginWithPhone() async {
-    // For simplicity, we'll show a dialog to enter phone and OTP
-    // In a real app, you might navigate to a separate phone login screen
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('Phone Login'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: const InputDecoration(labelText: 'Phone Number'),
-                keyboardType: TextInputType.phone,
-                onChanged: (value) {},
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                decoration: const InputDecoration(labelText: 'OTP'),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {},
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              //  Implement actual phone login with OTP
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Phone login not implemented yet')),
-              );
-            },
-            child: const Text('Verify'),
-          ),
-        ],
-      ),
-    );
+  void _loginWithPhone() {
+    // Navigate to phone login page
+    if (mounted) {
+      GoRouter.of(context).go('/phone-login');
+    }
   }
 
   Future<void> _loginWithGoogle() async {
-    //  Implement Google Sign In
+    // TODO: Implement Google Sign In
     // For now, show a snack bar
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Google login not implemented yet')),
-    );
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Google login not implemented yet')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(authServiceProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -223,9 +189,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: authState.isLoading ? null : () {
-                    Navigator.of(context).pushNamed('/register');
-                  },
+                  onPressed: authState.isLoading
+                      ? null
+                      : () {
+                          Navigator.of(context).pushNamed('/register');
+                        },
                   child: const Text('Don\'t have an account? Register'),
                 ),
               ],

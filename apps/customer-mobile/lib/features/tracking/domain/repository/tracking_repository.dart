@@ -1,4 +1,3 @@
-
 abstract class TrackingRepository {
   /// Get real-time tracking information for an order.
   /// Returns a stream of tracking updates.

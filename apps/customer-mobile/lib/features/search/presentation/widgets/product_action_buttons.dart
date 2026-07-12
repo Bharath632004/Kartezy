@@ -5,10 +5,7 @@ import 'package:customer_mobile/shared/models/product.dart';
 class ProductActionButtons extends StatelessWidget {
   final Product product;
 
-  const ProductActionButtons({
-    super.key,
-    required this.product,
-  });
+  const ProductActionButtons({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {

@@ -33,7 +33,8 @@ class AppConstants {
   static const double walletBonusPercentage = 5.0;
 
   // Reward points conversion
-  static const int pointsPerCurrencyUnit = 10; // 10 points per 1 unit of currency
+  static const int pointsPerCurrencyUnit =
+      10; // 10 points per 1 unit of currency
 
   // Subscription plans
   static const List<String> membershipDurations = ['monthly', 'yearly'];

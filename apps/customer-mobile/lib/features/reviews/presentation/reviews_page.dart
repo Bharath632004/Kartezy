@@ -46,11 +46,14 @@ class _ReviewsPageState extends ConsumerState<ReviewsPage> {
           Expanded(
             child: Consumer(
               builder: (context, ref, _) {
-                final reviewsAsync = ref.watch(getReviewsProvider(widget.productId));
+                final reviewsAsync = ref.watch(
+                  getReviewsProvider(widget.productId),
+                );
 
                 return reviewsAsync.when(
                   data: (reviews) => ReviewList(reviews: reviews),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (error, stackTrace) =>
                       Center(child: Text('Error loading reviews: $error')),
                 );

@@ -12,7 +12,10 @@ class RefundRepositoryImpl implements RefundRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> requestRefund(String orderId, String reason) async {
+  Future<Map<String, dynamic>> requestRefund(
+    String orderId,
+    String reason,
+  ) async {
     return await remoteDataSource.requestRefund(orderId, reason);
   }
 }

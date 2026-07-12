@@ -241,6 +241,43 @@ class _$OrderItemImpl implements _OrderItem {
   @override
   final Product product;
 
+  @override
+  String toString() {
+    return 'OrderItem(id: $id, productId: $productId, productName: $productName, price: $price, quantity: $quantity, selectedVariants: $selectedVariants, total: $total, product: $product)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OrderItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.productName, productName) ||
+                other.productName == productName) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedVariants, _selectedVariants) &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.product, product) || other.product == product));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      productId,
+      productName,
+      price,
+      quantity,
+      const DeepCollectionEquality().hash(_selectedVariants),
+      total,
+      product);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

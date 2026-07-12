@@ -20,21 +20,17 @@ class RewardsRepositoryImpl implements RewardsRepository {
   Future<RewardPoints> earnRewardPoints({
     required int points,
     required String description,
-  }) =>
-      _remoteDataSource.earnRewardPoints(
-        points: points,
-        description: description,
-      );
+  }) => _remoteDataSource.earnRewardPoints(
+    points: points,
+    description: description,
+  );
 
   @override
   Future<RewardPoints> redeemRewardPoints({
     required int points,
     required String rewardId,
   }) =>
-      _remoteDataSource.redeemRewardPoints(
-        points: points,
-        rewardId: rewardId,
-      );
+      _remoteDataSource.redeemRewardPoints(points: points, rewardId: rewardId);
 
   @override
   Future<List<RewardLevel>> getRewardLevels() =>

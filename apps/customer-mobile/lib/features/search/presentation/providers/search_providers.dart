@@ -27,15 +27,18 @@ final searchResultsProvider =
     });
 
 class SearchResultsNotifier extends StateNotifier<SearchResult> {
-  SearchResultsNotifier() : super(const SearchResult(
-        products: [],
-        stores: [],
-        brands: [],
-        categories: [],
-        suggestions: [],
-        facets: {},
-        totalResults: 0,
-      ));
+  SearchResultsNotifier()
+    : super(
+        const SearchResult(
+          products: [],
+          stores: [],
+          brands: [],
+          categories: [],
+          suggestions: [],
+          facets: {},
+          totalResults: 0,
+        ),
+      );
 
   void updateResults(SearchResult result) {
     state = result;
@@ -43,13 +46,14 @@ class SearchResultsNotifier extends StateNotifier<SearchResult> {
 
   void clearResults() {
     state = const SearchResult(
-        products: [],
-        stores: [],
-        brands: [],
-        categories: [],
-        suggestions: [],
-        facets: {},
-        totalResults: 0);
+      products: [],
+      stores: [],
+      brands: [],
+      categories: [],
+      suggestions: [],
+      facets: {},
+      totalResults: 0,
+    );
   }
 }
 
@@ -78,10 +82,11 @@ final seasonalSearchesProvider = FutureProvider<List<String>>((ref) {
 });
 
 // Autocomplete suggestions provider
-final autocompleteSuggestionsProvider = FutureProvider.family<List<String>, String>((ref, query) {
-  final useCase = ref.read(getAutocompleteSuggestionsUseCaseProvider);
-  return useCase(query);
-});
+final autocompleteSuggestionsProvider =
+    FutureProvider.family<List<String>, String>((ref, query) {
+      final useCase = ref.read(getAutocompleteSuggestionsUseCaseProvider);
+      return useCase(query);
+    });
 
 // Search products use case provider
 final searchProductsUseCaseProvider = Provider<SearchProductsUseCase>((ref) {

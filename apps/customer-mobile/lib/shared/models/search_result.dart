@@ -19,5 +19,6 @@ class SearchResult with _$SearchResult {
     required int totalResults,
   }) = _SearchResult;
 
-  factory SearchResult.fromJson(Map<String, dynamic> json) => _$SearchResultFromJson(json);
+  factory SearchResult.fromJson(Map<String, dynamic> json) =>
+      _$SearchResultFromJson(json);
 }

@@ -29,10 +29,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
   @override
   Future<Address> addAddress(Address address) async {
     final dioClient = _ref.read(dioProvider);
-    final response = await dioClient.post(
-      '/addresses',
-      data: address.toJson(),
-    );
+    final response = await dioClient.post('/addresses', data: address.toJson());
     return Address.fromJson(response.data);
   }
 
@@ -55,9 +52,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
   @override
   Future<Address> setDefaultAddress(String addressId) async {
     final dioClient = _ref.read(dioProvider);
-    final response = await dioClient.post(
-      '/addresses/$addressId/set-default',
-    );
+    final response = await dioClient.post('/addresses/$addressId/set-default');
     return Address.fromJson(response.data);
   }
 }

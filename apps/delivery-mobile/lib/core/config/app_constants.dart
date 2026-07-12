@@ -19,4 +19,5 @@ class AppConstants {
   static const double defaultPadding = 16.0;
   static const double avatarRadius = 24.0;
   static const int itemsPerPage = 20;
+  static String get googleMapsApiKey => dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
 }

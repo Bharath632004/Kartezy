@@ -46,6 +46,5 @@ class CheckoutRepositoryImpl implements CheckoutRepository {
       _remoteDataSource.applyCoupon(couponCode);
 
   @override
-  Future<CheckoutSummary> removeCoupon() =>
-      _remoteDataSource.removeCoupon();
+  Future<CheckoutSummary> removeCoupon() => _remoteDataSource.removeCoupon();
 }

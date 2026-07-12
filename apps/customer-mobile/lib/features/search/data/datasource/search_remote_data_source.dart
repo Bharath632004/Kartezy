@@ -117,19 +117,21 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<SearchResult> searchStores(String query) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post(
-      '/search/stores',
-      data: {'query': query},
-    );
+    final response = await dio.post('/search/stores', data: {'query': query});
 
     final List<dynamic> storesData = response.data['stores'] ?? [];
-    final List<Store> stores = storesData.map((json) => Store.fromJson(json)).toList();
+    final List<Store> stores = storesData
+        .map((json) => Store.fromJson(json))
+        .toList();
     final int totalResults = response.data['totalResults'] ?? 0;
-    final List<String> suggestions = (response.data['suggestions'] as List<dynamic>?)
-        ?.map((e) => e.toString())
-        .toList() ?? [];
-    final Map<String, dynamic>? facets =
-        response.data['facets'] != null ? Map<String, dynamic>.from(response.data['facets']) : null;
+    final List<String> suggestions =
+        (response.data['suggestions'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    final Map<String, dynamic>? facets = response.data['facets'] != null
+        ? Map<String, dynamic>.from(response.data['facets'])
+        : null;
 
     return SearchResult(
       stores: stores,
@@ -145,19 +147,21 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<SearchResult> searchBrands(String query) async {
     final dio = _ref.read(dioProvider);
-    final response = await dio.post(
-      '/search/brands',
-      data: {'query': query},
-    );
+    final response = await dio.post('/search/brands', data: {'query': query});
 
     final List<dynamic> brandsData = response.data['brands'] ?? [];
-    final List<Brand> brands = brandsData.map((json) => Brand.fromJson(json)).toList();
+    final List<Brand> brands = brandsData
+        .map((json) => Brand.fromJson(json))
+        .toList();
     final int totalResults = response.data['totalResults'] ?? 0;
-    final List<String> suggestions = (response.data['suggestions'] as List<dynamic>?)
-        ?.map((e) => e.toString())
-        .toList() ?? [];
-    final Map<String, dynamic>? facets =
-        response.data['facets'] != null ? Map<String, dynamic>.from(response.data['facets']) : null;
+    final List<String> suggestions =
+        (response.data['suggestions'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    final Map<String, dynamic>? facets = response.data['facets'] != null
+        ? Map<String, dynamic>.from(response.data['facets'])
+        : null;
 
     return SearchResult(
       brands: brands,
@@ -179,14 +183,18 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
     );
 
     final List<dynamic> categoriesData = response.data['categories'] ?? [];
-    final List<Category> categories =
-        categoriesData.map((json) => Category.fromJson(json)).toList();
+    final List<Category> categories = categoriesData
+        .map((json) => Category.fromJson(json))
+        .toList();
     final int totalResults = response.data['totalResults'] ?? 0;
-    final List<String> suggestions = (response.data['suggestions'] as List<dynamic>?)
-        ?.map((e) => e.toString())
-        .toList() ?? [];
-    final Map<String, dynamic>? facets =
-        response.data['facets'] != null ? Map<String, dynamic>.from(response.data['facets']) : null;
+    final List<String> suggestions =
+        (response.data['suggestions'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    final Map<String, dynamic>? facets = response.data['facets'] != null
+        ? Map<String, dynamic>.from(response.data['facets'])
+        : null;
 
     return SearchResult(
       categories: categories,

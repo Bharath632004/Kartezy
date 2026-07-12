@@ -8,7 +8,8 @@ class BarcodeScannerButton extends ConsumerStatefulWidget {
   const BarcodeScannerButton({super.key});
 
   @override
-  ConsumerState<BarcodeScannerButton> createState() => _BarcodeScannerButtonState();
+  ConsumerState<BarcodeScannerButton> createState() =>
+      _BarcodeScannerButtonState();
 }
 
 class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
@@ -36,7 +37,8 @@ class _BarcodeScannerButtonState extends ConsumerState<BarcodeScannerButton> {
                   final now = DateTime.now();
                   if (_lastScannedCode == code &&
                       _lastScanTime != null &&
-                      now.difference(_lastScanTime!) < const Duration(seconds: 2)) {
+                      now.difference(_lastScanTime!) <
+                          const Duration(seconds: 2)) {
                     continue;
                   }
                   _lastScannedCode = code;

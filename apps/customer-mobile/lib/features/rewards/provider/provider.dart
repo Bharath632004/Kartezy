@@ -118,7 +118,9 @@ class RewardsNotifier extends StateNotifier<RewardsState> {
 }
 
 /// Provider for rewards notifier
-final rewardsProvider = StateNotifierProvider<RewardsNotifier, RewardsState>((ref) {
+final rewardsProvider = StateNotifierProvider<RewardsNotifier, RewardsState>((
+  ref,
+) {
   return RewardsNotifier(
     ref.read(getRewardPointsUseCaseProvider),
     ref.read(getRewardHistoryUseCaseProvider),

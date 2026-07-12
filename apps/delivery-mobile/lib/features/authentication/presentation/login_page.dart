@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:delivery_mobile/features/authentication/domain/usecase/login_usecase.dart';
+import 'package:delivery_mobile/core/providers/auth_provider.dart';
 import 'package:delivery_mobile/shared/widgets/button.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -33,7 +33,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     try {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-      await ref.read(loginUseCaseProvider).call(email, password);
+      await ref.read(authProvider.notifier).loginWithEmail(email, password);
       if (mounted) {
         // Login successful, navigate to home
         context.go('/home');
