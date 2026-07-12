@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../api/dio_client.dart';
-import '../api/api_constants.dart';
+import 'package:merchant_mobile/core/api/dio_client.dart';
+import 'package:merchant_mobile/core/api/api_constants.dart';
 
 final reportsServiceProvider = Provider<ReportsService>((ref) {
   final dioClient = ref.read(dioClientProvider);

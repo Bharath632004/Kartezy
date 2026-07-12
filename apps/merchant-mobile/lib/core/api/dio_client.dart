@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../api/api_constants.dart';
+import 'package:merchant_mobile/core/api/api_constants.dart';
 
 class DioClient {
   DioClient() {

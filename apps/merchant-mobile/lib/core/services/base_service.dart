@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import './auth_service.dart';
-import '../api/dio_client.dart';
+import 'package:merchant_mobile/core/services/auth_service.dart';
+import 'package:merchant_mobile/core/api/dio_client.dart';
 
 abstract class BaseService {
   final AuthService _authService;
