@@ -32,7 +32,7 @@ class PromotionService {
           'search': search,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -95,7 +95,7 @@ class PromotionService {
           'is_active': isActive,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();

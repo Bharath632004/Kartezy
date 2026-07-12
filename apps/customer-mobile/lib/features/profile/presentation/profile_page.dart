@@ -14,7 +14,6 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
-  late final Future<User> _profileFuture;
   bool _isLoading = false;
   String? _errorMessage;
 

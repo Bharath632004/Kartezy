@@ -1,3 +1,7 @@
+import 'package:customer_mobile/features/tracking/domain/models/tracking_info.dart';
+import 'package:customer_mobile/features/tracking/domain/models/driver_info.dart';
+import 'package:customer_mobile/features/tracking/domain/models/route_info.dart';
+
 abstract class TrackingRepository {
   /// Get real-time tracking information for an order.
   /// Returns a stream of tracking updates.

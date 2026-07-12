@@ -38,7 +38,7 @@ class ProductService {
           'ascending': ascending,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => ProductModel.fromJson(json)).toList();

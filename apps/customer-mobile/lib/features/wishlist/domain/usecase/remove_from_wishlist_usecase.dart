@@ -1,5 +1,6 @@
 // lib/features/wishlist/domain/usecase/remove_from_wishlist_usecase.dart
 import 'package:customer_mobile/features/wishlist/domain/repository/wishlist_repository.dart';
+import 'package:customer_mobile/features/wishlist/data/repository/wishlist_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RemoveFromWishlistUseCase {
@@ -13,9 +14,7 @@ class RemoveFromWishlistUseCase {
 }
 
 /// Provider for remove from wishlist use case
-final removeFromWishlistUseCaseProvider = Provider<RemoveFromWishlistUseCase>((
-  ref,
-) {
+final removeFromWishlistUseCaseProvider = Provider<RemoveFromWishlistUseCase>((ref) {
   final repository = ref.read(wishlistRepositoryProvider);
   return RemoveFromWishlistUseCase(repository);
 });

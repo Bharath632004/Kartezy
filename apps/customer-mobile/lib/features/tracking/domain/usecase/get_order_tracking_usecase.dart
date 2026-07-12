@@ -14,7 +14,7 @@ class GetOrderTrackingUseCase {
         yield Right(tracking);
       }
     } catch (e) {
-      yield Left(Failure(message: e.toString()));
+      yield Left(UnexpectedFailure(message: e.toString()));
     }
   }
 }

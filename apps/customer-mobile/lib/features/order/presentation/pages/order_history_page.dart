@@ -40,7 +40,7 @@ class OrderHistoryPage extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Refetch orders
-                        ref.refresh(orderProvider);
+                        ref.invalidate(orderProvider);
                       },
                       child: const Text('Retry'),
                     ),
@@ -49,42 +49,36 @@ class OrderHistoryPage extends ConsumerWidget {
               )
             : TabBarView(
                 children: [
-                  _buildOrderList(orderState.orders ?? []), // All
+                  _buildOrderList(orderState.orders), // All
                   _buildOrderList(
                     orderState.orders
                             .where((o) => _isActiveStatus(o.orderStatus))
-                            .toList() ??
-                        [],
+                            .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
                             .where((o) => o.orderStatus == 'scheduled')
-                            .toList() ??
-                        [],
+                            .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
                             .where((o) => o.orderStatus == 'delivered')
-                            .toList() ??
-                        [],
+                            .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
                             .where((o) => o.orderStatus == 'cancelled')
-                            .toList() ??
-                        [],
+                            .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
                             .where((o) => o.orderStatus == 'returned')
-                            .toList() ??
-                        [],
+                            .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
                             .where((o) => o.orderStatus == 'refunded')
-                            .toList() ??
-                        [],
+                            .toList(),
                   ),
                 ],
               ),
@@ -137,7 +131,7 @@ class OrderHistoryItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
             order.items.isNotEmpty
-                ? order.items.first.product.imageUrl ?? ''
+                ? order.items.first.product.imageUrl
                 : 'https://via.placeholder.com/60',
             width: 60,
             height: 60,

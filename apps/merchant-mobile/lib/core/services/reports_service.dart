@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../api/dio_client.dart';
-import '../../api/api_constants.dart';
+import '../api/dio_client.dart';
+import '../api/api_constants.dart';
 
 final reportsServiceProvider = Provider<ReportsService>((ref) {
   final dioClient = ref.read(dioClientProvider);
@@ -24,7 +24,7 @@ class ReportsService {
         '${ApiConstants.baseUrl}${ApiConstants.reportsDaily}',
         queryParameters: {
           'date': date,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -43,7 +43,7 @@ class ReportsService {
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -62,7 +62,7 @@ class ReportsService {
         queryParameters: {
           'month': month,
           'year': year,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -79,7 +79,7 @@ class ReportsService {
         '${ApiConstants.baseUrl}${ApiConstants.reportsYearly}',
         queryParameters: {
           'year': year,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -98,7 +98,7 @@ class ReportsService {
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -119,7 +119,7 @@ class ReportsService {
           'product_id': productId,
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -138,7 +138,7 @@ class ReportsService {
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -157,7 +157,7 @@ class ReportsService {
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -176,7 +176,7 @@ class ReportsService {
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -195,7 +195,7 @@ class ReportsService {
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {

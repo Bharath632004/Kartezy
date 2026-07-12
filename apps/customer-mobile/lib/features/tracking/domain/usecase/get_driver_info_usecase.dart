@@ -13,7 +13,7 @@ class GetDriverInfoUseCase {
       final driver = await repository.getDriverInfo(orderId);
       return Right(driver);
     } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return Left(UnexpectedFailure(message: e.toString()));
     }
   }
 }

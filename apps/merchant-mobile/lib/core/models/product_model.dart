@@ -24,7 +24,8 @@ class ProductModel with _$ProductModel {
   }) = _ProductModel;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
-      _$ProductModelFromJson(json);
+      _$$ProductModelImplFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+  @override
+  Map<String, dynamic> toJson() => _$$ProductModelImplToJson(this as _$ProductModelImpl);
 }

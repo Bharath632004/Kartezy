@@ -13,7 +13,7 @@ class GetRouteInfoUseCase {
       final route = await repository.getRouteInfo(orderId);
       return Right(route);
     } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return Left(UnexpectedFailure(message: e.toString()));
     }
   }
 }

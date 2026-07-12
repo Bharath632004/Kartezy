@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/analytics_service.dart';
+import '../../analytics_notifier.dart';
 
 class AnalyticsDashboardPage extends ConsumerWidget {
   const AnalyticsDashboardPage({Key? key}) : super(key: key);

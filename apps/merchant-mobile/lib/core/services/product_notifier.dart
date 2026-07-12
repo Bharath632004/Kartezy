@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:equatable/equatable.dart';
 import 'product_service.dart';
-import '../../models/product_model.dart';
+import 'package:merchant_mobile/core/models/product_model.dart';
 
 // State for product management
 class ProductState extends Equatable {
@@ -108,7 +108,7 @@ class ProductNotifier extends StateNotifier<ProductState> {
     }
   }
 
-  Future<void> clearSelectedProduct() {
+  Future<void> clearSelectedProduct() async {
     state = state.copyWith(selectedProduct: null);
   }
 

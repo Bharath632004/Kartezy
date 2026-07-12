@@ -30,7 +30,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -54,7 +54,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -78,7 +78,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -102,7 +102,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -126,7 +126,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -150,7 +150,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -174,7 +174,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -198,7 +198,7 @@ class MarketingService {
           'end_date': endDate,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();

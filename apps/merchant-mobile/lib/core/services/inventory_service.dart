@@ -19,6 +19,8 @@ class InventoryService {
   Future<List<InventoryModel>> getInventories({
     String? productId,
     String? warehouseId,
+    int? page,
+    int? limit,
   }) async {
     try {
       final response = await _dio.get(
@@ -26,7 +28,9 @@ class InventoryService {
         queryParameters: {
           'product_id': productId,
           'warehouse_id': warehouseId,
-        }.where((_, value) => value != null).toMap(),
+          'page': page,
+          'limit': limit,
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => InventoryModel.fromJson(json)).toList();

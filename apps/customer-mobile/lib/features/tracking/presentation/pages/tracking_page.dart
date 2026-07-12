@@ -112,7 +112,7 @@ class TrackingPage extends ConsumerWidget {
                   zoom: 15,
                 ),
                 markers: _getMarkers(tracking),
-                polylines: _getPolylines(tracking),
+                polylines: _getPolylines(context, tracking),
                 myLocationEnabled: true,
                 myLocationButtonEnabled: true,
                 zoomControlsEnabled: true,
@@ -261,7 +261,7 @@ class TrackingPage extends ConsumerWidget {
     };
   }
 
-  Set<Polyline> _getPolylines(TrackingInfo tracking) {
+  Set<Polyline> _getPolylines(BuildContext context, TrackingInfo tracking) {
     return {
       Polyline(
         polylineId: const PolylineId('route'),

@@ -25,7 +25,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _loginWithEmail() async {
     if (!_formKey.currentState!.validate()) return;
-    final authStateNotifier = ref.read(authServiceProvider.notifier);
+    final authStateNotifier = ref.read(authStateProvider.notifier);
     try {
       await authStateNotifier.loginWithEmail(
         _emailController.text.trim(),
@@ -65,7 +65,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authServiceProvider);
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       appBar: AppBar(

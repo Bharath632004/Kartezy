@@ -32,7 +32,7 @@ class InvoicesService {
           'status': status,
           'page': page,
           'limit': limit,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -92,7 +92,7 @@ class InvoicesService {
           'start_date': startDate,
           'end_date': endDate,
           'format': format,
-        }.where((_, value) => value != null).toMap(),
+        }..removeWhere((key, value) => value == null),
         options: Options(responseType: ResponseType.bytes),
       );
       return response.data as List<int>;

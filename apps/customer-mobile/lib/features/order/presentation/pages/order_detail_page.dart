@@ -37,7 +37,7 @@ class OrderDetailPage extends ConsumerWidget {
               Text('Error: $error'),
               ElevatedButton(
                 onPressed: () {
-                  ref.refresh(getOrderUseCaseProvider(orderId));
+                  ref.invalidate(getOrderUseCaseProvider(orderId));
                 },
                 child: const Text('Retry'),
               ),
@@ -68,7 +68,7 @@ class OrderDetailPage extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
                           order.items.isNotEmpty
-                              ? order.items.first.product.imageUrl ?? ''
+                              ? order.items.first.product.imageUrl
                               : 'https://via.placeholder.com/80',
                           width: 80,
                           height: 80,

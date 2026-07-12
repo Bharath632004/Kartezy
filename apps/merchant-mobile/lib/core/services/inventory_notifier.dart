@@ -54,6 +54,7 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
     String? productId,
     String? warehouseId,
     int? page,
+    int limit = 20,
   }) async {
     final currentPage = page ?? state.page;
     if (currentPage == 1) {
@@ -64,11 +65,12 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
         productId: productId,
         warehouseId: warehouseId,
         page: currentPage,
+        limit: limit,
       );
-      final hasMore = inventories.length == 20; // assuming 20 per page
+      final hasMore = inventories.length == limit;
       state = state.copyWith(
         isLoading: false,
-        inventories: page == 1 ? inventories : [...state.inventories, ...inventories],
+        inventories: currentPage == 1 ? inventories : [...state.inventories, ...inventories],
         hasMore: hasMore,
         page: currentPage,
       );

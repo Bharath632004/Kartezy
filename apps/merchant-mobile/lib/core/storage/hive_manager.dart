@@ -1,40 +1,50 @@
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HiveManager {
-  HiveManager._internal();
-  static final HiveManager _instance = HiveManager._internal();
-  factory HiveManager() => _instance;
-
-  Future<void> init() async {
-    if (!Hive.isAdapterRegistered(0)) {
-      // Register any adapters here if needed
-    }
-    await Hive.initFlutter();
-    await Hive.openBox('settings');
-    await Hive.openBox('user');
-    await Hive.openBox('merchant');
-  }
-
-  Box<String> get _settingsBox => Hive.box<String>('settings');
+  Box<dynamic> get _settingsBox => Hive.box('settings');
   Box<dynamic> get _userBox => Hive.box('user');
   Box<dynamic> get _merchantBox => Hive.box('merchant');
 
-  // Settings
-  Future<void> setHasSeenOnboarding(bool value) async =>
-      await _settingsBox.put('hasSeenOnboarding', value);
-  Future<bool> getHasSeenOnboarding() async =>
-      _settingsBox.get('hasSeenOnboarding') ?? false;
+  Future<void> saveUser(Map<String, dynamic> user) async {
+    await _userBox.put('userData', user);
+  }
 
-  // User
-  Future<void> setUserId(String userId) async =>
-      await _userBox.put('userId', userId);
-  Future<String?> getUserId() async => _userBox.get('userId');
+  Map<String, dynamic>? getUser() {
+    return _userBox.get('userData');
+  }
 
-  // Merchant
-  Future<void> setMerchantId(String merchantId) async =>
-      await _merchantBox.put('merchantId', merchantId);
-  Future<String?> getMerchantId() async => _merchantBox.get('merchantId');
+  Future<void> saveMerchant(Map<String, dynamic> merchant) async {
+    await _merchantBox.put('merchantData', merchant);
+  }
+
+  Map<String, dynamic>? getMerchant() {
+    return _merchantBox.get('merchantData');
+  }
+
+  Future<void> saveSettings(Map<String, dynamic> settings) async {
+    await _settingsBox.put('settingsData', settings);
+  }
+
+  Map<String, dynamic>? getSettings() {
+    return _settingsBox.get('settingsData');
+  }
+
+  Future<void> setHasSeenOnboarding(bool value) async {
+    await _settingsBox.put('hasSeenOnboarding', value);
+  }
+
+  Future<bool> getHasSeenOnboarding() async {
+    final value = _settingsBox.get('hasSeenOnboarding');
+    if (value is bool) {
+      return value;
+    }
+    return false;
+  }
+
+  Future<void> clear() async {
+    await _userBox.clear();
+    await _merchantBox.clear();
+    await _settingsBox.clear();
+  }
 }
-
-final hiveManagerProvider = Provider<HiveManager>((ref) => HiveManager());
