@@ -1,3 +1,4 @@
+// lib/core/theme/theme_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:customer_mobile/core/storage/hive_manager.dart';
@@ -11,15 +12,15 @@ class ThemeNotifier extends StateNotifier<AppThemeMode> {
   }
 
   final Ref _ref;
-  late final Box _settingsBox;
+  late final Box<int> _settingsBox;
 
   void _loadFromPreferences() {
     final hiveManager = _ref.read(hiveManagerProvider);
-    _settingsBox = hiveManager.getBox<bool>(boxName: 'settings');
+    _settingsBox = hiveManager.getBox<int>(boxName: 'settings');
     final themeMode = _settingsBox.get(
       'themeMode',
       defaultValue: AppThemeMode.system.index,
-    );
+    )!;
     state = AppThemeMode.values[themeMode];
   }
 

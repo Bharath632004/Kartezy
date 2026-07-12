@@ -4,14 +4,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Hive manager for local storage operations.
 class HiveManager {
-  HiveManager.internal();
+  HiveManager._internal();
 
-  static final HiveManager _instance = HiveManager.internal();
+  /// For testing purposes.
+  HiveManager.test() : this._internal();
 
-  factory HiveManager() => _instance;
+  static final HiveManager _instance = HiveManager._internal();
+  static HiveManager? _instanceOverride;
 
-  /// Constructor for testing.
-  HiveManager.test() : this.internal();
+  factory HiveManager() {
+    if (_instanceOverride != null) {
+      return _instanceOverride!;
+    }
+    return _instance;
+  }
+
+  /// Set an instance for testing purposes.
+  static void setInstanceForTesting(HiveManager instance) {
+    _instanceOverride = instance;
+  }
+
+  /// Clear the instance override.
+  static void clearInstanceOverride() {
+    _instanceOverride = null;
+  }
 
   /// Initialize Hive with adapters and open boxes.
   Future<void> init() async {
@@ -25,7 +41,7 @@ class HiveManager {
 
   Future<void> _openBoxes() async {
     // Open boxes for different purposes
-    await Hive.openBox<bool>('settings');
+    await Hive.openBox<int>('settings');
     await Hive.openBox<String>('authToken');
     await Hive.openBox<List<dynamic>>('cart');
     await Hive.openBox<List<dynamic>>('recentSearches');
