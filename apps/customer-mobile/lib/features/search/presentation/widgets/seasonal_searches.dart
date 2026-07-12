@@ -1,17 +1,17 @@
 // lib/features/search/presentation/widgets/seasonal_searches.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:customer_mobile/features/search/domain/usecase/get_seasonal_searches_usecase.dart';
+import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
 
 class SeasonalSearchesWidget extends ConsumerWidget {
   const SeasonalSearchesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final suggestionsAsync = ref.watch(getSeasonalSearchesUseCaseProvider);
+    final seasonalAsync = ref.watch(seasonalSearchesProvider);
 
-    return suggestionsAsync.when(
-      data: (suggestions) {
+    return seasonalAsync.when(
+      data: (seasonal) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,10 +23,10 @@ class SeasonalSearchesWidget extends ConsumerWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: suggestions
+              children: seasonal
                   .map(
-                    (suggestion) => Chip(
-                      label: Text(suggestion),
+                    (season) => Chip(
+                      label: Text(season),
                     ),
                   )
                   .toList(),

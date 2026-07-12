@@ -22,23 +22,12 @@ class FinanceService {
   }) async {
     try {
       final response = await _dio.get(
-  Future<Map<String, dynamic>> getRevenue({
-    String? startDate,
-    String? endDate,
-  }) async {
-    try {
-      final response = await _dio.get(
-        "${ApiConstants.baseUrl}${ApiConstants.financeRevenue}",
-        queryParameters: {
-          if (startDate != null) "start_date": startDate,
-          if (endDate != null) "end_date": endDate,
-        },
+        '${ApiConstants.baseUrl}${ApiConstants.financeRevenue}',
+        queryParameters: Map.fromEntries({
+          'start_date': startDate,
+          'end_date': endDate,
+        }.where((entry) => entry.value != null)),
       );
-      return response.data;
-    } catch (e) {
-      throw Exception("Failed to fetch revenue: $e");
-    }
-  }
       return response.data;
     } catch (e) {
       throw Exception('Failed to fetch revenue: $e');
@@ -48,10 +37,11 @@ class FinanceService {
   // Sales Summary
   Future<Map<String, dynamic>> getSalesSummary({
     String? startDate,
+  Future<Map<String, dynamic>> getSalesSummary({
+    String? startDate,
     String? endDate,
   }) async {
     try {
-      final response = await _dio.get(
       final response = await _dio.get(
         "${ApiConstants.baseUrl}${ApiConstants.financeSalesSummary}",
         queryParameters: {
@@ -59,8 +49,9 @@ class FinanceService {
           if (endDate != null) "end_date": endDate,
         },
       );
+      return response.data;
     } catch (e) {
-      throw Exception('Failed to fetch sales summary: $e');
+      throw Exception("Failed to fetch sales summary: $e");
     }
   }
 
@@ -71,28 +62,28 @@ class FinanceService {
     int? page,
     int limit = 20,
   }) async {
-    try {
-      final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.financeSettlementHistory}',
-        queryParameters: Map.fromEntries({
-          'start_date': startDate,
-          'end_date': endDate,
-          'page': page,
-          'limit': limit,
-        }.where((entry) => entry.value != null)).toMap()),
-      );
-      final List<dynamic> data = response.data['data'] ?? [];
-      return data.map((json) => json as Map<String, dynamic>).toList();
-    } catch (e) {
-      throw Exception('Failed to fetch settlement history: $e');
-    }
-  }
-
-  // Pending Settlements
-  Future<List<Map<String, dynamic>>> getPendingSettlements({
+  Future<List<Map<String, dynamic>>> getSettlementHistory({
+    String? startDate,
+    String? endDate,
     int? page,
     int limit = 20,
   }) async {
+    try {
+      final response = await _dio.get(
+        "${ApiConstants.baseUrl}${ApiConstants.financeSettlementHistory}",
+        queryParameters: {
+          if (startDate != null) "start_date": startDate,
+          if (endDate != null) "end_date": endDate,
+          if (page != null) "page": page,
+          if (limit != null) "limit": limit,
+        },
+      );
+      final List<dynamic> data = response.data["data"] ?? [];
+      return data.map((json) => json as Map<String, dynamic>).toList();
+    } catch (e) {
+      throw Exception("Failed to fetch settlement history: $e");
+    }
+  }
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financePendingSettlements}',

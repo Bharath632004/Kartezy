@@ -8,34 +8,41 @@ class TrendingSearchesWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final trendingSearches = ref.watch(trendingSearchesProvider);
+    final trendingAsync = ref.watch(trendingSearchesProvider);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Trending Searches',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: trendingSearches
-              .map(
-                (search) => Chip(
-                  label: Text(search),
-                  onDeleted: () {
-                    // In a real app, you might want to remove from trending
-                  },
-                                    backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer
-                ),
-              )
-              .toList(),
-        ),
-      ],
+    return trendingAsync.when(
+      data: (trending) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Trending Searches',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: trending
+                  .map(
+                    (search) => Chip(
+                      label: Text(search),
+                      onDeleted: () {
+                        // In a real app, you might want to remove from trending
+                      },
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primaryContainer
+                    ),
+                  )
+                  .toList(),
+            ),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) =>
+          Center(child: Text('Error loading trending searches: $error')),
     );
   }
 }

@@ -1,19 +1,17 @@
 // lib/features/search/presentation/widgets/recommended_searches.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:customer_mobile/features/search/domain/usecase/get_personalized_suggestions_usecase.dart';
+import 'package:customer_mobile/features/search/presentation/providers/search_providers.dart';
 
 class RecommendedSearchesWidget extends ConsumerWidget {
   const RecommendedSearchesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final suggestionsAsync = ref.watch(
-      getPersonalizedSuggestionsUseCaseProvider,
-    );
+    final recommendationsAsync = ref.watch(personalizedSuggestionsProvider);
 
-    return suggestionsAsync.when(
-      data: (suggestions) {
+    return recommendationsAsync.when(
+      data: (recommendations) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,10 +23,10 @@ class RecommendedSearchesWidget extends ConsumerWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: suggestions
+              children: recommendations
                   .map(
-                    (suggestion) => Chip(
-                      label: Text(suggestion),
+                    (recommendation) => Chip(
+                      label: Text(recommendation),
                       onDeleted: () {
                         // In a real app, you might remove from recommendations
                       },

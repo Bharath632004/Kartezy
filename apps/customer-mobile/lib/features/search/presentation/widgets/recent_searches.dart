@@ -8,40 +8,47 @@ class RecentSearchesWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recentSearches = ref.watch(recentSearchesProvider);
+    final recentSearchesAsync = ref.watch(recentSearchesProvider);
 
-    if (recentSearches.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    return recentSearchesAsync.when(
+      data: (recentSearches) {
+        if (recentSearches.isEmpty) {
+          return const SizedBox.shrink();
+        }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Recent Searches',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: recentSearches
-                .map(
-                  (search) => Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Chip(
-                      label: Text(search),
-                      onDeleted: () {
-                        // In a real app, you might want to remove from history
-                      },
-                      avatar: const Icon(Icons.history, size: 16),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-      ],
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Recent Searches',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: recentSearches
+                    .map(
+                      (search) => Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text(search),
+                          onDeleted: () {
+                            // In a real app, you might want to remove from history
+                          },
+                          avatar: const Icon(Icons.history, size: 16),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) =>
+          Center(child: Text('Error loading recent searches: $error')),
     );
   }
 }

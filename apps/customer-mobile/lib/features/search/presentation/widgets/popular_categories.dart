@@ -12,7 +12,6 @@ class PopularCategoriesWidget extends ConsumerStatefulWidget {
 }
 
 class _PopularCategoriesWidgetState extends ConsumerState<PopularCategoriesWidget> {
-  late Future<List<Category>> _categoriesFuture;
   bool _isLoading = true;
   List<Category> _categories = [];
   String? _error;
