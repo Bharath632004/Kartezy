@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/reviews/presentation/widgets/review_list.dart';
 import 'package:customer_mobile/features/reviews/presentation/widgets/write_review_button.dart';
 import 'package:customer_mobile/features/reviews/domain/usecase/get_reviews_usecase.dart';
+import 'package:customer_mobile/shared/models/review.dart';
 
 class ReviewsPage extends ConsumerStatefulWidget {
   final String productId;
@@ -22,6 +23,7 @@ class _ReviewsPageState extends ConsumerState<ReviewsPage> {
     final useCase = ref.read(getReviewsUseCaseProvider);
     useCase.call(widget.productId).catchError((e) {
       // Ignore errors in initState
+      return <Review>[];
     });
   }
 

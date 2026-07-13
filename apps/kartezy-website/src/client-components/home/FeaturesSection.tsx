@@ -1,24 +1,24 @@
-import { Box, Container, Stack, Typography, Card, CardContent, CardMedia, CardActions, Button } from '@mui/material';
-import { LocalGrocery, LocalGrocery, LocalMall, SchedulePhone } from '@mui/icons-material';
-import { Schedule, LocalGroceryStore, Motorcycle, Shield, 
-         RetailFashion, LocalFlorist, BreadsAndNoodles };
-import { Speed } from '@mui/icons-material';
+import { Box, Container, Stack, Typography, Card, CardContent } from '@mui/material';
+import {
+  Schedule, LocalGroceryStore, Inventory,
+  Shield, AccessTime, LocalOffer
+} from '@mui/icons-material';
 
-export const FeaturesSection = () => {
+export default function FeaturesSection() {
   return (
-    <section sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
+    <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
           <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 8 }}>
             Why Choose Kartezy?
           </Typography>
-          
-          <Stack direction={{ xs: 'column', sm: 'row', md: 'row' }} spacing={4} flexWrap="wrap">
+
+          <Stack direction={{ xs: 'column', sm: 'row', md: 'row' }} spacing={4} flexWrap="wrap" justifyContent="center">
             {/* Feature 1: Lightning Fast */}
-            <Card sx={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-              <CardContent sx={{ textAlign: 'center', px: 4, py: 3 }}>
+            <Card sx={{ minWidth: 280, flexGrow: 1, maxWidth: 350, borderRadius: 5 }}>
+              <CardContent sx={{ textAlign: 'center', px: 4, py: 5 }}>
                 <Box sx={{ mb: 2 }}>
-                  <Schedule fontSize="large" color="primary.main" />
+                  <Schedule fontSize="large" color="primary" />
                 </Box>
                 <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
                   Lightning Fast
@@ -28,12 +28,12 @@ export const FeaturesSection = () => {
                 </Typography>
               </CardContent>
             </Card>
-            
+
             {/* Feature 2: Fresh Quality */}
-            <Card sx={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-              <CardContent sx={{ textAlign: 'center', px: 4, py: 3 }}>
+            <Card sx={{ minWidth: 280, flexGrow: 1, maxWidth: 350, borderRadius: 5 }}>
+              <CardContent sx={{ textAlign: 'center', px: 4, py: 5 }}>
                 <Box sx={{ mb: 2 }}>
-                  <LocalGroceryStore fontSize="large" color="success.main" />
+                  <LocalGroceryStore fontSize="large" color="success" />
                 </Box>
                 <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
                   Fresh Quality Guaranteed
@@ -43,12 +43,12 @@ export const FeaturesSection = () => {
                 </Typography>
               </CardContent>
             </Card>
-            
+
             {/* Feature 3: Wide Selection */}
-            <Card sx={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-              <CardContent sx={{ textAlign: 'center', px: 4, py: 3 }}>
+            <Card sx={{ minWidth: 280, flexGrow: 1, maxWidth: 350, borderRadius: 5 }}>
+              <CardContent sx={{ textAlign: 'center', px: 4, py: 5 }}>
                 <Box sx={{ mb: 2 }}>
-                  <RetailFashion fontSize="large" color="info.main" />
+                  <Inventory fontSize="large" color="info" />
                 </Box>
                 <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
                   Wide Selection
@@ -58,12 +58,12 @@ export const FeaturesSection = () => {
                 </Typography>
               </CardContent>
             </Card>
-            
+
             {/* Feature 4: Safe & Secure */}
-            <Card sx={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-              <CardContent sx={{ textAlign: 'center', px: 4, py: 3 }}>
+            <Card sx={{ minWidth: 280, flexGrow: 1, maxWidth: 350, borderRadius: 5 }}>
+              <CardContent sx={{ textAlign: 'center', px: 4, py: 5 }}>
                 <Box sx={{ mb: 2 }}>
-                  <Shield fontSize="large" color="warning.main" />
+                  <Shield fontSize="large" color="warning" />
                 </Box>
                 <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
                   Safe & Secure
@@ -73,12 +73,12 @@ export const FeaturesSection = () => {
                 </Typography>
               </CardContent>
             </Card>
-            
+
             {/* Feature 5: 24/7 Availability */}
-            <Card sx={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-              <CardContent sx={{ textAlign: 'center', px: 4, py: 3 }}>
+            <Card sx={{ minWidth: 280, flexGrow: 1, maxWidth: 350, borderRadius: 5 }}>
+              <CardContent sx={{ textAlign: 'center', px: 4, py: 5 }}>
                 <Box sx={{ mb: 2 }}>
-                  <LocalFlorist fontSize="large" color="secondary.main" />
+                  <AccessTime fontSize="large" color="secondary" />
                 </Box>
                 <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
                   24/7 Availability
@@ -88,12 +88,12 @@ export const FeaturesSection = () => {
                 </Typography>
               </CardContent>
             </Card>
-            
+
             {/* Feature 6: Best Prices */}
-            <Card sx={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-              <CardContent sx={{ textAlign: 'center', px: 4, py: 3 }}>
+            <Card sx={{ minWidth: 280, flexGrow: 1, maxWidth: 350, borderRadius: 5 }}>
+              <CardContent sx={{ textAlign: 'center', px: 4, py: 5 }}>
                 <Box sx={{ mb: 2 }}>
-                  <BreadsAndNoodles fontSize="large" color="error.main" />
+                  <LocalOffer fontSize="large" color="error" />
                 </Box>
                 <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
                   Best Prices Guaranteed
@@ -106,6 +106,6 @@ export const FeaturesSection = () => {
           </Stack>
         </Stack>
       </Container>
-    </section>
+    </Box>
   );
 };

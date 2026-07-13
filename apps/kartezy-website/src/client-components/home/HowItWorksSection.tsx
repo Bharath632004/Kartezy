@@ -1,104 +1,56 @@
-import { Box, Container, Stack, Typography, Card, CardContent, Stepper, Step, StepConnector, StepLabel } from '@mui/material';
-import { LocalGroceryStore, LocalTruck, Person, CheckCircle, 
-         LocalDining, LocalAtm, LocalFireDepartment } from '@mui/icons-material';
+import { Box, Container, Stack, Typography, Stepper, Step, StepLabel } from '@mui/material';
+import { LocalGroceryStore, LocalShipping, LocationOn, CheckCircle } from '@mui/icons-material';
 
-export const HowItWorksSection = () => {
+export default function HowItWorksSection() {
+  const steps = [
+    {
+      title: 'Browse & Select',
+      icon: <LocalGroceryStore />,
+      description: 'Explore our wide range of products organized in intuitive categories.'
+    },
+    {
+      title: 'Place Order',
+      icon: <LocalShipping />,
+      description: 'Review your cart, apply promo codes, and proceed to secure checkout.'
+    },
+    {
+      title: 'Track Delivery',
+      icon: <LocationOn />,
+      description: 'Get real-time updates on your order status and see your delivery partner.'
+    },
+    {
+      title: 'Enjoy!',
+      icon: <CheckCircle />,
+      description: 'Your order arrives fresh and on time. Rate your experience.'
+    }
+  ];
+
   return (
-    <section sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
+    <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.paper' }}>
       <Container maxWidth="lg">
-        <Stack spacing={4}>
-          <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 8 }}>
+        <Stack spacing={6}>
+          <Typography variant="h2" fontWeight={600} textAlign="center">
             How It Works
           </Typography>
-          
-          <Stepper 
-            orientation={{ xs: 'vertical', md: 'horizontal' }}
-            sx={{ maxWidth: { xs: '100%', md: 800 }, marginX: 'auto' }}
-            sx={{ '& .MuiStepLabel-label': { fontWeight: 500 } }}
-          >
-            {/* Step 1: Browse & Select */}
-            <Step>
-              <StepLabel 
-                StepIconProps={{
-                  sx: { fontSize: 24, color: 'primary.main' }
-                }}
-                sx={{ mb: 2 }}
-              >
-                <LocalGroceryStore fontSize="inherit" />
-                <Typography variant="h5" fontWeight={600} sx={{ display: 'block', mb: 1 }}>
-                  Browse & Select
-                </Typography>
-                <Typography variant="body2" color="text.secondary" textAlign="center">
-                  Explore our wide range of products organized in intuitive categories. Add items to your cart with just a tap.
-                </Typography>
-              </StepLabel>
-            </Step>
-            
-            {/* Step Connector */}
-            <StepConnector sx={{ mb: 2 }} />
-            
-            {/* Step 2: Place Order */}
-            <Step>
-              <StepLabel 
-                StepIconProps={{
-                  sx: { fontSize: 24, color: 'primary.main' }
-                }}
-                sx={{ mb: 2 }}
-              >
-                <LocalTruck fontSize="inherit" />
-                <Typography variant="h5" fontWeight={600} sx={{ display: 'block', mb: 1 }}>
-                  Place Order
-                </Typography>
-                <Typography variant="body2" color="text.secondary" textAlign="center">
-                  Review your cart, apply promo codes if any, and proceed to secure checkout. Multiple payment options available.
-                </Typography>
-              </StepLabel>
-            </Step>
-            
-            {/* Step Connector */}
-            <StepConnector sx={{ mb: 2 }} />
-            
-            {/* Step 3: Track Delivery */}
-            <Step>
-              <StepLabel 
-                StepIconProps={{
-                  sx: { fontSize: 24, color: 'primary.main' }
-                }}
-                sx={{ mb: 2 }}
-              >
-                <Person fontSize="inherit" />
-                <Typography variant="h5" fontWeight={600} sx={{ display: 'block', mb: 1 }}>
-                  Track Delivery
-                </Typography>
-                <Typography variant="body2" color="text.secondary" textAlign="center">
-                  Get real-time updates on your order status. See exactly when your delivery partner is approaching your location.
-                </Typography>
-              </StepLabel>
-            </Step>
-            
-            {/* Step Connector */}
-            <StepConnector sx={{ mb: 2 }} />
-            
-            {/* Step 4: Enjoy! */}
-            <Step>
-              <StepLabel 
-                StepIconProps={{
-                  sx: { fontSize: 24, color: 'primary.main' }
-                }}
-                sx={{ mb: 2 }}
-              >
-                <CheckCircle fontSize="inherit" />
-                <Typography variant="h5" fontWeight={600} sx={{ display: 'block', mb: 1 }}>
-                  Enjoy!
-                </Typography>
-                <Typography variant="body2" color="text.secondary" textAlign="center">
-                  Your order arrives fresh and on time. Rate your experience and reorder favorites with one tap.
-                </Typography>
-              </StepLabel>
-            </Step>
+
+          <Stepper alternativeLabel orientation="horizontal">
+            {steps.map((step, index) => (
+              <Step key={index}>
+                <StepLabel icon={step.icon}>
+                  <Stack spacing={1} sx={{ mt: 2 }}>
+                    <Typography variant="h6" fontWeight={600}>
+                      {step.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 200, mx: 'auto' }}>
+                      {step.description}
+                    </Typography>
+                  </Stack>
+                </StepLabel>
+              </Step>
+            ))}
           </Stepper>
         </Stack>
       </Container>
-    </section>
+    </Box>
   );
 };

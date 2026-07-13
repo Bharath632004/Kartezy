@@ -2,23 +2,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:merchant_mobile/core/api/api_constants.dart';
+import 'package:merchant_mobile/core/api/dio_client.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
+  final dioClient = ref.read(dioClientProvider);
+  return AuthService(dioClient);
 });
 
 class AuthService {
-  final Dio _dio;
+  final DioClient _dioClient;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
-  AuthService() : _dio = Dio(BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
-        receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
-      )) {
-    // We don't add any interceptors here to avoid infinite loops during token refresh.
-  }
+  AuthService(this._dioClient);
+
+  Dio get _dio => _dioClient.instance;
 
   Future<void> loginWithEmail(String email, String password) async {
     try {

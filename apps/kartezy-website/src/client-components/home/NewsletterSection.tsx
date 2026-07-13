@@ -1,20 +1,20 @@
+'use client';
 import { Box, Container, Stack, Typography, TextField, Button } from '@mui/material';
-import { Mail, Phone, LocationOn } from '@mui/icons-material';
+import { useState } from 'react';
 
-export const NewsletterSection = () => {
-  const [email, setEmail] = React.useState('');
-  
+export default function NewsletterSection() {
+  const [email, setEmail] = useState('');
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
-      // In a real app, this would send to a newsletter API
       alert(`Thanks for subscribing! We'll send updates to ${email}`);
       setEmail('');
     }
   };
 
   return (
-    <section 
+    <Box
       sx={{
         position: 'relative',
         overflow: 'hidden',
@@ -23,55 +23,28 @@ export const NewsletterSection = () => {
         padding: { xs: 4, md: 8 }
       }}
     >
-      {/* Decorative elements */}
-      <div 
-        sx={{
-          position: 'absolute',
-          top: '-50%',
-          right: '-20%',
-          width: '200px',
-          height: '200px',
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          borderRadius: '50%',
-          animation: 'float 6s ease-in-out infinite'
-        }}
-      />
-      <div 
-        sx={{
-          position: 'absolute',
-          bottom: '-30%',
-          left: '-10%',
-          width: '150px',
-          height: '150px',
-          backgroundColor: 'rgba(255,255,255,0.15)',
-          borderRadius: '50%',
-          animation: 'float 8s ease-in-out infinite',
-          animationDelay: '2s'
-        }}
-      />
-      
       <Container maxWidth="md">
         <Stack spacing={4} alignItems="center" textAlign="center">
-          <Typography 
-            variant="h2" 
+          <Typography
+            variant="h2"
             fontWeight={600}
             sx={{ mb: 2 }}
           >
-            Stay Updated with Karthezy
+            Stay Updated with Kartezy
           </Typography>
-          <Typography 
-            variant="body1" 
+          <Typography
+            variant="body1"
             sx={{ mb: 4, maxWidth: 500 }}
           >
             Get exclusive offers, new product alerts, and delivery updates straight to your inbox.
           </Typography>
-          
-          <form 
+
+          <form
             onSubmit={handleSubmit}
-            sx={{
+            style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: 2,
+              gap: 16,
               justifyContent: 'center',
               maxWidth: 500,
               width: '100%'
@@ -82,41 +55,26 @@ export const NewsletterSection = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
               sx={{
                 flexGrow: 1,
                 minWidth: 200,
+                backgroundColor: 'white',
+                borderRadius: 2,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 24,
-                },
-                '& .MuiInputLabel-root': {
-                  color: 'white',
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255,255,255,0.5)',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
-                },
-                '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
+                  borderRadius: 2,
                 }
               }}
-              InputLabelProps={{
-                shrink: true,
-                style: { color: 'white' }
-              }}
-              InputProps={{
-                style: { color: 'white' }
-              }}
             />
-            <Button 
+            <Button
               variant="contained"
+              color="secondary"
               sx={{
-                px: { xs: 16, md: 24 },
-                py: { xs: 2, md: 3 },
+                px: 4,
+                py: 2,
                 fontSize: '1rem',
                 fontWeight: 600,
-                borderRadius: 24,
+                borderRadius: 2,
                 textTransform: 'none'
               }}
               type="submit"
@@ -124,24 +82,16 @@ export const NewsletterSection = () => {
               Subscribe Now
             </Button>
           </form>
-          
-          <Typography 
-            variant="body2" 
-            color="white" 
+
+          <Typography
+            variant="body2"
+            color="white"
             sx={{ mt: 4, opacity: 0.8 }}
           >
             We respect your privacy. Unsubscribe at any time.
           </Typography>
         </Stack>
       </Container>
-      
-      <style>{`
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-          100% { transform: translateY(0px); }
-        }
-      `}</style>
-    </section>
+    </Box>
   );
 };

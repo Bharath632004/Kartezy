@@ -1,90 +1,82 @@
 import { Box, Container, Stack, Typography, Card, CardContent, Grid, Button } from '@mui/material';
-import { 
-  LocalGroceryStore, LocalCafe, LocalPizza, LocalBar, 
-  LocalFlorist, LocalPharmacy, PetServices, ChildCare,
-  ElectricRocket, LocalLaundryService, LocalShipping,
-  LocalAtm, LocalConvenienceStore, LocalDrink
+import {
+  LocalGroceryStore, LocalCafe, LocalPizza,
+  LocalFlorist, LocalPharmacy,
+  LocalConvenienceStore, ChildCare, LocalDrink
 } from '@mui/icons-material';
 
-export const CategoriesSection = () => {
+export default function CategoriesSection() {
   const categories = [
-    { 
-      name: 'Fresh Produce', 
-      icon: <LocalGroceryStore fontSize="large" color="success.main" />, 
+    {
+      name: 'Fresh Produce',
+      icon: <LocalGroceryStore fontSize="large" color="success" />,
       bg: '#E8F5E9',
       color: '#2E7D32'
     },
-    { 
-      name: 'Dairy & Eggs', 
-      icon: <LocalCafe fontSize="large" color="info.main" />, 
+    {
+      name: 'Dairy & Eggs',
+      icon: <LocalCafe fontSize="large" color="info" />,
       bg: '#E3F2FD',
       color: '#1565C0'
     },
-    { 
-      name: 'Snacks & Beverages', 
-      icon: <LocalPizza fontSize="large" color="warning.main" />, 
+    {
+      name: 'Snacks & Beverages',
+      icon: <LocalPizza fontSize="large" color="warning" />,
       bg: '#FFF8E1',
       color: '#EF6C00'
     },
-    { 
-      name: 'Personal Care', 
-      icon: <LocalFlorist fontSize="large" color="error.main" />, 
+    {
+      name: 'Personal Care',
+      icon: <LocalFlorist fontSize="large" color="error" />,
       bg: '#FCE4EC',
       color: '#C2185B'
     },
-    { 
-      name: 'Pet Supplies', 
-      icon: <PetServices fontSize="large" color="secondary.main" />, 
-      bg: '#F3E5F5',
-      color: '#6A1B9A'
-    },
-    { 
-      name: 'Pharmacy', 
-      icon: <LocalPharmacy fontSize="large" color="info.main" />, 
+    {
+      name: 'Pharmacy',
+      icon: <LocalPharmacy fontSize="large" color="info" />,
       bg: '#E8EAF6',
       color: '#303F9F'
     },
-    { 
-      name: 'Household Essentials', 
-      icon: <LocalConvenienceStore fontSize="large" color="success.main" />, 
+    {
+      name: 'Household Essentials',
+      icon: <LocalConvenienceStore fontSize="large" color="success" />,
       bg: '#E8F5E9',
       color: '#2E7D32'
     },
-    { 
-      name: 'Baby & Kids', 
-      icon: <ChildCare fontSize="large" color="warning.main" />, 
+    {
+      name: 'Baby & Kids',
+      icon: <ChildCare fontSize="large" color="warning" />,
       bg: '#FFF3E0',
       color: '#EF6C00'
     },
-    { 
-      name: 'Bakery', 
-      icon: <LocalDrink fontSize="large" color="error.main" />, 
+    {
+      name: 'Bakery',
+      icon: <LocalDrink fontSize="large" color="error" />,
       bg: '#FFEBEE',
       color: '#C62828'
     }
   ];
 
   return (
-    <section sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
+    <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
           <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 8 }}>
             Shop by Category
           </Typography>
-          
-          <Grid 
-            container 
-            spacing={3} 
-            columns={{ xs: 2, sm: 3, md: 4, lg: 3 }}
+
+          <Grid
+            container
+            spacing={3}
           >
             {categories.map((category, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-                <Card 
+              <Grid item key={index} xs={12} sm={6} md={3}>
+                <Card
                   sx={{
                     height: '100%',
                     position: 'relative',
                     overflow: 'hidden',
-                    borderRadius: 20,
+                    borderRadius: 5,
                     boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                     '&:hover': {
@@ -94,7 +86,7 @@ export const CategoriesSection = () => {
                   }}
                 >
                   <CardContent sx={{ p: 4, textAlign: 'center', flexGrow: 1 }}>
-                    <Box 
+                    <Box
                       sx={{
                         width: 60,
                         height: 60,
@@ -108,54 +100,36 @@ export const CategoriesSection = () => {
                     >
                       {category.icon}
                     </Box>
-                    
-                    <Typography 
-                      variant="h6" 
-                      fontWeight={600} 
+
+                    <Typography
+                      variant="h6"
+                      fontWeight={600}
                       color={category.color}
                       sx={{ mb: 2 }}
                     >
                       {category.name}
                     </Typography>
-                    
-                    <Typography 
-                      variant="body2" 
-                      color="text.secondary" 
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
                       sx={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, overflow: 'hidden' }}
                     >
                       Fresh & quality products delivered fast
                     </Typography>
                   </CardContent>
-                  
-                  {/* Gradient overlay on hover */}
-                  <Box 
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.05))',
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease',
-                      pointerEvents: 'none',
-                      '&:hover': {
-                        opacity: 1,
-                      }
-                    }}
-                  />
                 </Card>
               </Grid>
             ))}
           </Grid>
-          
+
           <Box sx={{ textAlign: 'center', mt: 6 }}>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               size="large"
               sx={{
-                px: { xs: 16, md: 32 },
-                py: { xs: 2, md: 3 },
+                px: { xs: 8, md: 16 },
+                py: { xs: 2, md: 2 },
                 fontSize: '1rem',
                 fontWeight: 600,
               }}
@@ -166,6 +140,6 @@ export const CategoriesSection = () => {
           </Box>
         </Stack>
       </Container>
-    </section>
+    </Box>
   );
 };

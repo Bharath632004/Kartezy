@@ -14,7 +14,7 @@ class GetReviewsUseCase {
   }
 }
 
-/// Provider for getting reviews (returns a Future<List<Review>>)
+/// Provider for getting reviews (returns a `Future<List<Review>>`)
 final getReviewsProvider = FutureProvider.family<List<Review>, String>((
   ref,
   String productId,

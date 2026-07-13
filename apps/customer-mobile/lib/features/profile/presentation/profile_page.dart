@@ -30,7 +30,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     });
     try {
       final profileUseCase = ref.read(getProfileUseCaseProvider);
-      final user = await profileUseCase.call();
+      await profileUseCase.call();
       // We don't need to store the user anywhere specific for now.
       // In a real app, you might update a provider or state.
     } catch (e) {
