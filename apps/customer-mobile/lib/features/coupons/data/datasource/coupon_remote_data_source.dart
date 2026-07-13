@@ -12,6 +12,11 @@ class CouponRemoteDataSourceImpl {
     final response = await _dio.get('/coupons');
     return response.data['coupons'] as List<dynamic>;
   }
+
+  Future<bool> validateCoupon(String couponCode) async {
+    final response = await _dio.get('/coupons/validate/$couponCode');
+    return response.data['valid'] as bool;
+  }
 }
 
 /// Provider for coupon remote data source

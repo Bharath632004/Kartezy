@@ -16,8 +16,6 @@ class CouponRepositoryImpl implements CouponRepository {
 
   @override
   Future<bool> validateCoupon(String couponCode) async {
-    // TODO: Implement validation logic via API
-    // For now, return true if the coupon code is not empty
-    return couponCode.isNotEmpty;
+    return await _remoteDataSource.validateCoupon(couponCode);
   }
 }

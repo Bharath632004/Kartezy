@@ -285,6 +285,11 @@ export const reportsService = {
     api.get('/api/reports/financial/summary', { params: filters });
   getProfitLoss: (filters: Record<string, unknown>) =>
     api.get('/api/reports/financial/pl', { params: filters });
+  // Report Management
+  getReports: (filters: Record<string, unknown>) =>
+    api.get('/api/reports', { params: filters });
+  getReportHistory: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/history', { params: filters });
   // Export
   exportSalesReport: (format: string, filters: Record<string, unknown>) =>
     api.get(
@@ -348,4 +353,12 @@ export const supportService = {
     api.put(`/api/support/tickets/${ticketId}/assign/${agentId}`);
   resolveTicket: (ticketId: string) =>
     api.put(`/api/support/tickets/${ticketId}/resolve`);
+  fetchStats: (params: Record<string, unknown>) =>
+    api.get('/api/support/stats', { params });
+  exportTickets: (format: string, filters: Record<string, unknown>) =>
+    api.get(
+      `/api/support/export?format=${format}&${new URLSearchParams(
+        filters as Record<string, string>
+      ).toString()}`
+    );
 };

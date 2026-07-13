@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-// Note: Support service would typically be imported from '@/lib/api'
-// For now, we'll create a placeholder structure
+import { supportService } from '@/lib/api';
+
+// Using the support service from '@/lib/api'
 
 export type Ticket = {
   id: string;
@@ -250,9 +251,8 @@ export const useSupportStore = create<SupportState>()(
       fetchTickets: async (filters = {}) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a support service API
-          // For now, we'll use an empty array as placeholder
-          set({ tickets: [], loading: false });
+          const response = await supportService.getTickets(filters);
+          set({ tickets: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -261,9 +261,9 @@ export const useSupportStore = create<SupportState>()(
       fetchTicket: async (id) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a support service API
+          const response = await supportService.getTicket(id);
           set({ loading: false });
-          return null; // Placeholder
+          return response.data;
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -273,16 +273,9 @@ export const useSupportStore = create<SupportState>()(
         set({ loading: true, error: null });
         try {
           // This would typically call a support service API
-          // For now, we'll simulate by adding to local state
-          const newTicket = {
-            id: Math.random().toString(36).substr(2, 9),
-            ticketNumber: `TK-${Date.now()}`,
-            ...data,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            activityLog: [],
-          };
-          get().addTicket(newTicket);
+          await supportService.createTicket(data);
+          // After creating, we could refresh the ticket list if needed
+          // For now, we'll rely on the UI to refetch or we could fetch updated list
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
@@ -441,7 +434,7 @@ export const useSupportStore = create<SupportState>()(
               action: 'resolved',
               details: `Resolved with: ${resolution}`,
             };
-            get().updateTicket(tickerId, {
+            get().updateTicket(ticketId, {
               status: 'resolved',
               resolvedAt: new Date().toISOString(),
               activityLog: [...ticket.activityLog, resolutionActivity],
@@ -611,21 +604,8 @@ export const useSupportStore = create<SupportState>()(
       fetchStats: async (filters = {}) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a stats/analytics API
-          const mockStats = {
-            totalTickets: 0,
-            openTicket: 0,
-            pendingTickets: 0,
-            resolvedToday: 0,
-            averageFirstResponseTime: 0,
-            averageResolutionTime: 0,
-            customerSatisfactionScore: 0,
-            ticketVolumeByDay: [],
-            ticketVolumeByCategory: [],
-            ticketVolumeByPriority: [],
-            agentPerformance: [],
-          };
-          set({ stats: mockStats, loading: false });
+          const response = await supportService.fetchStats(filters);
+          set({ stats: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -634,9 +614,9 @@ export const useSupportStore = create<SupportState>()(
       exportTickets: async (format, filters) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call an export API
+          const response = await supportService.exportTickets(format, filters);
           set({ loading: false });
-          return ''; // Placeholder for file URL
+          return response.data?.fileUrl || '';
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;

@@ -147,9 +147,8 @@ export const useReportsStore = create<ReportState>()(
       fetchReports: async (type = '', limit = 10) => {
         set({ loading: true, error: null });
         try {
-          // This would typically fetch from a reports endpoint
-          // For now, we'll use an empty array as placeholder
-          set({ reports: [], loading: false });
+          const response = await reportsService.getReports({ type,   limit }));
+          set({ reports: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -277,8 +276,7 @@ export const useReportsStore = create<ReportState>()(
       generateReport: async (type, filters, format) => {
         set({ loading: true, error: null });
         try {
-          // This would typically trigger report generation
-          // For now, we'll simulate by fetching the relevant data
+          // Fetch the data that would be displayed in the report
           switch (type) {
             case 'sales':
               await get().getSalesSummary(filters);
@@ -298,9 +296,7 @@ export const useReportsStore = create<ReportState>()(
       scheduleReport: async (type, filters, format, frequency, recipients) => {
         set({ loading: true, error: null });
         try {
-          // This would typically schedule a report generation
-          // For now, we'll just log it
-          console.log(`Scheduling ${type} report in ${format} format every ${frequency} for recipients:`, recipients);
+          await reportsService.scheduleReport({ type, filters, format, frequency, recipients });
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
@@ -310,8 +306,8 @@ export const useReportsStore = create<ReportState>()(
       getReportHistory: async (type) => {
         set({ loading: true, error: null });
         try {
-          // This would typically fetch report generation history
-          set({ reports: [], loading: false });
+          const response = await reportsService.getReportHistory({ type });
+          set({ reports: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;

@@ -1,10 +1,14 @@
 package com.kartezy.chatbotservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.kartezy.chatbotservice.service.ChatbotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,10 +32,15 @@ public class ChatbotController {
     public ResponseEntity<Map<String, Object>> chat(
             @RequestParam String message,
             @RequestParam(required = false) String context) {
-        // In a real implementation, we would parse the context JSON string into a Map
-        // For simplicity, we pass null if context is not provided
-        Map<String, Object> ctx = null;
-        // TODO: parse context if provided
+        Map<String, Object> ctx = new HashMap<>();
+        if (context != null && !context.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                ctx = objectMapper.readValue(context, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON context"));
+            }
+        }
         return ResponseEntity.ok(chatbotService.getResponse(message, ctx));
     }
 

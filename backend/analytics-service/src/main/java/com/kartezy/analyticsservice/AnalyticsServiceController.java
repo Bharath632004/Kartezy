@@ -162,7 +162,15 @@ public class AnalyticsServiceController {
     @PostMapping("/predict")
     public ResponseEntity<Map<String, Object>> predict(
             @RequestParam(required = false) String parameters) {
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.predictiveAnalytics(params));
     }
 }
