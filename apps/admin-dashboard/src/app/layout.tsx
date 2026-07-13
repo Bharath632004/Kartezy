@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import Providers from '@/app/providers';
 import { CssBaseline } from '@mui/material';
-import Header from '@/client-components/layout/Header';
-import Sidebar from '@/client-components/layout/Sidebar';
+import Header from '@/components/layout/Header';
+import Sidebar from '@/components/layout/Sidebar';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export const metadata: Metadata = {

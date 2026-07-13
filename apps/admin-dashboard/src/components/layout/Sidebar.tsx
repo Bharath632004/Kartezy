@@ -1,3 +1,4 @@
+"use client";
 import * as React from 'react';
 import {
   Box,
@@ -374,7 +375,8 @@ export default function Sidebar() {
             <ExpandLess />
           ) : (
             <ExpandMore />
-          )}
+          )
+        }
         </ListItemButton>
         {openState.support && (
           <Collapse in={true} timeout="auto" unmountOnExit>

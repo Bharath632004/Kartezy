@@ -1,6 +1,17 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { analyticsService } from '@/lib/api';
+import {
+  financeService,
+  userService,
+  merchantService,
+  deliveryService,
+  productService,
+  categoryService,
+  inventoryService,
+  marketingService,
+  orderService,
+  supportService,
+} from '@/lib/api';
 
 type DashboardState = {
   gmv: number | null;
@@ -46,6 +57,7 @@ export const useDashboardStore = create<DashboardState>()(
       monthlyRevenue: null,
       loading: false,
       setStats: (stats) => set((state) => ({ ...state, ...stats })),
+
       reset: () =>
         set({
           gmv: null,
@@ -66,15 +78,97 @@ export const useDashboardStore = create<DashboardState>()(
           monthlyRevenue: null,
           loading: false,
         }),
+
       fetchStats: async () => {
         set({ loading: true });
         try {
-          const response = await analyticsService.getDashboardStats();
-          set({ ...response.data, loading: false });
+          const [
+            financeRes,
+            totalOrdersRes,
+            activeOrdersRes,
+            customersRes,
+            merchantsRes,
+            deliveryRes,
+            productsRes,
+            categoriesRes,
+            inventoryRes,
+            refundsRes,
+            supportRes,
+            promotionsRes,
+            todaySalesRes,
+            monthlyRevenueRes,
+          ] = await Promise.allSettled([
+            financeService.getRevenueOverview(),
+            orderService.getList({ limit: 1 }), // total orders
+            orderService.getList({ limit: 0, status: 'active' }), // active orders
+            userService.getList({ limit: 1 }),
+            merchantService.getList({ limit: 1 }),
+            deliveryService.getList({ limit: 1 }),
+            productService.getList({ limit: 1 }),
+            categoryService.getList({ limit: 1 }),
+            inventoryService.getAlerts(),
+            financeService.getRefunds({ limit: 1 }),
+            supportService.getTickets({ limit: 1 }),
+            marketingService.getPromotions({ limit: 1 }),
+            financeService.getRevenueByPeriod('today'),
+            financeService.getRevenueByPeriod('month'),
+          ]);
+
+          const getData = (res: PromiseSettledResult<unknown>) =>
+            res.status === 'fulfilled' ? res.data : null;
+
+          const financeData = getData(financeRes);
+          const totalOrdersData = getData(totalOrdersRes);
+          const activeOrdersData = getData(activeOrdersRes);
+          const customersData = getData(customersRes);
+          const merchantsData = getData(merchantsRes);
+          const deliveryData = getData(deliveryRes);
+          const productsData = getData(productsRes);
+          const categoriesData = getData(categoriesRes);
+          const inventoryData = getData(inventoryRes);
+          const refundsData = getData(refundsRes);
+          const supportData = getData(supportRes);
+          const promotionsData = getData(promotionsRes);
+          const todaySalesData = getData(todaySalesRes);
+          const monthlyRevenueData = getData(monthlyRevenueRes);
+
+          set({
+            gmv: financeData?.gmv ?? financeData?.totalGmv ?? null,
+            revenue: financeData?.revenue ?? financeData?.totalRevenue ?? null,
+            totalOrders:
+              totalOrdersData?.total ?? totalOrdersData?.data?.length ?? 0,
+            activeOrders:
+              activeOrdersData?.total ?? activeOrdersData?.data?.length ?? 0,
+            customers:
+              customersData?.total ?? customersData?.data?.length ?? 0,
+            merchants:
+              merchantsData?.total ?? merchantsData?.data?.length ?? 0,
+            deliveryPartners:
+              deliveryData?.total ?? deliveryData?.data?.length ?? 0,
+            products:
+              productsData?.total ?? productsData?.data?.length ?? 0,
+            categories:
+              categoriesData?.total ?? categoriesData?.data?.length ?? 0,
+            inventoryAlerts:
+              Array.isArray(inventoryData?.data)
+                ? inventoryData.data.length
+                : 0,
+            refundRequests:
+              refundsData?.total ?? refundsData?.data?.length ?? 0,
+            supportTickets:
+              supportData?.total ?? supportData?.data?.length ?? 0,
+            activePromotions:
+              promotionsData?.total ?? promotionsData?.data?.length ?? 0,
+            todaySales: todaySalesData?.totalSales ?? todaySalesData?.amount ?? 0,
+            monthlyRevenue:
+              monthlyRevenueData?.totalRevenue ??
+              monthlyRevenueData?.amount ??
+              0,
+            loading: false,
+          });
         } catch (error) {
+          console.error('Error fetching dashboard stats:', error);
           set({ loading: false });
-          console.error('Failed to fetch dashboard stats', error);
-          // Optionally, we can reset or set to null on error
           get().reset();
         }
       },

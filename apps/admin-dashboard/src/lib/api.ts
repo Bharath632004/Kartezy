@@ -3,7 +3,7 @@ import axiosRetry from 'axios-retry';
 import { useAuthStore } from '@/store/authStore';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || '',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +15,6 @@ axiosRetry(api, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 // Request interceptor to add JWT token
 api.interceptors.request.use(
   (config) => {
-    // Get token from zustand store
     const { getState } = useAuthStore.getState();
     const { accessToken } = getState();
     if (accessToken) {
@@ -42,7 +41,7 @@ api.interceptors.response.use(
         }
         // Use axios directly to avoid infinite loop due to interceptors
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || ''}/api/auth/refresh`,
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/auth/refresh`,
           { refreshToken }
         );
         const { accessToken } = response.data;
@@ -59,6 +58,7 @@ api.interceptors.response.use(
   }
 );
 
+// Default export
 export default api;
 
 // Service functions for each entity
@@ -74,10 +74,12 @@ export const authService = {
   verifyOtp: (email: string, otp: string) => api.post('/api/auth/verify-otp', { email, otp }),
   // Logout all devices
   logoutAllDevices: () => api.post('/api/auth/logout-all-devices'),
+  // Get current user
+  getMe: () => api.get('/api/auth/me'),
 };
 
 export const userService = {
-  getList: (params: any) => api.get('/api/users', { params }),
+  getList: (params: Record<string, unknown>) => api.get('/api/users', { params }),
   getDetail: (id: string) => api.get(`/api/users/${id}`),
   blockUser: (id: string) => api.put(`/api/users/${id}/block`),
   unblockUser: (id: string) => api.put(`/api/users/${id}/unblock`),
@@ -89,8 +91,34 @@ export const userService = {
   getAddresses: (id: string) => api.get(`/api/users/${id}/addresses`),
 };
 
+export const productService = {
+  getList: (params: Record<string, unknown>) => api.get('/api/products', { params }),
+  getDetail: (id: string) => api.get(`/api/products/${id}`),
+  create: (data: Record<string, unknown>) => api.post('/api/products', data),
+  update: (id: string, data: Record<string, unknown>) => api.put(`/api/products/${id}`, data),
+  delete: (id: string) => api.delete(`/api/products/${id}`),
+  // Additional product-specific endpoints
+  getLowStock: (params: Record<string, unknown>) => api.get('/api/products/low-stock', { params }),
+  updateStock: (id: string, quantity: number) => api.patch(`/api/products/${id}/stock`, { quantity }),
+};
+
+export const categoryService = {
+  getList: (params: Record<string, unknown>) => api.get('/api/categories', { params }),
+  getDetail: (id: string) => api.get(`/api/categories/${id}`),
+  create: (data: Record<string, unknown>) => api.post('/api/categories', data),
+  update: (id: string, data: Record<string, unknown>) => api.put(`/api/categories/${id}`, data),
+  delete: (id: string) => api.delete(`/api/categories/${id}`),
+};
+
+export const inventoryService = {
+  getList: (params: Record<string, unknown>) => api.get('/api/inventory', { params }),
+  getDetail: (id: string) => api.get(`/api/inventory/${id}`),
+  updateStock: (id: string, quantity: number) => api.put(`/api/inventory/${id}/stock`, { quantity }),
+  getAlerts: (params: Record<string, unknown>) => api.get('/api/inventory/alerts', { params }),
+};
+
 export const merchantService = {
-  getList: (params: any) => api.get('/api/merchants', { params }),
+  getList: (params: Record<string, unknown>) => api.get('/api/merchants', { params }),
   getDetail: (id: string) => api.get(`/api/merchants/${id}`),
   approve: (id: string) => api.put(`/api/merchants/${id}/approve`),
   reject: (id: string) => api.put(`/api/merchants/${id}/reject`),
@@ -105,7 +133,7 @@ export const merchantService = {
 };
 
 export const deliveryService = {
-  getList: (params: any) => api.get('/api/drivers', { params }),
+  getList: (params: Record<string, unknown>) => api.get('/api/drivers', { params }),
   getDetail: (id: string) => api.get(`/api/drivers/${id}`),
   approve: (id: string) => api.put(`/api/drivers/${id}/approve`),
   suspend: (id: string) => api.put(`/api/drivers/${id}/suspend`),
@@ -119,7 +147,7 @@ export const deliveryService = {
 };
 
 export const orderService = {
-  getList: (params: any) => api.get('/api/orders', { params }),
+  getList: (params: Record<string, unknown>) => api.get('/api/orders', { params }),
   getDetail: (id: string) => api.get(`/api/orders/${id}`),
   assignDriver: (orderId: string, driverId: string) =>
     api.put(`/api/orders/${orderId}/assign/${driverId}`),
@@ -151,37 +179,49 @@ export const financeService = {
   getRevenueBySource: () => api.get('/api/finance/revenue/source'),
   // Commission
   getCommissionSummary: () => api.get('/api/finance/commission/summary'),
-  getCommissionDetails: (filters: any) => api.get('/api/finance/commission', { params: filters }),
+  getCommissionDetails: (filters: Record<string, unknown>) =>
+    api.get('/api/finance/commission', { params: filters }),
   // Payouts
-  getPayouts: (filters: any) => api.get('/api/finance/payouts', { params: filters }),
-  createPayout: (data: any) => api.post('/api/finance/payouts', data),
+  getPayouts: (filters: Record<string, unknown>) =>
+    api.get('/api/finance/payouts', { params: filters }),
+  createPayout: (data: Record<string, unknown>) => api.post('/api/finance/payouts', data),
   // Settlements
-  getSettlements: (filters: any) => api.get('/api/finance/settlements', { params: filters }),
+  getSettlements: (filters: Record<string, unknown>) =>
+    api.get('/api/finance/settlements', { params: filters }),
   // Wallet
   getWalletBalance: () => api.get('/api/finance/wallet/balance'),
-  getWalletTransactions: (params: any) => api.get('/api/finance/wallet/transactions', { params }),
+  getWalletTransactions: (params: Record<string, unknown>) =>
+    api.get('/api/finance/wallet/transactions', { params }),
   // Refunds
-  getRefunds: (filters: any) => api.get('/api/finance/refunds', { params: filters }),
-  processRefund: (id: string, data: any) => api.post(`/api/finance/refunds/${id}/process`, data),
+  getRefunds: (filters: Record<string, unknown>) =>
+    api.get('/api/finance/refunds', { params: filters }),
+  processRefund: (id: string, data: Record<string, unknown>) =>
+    api.post(`/api/finance/refunds/${id}/process`, data),
   // Taxes
   getTaxReport: (year: number) => api.get(`/api/finance/taxes?year=${year}`),
   // Transactions
-  getTransactions: (filters: any) => api.get('/api/finance/transactions', { params: filters }),
+  getTransactions: (filters: Record<string, unknown>) =>
+    api.get('/api/finance/transactions', { params: filters }),
 };
 
 export const marketingService = {
   // Campaigns
-  getCampaigns: (filters: any) => api.get('/api/marketing/campaigns', { params: filters }),
-  createCampaign: (data: any) => api.post('/api/marketing/campaigns', data),
-  updateCampaign: (id: string, data: any) => api.put(`/api/marketing/campaigns/${id}`, data),
+  getCampaigns: (filters: Record<string, unknown>) =>
+    api.get('/api/marketing/campaigns', { params: filters }),
+  createCampaign: (data: Record<string, unknown>) => api.post('/api/marketing/campaigns', data),
+  updateCampaign: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/marketing/campaigns/${id}`, data),
   deleteCampaign: (id: string) => api.delete(`/api/marketing/campaigns/${id}`),
-  getCampaignPerformance: (id: string) => api.get(`/api/marketing/campaigns/${id}/performance`),
+  getCampaignPerformance: (id: string) =>
+    api.get(`/api/marketing/campaigns/${id}/performance`),
   // Promotions
-  getPromotions: (filters: any) => api.get('/api/marketing/promotions', { params: filters }),
-  createPromotion: (data: any) => api.post('/api/marketing/promotions', data),
+  getPromotions: (filters: Record<string, unknown>) =>
+    api.get('/api/marketing/promotions', { params: filters }),
+  createPromotion: (data: Record<string, unknown>) => api.post('/api/marketing/promotions', data),
   // Coupons
-  getCoupons: (filters: any) => api.get('/api/marketing/coupons', { params: filters }),
-  createCoupon: (data: any) => api.post('/api/marketing/coupons', data),
+  getCoupons: (filters: Record<string, unknown>) =>
+    api.get('/api/marketing/coupons', { params: filters }),
+  createCoupon: (data: Record<string, unknown>) => api.post('/api/marketing/coupons', data),
   // Analytics
   getMarketingOverview: () => api.get('/api/marketing/overview'),
   getCustomerAcquisitionCost: () => api.get('/api/marketing/cac'),
@@ -192,75 +232,120 @@ export const cmsService = {
   // Pages
   getPages: () => api.get('/api/cms/pages'),
   getPage: (id: string) => api.get(`/api/cms/pages/${id}`),
-  createPage: (data: any) => api.post('/api/cms/pages', data),
-  updatePage: (id: string, data: any) => api.put(`/api/cms/pages/${id}`, data),
-  deletePage: (id: string) => api.delete(`/api/cms/pages/${id}`),
+  createPage: (data: Record<string, unknown>) => api.post('/api/cms/pages', data);
+  updatePage: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/cms/pages/${id}`, data);
+  deletePage: (id: string) => api.delete(`/api/cms/pages/${id}`);
   // Blogs
-  getBlogs: (filters: any) => api.get('/api/cms/blogs', { params: filters }),
-  getBlog: (id: string) => api.get(`/api/cms/blogs/${id}`),
-  createBlog: (data: any) => api.post('/api/cms/blogs', data),
-  updateBlog: (id: string, data: any) => api.put(`/api/cms/blogs/${id}`, data),
-  deleteBlog: (id: string) => api.delete(`/api/cms/blogs/${id}`),
+  getBlogs: (filters: Record<string, unknown>) =>
+    api.get('/api/cms/blogs', { params: filters });
+  getBlog: (id: string) => api.get(`/api/cms/blogs/${id}`);
+  createBlog: (data: Record<string, unknown>) => api.post('/api/cms/blogs', data);
+  updateBlog: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/cms/blogs/${id}`, data);
+  deleteBlog: (id: string) => api.delete(`/api/cms/blogs/${id}`);
   // FAQs
-  getFaqs: () => api.get('/api/cms/faqs'),
-  createFaq: (data: any) => api.post('/api/cms/faqs', data),
-  updateFaq: (id: string, data: any) => api.put(`/api/cms/faqs/${id}`, data),
-  deleteFaq: (id: string) => api.delete(`/api/cms/faqs/${id}`),
+  getFaqs: () => api.get('/api/cms/faqs');
+  createFaq: (data: Record<string, unknown>) => api.post('/api/cms/faqs', data);
+  updateFaq: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/cms/faqs/${id}`, data);
+  deleteFaq: (id: string) => api.delete(`/api/cms/faqs/${id}`);
   // Banners
-  getBanners: () => api.get('/api/cms/banners'),
-  createBanner: (data: any) => api.post('/api/cms/banners', data),
-  updateBanner: (id: string, data: any) => api.put(`/api/cms/banners/${id}`, data),
-  deleteBanner: (id: string) => api.delete(`/api/cms/banners/${id}`),
+  getBanners: () => api.get('/api/cms/banners');
+  createBanner: (data: Record<string, unknown>) => api.post('/api/cms/banners', data);
+  updateBanner: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/cms/banners/${id}`, data);
+  deleteBanner: (id: string) => api.delete(`/api/cms/banners/${id}`);
   // Settings
-  getSiteSettings: () => api.get('/api/cms/settings'),
-  updateSiteSettings: (data: any) => api.put('/api/cms/settings', data),
+  getSiteSettings: () => api.get('/api/cms/settings');
+  updateSiteSettings: (data: Record<string, unknown>) =>
+    api.put('/api/cms/settings', data);
 };
 
 export const reportsService = {
   // Sales Reports
-  getSalesSummary: (filters: any) => api.get('/api/reports/sales/summary', { params: filters }),
-  getSalesByProduct: (filters: any) => api.get('/api/reports/sales/product', { params: filters }),
-  getSalesByCategory: (filters: any) => api.get('/api/reports/sales/category', { params: filters }),
-  getSalesByMerchant: (filters: any) => api.get('/api/reports/sales/merchant', { params: filters }),
+  getSalesSummary: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/sales/summary', { params: filters });
+  getSalesByProduct: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/sales/product', { params: filters });
+  getSalesByCategory: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/sales/category', { params: filters });
+  getSalesByMerchant: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/sales/merchant', { params: filters });
   // Transaction Reports
-  getTransactionReport: (filters: any) => api.get('/api/reports/transactions', { params: filters }),
+  getTransactionReport: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/transactions', { params: filters });
   // User Reports
-  getUserGrowthReport: (filters: any) => api.get('/api/reports/users/growth', { params: filters }),
-  getUserActivityReport: (filters: any) => api.get('/api/reports/users/activity', { params: filters }),
+  getUserGrowthReport: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/users/growth', { params: filters });
+  getUserActivityReport: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/users/activity', { params: filters });
   // Financial Reports
-  getFinancialSummary: (filters: any) => api.get('/api/reports/financial/summary', { params: filters }),
-  getProfitLoss: (filters: any) => api.get('/api/reports/financial/pl', { params: filters }),
+  getFinancialSummary: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/financial/summary', { params: filters });
+  getProfitLoss: (filters: Record<string, unknown>) =>
+    api.get('/api/reports/financial/pl', { params: filters });
   // Export
-  exportSalesReport: (format: string, filters: any) =>
-    api.get(`/api/reports/sales/export?format=${format}&${new URLSearchParams(filters)}`),
-  exportFinancialReport: (format: string, filters: any) =>
-    api.get(`/api/reports/financial/export?format=${format}&${new URLSearchParams(filters)}`),
+  exportSalesReport: (format: string, filters: Record<string, unknown>) =>
+    api.get(
+      `/api/reports/sales/export?format=${format}&${new URLSearchParams(
+        filters as Record<string, string>
+      ).toString()}`
+    );
+  exportFinancialReport: (format: string, filters: Record<string, unknown>) =>
+    api.get(
+      `/api/reports/financial/export?format=${format}&${new URLSearchParams(
+        filters as Record<string, string>
+      ).toString()}`
+    );
 };
 
 export const analyticsService = {
-  getDashboardStats: () => api.get('/api/analytics/dashboard'),
-  getRevenueTrend: (period: string) => api.get(`/api/analytics/revenue-trend?period=${period}`),
-  getOrdersTrend: (period: string) => api.get(`/api/analytics/orders-trend?period=${period}`),
-  getCustomerGrowth: (period: string) => api.get(`/api/analytics/customer-growth?period=${period}`),
-  getMerchantGrowth: (period: string) => api.get(`/api/analytics/merchant-growth?period=${period}`),
-  getDeliveryPerformance: () => api.get('/api/analytics/delivery-performance'),
-  getCategorySales: () => api.get('/api/analytics/category-sales'),
-  getProductSales: () => api.get('/api/analytics/product-sales'),
-  getHeatMapData: () => api.get('/api/analytics/heat-map'),
+  getDashboardStats: () => api.get('/api/analytics/dashboard');
+  getRevenueTrend: (period: string) =>
+    api.get(`/api/analytics/revenue-trend?period=${period}`);
+  getOrdersTrend: (period: string) =>
+    api.get(`/api/analytics/orders-trend?period=${period}`);
+  getCustomerGrowth: (period: string) =>
+    api.get(`/api/analytics/customer-growth?period=${period}`);
+  getMerchantGrowth: (period: string) =>
+    api.get(`/api/analytics/merchant-growth?period=${period}`);
+  getDeliveryPerformance: () => api.get('/api/analytics/delivery-performance');
+  getCategorySales: () => api.get('/api/analytics/category-sales');
+  getProductSales: () => api.get('/api/analytics/product-sales');
+  getHeatMapData: () => api.get('/api/analytics/heat-map');
   // Advanced analytics
-  getRetentionCohort: (cohortType: string) => api.get(`/api/analytics/retention?cohort=${cohortType}`),
-  getFunnelAnalysis: (funnelId: string) => api.get(`/api/analytics/funnel/${funnelId}`),
-  getGrowthMetrics: () => api.get('/api/analytics/growth'),
-  getPredictiveInsights: () => api.get('/api/analytics/predictions'),
+  getRetentionCohort: (cohortType: string) =>
+    api.get(`/api/analytics/retention?cohort=${cohortType}`);
+  getFunnelAnalysis: (funnelId: string) =>
+    api.get(`/api/analytics/funnel/${funnelId}`);
+  getGrowthMetrics: () => api.get('/api/analytics/growth');
+  getPredictiveInsights: () => api.get('/api/analytics/predictions');
 };
 
 export const walletService = {
-  getWalletBalance: () => api.get('/api/wallet/balance'),
-  getWalletTransactions: (params: any) => api.get('/api/wallet/transactions', { params }),
+  getWalletBalance: () => api.get('/api/wallet/balance');
+  getWalletTransactions: (params: Record<string, unknown>) =>
+    api.get('/api/wallet/transactions', { params });
 };
 
 export const notificationService = {
-  getNotifications: (params: any) => api.get('/api/notifications', { params }),
-  markAsRead: (id: string) => api.put(`/api/notifications/${id}/read`),
-  deleteNotification: (id: string) => api.delete(`/api/notifications/${id}`),
+  getNotifications: (params: Record<string, unknown>) =>
+    api.get('/api/notifications', { params });
+  markAsRead: (id: string) => api.put(`/api/notifications/${id}/read`);
+  deleteNotification: (id: string) => api.delete(`/api/notifications/${id}`);
+};
+
+export const supportService = {
+  getTickets: (params: Record<string, unknown>) =>
+    api.get('/api/support/tickets', { params });
+  getTicket: (id: string) => api.get(`/api/support/tickets/${id}`);
+  createTicket: (data: Record<string, unknown>) => api.post('/api/support/tickets', data);
+  updateTicket: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/support/tickets/${id}`, data);
+  deleteTicket: (id: string) => api.delete(`/api/support/tickets/${id}`);
+  assignTicket: (ticketId: string, agentId: string) =>
+    api.put(`/api/support/tickets/${ticketId}/assign/${agentId}`);
+  resolveTicket: (ticketId: string) =>
+    api.put(`/api/support/tickets/${ticketId}/resolve`);
 };

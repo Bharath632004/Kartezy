@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, Stack, Typography, Card, CardContent, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, TextField, Accordion, AccordionSummary, AccordionDetails, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@mui/material';
+import { Box, Container, Stack, Typography, Card, CardContent, Button, Divider, Chip, TextField, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { Person, Phone, Email, LocationOn, Chat, Headset, HelpOutline, Description, Category, Mail, Link, Web } from '@mui/icons/material';
 import { useState } from 'react';
 
@@ -10,7 +10,7 @@ const SupportPage = () => {
 
   const faqs = [
     {
-      question: 'How do I place an order on Kartify?',
+      question: 'How do I place an order on Kartzy?',
       answer: 'To place an order, simply browse our products, add items to your cart, and proceed to checkout. You can choose from various payment methods including cash on delivery, credit/debit card, or wallet.',
     },
     {
@@ -23,7 +23,7 @@ const SupportPage = () => {
     },
     {
       question: 'What is your return and refund policy?',
-      answer: 'We offer a 7-day return policy for most products. If you are not satisfied with your purchase, you can initiate a return from your order history. Refunds are processed within 5-7 business days.',
+      answer: 'We offer a 7-day return policy for most products. If you are not satisfied with your purchase, we will replace the item or provide a refund. Refunds are processed within 5-7 business days.',
     },
     {
       question: 'How do I add money to my wallet?',
@@ -31,7 +31,7 @@ const SupportPage = () => {
     },
     {
       question: 'Is there a minimum order value?',
-      answer: 'No, there is no minimum order value on Kartify. You can order any amount, whether it\'s a single item or a full grocery haul.',
+      answer: 'No, there is no minimum order value on Kartzy. You can order any amount, whether it\'s a single item or a full grocery haul.',
     },
     {
       question: 'How do I contact customer support?',
@@ -40,7 +40,7 @@ const SupportPage = () => {
     {
       question: 'What safety measures do you follow for deliveries?',
       answer: 'We follow strict hygiene protocols including contactless delivery, regular sanitization of delivery bags, and temperature checks for all delivery personnel.',
-    },
+    }
   ];
 
   return (
@@ -75,6 +75,7 @@ const SupportPage = () => {
                 <Chat fontSize="medium" sx={{ mr: 2 }} />
                 Live Chat
               </Button>
+
               <Button
                 variant="outlined"
                 color="primary"
@@ -86,6 +87,7 @@ const SupportPage = () => {
                 <Email fontSize="medium" sx={{ mr: 2 }} />
                 Email Support
               </Button>
+
               <Button
                 variant="outlined"
                 color="primary"
@@ -109,29 +111,27 @@ const SupportPage = () => {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                 Chat with our support team in real-time for quick assistance
               </Typography>
-              <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, height: 200, mb: 3 }}>
+              <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, height: 200, mb: 3, p: 3, display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto' }}>
                 {/* Chat messages would go here */}
-                <Box sx={{ display: 'flex', flexDirection: 'column-reverse', height: '100%', p: 3, overflowY: 'auto' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
-                    <Avatar sx={{ width: 32, height: 32, bgColor: 'primary.main' }} >
-                      K
-                    </Avatar>
-                    <Box sx={{ ml: 2, maxWidth: '70%' }}>
-                      <Typography variant="body2" backgroundColor="#e3f2fd" px={2} py={1} borderRadius={4} maxWidth="max-content">
-                        Hi! How can I help you today?
-                      </Typography>
-                    </Box>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+                  <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
+                    K
+                  </Avatar>
+                  <Box sx={{ ml: 2, maxWidth: '70%' }}>
+                    <Typography variant="body2" backgroundColor="#e3f2fd" px={2} py={1} borderRadius={4} maxWidth="max-content">
+                      Hi! How can I help you today?
+                    </Typography>
                   </Box>
-                  <Box sx={{ mt: 4 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                      <Avatar sx={{ width: 32, height: 32, bgColor: '#f0f0f0' }} >
-                        U
-                      </Avatar>
-                      <Box sx={{ ml: 2, maxWidth: '70%', alignSelf: 'flex-end' }}>
-                        <Typography variant="body2" backgroundColor="#f5f5f5" px={2} py={1} borderRadius={4} maxWidth="max-content">
-                          Hello, I have a question about my recent order.
-                        </Typography>
-                      </Box>
+                </Box>
+                <Box sx={{ mt: 4 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#f0f0f0' }}>
+                      U
+                    </Avatar>
+                    <Box sx={{ ml: 2, maxWidth: '70%', alignSelf: 'flex-end' }}>
+                      <Typography variant="body2" backgroundColor="#f5f5f5" px={2} py={1} borderRadius={4} maxWidth="max-content">
+                        Hello, I have a question about my recent order.
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
@@ -157,37 +157,18 @@ const SupportPage = () => {
           )}
 
           {contactMethod === 'email' && (
-            <Box>
+            <Box sx={{ mb: 4 }}>
               <Divider sx={{ my: 3 }} />
               <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
                 Email Support
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Send us an email and we'll get back to you within 24 hours
+                Send us an email and we'll get back to you within 24 hours.
               </Typography>
-              <TextField
-                label="Your Name"
-                sx={{ mb: 2 }}
-                required
-              />
-              <TextField
-                label="Your Email"
-                type="email"
-                sx={{ mb: 2 }}
-                required
-              />
-              <TextField
-                label="Subject"
-                sx={{ mb: 2 }}
-                required
-              />
-              <TextField
-                label="Message"
-                multiline
-                rows={4}
-                sx={{ mb: 3 }}
-                required
-              />
+              <TextField label="Your Name" sx={{ mb: 2 }} required />
+              <TextField label="Your Email" type="email" sx={{ mb: 2 }} required />
+              <TextField label="Subject" sx={{ mb: 2 }} required />
+              <TextField label="Message" multiline rows={4} sx={{ mb: 3 }} required />
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                   variant="contained"
@@ -202,7 +183,7 @@ const SupportPage = () => {
           )}
 
           {contactMethod === 'phone' && (
-            <Box>
+            <Box sx={{ mb: 4 }}>
               <Divider sx={{ my: 3 }} />
               <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
                 Phone Support
@@ -235,8 +216,8 @@ const SupportPage = () => {
             <Accordion key={index} disableGutters square>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel${i}-content`}
-                id={`panel${i}-header`}
+                aria-controls={`panel${index}-content`}
+                id={`panel${index}-header`}
               >
                 <Typography>{faq.question}</Typography>
               </AccordionSummary>

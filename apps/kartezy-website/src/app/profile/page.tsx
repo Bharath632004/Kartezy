@@ -217,7 +217,7 @@ const ProfilePage = () => {
               </Button>
             </Box>
           </>
-        } : (
+        ) : (
           <>
             <Box sx={{ mb: 4 }}>
               <Typography variant="h4" fontWeight={600} sx={{ mb: 2 }}>

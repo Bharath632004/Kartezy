@@ -12,14 +12,14 @@ import {
 
 // Icon mapping
 const iconMap = {
-  LocalGroceryStore: LocalGroceryStore,
-  LocalCafe: LocalCafe,
-  LocalPizza: LocalPizza,
-  LocalFlorist: LocalFlorist,
-  LocalPharmacy: LocalPharmacy,
-  LocalConvenienceStore: LocalConvenienceStore,
-  ChildCare: ChildCare,
-  LocalDrink: LocalDrink,
+  LocalGroceryStore: () => <LocalGroceryStore fontSize="large" />,
+  LocalCafe: () => <LocalCafe fontSize="large" />,
+  LocalPizza: () => <LocalPizza fontSize="large" />,
+  LocalFlorist: () => <LocalFlorist fontSize="large" />,
+  LocalPharmacy: () => <LocalPharmacy fontSize="large" />,
+  LocalConvenienceStore: () => <LocalConvenienceStore fontSize="large" />,
+  ChildCare: () => <ChildCare fontSize="large" />,
+  LocalDrink: () => <LocalDrink fontSize="large" />,
 };
 
 export default function CategoriesSection({ data } = {}) {
@@ -132,7 +132,7 @@ export default function CategoriesSection({ data } = {}) {
                     >
                       {iconMap[category.icon] && (
                         <Box sx={{ color: getContrastColor(category.bg), mb: 1 }}>
-                          <iconMap[category.icon] fontSize="large" />
+                          {iconMap[category.icon]()}
                         </Box>
                       )}
                     </Box>

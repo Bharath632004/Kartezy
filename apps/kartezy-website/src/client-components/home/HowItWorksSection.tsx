@@ -10,10 +10,10 @@ import {
 
 // Icon mapping
 const iconMap = {
-  LocalGroceryStore: LocalGroceryStore,
-  LocalShipping: LocalShipping,
-  LocationOn: LocationOn,
-  CheckCircle: CheckCircle,
+  LocalGroceryStore: () => <LocalGroceryStore fontSize="small" />,
+  LocalShipping: () => <LocalShipping fontSize="small" />,
+  LocationOn: () => <LocationOn fontSize="small" />,
+  CheckCircle: () => <CheckCircle fontSize="small" />,
   // Add more as needed
 };
 
@@ -55,7 +55,7 @@ export default function HowItWorksSection({ data } = {}) {
           <Stepper alternativeLabel orientation="horizontal">
             {steps.map((step, index) => (
               <Step key={index}>
-                <StepLabel icon={iconMap[step.icon] ? <iconMap[step.icon] /> : null}>
+                <StepLabel icon={iconMap[step.icon] ? iconMap[step.icon]() : null}>
                   <Stack spacing={1} sx={{ mt: 2 }}>
                     <Typography variant="h6" fontWeight={600}>
                       {step.title}

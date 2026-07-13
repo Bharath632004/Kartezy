@@ -13,9 +13,5 @@ export const queryClient = new QueryClient({
 
 // Provider component
 export function QueryClientProviderWrapper({ children }: { children: React.ReactNode }) {
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
+  return React.createElement(QueryClientProvider, { client: queryClient }, children);
 }

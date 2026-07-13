@@ -195,7 +195,7 @@ const DeliveryLandingPage = () => {
                   <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                     <CardContent>
                       <Box sx={{ mb: 2 }}>
-                        <fontSize={36} color={stat.color} sx={{ mb: 1 }} />
+                        {stat.icon && <stat.icon fontSize={36} color={stat.color} />}
                       </Box>
                       <Typography variant="h4" fontWeight={600} color={stat.color}>
                         {stat.value}

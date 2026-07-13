@@ -5,9 +5,11 @@ import 'package:customer_mobile/features/splash/pages/splash_screen.dart';
 import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
 import 'package:customer_mobile/features/home/home_page.dart';
 import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
+import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/otp_verification_page.dart';
 import 'package:customer_mobile/features/profile/presentation/profile_page.dart';
+import 'package:customer_mobile/features/referral/presentation/referral_page.dart';
 import 'package:customer_mobile/core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -75,6 +77,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: '/referral',
+        builder: (context, state) => const ReferralPage(),
       ),
     ],
   );

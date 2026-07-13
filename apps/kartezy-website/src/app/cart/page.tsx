@@ -186,7 +186,7 @@ const CartPage = () => {
                         onClick={() => handleRemoveItem(item.id)}
                         sx={{ border: '1px solid #e0e0e0', p: 0, color: 'error' }}
                       >
-                        <RemoveFontSize="small" />
+                        <Remove fontSize="small" />
                       </IconButton>
                     </Box>
                   </Box>

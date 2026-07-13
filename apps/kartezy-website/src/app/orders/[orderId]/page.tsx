@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Container, Stack, Typography, Card, CardContent, CardActions, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, Table, TableHead, TableRow, TableCell, TableBody, Paper, LinearProgress } from '@mui/material';
 import { History, Receipt, LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutline, LocalMall, LocationOn, Phone, Email } from '@mui/icons/material';
 import { useQuery } from '@tanstack/react-query';
@@ -86,7 +84,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
                     {step.label}
                   </Typography>
                   {index < statusSteps.length - 1 && (
-                    <Box sx={{ width: '100%', height: 2, bgindex: getStepStatus(index) ? 'primary.main' : '#e0e0e0', borderRadius: 1 }} />
+                    <Box sx={{ width: '100%', height: 2, bg: getStepStatus(index) ? 'primary.main' : '#e0e0e0', borderRadius: 1 }} />
                   )}
                 </Box>
               ))}
@@ -123,7 +121,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
           </Box>
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-            <Typography variable="body2">
+            <Typography variant="body2">
               Contact
             </Typography>
             <Typography variant="body2" fontWeight={600}>
@@ -177,72 +175,68 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
                         >
                           <img src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         </Box>
-                        <Typography variant="body2" fontWeight={600} sx={{ mb: false:ic5}.dsf*gb!|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!#|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!|!||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+                        <Typography variant="body2" fontWeight={600} sx={{ mb: 1 }}>
+                          {item.product.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {item.product.brand || 'Brand'}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell align="center">₹{item.price}</TableCell>
+                    <TableCell align="center">{item.quantity}</TableCell>
+                    <TableCell align="center">₹{item.price * item.quantity}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </CardContent>
+      </Card>
 
-<tool_call>
-<function=Write>
-<parameter=content>
-:
-                                                        <div>
-                                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                                                                <h2>Order Details</h2>
-                                                                <p>Order #{order.id}</p>
-                                                            </div>
-                                                            <div style={{ display: 'flex', marginBottom: '2rem' }}>
-                                                                <div style={{ display: 'flex', alignItems: 'center', marginRight: '2rem' }}>
-                                                                    <Receipt style={{ fontSize: '2rem', color: '#1976d2', marginRight: '1rem' }} />
-                                                                    <div>
-                                                                        <p style={{ fontWeight: 'bold', margin: '0' }}>Order Placed</p>
-                                                                        <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                                                                            {new Date(order.createdAt).toLocaleDateString()} at {new Date(order.createdAt).toLocaleTimeString()}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div style={{ width: '2px', height: '40px', backgroundColor: '#e0e0e0', margin: '0 10px' }}></div>
-                                                                <div style={{ display: 'flex', alignItems: 'center', marginRight: '2rem' }}>
-                                                                    <CheckCircle style={{ fontSize: '2rem', color: '#1976d2', marginRight: '1rem' }} />
-                                                                    <div>
-                                                                        <p style={{ fontWeight: 'bold', margin: '0' }}>Confirmed</p>
-                                                                        <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                                                                            {new Date(order.confirmedAt).toLocaleDateString()} at {new Date(order.confirmedAt).toLocaleTimeString()}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div style={{ width: '2px', height: '40px', backgroundColor: '#e0e0e0', margin: '0 10px' }}></div>
-                                                                <div style={{ display: 'flex', alignItems: 'center', marginRight: '2rem' }}>
-                                                                    <LocalMall style={{ fontSize: '2rem', color: '#1976d2', marginRight: '1rem' }} />
-                                                                    <div>
-                                                                        <p style={{ fontWeight: 'bold', margin: '0' }}>Processing</p>
-                                                                        <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                                                                            {new Date(order.processedAt).toLocaleDateString()} at {new Date(order.processedAt).toLocaleTimeString()}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div style={{ width: '2px', height: '40px', backgroundColor: '#e0e0e0', margin: '0 10px' }}></div>
-                                                                <div style={{ display: 'flex', alignItems: 'center', marginRight: '2rem' }}>
-                                                                    <LocalTruck style={{ fontSize: '2rem', color: '#1976d2', marginRight: '1rem' }} />
-                                                                    <div>
-                                                                        <p style={{ fontWeight: 'bold', margin: '0' }}>Out for Delivery</p>
-                                                                        <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                                                                            {new Date(order.outForDeliveryAt).toLocaleDateString()} at {new Date(order.outForDeliveryAt).toLocaleTimeString()}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div style={{ width: '2px', height: '40px', backgroundColor: '#e0e0e0', margin: '0 10px' }}></div>
-                                                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                                    <CheckCircle style={{ fontSize: '2rem', color: '#1976d2', marginRight: '1rem' }} />
-                                                                    <div>
-                                                                        <p style={{ fontWeight: 'bold', margin: '0' }}>Delivered</p>
-                                                                        <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                                                                            {new Date(order.deliveredAt).toLocaleDateString()} at {new Date(order.deliveredAt).toLocaleTimeString()}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            </Box>
-                                        </Container>
-                                    );
-                                };
+      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 4 }}>
+        <CardContent>
+          <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+            Order Summary
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Typography variant="body2">
+              Subtotal
+            </Typography>
+            <Typography variant="body2" fontWeight={600}>
+              ₹{order.subtotal}
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Typography variant="body2">
+              Delivery Fee
+            </Typography>
+            <Typography variant="body2" fontWeight={600}>
+              ₹{order.deliveryFee || 0}
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Typography variant="body2">
+              Discount
+            </Typography>
+            <Typography variant="body2" fontWeight={600} color="error">
+              -₹{order.discount || 0}
+            </Typography>
+          </Box>
+          <Divider sx={{ mb: 2 }} />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <Typography variant="h5" fontWeight={600}>
+              Total
+            </Typography>
+            <Typography variant="h5" fontWeight={600} color="primary.main">
+              ₹{order.totalAmount}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </Container>
+  );
+};
+
+export default OrderDetailPage;
