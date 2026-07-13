@@ -17,20 +17,15 @@ spring:
             allowedOrigins: "*"
             allowedMethods: "*"
             allowedHeaders: "*"
-      # You can define specific routes here if needed
-      # routes:
-      #   - id: auth-service
-      #     uri: lb://auth-service
-      #     predicates:
-      #       - Path=/api/auth/**
-      #     filters:
-      #       - RewritePath=/api/auth/(?<segment>.*), /$\{segment}
-      #   - id: user-service
-      #     uri: lb://user-service
-      #     predicates:
-      #       - Path=/api/users/**
-      #     filters:
-      #       - RewritePath=/api/users/(?<segment>.*), /$\{segment}
+      # Routes are defined in code for more flexibility
+      # Global filters
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        - RemoveResponseHeader=Cookie
+        - RemoveRequestHeader=Cookie
+        - RemoveRequestHeader=Authorization
+      # Global filters for security and logging
+      # We'll add custom filters in code
 
 eureka:
   client:
@@ -40,6 +35,7 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 # Config client configuration
 spring:
@@ -64,11 +60,13 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 3
         failureRateThreshold: 50
         waitDurationInOpenState: 5000
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
   ratelimiter:
     instances:
       default:
         registerHealthIndicator: true
-        limitForPeriod: 10
+        limitForPeriod: 1000
         limitRefreshPeriod: 1s
         timeoutDuration: 0s
   timelimiter:
@@ -76,12 +74,31 @@ resilience4j:
       default:
         timeoutDuration: 4s
 
+# Global rate limiter
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - RequestRateLimiter=default, KeyResolver=@ path:request.remoteAddr
+      routes:
+        # Routes are defined in code for more flexibility
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus,gateway
+        include: health,info,metrics,prometheus,gateway,configprops,env,beans
   endpoint:
     health:
       show-details: always
       show-components: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      slo:
+        http.server.requests: 10ms,50ms,100ms,200ms,500ms,1s,2s,5s,10s
+  tracing:
+    sampling:
+      probability: 1.0

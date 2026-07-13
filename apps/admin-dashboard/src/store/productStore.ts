@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { analyticsService } from '@/lib/api'; // Note: This should be productService but we'll use analytics for now as placeholder
+import { productService } from '@/lib/api';
 
 export type Product = {
   id: string;
@@ -84,30 +84,31 @@ export const useProductStore = create<ProductState>()(
       fetchProducts: async (params = {}) => {
         set({ loading: true, error: null });
         try {
-          // TODO: Replace with actual product service
-          const response = await analyticsService.getProductSales(); // Placeholder
+          const response = await productService.getList(params);
           set({ products: response.data || [], loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
         }
-      },
-      fetchProductDetail: async (id) => {
+      fetchProductDetail: async (id: string) => {
         set({ loading: true, error: null });
         try {
-          // TODO: Replace with actual product service
-          const response = await analyticsService.getProductSales(); // Placeholder
+          const response = await productService.getDetail(id);
           set({ loading: false });
-          return response.data?.find((p: any) => p.id === id) || null;
+          return response.data || null;
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
         }
-      },
       bulkUpdate: async (updates) => {
         set({ loading: true, error: null });
         try {
-          // TODO: Implement actual bulk update API
+          // Execute all updates in parallel
+          await Promise.all(
+            updates.map(({ id, data }) => productService.update(id, data))
+          );
+          // Optionally, refetch the products to ensure consistency
+          // For now, we update the store optimistically by updating each product
           updates.forEach(({ id, data }) => {
             get().updateProduct(id, data);
           });
@@ -120,8 +121,12 @@ export const useProductStore = create<ProductState>()(
       bulkDelete: async (ids) => {
         set({ loading: true, error: null });
         try {
-          // TODO: Implement actual bulk delete API
-          ids.forEach((id) => {
+          // Execute all deletions in parallel
+          await Promise.all(
+            ids.map(id => productService.delete(id))
+          );
+          // Remove the deleted products from the store
+          ids.forEach(id => {
             get().removeProduct(id);
           });
           set({ loading: false });
@@ -133,7 +138,9 @@ export const useProductStore = create<ProductState>()(
       updateStock: async (id, quantity, type) => {
         set({ loading: true, error: null });
         try {
-          // TODO: Implement actual stock update API
+          // Map type to the operation expected by the API? The API expects a quantity (new stock?)
+          // Our API endpoint PATCH /api/products/{id}/stock with { quantity } sets the stock to the given quantity.
+          // So we need to compute the new stock based on type and current stock.
           const product = get().products.find((p) => p.id === id);
           if (!product) throw new Error('Product not found');
 
@@ -148,6 +155,9 @@ export const useProductStore = create<ProductState>()(
 
           newStock = Math.max(0, newStock);
 
+          // Call the API to update stock
+          await productService.updateStock(id, newStock);
+          // Optimistically update the store
           get().updateProduct(id, { stock: newStock });
           set({ loading: false });
         } catch (error) {

@@ -9,6 +9,9 @@ spring:
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     initialization-mode: always
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: validate
@@ -16,6 +19,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
   mail:
     host: ${MAIL_HOST:localhost}
     port: ${MAIL_PORT:1025}
@@ -27,25 +31,106 @@ spring:
           auth: true
           starttls:
             enable: true
+          auth-mechanisms: LOGIN PLAIN
+  redis:
+    host: redis
+    port: 6379
+    timeout: 10s
   cloud:
     config:
       uri: http://config-server:8888
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+        max-attempts: 6
     discovery:
       enabled: true
       service-id: config-server
-  # For Consul or other service discovery, but we are using Eureka
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8080}
+          jwk-set-uri: ${JWK_SET_URI:http://auth-service:8080/oauth2/jwks}
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+          apple:
+            client-id: ${APPLE_CLIENT_ID}
+            team-id: ${APPLE_TEAM_ID}
+            key-id: ${APPLE_KEY_ID}
+            private-key: ${APPLE_PRIVATE_KEY}
+            scope:
+              - name
+              - email
+          facebook:
+            client-id: ${FACEBOOK_CLIENT_ID}
+            client-secret: ${FACEBOOK_CLIENT_SECRET}
+            scope:
+              - email
+              - public_profile
+
+jwt:
+  secret: ${JWT_SECRET:your-super-secret-jwt-key-change-in-production}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+  refresh-token:
+    expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000} # 7 days in milliseconds
+
+security:
+  oauth2:
+    client:
+      registration:
+        google:
+          client-id: ${GOOGLE_CLIENT_ID}
+          client-secret: ${GOOGLE_CLIENT_SECRET}
+          scope: openid, profile, email
+        apple:
+          client-id: ${APPLE_CLIENT_ID}
+          team-id: ${APPLE_TEAM_ID}
+          key-id: ${APPLE_KEY_ID}
+          private-key: ${APPLE_PRIVATE_KEY}
+          scope: name, email
+        facebook:
+          client-id: ${FACEBOOK_CLIENT_ID}
+          client-secret: ${FACEBOOK_CLIENT_SECRET}
+          scope: email, public_profile
+
 eureka:
   client:
     service-url:
       defaultZone: http://discovery-server:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,info,metrics,prometheus,loggers,env,beans,mappings,trace
   endpoint:
     health:
       show-details: always
+      show-components: always
+    prometheus:
+      enabled: true
+  metrics:
+    enable:
+      http: true
+      jdbc: true
+      redis: true
+      cache: true
+    export:
+      prometheus:
+        enabled: true
+        step: 30s

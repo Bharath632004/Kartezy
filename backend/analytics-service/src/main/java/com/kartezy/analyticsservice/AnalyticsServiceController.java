@@ -1,10 +1,14 @@
 package com.kartezy.analyticsservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.kartezy.analyticsservice.service.AnalyticsAiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,8 +42,15 @@ public class AnalyticsServiceController {
     @PostMapping("/insights/business")
     public ResponseEntity<Map<String, Object>> getBusinessInsights(
             @RequestParam(required = false) String parameters) {
-        // TODO: parse parameters JSON string to Map
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.generateBusinessInsights(params));
     }
 
@@ -51,7 +62,15 @@ public class AnalyticsServiceController {
     @PostMapping("/insights/customer")
     public ResponseEntity<Map<String, Object>> getCustomerInsights(
             @RequestParam(required = false) String parameters) {
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.generateCustomerInsights(params));
     }
 
@@ -63,7 +82,15 @@ public class AnalyticsServiceController {
     @PostMapping("/insights/merchant")
     public ResponseEntity<Map<String, Object>> getMerchantInsights(
             @RequestParam(required = false) String parameters) {
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.generateMerchantInsights(params));
     }
 
@@ -75,7 +102,15 @@ public class AnalyticsServiceController {
     @PostMapping("/insights/delivery")
     public ResponseEntity<Map<String, Object>> getDeliveryInsights(
             @RequestParam(required = false) String parameters) {
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.generateDeliveryInsights(params));
     }
 
@@ -87,7 +122,15 @@ public class AnalyticsServiceController {
     @PostMapping("/insights/marketing")
     public ResponseEntity<Map<String, Object>> getMarketingInsights(
             @RequestParam(required = false) String parameters) {
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.generateMarketingInsights(params));
     }
 
@@ -99,7 +142,15 @@ public class AnalyticsServiceController {
     @PostMapping("/insights/operational")
     public ResponseEntity<Map<String, Object>> getOperationalInsights(
             @RequestParam(required = false) String parameters) {
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && !parameters.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                params = objectMapper.readValue(parameters, new TypeReference<Map<String, Object>>() {});
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON parameters"));
+            }
+        }
         return ResponseEntity.ok(analyticsAiService.generateOperationalInsights(params));
     }
 

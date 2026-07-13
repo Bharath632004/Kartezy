@@ -1,9 +1,9 @@
-package com.kartezy.computervisionservice.controller;
+package com.kratezy.computervisionservice.controller;
 
 import com.kartezy.computervisionservice.service.ComputerVisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.web.bind.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;

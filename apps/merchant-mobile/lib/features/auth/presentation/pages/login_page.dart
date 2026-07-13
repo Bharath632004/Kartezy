@@ -54,7 +54,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _loginWithGoogle() async {
-    // TODO: Implement Google Sign In
     // For now, show a snack bar
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

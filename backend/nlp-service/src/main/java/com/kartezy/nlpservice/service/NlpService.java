@@ -99,7 +99,7 @@ public class NlpService {
      * @return a list of maps, each detailing a grammar error and suggested correction
      * @throws UnsupportedOperationException if the feature is not implemented
      */
-    public List<Map<String, Object>> checkGramer(String sentence) {
+    public List<Map<String, Object>> checkGrammar(String sentence) {
         throw new UnsupportedOperationException("Grammar checking is not implemented yet.");
     }
 

@@ -1,7 +1,5 @@
 package com.kartezy.voiceservice.controller;
 
-import com.kartezybackendservice.controller;
-
 import com.kartezy.voiceservice.service.VoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -54,7 +52,7 @@ public class VoiceController {
             @RequestParam(required = false) String voice) throws IOException {
         byte[] audioData = voiceService.textToSpeech(text, language, voice);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.AUDIO_MPEG); // or WAV, depending on implementation
+        headers.setContentType(MediaType.parseMediaType("audio/mpeg"));
         headers.setContentDispositionFormData("attachment", "speech.mp3");
         return ResponseEntity.ok()
                 .headers(headers)
