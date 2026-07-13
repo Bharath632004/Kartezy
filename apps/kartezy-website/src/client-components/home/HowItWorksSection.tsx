@@ -1,29 +1,48 @@
 import { Box, Container, Stack, Typography, Stepper, Step, StepLabel } from '@mui/material';
-import { LocalGroceryStore, LocalShipping, LocationOn, CheckCircle } from '@mui/icons-material';
+import {
+  LocalGroceryStore,
+  LocalShipping,
+  LocationOn,
+  CheckCircle,
+  // Add other icons as needed
+  // We'll map by name
+} from '@mui/icons-material';
 
-export default function HowItWorksSection() {
-  const steps = [
+// Icon mapping
+const iconMap = {
+  LocalGroceryStore: LocalGroceryStore,
+  LocalShipping: LocalShipping,
+  LocationOn: LocationOn,
+  CheckCircle: CheckCircle,
+  // Add more as needed
+};
+
+export default function HowItWorksSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = [
     {
       title: 'Browse & Select',
-      icon: <LocalGroceryStore />,
+      icon: 'LocalGroceryStore',
       description: 'Explore our wide range of products organized in intuitive categories.'
     },
     {
       title: 'Place Order',
-      icon: <LocalShipping />,
+      icon: 'LocalShipping',
       description: 'Review your cart, apply promo codes, and proceed to secure checkout.'
     },
     {
       title: 'Track Delivery',
-      icon: <LocationOn />,
+      icon: 'LocationOn',
       description: 'Get real-time updates on your order status and see your delivery partner.'
     },
     {
       title: 'Enjoy!',
-      icon: <CheckCircle />,
+      icon: 'CheckCircle',
       description: 'Your order arrives fresh and on time. Rate your experience.'
     }
   ];
+
+  const steps = data || defaultData;
 
   return (
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.paper' }}>
@@ -36,7 +55,7 @@ export default function HowItWorksSection() {
           <Stepper alternativeLabel orientation="horizontal">
             {steps.map((step, index) => (
               <Step key={index}>
-                <StepLabel icon={step.icon}>
+                <StepLabel icon={iconMap[step.icon] ? <iconMap[step.icon] /> : null}>
                   <Stack spacing={1} sx={{ mt: 2 }}>
                     <Typography variant="h6" fontWeight={600}>
                       {step.title}
@@ -53,4 +72,4 @@ export default function HowItWorksSection() {
       </Container>
     </Box>
   );
-};
+}

@@ -1,60 +1,157 @@
-sx={{ display: showFilters ? 'block' : 'none' }}},
-          {
-            xs: 12,
-            md: 3,
-            component: motion.div
-          },
-          layout: 'position'
-        }},
-        {
-          item: 'filters-panel',
-          children: {
-            xs: 12,
-            md: 3,
-            component: motion.div,
-            layout: 'position',
-            sx: {
-              display: showFilters ? 'block' : 'none'
-            }
-          }
-        }
-      }>
+import { Box, Container, Grid, Typography, TextField, InputAdornment, Card, CardContent, Stack, Chip, Button, IconButton, Paper } from '@mui/material';
+import { Search as SearchIcon, Favorite, Visibility, LocalOffer, AccessTime, Store } from '@mui/icons-material';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { getProducts, getCategories } from '@/lib/services';
 
-        {/* Filters Panel */}
-        <Grid item xs={12} md={3} sx={{ display: showFilters ? 'block' : 'none' }}>
-          <Paper elevation={2} sx={{ p: 3, borderRadius: 3, position: 'sticky', top: 100 }}>
+const SearchPage = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('relevance');
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedStores, setSelectedStores] = useState<string[]>([]);
+
+  // Fetch categories for filter
+  const { data: categories = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+  });
+
+  // Fetch products with filters
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['search', searchQuery, sortBy, selectedPriceRange, selectedCategory, selectedStores],
+    queryFn: () => getProducts({
+      search: searchQuery,
+      sort: sortBy,
+      priceRange: selectedPriceRange,
+      stores: selectedStores.join(','),
+      category: selectedCategory,
+    }),
+  });
+
+  const priceRanges = [
+    { label: 'Under ₹100', min: 0, max: 100 },
+    { label: '₹100 - ₹200', min: 100, max: 200 },
+    { label: '₹200 - ₹500', min: 200, max: 500 },
+    { label: 'Over ₹500', min: 500, max: 1000 },
+  ];
+
+  const stores = Array.from(new Set(products.map((p: any) => p.store)));
+
+  const handlePriceRangeClick = (range: string) => {
+    setSelectedPriceRange(selectedPriceRange === range ? null : range);
+  };
+
+  const handleStoreClick = (store: string) => {
+    setSelectedStores(prev =>
+      prev.includes(store)
+        ? prev.filter(s => s !== store)
+        : [...prev, store]
+    );
+  };
+
+  const handleCategoryClick = (categoryId: string | null) => {
+    setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {(error as Error).message}</div>;
+
+  return (
+    <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
+      {/* Search Bar */}
+      <Box sx={{ mb: 4 }}>
+        <TextField
+          label="Search products, brands & more"
+          placeholder="Search for products, brands & more"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon size="small" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ width: '100%', maxWidth: 600 }}
+          margin="normal"
+        />
+      </Box>
+
+      <Grid container spacing={4}>
+        {/* Sidebar Filters */}
+        <Grid item xs={12} md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Paper elevation={2} sx={{ p: 3, borderRadius: 3 }}>
             <Stack spacing={3}>
               <Typography variant="h6" fontWeight={600}>
                 Filters
               </Typography>
 
               {/* Categories */}
-              <Box>
-                <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
-                  Categories
-                </Typography>
-                <Stack spacing={1}>
-                  {categories.map((category) => (
-                    <Chip
-                      key={category}
-                      label={category}
-                      variant={selectedCategory === category ? 'filled' : 'outlined'}
-                      color={selectedCategory === category ? 'primary' : 'default'}
-                      onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
-                      sx={{ justifyContent: 'flex-start' }}
-                    />
-                  ))}
-                </Stack>
-              </Box>
+              {!categoriesLoading && (
+                <Box>
+                  <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
+                    Category
+                  </Typography>
+                  <Stack spacing={1}>
+                    {categories.map((category: any) => (
+                      <Button
+                        key={category.id}
+                        variant={selectedCategory === category.id ? 'contained' : 'outlined'}
+                        size="small"
+                        onClick={() => handleCategoryClick(category.id)}
+                        sx={{ justifyContent: 'flex-start', py: 1, px: 2 }}
+                      >
+                        {category.name}
+                      </Button>
+                    ))}
+                  </Stack>
+                </Box>
+              )}
 
               {/* Price Range */}
               <Box>
                 <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
                   Price Range
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  ₹{priceRange[0]} - ₹{priceRange[1]}
+                <Stack spacing={1}>
+                  {priceRanges.map((range) => (
+                    <Button
+                      key={range.label}
+                      variant={selectedPriceRange === range.label ? 'contained' : 'outlined'}
+                      size="small"
+                      onClick={() => handlePriceRangeClick(range.label)}
+                      sx={{ justifyContent: 'flex-start', py: 1, px: 2 }}
+                    >
+                      {range.label}
+                    </Button>
+                  ))}
+                </Stack>
+              </Box>
+
+              {/* Store Filters */}
+              <Box>
+                <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
+                  Store
                 </Typography>
+                <Stack spacing={1}>
+                  {stores.map((store: string) => (
+                    <Button
+                      key={store}
+                      variant={selectedStores.includes(store) ? 'contained' : 'outlined'}
+                      size="small"
+                      onClick={() => handleStoreClick(store)}
+                      sx={{ justifyContent: 'flex-start', py: 1, px: 2 }}
+                    >
+                      {store}
+                    </Button>
+                  ))}
+                </Stack>
               </Box>
 
               {/* Sort Options */}
@@ -75,7 +172,7 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                       variant={sortBy === option.value ? 'contained' : 'outlined'}
                       size="small"
                       onClick={() => setSortBy(option.value)}
-                      sx={{ justifyContent: 'flex-start', py: 1 }}
+                      sx={{ justifyContent: 'flex-start', py: 1, px: 2 }}
                     >
                       {option.label}
                     </Button>
@@ -84,55 +181,92 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
               </Box>
 
               {/* Clear Filters */}
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={handleClearFilters}
-                startIcon={<Close />}
-                sx={{ py: 1 }}
-              >
-                Clear All Filters
-              </Button>
+              {(selectedPriceRange || selectedPriceRange || selectedStores.length >
+                   selectedCategory ||
+                   selectedStores.length > 0 ||
+                   searchQuery) && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  onClick={() => {
+                    setSelectedPriceRange(null);
+                    setSelectedCategory(null);
+                    setSelectedStores([]);
+                    setSearchQuery('');
+                    setSortBy('relevance');
+                  }}
+                  sx={{ py: 1, px: 2, alignSelf: 'flex-start' }}
+                >
+                  Clear All Filters
+                </Button>
+              )}
             </Stack>
           </Paper>
         </Grid>
 
         {/* Search Results */}
         <Grid item xs={12} md={9}>
-          {/* Active Filters */}
-          {(selectedCategory || searchQuery) && (
-            <Box sx={{ mb: 3, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-              <Typography variant="body2" color="text.secondary" sx={{ mr: 2 }}>
-                Active Filters:
+          {/* Results Count */}
+          <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h5" fontWeight={600}>
+              Search Results for "{searchQuery}" ({products.length})
+            </Typography>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                Sort by:
               </Typography>
-              {selectedCategory && (
+              <Chip
+                label={sortBy.replace('-', ' ')}
+                size="small"
+                onDelete={() => setSortBy('relevance')}
+              />
+            </Stack>
+          </Box>
+
+          {/* Active Filters (Mobile) */}
+          {(selectedPriceRange || selectedCategory || selectedStores.length > 0 || searchQuery) && (
+            <Box sx={{ mb: 3, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              {selectedPriceRange && (
                 <Chip
-                  label={`Category: ${selectedCategory}`}
+                  label={`Price: ${selectedPriceRange}`}
                   size="small"
-                  onDelete={() => setSelectedCategory(null)}
+                  onDelete={() => setSelectedPriceRange(null)}
                   color="primary"
                 />
               )}
+              {selectedCategory && (
+                <Chip
+                  label={`Category: ${categories.find((c: any) => c.id === selectedCategory)?.name}`}
+                  size="small"
+                  onDelete={() => setSelectedCategory(null)}
+                  color="secondary"
+                />
+              )}
+              {selectedStores.map((store) => (
+                <Chip
+                  key={store}
+                  label={`Store: ${store}`}
+                  size="small"
+                  onDelete={() => handleStoreClick(store)}
+                  color="error"
+                />
+              ))}
               {searchQuery && (
                 <Chip
                   label={`Search: ${searchQuery}`}
                   size="small"
                   onDelete={() => setSearchQuery('')}
-                  color="secondary"
+                  color="info"
                 />
               )}
             </Box>
           )}
 
-          {/* Results Grid */}
+          {/* Products Grid */}
           <Grid container spacing={3}>
-            {filteredProducts.map((product, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id} component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ scale: 1.02 }}
-              >
+            {products.map((product: any, index: number) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                 <Card
                   sx={{
                     height: '100%',
@@ -142,6 +276,7 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                     boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
                     transition: 'all 0.3s ease',
                     '&:hover': {
+                      transform: 'translateY(-4px)',
                       boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
                     }
                   }}
@@ -159,12 +294,11 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        backgroundImage: `url(${product.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
                       }}
-                    >
-                      <Typography variant="h3" color="text.secondary">
-                        ₹{product.price}
-                      </Typography>
-                    </Box>
+                    />
                     {product.isFresh && (
                       <Chip
                         label="FRESH"
@@ -209,10 +343,10 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                           sx={{ fontSize: '0.75rem' }}
                         />
                         <Stack direction="row" alignItems="center" spacing={0.5}>
-                          <Typography variant="body2" color="text.secondary">
+                          <AccessTime sx={{ fontSize: '1rem', color: '#4caf50' }} />
+                          <Typography variant="body2" color="text.secondary" fontSize='0.75rem'>
                             {product.deliveryTime}
                           </Typography>
-                          <AccessTime sx={{ fontSize: '1rem', color: '#4caf50' }} />
                         </Stack>
                       </Box>
 
@@ -226,6 +360,7 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
                           minHeight: '2.4rem',
+                          fontSize: '1rem',
                         }}
                       >
                         {product.name}
@@ -236,14 +371,14 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                         <Typography variant="body2" fontWeight={600} color="text.primary">
                           {product.rating}
                         </Typography>
-                        <Typography variant="body2} color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" fontSize='0.75rem'>
                           • {product.reviews} reviews
                         </Typography>
                       </Stack>
 
                       {/* Price */}
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="h6" fontWeight={700} color="primary.main">
+                        <Typography variant="h6" fontWeight={700} color="primary.main" fontSize='1.1rem'>
                           ₹{product.price}
                         </Typography>
                         {product.originalPrice && (
@@ -251,6 +386,7 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                             <Typography
                               variant="body2"
                               color="text.secondary"
+                              fontSize='0.75rem'
                               sx={{ textDecoration: 'line-through' }}
                             >
                               ₹{product.originalPrice}
@@ -259,7 +395,7 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                               label={`${product.discount}% OFF`}
                               size="small"
                               color="error"
-                              sx={{ fontSize: '0.7rem', height: 20 }}
+                              sx={{ fontSize: '0.65rem', height: 18, fontWeight: 600 }}
                             />
                           </>
                         )}
@@ -267,26 +403,33 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
                     </Stack>
                   </CardContent>
 
-                  {/* Add to cart button */}
+                  {/* Action Buttons */}
                   <Box sx={{ p: 3, pt: 0 }}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      size="large"
-                      sx={{
-                        py: 1.5,
-                        borderRadius: 2,
-                        backgroundColor: '#ff6b35',
-                        '&:hover': {
-                          backgroundColor: '#e55a2b',
-                          transform: 'translateY(-2px)',
-                          boxShadow: '0 4px 12px rgba(255,107,53,0.4)',
-                        },
-                        transition: 'all 0.3s ease',
-                      }}
-                    >
-                      Add to Cart
-                    </Button>
+                    <Stack spacing={1}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        size="medium"
+                        sx={{
+                          py: 1,
+                          borderRadius: 2,
+                          backgroundColor: '#ff6b35',
+                          '&:hover': {
+                            backgroundColor: '#e55a2b',
+                          }
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                      <Stack direction="row" spacing={1}>
+                        <IconButton size="small" sx={{ border: '1px solid #e0e0e0' }}>
+                          <Favorite fontSize="small" />
+                        </IconButton>
+                        <IconButton size="small" sx={{ border: '1px solid #e0e0e0' }}>
+                          <Visibility fontSize="small" />
+                        </IconButton>
+                      </Stack>
+                    </Stack>
                   </Box>
                 </Card>
               </Grid>
@@ -294,33 +437,18 @@ sx={{ display: showFilters ? 'block' : 'none' }}},
           </Grid>
 
           {/* No Results */}
-          {filteredProducts.length === 0 && (
+          {products.length === 0 && (
             <Box sx={{ textAlign: 'center', py: 8 }}>
               <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>
                 No products found
               </Typography>
-              <Typography variant="body1} color="text.secondary">
-                Try adjusting your search or filters
+              <Typography variant="body2" color="text.secondary">
+                Try adjusting your search or filter criteria
               </Typography>
             </Box>
           )}
         </Grid>
       </Grid>
-
-      {/* Pagination */}
-      {filteredProducts.length > 0 && (
-        <Box sx={{ mt: 6, display: 'flex', justifyContent: 'center' }}>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Button variant="outlined" size="small" disabled>
-              Previous
-            </Button>
-            <Chip label="1" color="primary" />
-            <Button variant="outlined" size="small">
-              Next
-            </Button>
-          </Stack>
-        </Box>
-      )}
     </Container>
   );
 };

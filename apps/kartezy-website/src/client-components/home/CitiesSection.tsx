@@ -1,12 +1,15 @@
 import { Box, Container, Stack, Typography, Chip, Button } from '@mui/material';
-import { Place } from '@mui/icons-material';
+import { Place } from '@mui/icons/material';
 
-export default function CitiesSection() {
-  const cities = [
+export default function CitiesSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = [
     "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai",
     "Kolkata", "Pune", "Ahmedabad", "Jaipur", "Lucknow",
     "Kochi", "Goa", "Chandigarh", "Indore", "Surat"
   ];
+
+  const cities = data || defaultData;
 
   return (
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: '#fff' }}>
@@ -65,4 +68,4 @@ export default function CitiesSection() {
       </Container>
     </Box>
   );
-};
+}

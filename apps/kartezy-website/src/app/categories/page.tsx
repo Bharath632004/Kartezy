@@ -1,99 +1,39 @@
-"use client';
+"use client";
 import { Box, Container, Grid, Typography, TextField, InputAdornment, Card, CardContent, Stack, Chip, Button } from '@mui/material';
-import { Search as SearchIcon, LocalGroceryStore, LocalCafe, LocalPizza, LocalFlorist, LocalPharmacy, Pets, Home, Favorite } from '@mui/icons-material';
+import { Search as SearchIcon, LocalGroceryStore, LocalCafe, LocalPizza, LocalFlorist, LocalPharmacy, Home, Favorite, Pets } from '@mui/icons/material';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { getCategories } from '@/lib/services';
 
-const categories = [
-  {
-    id: 1,
-    name: 'Fresh Produce',
-    icon: <LocalGroceryStore fontSize="large" color="success" />,
-    bgColor: '#E8F5E9',
-    color: '#2E7D32',
-    productCount: 1245,
-    description: 'Fresh fruits and vegetables sourced directly from farms',
-    featured: true,
-  },
-  {
-    id: 2,
-    name: 'Dairy & Eggs',
-    icon: <LocalCafe fontSize="large" color="info" />,
-    bgColor: '#E3F2FD',
-    color: '#1565C0',
-    productCount: 892,
-    description: 'Fresh dairy products and farm eggs',
-    featured: false,
-  },
-  {
-    id: 3,
-    name: 'Snacks & Beverages',
-    icon: <LocalPizza fontSize="large" color="warning" />,
-    bgColor: '#FFF8E1',
-    color: '#EF6C00',
-    productCount: 2341,
-    description: 'Beverages, chips, and snacks for every occasion',
-    featured: true,
-  },
-  {
-    id: 4,
-    name: 'Personal Care',
-    icon: <LocalFlorist fontSize="large" color="error" />,
-    bgColor: '#FCE4EC',
-    color: '#C2185B',
-    productCount: 1567,
-    description: 'Skincare, haircare, and wellness products',
-    featured: false,
-  },
-  {
-    id: 5,
-    name: 'Pharmacy',
-    icon: <LocalPharmacy fontSize="large" color="info" />,
-    bgColor: '#E8EAF6',
-    color: '#303F9F',
-    productCount: 783,
-    description: 'Healthcare products and medicines',
-    featured: false,
-  },
-  {
-    id: 6,
-    name: 'Household Essentials',
-    icon: <Home fontSize="large" color="success" />,
-    bgColor: '#E8F5E9',
-    color: '#2E7D32',
-    productCount: 1123,
-    description: 'Cleaning supplies and household items',
-    featured: true,
-  },{
-    id: 7,
-    name: 'Baby & Kids',
-    icon: <Favorite fontSize="large" color="warning" />,
-    bgColor: '#FFF3E0',
-    color: '#EF6C00',
-    productCount: 945,
-    description: 'Baby care, toys, and kids products',
-    featured: false,
-  },
-  {
-    id: 8,
-    name: 'Bakery',
-    icon: <Pets fontSize="large" color="error" />,
-    bgColor: '#FFEBEE',
-    color: '#C62828',
-    productCount: 678,
-    description: 'Fresh bread, pastries, and baked goods',
-    featured: false,
-  },
-];
-
-const ProductsPage = () => {
+const CategoriesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const router = useRouter();
+
+  // Fetch categories
+  const { data: categories = [], isLoading, error } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+  });
+
+  if (isLoading) return <div>Loading categories...</div>;
+  if (error) return <div>Error loading categories</div>;
 
   const filteredCategories = categories.filter(category =>
     category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    category.description.toLowerCase().includes(searchQuery.toLowerCase())
+    (category.description && category.description.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  const featuredCategories = categories.filter(c => c.featured);
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategoryId(selectedCategoryId === categoryId ? null : categoryId);
+    // Navigate to products page with category filter
+    if (categoryId) {
+      router.push(`/products?category=${categoryId}`);
+    } else {
+      router.push('/products');
+    }
+  };
 
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
@@ -130,82 +70,14 @@ const ProductsPage = () => {
         />
       </Box>
 
-      {/* Featured Categories */}
-      {featuredCategories.length > 0 && (
-        <Box sx={{ mb: { xs: 5, md: 8 } }}>
-          <Typography variant="h4" fontWeight={600} sx={{ mb: 4 }}>
-            Featured Categories
-          </Typography>
-          <Grid container spacing={3}>
-            {featuredCategories.map((category, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={category.id}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: 4,
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-                    }
-                  }}
-                >
-                  <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                    <Box
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        backgroundColor: category.bgColor,
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        margin: '0 auto 16px',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                      }}
-                    >
-                      {category.icon}
-                    </Box>
-
-                    <Typography
-                      variant="h6"
-                      fontWeight={600}
-                      color={category.color}
-                      sx={{ mb: 2 }}
-                    >
-                      {category.name}
-                    </Typography>
-
-                    <Typography
-                      variant="body2}
-                      color="text.secondary"
-                      sx={{ mb: 2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                    >
-                      {category.description}
-                    </Typography>
-
-                    <Typography variant="body2" fontWeight={600} color="primary.main">
-                      {category.productCount.toLocaleString()} products
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
-
-      {/* All Categories Grid */}
+      {/* Categories Grid */}
       <Box>
         <Typography variant="h4" fontWeight={600} sx={{ mb: 4 }}>
           All Categories
         </Typography>
         <Grid container spacing={3}>
-          {filteredCategories.map((category, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={category.id} component={GridItem(index)}>
+          {categories.map((category) => (
+            <Grid item key={category.id} xs={12} sm={6} md={4} lg={3}>
               <Card
                 sx={{
                   height: '100%',
@@ -213,21 +85,21 @@ const ProductsPage = () => {
                   borderRadius: 4,
                   boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
                   transition: 'all 0.3s ease',
-                  backgroundColor: selectedCategory === category.id ? category.bgColor : 'white',
+                  backgroundColor: selectedCategoryId === category.id ? '#f0f0f0' : 'white',
                   '&:hover': {
                     transform: 'translateY(-4px)',
                     boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-                    backgroundColor: selectedCategory === category.id ? category.bgColor : category.bgColor,
+                    backgroundColor: selectedCategoryId === category.id ? '#e0e0e0' : 'white',
                   }
                 }}
-                onClick={() => setSelectedCategory(selectedCategory === category.id ? null : category.id)}
+                onClick={() => handleCategoryClick(category.id)}
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
                   <Box
                     sx={{
                       width: 64,
                       height: 64,
-                      backgroundColor: category.bgColor,
+                      backgroundColor: category.bgColor || '#f5f5f5',
                       borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
@@ -235,44 +107,56 @@ const ProductsPage = () => {
                       margin: '0 auto 12px',
                     }}
                   >
-                    {category.icon}
+                    {category.icon ? (
+                      <Box sx={{ color: category.color || 'primary.main' }}>
+                        {category.icon}
+                      </Box>
+                    ) : (
+                      <Box sx={{ bgcolor: 'primary.main', width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {category.name[0]}
+                      </Box>
+                    )}
                   </Box>
 
                   <Typography
                     variant="h6"
                     fontWeight={600}
-                    color={selectedCategory === category.id ? category.color : 'text.primary'}
+                    color={selectedCategoryId === category.id ? (category.color || 'primary.main') : 'text.primary'}
                     sx={{ mb: 1 }}
                   >
                     {category.name}
                   </Typography>
 
-                  <Typography variant="body2} color="text.secondary" sx={{ mb: 2 }}>
-                    {category.description.substring(0, 40)}...
-                  </Typography>
+                  {category.description && (
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      {category.description.substring(0, 60)}...
+                    </Typography>
+                  )}
 
-                  <Chip
-                    label={`${category.productCount.toLocaleString()} items`}
-                    size="small"
-                    sx={{
-                      backgroundColor: selectedCategory === category.id ? category.color : 'transparent',
-                      color: selectedCategory === category.id ? 'white' : category.color,
-                      fontWeight: 600,
-                    }}
-                  />
+                  {category.productCount && (
+                    <Chip
+                      label={`${category.productCount} products`}
+                      size="small"
+                      sx={{
+                        backgroundColor: selectedCategoryId === category.id ? (category.color || 'primary.main') : 'transparent',
+                        color: selectedCategoryId === category.id ? 'white' : 'text.secondary',
+                        fontWeight: 600,
+                      }}
+                    />
+                  )}
                 </CardContent>
               </Card>
-            </Grid>
-          ))}
-        </Grid>
+            )}
+          </Grid>
 
-        {filteredCategories.length === 0 && (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography variant="h6} color="text.secondary">
-              No categories found matching your search
-            </Typography>
-          </Box>
-        )
+          {categories.length === 0 && (
+            <Box sx={{ textAlign: 'center', py: 8 }}>
+              <Typography variant="h6" color="text.secondary">
+                No categories found
+              </Typography>
+            </Box>
+          )}
+        </Grid>
       </Box>
 
       {/* Call to Action */}
@@ -289,7 +173,7 @@ const ProductsPage = () => {
         <Typography variant="h3" fontWeight={600} sx={{ mb: 2 }}>
           Ready to Start Shopping?
         </Typography>
-        <Typography variant="body1} sx={{ mb: 4, opacity: 0.9 }} maxWidth={600} mx="auto">
+        <Typography variant="body1" sx={{ mb: 4, opacity: 0.9 }} maxWidth={600} mx="auto">
           Browse through our categories to find the perfect products for your needs.
           Everything is just a click away!
         </Typography>
@@ -308,7 +192,9 @@ const ProductsPage = () => {
               boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
             }
           }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            router.push('/products');
+          }}
         >
           Browse All Products
         </Button>
@@ -317,7 +203,4 @@ const ProductsPage = () => {
   );
 };
 
-// Helper component for animation
-element.animate([{ opacity: 0, y: 20 }, { opacity: 1, y: 0 }], { duration: 300, delay: 100 * index });
-
-export default ProductsPage;
+export default CategoriesPage;

@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Custom styles for Karthezy */
 :root {
   --kartezy-primary: #1976d2;
@@ -18,8 +14,16 @@
   --kartezy-shadow-lg: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
+/* Base styles */
 body {
-  @apply bg-gray-50 text-gray-900 antialiased;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--kartezy-light);
+  color: var(--kartezy-dark);
 }
 
 /* Smooth transitions */
@@ -48,7 +52,10 @@ body {
 
 /* Glass morphism effect */
 .glass-morphism {
-  @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 /* Custom scrollbar */
@@ -58,15 +65,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+  background-color: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full;
+  background-color: #c1c1c1;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
+  background-color: #a8a8a8;
 }
 
 /* Page transitions */
@@ -87,29 +95,85 @@ body {
 
 /* Form styles */
 input, textarea, select {
-  @apply border-gray-300 focus:border-kartezy-primary focus:ring-2 focus:ring-kartezy-primary/20;
+  border: 1px solid #ccc;
+  border-radius: var(--kartezy-border-radius);
+  padding: 8px 12px;
+  font-size: 1rem;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--kartezy-primary);
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.25);
 }
 
 /* Button styles */
 .button-primary {
-  @apply bg-kartezy-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-kartezy-primary/90 transition-all focus:outline-none focus:ring-2 focus:ring-kartezy-primary/20 disabled:opacity-50 disabled:cursor-not-allowed;
+  background-color: var(--kartezy-primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--kartezy-border-radius);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.button-primary:hover {
+  background-color: #1565c0;
+}
+.button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .button-secondary {
-  @apply bg-kartezy-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-kartezy-secondary/90 transition-all focus:outline-none focus:ring-2 focus:ring-kartezy-secondary/20 disabled:opacity-50 disabled:cursor-not-allowed;
+  background-color: var(--kartezy-secondary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--kartezy-border-radius);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.button-secondary:hover {
+  background-color: #c2185b;
+}
+.button-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .button-outline {
-  @apply border border-kartezy-primary text-kartezy-primary px-6 py-3 rounded-lg font-medium hover:bg-kartezy-primary/10 transition-all focus:outline-none focus:ring-2 focus:ring-kartezy-primary/20 disabled:opacity-50 disabled:cursor-not-allowed;
+  border: 2px solid var(--kartezy-primary);
+  background-color: transparent;
+  color: var(--kartezy-primary);
+  padding: 10px 20px;
+  border-radius: var(--kartezy-border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.button-outline:hover {
+  background-color: rgba(25, 118, 210, 0.05);
+  color: var(--kartezy-primary);
+}
+.button-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Card styles */
 .card {
-  @appply bg-white rounded-lg shadow-md overflow-hidden;
+  background-color: white;
+  border-radius: var(--kartezy-border-radius);
+  box-shadow: var(--kartezy-shadow-md);
+  overflow: hidden;
 }
-
 .card-hover {
-  @apply hover:shadow-lg transition-shadow duration-300;
+  transition: box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--kartezy-shadow-lg);
 }
 
 /* Utility classes */
@@ -131,15 +195,15 @@ input, textarea, select {
   padding-right: 1rem;
 }
 
-.sm:px-6 {
-  @media (min-width: 640px) {
+@media (min-width: 640px) {
+  .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
 
-.lg:px-8 {
-  @media (min-width: 1024px) {
+@media (min-width: 1024px) {
+  .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
   }

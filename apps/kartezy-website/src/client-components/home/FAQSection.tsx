@@ -1,8 +1,9 @@
 import { Box, Container, Stack, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { ExpandMore } from '@mui/icons-material';
+import { ExpandMore } from '@mui/icons/material';
 
-export default function FAQSection() {
-  const faqs = [
+export default function FAQSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = [
     {
       question: "How fast is the delivery?",
       answer: "We offer lightning-fast delivery in as little as 15-30 minutes depending on your location and order size."
@@ -28,6 +29,8 @@ export default function FAQSection() {
       answer: "Your satisfaction is our guarantee. If you're not satisfied, we'll replace the item or provide a refund."
     }
   ];
+
+  const faqs = data || defaultData;
 
   return (
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
@@ -68,4 +71,4 @@ export default function FAQSection() {
       </Container>
     </Box>
   );
-};
+}

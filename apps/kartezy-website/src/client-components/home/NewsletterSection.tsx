@@ -2,14 +2,36 @@
 import { Box, Container, Stack, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
 
-export default function NewsletterSection() {
-  const [email, setEmail] = useState('');
+export default function NewsletterSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = {
+    title: 'Stay Updated with Kartezy',
+    description: 'Get exclusive offers, new product alerts, and delivery updates straight to your inbox.',
+    placeholder: 'Your Email Address',
+    buttonText: 'Subscribe Now',
+    privacyText: 'We respect your privacy. Unsubscribe at any time.',
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const dataToUse = data || defaultData;
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
-      alert(`Thanks for subscribing! We'll send updates to ${email}`);
-      setEmail('');
+      setSubmitting(true);
+      try {
+        // In a real app, we would call an API to subscribe
+        // For now, we'll simulate
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setMessage(`Thanks for subscribing! We'll send updates to ${email}`);
+        setEmail('');
+        setSubmitting(false);
+      } catch (error) {
+        setMessage('Failed to subscribe. Please try again.');
+        setSubmitting(false);
+      }
     }
   };
 
@@ -30,13 +52,13 @@ export default function NewsletterSection() {
             fontWeight={600}
             sx={{ mb: 2 }}
           >
-            Stay Updated with Kartezy
+            {dataToUse.title}
           </Typography>
           <Typography
             variant="body1"
             sx={{ mb: 4, maxWidth: 500 }}
           >
-            Get exclusive offers, new product alerts, and delivery updates straight to your inbox.
+            {dataToUse.description}
           </Typography>
 
           <form
@@ -51,7 +73,7 @@ export default function NewsletterSection() {
             }}
           >
             <TextField
-              label="Your Email Address"
+              label={dataToUse.placeholder}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -75,23 +97,31 @@ export default function NewsletterSection() {
                 fontSize: '1rem',
                 fontWeight: 600,
                 borderRadius: 2,
-                textTransform: 'none'
+                textTransform: 'none',
+                opacity: submitting ? 0.7 : 1,
               }}
               type="submit"
+              disabled={submitting}
             >
-              Subscribe Now
+              {submitting ? 'Subscribing...' : dataToUse.buttonText}
             </Button>
           </form>
+
+          {message && (
+            <Typography variant="body2" color="white" sx={{ mt: 2 }}>
+              {message}
+            </Typography>
+          )}
 
           <Typography
             variant="body2"
             color="white"
             sx={{ mt: 4, opacity: 0.8 }}
           >
-            We respect your privacy. Unsubscribe at any time.
+            {dataToUse.privacyText}
           </Typography>
         </Stack>
       </Container>
     </Box>
   );
-};
+}

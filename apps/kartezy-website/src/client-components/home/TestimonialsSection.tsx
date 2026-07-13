@@ -1,8 +1,9 @@
 import { Box, Container, Stack, Typography, Card, CardContent, Avatar, Divider } from '@mui/material';
-import { Star } from '@mui/icons-material';
+import { Star } from '@mui/icons/material';
 
-export default function TestimonialsSection() {
-  const testimonials = [
+export default function TestimonialsSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = [
     {
       id: 1,
       name: "Priya Sharma",
@@ -25,6 +26,8 @@ export default function TestimonialsSection() {
       text: "I love the wide variety of products available. From international ingredients to local favorites, I can find everything I need.",
     }
   ];
+
+  const testimonials = data || defaultData;
 
   return (
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
@@ -87,4 +90,4 @@ export default function TestimonialsSection() {
       </Container>
     </Box>
   );
-};
+}

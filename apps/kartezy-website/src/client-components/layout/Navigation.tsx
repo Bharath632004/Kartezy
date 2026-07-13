@@ -44,6 +44,18 @@ export default function Navigation() {
                   Blog
                 </Button>
               </Link>
+
+              <Link href="/merchant" passHref>
+                <Button size="small" variant="text" color="inherit" sx={{ fontWeight: 500 }}>
+                  Merchant
+                </Button>
+              </Link>
+
+              <Link href="/delivery" passHref>
+                <Button size="small" variant="text" color="inherit" sx={{ fontWeight: 500 }}>
+                  Delivery
+                </Button>
+              </Link>
             </Stack>
           </Box>
 

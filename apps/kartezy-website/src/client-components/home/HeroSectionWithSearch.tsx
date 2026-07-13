@@ -1,204 +1,168 @@
-"use client';'
+"use client";
 import { Box, Container, Stack, Typography, TextField, Button, InputAdornment, Grid } from '@mui/material';
 import { Search as SearchIcon, LocalOffer as LocalOfferIcon, PlayArrow as PlayArrowIcon, AccessTime, Security, Truck, Star } from '@mui/icons-material';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-export default function HeroSectionWithSearch() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [popularSearches] = useState([
-    'Fresh Vegetables', 'Dairy Products', 'Snacks', 'Beverages',
-    'Personal Care', 'Household', 'Fruits', 'Bread & Bakery'
-  ]);
+export default function HeroSectionWithSearch({ data } = {}) {
+  // Default data if none provided
+  const defaultData = {
+    title: 'Get groceries delivered in minutes',
+    subtitle: 'Fresh produce, household items, and more delivered to your doorstep',
+    primaryButtonText: 'Shop Now',
+    secondaryButtonText: 'How it works',
+    backgroundImage: '/images/hero-bg.jpg',
+    logo: '/images/logo.png',
+    badges: [
+      { text: '15-min Delivery', icon: AccessTime, color: 'success.main' },
+      { text: 'Fresh Quality', icon: Truck, color: 'error.main' },
+      { text: '24/7 Service', icon: AccessTime, color: 'info.main' },
+    ],
+    popularSearches: [
+      'Fresh Vegetables', 'Dairy Products', 'Snacks', 'Beverages',
+      'Personal Care', 'Household', 'Household', 'Fruits', 'Bread & Bakery'
+    ],
+  };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const dataToUse = data || defaultData;
+  const [searchQuery, setSearchQuery] = useState('className="searchQuery"
+  const handleSearch = () => {
     if (searchQuery.trim()) {
-      // Navigate to search results page
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+      // Navigate to search page with query
+      // In a real app, we would use useRouter from next/router
+      // For now, we'll just log
+      console.log('Searching for:', searchQuery);
     }
   };
 
-  const handleQuickSearch = (term: string) => {
+  const handleQuickSearch = (term) => {
     setSearchQuery(term);
-    window.location.href = `/search?q=${encodeURIComponent(term)}`;
+    // Optionally trigger search
+    // handleSearch();
   };
 
   return (
-    <section
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8E53 100%)',
-        minHeight: '90vh',
-        display: 'flex',
-        alignItems: 'center',
-        color: 'white',
-        paddingTop: '6rem',
-        paddingBottom: '6rem',
-      }}
-    >
+    <section position="relative" py={20}>
       <Container maxWidth="lg">
-        <Grid container spacing={6} alignItems="center">
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={6} alignItems="center">
           {/* Text Content */}
-          <Grid item xs={12} md={7} lg={6} component={motion.div}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Stack
-              spacing={3}
-              maxWidth={{ xs: '100%', md: '500px' }}
-              textAlign="left"
-            >
-              <Box display="flex" alignItems="center" gap={1} mb={2}>
-                <AccessTime sx={{ color: 'white', fontSize: '1.2rem' }} />
-                <Typography variant="subtitle1" fontWeight={600} color="white">
-                  15-Minute Delivery
-                </Typography>
-                <Box display="flex" alignItems="center" gap={0.5} ml={3}>
-                  <Star sx={{ color: 'white', fontSize: '1rem' }} />
-                  <Typography variant="subtitle2" color="white" fontWeight={500}>
-                    Rated 4.8/5
+          <Box flex={{ xs: 12, md: 6 }}>
+            <Stack spacing={3}>
+              {/* Badges */}
+              {dataToUse.badges?.map((badge, index) => (
+                <Box key={index} display="flex" alignItems="center" sx={{ mb: 1 }}>
+                  {badge.icon && (
+                    <Box sx={{ color: badge.color, mr: 1 }}>
+                      <badge.icon fontSize="small" />
+                    </Box>
+                  )}
+                  <Typography variant="caption" fontWeight={500} color="text.secondary">
+                    {badge.text}
                   </Typography>
                 </Box>
-              </Box>
+              ))}
 
-              <Typography
-                variant="h1"
-                fontWeight={700}
-                lineHeight={1.2}
-                sx={{ mb: 2, fontSize: { xs: '2.5rem', md: '3.75rem' } }}
-              >
-                Get Your Groceries, Essentials & More Delivered in Minutes
+              {/* Title */}
+              <Typography variant="h3" fontWeight={700} color="text.primary" sx={{ mb: 2 }}>
+                {dataToUse.title}
               </Typography>
 
-              <Typography
-                variant="body1"
-                lineHeight={1.6}
-                color="white"
-                sx={{ mb: 4, maxWidth: '400px', opacity: 0.9 }}
-              >
-                From fresh produce to household essentials, we deliver everything you need right to your doorstep. No more waiting in lines or carrying heavy bags - just tap, order, and relax.
+              {/* Subtitle */}
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+                {dataToUse.subtitle}
               </Typography>
 
-              <Stack direction="row" spacing={2} flexWrap="wrap">
+              {/* Buttons */}
+              <Stack direction="row" spacing={2}>
                 <Button
                   variant="contained"
+                  color="primary"
                   size="large"
                   sx={{
                     px: 4,
-                    py: 2,
+                    py: 1.5,
                     fontSize: '1rem',
-                    fontWeight: 600,
-                    backgroundColor: 'white',
-                    color: '#ff6b35',
                     '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.9)',
+                      backgroundColor: '#e55a2b',
                     }
                   }}
-                  startIcon={<LocalOfferIcon />}
-                  onClick={() => window.location.href = '/offers'}
                 >
-                  Order Now
+                  {dataToUse.primaryButtonText || 'Shop Now'}
                 </Button>
-
                 <Button
                   variant="outlined"
+                  color="primary"
                   size="large"
                   sx={{
                     px: 4,
-                    py: 2,
+                    py: 1.5,
                     fontSize: '1rem',
-                    fontWeight: 600,
-                    borderColor: 'white',
-                    color: 'white',
+                    border: '2px solid',
                     '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      borderColor: 'white',
-                    },
-                  }}
-                  startIcon={<PlayArrowIcon />}
-                  onClick={() => {
-                    const element = document.getElementById('how-it-works');
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  How It Works
-                </Button>
-              </Stack>
-
-              {/* Trust Indicators */}
-              <Stack direction="row" spacing={3} alignItems="center" mt={4} flexWrap="wrap">
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Security sx={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)' }} />
-                  <Typography variant="body2" color="white" opacity={0.9}>Secure Checkout</Typography>
-                </Stack>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Truck sx={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)' }} />
-                  <Typography variant="body2" color="white" opacity={0.9}>Express Delivery</Typography>
-                </Stack>
-              </Stack>
-            </Stack>
-          </Grid>
-
-          {/* Search Section */}
-          <Grid item xs={12} md={5} lg={4} component={motion.div}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            sx={{ mt: { xs: 6, md: 0 } }}
-          >
-            <Box
-              sx={{
-                backgroundColor: 'rgba(255,255,255,0.95)',
-                borderRadius: 5,
-                padding: 4,
-                boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                color: 'text.primary',
-              }}
-            >
-              <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 3, textAlign: 'center' }}>
-                What do you need?
-              </Typography>
-
-              {/* Search Bar */}
-              <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem' }}>
-                <TextField
-                  fullWidth
-                  placeholder="Search for products, brands or categories..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon color="primary" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 3,
-                      backgroundColor: '#f8f9fa',
-                      '&:hover': {
-                        backgroundColor: '#fff',
-                      },
+                      backgroundColor: 'rgba(25,118,210,0.05)',
                     }
                   }}
-                />
-              </form>
+                >
+                  {dataToUse.secondaryButtonText || 'Learn More'}
+                </Button>
+              </Stack>
+            </Stack>
+          </Box>
 
-              <Button
-                fullWidth
-                variant="contained"
-                size="large"
+          {/* Image / Search Card */}
+          <Box flex={{ xs: 12, md: 5 }} sx={{ position: 'relative' }}>
+            {dataToUse.backgroundImage && (
+              <Box
                 sx={{
-                  backgroundColor: '#ff6b35',
-                  color: 'white',
-                  fontWeight: 600,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  backgroundImage: `url(${dataToUse.backgroundImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  borderRadius: 2,
+                  zIndex: 0,
+                }}
+              />
+            )}
+            <Box
+              sx={{
+                position: 'relative',
+                zIndex: 1,
+                bg: 'background.paper',
+                p: 4,
+                borderRadius: 2,
+                boxShadow: 3,
+                maxWidth: 400,
+                mx: 'auto',
+              }}
+            >
+              <TextField
+                label="Search products, brands & more"
+                placeholder="Search for products, brands & more"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon size="small" />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: '100%', mb: 2 }}
+                margin="normal"
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                sx={{
+                  width: '100%',
                   py: 1.5,
-                  mb: 3,
-                  borderRadius: 3,
+                  fontSize: '0.9rem',
+                  borderRadius: 1,
                   '&:hover': {
                     backgroundColor: '#e55a2b',
                   }
@@ -209,12 +173,12 @@ export default function HeroSectionWithSearch() {
                 Search Products
               </Button>
 
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2, textAlign: 'center' }}>
-                <Typography component="span" fontWeight={600} color="primary.main">Popular Searches:</Typography><br />
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 3, textAlign: 'center' }}>
+                <Typography component="span" fontWeight={600} color="primary">Popular Searches:</Typography>
               </Typography>
 
               <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center">
-                {popularSearches.map((term, index) => (
+                {dataToUse.popularSearches.map((term, index) => (
                   <Box
                     key={index}
                     component={motion.div}
@@ -243,33 +207,9 @@ export default function HeroSectionWithSearch() {
                   </Box>
                 ))}
               </Stack>
-
-              {/* Features */}
-              <Box sx={{ mt: 4, pt: 3, borderTop: '1px solid #e0e0e0' }}>
-                <Grid container spacing={2} textAlign="center">
-                  <Grid item xs={4}>
-                    <Stack alignItems="center" spacing={0.5}>
-                      <Typography variant="h6" fontWeight={700} color="primary.main">15min</Typography>
-                      <Typography variant="caption" color="text.secondary">Delivery</Typography>
-                    </Stack>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Stack alignItems="center" spacing={0.5}>
-                      <Typography variant="h6" fontWeight={700} color="success.main">10K+</Typography>
-                      <Typography variant="caption" color="text.secondary">Products</Typography>
-                    </Stack>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Stack alignItems="center" spacing={0.5}>
-                      <Typography variant="h6" fontWeight={700} color="warning.main">4.8</Typography>
-                      <Typography variant="caption" color="text.secondary">Rating</Typography>
-                    </Stack>
-                  </Grid>
-                </Grid>
-              </Box>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Stack>
       </Container>
 
       {/* Background Effect */}
@@ -286,6 +226,4 @@ export default function HeroSectionWithSearch() {
       />
     </section>
   );
-};
-
-export { }; // Restore exports
+}

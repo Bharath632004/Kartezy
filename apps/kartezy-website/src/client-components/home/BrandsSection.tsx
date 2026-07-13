@@ -1,10 +1,14 @@
 import { Box, Container, Stack, Typography, Grid } from '@mui/material';
 
-export default function BrandsSection() {
-  const brands = Array.from({ length: 12 }, (_, index) => ({
+export default function BrandsSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = Array.from({ length: 12 }, (_, index) => ({
     id: index + 1,
     name: `Brand ${index + 1}`,
+    logo: `/images/brand-${index + 1}.png`,
   }));
+
+  const brands = data || defaultData;
 
   return (
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
@@ -47,14 +51,25 @@ export default function BrandsSection() {
                     }
                   }}
                 >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    fontWeight={500}
-                    textAlign="center"
-                  >
-                    {brand.name}
-                  </Typography>
+                  {brand.logo ? (
+                    <img
+                      src={brand.logo}
+                      alt={`${brand.name} logo`}
+                      sx={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                      }}
+                    />
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      fontWeight={500}
+                      textAlign="center"
+                    >
+                      {brand.name}
+                    </Typography>
+                  )}
                 </Box>
               </Grid>
             ))}
@@ -63,4 +78,4 @@ export default function BrandsSection() {
       </Container>
     </Box>
   );
-};
+}

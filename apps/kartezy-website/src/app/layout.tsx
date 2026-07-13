@@ -8,6 +8,7 @@ import { store } from '@/store/store';
 import { Provider as AuthProvider } from '@/auth/context';
 import Navigation from '@/client-components/layout/Navigation';
 import Footer from '@/client-components/layout/Footer';
+import { QueryClientProviderWrapper } from '@/lib/query';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -73,13 +74,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider store={store}>
           <AuthProvider>
-            <ThemeProvider theme={theme}>
-              <CssBaseline>
-                <Navigation />
-                <main className="min-h-screen bg-background">{children}</main>
-                <Footer />
-              </CssBaseline>
-            </ThemeProvider>
+            <QueryClientProviderWrapper>
+              <ThemeProvider theme={theme}>
+                <CssBaseline>
+                  <Navigation />
+                  <main className="min-h-screen bg-background">{children}</main>
+                  <Footer />
+                </CssBaseline>
+              </ThemeProvider>
+            </QueryClientProviderWrapper>
           </AuthProvider>
         </Provider>
       </body>

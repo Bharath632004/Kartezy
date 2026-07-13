@@ -1,61 +1,94 @@
 import { Box, Container, Stack, Typography, Card, CardContent, Grid, Button } from '@mui/material';
 import {
-  LocalGroceryStore, LocalCafe, LocalPizza,
-  LocalFlorist, LocalPharmacy,
-  LocalConvenienceStore, ChildCare, LocalDrink
-} from '@mui/icons-material';
+  LocalGroceryStore,
+  LocalCafe,
+  LocalPizza,
+  LocalFlorist,
+  LocalPharmacy,
+  LocalConvenienceStore,
+  ChildCare,
+  LocalDrink,
+} from '@mui/icons/material';
 
-export default function CategoriesSection() {
-  const categories = [
+// Icon mapping
+const iconMap = {
+  LocalGroceryStore: LocalGroceryStore,
+  LocalCafe: LocalCafe,
+  LocalPizza: LocalPizza,
+  LocalFlorist: LocalFlorist,
+  LocalPharmacy: LocalPharmacy,
+  LocalConvenienceStore: LocalConvenienceStore,
+  ChildCare: ChildCare,
+  LocalDrink: LocalDrink,
+};
+
+export default function CategoriesSection({ data } = {}) {
+  // Default data if none provided
+  const defaultData = [
     {
       name: 'Fresh Produce',
-      icon: <LocalGroceryStore fontSize="large" color="success" />,
+      icon: 'LocalGroceryStore',
       bg: '#E8F5E9',
       color: '#2E7D32'
     },
     {
       name: 'Dairy & Eggs',
-      icon: <LocalCafe fontSize="large" color="info" />,
+      icon: 'LocalCafe',
       bg: '#E3F2FD',
       color: '#1565C0'
     },
     {
       name: 'Snacks & Beverages',
-      icon: <LocalPizza fontSize="large" color="warning" />,
+      icon: 'LocalPizza',
       bg: '#FFF8E1',
       color: '#EF6C00'
     },
     {
       name: 'Personal Care',
-      icon: <LocalFlorist fontSize="large" color="error" />,
+      icon: 'LocalFlorist',
       bg: '#FCE4EC',
       color: '#C2185B'
     },
     {
       name: 'Pharmacy',
-      icon: <LocalPharmacy fontSize="large" color="info" />,
+      icon: 'LocalPharmacy',
       bg: '#E8EAF6',
       color: '#303F9F'
     },
     {
       name: 'Household Essentials',
-      icon: <LocalConvenienceStore fontSize="large" color="success" />,
+      icon: 'LocalConvenienceStore',
       bg: '#E8F5E9',
       color: '#2E7D32'
     },
     {
       name: 'Baby & Kids',
-      icon: <ChildCare fontSize="large" color="warning" />,
+      icon: 'ChildCare',
       bg: '#FFF3E0',
       color: '#EF6C00'
     },
     {
       name: 'Bakery',
-      icon: <LocalDrink fontSize="large" color="error" />,
+      icon: 'LocalDrink',
       bg: '#FFEBEE',
       color: '#C62828'
     }
   ];
+
+  const categories = data || defaultData;
+
+  // Helper function to get text color based on background
+  const getContrastColor = (hexColor) => {
+    // Remove the '#' if present
+    const cleanHex = hexColor.replace('#', '');
+    // Convert to RGB
+    const r = parseInt(cleanHex.substr(0, 2), 16);
+    const g = parseInt(cleanHex.substr(2, 2), 16);
+    const b = parseInt(cleanHex.substr(4, 2), 16);
+    // Calculate brightness
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness > 128 ? '#000000' : '#FFFFFF';
+  };
 
   return (
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
@@ -70,12 +103,11 @@ export default function CategoriesSection() {
             spacing={3}
           >
             {categories.map((category, index) => (
-              <Grid item key={index} xs={12} sm={6} md={3}>
+              <Grid item key={category.id} xs={12} sm={6} md={4} lg={3}>
                 <Card
                   sx={{
                     height: '100%',
-                    position: 'relative',
-                    overflow: 'hidden',
+                    cursor: 'pointer',
                     borderRadius: 5,
                     boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
@@ -98,7 +130,11 @@ export default function CategoriesSection() {
                         margin: '0 auto 16px',
                       }}
                     >
-                      {category.icon}
+                      {iconMap[category.icon] && (
+                        <Box sx={{ color: getContrastColor(category.bg), mb: 1 }}>
+                          <iconMap[category.icon] fontSize="large" />
+                        </Box>
+                      )}
                     </Box>
 
                     <Typography
@@ -142,4 +178,4 @@ export default function CategoriesSection() {
       </Container>
     </Box>
   );
-};
+}
