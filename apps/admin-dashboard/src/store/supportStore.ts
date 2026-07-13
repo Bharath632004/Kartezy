@@ -59,7 +59,7 @@ export type KnowledgeBaseArticle = {
   tags: string[];
   isPublished: boolean;
   views: number;
-  helpful Votes: number;
+  helpfulVotes: number;
   notHelpfulVotes: number;
   createdAt: string;
   updatedAt: string;
@@ -89,7 +89,7 @@ export type SupportSettings = {
     thursday: { start: string; end: string; enabled: boolean };
     friday: { start: string; end: string; enabled: boolean };
     saturday: { start: string; end: string; enabled: boolean };
-    sunday: { start: string; end: string: string; enabled: boolean };
+    sunday: { start: string; end: string; enabled: boolean };
   };
   timezone: string;
   autoAssignment: boolean;
@@ -502,8 +502,8 @@ export const useSupportStore = create<SupportState>()(
       fetchKnowledgeBase: async (filters = {}) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a knowledge base API
-          set({ knowledgeBase: [], loading: false });
+          const response = await knowledgeBaseService.getArticles(filters);
+          set({ knowledgeBase: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -512,14 +512,8 @@ export const useSupportStore = create<SupportState>()(
       createKnowledgeBaseArticle: async (data) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a knowledge base API
-          const newArticle = {
-            id: Math.random().toString(36).substr(2, 9),
-            ...data,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          };
-          get().addKnowledgeBaseArticle(newArticle);
+          const response = await knowledgeBaseService.createArticle(data);
+          get().addKnowledgeBaseArticle(response.data);
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
@@ -529,8 +523,7 @@ export const useSupportStore = create<SupportState>()(
       updateKnowledgeBaseArticleAPI: async (id, data) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a knowledge base API
-          get().updateKnowledgeBaseArticle(id, data);
+          await knowledgeBaseService.updateArticle(id, data);
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
@@ -540,7 +533,7 @@ export const useSupportStore = create<SupportState>()(
       deleteKnowledgeBaseArticle: async (id) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a knowledge base API
+          await knowledgeBaseService.deleteArticle(id);
           get().removeKnowledgeBaseArticle(id);
           set({ loading: false });
         } catch (error) {
@@ -551,8 +544,8 @@ export const useSupportStore = create<SupportState>()(
       fetchChatMessages: async (conversationId) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a chat service API
-          set({ chatMessages: [], loading: false });
+          const response = await chatService.getMessages(conversationId);
+          set({ chatMessages: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -561,19 +554,16 @@ export const useSupportStore = create<SupportState>()(
       sendChatMessage: async (conversationId, message, senderId, senderName, senderType) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a chat service API
-          const newMessage = {
-            id: Math.random().toString(36).substr(2, 9),
-            conversationId,
+          const response = await chatService.sendMessage(conversationId, {
             senderId,
             senderName,
-            senderType: senderType as any,
+            senderType,
             message,
             type: 'text',
             timestamp: new Date().toISOString(),
-            read: false,
-          };
-          get().addChatMessage(newMessage);
+            read: false
+          });
+          get().addChatMessage(response.data);
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
@@ -583,8 +573,8 @@ export const useSupportStore = create<SupportState>()(
       fetchSettings: async () => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a settings API
-          set({ loading: false });
+          const response = await supportService.getSettings();
+          set({ settings: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;
@@ -593,8 +583,7 @@ export const useSupportStore = create<SupportState>()(
       updateSettings: async (data) => {
         set({ loading: true, error: null });
         try {
-          // This would typically call a settings API
-          get().setSettings(data);
+          await supportService.updateSettings(data);
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });

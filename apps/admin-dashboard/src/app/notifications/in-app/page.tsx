@@ -1,15 +1,32 @@
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup, Slider, FormLabel, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { notificationService } from '@/lib/api';
 
 const InAppNotificationsPage = () => {
   const [enabled, setEnabled] = useState(true);
   const [duration, setDuration] = useState(5); // seconds
   const [position, setPosition] = useState('top-right');
   const [maxVisible, setMaxVisible] = useState(5);
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    alert('Settings saved');
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await notificationService.updateNotificationSettings({
+        type: 'in-app',
+        enabled,
+        settings: {
+          duration,
+          position,
+          maxVisible
+        }
+      });
+      setLoading(false);
+      alert('Settings saved successfully');
+    } catch (error) {
+      setLoading(false);
+      alert('Failed to save settings: ' + error.message);
+    }
   };
 
   return (
@@ -63,7 +80,7 @@ const InAppNotificationsPage = () => {
         />
         <Typography sx={{ mt: 2 }}>{maxVisible}</Typography>
 
-        <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled}>
+        <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled} loading={loading}>
           Save Settings
         </Button>
       </Box>

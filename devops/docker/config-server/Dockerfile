@@ -1,15 +1,13 @@
-FROM maven:3.9.6-eclipse-temurin-21-alpine as build
-RUN apk add --no-cache ca-certificates ca-certificates-utils && update-ca-certificates
+FROM eclipse-temurin:21-jdk-alpine as build
+RUN apk add --no-cache ca-certificates
 WORKDIR /app
-RUN apk add --no-cache ca-certificates ca-certificates-utils && update-ca-certificates
-ENV MAVEN_OPTS="-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true"
 COPY . .
-RUN mvn -pl config-server -am -DskipTests package
+RUN mvn -B package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
-RUN apk add --no-cache ca-certificates ca-certificates-utils && update-ca-certificates
+RUN apk add --no-cache ca-certificates
 WORKDIR /app
-COPY --from=0 /app/config-server/target/*.jar app.jar
+COPY --from=0 /app/target/*.jar app.jar
 EXPOSE 8888
 ENTRYPOINT ["java","-jar","/app/app.jar"]
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

@@ -7,6 +7,7 @@ import com.kartezy.authservice.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -71,7 +72,7 @@ public class AuthServiceController {
             RefreshToken refreshTokenEntity = RefreshToken.builder()
                     .user(user)
                     .token(refreshToken)
-                    .expiryDate(Instant.now().plusSeconds(jwtUtil.refreshExpiration))
+                    .expiryDate(Instant.now().plusMillis(jwtUtil.getRefreshExpiration()))
                     .revoked(false)
                     .build();
             refreshTokenRepository.save(refreshTokenEntity);
@@ -87,7 +88,7 @@ public class AuthServiceController {
                     .ipAddress(ipAddress)
                     .userAgent(userAgent)
                     .lastAccessedAt(Instant.now())
-                    .expiresAt(Instant.now().plusSeconds(jwtUtil.refreshExpires)) // same as refresh token expiry?
+                    .expiresAt(Instant.now().plusMillis(jwtUtil.getRefreshExpiration()))
                     .valid(true)
                     .build();
             sessionRepository.save(session);
@@ -112,7 +113,7 @@ public class AuthServiceController {
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
                     .tokenType("Bearer")
-                    .expiresIn(jwtUtil.accessExpiration) // need to expose this in JwtUtil
+                    .expiresIn(jwtUtil.getJwtExpiration() / 1000) // seconds
                     .id(user.getId())
                     .email(user.getEmail())
                     .firstName(user.getFirstName())
@@ -180,7 +181,7 @@ public class AuthServiceController {
         RefreshToken newRefreshTokenEntity = RefreshToken.builder()
                 .user(user)
                 .token(newRefreshToken)
-                .expiryDate(Instant.now().plusSeconds(jwtUtil.refreshExpiration))
+                .expiryDate(Instant.now().plusMillis(jwtUtil.getRefreshExpiration()))
                 .revoked(false)
                 .build();
         refreshTokenRepository.save(newRefreshTokenEntity);
@@ -189,7 +190,7 @@ public class AuthServiceController {
                 accessToken,
                 newRefreshToken,
                 "Bearer",
-                jwtUtil.accessExpiration,
+                jwtUtil.getJwtExpiration() / 1000,
                 user.getId(),
                 user.getEmail(),
                 user.getFirstName(),
@@ -209,7 +210,7 @@ public class AuthServiceController {
             OTP otpEntity = OTP.builder()
                     .otp(otp)
                     .purpose("PASSWORD_RESET")
-                    .expiresAt(Instant.now().plusMinutes(15)) // 15 minutes
+                    .expiresAt(Instant.now().plusMillis(15 * 60 * 1000)) // 15 minutes
                     .used(false)
                     .user(user)
                     .build();
@@ -273,7 +274,7 @@ public class AuthServiceController {
         OTP otpEntity = OTP.builder()
                 .otp(otp)
                 .purpose(purpose)
-                .expiresAt(Instant.now().plusMinutes(10)) // 10 minutes
+                .expiresAt(Instant.now().plusMillis(10 * 60 * 1000)) // 10 minutes
                 .used(false)
                 .user(user) // may be null if user not found (for signup verification)
                 .build();
@@ -307,7 +308,7 @@ public class AuthServiceController {
         if ("EMAIL_VERIFICATION".equalsIgnoreCase(purpose) && otpEntity.getUser() != null) {
             User user = otpEntity.getUser();
             user.setEmailVerified(true);
-            if (user.getPhoneVerified()) {
+            if (user.isPhoneVerified()) {
                 user.setStatus(UserStatus.ACTIVE);
             }
             userRepository.save(user);
@@ -316,7 +317,7 @@ public class AuthServiceController {
         else if ("PHONE_VERIFICATION".equalsIgnoreCase(purpose) && otpEntity.getUser() != null) {
             User user = otpEntity.getUser();
             user.setPhoneVerified(true);
-            if (user.getEmailVerified()) {
+            if (user.isEmailVerified()) {
                 user.setStatus(UserStatus.ACTIVE);
             }
             userRepository.save(user);

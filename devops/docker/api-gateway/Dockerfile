@@ -1,8 +1,8 @@
-FROM eclipse-temurin:21-jdk-alpine as build
-RUN apk add --no-cache ca-certificates
+FROM maven:3.9.6-eclipse-temurin-21-alpine as build
+RUN apk add --no-cache ca-galate certificates
 WORKDIR /app
 COPY . .
-RUN ./mvnw -B package -DskipTests
+RUN mvn -B package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 RUN apk add --no-cache ca-certificates

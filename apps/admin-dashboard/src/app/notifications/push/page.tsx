@@ -1,14 +1,30 @@
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup } from '@mui/material';
 import { useState } from 'react';
+import { notificationService } from '@/lib/api';
 
 const PushNotificationsPage = () => {
   const [enabled, setEnabled] = useState(true);
   const [apiKey, setApiKey] = useState('');
   const [senderId, setSenderId] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    alert('Settings saved');
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await notificationService.updateNotificationSettings({
+        type: 'push',
+        enabled,
+        settings: {
+          apiKey,
+          senderId
+        }
+      });
+      setLoading(false);
+      alert('Settings saved successfully');
+    } catch (error) {
+      setLoading(false);
+      alert('Failed to save settings: ' + error.message);
+    }
   };
 
   return (
@@ -39,8 +55,8 @@ const PushNotificationsPage = () => {
           fullWidth
           disabled={!enabled}
         />
-        <Button variant="contained" color="primary" onClick={handleSave} disabled={!enabled}>
-          Save Settings
+        <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled} loading={loading}>
+          {loading ? 'Saving...' : 'Save Settings'}
         </Button>
       </Box>
     </Container>

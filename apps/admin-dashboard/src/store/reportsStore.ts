@@ -147,7 +147,7 @@ export const useReportsStore = create<ReportState>()(
       fetchReports: async (type = '', limit = 10) => {
         set({ loading: true, error: null });
         try {
-          const response = await reportsService.getReports({ type,   limit }));
+          const response = await reportsService.getReports({ type, limit });
           set({ reports: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });

@@ -1,5 +1,6 @@
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup, TextareaAutosize, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { notificationService } from '@/lib/api';
 
 const SystemAlertsPage = () => {
   const [enabled, setEnabled] = useState(true);
@@ -9,10 +10,29 @@ const SystemAlertsPage = () => {
   const [recipients, setRecipients] = useState(''); // comma-separated emails
   const [phoneNumbers, setPhoneNumbers] = useState(''); // comma-separated phone numbers
   const [template, setTemplate] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    alert('Settings saved');
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await notificationService.updateNotificationSettings({
+        type: 'system-alerts',
+        enabled,
+        settings: {
+          emailEnabled,
+          smsEnabled,
+          inAppEnabled,
+          recipients: recipients.split(',').map(r => r.trim()).filter(Boolean),
+          phoneNumbers: phoneNumbers.split(',').map(p => p.trim()).filter(Boolean),
+          template
+        }
+      });
+      setLoading(false);
+      alert('Settings saved successfully');
+    } catch (error) {
+      setLoading(false);
+      alert('Failed to save settings: ' + error.message);
+    }
   };
 
   return (
@@ -78,8 +98,8 @@ const SystemAlertsPage = () => {
               />
             </FormGroup>
 
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled}>
-              Save Settings
+            <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled} loading={loading}>
+              {loading ? 'Saving...' : 'Save Settings'}
             </Button>
           </>
         )}

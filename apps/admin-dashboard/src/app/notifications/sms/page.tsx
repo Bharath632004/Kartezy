@@ -1,15 +1,32 @@
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup } from '@mui/material';
 import { useState } from 'react';
+import { notificationService } from '@/lib/api';
 
 const SMSNotificationsPage = () => {
   const [enabled, setEnabled] = useState(true);
   const [apiKey, setApiKey] = useState('');
   const [apiSecret, setApiSecret] = useState('');
   const [fromNumber, setFromNumber] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    alert('Settings saved');
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await notificationService.updateNotificationSettings({
+        type: 'sms',
+        enabled,
+        settings: {
+          apiKey,
+          apiSecret,
+          fromNumber
+        }
+      });
+      setLoading(false);
+      alert('Settings saved successfully');
+    } catch (error) {
+      setLoading(false);
+      alert('Failed to save settings: ' + error.message);
+    }
   };
 
   return (
@@ -49,8 +66,8 @@ const SMSNotificationsPage = () => {
           fullWidth
           disabled={!enabled}
         />
-        <Button variant="contained" color="primary" onClick={handleSave} disabled={!enabled}>
-          Save Settings
+        <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }} disabled={!enabled} loading={loading}>
+          {loading ? 'Saving...' : 'Save Settings'}
         </Button>
       </Box>
     </Container>

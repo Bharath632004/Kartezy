@@ -336,9 +336,11 @@ export const walletService = {
 
 export const notificationService = {
   getNotifications: (params: Record<string, unknown>) =>
-    api.get('/api/notifications', { params });
-  markAsRead: (id: string) => api.put(`/api/notifications/${id}/read`);
-  deleteNotification: (id: string) => api.delete(`/api/notifications/${id}`);
+    api.get('/api/notifications', { params }),
+  markAsRead: (id: string) => api.put(`/api/notifications/${id}/read`),
+  deleteNotification: (id: string) => api.delete(`/api/notifications/${id}`),
+  updateNotificationSettings: (data: Record<string, unknown>) =>
+    api.put('/api/notifications/settings', data)
 };
 
 export const supportService = {
@@ -361,4 +363,24 @@ export const supportService = {
         filters as Record<string, string>
       ).toString()}`
     );
+  getSettings: () => api.get('/api/support/settings');
+  updateSettings: (data: Record<string, unknown>) =>
+    api.put('/api/support/settings', data);
+};
+export const chatService = {
+  getMessages: (conversationId: string) =>
+    api.get(`/api/chat/${conversationId}/messages`),
+  sendMessage: (conversationId: string, data: Record<string, unknown>) =>
+    api.post(`/api/chat/${conversationId}/messages`, data),
+};
+
+export const knowledgeBaseService = {
+  getArticles: (params: Record<string, unknown>) =>
+    api.get('/api/knowledge-base', { params }),
+  getArticle: (id: string) => api.get(`/api/knowledge-base/${id}`),
+  createArticle: (data: Record<string, unknown>) =>
+    api.post('/api/knowledge-base', data),
+  updateArticle: (id: string, data: Record<string, unknown>) =>
+    api.put(`/api/knowledge-base/${id}`, data),
+  deleteArticle: (id: string) => api.delete(`/api/knowledge-base/${id}`),
 };

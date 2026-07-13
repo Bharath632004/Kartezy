@@ -29,6 +29,20 @@ public class JwtUtil {
     private long refreshExpiration;
 
     /**
+     * Get access token expiration in milliseconds.
+     */
+    public long getJwtExpiration() {
+        return jwtExpiration;
+    }
+
+    /**
+     * Get refresh token expiration in milliseconds.
+     */
+    public long getRefreshExpiration() {
+        return refreshExpiration;
+    }
+
+    /**
      * Generate access token for user.
      */
     public String generateAccessToken(String username) {

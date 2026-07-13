@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/inventory")
 @AllArgsConstructor
-public class InventoryServiceController {
+public class InventoryController {
 
     private final InventoryRepository inventoryRepository;
 

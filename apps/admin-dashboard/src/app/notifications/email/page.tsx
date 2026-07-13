@@ -1,5 +1,6 @@
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup } from '@mui/material';
 import { useState } from 'react';
+import { supportService } from '@/lib/api';
 
 const EmailNotificationsPage = () => {
   const [enabled, setEnabled] = useState(true);
@@ -8,10 +9,29 @@ const EmailNotificationsPage = () => {
   const [smtpUser, setSmtpUser] = useState('');
   const [smtpPass, setSmtpPass] = useState('');
   const [fromEmail, setFromEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    alert('Settings saved');
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      // Create email settings object
+      const emailSettings = {
+        smtpHost,
+        smtpPort: parseInt(smtpPort) || 0,
+        smtpUser,
+        smtpPass,
+        fromEmail,
+        enabled
+      };
+
+      // Save to backend using support service
+      await supportService.updateSettings(emailSettings);
+      alert('Settings saved');
+    } catch (error) {
+      alert('Failed to save settings: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,8 +88,8 @@ const EmailNotificationsPage = () => {
           fullWidth
           disabled={!enabled}
         />
-        <Button variant="contained" color="primary" onClick={handleSave} disabled={!enabled}>
-          Save Settings
+        <Button variant="contained" color="primary" onClick={handleSave} disabled={!enabled || loading}>
+          {loading ? 'Saving...' : 'Save Settings'}
         </Button>
       </Box>
     </Container>
