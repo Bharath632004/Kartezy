@@ -55,7 +55,10 @@ class DashboardPage extends ConsumerWidget {
                   children: [
                     const Text(
                       'Online Status',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Switch(
                       value: data['isOnline'] ?? false,
@@ -75,9 +78,18 @@ class DashboardPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildEarningCard('Today', '\$${data['todayEarnings']?.toStringAsFixed(2) ?? '0.00'}'),
-                    _buildEarningCard('Weekly', '\$${data['weeklyEarnings']?.toStringAsFixed(2) ?? '0.00'}'),
-                    _buildEarningCard('Monthly', '\$${data['monthlyEarnings']?.toStringAsFixed(2) ?? '0.00'}'),
+                    _buildEarningCard(
+                      'Today',
+                      '\$${data['todayEarnings']?.toStringAsFixed(2) ?? '0.00'}',
+                    ),
+                    _buildEarningCard(
+                      'Weekly',
+                      '\$${data['weeklyEarnings']?.toStringAsFixed(2) ?? '0.00'}',
+                    ),
+                    _buildEarningCard(
+                      'Monthly',
+                      '\$${data['monthlyEarnings']?.toStringAsFixed(2) ?? '0.00'}',
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -90,10 +102,22 @@ class DashboardPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildOrderCard('Available', '${data['availableOrders'] ?? 0}'),
-                    _buildOrderCard('Accepted', '${data['acceptedOrders'] ?? 0}'),
-                    _buildOrderCard('Delivered', '${data['deliveredOrders'] ?? 0}'),
-                    _buildOrderCard('Cancelled', '${data['cancelledOrders'] ?? 0}'),
+                    _buildOrderCard(
+                      'Available',
+                      '${data['availableOrders'] ?? 0}',
+                    ),
+                    _buildOrderCard(
+                      'Accepted',
+                      '${data['acceptedOrders'] ?? 0}',
+                    ),
+                    _buildOrderCard(
+                      'Delivered',
+                      '${data['deliveredOrders'] ?? 0}',
+                    ),
+                    _buildOrderCard(
+                      'Cancelled',
+                      '${data['cancelledOrders'] ?? 0}',
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -101,16 +125,35 @@ class DashboardPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildMetricCard('Rating', '${data['rating'] ?? 0.0}/5.0', Icons.star),
-                    _buildMetricCard('Wallet', '\$${data['walletBalance'] ?? 0.00}', Icons.account_balance_wallet),
-                    _buildMetricCard('Distance', '${data['totalDistance'] ?? 0} km', Icons.directions_car),
-                    _buildMetricCard('Avg Time', '${data['avgDeliveryTime'] ?? 0} mins', Icons.timer),
+                    _buildMetricCard(
+                      'Rating',
+                      '${data['rating'] ?? 0.0}/5.0',
+                      Icons.star,
+                    ),
+                    _buildMetricCard(
+                      'Wallet',
+                      '\$${data['walletBalance'] ?? 0.00}',
+                      Icons.account_balance_wallet,
+                    ),
+                    _buildMetricCard(
+                      'Distance',
+                      '${data['totalDistance'] ?? 0} km',
+                      Icons.directions_car,
+                    ),
+                    _buildMetricCard(
+                      'Avg Time',
+                      '${data['avgDeliveryTime'] ?? 0} mins',
+                      Icons.timer,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 // Acceptance Rate
                 _buildMetricCard(
-                    'Acceptance Rate', '${data['acceptanceRate'] ?? 0}%', Icons.thumb_up),
+                  'Acceptance Rate',
+                  '${data['acceptanceRate'] ?? 0}%',
+                  Icons.thumb_up,
+                ),
               ],
             ),
           );
@@ -136,9 +179,15 @@ class DashboardPage extends ConsumerWidget {
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Orders'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Wallet'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet),
+            label: 'Wallet',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

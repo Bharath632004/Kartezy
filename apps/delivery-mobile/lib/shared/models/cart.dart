@@ -29,7 +29,10 @@ class Cart with _$Cart, EquatableMixin {
   factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 
   double get subtotal {
-    return items.fold(0, (sum, item) => sum + (item.product.price * item.quantity));
+    return items.fold(
+      0,
+      (sum, item) => sum + (item.product.price * item.quantity),
+    );
   }
 
   double get discount => discountAmount;

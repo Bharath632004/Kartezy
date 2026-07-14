@@ -19,11 +19,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     ],
     redirect: (context, state) {
       final authState = ref.watch(authStateProvider);
-      final isInitializing = ref.watch(initializeAuthProvider).maybeWhen(
-        loading: () => true,
-        error: () => false,
-        data: (_) => false,
-      );
+      final isInitializing = ref
+          .watch(initializeAuthProvider)
+          .maybeWhen(
+            loading: () => true,
+            error: () => false,
+            data: (_) => false,
+          );
 
       if (isInitializing) {
         return '/splash';

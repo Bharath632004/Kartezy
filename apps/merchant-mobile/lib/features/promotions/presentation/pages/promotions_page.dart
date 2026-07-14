@@ -45,7 +45,9 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
 
   void _loadMore() {
     setState(() => _isLoadingMore = true);
-    ref.read(promotionProvider.notifier).fetchPromotions(refresh: false).then((_) {
+    ref.read(promotionProvider.notifier).fetchPromotions(refresh: false).then((
+      _,
+    ) {
       setState(() => _isLoadingMore = false);
     });
   }
@@ -67,44 +69,47 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
       body: promotionState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : promotionState.error != null
-              ? Center(child: Text('Error: ${promotionState.error}'))
-              : promotionState.promotions.isEmpty
-                  ? const Center(child: Text('No promotions found'))
-                  : RefreshIndicator(
-                      onRefresh: () => ref.read(promotionProvider.notifier).fetchPromotions(refresh: true),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: promotionState.promotions.length +
-                            (_isLoadingMore ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          if (index < promotionState.promotions.length) {
-                            final promotion = promotionState.promotions[index];
-                            return ListTile(
-                              title: Text(promotion['name'] ?? 'Unnamed Promotion'),
-                              subtitle: Text(promotion['type'] ?? 'Unknown Type'),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () => _editPromotion(context, promotion['id']),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () => _deletePromotion(promotion['id']),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-                        },
+          ? Center(child: Text('Error: ${promotionState.error}'))
+          : promotionState.promotions.isEmpty
+          ? const Center(child: Text('No promotions found'))
+          : RefreshIndicator(
+              onRefresh: () => ref
+                  .read(promotionProvider.notifier)
+                  .fetchPromotions(refresh: true),
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount:
+                    promotionState.promotions.length + (_isLoadingMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index < promotionState.promotions.length) {
+                    final promotion = promotionState.promotions[index];
+                    return ListTile(
+                      title: Text(promotion['name'] ?? 'Unnamed Promotion'),
+                      subtitle: Text(promotion['type'] ?? 'Unknown Type'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () =>
+                                _editPromotion(context, promotion['id']),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => _deletePromotion(promotion['id']),
+                          ),
+                        ],
                       ),
-                    ),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                },
+              ),
+            ),
     );
   }
 
@@ -129,7 +134,9 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
               ),
               TextField(
                 controller: typeController,
-                decoration: const InputDecoration(labelText: 'Type (e.g., coupon, discount)'),
+                decoration: const InputDecoration(
+                  labelText: 'Type (e.g., coupon, discount)',
+                ),
               ),
               TextField(
                 controller: discountController,
@@ -138,11 +145,15 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
               ),
               TextField(
                 controller: startDateController,
-                decoration: const InputDecoration(labelText: 'Start Date (YYYY-MM-DD)'),
+                decoration: const InputDecoration(
+                  labelText: 'Start Date (YYYY-MM-DD)',
+                ),
               ),
               TextField(
                 controller: endDateController,
-                decoration: const InputDecoration(labelText: 'End Date (YYYY-MM-DD)'),
+                decoration: const InputDecoration(
+                  labelText: 'End Date (YYYY-MM-DD)',
+                ),
               ),
             ],
           ),
@@ -157,16 +168,21 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
               final promotionData = {
                 'name': nameController.text,
                 'type': typeController.text,
-                'discount_value': double.tryParse(discountController.text) ?? 0.0,
+                'discount_value':
+                    double.tryParse(discountController.text) ?? 0.0,
                 'start_date': startDateController.text,
                 'end_date': endDateController.text,
                 'is_active': true,
               };
               try {
-                await ref.read(promotionProvider.notifier).createPromotion(promotionData);
+                await ref
+                    .read(promotionProvider.notifier)
+                    .createPromotion(promotionData);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Promotion created successfully')),
+                  const SnackBar(
+                    content: Text('Promotion created successfully'),
+                  ),
                 );
               } catch (e) {
                 if (mounted) {
@@ -185,14 +201,26 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
 
   void _editPromotion(BuildContext context, String id) async {
     try {
-      final promotion = await ref.read(promotionProvider.notifier).getPromotionById(id);
+      final promotion = await ref
+          .read(promotionProvider.notifier)
+          .getPromotionById(id);
       if (!mounted) return;
 
-      final TextEditingController nameController = TextEditingController(text: promotion['name']);
-      final TextEditingController typeController = TextEditingController(text: promotion['type']);
-      final TextEditingController discountController = TextEditingController(text: promotion['discount_value'].toString());
-      final TextEditingController startDateController = TextEditingController(text: promotion['start_date']);
-      final TextEditingController endDateController = TextEditingController(text: promotion['end_date']);
+      final TextEditingController nameController = TextEditingController(
+        text: promotion['name'],
+      );
+      final TextEditingController typeController = TextEditingController(
+        text: promotion['type'],
+      );
+      final TextEditingController discountController = TextEditingController(
+        text: promotion['discount_value'].toString(),
+      );
+      final TextEditingController startDateController = TextEditingController(
+        text: promotion['start_date'],
+      );
+      final TextEditingController endDateController = TextEditingController(
+        text: promotion['end_date'],
+      );
 
       showDialog(
         context: context,
@@ -212,16 +240,22 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                 ),
                 TextField(
                   controller: discountController,
-                  decoration: const InputDecoration(labelText: 'Discount Value'),
+                  decoration: const InputDecoration(
+                    labelText: 'Discount Value',
+                  ),
                   keyboardType: TextInputType.number,
                 ),
                 TextField(
                   controller: startDateController,
-                  decoration: const InputDecoration(labelText: 'Start Date (YYYY-MM-DD)'),
+                  decoration: const InputDecoration(
+                    labelText: 'Start Date (YYYY-MM-DD)',
+                  ),
                 ),
                 TextField(
                   controller: endDateController,
-                  decoration: const InputDecoration(labelText: 'End Date (YYYY-MM-DD)'),
+                  decoration: const InputDecoration(
+                    labelText: 'End Date (YYYY-MM-DD)',
+                  ),
                 ),
               ],
             ),
@@ -236,16 +270,21 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                 final promotionData = {
                   'name': nameController.text,
                   'type': typeController.text,
-                  'discount_value': double.tryParse(discountController.text) ?? 0.0,
+                  'discount_value':
+                      double.tryParse(discountController.text) ?? 0.0,
                   'start_date': startDateController.text,
                   'end_date': endDateController.text,
                   'is_active': promotion['is_active'],
                 };
                 try {
-                  await ref.read(promotionProvider.notifier).updatePromotion(id, promotionData);
+                  await ref
+                      .read(promotionProvider.notifier)
+                      .updatePromotion(id, promotionData);
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Promotion updated successfully')),
+                    const SnackBar(
+                      content: Text('Promotion updated successfully'),
+                    ),
                   );
                 } catch (e) {
                   if (mounted) {
@@ -262,9 +301,9 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
       );
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading promotion: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading promotion: $e')));
       }
     }
   }
@@ -286,7 +325,9 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                 await ref.read(promotionProvider.notifier).deletePromotion(id);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Promotion deleted successfully')),
+                  const SnackBar(
+                    content: Text('Promotion deleted successfully'),
+                  ),
                 );
               } catch (e) {
                 if (mounted) {
@@ -297,9 +338,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                 }
               }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Delete'),
           ),
         ],

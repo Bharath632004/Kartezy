@@ -35,9 +35,9 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     if (splashState.error != null && !_hasNavigated) {
       _hasNavigated = true; // Prevent multiple snacbars
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${splashState.error}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${splashState.error}')));
         // On error, we might want to go to login or stay on splash? Let's go to login.
         goRouter.go('/login');
       });
@@ -52,11 +52,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       body: Center(
         child: splashState.isLoading
             ? const CircularProgressIndicator()
-            : const Icon(
-                Icons.local_shipping,
-                size: 100,
-                color: Colors.blue,
-              ),
+            : const Icon(Icons.local_shipping, size: 100, color: Colors.blue),
       ),
     );
   }

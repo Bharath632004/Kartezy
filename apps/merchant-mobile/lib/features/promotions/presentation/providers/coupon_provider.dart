@@ -15,11 +15,8 @@ class CouponState {
     required this.hasMore,
   });
 
-  factory CouponState.initial() => CouponState(
-        isLoading: false,
-        coupons: [],
-        hasMore: false,
-      );
+  factory CouponState.initial() =>
+      CouponState(isLoading: false, coupons: [], hasMore: false);
 
   CouponState copyWith({
     bool? isLoading,
@@ -83,10 +80,7 @@ class CouponNotifier extends StateNotifier<CouponState> {
         _currentPage++;
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
@@ -108,7 +102,10 @@ class CouponNotifier extends StateNotifier<CouponState> {
   Future<void> updateCoupon(String id, Map<String, dynamic> couponData) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      await _promotionService.updatePromotion(id, {...couponData, type: 'coupon'});
+      await _promotionService.updatePromotion(id, {
+        ...couponData,
+        type: 'coupon',
+      });
       await fetchCoupons(refresh: true);
       state = state.copyWith(isLoading: false);
     } catch (e) {
@@ -131,6 +128,8 @@ class CouponNotifier extends StateNotifier<CouponState> {
 }
 
 // Provider
-final couponProvider = StateNotifierProvider<CouponNotifier, CouponState>((ref) {
+final couponProvider = StateNotifierProvider<CouponNotifier, CouponState>((
+  ref,
+) {
   return CouponNotifier(ref.read(promotionServiceProvider));
 });

@@ -25,64 +25,65 @@ class InventoryListPage extends ConsumerWidget {
       body: inventoryState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : inventoryState.inventories.isEmpty
-              ? const Center(child: Text('No inventory items found'))
-              : RefreshIndicator(
-                  onRefresh: () => ref
-                      .read(inventoryNotifierProvider.notifier)
-                      .fetchInventories(),
-                  child: ListView.builder(
-                    itemCount: inventoryState.inventories.length,
-                    itemBuilder: (context, index) {
-                      final inventory = inventoryState.inventories[index];
-                      return ListTile(
-                        title: Text('Product ID: ${inventory.productId ?? 'N/A'}'),
-                        subtitle: Text(
-                            'Warehouse: ${inventory.warehouseId ?? 'N/A'} | Qty: ${inventory.quantity ?? 0}'),
-                        trailing: PopupMenuButton<String>(
-                          onSelected: (value) async {
-                            switch (value) {
-                              case 'edit':
-                                context.go('/edit-inventory', extra: inventory.id);
-                                break;
-                              case 'adjust':
-                                // Show a dialog to adjust stock
-                                break;
-                              case 'transfer':
-                                // Show a dialog to transfer stock
-                                break;
-                            }
-                          },
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              value: 'edit',
-                              child: ListTile(
-                                leading: Icon(Icons.edit),
-                                title: Text('Edit'),
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'adjust',
-                              child: ListTile(
-                                leading: Icon(Icons.add_circle),
-                                title: Text('Adjust Stock'),
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'transfer',
-                              child: ListTile(
-                                leading: Icon(Icons.swap_horiz),
-                                title: Text('Transfer Stock'),
-                              ),
-                            ),
-                          ],
+          ? const Center(child: Text('No inventory items found'))
+          : RefreshIndicator(
+              onRefresh: () => ref
+                  .read(inventoryNotifierProvider.notifier)
+                  .fetchInventories(),
+              child: ListView.builder(
+                itemCount: inventoryState.inventories.length,
+                itemBuilder: (context, index) {
+                  final inventory = inventoryState.inventories[index];
+                  return ListTile(
+                    title: Text('Product ID: ${inventory.productId ?? 'N/A'}'),
+                    subtitle: Text(
+                      'Warehouse: ${inventory.warehouseId ?? 'N/A'} | Qty: ${inventory.quantity ?? 0}',
+                    ),
+                    trailing: PopupMenuButton<String>(
+                      onSelected: (value) async {
+                        switch (value) {
+                          case 'edit':
+                            context.go('/edit-inventory', extra: inventory.id);
+                            break;
+                          case 'adjust':
+                            // Show a dialog to adjust stock
+                            break;
+                          case 'transfer':
+                            // Show a dialog to transfer stock
+                            break;
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: 'edit',
+                          child: ListTile(
+                            leading: Icon(Icons.edit),
+                            title: Text('Edit'),
+                          ),
                         ),
-                        onTap: () {
-                          context.go('/inventory-detail', extra: inventory.id);
-                        },
-                      );
+                        const PopupMenuItem(
+                          value: 'adjust',
+                          child: ListTile(
+                            leading: Icon(Icons.add_circle),
+                            title: Text('Adjust Stock'),
+                          ),
+                        ),
+                        const PopupMenuItem(
+                          value: 'transfer',
+                          child: ListTile(
+                            leading: Icon(Icons.swap_horiz),
+                            title: Text('Transfer Stock'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      context.go('/inventory-detail', extra: inventory.id);
                     },
-                  ),
-                ),
+                  );
+                },
+              ),
+            ),
       floatingActionButton: inventoryState.hasMore
           ? FloatingActionButton(
               onPressed: () => ref

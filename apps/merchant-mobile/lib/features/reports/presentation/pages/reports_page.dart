@@ -32,9 +32,7 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
     final reportsState = ref.watch(reportsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reports'),
-      ),
+      appBar: AppBar(title: const Text('Reports')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -49,7 +47,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                   children: [
                     const Text(
                       'Daily Report',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     TextField(
@@ -68,7 +69,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                               : () {
                                   ref
                                       .read(reportsProvider.notifier)
-                                      .generateDailyReport(date: _dateController.text);
+                                      .generateDailyReport(
+                                        date: _dateController.text,
+                                      );
                                 },
                           child: const Text('Generate'),
                         ),
@@ -107,7 +110,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                   children: [
                     const Text(
                       'Monthly Report',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -141,7 +147,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                             onPressed: reportsState.isLoading
                                 ? null
                                 : () {
-                                    ref.read(reportsProvider.notifier).generateMonthlyReport(
+                                    ref
+                                        .read(reportsProvider.notifier)
+                                        .generateMonthlyReport(
                                           month: _monthController.text,
                                           year: _yearController.text,
                                         );
@@ -186,7 +194,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                   children: [
                     const Text(
                       'Sales Report',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -220,7 +231,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                             onPressed: reportsState.isLoading
                                 ? null
                                 : () {
-                                    ref.read(reportsProvider.notifier).generateSalesReport(
+                                    ref
+                                        .read(reportsProvider.notifier)
+                                        .generateSalesReport(
                                           startDate: _startDateController.text,
                                           endDate: _endDateController.text,
                                         );
@@ -261,7 +274,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: reportsState.isLoading ? null : () => ref.read(reportsProvider.notifier).clearReports(),
+                  onPressed: reportsState.isLoading
+                      ? null
+                      : () => ref.read(reportsProvider.notifier).clearReports(),
                   child: const Text('Clear Reports'),
                 ),
                 ElevatedButton.icon(
@@ -270,7 +285,11 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                       : () {
                           //  Implement export functionality
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Export functionality not implemented yet')),
+                            const SnackBar(
+                              content: Text(
+                                'Export functionality not implemented yet',
+                              ),
+                            ),
                           );
                         },
                   icon: const Icon(Icons.download),

@@ -7,9 +7,7 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
+      appBar: AppBar(title: const Text('Profile')),
       body: ListView(
         children: [
           const ListTile(
@@ -28,10 +26,7 @@ class ProfilePage extends ConsumerWidget {
             leading: Icon(Icons.security),
             title: Text('Security Settings'),
           ),
-          const ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-          ),
+          const ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
         ],
       ),
     );

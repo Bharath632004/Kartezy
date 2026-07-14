@@ -6,13 +6,11 @@ import '../../../../core/services/auth_service.dart';
 class OtpVerificationPage extends ConsumerStatefulWidget {
   final String phoneNumber;
 
-  const OtpVerificationPage({
-    super.key,
-    required this.phoneNumber,
-  });
+  const OtpVerificationPage({super.key, required this.phoneNumber});
 
   @override
-  ConsumerState<OtpVerificationPage> createState() => _OtpVerificationPageState();
+  ConsumerState<OtpVerificationPage> createState() =>
+      _OtpVerificationPageState();
 }
 
 class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
@@ -40,9 +38,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
       GoRouter.of(context).go('/dashboard');
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid OTP: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Invalid OTP: $e')));
     } finally {
       if (mounted) setState(() => _isVerifying = false);
     }
@@ -51,9 +49,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Verify OTP'),
-      ),
+      appBar: AppBar(title: const Text('Verify OTP')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -106,14 +102,18 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
                           ),
                         )
                       : const Text('Verify'),
                 ),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: _isVerifying ? null : () => GoRouter.of(context).pop(),
+                  onPressed: _isVerifying
+                      ? null
+                      : () => GoRouter.of(context).pop(),
                   child: const Text('Cancel'),
                 ),
               ],

@@ -12,7 +12,9 @@ class GetCurrentLocationUseCase {
 }
 
 /// Provider for get current location use case
-final getCurrentLocationUseCaseProvider = Provider<GetCurrentLocationUseCase>((ref) {
+final getCurrentLocationUseCaseProvider = Provider<GetCurrentLocationUseCase>((
+  ref,
+) {
   final repository = ref.read(navigationRepositoryProvider);
   return GetCurrentLocationUseCase(repository);
 });

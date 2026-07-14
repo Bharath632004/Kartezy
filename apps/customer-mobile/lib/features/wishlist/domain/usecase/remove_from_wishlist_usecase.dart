@@ -14,7 +14,9 @@ class RemoveFromWishlistUseCase {
 }
 
 /// Provider for remove from wishlist use case
-final removeFromWishlistUseCaseProvider = Provider<RemoveFromWishlistUseCase>((ref) {
+final removeFromWishlistUseCaseProvider = Provider<RemoveFromWishlistUseCase>((
+  ref,
+) {
   final repository = ref.read(wishlistRepositoryProvider);
   return RemoveFromWishlistUseCase(repository);
 });

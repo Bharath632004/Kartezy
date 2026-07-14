@@ -1,17 +1,23 @@
 // lib/features/notifications/provider/provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'data/datasource/notification_remote_data_source_impl.dart';
-import 'data/repository/notification_repository_impl.dart';
-import 'domain/repository/notification_repository.dart';
+import '../data/datasource/notification_remote_data_source_impl.dart';
+import '../data/repository/notification_repository_impl.dart';
+import '../domain/repository/notification_repository.dart';
+import '../domain/usecase/get_notifications.dart';
+import '../domain/usecase/mark_notification_as_read.dart';
+import '../domain/usecase/mark_all_notifications_as_read.dart';
+import '../domain/usecase/delete_notification.dart';
+import '../domain/usecase/get_unread_count.dart';
 
 // Provider for notification remote data source
-final notificationRemoteDataSourceProvider = Provider<NotificationRemoteDataSource>((ref) {
-  return NotificationRemoteDataSourceImpl(ref);
-});
+final notificationRemoteDataSourceProvider =
+    Provider<NotificationRemoteDataSource>((ref) {
+      return NotificationRemoteDataSourceImpl();
+    });
 
 // Provider for notification repository
 final notificationRepositoryProvider = Provider<NotificationRepository>((ref) {
-  return NotificationRepositoryImpl(ref);
+  return NotificationRepositoryImpl();
 });
 
 // Provider for get notifications use case

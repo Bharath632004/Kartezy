@@ -52,33 +52,33 @@ class OrderHistoryPage extends ConsumerWidget {
                   _buildOrderList(orderState.orders), // All
                   _buildOrderList(
                     orderState.orders
-                            .where((o) => _isActiveStatus(o.orderStatus))
-                            .toList(),
+                        .where((o) => _isActiveStatus(o.orderStatus))
+                        .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
-                            .where((o) => o.orderStatus == 'scheduled')
-                            .toList(),
+                        .where((o) => o.orderStatus == 'scheduled')
+                        .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
-                            .where((o) => o.orderStatus == 'delivered')
-                            .toList(),
+                        .where((o) => o.orderStatus == 'delivered')
+                        .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
-                            .where((o) => o.orderStatus == 'cancelled')
-                            .toList(),
+                        .where((o) => o.orderStatus == 'cancelled')
+                        .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
-                            .where((o) => o.orderStatus == 'returned')
-                            .toList(),
+                        .where((o) => o.orderStatus == 'returned')
+                        .toList(),
                   ),
                   _buildOrderList(
                     orderState.orders
-                            .where((o) => o.orderStatus == 'refunded')
-                            .toList(),
+                        .where((o) => o.orderStatus == 'refunded')
+                        .toList(),
                   ),
                 ],
               ),

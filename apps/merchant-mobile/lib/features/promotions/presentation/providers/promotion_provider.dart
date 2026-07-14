@@ -15,11 +15,8 @@ class PromotionState {
     required this.hasMore,
   });
 
-  factory PromotionState.initial() => PromotionState(
-        isLoading: false,
-        promotions: [],
-        hasMore: false,
-      );
+  factory PromotionState.initial() =>
+      PromotionState(isLoading: false, promotions: [], hasMore: false);
 
   PromotionState copyWith({
     bool? isLoading,
@@ -84,10 +81,7 @@ class PromotionNotifier extends StateNotifier<PromotionState> {
         _currentPage++;
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
@@ -104,7 +98,10 @@ class PromotionNotifier extends StateNotifier<PromotionState> {
     }
   }
 
-  Future<void> updatePromotion(String id, Map<String, dynamic> promotionData) async {
+  Future<void> updatePromotion(
+    String id,
+    Map<String, dynamic> promotionData,
+  ) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       await _promotionService.updatePromotion(id, promotionData);
@@ -130,6 +127,7 @@ class PromotionNotifier extends StateNotifier<PromotionState> {
 }
 
 // Provider
-final promotionProvider = StateNotifierProvider<PromotionNotifier, PromotionState>((ref) {
-  return PromotionNotifier(ref.read(promotionServiceProvider));
-});
+final promotionProvider =
+    StateNotifierProvider<PromotionNotifier, PromotionState>((ref) {
+      return PromotionNotifier(ref.read(promotionServiceProvider));
+    });

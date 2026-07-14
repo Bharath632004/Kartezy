@@ -32,11 +32,14 @@ class AnalyticsState {
 class AnalyticsNotifier extends StateNotifier<AnalyticsState> {
   final AnalyticsService _analyticsService;
 
-  AnalyticsNotifier(this._analyticsService) : super(const AnalyticsState(
-        isLoading: false,
-        ordersAnalytics: null,
-        bestSellers: null,
-      ));
+  AnalyticsNotifier(this._analyticsService)
+    : super(
+        const AnalyticsState(
+          isLoading: false,
+          ordersAnalytics: null,
+          bestSellers: null,
+        ),
+      );
 
   Future<void> refresh() async {
     state = state.copyWith(isLoading: true, error: null);
@@ -55,6 +58,7 @@ class AnalyticsNotifier extends StateNotifier<AnalyticsState> {
   }
 }
 
-final analyticsProvider = StateNotifierProvider<AnalyticsNotifier, AnalyticsState>((ref) {
-  return AnalyticsNotifier(ref.read(analyticsServiceProvider));
-});
+final analyticsProvider =
+    StateNotifierProvider<AnalyticsNotifier, AnalyticsState>((ref) {
+      return AnalyticsNotifier(ref.read(analyticsServiceProvider));
+    });

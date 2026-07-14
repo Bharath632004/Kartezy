@@ -12,7 +12,8 @@ part of 'store.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Store _$StoreFromJson(Map<String, dynamic> json) {
   return _Store.fromJson(json);
@@ -36,8 +37,13 @@ abstract class $StoreCopyWith<$Res> {
   factory $StoreCopyWith(Store value, $Res Function(Store) then) =
       _$StoreCopyWithImpl<$Res, Store>;
   @useResult
-  $Res call(
-      {String id, String name, String imageUrl, double distance, bool isOpen});
+  $Res call({
+    String id,
+    String name,
+    String imageUrl,
+    double distance,
+    bool isOpen,
+  });
 }
 
 /// @nodoc
@@ -59,40 +65,49 @@ class _$StoreCopyWithImpl<$Res, $Val extends Store>
     Object? distance = null,
     Object? isOpen = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      distance: null == distance
-          ? _value.distance
-          : distance // ignore: cast_nullable_to_non_nullable
-              as double,
-      isOpen: null == isOpen
-          ? _value.isOpen
-          : isOpen // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            imageUrl: null == imageUrl
+                ? _value.imageUrl
+                : imageUrl // ignore: cast_nullable_to_non_nullable
+                      as String,
+            distance: null == distance
+                ? _value.distance
+                : distance // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isOpen: null == isOpen
+                ? _value.isOpen
+                : isOpen // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$StoreImplCopyWith<$Res> implements $StoreCopyWith<$Res> {
   factory _$$StoreImplCopyWith(
-          _$StoreImpl value, $Res Function(_$StoreImpl) then) =
-      __$$StoreImplCopyWithImpl<$Res>;
+    _$StoreImpl value,
+    $Res Function(_$StoreImpl) then,
+  ) = __$$StoreImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id, String name, String imageUrl, double distance, bool isOpen});
+  $Res call({
+    String id,
+    String name,
+    String imageUrl,
+    double distance,
+    bool isOpen,
+  });
 }
 
 /// @nodoc
@@ -100,8 +115,9 @@ class __$$StoreImplCopyWithImpl<$Res>
     extends _$StoreCopyWithImpl<$Res, _$StoreImpl>
     implements _$$StoreImplCopyWith<$Res> {
   __$$StoreImplCopyWithImpl(
-      _$StoreImpl _value, $Res Function(_$StoreImpl) _then)
-      : super(_value, _then);
+    _$StoreImpl _value,
+    $Res Function(_$StoreImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -112,40 +128,43 @@ class __$$StoreImplCopyWithImpl<$Res>
     Object? distance = null,
     Object? isOpen = null,
   }) {
-    return _then(_$StoreImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      distance: null == distance
-          ? _value.distance
-          : distance // ignore: cast_nullable_to_non_nullable
-              as double,
-      isOpen: null == isOpen
-          ? _value.isOpen
-          : isOpen // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$StoreImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        imageUrl: null == imageUrl
+            ? _value.imageUrl
+            : imageUrl // ignore: cast_nullable_to_non_nullable
+                  as String,
+        distance: null == distance
+            ? _value.distance
+            : distance // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isOpen: null == isOpen
+            ? _value.isOpen
+            : isOpen // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$StoreImpl implements _Store {
-  const _$StoreImpl(
-      {required this.id,
-      required this.name,
-      required this.imageUrl,
-      required this.distance,
-      required this.isOpen});
+  const _$StoreImpl({
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+    required this.distance,
+    required this.isOpen,
+  });
 
   factory _$StoreImpl.fromJson(Map<String, dynamic> json) =>
       _$$StoreImplFromJson(json);
@@ -193,19 +212,18 @@ class _$StoreImpl implements _Store {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StoreImplToJson(
-      this,
-    );
+    return _$$StoreImplToJson(this);
   }
 }
 
 abstract class _Store implements Store {
-  const factory _Store(
-      {required final String id,
-      required final String name,
-      required final String imageUrl,
-      required final double distance,
-      required final bool isOpen}) = _$StoreImpl;
+  const factory _Store({
+    required final String id,
+    required final String name,
+    required final String imageUrl,
+    required final double distance,
+    required final bool isOpen,
+  }) = _$StoreImpl;
 
   factory _Store.fromJson(Map<String, dynamic> json) = _$StoreImpl.fromJson;
 

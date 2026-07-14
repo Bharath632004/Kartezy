@@ -12,7 +12,8 @@ part of 'driver_info.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 DriverInfo _$DriverInfoFromJson(Map<String, dynamic> json) {
   return _DriverInfo.fromJson(json);
@@ -37,17 +38,19 @@ mixin _$DriverInfo {
 /// @nodoc
 abstract class $DriverInfoCopyWith<$Res> {
   factory $DriverInfoCopyWith(
-          DriverInfo value, $Res Function(DriverInfo) then) =
-      _$DriverInfoCopyWithImpl<$Res, DriverInfo>;
+    DriverInfo value,
+    $Res Function(DriverInfo) then,
+  ) = _$DriverInfoCopyWithImpl<$Res, DriverInfo>;
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String? photoUrl,
-      String vehicleNumber,
-      String vehicleType,
-      double rating,
-      String phoneNumber});
+  $Res call({
+    String id,
+    String name,
+    String? photoUrl,
+    String vehicleNumber,
+    String vehicleType,
+    double rating,
+    String phoneNumber,
+  });
 }
 
 /// @nodoc
@@ -71,36 +74,39 @@ class _$DriverInfoCopyWithImpl<$Res, $Val extends DriverInfo>
     Object? rating = null,
     Object? phoneNumber = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      photoUrl: freezed == photoUrl
-          ? _value.photoUrl
-          : photoUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      vehicleNumber: null == vehicleNumber
-          ? _value.vehicleNumber
-          : vehicleNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      vehicleType: null == vehicleType
-          ? _value.vehicleType
-          : vehicleType // ignore: cast_nullable_to_non_nullable
-              as String,
-      rating: null == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as double,
-      phoneNumber: null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            photoUrl: freezed == photoUrl
+                ? _value.photoUrl
+                : photoUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            vehicleNumber: null == vehicleNumber
+                ? _value.vehicleNumber
+                : vehicleNumber // ignore: cast_nullable_to_non_nullable
+                      as String,
+            vehicleType: null == vehicleType
+                ? _value.vehicleType
+                : vehicleType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            rating: null == rating
+                ? _value.rating
+                : rating // ignore: cast_nullable_to_non_nullable
+                      as double,
+            phoneNumber: null == phoneNumber
+                ? _value.phoneNumber
+                : phoneNumber // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -108,18 +114,20 @@ class _$DriverInfoCopyWithImpl<$Res, $Val extends DriverInfo>
 abstract class _$$DriverInfoImplCopyWith<$Res>
     implements $DriverInfoCopyWith<$Res> {
   factory _$$DriverInfoImplCopyWith(
-          _$DriverInfoImpl value, $Res Function(_$DriverInfoImpl) then) =
-      __$$DriverInfoImplCopyWithImpl<$Res>;
+    _$DriverInfoImpl value,
+    $Res Function(_$DriverInfoImpl) then,
+  ) = __$$DriverInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String? photoUrl,
-      String vehicleNumber,
-      String vehicleType,
-      double rating,
-      String phoneNumber});
+  $Res call({
+    String id,
+    String name,
+    String? photoUrl,
+    String vehicleNumber,
+    String vehicleType,
+    double rating,
+    String phoneNumber,
+  });
 }
 
 /// @nodoc
@@ -127,8 +135,9 @@ class __$$DriverInfoImplCopyWithImpl<$Res>
     extends _$DriverInfoCopyWithImpl<$Res, _$DriverInfoImpl>
     implements _$$DriverInfoImplCopyWith<$Res> {
   __$$DriverInfoImplCopyWithImpl(
-      _$DriverInfoImpl _value, $Res Function(_$DriverInfoImpl) _then)
-      : super(_value, _then);
+    _$DriverInfoImpl _value,
+    $Res Function(_$DriverInfoImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -141,50 +150,53 @@ class __$$DriverInfoImplCopyWithImpl<$Res>
     Object? rating = null,
     Object? phoneNumber = null,
   }) {
-    return _then(_$DriverInfoImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      photoUrl: freezed == photoUrl
-          ? _value.photoUrl
-          : photoUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      vehicleNumber: null == vehicleNumber
-          ? _value.vehicleNumber
-          : vehicleNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      vehicleType: null == vehicleType
-          ? _value.vehicleType
-          : vehicleType // ignore: cast_nullable_to_non_nullable
-              as String,
-      rating: null == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as double,
-      phoneNumber: null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$DriverInfoImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        photoUrl: freezed == photoUrl
+            ? _value.photoUrl
+            : photoUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        vehicleNumber: null == vehicleNumber
+            ? _value.vehicleNumber
+            : vehicleNumber // ignore: cast_nullable_to_non_nullable
+                  as String,
+        vehicleType: null == vehicleType
+            ? _value.vehicleType
+            : vehicleType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        rating: null == rating
+            ? _value.rating
+            : rating // ignore: cast_nullable_to_non_nullable
+                  as double,
+        phoneNumber: null == phoneNumber
+            ? _value.phoneNumber
+            : phoneNumber // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$DriverInfoImpl implements _DriverInfo {
-  const _$DriverInfoImpl(
-      {required this.id,
-      required this.name,
-      this.photoUrl,
-      required this.vehicleNumber,
-      required this.vehicleType,
-      required this.rating,
-      required this.phoneNumber});
+  const _$DriverInfoImpl({
+    required this.id,
+    required this.name,
+    this.photoUrl,
+    required this.vehicleNumber,
+    required this.vehicleType,
+    required this.rating,
+    required this.phoneNumber,
+  });
 
   factory _$DriverInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$DriverInfoImplFromJson(json);
@@ -229,8 +241,16 @@ class _$DriverInfoImpl implements _DriverInfo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, photoUrl,
-      vehicleNumber, vehicleType, rating, phoneNumber);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    photoUrl,
+    vehicleNumber,
+    vehicleType,
+    rating,
+    phoneNumber,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -240,21 +260,20 @@ class _$DriverInfoImpl implements _DriverInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DriverInfoImplToJson(
-      this,
-    );
+    return _$$DriverInfoImplToJson(this);
   }
 }
 
 abstract class _DriverInfo implements DriverInfo {
-  const factory _DriverInfo(
-      {required final String id,
-      required final String name,
-      final String? photoUrl,
-      required final String vehicleNumber,
-      required final String vehicleType,
-      required final double rating,
-      required final String phoneNumber}) = _$DriverInfoImpl;
+  const factory _DriverInfo({
+    required final String id,
+    required final String name,
+    final String? photoUrl,
+    required final String vehicleNumber,
+    required final String vehicleType,
+    required final double rating,
+    required final String phoneNumber,
+  }) = _$DriverInfoImpl;
 
   factory _DriverInfo.fromJson(Map<String, dynamic> json) =
       _$DriverInfoImpl.fromJson;

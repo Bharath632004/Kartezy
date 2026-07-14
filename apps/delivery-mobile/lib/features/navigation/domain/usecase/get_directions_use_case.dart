@@ -8,8 +8,11 @@ class GetDirectionsUseCase {
 
   GetDirectionsUseCase(this._repository);
 
-  Future<List<RouteInfo>> call(String origin, String destination, bool alternatives) =>
-      _repository.getDirections(origin, destination, alternatives);
+  Future<List<RouteInfo>> call(
+    String origin,
+    String destination,
+    bool alternatives,
+  ) => _repository.getDirections(origin, destination, alternatives);
 }
 
 /// Provider for get directions use case

@@ -70,7 +70,10 @@ class ProductService {
     }
   }
 
-  Future<ProductModel> updateProduct(String productId, ProductModel product) async {
+  Future<ProductModel> updateProduct(
+    String productId,
+    ProductModel product,
+  ) async {
     try {
       final response = await _dio.put(
         '${ApiConstants.baseUrl}${ApiConstants.product}/$productId',
@@ -103,7 +106,10 @@ class ProductService {
     }
   }
 
-  Future<ProductModel> updateApprovalStatus(String productId, bool isActive) async {
+  Future<ProductModel> updateApprovalStatus(
+    String productId,
+    bool isActive,
+  ) async {
     try {
       final response = await _dio.patch(
         '${ApiConstants.baseUrl}${ApiConstants.product}/$productId/status',

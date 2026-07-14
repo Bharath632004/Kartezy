@@ -18,8 +18,5 @@ class ShareReferralCodeParams {
   final String code;
   final String method;
 
-  ShareReferralCodeParams({
-    required this.code,
-    required this.method,
-  });
+  ShareReferralCodeParams({required this.code, required this.method});
 }

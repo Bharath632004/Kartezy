@@ -29,7 +29,9 @@ class WalletRemoteDataSourceImpl {
 }
 
 /// Provider for wallet remote data source
-final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSourceImpl>((ref) {
+final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSourceImpl>((
+  ref,
+) {
   final dio = ref.read(dioProvider);
   return WalletRemoteDataSourceImpl(dio);
 });

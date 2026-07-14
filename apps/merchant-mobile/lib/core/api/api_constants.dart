@@ -28,15 +28,18 @@ class ApiConstants {
   static const String promotionDelete = 'promotions/{id}';
   static const String promotionCoupons = 'promotions/coupons';
   static const String promotionDiscountCodes = 'promotions/discount-codes';
-  static const String promotionPercentageDiscounts = 'promotions/percentage-discounts';
+  static const String promotionPercentageDiscounts =
+      'promotions/percentage-discounts';
   static const String promotionFlatDiscounts = 'promotions/flat-discounts';
   static const String promotionBogo = 'promotions/bogo';
   static const String promotionComboOffers = 'promotions/combo-offers';
   static const String promotionBundleOffers = 'promotions/bundle-offers';
   static const String promotionFlashSales = 'promotions/flash-sales';
   static const String promotionHappyHour = 'promotions/happy-hour';
-  static const String promotionCategoryDiscounts = 'promotions/category-discounts';
-  static const String promotionProductDiscounts = 'promotions/product-discounts';
+  static const String promotionCategoryDiscounts =
+      'promotions/category-discounts';
+  static const String promotionProductDiscounts =
+      'promotions/product-discounts';
   static const String promotionFreeDelivery = 'promotions/free-delivery';
   static const String promotionCashback = 'promotions/cashback';
   static const String promotionMembership = 'promotions/membership';
@@ -64,10 +67,13 @@ class ApiConstants {
   static const String analyticsCustomers = 'analytics/customers';
   static const String analyticsProducts = 'analytics/products';
   static const String analyticsInventory = 'analytics/inventory';
-  static const String analyticsDeliveryPerformance = 'analytics/delivery-performance';
+  static const String analyticsDeliveryPerformance =
+      'analytics/delivery-performance';
   static const String analyticsConversionRate = 'analytics/conversion-rate';
-  static const String analyticsAverageOrderValue = 'analytics/average-order-value';
-  static const String analyticsCustomerRetention = 'analytics/customer-retention';
+  static const String analyticsAverageOrderValue =
+      'analytics/average-order-value';
+  static const String analyticsCustomerRetention =
+      'analytics/customer-retention';
   static const String analyticsRepeatCustomers = 'analytics/repeat-customers';
   static const String analyticsBestSellers = 'analytics/best-sellers';
   static const String analyticsWorstSellers = 'analytics/worst-sellers';
@@ -90,11 +96,14 @@ class ApiConstants {
   static const String reportsSettlement = 'reports/settlement';
 
   // Marketing endpoints
-  static const String marketingSponsoredProducts = 'marketing/sponsored-products';
+  static const String marketingSponsoredProducts =
+      'marketing/sponsored-products';
   static const String marketingFeaturedProducts = 'marketing/featured-products';
   static const String marketingBannerCampaigns = 'marketing/banner-campaigns';
-  static const String marketingSeasonalCampaigns = 'marketing/seasonal-campaigns';
-  static const String marketingFestivalCampaigns = 'marketing/festival-campaigns';
+  static const String marketingSeasonalCampaigns =
+      'marketing/seasonal-campaigns';
+  static const String marketingFestivalCampaigns =
+      'marketing/festival-campaigns';
   static const String marketingPushCampaigns = 'marketing/push-campaigns';
   static const String marketingEmailCampaigns = 'marketing/email-campaigns';
   static const String marketingSmsCampaigns = 'marketing/sms-campaigns';

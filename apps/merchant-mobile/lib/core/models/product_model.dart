@@ -27,5 +27,6 @@ class ProductModel with _$ProductModel {
       _$$ProductModelImplFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$$ProductModelImplToJson(this as _$ProductModelImpl);
+  Map<String, dynamic> toJson() =>
+      _$$ProductModelImplToJson(this as _$ProductModelImpl);
 }

@@ -2,10 +2,7 @@
 import 'package:customer_mobile/features/notifications/domain/entities/notification.dart';
 
 abstract class NotificationRemoteDataSource {
-  Future<List<Notification>> getNotifications({
-    int limit = 20,
-    int offset = 0,
-  });
+  Future<List<Notification>> getNotifications({int limit = 20, int offset = 0});
 
   Future<Notification> getNotificationById(String id);
 

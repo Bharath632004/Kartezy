@@ -9,17 +9,9 @@ class SplashState {
   final String? nextRoute;
   final String? error;
 
-  const SplashState({
-    this.isLoading = true,
-    this.nextRoute,
-    this.error,
-  });
+  const SplashState({this.isLoading = true, this.nextRoute, this.error});
 
-  SplashState copyWith({
-    bool? isLoading,
-    String? nextRoute,
-    String? error,
-  }) {
+  SplashState copyWith({bool? isLoading, String? nextRoute, String? error}) {
     return SplashState(
       isLoading: isLoading ?? this.isLoading,
       nextRoute: nextRoute ?? this.nextRoute,
@@ -47,7 +39,10 @@ class SplashViewModel extends StateNotifier<SplashState> {
 
       // Check if onboarding has been completed
       final onboardingBox = hiveManager.getBox<bool>(boxName: 'onboarding');
-      final hasSeenOnboarding = onboardingBox.get('hasSeenOnboarding', defaultValue: false);
+      final hasSeenOnboarding = onboardingBox.get(
+        'hasSeenOnboarding',
+        defaultValue: false,
+      );
 
       // Check if user is logged in
       final accessToken = await secureStorage.read(key: 'accessToken');
@@ -70,7 +65,8 @@ class SplashViewModel extends StateNotifier<SplashState> {
 }
 
 /// Provider for splash view model
-final splashProvider =
-    StateNotifierProvider<SplashViewModel, SplashState>((ref) {
+final splashProvider = StateNotifierProvider<SplashViewModel, SplashState>((
+  ref,
+) {
   return SplashViewModel(ref);
 });

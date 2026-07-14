@@ -8,11 +8,14 @@ class GetOrderTimelineUseCase {
 
   GetOrderTimelineUseCase(this._repository);
 
-  Future<List<OrderTimeline>> call(String orderId) => _repository.getOrderTimeline(orderId);
+  Future<List<OrderTimeline>> call(String orderId) =>
+      _repository.getOrderTimeline(orderId);
 }
 
 /// Provider for get order timeline use case
-final getOrderTimelineUseCaseProvider = Provider<GetOrderTimelineUseCase>((ref) {
+final getOrderTimelineUseCaseProvider = Provider<GetOrderTimelineUseCase>((
+  ref,
+) {
   final repository = ref.read(orderRepositoryProvider);
   return GetOrderTimelineUseCase(repository);
 });

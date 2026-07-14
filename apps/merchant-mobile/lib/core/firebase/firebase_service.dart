@@ -75,11 +75,13 @@ class FirebaseService {
       });
 
       // Handle when the app is opened from a terminated state
-      final RemoteMessage? initialMessage =
-          await _messaging.getInitialMessage();
+      final RemoteMessage? initialMessage = await _messaging
+          .getInitialMessage();
       if (initialMessage != null) {
         // Handle the message
-        debugPrint('Message received when app was terminated: ${initialMessage.messageId}');
+        debugPrint(
+          'Message received when app was terminated: ${initialMessage.messageId}',
+        );
       }
 
       // Handle when the app is in the background and opened from a notification
@@ -115,8 +117,11 @@ class FirebaseService {
   }
 
   // Crashlytics methods
-  Future<void> recordError(dynamic error, StackTrace stackTrace,
-      {bool fatal = false}) async {
+  Future<void> recordError(
+    dynamic error,
+    StackTrace stackTrace, {
+    bool fatal = false,
+  }) async {
     await _crashlytics.recordError(error, stackTrace, fatal: fatal);
   }
 

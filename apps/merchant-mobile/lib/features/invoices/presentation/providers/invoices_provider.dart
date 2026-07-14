@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/invoices_service.dart';
 
-final invoicesProvider = StateNotifierProvider<InvoicesNotifier, InvoicesState>((ref) {
-  return InvoicesNotifier(ref.read(invoicesServiceProvider));
-});
+final invoicesProvider = StateNotifierProvider<InvoicesNotifier, InvoicesState>(
+  (ref) {
+    return InvoicesNotifier(ref.read(invoicesServiceProvider));
+  },
+);
 
 class InvoicesNotifier extends StateNotifier<InvoicesState> {
   final InvoicesService _invoicesService;
@@ -14,7 +16,12 @@ class InvoicesNotifier extends StateNotifier<InvoicesState> {
 
   Future<void> _loadInvoices({bool refresh = false}) async {
     if (refresh) {
-      state = state.copyWith(isLoading: true, error: null, invoices: [], hasMore: false);
+      state = state.copyWith(
+        isLoading: true,
+        error: null,
+        invoices: [],
+        hasMore: false,
+      );
     } else if (!state.isLoading && state.hasMore) {
       state = state.copyWith(isLoading: true, error: null);
     }

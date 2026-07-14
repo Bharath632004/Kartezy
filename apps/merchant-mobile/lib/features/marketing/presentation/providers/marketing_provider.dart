@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/marketing_service.dart';
 
-final marketingProvider = StateNotifierProvider<MarketingNotifier, MarketingState>((ref) {
-  return MarketingNotifier(ref.read(marketingServiceProvider));
-});
+final marketingProvider =
+    StateNotifierProvider<MarketingNotifier, MarketingState>((ref) {
+      return MarketingNotifier(ref.read(marketingServiceProvider));
+    });
 
 class MarketingNotifier extends StateNotifier<MarketingState> {
   final MarketingService _marketingService;
@@ -14,7 +15,10 @@ class MarketingNotifier extends StateNotifier<MarketingState> {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final sponsoredProducts = await _marketingService.getSponsoredProducts();
-      state = state.copyWith(isLoading: false, sponsoredProducts: sponsoredProducts);
+      state = state.copyWith(
+        isLoading: false,
+        sponsoredProducts: sponsoredProducts,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -24,7 +28,10 @@ class MarketingNotifier extends StateNotifier<MarketingState> {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final featuredProducts = await _marketingService.getFeaturedProducts();
-      state = state.copyWith(isLoading: false, featuredProducts: featuredProducts);
+      state = state.copyWith(
+        isLoading: false,
+        featuredProducts: featuredProducts,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -34,7 +41,10 @@ class MarketingNotifier extends StateNotifier<MarketingState> {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final bannerCampaigns = await _marketingService.getBannerCampaigns();
-      state = state.copyWith(isLoading: false, bannerCampaigns: bannerCampaigns);
+      state = state.copyWith(
+        isLoading: false,
+        bannerCampaigns: bannerCampaigns,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }

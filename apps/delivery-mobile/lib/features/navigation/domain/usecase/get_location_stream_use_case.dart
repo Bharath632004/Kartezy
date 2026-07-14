@@ -13,7 +13,9 @@ class GetLocationStreamUseCase {
 }
 
 /// Provider for get location stream use case
-final getLocationStreamUseCaseProvider = Provider<GetLocationStreamUseCase>((ref) {
+final getLocationStreamUseCaseProvider = Provider<GetLocationStreamUseCase>((
+  ref,
+) {
   final repository = ref.read(navigationRepositoryProvider);
   return GetLocationStreamUseCase(repository);
 });

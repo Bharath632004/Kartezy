@@ -8,11 +8,8 @@ class GetOrderHistoryUseCase {
 
   GetOrderHistoryUseCase(this._repository);
 
-  Future<List<Order>> call({int? page, int? limit, String? status}) => _repository.getOrderHistory(
-        page: page,
-        limit: limit,
-        status: status,
-      );
+  Future<List<Order>> call({int? page, int? limit, String? status}) =>
+      _repository.getOrderHistory(page: page, limit: limit, status: status);
 }
 
 /// Provider for get order history use case

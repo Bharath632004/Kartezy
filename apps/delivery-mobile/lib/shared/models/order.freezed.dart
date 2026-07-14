@@ -12,7 +12,8 @@ part of 'order.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Order _$OrderFromJson(Map<String, dynamic> json) {
   return _Order.fromJson(json);
@@ -27,7 +28,7 @@ mixin _$Order {
       throw _privateConstructorUsedError; // id of the cart that was converted to order
   List<CartItem> get items =>
       throw _privateConstructorUsedError; // snapshot of cart items at the time of order
-// Financial breakdown (similar to Cart)
+  // Financial breakdown (similar to Cart)
   double get discountAmount => throw _privateConstructorUsedError;
   double get totalAmount => throw _privateConstructorUsedError;
   int get itemCount => throw _privateConstructorUsedError;
@@ -69,34 +70,35 @@ abstract class $OrderCopyWith<$Res> {
   factory $OrderCopyWith(Order value, $Res Function(Order) then) =
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
-  $Res call(
-      {String id,
-      String? userId,
-      String cartId,
-      List<CartItem> items,
-      double discountAmount,
-      double totalAmount,
-      int itemCount,
-      double platformFee,
-      double deliveryCharges,
-      double packagingFee,
-      double gstAmount,
-      double tipAmount,
-      double walletAmount,
-      double netAmount,
-      Address deliveryAddress,
-      Address? billingAddress,
-      String orderStatus,
-      String paymentStatus,
-      String? paymentMethod,
-      String? deliveryInstructions,
-      bool contactlessDelivery,
-      DateTime? deliverySlotStart,
-      DateTime? deliverySlotEnd,
-      DateTime estimatedDeliveryTime,
-      String? couponCode,
-      DateTime createdAt,
-      DateTime updatedAt});
+  $Res call({
+    String id,
+    String? userId,
+    String cartId,
+    List<CartItem> items,
+    double discountAmount,
+    double totalAmount,
+    int itemCount,
+    double platformFee,
+    double deliveryCharges,
+    double packagingFee,
+    double gstAmount,
+    double tipAmount,
+    double walletAmount,
+    double netAmount,
+    Address deliveryAddress,
+    Address? billingAddress,
+    String orderStatus,
+    String paymentStatus,
+    String? paymentMethod,
+    String? deliveryInstructions,
+    bool contactlessDelivery,
+    DateTime? deliverySlotStart,
+    DateTime? deliverySlotEnd,
+    DateTime estimatedDeliveryTime,
+    String? couponCode,
+    DateTime createdAt,
+    DateTime updatedAt,
+  });
 
   $AddressCopyWith<$Res> get deliveryAddress;
   $AddressCopyWith<$Res>? get billingAddress;
@@ -143,116 +145,119 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: freezed == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      cartId: null == cartId
-          ? _value.cartId
-          : cartId // ignore: cast_nullable_to_non_nullable
-              as String,
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<CartItem>,
-      discountAmount: null == discountAmount
-          ? _value.discountAmount
-          : discountAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalAmount: null == totalAmount
-          ? _value.totalAmount
-          : totalAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      itemCount: null == itemCount
-          ? _value.itemCount
-          : itemCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      platformFee: null == platformFee
-          ? _value.platformFee
-          : platformFee // ignore: cast_nullable_to_non_nullable
-              as double,
-      deliveryCharges: null == deliveryCharges
-          ? _value.deliveryCharges
-          : deliveryCharges // ignore: cast_nullable_to_non_nullable
-              as double,
-      packagingFee: null == packagingFee
-          ? _value.packagingFee
-          : packagingFee // ignore: cast_nullable_to_non_nullable
-              as double,
-      gstAmount: null == gstAmount
-          ? _value.gstAmount
-          : gstAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      tipAmount: null == tipAmount
-          ? _value.tipAmount
-          : tipAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      walletAmount: null == walletAmount
-          ? _value.walletAmount
-          : walletAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      netAmount: null == netAmount
-          ? _value.netAmount
-          : netAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      deliveryAddress: null == deliveryAddress
-          ? _value.deliveryAddress
-          : deliveryAddress // ignore: cast_nullable_to_non_nullable
-              as Address,
-      billingAddress: freezed == billingAddress
-          ? _value.billingAddress
-          : billingAddress // ignore: cast_nullable_to_non_nullable
-              as Address?,
-      orderStatus: null == orderStatus
-          ? _value.orderStatus
-          : orderStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentStatus: null == paymentStatus
-          ? _value.paymentStatus
-          : paymentStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentMethod: freezed == paymentMethod
-          ? _value.paymentMethod
-          : paymentMethod // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deliveryInstructions: freezed == deliveryInstructions
-          ? _value.deliveryInstructions
-          : deliveryInstructions // ignore: cast_nullable_to_non_nullable
-              as String?,
-      contactlessDelivery: null == contactlessDelivery
-          ? _value.contactlessDelivery
-          : contactlessDelivery // ignore: cast_nullable_to_non_nullable
-              as bool,
-      deliverySlotStart: freezed == deliverySlotStart
-          ? _value.deliverySlotStart
-          : deliverySlotStart // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deliverySlotEnd: freezed == deliverySlotEnd
-          ? _value.deliverySlotEnd
-          : deliverySlotEnd // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      estimatedDeliveryTime: null == estimatedDeliveryTime
-          ? _value.estimatedDeliveryTime
-          : estimatedDeliveryTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      couponCode: freezed == couponCode
-          ? _value.couponCode
-          : couponCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            userId: freezed == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            cartId: null == cartId
+                ? _value.cartId
+                : cartId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            items: null == items
+                ? _value.items
+                : items // ignore: cast_nullable_to_non_nullable
+                      as List<CartItem>,
+            discountAmount: null == discountAmount
+                ? _value.discountAmount
+                : discountAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            totalAmount: null == totalAmount
+                ? _value.totalAmount
+                : totalAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            itemCount: null == itemCount
+                ? _value.itemCount
+                : itemCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            platformFee: null == platformFee
+                ? _value.platformFee
+                : platformFee // ignore: cast_nullable_to_non_nullable
+                      as double,
+            deliveryCharges: null == deliveryCharges
+                ? _value.deliveryCharges
+                : deliveryCharges // ignore: cast_nullable_to_non_nullable
+                      as double,
+            packagingFee: null == packagingFee
+                ? _value.packagingFee
+                : packagingFee // ignore: cast_nullable_to_non_nullable
+                      as double,
+            gstAmount: null == gstAmount
+                ? _value.gstAmount
+                : gstAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            tipAmount: null == tipAmount
+                ? _value.tipAmount
+                : tipAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            walletAmount: null == walletAmount
+                ? _value.walletAmount
+                : walletAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            netAmount: null == netAmount
+                ? _value.netAmount
+                : netAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            deliveryAddress: null == deliveryAddress
+                ? _value.deliveryAddress
+                : deliveryAddress // ignore: cast_nullable_to_non_nullable
+                      as Address,
+            billingAddress: freezed == billingAddress
+                ? _value.billingAddress
+                : billingAddress // ignore: cast_nullable_to_non_nullable
+                      as Address?,
+            orderStatus: null == orderStatus
+                ? _value.orderStatus
+                : orderStatus // ignore: cast_nullable_to_non_nullable
+                      as String,
+            paymentStatus: null == paymentStatus
+                ? _value.paymentStatus
+                : paymentStatus // ignore: cast_nullable_to_non_nullable
+                      as String,
+            paymentMethod: freezed == paymentMethod
+                ? _value.paymentMethod
+                : paymentMethod // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            deliveryInstructions: freezed == deliveryInstructions
+                ? _value.deliveryInstructions
+                : deliveryInstructions // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            contactlessDelivery: null == contactlessDelivery
+                ? _value.contactlessDelivery
+                : contactlessDelivery // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            deliverySlotStart: freezed == deliverySlotStart
+                ? _value.deliverySlotStart
+                : deliverySlotStart // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            deliverySlotEnd: freezed == deliverySlotEnd
+                ? _value.deliverySlotEnd
+                : deliverySlotEnd // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            estimatedDeliveryTime: null == estimatedDeliveryTime
+                ? _value.estimatedDeliveryTime
+                : estimatedDeliveryTime // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            couponCode: freezed == couponCode
+                ? _value.couponCode
+                : couponCode // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            updatedAt: null == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 
   @override
@@ -279,38 +284,40 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
 /// @nodoc
 abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   factory _$$OrderImplCopyWith(
-          _$OrderImpl value, $Res Function(_$OrderImpl) then) =
-      __$$OrderImplCopyWithImpl<$Res>;
+    _$OrderImpl value,
+    $Res Function(_$OrderImpl) then,
+  ) = __$$OrderImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String? userId,
-      String cartId,
-      List<CartItem> items,
-      double discountAmount,
-      double totalAmount,
-      int itemCount,
-      double platformFee,
-      double deliveryCharges,
-      double packagingFee,
-      double gstAmount,
-      double tipAmount,
-      double walletAmount,
-      double netAmount,
-      Address deliveryAddress,
-      Address? billingAddress,
-      String orderStatus,
-      String paymentStatus,
-      String? paymentMethod,
-      String? deliveryInstructions,
-      bool contactlessDelivery,
-      DateTime? deliverySlotStart,
-      DateTime? deliverySlotEnd,
-      DateTime estimatedDeliveryTime,
-      String? couponCode,
-      DateTime createdAt,
-      DateTime updatedAt});
+  $Res call({
+    String id,
+    String? userId,
+    String cartId,
+    List<CartItem> items,
+    double discountAmount,
+    double totalAmount,
+    int itemCount,
+    double platformFee,
+    double deliveryCharges,
+    double packagingFee,
+    double gstAmount,
+    double tipAmount,
+    double walletAmount,
+    double netAmount,
+    Address deliveryAddress,
+    Address? billingAddress,
+    String orderStatus,
+    String paymentStatus,
+    String? paymentMethod,
+    String? deliveryInstructions,
+    bool contactlessDelivery,
+    DateTime? deliverySlotStart,
+    DateTime? deliverySlotEnd,
+    DateTime estimatedDeliveryTime,
+    String? couponCode,
+    DateTime createdAt,
+    DateTime updatedAt,
+  });
 
   @override
   $AddressCopyWith<$Res> get deliveryAddress;
@@ -323,8 +330,9 @@ class __$$OrderImplCopyWithImpl<$Res>
     extends _$OrderCopyWithImpl<$Res, _$OrderImpl>
     implements _$$OrderImplCopyWith<$Res> {
   __$$OrderImplCopyWithImpl(
-      _$OrderImpl _value, $Res Function(_$OrderImpl) _then)
-      : super(_value, _then);
+    _$OrderImpl _value,
+    $Res Function(_$OrderImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -357,151 +365,153 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_$OrderImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: freezed == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      cartId: null == cartId
-          ? _value.cartId
-          : cartId // ignore: cast_nullable_to_non_nullable
-              as String,
-      items: null == items
-          ? _value._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<CartItem>,
-      discountAmount: null == discountAmount
-          ? _value.discountAmount
-          : discountAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalAmount: null == totalAmount
-          ? _value.totalAmount
-          : totalAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      itemCount: null == itemCount
-          ? _value.itemCount
-          : itemCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      platformFee: null == platformFee
-          ? _value.platformFee
-          : platformFee // ignore: cast_nullable_to_non_nullable
-              as double,
-      deliveryCharges: null == deliveryCharges
-          ? _value.deliveryCharges
-          : deliveryCharges // ignore: cast_nullable_to_non_nullable
-              as double,
-      packagingFee: null == packagingFee
-          ? _value.packagingFee
-          : packagingFee // ignore: cast_nullable_to_non_nullable
-              as double,
-      gstAmount: null == gstAmount
-          ? _value.gstAmount
-          : gstAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      tipAmount: null == tipAmount
-          ? _value.tipAmount
-          : tipAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      walletAmount: null == walletAmount
-          ? _value.walletAmount
-          : walletAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      netAmount: null == netAmount
-          ? _value.netAmount
-          : netAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      deliveryAddress: null == deliveryAddress
-          ? _value.deliveryAddress
-          : deliveryAddress // ignore: cast_nullable_to_non_nullable
-              as Address,
-      billingAddress: freezed == billingAddress
-          ? _value.billingAddress
-          : billingAddress // ignore: cast_nullable_to_non_nullable
-              as Address?,
-      orderStatus: null == orderStatus
-          ? _value.orderStatus
-          : orderStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentStatus: null == paymentStatus
-          ? _value.paymentStatus
-          : paymentStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentMethod: freezed == paymentMethod
-          ? _value.paymentMethod
-          : paymentMethod // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deliveryInstructions: freezed == deliveryInstructions
-          ? _value.deliveryInstructions
-          : deliveryInstructions // ignore: cast_nullable_to_non_nullable
-              as String?,
-      contactlessDelivery: null == contactlessDelivery
-          ? _value.contactlessDelivery
-          : contactlessDelivery // ignore: cast_nullable_to_non_nullable
-              as bool,
-      deliverySlotStart: freezed == deliverySlotStart
-          ? _value.deliverySlotStart
-          : deliverySlotStart // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deliverySlotEnd: freezed == deliverySlotEnd
-          ? _value.deliverySlotEnd
-          : deliverySlotEnd // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      estimatedDeliveryTime: null == estimatedDeliveryTime
-          ? _value.estimatedDeliveryTime
-          : estimatedDeliveryTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      couponCode: freezed == couponCode
-          ? _value.couponCode
-          : couponCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$OrderImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userId: freezed == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        cartId: null == cartId
+            ? _value.cartId
+            : cartId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        items: null == items
+            ? _value._items
+            : items // ignore: cast_nullable_to_non_nullable
+                  as List<CartItem>,
+        discountAmount: null == discountAmount
+            ? _value.discountAmount
+            : discountAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        totalAmount: null == totalAmount
+            ? _value.totalAmount
+            : totalAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        itemCount: null == itemCount
+            ? _value.itemCount
+            : itemCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        platformFee: null == platformFee
+            ? _value.platformFee
+            : platformFee // ignore: cast_nullable_to_non_nullable
+                  as double,
+        deliveryCharges: null == deliveryCharges
+            ? _value.deliveryCharges
+            : deliveryCharges // ignore: cast_nullable_to_non_nullable
+                  as double,
+        packagingFee: null == packagingFee
+            ? _value.packagingFee
+            : packagingFee // ignore: cast_nullable_to_non_nullable
+                  as double,
+        gstAmount: null == gstAmount
+            ? _value.gstAmount
+            : gstAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        tipAmount: null == tipAmount
+            ? _value.tipAmount
+            : tipAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        walletAmount: null == walletAmount
+            ? _value.walletAmount
+            : walletAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        netAmount: null == netAmount
+            ? _value.netAmount
+            : netAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        deliveryAddress: null == deliveryAddress
+            ? _value.deliveryAddress
+            : deliveryAddress // ignore: cast_nullable_to_non_nullable
+                  as Address,
+        billingAddress: freezed == billingAddress
+            ? _value.billingAddress
+            : billingAddress // ignore: cast_nullable_to_non_nullable
+                  as Address?,
+        orderStatus: null == orderStatus
+            ? _value.orderStatus
+            : orderStatus // ignore: cast_nullable_to_non_nullable
+                  as String,
+        paymentStatus: null == paymentStatus
+            ? _value.paymentStatus
+            : paymentStatus // ignore: cast_nullable_to_non_nullable
+                  as String,
+        paymentMethod: freezed == paymentMethod
+            ? _value.paymentMethod
+            : paymentMethod // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        deliveryInstructions: freezed == deliveryInstructions
+            ? _value.deliveryInstructions
+            : deliveryInstructions // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        contactlessDelivery: null == contactlessDelivery
+            ? _value.contactlessDelivery
+            : contactlessDelivery // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        deliverySlotStart: freezed == deliverySlotStart
+            ? _value.deliverySlotStart
+            : deliverySlotStart // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        deliverySlotEnd: freezed == deliverySlotEnd
+            ? _value.deliverySlotEnd
+            : deliverySlotEnd // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        estimatedDeliveryTime: null == estimatedDeliveryTime
+            ? _value.estimatedDeliveryTime
+            : estimatedDeliveryTime // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        couponCode: freezed == couponCode
+            ? _value.couponCode
+            : couponCode // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        updatedAt: null == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$OrderImpl implements _Order {
-  const _$OrderImpl(
-      {required this.id,
-      required this.userId,
-      required this.cartId,
-      required final List<CartItem> items,
-      required this.discountAmount,
-      required this.totalAmount,
-      required this.itemCount,
-      required this.platformFee,
-      required this.deliveryCharges,
-      required this.packagingFee,
-      required this.gstAmount,
-      required this.tipAmount,
-      required this.walletAmount,
-      required this.netAmount,
-      required this.deliveryAddress,
-      required this.billingAddress,
-      required this.orderStatus,
-      required this.paymentStatus,
-      required this.paymentMethod,
-      required this.deliveryInstructions,
-      required this.contactlessDelivery,
-      required this.deliverySlotStart,
-      required this.deliverySlotEnd,
-      required this.estimatedDeliveryTime,
-      required this.couponCode,
-      required this.createdAt,
-      required this.updatedAt})
-      : _items = items;
+  const _$OrderImpl({
+    required this.id,
+    required this.userId,
+    required this.cartId,
+    required final List<CartItem> items,
+    required this.discountAmount,
+    required this.totalAmount,
+    required this.itemCount,
+    required this.platformFee,
+    required this.deliveryCharges,
+    required this.packagingFee,
+    required this.gstAmount,
+    required this.tipAmount,
+    required this.walletAmount,
+    required this.netAmount,
+    required this.deliveryAddress,
+    required this.billingAddress,
+    required this.orderStatus,
+    required this.paymentStatus,
+    required this.paymentMethod,
+    required this.deliveryInstructions,
+    required this.contactlessDelivery,
+    required this.deliverySlotStart,
+    required this.deliverySlotEnd,
+    required this.estimatedDeliveryTime,
+    required this.couponCode,
+    required this.createdAt,
+    required this.updatedAt,
+  }) : _items = items;
 
   factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderImplFromJson(json);
@@ -510,12 +520,12 @@ class _$OrderImpl implements _Order {
   final String id;
   @override
   final String? userId;
-// nullable for guest user
+  // nullable for guest user
   @override
   final String cartId;
-// id of the cart that was converted to order
+  // id of the cart that was converted to order
   final List<CartItem> _items;
-// id of the cart that was converted to order
+  // id of the cart that was converted to order
   @override
   List<CartItem> get items {
     if (_items is EqualUnmodifiableListView) return _items;
@@ -523,8 +533,8 @@ class _$OrderImpl implements _Order {
     return EqualUnmodifiableListView(_items);
   }
 
-// snapshot of cart items at the time of order
-// Financial breakdown (similar to Cart)
+  // snapshot of cart items at the time of order
+  // Financial breakdown (similar to Cart)
   @override
   final double discountAmount;
   @override
@@ -545,35 +555,35 @@ class _$OrderImpl implements _Order {
   final double walletAmount;
   @override
   final double netAmount;
-// Delivery details
+  // Delivery details
   @override
   final Address deliveryAddress;
   @override
   final Address? billingAddress;
-// optional, if different from delivery
+  // optional, if different from delivery
   @override
   final String orderStatus;
-// e.g., 'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'
+  // e.g., 'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'
   @override
   final String paymentStatus;
-// e.g., 'pending', 'paid', 'failed', 'refunded'
+  // e.g., 'pending', 'paid', 'failed', 'refunded'
   @override
   final String? paymentMethod;
-// e.g., 'razorpay', 'cashfree', 'stripe', 'phonepe', 'google_pay', 'paytm', 'upi', 'credit_card', 'debit_card', 'net_banking', 'wallet', 'cod'
+  // e.g., 'razorpay', 'cashfree', 'stripe', 'phonepe', 'google_pay', 'paytm', 'upi', 'credit_card', 'debit_card', 'net_banking', 'wallet', 'cod'
   @override
   final String? deliveryInstructions;
   @override
   final bool contactlessDelivery;
   @override
   final DateTime? deliverySlotStart;
-// for scheduled delivery
+  // for scheduled delivery
   @override
   final DateTime? deliverySlotEnd;
   @override
   final DateTime estimatedDeliveryTime;
   @override
   final String? couponCode;
-// if any coupon applied
+  // if any coupon applied
   @override
   final DateTime createdAt;
   @override
@@ -587,41 +597,40 @@ class _$OrderImpl implements _Order {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$OrderImplToJson(
-      this,
-    );
+    return _$$OrderImplToJson(this);
   }
 }
 
 abstract class _Order implements Order {
-  const factory _Order(
-      {required final String id,
-      required final String? userId,
-      required final String cartId,
-      required final List<CartItem> items,
-      required final double discountAmount,
-      required final double totalAmount,
-      required final int itemCount,
-      required final double platformFee,
-      required final double deliveryCharges,
-      required final double packagingFee,
-      required final double gstAmount,
-      required final double tipAmount,
-      required final double walletAmount,
-      required final double netAmount,
-      required final Address deliveryAddress,
-      required final Address? billingAddress,
-      required final String orderStatus,
-      required final String paymentStatus,
-      required final String? paymentMethod,
-      required final String? deliveryInstructions,
-      required final bool contactlessDelivery,
-      required final DateTime? deliverySlotStart,
-      required final DateTime? deliverySlotEnd,
-      required final DateTime estimatedDeliveryTime,
-      required final String? couponCode,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$OrderImpl;
+  const factory _Order({
+    required final String id,
+    required final String? userId,
+    required final String cartId,
+    required final List<CartItem> items,
+    required final double discountAmount,
+    required final double totalAmount,
+    required final int itemCount,
+    required final double platformFee,
+    required final double deliveryCharges,
+    required final double packagingFee,
+    required final double gstAmount,
+    required final double tipAmount,
+    required final double walletAmount,
+    required final double netAmount,
+    required final Address deliveryAddress,
+    required final Address? billingAddress,
+    required final String orderStatus,
+    required final String paymentStatus,
+    required final String? paymentMethod,
+    required final String? deliveryInstructions,
+    required final bool contactlessDelivery,
+    required final DateTime? deliverySlotStart,
+    required final DateTime? deliverySlotEnd,
+    required final DateTime estimatedDeliveryTime,
+    required final String? couponCode,
+    required final DateTime createdAt,
+    required final DateTime updatedAt,
+  }) = _$OrderImpl;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
@@ -634,7 +643,7 @@ abstract class _Order implements Order {
   @override // id of the cart that was converted to order
   List<CartItem> get items;
   @override // snapshot of cart items at the time of order
-// Financial breakdown (similar to Cart)
+  // Financial breakdown (similar to Cart)
   double get discountAmount;
   @override
   double get totalAmount;

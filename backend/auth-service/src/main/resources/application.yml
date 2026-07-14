@@ -79,29 +79,11 @@ spring:
               - public_profile
 
 jwt:
-  secret: ${JWT_SECRET:your-super-secret-jwt-key-change-in-production}
+  secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
   refresh-token:
     expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000} # 7 days in milliseconds
 
-security:
-  oauth2:
-    client:
-      registration:
-        google:
-          client-id: ${GOOGLE_CLIENT_ID}
-          client-secret: ${GOOGLE_CLIENT_SECRET}
-          scope: openid, profile, email
-        apple:
-          client-id: ${APPLE_CLIENT_ID}
-          team-id: ${APPLE_TEAM_ID}
-          key-id: ${APPLE_KEY_ID}
-          private-key: ${APPLE_PRIVATE_KEY}
-          scope: name, email
-        facebook:
-          client-id: ${FACEBOOK_CLIENT_ID}
-          client-secret: ${FACEBOOK_CLIENT_SECRET}
-          scope: email, public_profile
 
 eureka:
   client:
@@ -117,11 +99,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus,loggers,env,beans,mappings,trace
+        include: health,info
   endpoint:
     health:
-      show-details: always
-      show-components: always
+      show-details: when-authorized
+      show-components: when-authorized
     prometheus:
       enabled: true
   metrics:

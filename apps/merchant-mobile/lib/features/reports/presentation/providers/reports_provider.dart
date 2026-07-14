@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/reports_service.dart';
 
-final reportsProvider = StateNotifierProvider<ReportsNotifier, ReportsState>((ref) {
+final reportsProvider = StateNotifierProvider<ReportsNotifier, ReportsState>((
+  ref,
+) {
   return ReportsNotifier(ref.read(reportsServiceProvider));
 });
 
@@ -23,7 +25,10 @@ class ReportsNotifier extends StateNotifier<ReportsState> {
   Future<void> generateMonthlyReport({String? month, String? year}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final report = await _reportsService.getMonthlyReport(month: month, year: year);
+      final report = await _reportsService.getMonthlyReport(
+        month: month,
+        year: year,
+      );
       state = state.copyWith(isLoading: false, monthlyReport: report);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
@@ -33,7 +38,10 @@ class ReportsNotifier extends StateNotifier<ReportsState> {
   Future<void> generateSalesReport({String? startDate, String? endDate}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final report = await _reportsService.getSalesReport(startDate: startDate, endDate: endDate);
+      final report = await _reportsService.getSalesReport(
+        startDate: startDate,
+        endDate: endDate,
+      );
       state = state.copyWith(isLoading: false, salesReport: report);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

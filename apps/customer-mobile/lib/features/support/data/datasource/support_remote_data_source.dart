@@ -20,7 +20,10 @@ abstract class SupportRemoteDataSource {
     List<String>? attachments,
   });
 
-  Future<void> updateSupportTicket(String ticketId, Map<String, dynamic> updates);
+  Future<void> updateSupportTicket(
+    String ticketId,
+    Map<String, dynamic> updates,
+  );
 
   Future<void> closeSupportTicket(String ticketId);
 
@@ -53,8 +56,9 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
 
   @override
   Future<SupportTicket> getSupportTicketById(String ticketId) async {
-    final response =
-        await dioClient.get('${SupportApiEndpoints.supportTickets}/$ticketId');
+    final response = await dioClient.get(
+      '${SupportApiEndpoints.supportTickets}/$ticketId',
+    );
     return SupportTicket.fromJson(response.data);
   }
 
@@ -80,7 +84,10 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
   }
 
   @override
-  Future<void> updateSupportTicket(String ticketId, Map<String, dynamic> updates) async {
+  Future<void> updateSupportTicket(
+    String ticketId,
+    Map<String, dynamic> updates,
+  ) async {
     await dioClient.put(
       '${SupportApiEndpoints.supportTickets}/$ticketId',
       data: updates,
@@ -95,7 +102,11 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
   }
 
   @override
-  Future<void> submitFeedback(String feedback, int rating, String? contactInfo) async {
+  Future<void> submitFeedback(
+    String feedback,
+    int rating,
+    String? contactInfo,
+  ) async {
     await dioClient.post(
       SupportApiEndpoints.feedback,
       data: {

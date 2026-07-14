@@ -11,7 +11,8 @@ class CartItem with _$CartItem {
     required String productId,
     required Product product,
     required int quantity,
-    required Map<String, String> selectedVariants, // e.g., {'size': 'M', 'color': 'Red'}
+    required Map<String, String>
+    selectedVariants, // e.g., {'size': 'M', 'color': 'Red'}
   }) = _CartItem;
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>

@@ -63,9 +63,10 @@ class MerchantService {
 }
 
 // Provider for merchant state
-final merchantStateProvider = StateNotifierProvider<MerchantStateNotifier, MerchantState>((ref) {
-  return MerchantStateNotifier(ref.read(merchantServiceProvider));
-});
+final merchantStateProvider =
+    StateNotifierProvider<MerchantStateNotifier, MerchantState>((ref) {
+      return MerchantStateNotifier(ref.read(merchantServiceProvider));
+    });
 
 class MerchantStateNotifier extends StateNotifier<MerchantState> {
   final MerchantService _merchantService;
@@ -134,9 +135,7 @@ class MerchantState {
     this.dashboardStats,
   });
 
-  factory MerchantState.initial() => MerchantState(
-        isLoading: false,
-      );
+  factory MerchantState.initial() => MerchantState(isLoading: false);
 
   MerchantState copyWith({
     bool? isLoading,

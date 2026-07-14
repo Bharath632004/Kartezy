@@ -11,7 +11,7 @@ class ReferralRepositoryImpl implements ReferralRepository {
   final ReferralRemoteDataSource _remoteDataSource;
 
   ReferralRepositoryImpl(this._ref)
-      : _remoteDataSource = ReferralRemoteDataSourceImpl(_ref);
+    : _remoteDataSource = ReferralRemoteDataSourceImpl(_ref);
 
   @override
   Future<Referral> getReferralCode() async {

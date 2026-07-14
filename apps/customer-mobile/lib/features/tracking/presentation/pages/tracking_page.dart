@@ -7,7 +7,7 @@ import 'package:customer_mobile/features/tracking/domain/models/tracking_info.da
 import 'package:customer_mobile/shared/widgets/button.dart';
 import 'package:customer_mobile/shared/widgets/card.dart';
 import 'package:customer_mobile/core/utils/formatters.dart';
-import 'package:customer_mobile/core/constants/app_constants.dart';
+import 'package:customer_mobile/core/config/app_constants.dart';
 
 class TrackingPage extends ConsumerWidget {
   final String orderId;

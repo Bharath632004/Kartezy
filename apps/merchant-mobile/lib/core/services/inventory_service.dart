@@ -62,7 +62,10 @@ class InventoryService {
     }
   }
 
-  Future<InventoryModel> updateInventory(String inventoryId, InventoryModel inventory) async {
+  Future<InventoryModel> updateInventory(
+    String inventoryId,
+    InventoryModel inventory,
+  ) async {
     try {
       final response = await _dio.put(
         '${ApiConstants.baseUrl}${ApiConstants.inventory}/$inventoryId',
@@ -97,7 +100,11 @@ class InventoryService {
     }
   }
 
-  Future<InventoryModel> transferStock(String fromInventoryId, String toInventoryId, int quantity) async {
+  Future<InventoryModel> transferStock(
+    String fromInventoryId,
+    String toInventoryId,
+    int quantity,
+  ) async {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.inventory}/transfer',

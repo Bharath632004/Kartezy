@@ -26,7 +26,9 @@ final orderRepositoryProvider = Provider<OrderRepository>((ref) {
 });
 
 // Providers for use cases
-final getAvailableOrdersUseCaseProvider = Provider<GetAvailableOrdersUseCase>((ref) {
+final getAvailableOrdersUseCaseProvider = Provider<GetAvailableOrdersUseCase>((
+  ref,
+) {
   final repository = ref.read(orderRepositoryProvider);
   return GetAvailableOrdersUseCase(repository);
 });
@@ -56,17 +58,20 @@ final deliverOrderUseCaseProvider = Provider<DeliverOrderUseCase>((ref) {
   return DeliverOrderUseCase(repository);
 });
 
-final submitProofOfDeliveryUseCaseProvider = Provider<SubmitProofOfDeliveryUseCase>((ref) {
-  final repository = ref.read(orderRepositoryProvider);
-  return SubmitProofOfDeliveryUseCase(repository);
-});
+final submitProofOfDeliveryUseCaseProvider =
+    Provider<SubmitProofOfDeliveryUseCase>((ref) {
+      final repository = ref.read(orderRepositoryProvider);
+      return SubmitProofOfDeliveryUseCase(repository);
+    });
 
 final getOrderHistoryUseCaseProvider = Provider<GetOrderHistoryUseCase>((ref) {
   final repository = ref.read(orderRepositoryProvider);
   return GetOrderHistoryUseCase(repository);
 });
 
-final getOrderTimelineUseCaseProvider = Provider<GetOrderTimelineUseCase>((ref) {
+final getOrderTimelineUseCaseProvider = Provider<GetOrderTimelineUseCase>((
+  ref,
+) {
   final repository = ref.read(orderRepositoryProvider);
   return GetOrderTimelineUseCase(repository);
 });

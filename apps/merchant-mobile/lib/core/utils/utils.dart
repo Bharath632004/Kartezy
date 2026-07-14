@@ -24,8 +24,11 @@ bool isPhoneNumberValid(String phone) {
   return RegExp(r'^[0-9]{10}$').hasMatch(phone);
 }
 
-void showSnackBar(BuildContext context, String message,
-    {bool isError = false}) {
+void showSnackBar(
+  BuildContext context,
+  String message, {
+  bool isError = false,
+}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),

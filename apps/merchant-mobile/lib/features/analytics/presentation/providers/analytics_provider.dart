@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/analytics_service.dart';
 
-final analyticsProvider = StateNotifierProvider<AnalyticsNotifier, AnalyticsState>((ref) {
-  return AnalyticsNotifier(ref.read(analyticsServiceProvider));
-});
+final analyticsProvider =
+    StateNotifierProvider<AnalyticsNotifier, AnalyticsState>((ref) {
+      return AnalyticsNotifier(ref.read(analyticsServiceProvider));
+    });
 
 class AnalyticsNotifier extends StateNotifier<AnalyticsState> {
   final AnalyticsService _analyticsService;
@@ -18,7 +19,8 @@ class AnalyticsNotifier extends StateNotifier<AnalyticsState> {
       // Fetch various analytics data
       final revenueAnalytics = await _analyticsService.getRevenueAnalytics();
       final ordersAnalytics = await _analyticsService.getOrdersAnalytics();
-      final customersAnalytics = await _analyticsService.getCustomersAnalytics();
+      final customersAnalytics = await _analyticsService
+          .getCustomersAnalytics();
       final bestSellers = await _analyticsService.getBestSellersAnalytics();
 
       state = state.copyWith(

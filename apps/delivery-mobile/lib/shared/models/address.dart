@@ -24,5 +24,6 @@ class Address with _$Address, EquatableMixin {
     required DateTime updatedAt,
   }) = _Address;
 
-  factory Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 }

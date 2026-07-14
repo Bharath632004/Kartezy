@@ -45,7 +45,10 @@ class InvoicesService {
   Future<Map<String, dynamic>> getInvoiceDetails(String invoiceId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesDetail}'.replaceAll('{id}', invoiceId),
+        '${ApiConstants.baseUrl}${ApiConstants.invoicesDetail}'.replaceAll(
+          '{id}',
+          invoiceId,
+        ),
       );
       return response.data;
     } catch (e) {
@@ -57,7 +60,10 @@ class InvoicesService {
   Future<List<int>> downloadInvoicePdf(String invoiceId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesDownloadPdf}'.replaceAll('{id}', invoiceId),
+        '${ApiConstants.baseUrl}${ApiConstants.invoicesDownloadPdf}'.replaceAll(
+          '{id}',
+          invoiceId,
+        ),
         options: Options(responseType: ResponseType.bytes),
       );
       return response.data as List<int>;
@@ -70,7 +76,10 @@ class InvoicesService {
   Future<void> printInvoice(String invoiceId) async {
     try {
       await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesPrint}'.replaceAll('{id}', invoiceId),
+        '${ApiConstants.baseUrl}${ApiConstants.invoicesPrint}'.replaceAll(
+          '{id}',
+          invoiceId,
+        ),
       );
       // In a real app, this might trigger a print dialog or return data for printing.
       // For now, we just call the endpoint.

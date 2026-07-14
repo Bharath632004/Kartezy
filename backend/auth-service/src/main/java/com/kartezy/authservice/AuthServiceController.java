@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
+import java.security.SecureRandom;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -422,9 +423,10 @@ public class AuthServiceController {
     }
 
     private String generateOtp(int length) {
+        SecureRandom random = new SecureRandom();
         StringBuilder otp = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            otp.append((int) (Math.random() * 10));
+            otp.append(random.nextInt(10));
         }
         return otp.toString();
     }

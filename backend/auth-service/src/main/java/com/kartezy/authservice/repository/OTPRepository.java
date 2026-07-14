@@ -19,6 +19,9 @@ public interface OTPRepository extends JpaRepository<OTP, Long> {
     // Find OTP by phone and purpose
     Optional<OTP> findByPhoneAndPurpose(String phone, String purpose);
 
+    // Find OTP by otp value and purpose and used status
+    Optional<OTP> findByOtpAndPurposeAndUsedFalse(String otp, String purpose);
+
     // Find valid OTP (not expired and not used)
     @Query("SELECT o FROM OTP o WHERE o.email = :email AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
     Optional<OTP> findValidByEmailAndPurpose(@Param("email") String email, @Param("purpose") String purpose, @Param("now") Instant now);

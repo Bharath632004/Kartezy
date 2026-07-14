@@ -16,15 +16,12 @@ class ReportsService {
   Dio get _dio => _dioClient.instance;
 
   // Daily Report
-  Future<Map<String, dynamic>> getDailyReport({
-    String? date,
-  }) async {
+  Future<Map<String, dynamic>> getDailyReport({String? date}) async {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsDaily}',
-        queryParameters: {
-          'date': date,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'date': date}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -40,10 +37,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsWeekly}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -59,10 +54,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsMonthly}',
-        queryParameters: {
-          'month': month,
-          'year': year,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'month': month, 'year': year}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -71,15 +64,12 @@ class ReportsService {
   }
 
   // Yearly Report
-  Future<Map<String, dynamic>> getYearlyReport({
-    String? year,
-  }) async {
+  Future<Map<String, dynamic>> getYearlyReport({String? year}) async {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsYearly}',
-        queryParameters: {
-          'year': year,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'year': year}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -95,10 +85,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsInventory}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -135,10 +123,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsSales}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -154,10 +140,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsFinancial}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -173,10 +157,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsRefund}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -192,10 +174,8 @@ class ReportsService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.reportsSettlement}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {

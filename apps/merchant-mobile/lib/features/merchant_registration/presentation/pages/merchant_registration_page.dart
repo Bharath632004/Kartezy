@@ -32,16 +32,14 @@ class _MerchantRegistrationPageState
 
   // Controllers for step 2: Store Details
   final TextEditingController _storeNameController = TextEditingController();
-  final TextEditingController _storeAddressController =
-      TextEditingController();
+  final TextEditingController _storeAddressController = TextEditingController();
   final TextEditingController _latitudeController = TextEditingController();
   final TextEditingController _longitudeController = TextEditingController();
   final TextEditingController _businessHoursController =
       TextEditingController();
   final TextEditingController _deliveryRadiusController =
       TextEditingController();
-  final TextEditingController _minimumOrderController =
-      TextEditingController();
+  final TextEditingController _minimumOrderController = TextEditingController();
 
   // Controllers for step 3: Documents & KYC
   // We'll handle file pickers later
@@ -69,234 +67,234 @@ class _MerchantRegistrationPageState
   }
 
   List<Step> getSteps() => [
-        Step(
-          title: const Text('Business Details'),
-          content: Form(
-            key: _formKey,
-            child: Column(
+    Step(
+      title: const Text('Business Details'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _businessNameController,
+              decoration: const InputDecoration(labelText: 'Business Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter business name';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _businessTypeController,
+              decoration: const InputDecoration(labelText: 'Business Type'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter business type';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _businessAddressController,
+              decoration: const InputDecoration(labelText: 'Business Address'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter business address';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _gstController,
+              decoration: const InputDecoration(labelText: 'GST Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter GST number';
+                }
+                // Add GST validation if needed
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _panController,
+              decoration: const InputDecoration(labelText: 'PAN Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter PAN number';
+                }
+                // Add PAN validation if needed
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _aadhaarController,
+              decoration: const InputDecoration(labelText: 'Aadhaar Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Aadhaar number';
+                }
+                // Add Aadhaar validation if needed
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _bankNameController,
+              decoration: const InputDecoration(labelText: 'Bank Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter bank name';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _accountNumberController,
+              decoration: const InputDecoration(labelText: 'Account Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter account number';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _ifscController,
+              decoration: const InputDecoration(labelText: 'IFSC Code'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter IFSC code';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _upiIdController,
+              decoration: const InputDecoration(labelText: 'UPI ID'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter UPI ID';
+                }
+                return null;
+              },
+            ),
+          ],
+        ),
+      ),
+    ),
+    Step(
+      title: const Text('Store Details'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _storeNameController,
+              decoration: const InputDecoration(labelText: 'Store Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter store name';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _storeAddressController,
+              decoration: const InputDecoration(labelText: 'Store Address'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter store address';
+                }
+                return null;
+              },
+            ),
+            Row(
               children: [
-                TextFormField(
-                  controller: _businessNameController,
-                  decoration: const InputDecoration(labelText: 'Business Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter business name';
-                    }
-                    return null;
-                  },
+                Expanded(
+                  child: TextFormField(
+                    controller: _latitudeController,
+                    decoration: const InputDecoration(labelText: 'Latitude'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter latitude';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                TextFormField(
-                  controller: _businessTypeController,
-                  decoration: const InputDecoration(labelText: 'Business Type'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter business type';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _businessAddressController,
-                  decoration: const InputDecoration(labelText: 'Business Address'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter business address';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _gstController,
-                  decoration: const InputDecoration(labelText: 'GST Number'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter GST number';
-                    }
-                    // Add GST validation if needed
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _panController,
-                  decoration: const InputDecoration(labelText: 'PAN Number'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter PAN number';
-                    }
-                    // Add PAN validation if needed
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _aadhaarController,
-                  decoration: const InputDecoration(labelText: 'Aadhaar Number'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Aadhaar number';
-                    }
-                    // Add Aadhaar validation if needed
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _bankNameController,
-                  decoration: const InputDecoration(labelText: 'Bank Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter bank name';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _accountNumberController,
-                  decoration: const InputDecoration(labelText: 'Account Number'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter account number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _ifscController,
-                  decoration: const InputDecoration(labelText: 'IFSC Code'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter IFSC code';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _upiIdController,
-                  decoration: const InputDecoration(labelText: 'UPI ID'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter UPI ID';
-                    }
-                    return null;
-                  },
+                const SizedBox(width: 16),
+                Expanded(
+                  child: TextFormField(
+                    controller: _longitudeController,
+                    decoration: const InputDecoration(labelText: 'Longitude'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter longitude';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ],
             ),
-          ),
-        ),
-        Step(
-          title: const Text('Store Details'),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _storeNameController,
-                  decoration: const InputDecoration(labelText: 'Store Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter store name';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _storeAddressController,
-                  decoration: const InputDecoration(labelText: 'Store Address'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter store address';
-                    }
-                    return null;
-                  },
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _latitudeController,
-                        decoration:
-                            const InputDecoration(labelText: 'Latitude'),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter latitude';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _longitudeController,
-                        decoration:
-                            const InputDecoration(labelText: 'Longitude'),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter longitude';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                TextFormField(
-                  controller: _businessHoursController,
-                  decoration: const InputDecoration(labelText: 'Business Hours'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter business hours';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _deliveryRadiusController,
-                  decoration: const InputDecoration(labelText: 'Delivery Radius (km)'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter delivery radius';
-                    }
-                    final double? valueAsDouble = double.tryParse(value);
-                    if (valueAsDouble == null || valueAsDouble <= 0) {
-                      return 'Please enter a valid positive number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _minimumOrderController,
-                  decoration: const InputDecoration(labelText: 'Minimum Order'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter minimum order';
-                    }
-                    final double? valueAsDouble = double.tryParse(value);
-                    if (valueAsDouble == null || valueAsDouble <= 0) {
-                      return 'Please enter a valid positive number';
-                    }
-                    return null;
-                  },
-                ),
-              ],
+            TextFormField(
+              controller: _businessHoursController,
+              decoration: const InputDecoration(labelText: 'Business Hours'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter business hours';
+                }
+                return null;
+              },
             ),
-          ),
+            TextFormField(
+              controller: _deliveryRadiusController,
+              decoration: const InputDecoration(
+                labelText: 'Delivery Radius (km)',
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter delivery radius';
+                }
+                final double? valueAsDouble = double.tryParse(value);
+                if (valueAsDouble == null || valueAsDouble <= 0) {
+                  return 'Please enter a valid positive number';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _minimumOrderController,
+              decoration: const InputDecoration(labelText: 'Minimum Order'),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter minimum order';
+                }
+                final double? valueAsDouble = double.tryParse(value);
+                if (valueAsDouble == null || valueAsDouble <= 0) {
+                  return 'Please enter a valid positive number';
+                }
+                return null;
+              },
+            ),
+          ],
         ),
-        Step(
-          title: const Text('Documents & KYC'),
-          content: const Column(
-            children: [
-              // Placeholder for document upload UI
-              Text('Document upload functionality will be implemented here.'),
-              SizedBox(height: 16),
-              Text('KYC status will be updated after verification.'),
-            ],
-          ),
-        ),
-      ];
+      ),
+    ),
+    Step(
+      title: const Text('Documents & KYC'),
+      content: const Column(
+        children: [
+          // Placeholder for document upload UI
+          Text('Document upload functionality will be implemented here.'),
+          SizedBox(height: 16),
+          Text('KYC status will be updated after verification.'),
+        ],
+      ),
+    ),
+  ];
 
   Future<void> _submitRegistration() async {
     if (!_formKey.currentState!.validate()) {
@@ -309,8 +307,9 @@ class _MerchantRegistrationPageState
       return;
     }
 
-    final merchantRegistrationNotifier =
-        ref.read(merchantRegistrationProvider.notifier);
+    final merchantRegistrationNotifier = ref.read(
+      merchantRegistrationProvider.notifier,
+    );
 
     // Prepare the data to send to the backend
     final merchantData = {
@@ -353,9 +352,9 @@ class _MerchantRegistrationPageState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Registration failed: $e')));
       }
     }
   }
@@ -365,9 +364,7 @@ class _MerchantRegistrationPageState
     final merchantRegistrationState = ref.watch(merchantRegistrationProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Merchant Registration'),
-      ),
+      appBar: AppBar(title: const Text('Merchant Registration')),
       body: merchantRegistrationState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : Stepper(

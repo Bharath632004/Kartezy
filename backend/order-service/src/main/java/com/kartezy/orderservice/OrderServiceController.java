@@ -5,12 +5,14 @@ import com.kartezy.orderservice.entity.Order;
 import com.kartezy.orderservice.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.*;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/orders")
 @AllArgsConstructor

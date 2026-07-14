@@ -17,6 +17,21 @@ abstract class SupportRepository {
     List<String>? attachments,
   });
 
-  Future<void> updateSupportTicket(String ticket;
-  };
+  Future<SupportTicket> updateSupportTicket({
+    required String ticketId,
+    String? title,
+    String? description,
+    String? status,
+    String? priority,
+    String? category,
+    List<String>? attachments,
+  });
+
+  Future<void> deleteSupportTicket(String ticketId);
+
+  Future<void> submitFeedback({
+    required String feedback,
+    required int rating,
+    String? contactInfo,
+  });
 }

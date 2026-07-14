@@ -19,14 +19,22 @@ void main() async {
 
   // Set up error handling
   FlutterError.onError = (FlutterErrorDetails details) {
-    LoggerService.instance.e('Flutter Error', error: details.exception, stackTrace: details.stackTrace);
+    LoggerService.instance.e(
+      'Flutter Error',
+      error: details.exception,
+      stackTrace: details.stackTrace,
+    );
     FirebaseService.instance.recordError(details.exception, details.stackTrace);
   };
 
   // Platform dispatcher errors (for Flutter errors in release)
   if (!kIsWeb) {
     PlatformDispatcher.instance.onError = (error, stackTrace) {
-      LoggerService.instance.e('Platform Dispatcher Error', error: error, stackTrace: stackTrace);
+      LoggerService.instance.e(
+        'Platform Dispatcher Error',
+        error: error,
+        stackTrace: stackTrace,
+      );
       FirebaseService.instance.recordError(error, stackTrace);
       return true;
     };
@@ -42,8 +50,15 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Set the error widget builder
     ErrorWidget.builder = (FlutterErrorDetails details) {
-      LoggerService.instance.e('UI Error', error: details.exception, stackTrace: details.stackTrace);
-      FirebaseService.instance.recordError(details.exception, details.stackTrace);
+      LoggerService.instance.e(
+        'UI Error',
+        error: details.exception,
+        stackTrace: details.stackTrace,
+      );
+      FirebaseService.instance.recordError(
+        details.exception,
+        details.stackTrace,
+      );
       return Scaffold(
         body: Center(
           child: Text(

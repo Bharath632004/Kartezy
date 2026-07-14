@@ -12,7 +12,9 @@ class WithdrawWalletMoneyUseCase {
 }
 
 /// Provider for withdraw wallet money use case
-final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>((ref) {
-  final repository = ref.read(walletRepositoryProvider);
-  return WithdrawWalletMoneyUseCase(repository);
-});
+final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>(
+  (ref) {
+    final repository = ref.read(walletRepositoryProvider);
+    return WithdrawWalletMoneyUseCase(repository);
+  },
+);

@@ -16,16 +16,13 @@ abstract class OrderRepository {
   Future<Order> deliverOrder(String orderId);
 
   Future<Order> submitProofOfDelivery(
-      String orderId,
-      String? signature,
-      List<String>? photos,
-      String? notes);
+    String orderId,
+    String? signature,
+    List<String>? photos,
+    String? notes,
+  );
 
-  Future<List<Order>> getOrderHistory({
-    int? page,
-    int? limit,
-    String? status,
-  });
+  Future<List<Order>> getOrderHistory({int? page, int? limit, String? status});
 
   Future<List<OrderTimeline>> getOrderTimeline(String orderId);
 }

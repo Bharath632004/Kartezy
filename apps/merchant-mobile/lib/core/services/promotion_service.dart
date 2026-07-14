@@ -44,7 +44,10 @@ class PromotionService {
   Future<Map<String, dynamic>> getPromotionById(String promotionId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionDetail}'.replaceAll('{id}', promotionId),
+        '${ApiConstants.baseUrl}${ApiConstants.promotionDetail}'.replaceAll(
+          '{id}',
+          promotionId,
+        ),
       );
       return response.data;
     } catch (e) {
@@ -52,7 +55,9 @@ class PromotionService {
     }
   }
 
-  Future<Map<String, dynamic>> createPromotion(Map<String, dynamic> promotionData) async {
+  Future<Map<String, dynamic>> createPromotion(
+    Map<String, dynamic> promotionData,
+  ) async {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.promotionCreate}',
@@ -64,10 +69,16 @@ class PromotionService {
     }
   }
 
-  Future<Map<String, dynamic>> updatePromotion(String promotionId, Map<String, dynamic> promotionData) async {
+  Future<Map<String, dynamic>> updatePromotion(
+    String promotionId,
+    Map<String, dynamic> promotionData,
+  ) async {
     try {
       final response = await _dio.put(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionUpdate}'.replaceAll('{id}', promotionId),
+        '${ApiConstants.baseUrl}${ApiConstants.promotionUpdate}'.replaceAll(
+          '{id}',
+          promotionId,
+        ),
         data: promotionData,
       );
       return response.data;
@@ -79,7 +90,10 @@ class PromotionService {
   Future<void> deletePromotion(String promotionId) async {
     try {
       await _dio.delete(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionDelete}'.replaceAll('{id}', promotionId),
+        '${ApiConstants.baseUrl}${ApiConstants.promotionDelete}'.replaceAll(
+          '{id}',
+          promotionId,
+        ),
       );
     } catch (e) {
       throw Exception('Failed to delete promotion: $e');
@@ -87,15 +101,16 @@ class PromotionService {
   }
 
   // Specific promotion types (if needed, otherwise use generic with type parameter)
-  Future<List<Map<String, dynamic>>> getCoupons({bool? isActive, int? page, int limit = 20}) async {
+  Future<List<Map<String, dynamic>>> getCoupons({
+    bool? isActive,
+    int? page,
+    int limit = 20,
+  }) async {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.promotionCoupons}',
-        queryParameters: {
-          'is_active': isActive,
-          'page': page,
-          'limit': limit,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'is_active': isActive, 'page': page, 'limit': limit}
+          ..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();

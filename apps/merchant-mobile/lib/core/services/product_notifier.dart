@@ -22,11 +22,11 @@ class ProductState extends Equatable {
   });
 
   factory ProductState.initial() => const ProductState(
-        isLoading: false,
-        products: [],
-        hasMore: false,
-        page: 1,
-      );
+    isLoading: false,
+    products: [],
+    hasMore: false,
+    page: 1,
+  );
 
   ProductState copyWith({
     bool? isLoading,
@@ -48,13 +48,13 @@ class ProductState extends Equatable {
 
   @override
   List<Object?> get props => [
-        isLoading,
-        error,
-        products,
-        selectedProduct,
-        hasMore,
-        page,
-      ];
+    isLoading,
+    error,
+    products,
+    selectedProduct,
+    hasMore,
+    page,
+  ];
 }
 
 class ProductNotifier extends StateNotifier<ProductState> {
@@ -128,11 +128,18 @@ class ProductNotifier extends StateNotifier<ProductState> {
   Future<void> updateProduct(String productId, ProductModel product) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final updatedProduct = await _productService.updateProduct(productId, product);
+      final updatedProduct = await _productService.updateProduct(
+        productId,
+        product,
+      );
       state = state.copyWith(
         isLoading: false,
-        products: state.products.map((p) => p.id == productId ? updatedProduct : p).toList(),
-        selectedProduct: state.selectedProduct?.id == productId ? updatedProduct : state.selectedProduct,
+        products: state.products
+            .map((p) => p.id == productId ? updatedProduct : p)
+            .toList(),
+        selectedProduct: state.selectedProduct?.id == productId
+            ? updatedProduct
+            : state.selectedProduct,
       );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
@@ -146,7 +153,9 @@ class ProductNotifier extends StateNotifier<ProductState> {
       state = state.copyWith(
         isLoading: false,
         products: state.products.where((p) => p.id != productId).toList(),
-        selectedProduct: state.selectedProduct?.id == productId ? null : state.selectedProduct,
+        selectedProduct: state.selectedProduct?.id == productId
+            ? null
+            : state.selectedProduct,
       );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
@@ -156,7 +165,9 @@ class ProductNotifier extends StateNotifier<ProductState> {
   Future<void> duplicateProduct(String productId) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final duplicatedProduct = await _productService.duplicateProduct(productId);
+      final duplicatedProduct = await _productService.duplicateProduct(
+        productId,
+      );
       state = state.copyWith(
         isLoading: false,
         products: [duplicatedProduct, ...state.products],
@@ -169,11 +180,18 @@ class ProductNotifier extends StateNotifier<ProductState> {
   Future<void> updateApprovalStatus(String productId, bool isActive) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final updatedProduct = await _productService.updateApprovalStatus(productId, isActive);
+      final updatedProduct = await _productService.updateApprovalStatus(
+        productId,
+        isActive,
+      );
       state = state.copyWith(
         isLoading: false,
-        products: state.products.map((p) => p.id == productId ? updatedProduct : p).toList(),
-        selectedProduct: state.selectedProduct?.id == productId ? updatedProduct : state.selectedProduct,
+        products: state.products
+            .map((p) => p.id == productId ? updatedProduct : p)
+            .toList(),
+        selectedProduct: state.selectedProduct?.id == productId
+            ? updatedProduct
+            : state.selectedProduct,
       );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
@@ -184,5 +202,5 @@ class ProductNotifier extends StateNotifier<ProductState> {
 // Provider
 final productNotifierProvider =
     StateNotifierProvider<ProductNotifier, ProductState>((ref) {
-  return ProductNotifier(ref.read(productServiceProvider));
-});
+      return ProductNotifier(ref.read(productServiceProvider));
+    });

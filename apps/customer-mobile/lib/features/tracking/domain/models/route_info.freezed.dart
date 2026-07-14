@@ -12,7 +12,8 @@ part of 'route_info.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 RouteInfo _$RouteInfoFromJson(Map<String, dynamic> json) {
   return _RouteInfo.fromJson(json);
@@ -41,16 +42,16 @@ abstract class $RouteInfoCopyWith<$Res> {
   factory $RouteInfoCopyWith(RouteInfo value, $Res Function(RouteInfo) then) =
       _$RouteInfoCopyWithImpl<$Res, RouteInfo>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
-      List<LatLng> polylineCoordinates,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      LatLng startPoint,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      LatLng endPoint,
-      double totalDistance,
-      Duration estimatedDuration});
+  $Res call({
+    String id,
+    @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
+    List<LatLng> polylineCoordinates,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    LatLng startPoint,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson) LatLng endPoint,
+    double totalDistance,
+    Duration estimatedDuration,
+  });
 }
 
 /// @nodoc
@@ -73,32 +74,35 @@ class _$RouteInfoCopyWithImpl<$Res, $Val extends RouteInfo>
     Object? totalDistance = null,
     Object? estimatedDuration = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      polylineCoordinates: null == polylineCoordinates
-          ? _value.polylineCoordinates
-          : polylineCoordinates // ignore: cast_nullable_to_non_nullable
-              as List<LatLng>,
-      startPoint: null == startPoint
-          ? _value.startPoint
-          : startPoint // ignore: cast_nullable_to_non_nullable
-              as LatLng,
-      endPoint: null == endPoint
-          ? _value.endPoint
-          : endPoint // ignore: cast_nullable_to_non_nullable
-              as LatLng,
-      totalDistance: null == totalDistance
-          ? _value.totalDistance
-          : totalDistance // ignore: cast_nullable_to_non_nullable
-              as double,
-      estimatedDuration: null == estimatedDuration
-          ? _value.estimatedDuration
-          : estimatedDuration // ignore: cast_nullable_to_non_nullable
-              as Duration,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            polylineCoordinates: null == polylineCoordinates
+                ? _value.polylineCoordinates
+                : polylineCoordinates // ignore: cast_nullable_to_non_nullable
+                      as List<LatLng>,
+            startPoint: null == startPoint
+                ? _value.startPoint
+                : startPoint // ignore: cast_nullable_to_non_nullable
+                      as LatLng,
+            endPoint: null == endPoint
+                ? _value.endPoint
+                : endPoint // ignore: cast_nullable_to_non_nullable
+                      as LatLng,
+            totalDistance: null == totalDistance
+                ? _value.totalDistance
+                : totalDistance // ignore: cast_nullable_to_non_nullable
+                      as double,
+            estimatedDuration: null == estimatedDuration
+                ? _value.estimatedDuration
+                : estimatedDuration // ignore: cast_nullable_to_non_nullable
+                      as Duration,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -106,20 +110,21 @@ class _$RouteInfoCopyWithImpl<$Res, $Val extends RouteInfo>
 abstract class _$$RouteInfoImplCopyWith<$Res>
     implements $RouteInfoCopyWith<$Res> {
   factory _$$RouteInfoImplCopyWith(
-          _$RouteInfoImpl value, $Res Function(_$RouteInfoImpl) then) =
-      __$$RouteInfoImplCopyWithImpl<$Res>;
+    _$RouteInfoImpl value,
+    $Res Function(_$RouteInfoImpl) then,
+  ) = __$$RouteInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
-      List<LatLng> polylineCoordinates,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      LatLng startPoint,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      LatLng endPoint,
-      double totalDistance,
-      Duration estimatedDuration});
+  $Res call({
+    String id,
+    @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
+    List<LatLng> polylineCoordinates,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    LatLng startPoint,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson) LatLng endPoint,
+    double totalDistance,
+    Duration estimatedDuration,
+  });
 }
 
 /// @nodoc
@@ -127,8 +132,9 @@ class __$$RouteInfoImplCopyWithImpl<$Res>
     extends _$RouteInfoCopyWithImpl<$Res, _$RouteInfoImpl>
     implements _$$RouteInfoImplCopyWith<$Res> {
   __$$RouteInfoImplCopyWithImpl(
-      _$RouteInfoImpl _value, $Res Function(_$RouteInfoImpl) _then)
-      : super(_value, _then);
+    _$RouteInfoImpl _value,
+    $Res Function(_$RouteInfoImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -140,49 +146,51 @@ class __$$RouteInfoImplCopyWithImpl<$Res>
     Object? totalDistance = null,
     Object? estimatedDuration = null,
   }) {
-    return _then(_$RouteInfoImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      polylineCoordinates: null == polylineCoordinates
-          ? _value._polylineCoordinates
-          : polylineCoordinates // ignore: cast_nullable_to_non_nullable
-              as List<LatLng>,
-      startPoint: null == startPoint
-          ? _value.startPoint
-          : startPoint // ignore: cast_nullable_to_non_nullable
-              as LatLng,
-      endPoint: null == endPoint
-          ? _value.endPoint
-          : endPoint // ignore: cast_nullable_to_non_nullable
-              as LatLng,
-      totalDistance: null == totalDistance
-          ? _value.totalDistance
-          : totalDistance // ignore: cast_nullable_to_non_nullable
-              as double,
-      estimatedDuration: null == estimatedDuration
-          ? _value.estimatedDuration
-          : estimatedDuration // ignore: cast_nullable_to_non_nullable
-              as Duration,
-    ));
+    return _then(
+      _$RouteInfoImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        polylineCoordinates: null == polylineCoordinates
+            ? _value._polylineCoordinates
+            : polylineCoordinates // ignore: cast_nullable_to_non_nullable
+                  as List<LatLng>,
+        startPoint: null == startPoint
+            ? _value.startPoint
+            : startPoint // ignore: cast_nullable_to_non_nullable
+                  as LatLng,
+        endPoint: null == endPoint
+            ? _value.endPoint
+            : endPoint // ignore: cast_nullable_to_non_nullable
+                  as LatLng,
+        totalDistance: null == totalDistance
+            ? _value.totalDistance
+            : totalDistance // ignore: cast_nullable_to_non_nullable
+                  as double,
+        estimatedDuration: null == estimatedDuration
+            ? _value.estimatedDuration
+            : estimatedDuration // ignore: cast_nullable_to_non_nullable
+                  as Duration,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RouteInfoImpl implements _RouteInfo {
-  const _$RouteInfoImpl(
-      {required this.id,
-      @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
-      required final List<LatLng> polylineCoordinates,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      required this.startPoint,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      required this.endPoint,
-      required this.totalDistance,
-      required this.estimatedDuration})
-      : _polylineCoordinates = polylineCoordinates;
+  const _$RouteInfoImpl({
+    required this.id,
+    @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
+    required final List<LatLng> polylineCoordinates,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required this.startPoint,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required this.endPoint,
+    required this.totalDistance,
+    required this.estimatedDuration,
+  }) : _polylineCoordinates = polylineCoordinates;
 
   factory _$RouteInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$RouteInfoImplFromJson(json);
@@ -221,8 +229,10 @@ class _$RouteInfoImpl implements _RouteInfo {
         (other.runtimeType == runtimeType &&
             other is _$RouteInfoImpl &&
             (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality()
-                .equals(other._polylineCoordinates, _polylineCoordinates) &&
+            const DeepCollectionEquality().equals(
+              other._polylineCoordinates,
+              _polylineCoordinates,
+            ) &&
             (identical(other.startPoint, startPoint) ||
                 other.startPoint == startPoint) &&
             (identical(other.endPoint, endPoint) ||
@@ -236,13 +246,14 @@ class _$RouteInfoImpl implements _RouteInfo {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      const DeepCollectionEquality().hash(_polylineCoordinates),
-      startPoint,
-      endPoint,
-      totalDistance,
-      estimatedDuration);
+    runtimeType,
+    id,
+    const DeepCollectionEquality().hash(_polylineCoordinates),
+    startPoint,
+    endPoint,
+    totalDistance,
+    estimatedDuration,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -252,23 +263,22 @@ class _$RouteInfoImpl implements _RouteInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RouteInfoImplToJson(
-      this,
-    );
+    return _$$RouteInfoImplToJson(this);
   }
 }
 
 abstract class _RouteInfo implements RouteInfo {
-  const factory _RouteInfo(
-      {required final String id,
-      @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
-      required final List<LatLng> polylineCoordinates,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      required final LatLng startPoint,
-      @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
-      required final LatLng endPoint,
-      required final double totalDistance,
-      required final Duration estimatedDuration}) = _$RouteInfoImpl;
+  const factory _RouteInfo({
+    required final String id,
+    @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
+    required final List<LatLng> polylineCoordinates,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required final LatLng startPoint,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required final LatLng endPoint,
+    required final double totalDistance,
+    required final Duration estimatedDuration,
+  }) = _$RouteInfoImpl;
 
   factory _RouteInfo.fromJson(Map<String, dynamic> json) =
       _$RouteInfoImpl.fromJson;

@@ -148,10 +148,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> register(String email, String password, Map<String, dynamic> profileData) async {
+  Future<User> register(
+    String email,
+    String password,
+    Map<String, dynamic> profileData,
+  ) async {
     try {
       final remoteDataSource = _ref.read(authRemoteDataSourceProvider);
-      final user = await remoteDataSource.register(email, password, profileData);
+      final user = await remoteDataSource.register(
+        email,
+        password,
+        profileData,
+      );
       // Store user info or token
       final secureStorage = _ref.read(secureStorageProvider);
       if (user.accessToken == null) {

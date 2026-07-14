@@ -8,7 +8,6 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.time.Instant;
-import java.util.UUID;
 
 /**
  * Base entity with common fields for all entities.
@@ -20,7 +19,7 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false, updatable = false)
-    private UUID id = UUID.randomUUID();
+    private Long id = 0L; // Will be set by @GeneratedValue on persist
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private long createdAt = Instant.now().toEpochMilli();
@@ -31,11 +30,11 @@ public abstract class BaseEntity {
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

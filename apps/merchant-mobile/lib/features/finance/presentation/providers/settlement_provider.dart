@@ -20,12 +20,12 @@ class SettlementState {
   });
 
   factory SettlementState.initial() => SettlementState(
-        isLoading: false,
-        settlementHistory: [],
-        pendingSettlements: [],
-        hasMoreHistory: false,
-        hasMorePending: false,
-      );
+    isLoading: false,
+    settlementHistory: [],
+    pendingSettlements: [],
+    hasMoreHistory: false,
+    hasMorePending: false,
+  );
 
   SettlementState copyWith({
     bool? isLoading,
@@ -65,7 +65,11 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
     if (refresh) {
       _historyPage = 1;
       _hasMoreHistory = true;
-      state = state.copyWith(isLoading: true, error: null, settlementHistory: []);
+      state = state.copyWith(
+        isLoading: true,
+        error: null,
+        settlementHistory: [],
+      );
     } else if (!state.isLoading) {
       state = state.copyWith(isLoading: true, error: null);
     }
@@ -95,20 +99,19 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
         _historyPage++;
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  Future<void> fetchPendingSettlements({
-    bool refresh = false,
-  }) async {
+  Future<void> fetchPendingSettlements({bool refresh = false}) async {
     if (refresh) {
       _pendingPage = 1;
       _hasMorePending = true;
-      state = state.copyWith(isLoading: true, error: null, pendingSettlements: []);
+      state = state.copyWith(
+        isLoading: true,
+        error: null,
+        pendingSettlements: [],
+      );
     } else if (!state.isLoading) {
       state = state.copyWith(isLoading: true, error: null);
     }
@@ -127,7 +130,10 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
       } else {
         state = state.copyWith(
           isLoading: false,
-          pendingSettlements: [...state.pendingSettlements, ...pendingSettlements],
+          pendingSettlements: [
+            ...state.pendingSettlements,
+            ...pendingSettlements,
+          ],
           hasMorePending: pendingSettlements.length >= 20,
         );
       }
@@ -136,10 +142,7 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
         _pendingPage++;
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
@@ -150,6 +153,7 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
 }
 
 // Provider
-final settlementProvider = StateNotifierProvider<SettlementNotifier, SettlementState>((ref) {
-  return SettlementNotifier(ref.read(financeServiceProvider));
-});
+final settlementProvider =
+    StateNotifierProvider<SettlementNotifier, SettlementState>((ref) {
+      return SettlementNotifier(ref.read(financeServiceProvider));
+    });

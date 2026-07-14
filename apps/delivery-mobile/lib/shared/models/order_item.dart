@@ -12,7 +12,8 @@ class OrderItem with _$OrderItem, EquatableMixin {
     required String productName,
     required double price,
     required int quantity,
-    required Map<String, String> selectedVariants, // e.g., {'size': 'M', 'color': 'Red'}
+    required Map<String, String>
+    selectedVariants, // e.g., {'size': 'M', 'color': 'Red'}
     required double total,
   }) = _OrderItem;
 

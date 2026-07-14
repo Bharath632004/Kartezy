@@ -12,8 +12,15 @@ class NavigationRepositoryImpl implements NavigationRepository {
 
   @override
   Future<List<RouteInfo>> getDirections(
-      String origin, String destination, bool alternatives) async {
-    return await _remoteDataSource.getDirections(origin, destination, alternatives);
+    String origin,
+    String destination,
+    bool alternatives,
+  ) async {
+    return await _remoteDataSource.getDirections(
+      origin,
+      destination,
+      alternatives,
+    );
   }
 
   @override
@@ -22,7 +29,9 @@ class NavigationRepositoryImpl implements NavigationRepository {
   }
 
   @override
-  Stream<Position> getLocationStream({LocationAccuracy accuracy = LocationAccuracy.high}) {
+  Stream<Position> getLocationStream({
+    LocationAccuracy accuracy = LocationAccuracy.high,
+  }) {
     return _remoteDataSource.getLocationStream(accuracy: accuracy);
   }
 

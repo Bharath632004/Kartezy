@@ -7,44 +7,46 @@ part of 'order.dart';
 // **************************************************************************
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
-      id: json['id'] as String,
-      userId: json['userId'] as String?,
-      cartId: json['cartId'] as String,
-      items: (json['items'] as List<dynamic>)
-          .map((e) => CartItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      discountAmount: (json['discountAmount'] as num).toDouble(),
-      totalAmount: (json['totalAmount'] as num).toDouble(),
-      itemCount: (json['itemCount'] as num).toInt(),
-      platformFee: (json['platformFee'] as num).toDouble(),
-      deliveryCharges: (json['deliveryCharges'] as num).toDouble(),
-      packagingFee: (json['packagingFee'] as num).toDouble(),
-      gstAmount: (json['gstAmount'] as num).toDouble(),
-      tipAmount: (json['tipAmount'] as num).toDouble(),
-      walletAmount: (json['walletAmount'] as num).toDouble(),
-      netAmount: (json['netAmount'] as num).toDouble(),
-      deliveryAddress:
-          Address.fromJson(json['deliveryAddress'] as Map<String, dynamic>),
-      billingAddress: json['billingAddress'] == null
-          ? null
-          : Address.fromJson(json['billingAddress'] as Map<String, dynamic>),
-      orderStatus: json['orderStatus'] as String,
-      paymentStatus: json['paymentStatus'] as String,
-      paymentMethod: json['paymentMethod'] as String?,
-      deliveryInstructions: json['deliveryInstructions'] as String?,
-      contactlessDelivery: json['contactlessDelivery'] as bool,
-      deliverySlotStart: json['deliverySlotStart'] == null
-          ? null
-          : DateTime.parse(json['deliverySlotStart'] as String),
-      deliverySlotEnd: json['deliverySlotEnd'] == null
-          ? null
-          : DateTime.parse(json['deliverySlotEnd'] as String),
-      estimatedDeliveryTime:
-          DateTime.parse(json['estimatedDeliveryTime'] as String),
-      couponCode: json['couponCode'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-    );
+  id: json['id'] as String,
+  userId: json['userId'] as String?,
+  cartId: json['cartId'] as String,
+  items: (json['items'] as List<dynamic>)
+      .map((e) => CartItem.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  discountAmount: (json['discountAmount'] as num).toDouble(),
+  totalAmount: (json['totalAmount'] as num).toDouble(),
+  itemCount: (json['itemCount'] as num).toInt(),
+  platformFee: (json['platformFee'] as num).toDouble(),
+  deliveryCharges: (json['deliveryCharges'] as num).toDouble(),
+  packagingFee: (json['packagingFee'] as num).toDouble(),
+  gstAmount: (json['gstAmount'] as num).toDouble(),
+  tipAmount: (json['tipAmount'] as num).toDouble(),
+  walletAmount: (json['walletAmount'] as num).toDouble(),
+  netAmount: (json['netAmount'] as num).toDouble(),
+  deliveryAddress: Address.fromJson(
+    json['deliveryAddress'] as Map<String, dynamic>,
+  ),
+  billingAddress: json['billingAddress'] == null
+      ? null
+      : Address.fromJson(json['billingAddress'] as Map<String, dynamic>),
+  orderStatus: json['orderStatus'] as String,
+  paymentStatus: json['paymentStatus'] as String,
+  paymentMethod: json['paymentMethod'] as String?,
+  deliveryInstructions: json['deliveryInstructions'] as String?,
+  contactlessDelivery: json['contactlessDelivery'] as bool,
+  deliverySlotStart: json['deliverySlotStart'] == null
+      ? null
+      : DateTime.parse(json['deliverySlotStart'] as String),
+  deliverySlotEnd: json['deliverySlotEnd'] == null
+      ? null
+      : DateTime.parse(json['deliverySlotEnd'] as String),
+  estimatedDeliveryTime: DateTime.parse(
+    json['estimatedDeliveryTime'] as String,
+  ),
+  couponCode: json['couponCode'] as String?,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+);
 
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     <String, dynamic>{

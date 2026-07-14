@@ -12,7 +12,9 @@ class GetWalletBalanceUseCase {
 }
 
 /// Provider for get wallet balance use case
-final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((ref) {
+final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((
+  ref,
+) {
   final repository = ref.read(walletRepositoryProvider);
   return GetWalletBalanceUseCase(repository);
 });

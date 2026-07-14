@@ -11,7 +11,8 @@ class ProductVariant with _$ProductVariant, EquatableMixin {
     required String productId,
     required String sku,
     required double price,
-    required Map<String, String> attributes, // e.g., {'size': 'M', 'color': 'Red'}
+    required Map<String, String>
+    attributes, // e.g., {'size': 'M', 'color': 'Red'}
     required bool isDefault,
   }) = _ProductVariant;
 

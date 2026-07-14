@@ -8,9 +8,12 @@ part 'route_info.g.dart';
 class RouteInfo with _$RouteInfo {
   const factory RouteInfo({
     required String id,
-    @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson) required List<LatLng> polylineCoordinates,
-    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson) required LatLng startPoint,
-    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson) required LatLng endPoint,
+    @JsonKey(fromJson: _latLngListFromJson, toJson: _latLngListToJson)
+    required List<LatLng> polylineCoordinates,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required LatLng startPoint,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required LatLng endPoint,
     required double totalDistance,
     required Duration estimatedDuration,
   }) = _RouteInfo;
@@ -25,12 +28,10 @@ List<LatLng> _latLngListFromJson(List<dynamic> json) =>
 List<Map<String, dynamic>> _latLngListToJson(List<LatLng> list) =>
     list.map((e) => _latLngToJson(e)).toList();
 
-LatLng _latLngFromJson(Map<String, dynamic> json) => LatLng(
-      json['latitude'] as double,
-      json['longitude'] as double,
-    );
+LatLng _latLngFromJson(Map<String, dynamic> json) =>
+    LatLng(json['latitude'] as double, json['longitude'] as double);
 
 Map<String, dynamic> _latLngToJson(LatLng latLng) => {
-      'latitude': latLng.latitude,
-      'longitude': latLng.longitude,
-    };
+  'latitude': latLng.latitude,
+  'longitude': latLng.longitude,
+};

@@ -93,34 +93,38 @@ class MerchantProfile extends Equatable {
       businessHours: json['business_hours'],
       deliveryRadius: json['delivery_radius'],
       minimumOrder: json['minimum_order'],
-      storeImages: json['store_images'] != null ? List<String>.from(json['store_images']) : null,
+      storeImages: json['store_images'] != null
+          ? List<String>.from(json['store_images'])
+          : null,
       storeLogo: json['store_logo'],
-      documents: json['documents'] != null ? List<String>.from(json['documents']) : null,
+      documents: json['documents'] != null
+          ? List<String>.from(json['documents'])
+          : null,
     );
   }
 
   @override
   List<Object?> get props => [
-        storeName,
-        ownerName,
-        mobile,
-        email,
-        gst,
-        pan,
-        aadhaar,
-        bankAccount,
-        ifsc,
-        upiId,
-        businessCategory,
-        businessType,
-        storeAddress,
-        latitude,
-        longitude,
-        businessHours,
-        deliveryRadius,
-        minimumOrder,
-        storeImages,
-        storeLogo,
-        documents,
-      ];
+    storeName,
+    ownerName,
+    mobile,
+    email,
+    gst,
+    pan,
+    aadhaar,
+    bankAccount,
+    ifsc,
+    upiId,
+    businessCategory,
+    businessType,
+    storeAddress,
+    latitude,
+    longitude,
+    businessHours,
+    deliveryRadius,
+    minimumOrder,
+    storeImages,
+    storeLogo,
+    documents,
+  ];
 }

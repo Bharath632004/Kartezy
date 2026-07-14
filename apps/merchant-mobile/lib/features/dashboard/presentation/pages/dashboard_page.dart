@@ -30,85 +30,89 @@ class DashboardPage extends ConsumerWidget {
       body: dashboardState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : dashboardState.error != null
-              ? Center(
-                  child: Text(
-                    'Error: ${dashboardState.error}',
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                )
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          ? Center(
+              child: Text(
+                'Error: ${dashboardState.error}',
+                style: const TextStyle(color: Colors.red),
+              ),
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Today's Overview
+                  _buildOverviewCard(
+                    title: 'Today Overview',
                     children: [
-                      // Today's Overview
-                      _buildOverviewCard(
-                        title: 'Today Overview',
-                        children: [
-                          _buildStatItem(
-                            label: 'Sales',
-                            value: '\$${dashboardState.todaySales.toStringAsFixed(2)}',
-                            icon: Icons.sell,
-                          ),
-                          _buildStatItem(
-                            label: 'Orders',
-                            value: '${dashboardState.orders}',
-                            icon: Icons.shopping_cart,
-                          ),
-                        ],
+                      _buildStatItem(
+                        label: 'Sales',
+                        value:
+                            '\$${dashboardState.todaySales.toStringAsFixed(2)}',
+                        icon: Icons.sell,
                       ),
-                      const SizedBox(height: 16),
-                      // Order Status
-                      _buildOrderStatusCard(
-                        pending: dashboardState.pendingOrders,
-                        cancelled: dashboardState.cancelledOrders,
+                      _buildStatItem(
+                        label: 'Orders',
+                        value: '${dashboardState.orders}',
+                        icon: Icons.shopping_cart,
                       ),
-                      const SizedBox(height: 16),
-                      // Visitors and Rating
-                      _buildStatsCard(
-                        title: 'Visitors & Rating',
-                        children: [
-                          _buildStatItem(
-                            label: 'Visitors',
-                            value: '${dashboardState.visitors}',
-                            icon: Icons.person,
-                          ),
-                          _buildStatItem(
-                            label: 'Rating',
-                            value: '${dashboardState.rating.toStringAsFixed(1)}',
-                            icon: Icons.star,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      // Revenue and Earnings
-                      _buildStatsCard(
-                        title: 'Revenue & Earnings',
-                        children: [
-                          _buildStatItem(
-                            label: 'Revenue',
-                            value: '\$${dashboardState.revenue.toStringAsFixed(2)}',
-                            icon: Icons.attach_money,
-                          ),
-                          _buildStatItem(
-                            label: 'Average Order Value',
-                            value: dashboardState.orders > 0
-                                ? '\$${(dashboardState.revenue / dashboardState.orders).toStringAsFixed(2)}'
-                                : '\$0.00',
-                            icon: Icons.attach_money,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      // Featured Features
-                      _buildFeaturesCard(),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  // Order Status
+                  _buildOrderStatusCard(
+                    pending: dashboardState.pendingOrders,
+                    cancelled: dashboardState.cancelledOrders,
+                  ),
+                  const SizedBox(height: 16),
+                  // Visitors and Rating
+                  _buildStatsCard(
+                    title: 'Visitors & Rating',
+                    children: [
+                      _buildStatItem(
+                        label: 'Visitors',
+                        value: '${dashboardState.visitors}',
+                        icon: Icons.person,
+                      ),
+                      _buildStatItem(
+                        label: 'Rating',
+                        value: '${dashboardState.rating.toStringAsFixed(1)}',
+                        icon: Icons.star,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  // Revenue and Earnings
+                  _buildStatsCard(
+                    title: 'Revenue & Earnings',
+                    children: [
+                      _buildStatItem(
+                        label: 'Revenue',
+                        value: '\$${dashboardState.revenue.toStringAsFixed(2)}',
+                        icon: Icons.attach_money,
+                      ),
+                      _buildStatItem(
+                        label: 'Average Order Value',
+                        value: dashboardState.orders > 0
+                            ? '\$${(dashboardState.revenue / dashboardState.orders).toStringAsFixed(2)}'
+                            : '\$0.00',
+                        icon: Icons.attach_money,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  // Featured Features
+                  _buildFeaturesCard(),
+                ],
+              ),
+            ),
     );
   }
 
-  Widget _buildOverviewCard({required String title, required List<Widget> children}) {
+  Widget _buildOverviewCard({
+    required String title,
+    required List<Widget> children,
+  }) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -117,10 +121,7 @@ class DashboardPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,22 +133,20 @@ class DashboardPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatItem({required String label, required String value, required IconData icon}) {
+  Widget _buildStatItem({
+    required String label,
+    required String value,
+    required IconData icon,
+  }) {
     return Column(
       children: [
         Icon(icon, size: 32),
         const SizedBox(height: 8),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        Text(
-          label,
-          style: TextStyle(fontSize: 12),
-        ),
+        Text(label, style: TextStyle(fontSize: 12)),
       ],
     );
   }
@@ -187,7 +186,11 @@ class DashboardPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatusItem({required String label, required String value, required Color color}) {
+  Widget _buildStatusItem({
+    required String label,
+    required String value,
+    required Color color,
+  }) {
     return Column(
       children: [
         Text(
@@ -198,15 +201,15 @@ class DashboardPage extends ConsumerWidget {
             color: color,
           ),
         ),
-        Text(
-          label,
-          style: TextStyle(color: color, fontSize: 12),
-        ),
+        Text(label, style: TextStyle(color: color, fontSize: 12)),
       ],
     );
   }
 
-  Widget _buildStatsCard({required String title, required List<Widget> children}) {
+  Widget _buildStatsCard({
+    required String title,
+    required List<Widget> children,
+  }) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -215,10 +218,7 @@ class DashboardPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,9 +257,7 @@ class DashboardPage extends ConsumerWidget {
                   label: 'Promotions',
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const PromotionsPage(),
-                      ),
+                      MaterialPageRoute(builder: (_) => const PromotionsPage()),
                     );
                   },
                 ),
@@ -290,9 +288,7 @@ class DashboardPage extends ConsumerWidget {
                   label: 'Reports',
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const ReportsPage(),
-                      ),
+                      MaterialPageRoute(builder: (_) => const ReportsPage()),
                     );
                   },
                 ),
@@ -312,9 +308,7 @@ class DashboardPage extends ConsumerWidget {
                   label: 'Invoices',
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const InvoicesPage(),
-                      ),
+                      MaterialPageRoute(builder: (_) => const InvoicesPage()),
                     );
                   },
                 ),

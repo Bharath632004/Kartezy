@@ -10,10 +10,12 @@ import 'package:delivery_mobile/features/navigation/domain/usecase/get_location_
 import 'package:kratezy_core/core/providers/network_provider.dart';
 
 // Providers for data source and repository
-final navigationRemoteDataSourceProvider = Provider<NavigationRemoteDataSource>((ref) {
-  final dio = ref.read(dioProvider);
-  return NavigationRemoteDataSource(dio);
-});
+final navigationRemoteDataSourceProvider = Provider<NavigationRemoteDataSource>(
+  (ref) {
+    final dio = ref.read(dioProvider);
+    return NavigationRemoteDataSource(dio);
+  },
+);
 
 final navigationRepositoryProvider = Provider<NavigationRepository>((ref) {
   final remoteDataSource = ref.read(navigationRemoteDataSourceProvider);
@@ -26,17 +28,22 @@ final getDirectionsUseCaseProvider = Provider<GetDirectionsUseCase>((ref) {
   return GetDirectionsUseCase(repository);
 });
 
-final getCurrentLocationUseCaseProvider = Provider<GetCurrentLocationUseCase>((ref) {
+final getCurrentLocationUseCaseProvider = Provider<GetCurrentLocationUseCase>((
+  ref,
+) {
   final repository = ref.read(navigationRepositoryProvider);
   return GetCurrentLocationUseCase(repository);
 });
 
-final getLocationStreamUseCaseProvider = Provider<GetLocationStreamUseCase>((ref) {
+final getLocationStreamUseCaseProvider = Provider<GetLocationStreamUseCase>((
+  ref,
+) {
   final repository = ref.read(navigationRepositoryProvider);
   return GetLocationStreamUseCase(repository);
 });
 
-final cancelNavigationRequestUseCaseProvider = Provider<CancelNavigationRequestUseCase>((ref) {
-  final repository = ref.read(navigationRepositoryProvider);
-  return CancelNavigationRequestUseCase(repository);
-});
+final cancelNavigationRequestUseCaseProvider =
+    Provider<CancelNavigationRequestUseCase>((ref) {
+      final repository = ref.read(navigationRepositoryProvider);
+      return CancelNavigationRequestUseCase(repository);
+    });

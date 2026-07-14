@@ -5,12 +5,14 @@ import com.kartezy.merchantservice.entity.Merchant;
 import com.kartezy.merchantservice.repository.MerchantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.*;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/merchants")
 @AllArgsConstructor

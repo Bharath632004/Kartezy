@@ -22,8 +22,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     // Check if the user has seen the onboarding
-    final hasSeenOnboarding =
-        await ref.read(hiveManagerProvider).getHasSeenOnboarding();
+    final hasSeenOnboarding = await ref
+        .read(hiveManagerProvider)
+        .getHasSeenOnboarding();
 
     if (!mounted) return;
 
@@ -32,8 +33,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       GoRouter.of(context).go('/onboarding');
     } else {
       // Check if user is logged in
-      final isLoggedIn =
-          await ref.read(authServiceProvider).isLoggedIn();
+      final isLoggedIn = await ref.read(authServiceProvider).isLoggedIn();
       if (isLoggedIn) {
         GoRouter.of(context).go('/dashboard');
       } else {
@@ -50,11 +50,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.store,
-              size: 80,
-              color: Colors.deepPurple,
-            ),
+            Icon(Icons.store, size: 80, color: Colors.deepPurple),
             SizedBox(height: 24),
             Text(
               'Kartzezy Merchant',

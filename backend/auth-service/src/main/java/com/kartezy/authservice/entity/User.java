@@ -101,13 +101,3 @@ public class User extends AuditableEntity {
         role.getUsers().remove(this);
     }
 }
-
-/**
- * User status enum.
- */
-enum UserStatus {
-    ACTIVE,
-    INACTIVE,
-    LOCKED,
-    PENDING_VERIFICATION
-}

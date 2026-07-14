@@ -4,11 +4,16 @@ import 'package:geolocator/geolocator.dart';
 
 abstract class NavigationRepository {
   Future<List<RouteInfo>> getDirections(
-      String origin, String destination, bool alternatives);
+    String origin,
+    String destination,
+    bool alternatives,
+  );
 
   Future<Position> getCurrentLocation();
 
-  Stream<Position> getLocationStream({LocationAccuracy accuracy = LocationAccuracy.high});
+  Stream<Position> getLocationStream({
+    LocationAccuracy accuracy = LocationAccuracy.high,
+  });
 
   Future<void> cancelRequest();
 }

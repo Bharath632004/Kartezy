@@ -12,8 +12,9 @@ class GetAvailableOrdersUseCase {
 }
 
 /// Provider for get available orders use case
-final getAvailableOrdersUseCaseProvider =
-    Provider<GetAvailableOrdersUseCase>((ref) {
+final getAvailableOrdersUseCaseProvider = Provider<GetAvailableOrdersUseCase>((
+  ref,
+) {
   final repository = ref.read(orderRepositoryProvider);
   return GetAvailableOrdersUseCase(repository);
 });

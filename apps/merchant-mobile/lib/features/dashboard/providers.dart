@@ -63,7 +63,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   final DashboardRepository _dashboardRepository;
 
   DashboardNotifier(this._dashboardRepository)
-      : super(DashboardState(
+    : super(
+        DashboardState(
           todaySales: 0,
           revenue: 0,
           orders: 0,
@@ -73,7 +74,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
           rating: 0,
           isLoading: false,
           error: null,
-        )) {
+        ),
+      ) {
     _loadDashboardData();
   }
 
@@ -92,17 +94,13 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         isLoading: false,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
       rethrow;
     }
   }
 }
 
-final dashboardProvider = StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
-  return DashboardNotifier(
-    ref.read(dashboardRepositoryProvider),
-  );
-});
+final dashboardProvider =
+    StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
+      return DashboardNotifier(ref.read(dashboardRepositoryProvider));
+    });

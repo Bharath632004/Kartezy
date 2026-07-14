@@ -73,9 +73,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          hiveManagerProvider.overrideWithValue(mockHiveManager),
-        ],
+        overrides: [hiveManagerProvider.overrideWithValue(mockHiveManager)],
         child: const MyApp(),
       ),
     );

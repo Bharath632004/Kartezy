@@ -12,7 +12,8 @@ part of 'cart_item.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 CartItem _$CartItemFromJson(Map<String, dynamic> json) {
   return _CartItem.fromJson(json);
@@ -38,12 +39,13 @@ abstract class $CartItemCopyWith<$Res> {
   factory $CartItemCopyWith(CartItem value, $Res Function(CartItem) then) =
       _$CartItemCopyWithImpl<$Res, CartItem>;
   @useResult
-  $Res call(
-      {String id,
-      String productId,
-      Product product,
-      int quantity,
-      Map<String, String> selectedVariants});
+  $Res call({
+    String id,
+    String productId,
+    Product product,
+    int quantity,
+    Map<String, String> selectedVariants,
+  });
 
   $ProductCopyWith<$Res> get product;
 }
@@ -67,28 +69,31 @@ class _$CartItemCopyWithImpl<$Res, $Val extends CartItem>
     Object? quantity = null,
     Object? selectedVariants = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      productId: null == productId
-          ? _value.productId
-          : productId // ignore: cast_nullable_to_non_nullable
-              as String,
-      product: null == product
-          ? _value.product
-          : product // ignore: cast_nullable_to_non_nullable
-              as Product,
-      quantity: null == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectedVariants: null == selectedVariants
-          ? _value.selectedVariants
-          : selectedVariants // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            productId: null == productId
+                ? _value.productId
+                : productId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            product: null == product
+                ? _value.product
+                : product // ignore: cast_nullable_to_non_nullable
+                      as Product,
+            quantity: null == quantity
+                ? _value.quantity
+                : quantity // ignore: cast_nullable_to_non_nullable
+                      as int,
+            selectedVariants: null == selectedVariants
+                ? _value.selectedVariants
+                : selectedVariants // ignore: cast_nullable_to_non_nullable
+                      as Map<String, String>,
+          )
+          as $Val,
+    );
   }
 
   @override
@@ -104,16 +109,18 @@ class _$CartItemCopyWithImpl<$Res, $Val extends CartItem>
 abstract class _$$CartItemImplCopyWith<$Res>
     implements $CartItemCopyWith<$Res> {
   factory _$$CartItemImplCopyWith(
-          _$CartItemImpl value, $Res Function(_$CartItemImpl) then) =
-      __$$CartItemImplCopyWithImpl<$Res>;
+    _$CartItemImpl value,
+    $Res Function(_$CartItemImpl) then,
+  ) = __$$CartItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String productId,
-      Product product,
-      int quantity,
-      Map<String, String> selectedVariants});
+  $Res call({
+    String id,
+    String productId,
+    Product product,
+    int quantity,
+    Map<String, String> selectedVariants,
+  });
 
   @override
   $ProductCopyWith<$Res> get product;
@@ -124,8 +131,9 @@ class __$$CartItemImplCopyWithImpl<$Res>
     extends _$CartItemCopyWithImpl<$Res, _$CartItemImpl>
     implements _$$CartItemImplCopyWith<$Res> {
   __$$CartItemImplCopyWithImpl(
-      _$CartItemImpl _value, $Res Function(_$CartItemImpl) _then)
-      : super(_value, _then);
+    _$CartItemImpl _value,
+    $Res Function(_$CartItemImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -136,41 +144,43 @@ class __$$CartItemImplCopyWithImpl<$Res>
     Object? quantity = null,
     Object? selectedVariants = null,
   }) {
-    return _then(_$CartItemImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      productId: null == productId
-          ? _value.productId
-          : productId // ignore: cast_nullable_to_non_nullable
-              as String,
-      product: null == product
-          ? _value.product
-          : product // ignore: cast_nullable_to_non_nullable
-              as Product,
-      quantity: null == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectedVariants: null == selectedVariants
-          ? _value._selectedVariants
-          : selectedVariants // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-    ));
+    return _then(
+      _$CartItemImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        productId: null == productId
+            ? _value.productId
+            : productId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        product: null == product
+            ? _value.product
+            : product // ignore: cast_nullable_to_non_nullable
+                  as Product,
+        quantity: null == quantity
+            ? _value.quantity
+            : quantity // ignore: cast_nullable_to_non_nullable
+                  as int,
+        selectedVariants: null == selectedVariants
+            ? _value._selectedVariants
+            : selectedVariants // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CartItemImpl implements _CartItem {
-  const _$CartItemImpl(
-      {required this.id,
-      required this.productId,
-      required this.product,
-      required this.quantity,
-      required final Map<String, String> selectedVariants})
-      : _selectedVariants = selectedVariants;
+  const _$CartItemImpl({
+    required this.id,
+    required this.productId,
+    required this.product,
+    required this.quantity,
+    required final Map<String, String> selectedVariants,
+  }) : _selectedVariants = selectedVariants;
 
   factory _$CartItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$CartItemImplFromJson(json);
@@ -207,14 +217,22 @@ class _$CartItemImpl implements _CartItem {
             (identical(other.product, product) || other.product == product) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedVariants, _selectedVariants));
+            const DeepCollectionEquality().equals(
+              other._selectedVariants,
+              _selectedVariants,
+            ));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, productId, product, quantity,
-      const DeepCollectionEquality().hash(_selectedVariants));
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    productId,
+    product,
+    quantity,
+    const DeepCollectionEquality().hash(_selectedVariants),
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -224,19 +242,18 @@ class _$CartItemImpl implements _CartItem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CartItemImplToJson(
-      this,
-    );
+    return _$$CartItemImplToJson(this);
   }
 }
 
 abstract class _CartItem implements CartItem {
-  const factory _CartItem(
-      {required final String id,
-      required final String productId,
-      required final Product product,
-      required final int quantity,
-      required final Map<String, String> selectedVariants}) = _$CartItemImpl;
+  const factory _CartItem({
+    required final String id,
+    required final String productId,
+    required final Product product,
+    required final int quantity,
+    required final Map<String, String> selectedVariants,
+  }) = _$CartItemImpl;
 
   factory _CartItem.fromJson(Map<String, dynamic> json) =
       _$CartItemImpl.fromJson;

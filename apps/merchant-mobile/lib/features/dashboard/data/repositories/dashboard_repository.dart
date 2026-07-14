@@ -13,10 +13,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
   DashboardRepositoryImpl({
     required AuthService authService,
     required DioClient dioClient,
-  }) : remoteDataSource = DashboardRemoteDataSourceImpl(
-          authService,
-          dioClient,
-        );
+  }) : remoteDataSource = DashboardRemoteDataSourceImpl(authService, dioClient);
 
   @override
   Future<DashboardModel> getDashboardData() async {

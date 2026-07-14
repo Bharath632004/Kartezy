@@ -26,15 +26,19 @@ class _EditProductPageState extends ConsumerState<EditProductPage> {
   }
 
   void _loadProduct() {
-    ref.read(productNotifierProvider.notifier).fetchProductById(productId).then((_) {
-      setState(() {
-        _isLoading = false;
-      });
-    }).catchError((_) {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    ref
+        .read(productNotifierProvider.notifier)
+        .fetchProductById(productId)
+        .then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        })
+        .catchError((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
   }
 
   @override
@@ -53,8 +57,8 @@ class _EditProductPageState extends ConsumerState<EditProductPage> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : product == null
-              ? const Center(child: Text('Product not found'))
-              : ProductForm(initialProduct: product),
+          ? const Center(child: Text('Product not found'))
+          : ProductForm(initialProduct: product),
     );
   }
 }

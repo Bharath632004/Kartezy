@@ -21,13 +21,13 @@ class AuthService {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.login}',
-        data: {
-          'email': email,
-          'password': password,
-        },
+        data: {'email': email, 'password': password},
       );
       // Save tokens
-      await _saveTokens(response.data['access_token'], response.data['refresh_token']);
+      await _saveTokens(
+        response.data['access_token'],
+        response.data['refresh_token'],
+      );
     } catch (e) {
       throw Exception('Login failed: $e');
     }
@@ -37,9 +37,7 @@ class AuthService {
     try {
       await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.sendOtp}',
-        data: {
-          'phone': phone,
-        },
+        data: {'phone': phone},
       );
     } catch (e) {
       throw Exception('Failed to send OTP: $e');
@@ -50,12 +48,12 @@ class AuthService {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.verifyOtp}',
-        data: {
-          'phone': phone,
-          'otp': otp,
-        },
+        data: {'phone': phone, 'otp': otp},
       );
-      await _saveTokens(response.data['access_token'], response.data['refresh_token']);
+      await _saveTokens(
+        response.data['access_token'],
+        response.data['refresh_token'],
+      );
     } catch (e) {
       throw Exception('Invalid OTP: $e');
     }
@@ -70,11 +68,12 @@ class AuthService {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.login}/google',
-        data: {
-          'id_token': idToken,
-        },
+        data: {'id_token': idToken},
       );
-      await _saveTokens(response.data['access_token'], response.data['refresh_token']);
+      await _saveTokens(
+        response.data['access_token'],
+        response.data['refresh_token'],
+      );
     } catch (e) {
       throw Exception('Google login failed: $e');
     }
@@ -84,13 +83,12 @@ class AuthService {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.register}',
-        data: {
-          'email': email,
-          'password': password,
-          'full_name': fullName,
-        },
+        data: {'email': email, 'password': password, 'full_name': fullName},
       );
-      await _saveTokens(response.data['access_token'], response.data['refresh_token']);
+      await _saveTokens(
+        response.data['access_token'],
+        response.data['refresh_token'],
+      );
     } catch (e) {
       throw Exception('Registration failed: $e');
     }
@@ -103,11 +101,12 @@ class AuthService {
 
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.refreshToken}',
-        data: {
-          'refresh_token': refreshToken,
-        },
+        data: {'refresh_token': refreshToken},
       );
-      await _saveTokens(response.data['access_token'], response.data['refresh_token']);
+      await _saveTokens(
+        response.data['access_token'],
+        response.data['refresh_token'],
+      );
     } catch (e) {
       throw Exception('Token refresh failed: $e');
     }
@@ -115,9 +114,7 @@ class AuthService {
 
   Future<void> logout() async {
     try {
-      await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.logout}',
-      );
+      await _dio.post('${ApiConstants.baseUrl}${ApiConstants.logout}');
     } catch (e) {
       // Ignore logout errors
     } finally {
@@ -146,7 +143,9 @@ class AuthService {
 }
 
 // Provider for authentication state
-final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
+final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((
+  ref,
+) {
   return AuthStateNotifier(ref.read(authServiceProvider));
 });
 
@@ -179,7 +178,11 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       await _authService.loginWithEmail(email, password);
       final accessToken = await _authService.getAccessToken();
-      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+      state = state.copyWith(
+        isLoggedIn: true,
+        userToken: accessToken,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
       rethrow;
@@ -191,7 +194,11 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       await _authService.loginWithPhone(phone, otp);
       final accessToken = await _authService.getAccessToken();
-      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+      state = state.copyWith(
+        isLoggedIn: true,
+        userToken: accessToken,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
       rethrow;
@@ -203,7 +210,11 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       await _authService.loginWithGoogle(idToken);
       final accessToken = await _authService.getAccessToken();
-      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+      state = state.copyWith(
+        isLoggedIn: true,
+        userToken: accessToken,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
       rethrow;
@@ -227,7 +238,11 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       await _authService.register(email, password, fullName);
       final accessToken = await _authService.getAccessToken();
-      state = state.copyWith(isLoggedIn: true, userToken: accessToken, isLoading: false);
+      state = state.copyWith(
+        isLoggedIn: true,
+        userToken: accessToken,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
       rethrow;
@@ -250,10 +265,7 @@ class AuthState {
     this.error,
   });
 
-  factory AuthState.initial() => AuthState(
-        isLoggedIn: false,
-        isLoading: false,
-      );
+  factory AuthState.initial() => AuthState(isLoggedIn: false, isLoading: false);
 
   AuthState copyWith({
     bool? isLoggedIn,

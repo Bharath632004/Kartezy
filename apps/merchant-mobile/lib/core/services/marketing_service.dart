@@ -208,7 +208,9 @@ class MarketingService {
   }
 
   // Create Sponsored Product
-  Future<Map<String, dynamic>> createSponsoredProduct(Map<String, dynamic> sponsoredProductData) async {
+  Future<Map<String, dynamic>> createSponsoredProduct(
+    Map<String, dynamic> sponsoredProductData,
+  ) async {
     try {
       final response = await _dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}',
@@ -221,7 +223,10 @@ class MarketingService {
   }
 
   // Update Sponsored Product
-  Future<Map<String, dynamic>> updateSponsoredProduct(String id, Map<String, dynamic> sponsoredProductData) async {
+  Future<Map<String, dynamic>> updateSponsoredProduct(
+    String id,
+    Map<String, dynamic> sponsoredProductData,
+  ) async {
     try {
       final response = await _dio.put(
         '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}/$id',

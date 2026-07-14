@@ -5,7 +5,9 @@ import 'data/repository/referral_repository_impl.dart';
 import 'domain/repository/referral_repository.dart';
 
 // Provider for referral remote data source
-final referralRemoteDataSourceProvider = Provider<ReferralRemoteDataSource>((ref) {
+final referralRemoteDataSourceProvider = Provider<ReferralRemoteDataSource>((
+  ref,
+) {
   return ReferralRemoteDataSourceImpl(ref);
 });
 

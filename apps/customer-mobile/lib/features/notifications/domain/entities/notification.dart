@@ -3,11 +3,6 @@ class Notification {
   final String id;
   final String title;
   final String body;
-  final boolifications/domain/entities/notification.dart
-class Notification {
-  final String id;
-  final String title;
-  final String body;
   final DateTime timestamp;
   final bool isRead;
   final String type; // 'order', 'promotion', 'system', etc.

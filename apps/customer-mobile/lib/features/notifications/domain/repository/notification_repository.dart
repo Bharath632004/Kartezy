@@ -2,10 +2,7 @@
 import '../entities/notification.dart';
 
 abstract class NotificationRepository {
-  Future<List<Notification>> getNotifications({
-    int limit = 20,
-    int offset = 0,
-  });
+  Future<List<Notification>> getNotifications({int limit = 20, int offset = 0});
 
   Future<Notification> getNotificationById(String id);
 

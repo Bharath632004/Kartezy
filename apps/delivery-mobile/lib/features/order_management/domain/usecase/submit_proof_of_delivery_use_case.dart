@@ -8,12 +8,17 @@ class SubmitProofOfDeliveryUseCase {
 
   SubmitProofOfDeliveryUseCase(this._repository);
 
-  Future<Order> call(String orderId, String? signature, List<String>? photos, String? notes) =>
-      _repository.submitProofOfDelivery(orderId, signature, photos, notes);
+  Future<Order> call(
+    String orderId,
+    String? signature,
+    List<String>? photos,
+    String? notes,
+  ) => _repository.submitProofOfDelivery(orderId, signature, photos, notes);
 }
 
 /// Provider for submit proof of delivery use case
-final submitProofOfDeliveryUseCaseProvider = Provider<SubmitProofOfDeliveryUseCase>((ref) {
-  final repository = ref.read(orderRepositoryProvider);
-  return SubmitProofOfDeliveryUseCase(repository);
-});
+final submitProofOfDeliveryUseCaseProvider =
+    Provider<SubmitProofOfDeliveryUseCase>((ref) {
+      final repository = ref.read(orderRepositoryProvider);
+      return SubmitProofOfDeliveryUseCase(repository);
+    });

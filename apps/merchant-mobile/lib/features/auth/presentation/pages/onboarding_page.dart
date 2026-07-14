@@ -49,8 +49,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
   void _goToNext() {
     if (!mounted) return;
-    final isLoggedIn =
-        ref.read(authServiceProvider).isLoggedIn();
+    final isLoggedIn = ref.read(authServiceProvider).isLoggedIn();
     // We can't await here because we are not in async, but we can use then
     ref.read(authServiceProvider).isLoggedIn().then((value) {
       if (mounted) {
@@ -73,10 +72,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             children: [
               Align(
                 alignment: Alignment.topRight,
-                child: TextButton(
-                  onPressed: _skip,
-                  child: const Text('Skip'),
-                ),
+                child: TextButton(onPressed: _skip, child: const Text('Skip')),
               ),
               Expanded(
                 child: PageView(
@@ -157,27 +153,17 @@ class OnboardingPageItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          image,
-          height: 250,
-          fit: BoxFit.contain,
-        ),
+        Image.asset(image, height: 250, fit: BoxFit.contain),
         const SizedBox(height: 30),
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
         Text(
           description,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Colors.grey,
-          ),
+          style: const TextStyle(fontSize: 16, color: Colors.grey),
           textAlign: TextAlign.center,
         ),
       ],

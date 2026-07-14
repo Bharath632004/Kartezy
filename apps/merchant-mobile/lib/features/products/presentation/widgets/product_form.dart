@@ -5,10 +5,7 @@ import '../../../../core/models/product_model.dart';
 class ProductForm extends ConsumerStatefulWidget {
   final ProductModel? initialProduct;
 
-  const ProductForm({
-    Key? key,
-    this.initialProduct,
-  }) : super(key: key);
+  const ProductForm({Key? key, this.initialProduct}) : super(key: key);
 
   @override
   ConsumerState<ProductForm> createState() => _ProductFormState();
@@ -27,12 +24,24 @@ class _ProductFormState extends ConsumerState<ProductForm> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.initialProduct?.name ?? '');
-    _descriptionController = TextEditingController(text: widget.initialProduct?.description ?? '');
-    _skuController = TextEditingController(text: widget.initialProduct?.sku ?? '');
-    _priceController = TextEditingController(text: widget.initialProduct?.price?.toString() ?? '');
-    _currencyController = TextEditingController(text: widget.initialProduct?.currency ?? '');
-    _imageUrlController = TextEditingController(text: widget.initialProduct?.imageUrl ?? '');
+    _nameController = TextEditingController(
+      text: widget.initialProduct?.name ?? '',
+    );
+    _descriptionController = TextEditingController(
+      text: widget.initialProduct?.description ?? '',
+    );
+    _skuController = TextEditingController(
+      text: widget.initialProduct?.sku ?? '',
+    );
+    _priceController = TextEditingController(
+      text: widget.initialProduct?.price?.toString() ?? '',
+    );
+    _currencyController = TextEditingController(
+      text: widget.initialProduct?.currency ?? '',
+    );
+    _imageUrlController = TextEditingController(
+      text: widget.initialProduct?.imageUrl ?? '',
+    );
     // Initialize other controllers
   }
 
@@ -138,7 +147,11 @@ class _ProductFormState extends ConsumerState<ProductForm> {
                   Navigator.of(context).pop();
                 }
               },
-              child: Text(widget.initialProduct == null ? 'Add Product' : 'Update Product'),
+              child: Text(
+                widget.initialProduct == null
+                    ? 'Add Product'
+                    : 'Update Product',
+              ),
             ),
           ],
         ),

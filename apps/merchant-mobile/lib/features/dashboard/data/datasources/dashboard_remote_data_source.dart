@@ -8,11 +8,10 @@ abstract class DashboardRemoteDataSource {
   Future<DashboardModel> getDashboardData();
 }
 
-class DashboardRemoteDataSourceImpl extends BaseService implements DashboardRemoteDataSource {
-  DashboardRemoteDataSourceImpl(
-    AuthService authService,
-    DioClient dioClient,
-  ) : super(authService, dioClient);
+class DashboardRemoteDataSourceImpl extends BaseService
+    implements DashboardRemoteDataSource {
+  DashboardRemoteDataSourceImpl(AuthService authService, DioClient dioClient)
+    : super(authService, dioClient);
 
   @override
   Future<DashboardModel> getDashboardData() async {

@@ -7,11 +7,13 @@ import com.kartezy.catalogservice.repository.CategoryRepository;
 import com.kartezy.catalogservice.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/products")
 @AllArgsConstructor

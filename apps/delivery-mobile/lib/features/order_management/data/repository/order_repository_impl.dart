@@ -48,12 +48,17 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<Order> submitProofOfDelivery(
-      String orderId,
-      String? signature,
-      List<String>? photos,
-      String? notes) async {
+    String orderId,
+    String? signature,
+    List<String>? photos,
+    String? notes,
+  ) async {
     final response = await _remoteDataSource.submitProofOfDelivery(
-        orderId, signature, photos, notes);
+      orderId,
+      signature,
+      photos,
+      notes,
+    );
     return Order.fromJson(response);
   }
 
@@ -64,14 +69,16 @@ class OrderRepositoryImpl implements OrderRepository {
     String? status,
   }) async {
     final response = await _remoteDataSource.getOrderHistory(
-        page: page, limit: limit, status: status);
+      page: page,
+      limit: limit,
+      status: status,
+    );
     return response.map((e) => Order.fromJson(e)).toList();
   }
 
   @override
   Future<List<OrderTimeline>> getOrderTimeline(String orderId) async {
-    final response =
-        await _remoteDataSource.getOrderTimeline(orderId);
+    final response = await _remoteDataSource.getOrderTimeline(orderId);
     return response.map((e) => OrderTimeline.fromJson(e)).toList();
   }
 }

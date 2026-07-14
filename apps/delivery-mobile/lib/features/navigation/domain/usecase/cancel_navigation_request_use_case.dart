@@ -11,7 +11,8 @@ class CancelNavigationRequestUseCase {
 }
 
 /// Provider for cancel navigation request use case
-final cancelNavigationRequestUseCaseProvider = Provider<CancelNavigationRequestUseCase>((ref) {
-  final repository = ref.read(navigationRepositoryProvider);
-  return CancelNavigationRequestUseCase(repository);
-});
+final cancelNavigationRequestUseCaseProvider =
+    Provider<CancelNavigationRequestUseCase>((ref) {
+      final repository = ref.read(navigationRepositoryProvider);
+      return CancelNavigationRequestUseCase(repository);
+    });

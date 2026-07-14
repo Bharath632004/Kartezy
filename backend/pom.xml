@@ -38,6 +38,7 @@
         <module>voice-service</module>
         <module>analytics-service</module>
         <module>fraud-detection-service</module>
+        <module>ai-service</module>
     </modules>
 
     <properties>

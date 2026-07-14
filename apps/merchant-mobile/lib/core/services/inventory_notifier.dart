@@ -20,11 +20,11 @@ class InventoryState {
   });
 
   factory InventoryState.initial() => const InventoryState(
-        isLoading: false,
-        inventories: [],
-        hasMore: false,
-        page: 1,
-      );
+    isLoading: false,
+    inventories: [],
+    hasMore: false,
+    page: 1,
+  );
 
   InventoryState copyWith({
     bool? isLoading,
@@ -70,7 +70,9 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
       final hasMore = inventories.length == limit;
       state = state.copyWith(
         isLoading: false,
-        inventories: currentPage == 1 ? inventories : [...state.inventories, ...inventories],
+        inventories: currentPage == 1
+            ? inventories
+            : [...state.inventories, ...inventories],
         hasMore: hasMore,
         page: currentPage,
       );
@@ -102,10 +104,16 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
     }
   }
 
-  Future<void> updateInventory(String inventoryId, InventoryModel inventory) async {
+  Future<void> updateInventory(
+    String inventoryId,
+    InventoryModel inventory,
+  ) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final updatedInventory = await _inventoryService.updateInventory(inventoryId, inventory);
+      final updatedInventory = await _inventoryService.updateInventory(
+        inventoryId,
+        inventory,
+      );
       state = state.copyWith(
         isLoading: false,
         inventories: state.inventories
@@ -126,8 +134,12 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
       await _inventoryService.deleteInventory(inventoryId);
       state = state.copyWith(
         isLoading: false,
-        inventories: state.inventories.where((inv) => inv.id != inventoryId).toList(),
-        selectedInventory: state.selectedInventory?.id == inventoryId ? null : state.selectedInventory,
+        inventories: state.inventories
+            .where((inv) => inv.id != inventoryId)
+            .toList(),
+        selectedInventory: state.selectedInventory?.id == inventoryId
+            ? null
+            : state.selectedInventory,
       );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
@@ -137,7 +149,10 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
   Future<void> adjustStock(String inventoryId, int adjustment) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final updatedInventory = await _inventoryService.adjustStock(inventoryId, adjustment);
+      final updatedInventory = await _inventoryService.adjustStock(
+        inventoryId,
+        adjustment,
+      );
       state = state.copyWith(
         isLoading: false,
         inventories: state.inventories
@@ -152,11 +167,19 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
     }
   }
 
-  Future<void> transferStock(String fromInventoryId, String toInventoryId, int quantity) async {
+  Future<void> transferStock(
+    String fromInventoryId,
+    String toInventoryId,
+    int quantity,
+  ) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       // This would update both inventories, but for simplicity we'll refetch
-      await _inventoryService.transferStock(fromInventoryId, toInventoryId, quantity);
+      await _inventoryService.transferStock(
+        fromInventoryId,
+        toInventoryId,
+        quantity,
+      );
       // In a real app, you might update the two inventories optimistically
       // For now, we'll just reset and refetch
       state = state.copyWith(isLoading: false);
@@ -168,5 +191,5 @@ class InventoryNotifier extends StateNotifier<InventoryState> {
 
 final inventoryNotifierProvider =
     StateNotifierProvider<InventoryNotifier, InventoryState>((ref) {
-  return InventoryNotifier(ref.read(inventoryServiceProvider));
-});
+      return InventoryNotifier(ref.read(inventoryServiceProvider));
+    });

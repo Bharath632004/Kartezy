@@ -1192,6 +1192,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  kartezy_core:
+    dependency: "direct main"
+    description:
+      path: "../delivery-mobile/lib/core"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   leak_tracker:
     dependency: transitive
     description:

@@ -16,19 +16,18 @@ class TrackingInfo with _$TrackingInfo {
     required DateTime lastUpdated,
     required double distanceRemaining,
     required Duration eta,
-    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson) required LatLng currentLocation,
+    @JsonKey(fromJson: _latLngFromJson, toJson: _latLngToJson)
+    required LatLng currentLocation,
   }) = _TrackingInfo;
 
   factory TrackingInfo.fromJson(Map<String, dynamic> json) =>
       _$TrackingInfoFromJson(json);
 }
 
-LatLng _latLngFromJson(Map<String, dynamic> json) => LatLng(
-      json['latitude'] as double,
-      json['longitude'] as double,
-    );
+LatLng _latLngFromJson(Map<String, dynamic> json) =>
+    LatLng(json['latitude'] as double, json['longitude'] as double);
 
 Map<String, dynamic> _latLngToJson(LatLng latLng) => {
-      'latitude': latLng.latitude,
-      'longitude': latLng.longitude,
-    };
+  'latitude': latLng.latitude,
+  'longitude': latLng.longitude,
+};

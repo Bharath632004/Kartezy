@@ -3,15 +3,12 @@ import 'package:customer_mobile/core/network/api_constants.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/features/notifications/data/datasource/notification_remote_data_source.dart';
 import 'package:customer_mobile/features/notifications/domain/entities/notification.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 
 class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
   final DioClient _dioClient;
-  final Ref _ref;
 
-  NotificationRemoteDataSourceImpl(this._ref)
-      : _dioClient = DioClient();
+  NotificationRemoteDataSourceImpl(this._dioClient);
 
   @override
   Future<List<Notification>> getNotifications({
@@ -21,15 +18,24 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
     try {
       final response = await _dioClient.get(
         ApiConstants.notificationsEndpoint,
-        queryParameters: {
-          'limit': limit,
-          'offset': offset,
-        },
+        queryParameters: {'limit': limit, 'offset': offset},
       );
       final List<dynamic> data = response.data as List<dynamic>;
       return data.map((json) => Notification.fromJson(json)).toList();
     } on DioException catch (e) {
       throw Exception('Failed to get notifications: ${e.message}');
+    }
+  }
+
+  @override
+  Future<Notification> getNotificationById(String id) async {
+    try {
+      final response = await _dioClient.get(
+        '${ApiConstants.notificationsEndpoint}/$id',
+      );
+      return Notification.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception('Failed to get notification by id: ${e.message}');
     }
   }
 
@@ -70,7 +76,7 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
   Future<int> getUnreadCount() async {
     try {
       final response = await _dioClient.get(
-        '${ApiConstants.notificationsEndpoint}/unred-count',
+        '${ApiConstants.notificationsEndpoint}/unread-count',
       );
       return response.data['count'] as int;
     } on DioException catch (e) {
@@ -101,5 +107,14 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
     } on DioException catch (e) {
       throw Exception('Failed to send notification: ${e.message}');
     }
+  }
+
+  @override
+  Stream<List<Notification>> notificationStream() {
+    // Implement a simple polling stream for now.
+    // In a real app, you might use WebSockets or push notifications.
+    return Stream.periodic(const Duration(seconds: 15), (_) async {
+      return await getNotifications();
+    }).asyncMap((event) => event);
   }
 }

@@ -5,25 +5,42 @@ import com.kartezy.authservice.entity.User;
 import com.kartezy.authservice.entity.UserStatus;
 import com.kartezy.authservice.repository.UserRepository;
 import com.kartezy.userservice.dto.AddressDto;
+import com.kartezy.userservice.dto.CustomerProfileDto;
+import com.kartezy.userservice.dto.FavoriteProductDto;
 import com.kartezy.userservice.dto.LoginHistoryDto;
 import com.kartezy.userservice.dto.OrderDto;
+import com.kartezy.userservice.dto.SearchHistoryDto;
 import com.kartezy.userservice.dto.WalletReferenceDto;
 import com.kartezy.userservice.dto.WalletTransactionDto;
+import com.kartezy.userservice.dto.WishlistItemDto;
+import com.kartezy.userservice.entity.CustomerProfile;
+import com.kartezy.userservice.entity.LoginHistory;
+import com.kartezy.userservice.repository.*;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import java.util.stream.Collectors;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/users")
+@AllArgsConstructor
 public class UserServiceController {
 
     private final UserRepository userRepository;
-
-    public UserServiceController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final CustomerProfileRepository customerProfileRepository;
+    private final WishlistRepository wishlistRepository;
+    private final WishlistItemRepository wishlistItemRepository;
+    private final FavoriteProductRepository favoriteProductRepository;
+    private final SearchHistoryRepository searchHistoryRepository;
+    private final LoginHistoryRepository loginHistoryRepository;
+    private final AddressRepository addressRepository;
+    private final WalletReferenceRepository walletReferenceRepository;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getList(@RequestParam Map<String, String> params) {
@@ -75,7 +92,7 @@ public class UserServiceController {
     public ResponseEntity<?> unblockUser(@PathVariable UUID id) {
         return userRepository.findById(id)
                 .map(user -> {
-                    // If user was locked, set to active; otherwise, keep current status
+                    // If user was locked, set to active; otherwise, otherwise, otherwise, keep current status
                     if (user.getStatus() == UserStatus.LOCKED) {
                         user.setStatus(UserStatus.ACTIVE);
                     }
@@ -118,7 +135,8 @@ public class UserServiceController {
 
     @GetMapping("/{id}/orders")
     public ResponseEntity<List<OrderDto>> getOrders(@PathVariable UUID id) {
-        // Return list of order DTOs
+        // In a real implementation, this would fetch orders for the user
+        // For now, return empty list
         return ResponseEntity.ok(Collections.emptyList());
     }
 
@@ -149,5 +167,112 @@ public class UserServiceController {
                 .isDefault(true)
                 .build();
         return ResponseEntity.ok(Collections.singletonList(addr));
+    }
+
+    // New endpoints for recommendation service
+
+    @GetMapping("/{id}/wishlist")
+    public ResponseEntity<List<WishlistItemDto>> getWishlist(@PathVariable UUID id) {
+        // Get customer profile by userId
+        Optional<CustomerProfile> optionalCp = customerProfileRepository.findByUserId(id);
+        if (optionalCp.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+        CustomerProfile cp = optionalCp.get();
+
+        // Get wishlist for this customer profile (assuming one wishlist per user)
+        List<Wishlist> wishlists = wishlistRepository.findByCustomerProfileId(cp.getId());
+        if (wishlists.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+        // Take the first wishlist (or we could merge all)
+        Wishlist wishlist = wishlists.get(0);
+
+        // Get wishlist items
+        List<WishlistItem> wishlistItems = wishlistItemRepository.findByWishlistId(wishlist.getId());
+        List<WishlistItemDto> dtos = wishlistItems.stream()
+                .map(item -> WishlistItemDto.builder()
+                        .id(item.getId())
+                        .wishlistId(item.getWishlist().getId())
+                        .productId(item.getProductId())
+                        .productName(item.getProductName())
+                        .productImageUrl(item.getProductImageUrl())
+                        .addedAt(item.getAddedAt())
+                        .build())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/{id}/favorite-products")
+    public ResponseEntity<List<FavoriteProductDto>> getFavoriteProducts(@PathVariable UUID id) {
+        // Get customer profile by userId
+        Optional<CustomerProfile> optionalCp = customerProfileRepository.findByUserId(id);
+        if (optionalCp.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+        CustomerProfile cp = optionalCp.get();
+
+        // Get favorite products for this customer profile
+        List<FavoriteProduct> favoriteProducts = favoriteProductRepository.findByCustomerProfileId(cp.getId());
+        List<FavoriteProductDto> dtos = favoriteProducts.stream()
+                .map(fp -> FavoriteProductDto.builder()
+                        .id(fp.getId())
+                        .customerProfileId(fp.getCustomerProfile().getId())
+                        .productId(fp.getProductId())
+                        .productName(fp.getProductName())
+                        .productImageUrl(fp.getProductImageUrl())
+                        .addedAt(fp.getAddedAt())
+                        .build())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/{id}/search-history")
+    public ResponseEntity<List<SearchHistoryDto>> getSearchHistory(@PathVariable UUID id) {
+        // Get customer profile by userId
+        Optional<CustomerProfile> optionalCp = customerProfileRepository.findByUserId(id);
+        if (optionalCp.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+        CustomerProfile cp = optionalCp.get();
+
+        // Get search history for this customer profile
+        List<SearchHistory> searchHistoryList = searchHistoryRepository.findByCustomerProfileId(cp.getId());
+        List<SearchHistoryDto> dtos = searchHistoryList.stream()
+                .map(sh -> SearchHistoryDto.builder()
+                        .id(sh.getId())
+                        .customerProfileId(sh.getCustomerProfile().getId())
+                        .query(sh.getQuery())
+                        .searchTime(sh.getSearchTime())
+                        .resultsCount(sh.getResultsCount())
+                        .clickedResultId(sh.getClickedResultId())
+                        .clickedResultType(sh.getClickedResultType())
+                        .build())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/{id}/customer-profile")
+    public ResponseEntity<CustomerProfileDto> getCustomerProfileByUserId(@PathVariable UUID id) {
+        return customerProfileRepository.findByUserId(id)
+                .map(cp -> CustomerProfileDto.builder()
+                        .id(cp.getId())
+                        .userId(cp.getUserId())
+                        .build())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    private OrderDto toDto(com.kartezy.orderservice.entity.Order order) {
+        return OrderDto.builder()
+                .id(order.getId())
+                .userId(order.getUserId())
+                .orderNumber(order.getOrderNumber())
+                .totalAmount(order.getTotalAmount())
+                .status(order.getStatus())
+                .driverId(order.getDriverId())
+                .createdAt(order.getCreatedAt())
+                .updatedAt(order.getUpdatedAt())
+                .build();
     }
 }

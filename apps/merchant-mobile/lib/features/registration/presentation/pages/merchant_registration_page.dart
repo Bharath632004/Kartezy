@@ -16,31 +16,25 @@ class _MerchantRegistrationPageState
   final _formKey = GlobalKey<FormState>();
 
   // Controllers for step 1: Business Details
-  final TextEditingController _businessNameController =
-      TextEditingController();
-  final TextEditingController _businessTypeController =
-      TextEditingController();
+  final TextEditingController _businessNameController = TextEditingController();
+  final TextEditingController _businessTypeController = TextEditingController();
   final TextEditingController _businessAddressController =
       TextEditingController();
 
   // Controllers for step 2: GST & PAN
   final TextEditingController _gstController = TextEditingController();
   final TextEditingController _panController = TextEditingController();
-  final TextEditingController _aadhaarController =
-      TextEditingController();
+  final TextEditingController _aadhaarController = TextEditingController();
 
   // Controllers for step 3: Bank Account
-  final TextEditingController _bankNameController =
-      TextEditingController();
+  final TextEditingController _bankNameController = TextEditingController();
   final TextEditingController _accountNumberController =
       TextEditingController();
   final TextEditingController _ifscController = TextEditingController();
 
   // Controllers for step 4: Store Details
-  final TextEditingController _storeNameController =
-      TextEditingController();
-  final TextEditingController _storeAddressController =
-      TextEditingController();
+  final TextEditingController _storeNameController = TextEditingController();
+  final TextEditingController _storeAddressController = TextEditingController();
   final TextEditingController _deliveryRadiusController =
       TextEditingController();
 
@@ -62,39 +56,31 @@ class _MerchantRegistrationPageState
   }
 
   List<Step> getSteps() => [
-        Step(
-          title: const Text('Business Details'),
-          content: _buildBusinessDetailsForm(),
-          isActive: _currentStep >= 0,
-          state: _currentStep >= 1
-              ? StepState.complete
-              : StepState.indexed,
-        ),
-        Step(
-          title: const Text('GST & PAN'),
-          content: _buildTaxAndIdentityForm(),
-          isActive: _currentStep >= 1,
-          state: _currentStep >= 2
-              ? StepState.complete
-              : StepState.indexed,
-        ),
-        Step(
-          title: const Text('Bank Account'),
-          content: _buildBankAccountForm(),
-          isActive: _currentStep >= 2,
-          state: _currentStep >= 3
-              ? StepState.complete
-              : StepState.indexed,
-        ),
-        Step(
-          title: const Text('Store Details'),
-          content: _buildStoreDetailsForm(),
-          isActive: _currentStep >= 3,
-          state: _currentStep >= 4
-              ? StepState.complete
-              : StepState.indexed,
-        ),
-      ];
+    Step(
+      title: const Text('Business Details'),
+      content: _buildBusinessDetailsForm(),
+      isActive: _currentStep >= 0,
+      state: _currentStep >= 1 ? StepState.complete : StepState.indexed,
+    ),
+    Step(
+      title: const Text('GST & PAN'),
+      content: _buildTaxAndIdentityForm(),
+      isActive: _currentStep >= 1,
+      state: _currentStep >= 2 ? StepState.complete : StepState.indexed,
+    ),
+    Step(
+      title: const Text('Bank Account'),
+      content: _buildBankAccountForm(),
+      isActive: _currentStep >= 2,
+      state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
+    ),
+    Step(
+      title: const Text('Store Details'),
+      content: _buildStoreDetailsForm(),
+      isActive: _currentStep >= 3,
+      state: _currentStep >= 4 ? StepState.complete : StepState.indexed,
+    ),
+  ];
 
   Widget _buildBusinessDetailsForm() {
     return Form(
@@ -113,8 +99,7 @@ class _MerchantRegistrationPageState
           ),
           TextFormField(
             controller: _businessTypeController,
-            decoration:
-                const InputDecoration(labelText: 'Business Type'),
+            decoration: const InputDecoration(labelText: 'Business Type'),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter business type';
@@ -124,8 +109,7 @@ class _MerchantRegistrationPageState
           ),
           TextFormField(
             controller: _businessAddressController,
-            decoration:
-                const InputDecoration(labelText: 'Business Address'),
+            decoration: const InputDecoration(labelText: 'Business Address'),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter business address';
@@ -168,8 +152,7 @@ class _MerchantRegistrationPageState
           ),
           TextFormField(
             controller: _aadhaarController,
-            decoration:
-                const InputDecoration(labelText: 'Aadhaar Number'),
+            decoration: const InputDecoration(labelText: 'Aadhaar Number'),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter Aadhaar number';
@@ -190,8 +173,7 @@ class _MerchantRegistrationPageState
         children: [
           TextFormField(
             controller: _bankNameController,
-            decoration:
-                const InputDecoration(labelText: 'Bank Name'),
+            decoration: const InputDecoration(labelText: 'Bank Name'),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter bank name';
@@ -201,8 +183,7 @@ class _MerchantRegistrationPageState
           ),
           TextFormField(
             controller: _accountNumberController,
-            decoration: const InputDecoration(
-                labelText: 'Account Number'),
+            decoration: const InputDecoration(labelText: 'Account Number'),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter account number';
@@ -213,8 +194,7 @@ class _MerchantRegistrationPageState
           ),
           TextFormField(
             controller: _ifscController,
-                decoration:
-                const InputDecoration(labelText: 'IFSC Code'),
+            decoration: const InputDecoration(labelText: 'IFSC Code'),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter IFSC code';
@@ -257,15 +237,15 @@ class _MerchantRegistrationPageState
           TextFormField(
             controller: _deliveryRadiusController,
             decoration: const InputDecoration(
-                labelText: 'Delivery Radius (km)'),
+              labelText: 'Delivery Radius (km)',
+            ),
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter delivery radius';
               }
               // Optional: Check if it's a positive number
-              if (double.tryParse(value) == null ||
-                  double.parse(value) <= 0) {
+              if (double.tryParse(value) == null || double.parse(value) <= 0) {
                 return 'Please enter a valid positive number';
               }
               return null;
@@ -285,8 +265,7 @@ class _MerchantRegistrationPageState
       return;
     }
 
-    final merchantStateNotifier =
-        ref.read(merchantStateProvider.notifier);
+    final merchantStateNotifier = ref.read(merchantStateProvider.notifier);
 
     // Prepare the data to send to the backend
     final merchantData = {
@@ -301,8 +280,7 @@ class _MerchantRegistrationPageState
       'ifsc_code': _ifscController.text,
       'store_name': _storeNameController.text,
       'store_address': _storeAddressController.text,
-      'delivery_radius':
-          double.parse(_deliveryRadiusController.text),
+      'delivery_radius': double.parse(_deliveryRadiusController.text),
     };
 
     try {
@@ -313,14 +291,15 @@ class _MerchantRegistrationPageState
           const SnackBar(content: Text('Registration submitted successfully')),
         );
         // Navigate to login page after successful registration
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/login', (route) => false);
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/login', (route) => false);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Registration failed: $e')));
       }
     }
   }
@@ -330,9 +309,7 @@ class _MerchantRegistrationPageState
     final merchantState = ref.watch(merchantStateProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Merchant Registration'),
-      ),
+      appBar: AppBar(title: const Text('Merchant Registration')),
       body: merchantState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : Stepper(

@@ -49,6 +49,5 @@ class Reward with _$Reward {
     required int pointsRequired,
   }) = _Reward;
 
-  factory Reward.fromJson(Map<String, dynamic> json) =>
-      _$RewardFromJson(json);
+  factory Reward.fromJson(Map<String, dynamic> json) => _$RewardFromJson(json);
 }

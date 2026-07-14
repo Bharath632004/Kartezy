@@ -1,4 +1,5 @@
 package com.kartezy.authservice.repository;
+import com.kartezy.authservice.entity.User;
 
 import com.kartezy.authservice.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,9 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     // Find session by session ID (token)
     Session findBySessionId(String sessionId);
+
+    // Find all sessions for a user
+    java.util.List<Session> findByUser(User user);
 
     // Delete all sessions for a user (logout all devices)
     void deleteByUserId(Long userId);

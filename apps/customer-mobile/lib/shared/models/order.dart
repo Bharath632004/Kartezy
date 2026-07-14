@@ -44,6 +44,5 @@ class Order with _$Order {
     required DateTime updatedAt,
   }) = _Order;
 
-  factory Order.fromJson(Map<String, dynamic> json) =>
-      _$OrderFromJson(json);
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 }

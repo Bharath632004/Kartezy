@@ -63,66 +63,71 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(invoicesProvider.notifier).refreshInvoices(),
+            onPressed: () =>
+                ref.read(invoicesProvider.notifier).refreshInvoices(),
           ),
         ],
       ),
       body: invoicesState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : invoicesState.invoices.isEmpty
-              ? const Center(child: Text('No invoices found'))
-              : RefreshIndicator(
-                  onRefresh: () => ref.read(invoicesProvider.notifier).refreshInvoices(),
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: invoicesState.invoices.length +
-                        (_isLoadingMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index < invoicesState.invoices.length) {
-                        final invoice = invoicesState.invoices[index];
-                        return ListTile(
-                          title: Text('Invoice #${invoice['invoice_number'] ?? 'N/A'}'),
-                          subtitle: Text(
-                            'Date: ${invoice['date'] ?? 'N/A'} | Amount: \$${invoice['total_amount'] ?? 0}',
+          ? const Center(child: Text('No invoices found'))
+          : RefreshIndicator(
+              onRefresh: () =>
+                  ref.read(invoicesProvider.notifier).refreshInvoices(),
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount:
+                    invoicesState.invoices.length + (_isLoadingMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index < invoicesState.invoices.length) {
+                    final invoice = invoicesState.invoices[index];
+                    return ListTile(
+                      title: Text(
+                        'Invoice #${invoice['invoice_number'] ?? 'N/A'}',
+                      ),
+                      subtitle: Text(
+                        'Date: ${invoice['date'] ?? 'N/A'} | Amount: \$${invoice['total_amount'] ?? 0}',
+                      ),
+                      trailing: PopupMenuButton<String>(
+                        onSelected: (value) =>
+                            _handlePopupMenuSelection(value, invoice['id']),
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 'view',
+                            child: ListTile(
+                              leading: Icon(Icons.visibility),
+                              text: 'View Details',
+                            ),
                           ),
-                          trailing: PopupMenuButton<String>(
-                            onSelected: (value) => _handlePopupMenuSelection(value, invoice['id']),
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                value: 'view',
-                                child: ListTile(
-                                  leading: Icon(Icons.visibility),
-                                  text: 'View Details',
-                                ),
-                              ),
-                              const PopupMenuItem(
-                                value: 'download_pdf',
-                                child: ListTile(
-                                  leading: Icon(Icons.picture_as_pdf),
-                                  text: 'Download PDF',
-                                ),
-                              ),
-                              const PopupMenuItem(
-                                value: 'print',
-                                child: ListTile(
-                                  leading: Icon(Icons.print),
-                                  text: 'Print',
-                                ),
-                              ),
-                            ],
+                          const PopupMenuItem(
+                            value: 'download_pdf',
+                            child: ListTile(
+                              leading: Icon(Icons.picture_as_pdf),
+                              text: 'Download PDF',
+                            ),
                           ),
-                          onTap: () => _showInvoiceDetails(context, invoice['id']),
-                        );
-                      } else {
-                        return const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
-                    },
-                  ),
-                ),
-      );
+                          const PopupMenuItem(
+                            value: 'print',
+                            child: ListTile(
+                              leading: Icon(Icons.print),
+                              text: 'Print',
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () => _showInvoiceDetails(context, invoice['id']),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                },
+              ),
+            ),
+    );
   }
 
   void _handlePopupMenuSelection(String value, String invoiceId) async {
@@ -141,7 +146,9 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
 
   void _showInvoiceDetails(BuildContext context, String invoiceId) async {
     try {
-      final invoiceDetails = await ref.read(invoicesProvider.notifier).getInvoiceDetails(invoiceId);
+      final invoiceDetails = await ref
+          .read(invoicesProvider.notifier)
+          .getInvoiceDetails(invoiceId);
       if (!mounted) return;
 
       showDialog(
@@ -169,7 +176,9 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
 
   void _downloadInvoicePdf(String invoiceId) async {
     try {
-      final pdfBytes = await ref.read(invoicesProvider.notifier).downloadInvoicePdf(invoiceId);
+      final pdfBytes = await ref
+          .read(invoicesProvider.notifier)
+          .downloadInvoicePdf(invoiceId);
       // In a real app, you would save or share the PDF file
       // For now, we'll just show a success message
       if (!mounted) return;
@@ -178,9 +187,9 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error downloading PDF: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error downloading PDF: $e')));
     }
   }
 
@@ -188,14 +197,14 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
     try {
       await ref.read(invoicesProvider.notifier).printInvoice(invoiceId);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Print command sent')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Print command sent')));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error printing: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error printing: $e')));
     }
   }
 
@@ -226,11 +235,15 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
                   onPressed: () async {
                     Navigator.pop(context);
                     try {
-                      final csvData = await ref.read(invoicesProvider.notifier).exportInvoices(format: 'csv');
+                      final csvData = await ref
+                          .read(invoicesProvider.notifier)
+                          .exportInvoices(format: 'csv');
                       // In a real app, you would save or share the CSV file
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('CSV exported successfully')),
+                        const SnackBar(
+                          content: Text('CSV exported successfully'),
+                        ),
                       );
                     } catch (e) {
                       if (!mounted) return;
@@ -245,11 +258,15 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
                   onPressed: () async {
                     Navigator.pop(context);
                     try {
-                      final pdfData = await ref.read(invoicesProvider.notifier).exportInvoices(format: 'pdf');
+                      final pdfData = await ref
+                          .read(invoicesProvider.notifier)
+                          .exportInvoices(format: 'pdf');
                       // In a real app, you would save or share the PDF file
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('PDF exported successfully')),
+                        const SnackBar(
+                          content: Text('PDF exported successfully'),
+                        ),
                       );
                     } catch (e) {
                       if (!mounted) return;

@@ -10,8 +10,7 @@ class ReferralRemoteDataSourceImpl implements ReferralRemoteDataSource {
   final DioClient _dioClient;
   final Ref _ref;
 
-  ReferralRemoteDataSourceImpl(this._ref)
-      : _dioClient = DioClient();
+  ReferralRemoteDataSourceImpl(this._ref) : _dioClient = DioClient();
 
   @override
   Future<Referral> getReferralCode() async {
@@ -28,10 +27,7 @@ class ReferralRemoteDataSourceImpl implements ReferralRemoteDataSource {
     try {
       await _dioClient.post(
         ApiConstants.shareReferralCode,
-        data: {
-          'code': code,
-          'method': method,
-        },
+        data: {'code': code, 'method': method},
       );
     } on DioException catch (e) {
       throw Exception('Failed to share referral code: ${e.message}');
@@ -52,8 +48,9 @@ class ReferralRemoteDataSourceImpl implements ReferralRemoteDataSource {
   @override
   Future<bool> validateReferralCode(String code) async {
     try {
-      final response =
-          await _dioClient.get('${ApiConstants.validateReferralCode}/$code');
+      final response = await _dioClient.get(
+        '${ApiConstants.validateReferralCode}/$code',
+      );
       return response.data['valid'] as bool;
     } on DioException catch (e) {
       throw Exception('Failed to validate referral code: ${e.message}');

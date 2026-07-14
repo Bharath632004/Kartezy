@@ -7,12 +7,11 @@ part 'rewards.g.dart';
 
 @freezed
 class RewardPoints with _$RewardPoints, EquatableMixin {
-  const factory RewardPoints({
-    required int points,
-    DateTime? expiresAt,
-  }) = _RewardPoints;
+  const factory RewardPoints({required int points, DateTime? expiresAt}) =
+      _RewardPoints;
 
-  factory RewardPoints.fromJson(Map<String, dynamic> json) => _$RewardPointsFromJson(json);
+  factory RewardPoints.fromJson(Map<String, dynamic> json) =>
+      _$RewardPointsFromJson(json);
 }
 
 @freezed
@@ -25,7 +24,8 @@ class RewardTransaction with _$RewardTransaction, EquatableMixin {
     required DateTime timestamp,
   }) = _RewardTransaction;
 
-  factory RewardTransaction.fromJson(Map<String, dynamic> json) => _$RewardTransactionFromJson(json);
+  factory RewardTransaction.fromJson(Map<String, dynamic> json) =>
+      _$RewardTransactionFromJson(json);
 }
 
 @freezed
@@ -36,7 +36,8 @@ class RewardLevel with _$RewardLevel, EquatableMixin {
     required List<String> benefits,
   }) = _RewardLevel;
 
-  factory RewardLevel.fromJson(Map<String, dynamic> json) => _$RewardLevelFromJson(json);
+  factory RewardLevel.fromJson(Map<String, dynamic> json) =>
+      _$RewardLevelFromJson(json);
 }
 
 // Missing Reward model as per spec

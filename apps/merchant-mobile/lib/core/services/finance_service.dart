@@ -85,10 +85,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financePendingSettlements}',
-        queryParameters: {
-          'page': page,
-          'limit': limit,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'page': page, 'limit': limit}
+          ..removeWhere((key, value) => value == null),
       );
       final List<dynamic> data = response.data['data'] ?? [];
       return data.map((json) => json as Map<String, dynamic>).toList();
@@ -117,10 +115,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeCommissionDetails}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -186,10 +182,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeTaxSummary}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -205,10 +199,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeGstReports}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -224,10 +216,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financeProfitLoss}',
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -284,15 +274,12 @@ class FinanceService {
   }
 
   // Payment Status
-  Future<Map<String, dynamic>> getPaymentStatus({
-    String? transactionId,
-  }) async {
+  Future<Map<String, dynamic>> getPaymentStatus({String? transactionId}) async {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.financePaymentStatus}',
-        queryParameters: {
-          'transaction_id': transactionId,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'transaction_id': transactionId}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {

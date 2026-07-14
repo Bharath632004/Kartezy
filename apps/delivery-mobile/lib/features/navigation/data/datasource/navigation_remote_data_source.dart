@@ -45,7 +45,10 @@ class NavigationRemoteDataSource {
   }
 
   Future<List<RouteInfo>> getDirections(
-      String origin, String destination, bool alternatives) async {
+    String origin,
+    String destination,
+    bool alternatives,
+  ) async {
     final response = await _dio.get(
       'https://maps.googleapis.com/maps/api/directions/json',
       queryParameters: {
@@ -86,10 +89,14 @@ class NavigationRemoteDataSource {
         totalDuration += leg['duration']['value'];
         if (startPoint == null) {
           startPoint = LatLng(
-              leg['start_location']['lat'], leg['start_location']['lng']);
+            leg['start_location']['lat'],
+            leg['start_location']['lng'],
+          );
         }
         endPoint = LatLng(
-            leg['end_location']['lat'], leg['end_location']['lng']);
+          leg['end_location']['lat'],
+          leg['end_location']['lng'],
+        );
       }
 
       RouteInfo routeInfo = RouteInfo(
@@ -126,18 +133,22 @@ class NavigationRemoteDataSource {
 
     if (permission == LocationPermission.deniedForever) {
       throw Exception(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     return await Geolocator.getCurrentPosition();
   }
 
-  Stream<Position> getLocationStream({LocationAccuracy accuracy = LocationAccuracy.high}) {
+  Stream<Position> getLocationStream({
+    LocationAccuracy accuracy = LocationAccuracy.high,
+  }) {
     return Geolocator.getPositionStream(
-        locationSettings: LocationSettings(
-          accuracy: accuracy,
-          distanceFilter: 10,
-        ));
+      locationSettings: LocationSettings(
+        accuracy: accuracy,
+        distanceFilter: 10,
+      ),
+    );
   }
 
   Future<void> cancelRequest() {
@@ -147,8 +158,9 @@ class NavigationRemoteDataSource {
 }
 
 /// Provider for navigation remote data source
-final navigationRemoteDataSourceProvider =
-    Provider<NavigationRemoteDataSource>((ref) {
-  final dio = ref.read(dioProvider);
-  return NavigationRemoteDataSource(dio);
-});
+final navigationRemoteDataSourceProvider = Provider<NavigationRemoteDataSource>(
+  (ref) {
+    final dio = ref.read(dioProvider);
+    return NavigationRemoteDataSource(dio);
+  },
+);

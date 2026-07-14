@@ -17,9 +17,7 @@ class RevenueState {
     this.walletBalance,
   });
 
-  factory RevenueState.initial() => RevenueState(
-        isLoading: false,
-      );
+  factory RevenueState.initial() => RevenueState(isLoading: false);
 
   RevenueState copyWith({
     bool? isLoading,
@@ -44,10 +42,7 @@ class RevenueNotifier extends StateNotifier<RevenueState> {
 
   RevenueNotifier(this._financeService) : super(RevenueState.initial());
 
-  Future<void> fetchRevenue({
-    String? startDate,
-    String? endDate,
-  }) async {
+  Future<void> fetchRevenue({String? startDate, String? endDate}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final revenue = await _financeService.getRevenue(
@@ -60,10 +55,7 @@ class RevenueNotifier extends StateNotifier<RevenueState> {
     }
   }
 
-  Future<void> fetchSalesSummary({
-    String? startDate,
-    String? endDate,
-  }) async {
+  Future<void> fetchSalesSummary({String? startDate, String? endDate}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final salesSummary = await _financeService.getSalesSummary(
@@ -94,6 +86,8 @@ class RevenueNotifier extends StateNotifier<RevenueState> {
 }
 
 // Provider
-final revenueProvider = StateNotifierProvider<RevenueNotifier, RevenueState>((ref) {
+final revenueProvider = StateNotifierProvider<RevenueNotifier, RevenueState>((
+  ref,
+) {
   return RevenueNotifier(ref.read(financeServiceProvider));
 });

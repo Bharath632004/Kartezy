@@ -34,20 +34,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final onboarding = state.uri.path == '/onboarding';
       final splash = state.uri.path == '/splash';
 
-      final isInitializing = ref.watch(isInitializedProvider).maybeWhen(
-        loading: () => true,
-        error: () => false,
-        data: (_) => false,
-        orElse: () => false,
-      );
+      final isInitializing = ref
+          .watch(isInitializedProvider)
+          .maybeWhen(
+            loading: () => true,
+            error: () => false,
+            data: (_) => false,
+            orElse: () => false,
+          );
 
       if (isInitializing) {
         return '/splash';
       }
 
       final loggedIn = ref.watch(authStateProvider);
-      final hasSeenOnboarding =
-          ref.watch(hiveManagerProvider.select((value) => value.hasSeenOnboarding));
+      final hasSeenOnboarding = ref.watch(
+        hiveManagerProvider.select((value) => value.hasSeenOnboarding),
+      );
 
       // If not logged in and not onboarding/splash/login/register/etc, go to login
       if (!loggedIn &&
@@ -75,8 +78,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       // If not logged in and trying to access dashboard, go to login
-      if (!loggedIn &&
-          state.uri.path.startsWith('/dashboard')) {
+      if (!loggedIn && state.uri.path.startsWith('/dashboard')) {
         return '/login';
       }
 
@@ -91,10 +93,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/onboarding',
         builder: (context, state) => const OnboardingPage(),
       ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginPage(),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
       GoRoute(
         path: '/register',
         builder: (context, state) => const RegisterPage(),
@@ -162,6 +161,9 @@ final isInitializedProvider = FutureProvider<bool>((ref) async {
 // Helper extension to check if user has seen onboarding
 extension HiveManagerExtension on AsyncValue<HiveManager> {
   bool get hasSeenOnboarding {
-    return whenData((manager) => manager.hasSeenOnboarding(), orElse: () => false);
+    return whenData(
+      (manager) => manager.hasSeenOnboarding(),
+      orElse: () => false,
+    );
   }
 }

@@ -10,7 +10,9 @@ import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
-final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSourceImpl>((ref) {
+final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSourceImpl>((
+  ref,
+) {
   final dioClient = ref.read(dioProvider);
   return WalletRemoteDataSourceImpl(dioClient);
 });
@@ -21,7 +23,9 @@ final walletRepositoryProvider = Provider<WalletRepository>((ref) {
 });
 
 // Providers for use cases
-final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((ref) {
+final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((
+  ref,
+) {
   final repository = ref.read(walletRepositoryProvider);
   return GetWalletBalanceUseCase(repository);
 });
@@ -31,7 +35,9 @@ final addWalletMoneyUseCaseProvider = Provider<AddWalletMoneyUseCase>((ref) {
   return AddWalletMoneyUseCase(repository);
 });
 
-final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>((ref) {
-  final repository = ref.read(walletRepositoryProvider);
-  return WithdrawWalletMoneyUseCase(repository);
-});
+final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>(
+  (ref) {
+    final repository = ref.read(walletRepositoryProvider);
+    return WithdrawWalletMoneyUseCase(repository);
+  },
+);

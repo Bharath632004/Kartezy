@@ -25,18 +25,17 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      await ref
-          .read(authServiceProvider)
-          .sendOtp(_phoneController.text.trim());
+      await ref.read(authServiceProvider).sendOtp(_phoneController.text.trim());
       if (!mounted) return;
       // Navigate to OTP verification screen
-      GoRouter.of(context).go('/otp-verification',
-          extra: {'phoneNumber': _phoneController.text});
+      GoRouter.of(
+        context,
+      ).go('/otp-verification', extra: {'phoneNumber': _phoneController.text});
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send OTP: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to send OTP: $e')));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -45,9 +44,7 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Phone Login'),
-      ),
+      appBar: AppBar(title: const Text('Phone Login')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -91,14 +88,18 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
                           ),
                         )
                       : const Text('Send OTP'),
                 ),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: _isLoading ? null : () => GoRouter.of(context).go('/login'),
+                  onPressed: _isLoading
+                      ? null
+                      : () => GoRouter.of(context).go('/login'),
                   child: const Text('Back to Email Login'),
                 ),
               ],

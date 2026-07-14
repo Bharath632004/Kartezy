@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/finance_service.dart';
 
-final financeProvider = StateNotifierProvider<FinanceNotifier, FinanceState>((ref) {
+final financeProvider = StateNotifierProvider<FinanceNotifier, FinanceState>((
+  ref,
+) {
   return FinanceNotifier(ref.read(financeServiceProvider));
 });
 
