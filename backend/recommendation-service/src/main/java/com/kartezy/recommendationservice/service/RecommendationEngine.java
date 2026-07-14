@@ -1,5 +1,4 @@
 package com.kartezy.recommendationservice.service;
-
 import com.kartezy.catalogservice.dto.CategoryDto;
 import com.kartezy.catalogservice.dto.ProductDto;
 import com.kratezy.recommendationservice.client.CatalogServiceClient;
@@ -17,46 +16,34 @@ import org.apache.commons.math3.util.FastMath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
 /**
  * Enhanced recommendation engine that implements collaborative filtering, content-based filtering, and hybrid recommendation.
  */
 @Service
 public class RecommendationEngine {
-
     @Autowired
     private UserServiceClient userServiceClient;
-
     @Autowired
     private CatalogServiceClient catalogServiceClient;
-
     @Autowired
     private OrderServiceClient orderServiceClient;
-
     // Cache for category to index mapping
     private Map<Long, Integer> categoryToIndexMap = new HashMap<>();
     private int numCategories = 0;
-
     // Cache for product feature vectors (content-based)
     private Map<Long, RealVector> productFeatureVectors = new ConcurrentHashMap<>();
-
     // Cache for product details
     private Map<Long, ProductDto> productCache = new ConcurrentHashMap<>();
-
     // Cache for user vectors (collaborative filtering)
     private Map<String, RealVector> userVectors = new ConcurrentHashMap<>();
-
     // Cache for item-item similarity matrix (collaborative filtering)
     private Map<Long, Map<Long, Double>> itemSimilarityMatrix = new ConcurrentHashMap<>();
-
     // Timestamp for cache validity (5 minutes)
     private static final long CACHE_VALIDITY_MS = 5 * 60 * 1000;
     private volatile long cacheTimestamp = 0;
-
     /**
      * Get personalized recommendations for a user using hybrid approach.
      * Combines content-based and collaborative filtering.
@@ -72,33 +59,26 @@ public class RecommendationEngine {
             // If no interactions, return trending products
             return getTrendingProducts(limit);
         }
-
         // Get content-based recommendations
         List<Long> contentBased = getContentBasedRecommendations(userId, limit * 2); // Get more for blending
-
         // Get collaborative filtering recommendations
         List<Long> collaborativeBased = getCollaborativeRecommendations(userId, limit * 2);
-
         // Combine and rank (simple hybrid: combine scores)
         Map<Long, Double> hybridScores = new HashMap<>();
-
         // Add content-based scores (normalized)
         for (int i = 0; i < contentBased.size(); i++) {
             Long productId = contentBased.get(i);
             double score = 1.0 - (double) i / contentBased.size(); // Higher rank -> higher score
             hybridScores.merge(productId, score, Double::sum);
         }
-
         // Add collaborative-based scores (normalized)
         for (int i = 0; i < collaborativeBased.size(); i++) {
             Long productId = collaborativeBased.get(i);
             double score = 1.0 - (double) i / collaborativeBased.size();
             hybridScores.merge(productId, score, Double::sum);
         }
-
         // Remove items the user has already interacted with
         hybridScores.keySet().removeAll(interactedItems);
-
         // Sort by score descending and return top 'limit'
         return hybridScores.entrySet()
                 .stream()
@@ -107,7 +87,6 @@ public class RecommendationEngine {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get content-based recommendations for a user.
      * @param userId the user ID
@@ -120,12 +99,10 @@ public class RecommendationEngine {
         if (interactedItems.isEmpty()) {
             return getTrendingProducts(limit);
         }
-
         RealVector userVector = computeUserVector(interactedItems);
         if (userVector == null) {
             return getTrendingProducts(limit);
         }
-
         Map<Long, Double> similarities = new HashMap<>();
         for (Map.Entry<Long, RealVector> entry : productFeatureVectors.entrySet()) {
             Long productId = entry.getKey();
@@ -136,7 +113,6 @@ public class RecommendationEngine {
             double similarity = cosineSimilarity(userVector, productVector);
             similarities.put(productId, similarity);
         }
-
         return similarities.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
@@ -144,7 +120,6 @@ public class RecommendationEngine {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get collaborative filtering recommendations for a user (item-based).
      * @param userId the user ID
@@ -156,13 +131,10 @@ public class RecommendationEngine {
         if (interactedItems.isEmpty()) {
             return getTrendingProducts(limit);
         }
-
         // Compute user vector from interaction matrix (we'll use a simple approach: average of interacted item vectors)
         // For simplicity, we'll use the same user vector as in content-based but we could have a separate CF user vector.
         // Instead, we'll use item-based CF: for each interacted item, get similar items and aggregate.
-
         Map<Long, Double> candidateScores = new HashMap<>();
-
         for (Long itemId : interactedItems) {
             Map<Long, Double> similarItems = itemSimilarityMatrix.getOrDefault(itemId, Collections.emptyMap());
             for (Map.Entry<Long, Double> entry : similarItems.entrySet()) {
@@ -174,10 +146,8 @@ public class RecommendationEngine {
                 candidateScores.merge(candidateId, similarity, Double::sum);
             }
         }
-
         // Normalize scores by the number of interacted items that contributed
         // (optional, we can leave as is)
-
         return candidateScores.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
@@ -185,7 +155,6 @@ public class RecommendationEngine {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get product recommendations based on product similarity (content-based).
      * @param productId the product ID
@@ -214,7 +183,6 @@ public class RecommendationEngine {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get frequently bought together items for a product.
      * This uses association rules from order items.
@@ -230,7 +198,6 @@ public class RecommendationEngine {
         if (orders == null) {
             orders = Collections.emptyList();
         }
-
         Map<Long, Integer> coPurchaseCount = new HashMap<>();
         for (OrderDto order : orders) {
             List<OrderItemDto> items = order.getItems();
@@ -242,7 +209,6 @@ public class RecommendationEngine {
                 }
             }
         }
-
         return coPurchaseCount.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Integer>comparingByValue().reversed())
@@ -250,7 +216,6 @@ public class RecommendationEngine {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get trending products based on recent interactions and sales.
      * @param limit maximum number of recommendations
@@ -266,7 +231,6 @@ public class RecommendationEngine {
                 .limit(Math.min(limit, productIds.size()))
                 .collect(Collectors.toList());
     }
-
     /**
      * Get recommendations based on user's recent activity (browsing, cart, wishlist).
      * We'll use the same as personalized recommendations for now.
@@ -277,7 +241,6 @@ public class RecommendationEngine {
     public List<Long> getContextualRecommendations(String userId, int limit) {
         return getPersonalizedRecommendations(userId, limit);
     }
-
     /**
      * Get recommendations based on seasonal trends, festivals, etc.
      * This would involve adjusting scores based on time of year, etc.
@@ -291,9 +254,7 @@ public class RecommendationEngine {
         // For simplicity, we delegate to personalized recommendations.
         return getPersonalizedRecommendations(userId, limit);
     }
-
     // Helper methods
-
     private void loadCacheIfNeeded() {
         long now = System.currentTimeMillis();
         if (now - cacheTimestamp > CACHE_VALIDITY_MS) {
@@ -305,7 +266,6 @@ public class RecommendationEngine {
             }
         }
     }
-
     private void loadCache() {
         // Load categories and create mapping
         List<CategoryDto> categories = catalogServiceClient.getAllCategories()
@@ -319,7 +279,6 @@ public class RecommendationEngine {
             categoryToIndexMap.put(categories.get(i).getId(), i);
         }
         numCategories = categories.size();
-
         // Load all products and compute feature vectors
         List<ProductDto> products = catalogServiceClient.getAllProducts()
                 .collectList()
@@ -327,14 +286,11 @@ public class RecommendationEngine {
         if (products == null) {
             products = Collections.emptyList();
         }
-
         productFeatureVectors.clear();
         productCache.clear();
-
         for (ProductDto product : products) {
             Long productId = product.getId();
             productCache.put(productId, product);
-
             // Create feature vector: one-hot encoding of category
             RealVector vector = new ArrayRealVector(numCategories);
             Long categoryId = product.getCategoryId();
@@ -345,11 +301,9 @@ public class RecommendationEngine {
             // If no category, the vector remains zeros (we could use a default category)
             productFeatureVectors.put(productId, vector);
         }
-
         // Build item-item similarity matrix for collaborative filtering
         buildItemSimilarityMatrix();
     }
-
     /**
      * Build item-item similarity matrix based on co-purchase and co-view data.
      * This is a simplified item-based collaborative filtering.
@@ -363,10 +317,8 @@ public class RecommendationEngine {
         if (orders == null) {
             orders = Collections.emptyList();
         }
-
         Map<Long, Map<Long, Integer>> coOccurrence = new HashMap<>();
         Map<Long, Integer> itemCounts = new HashMap<>();
-
         for (OrderDto order : orders) {
             List<OrderItemDto> items = order.getItems();
             if (items == null || items.isEmpty()) continue;
@@ -384,7 +336,6 @@ public class RecommendationEngine {
                 }
             }
         }
-
         // Compute similarity using cosine similarity on co-occurrence vectors
         itemSimilarityMatrix.clear();
         for (Map.Entry<Long, Map<Long, Integer>> entry1 : coOccurrence.entrySet()) {
@@ -418,7 +369,6 @@ public class RecommendationEngine {
             }
         }
     }
-
     private Set<Long> getInteractedItemIds(String userIdStr) {
         try {
             UUID userId = UUID.fromString(userIdStr);
@@ -427,9 +377,7 @@ public class RecommendationEngine {
             if (customerProfileDto == null) {
                 return Collections.emptySet();
             }
-
             Set<Long> interactedItems = new HashSet<>();
-
             // Wishlist items
             var wishlistItemsFlux = userServiceClient.getWishlistItems(userIdStr);
             List<WishlistItemDto> wishlistItems = wishlistItemsFlux.collectList().block();
@@ -443,7 +391,6 @@ public class RecommendationEngine {
                     }
                 }
             }
-
             // Favorite products
             var favoriteProductsFlux = userServiceClient.getFavoriteProducts(userIdStr);
             List<FavoriteProductDto> favoriteProducts = favoriteProductsFlux.collectList().block();
@@ -457,7 +404,6 @@ public class RecommendationEngine {
                     }
                 }
             }
-
             // Search history: we have clickedResultId
             var searchHistoryFlux = userServiceClient.getSearchHistory(userIdStr);
             List<SearchHistoryDto> searchHistory = searchHistoryFlux.collectList().block();
@@ -474,7 +420,6 @@ public class RecommendationEngine {
                     }
                 }
             }
-
             // Orders: we have order items
             var ordersFlux = orderServiceClient.getOrdersByUserId(userIdStr);
             List<OrderDto> orders = ordersFlux.collectList().block();
@@ -493,14 +438,12 @@ public class RecommendationEngine {
                     }
                 }
             }
-
             return interactedItems;
         } catch (IllegalArgumentException e) {
             // Invalid UUID
             return Collections.emptySet();
         }
     }
-
     private RealVector computeUserVector(Set<Long> interactedItemIds) {
         if (interactedItemIds.isEmpty()) {
             return null;
@@ -527,7 +470,6 @@ public class RecommendationEngine {
         }
         return new ArrayRealVector(sum);
     }
-
     private double cosineSimilarity(RealVector v1, RealVector v2) {
         double dotProduct = 0.0;
         double normA = 0.0;

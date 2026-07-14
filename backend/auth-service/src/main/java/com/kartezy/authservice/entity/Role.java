@@ -1,12 +1,9 @@
 package com.kartezy.authservice.entity;
-
 import com.kartezy.shared.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.HashSet;
 import java.util.Set;
-
 /**
  * Role entity representing a user's role (e.g., ADMIN, CUSTOMER).
  */
@@ -18,13 +15,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class Role extends AuditableEntity {
-
     @Column(name = "name", nullable = false, length = 50)
     private String name;
-
     @Column(name = "description", length = 255)
     private String description;
-
     // Many-to-Many with Permission (via join table role_permissions)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -34,18 +28,15 @@ public class Role extends AuditableEntity {
     )
     @Builder.Default
     private Set<Permission> permissions = new HashSet<>();
-
     // Many-to-Many with User (via user_roles)
     @ManyToMany(mappedBy = "roles")
     @Builder.Default
     private Set<User> users = new HashSet<>();
-
     // Convenience methods
     public void addPermission(Permission permission) {
         this.permissions.add(permission);
         permission.getRoles().add(this);
     }
-
     public void removePermission(Permission permission) {
         this.permissions.remove(permission);
         permission.getRoles().remove(this);

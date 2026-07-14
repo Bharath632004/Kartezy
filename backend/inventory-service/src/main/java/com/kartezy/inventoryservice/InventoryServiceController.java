@@ -1,5 +1,4 @@
 package com.kartezy.inventoryservice.controller;
-
 import com.kartezy.inventoryservice.dto.InventoryDto;
 import com.kartezy.inventoryservice.entity.InventoryItem;
 import com.kartezy.inventoryservice.repository.InventoryRepository;
@@ -7,25 +6,20 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.*;
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 @PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/inventory")
 @AllArgsConstructor
 public class InventoryServiceController {
-
     private final InventoryRepository inventoryRepository;
-
     @GetMapping
     public ResponseEntity<List<InventoryDto>> getList(@RequestParam java.util.Map<String, String> params) {
         List<InventoryItem> items = inventoryRepository.findAll();
         List<InventoryDto> dtos = items.stream().map(this::toDto).collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<InventoryDto> getDetail(@PathVariable Long id) {
         return inventoryRepository.findById(id)
@@ -33,7 +27,6 @@ public class InventoryServiceController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/stock")
     public ResponseEntity<InventoryDto> updateStock(@PathVariable Long id, @RequestBody java.util.Map<String, Object> body) {
         Integer quantity = (Integer) body.get("quantity");
@@ -49,7 +42,6 @@ public class InventoryServiceController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/alerts")
     public ResponseEntity<List<InventoryDto>> getAlerts(@RequestParam java.util.Map<String, String> params) {
         // For simplicity, return items where availableQuantity < lowStockThreshold and alert enabled
@@ -61,7 +53,6 @@ public class InventoryServiceController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(lowStock);
     }
-
     private InventoryDto toDto(InventoryItem entity) {
         return InventoryDto.builder()
                 .id(entity.getId())

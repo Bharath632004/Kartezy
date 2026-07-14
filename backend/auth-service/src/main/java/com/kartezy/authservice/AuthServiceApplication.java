@@ -1,5 +1,4 @@
 package com.kartezy.authservice;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,26 +14,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableMethodSecurity
 public class AuthServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(AuthServiceApplication.class, args);
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -65,10 +59,8 @@ public class AuthServiceApplication {
             .and()
             .oauth2ResourceServer()
             .jwt();
-
         return http.build();
     }
-
     @Configuration
     public static class CorsConfig implements org.springframework.web.servlet.config.annotation.WebMvcConfigurer {
         @Override

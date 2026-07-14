@@ -1,13 +1,10 @@
 package com.kartezy.nlpservice.controller;
-
 import com.kartezy.nlpservice.service.NlpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
-
 /**
  * REST controller for NLP service.
  * Provides endpoints for sentiment analysis, entity recognition, language detection, translation,
@@ -16,10 +13,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/nlp")
 public class NlpController {
-
     @Autowired
     private NlpService nlpService;
-
     /**
      * Analyzes the sentiment of a given text.
      * @param text the text to analyze
@@ -29,7 +24,6 @@ public class NlpController {
     public ResponseEntity<Map<String, Object>> analyzeSentiment(@RequestParam String text) {
         return ResponseEntity.ok(nlpService.analyzeSentiment(text));
     }
-
     /**
      * Recognizes named entities in a given text.
      * @param text the text to analyze
@@ -39,7 +33,6 @@ public class NlpController {
     public ResponseEntity<List<Map<String, Object>>> recognizeEntities(@RequestParam String text) {
         return ResponseEntity.ok(nlpService.recognizeEntities(text));
     }
-
     /**
      * Detects the language of a given text.
      * @param text the text to analyze
@@ -49,7 +42,6 @@ public class NlpController {
     public ResponseEntity<String> detectLanguage(@RequestParam String text) {
         return ResponseEntity.ok(nlpService.detectLanguage(text));
     }
-
     /**
      * Translates text from one language to another.
      * @param text the text to translate
@@ -64,7 +56,6 @@ public class NlpController {
             @RequestParam String targetLanguage) {
         return ResponseEntity.ok(nlpService.translateText(text, sourceLanguage, targetLanguage));
     }
-
     /**
      * Summarizes a given text.
      * @param text the text to summarize
@@ -77,7 +68,6 @@ public class NlpController {
             @RequestParam double ratio) {
         return ResponseEntity.ok(nlpService.summarizeText(text, ratio));
     }
-
     /**
      * Answers a question based on a given context.
      * @param question the question to answer
@@ -90,7 +80,6 @@ public class NlpController {
             @RequestParam(required = false) String context) {
         return ResponseEntity.ok(nlpService.answerQuestion(question, context));
     }
-
     /**
      * Extracts keywords or key phrases from a given text.
      * @param text the text to extract keywords from
@@ -103,7 +92,6 @@ public class NlpController {
             @RequestParam int maxKeywords) {
         return ResponseEntity.ok(nlpService.extractKeywords(text, maxKeywords));
     }
-
     /**
      * Checks the grammatical correctness of a sentence.
      * @param sentence the sentence to check
@@ -113,7 +101,6 @@ public class NlpController {
     public ResponseEntity<List<Map<String, Object>>> checkGrammar(@RequestParam String sentence) {
         return ResponseEntity.ok(nlpService.checkGrammar(sentence));
     }
-
     /**
      * Detects the intent of a user utterance (e.g., for chatbots).
      * @param utterance the user's input
@@ -123,7 +110,6 @@ public class NlpController {
     public ResponseEntity<Map<String, Object>> detectIntent(@RequestParam String utterance) {
         return ResponseEntity.ok(nlpService.detectIntent(utterance));
     }
-
     /**
      * Health check endpoint.
      * @return a simple status message

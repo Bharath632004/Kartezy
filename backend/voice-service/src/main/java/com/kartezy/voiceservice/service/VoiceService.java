@@ -1,7 +1,5 @@
 package com.kartezy.voiceservice.service;
-
 import org.springframework.stereotype.Service;
-
 /**
  * Service for voice processing operations (Speech-to-Text, Text-to-Speech, Voice Commands).
  * <p>
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class VoiceService {
-
     /**
      * Converts speech audio to text.
      * @param audioData the audio data as a byte array (e.g., WAV, MP3)
@@ -24,7 +21,6 @@ public class VoiceService {
     public String speechToText(byte[] audioData, String language) {
         throw new UnsupportedOperationException("Speech-to-text is not implemented yet.");
     }
-
     /**
      * Converts text to speech audio.
      * @param text the text to convert to speech
@@ -36,7 +32,6 @@ public class VoiceService {
     public byte[] textToSpeech(String text, String language, String voice) {
         throw new UnsupportedOperationException("Text-to-speech is not implemented yet.");
     }
-
     /**
      * Processes a voice command to determine the intent and extract any parameters.
      * @param audioData the audio data containing the voice command

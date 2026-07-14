@@ -1,18 +1,15 @@
 package com.kratezy.computervisionservice.controller;
-
 import com.kartezy.computervisionservice.service.ComputerVisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 /**
  * REST controller for computer vision service.
  * Provides endpoints for product recognition, barcode detection, image similarity, duplicate detection,
@@ -21,10 +18,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/cv")
 public class ComputerVisionController {
-
     @Autowired
     private ComputerVisionService computerVisionService;
-
     /**
      * Recognizes products in an uploaded image.
      * @param file the uploaded image file
@@ -37,7 +32,6 @@ public class ComputerVisionController {
         List<Map<String, Object>> result = computerVisionService.recognizeProducts(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Detects barcodes in an uploaded image.
      * @param file the uploaded image file
@@ -50,7 +44,6 @@ public class ComputerVisionController {
         List<String> result = computerVisionService.detectBarcodes(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Computes the similarity between two uploaded images.
      * @param file1 the first image file
@@ -67,7 +60,6 @@ public class ComputerVisionController {
         double similarity = computerVisionService.computeImageSimilarity(image1, image2);
         return ResponseEntity.ok(similarity);
     }
-
     /**
      * Detects duplicate products among a set of uploaded images.
      * @param files the list of image files
@@ -89,7 +81,6 @@ public class ComputerVisionController {
         List<List<Integer>> result = computerVisionService.detectDuplicateProducts(images);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Analyzes a shelf image to identify products, their positions, and stock levels.
      * @param file the uploaded shelf image file
@@ -102,7 +93,6 @@ public class ComputerVisionController {
         Map<String, Object> result = computerVisionService.analyzeShelfImage(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Verifies the authenticity of a document from an uploaded image.
      * @param file the uploaded document image file
@@ -115,7 +105,6 @@ public class ComputerVisionController {
         Map<String, Object> result = computerVisionService.verifyDocument(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Health check endpoint.
      * @return a simple status message

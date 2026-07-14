@@ -1,5 +1,4 @@
 package com.kartezy.userservice.entity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
@@ -12,9 +11,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
-
 import java.time.LocalDateTime;
-
 /**
  * Search history entity for tracking customer's search queries.
  */
@@ -26,25 +23,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class SearchHistory extends AuditableEntity {
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)
     private CustomerProfile customerProfile;
-
     @NotBlank
     @Size(max = 255)
     @Column(name = "query", length = 255)
     private String query;
-
     @Column(name = "search_time")
     private LocalDateTime searchTime;
-
     @Column(name = "results_count")
     private Integer resultsCount;
-
     @Column(name = "clicked_result_id")
     private String clickedResultId; // ID of the clicked result (product, store, etc.)
-
     @Column(name = "clicked_result_type")
     @Size(max = 50)
     private String clickedResultType; // e.g., PRODUCT, STORE, CATEGORY

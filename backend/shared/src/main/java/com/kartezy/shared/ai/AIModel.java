@@ -1,5 +1,4 @@
 package com.kartezy.shared.ai;
-
 /**
  * Generic interface for AI models.
  * @param <T> input type

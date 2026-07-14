@@ -1,5 +1,4 @@
 package com.kartezy.apigateway;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,17 +14,13 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
-
 @SpringBootApplication
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
-
     @Bean
     @Primary
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
@@ -252,7 +247,6 @@ public class ApiGatewayApplication {
                         .uri("lb://nlp-service"))
                 .build();
     }
-
     @Bean
     @Order(-1) // High precedence
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -270,7 +264,6 @@ public class ApiGatewayApplication {
                 .and()
                 .build();
     }
-
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();

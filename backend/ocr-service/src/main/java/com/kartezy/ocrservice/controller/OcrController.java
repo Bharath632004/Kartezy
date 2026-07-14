@@ -1,15 +1,12 @@
 package com.kartezy.ocrservice.controller;
-
 import com.kartezy.ocrservice.service.OcrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Map;
-
 /**
  * REST controller for OCR service.
  * Provides endpoints for various OCR functionalities: invoice, bill, product, document, KYC, receipt.
@@ -17,10 +14,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/ocr")
 public class OcrController {
-
     @Autowired
     private OcrService ocrService;
-
     /**
      * Extracts data from an invoice image.
      * @param file the uploaded invoice image file
@@ -33,7 +28,6 @@ public class OcrController {
         Map<String, Object> result = ocrService.extractInvoiceData(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Extracts data from a bill image.
      * @param file the uploaded bill image file
@@ -46,7 +40,6 @@ public class OcrController {
         Map<String, Object> result = ocrService.extractBillData(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Extracts product information from a product image.
      * @param file the uploaded product image file
@@ -59,7 +52,6 @@ public class OcrController {
         Map<String, Object> result = ocrService.extractProductInfo(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Extracts text from a document image.
      * @param file the uploaded document image file
@@ -72,7 +64,6 @@ public class OcrController {
         String text = ocrService.extractText(image);
         return ResponseEntity.ok(text);
     }
-
     /**
      * Extracts KYC data from an ID card image.
      * @param file the uploaded ID card image file
@@ -85,7 +76,6 @@ public class OcrController {
         Map<String, Object> result = ocrService.extractKycData(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Extracts data from a receipt image.
      * @param file the uploaded receipt image file
@@ -98,7 +88,6 @@ public class OcrController {
         Map<String, Object> result = ocrService.extractReceiptData(image);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Health check endpoint.
      * @return a simple status message

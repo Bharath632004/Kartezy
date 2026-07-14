@@ -1,5 +1,4 @@
 package com.kartezy.merchantservice.controller;
-
 import com.kartezy.merchantservice.dto.*;
 import com.kartezy.merchantservice.entity.Merchant;
 import com.kartezy.merchantservice.repository.MerchantRepository;
@@ -7,19 +6,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.*;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 @PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/merchants")
 @AllArgsConstructor
 public class MerchantController {
-
     private final MerchantRepository merchantRepository;
-
     @GetMapping
     public ResponseEntity<List<MerchantDto>> getList(@RequestParam java.util.Map<String, String> params) {
         List<Merchant> merchants = merchantRepository.findAll();
@@ -28,7 +23,6 @@ public class MerchantController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<MerchantDto> getDetail(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -36,7 +30,6 @@ public class MerchantController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/approve")
     public ResponseEntity<?> approve(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -48,7 +41,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/reject")
     public ResponseEntity<?> reject(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -60,7 +52,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/suspend")
     public ResponseEntity<?> suspend(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -72,7 +63,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/activate")
     public ResponseEntity<?> activate(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -84,7 +74,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/kyc")
     public ResponseEntity<KycDto> getKyc(@PathVariable UUID id) {
         // For demo, return dummy KYC; in real app, fetch from Kyc entity linked to merchant
@@ -101,7 +90,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/documents")
     public ResponseEntity<List<DocumentDto>> getDocuments(@PathVariable UUID id) {
         // Return dummy list
@@ -125,7 +113,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/store")
     public ResponseEntity<StoreDto> getStoreDetails(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -149,7 +136,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/ratings")
     public ResponseEntity<RatingDto> getRatings(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -162,7 +148,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/revenue")
     public ResponseEntity<RevenueDto> getRevenue(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -176,7 +161,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/commission")
     public ResponseEntity<CommissionDto> getCommission(@PathVariable UUID id) {
         return merchantRepository.findById(id)
@@ -190,7 +174,6 @@ public class MerchantController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     private MerchantDto toDto(Merchant merchant) {
         return MerchantDto.builder()
                 .id(merchant.getId())

@@ -1,11 +1,8 @@
 package com.kartezy.recommendationservice.service;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 /**
  * Service for generating recommendations.
  * Implements personalized recommendations, product similarity, frequently bought together,
@@ -13,10 +10,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RecommendationService {
-
     @Autowired
     private RecommendationEngine recommendationEngine;
-
     /**
      * Get personalized recommendations for a user using content-based filtering.
      * @param userId the user ID (UUID string)
@@ -29,7 +24,6 @@ public class RecommendationService {
                 .map(Object::toString)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get product recommendations based on product similarity (content-based).
      * @param productId the product ID as string
@@ -47,7 +41,6 @@ public class RecommendationService {
             return List.of();
         }
     }
-
     /**
      * Get frequently bought together items for a product.
      * This implementation uses association rules on order items (simplified).
@@ -69,7 +62,6 @@ public class RecommendationService {
             return List.of();
         }
     }
-
     /**
      * Get trending products based on recent interactions and popularity.
      * @param limit maximum number of recommendations
@@ -81,7 +73,6 @@ public class RecommendationService {
                 .map(Object::toString)
                 .collect(Collectors.toList());
     }
-
     /**
      * Get recommendations based on user's recent activity (browsing, cart, wishlist).
      * Uses the same content-based filtering as personalized recommendations.

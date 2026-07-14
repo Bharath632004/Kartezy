@@ -1,35 +1,27 @@
 package com.kartezy.catalogservice.controller;
-
 import com.kartezy.catalogservice.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 /**
  * REST controller for catalog service with AI-powered search capabilities.
  */
 @RestController
 @RequestMapping("/api/catalog")
 public class CatalogServiceController {
-
     @Autowired
     private SearchService searchService;
-
     // Existing endpoints
     @GetMapping("/")
     public String home() {
         return "Welcome to catalog-service service";
     }
-
     @GetMapping("/health")
     public String health() {
         return "catalog-service is healthy";
     }
-
     // Search endpoints
-
     /**
      * Text search with NLP enhancements.
      * @param query the search query
@@ -42,7 +34,6 @@ public class CatalogServiceController {
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(searchService.textSearch(query, limit));
     }
-
     /**
      * Semantic search using embeddings.
      * @param query the search query text
@@ -55,7 +46,6 @@ public class CatalogServiceController {
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(searchService.semanticSearch(query, limit));
     }
-
     /**
      * Voice search (expects a token from voice service).
      * @param voiceToken token representing the voice input
@@ -68,7 +58,6 @@ public class CatalogServiceController {
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(searchService.voiceSearch(voiceToken, limit));
     }
-
     /**
      * Image search (expects image data as base64 or binary in request body, but for simplicity we use a placeholder).
      * In a real implementation, this would be a POST with multipart file.
@@ -84,7 +73,6 @@ public class CatalogServiceController {
         // For simplicity, we accept base64 string.
         return ResponseEntity.ok(searchService.imageSearch(java.util.Base64.getDecoder().decode(imageDataBase64), limit));
     }
-
     /**
      * Barcode search.
      * @param barcode the barcode string (UPC, EAN, etc.)
@@ -96,7 +84,6 @@ public class CatalogServiceController {
         String productId = searchService.barcodeSearch(barcode);
         return ResponseEntity.ok(productId);
     }
-
     /**
      * Get search suggestions (autocomplete).
      * @param partialQuery partial search query
@@ -109,7 +96,6 @@ public class CatalogServiceController {
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(searchService.getSuggestions(partialQuery, limit));
     }
-
     /**
      * Correct spelling in a search query.
      * @param query the search query to correct

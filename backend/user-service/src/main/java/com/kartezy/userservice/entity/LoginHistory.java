@@ -1,5 +1,4 @@
 package com.kartezy.userservice.entity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +12,6 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import com.kartezy.shared.audit.AuditableEntity;
 import java.time.LocalDateTime;
-
 /**
  * Login history entity for tracking customer's login attempts.
  */
@@ -25,40 +23,30 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class LoginHistory extends AuditableEntity {
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_profile_id", nullable = false)
     private CustomerProfile customerProfile;
-
     @Column(name = "login_time")
     private LocalDateTime loginTime;
-
     @Column(name = "logout_time")
     private LocalDateTime logoutTime;
-
     @Column(name = "duration_seconds")
     private Long durationSeconds;
-
     @NotBlank
     @Size(max = 45)
     @Column(name = "ip_address", length = 45)
     private String ipAddress; // IPv4 or IPv6
-
     @Column(name = "user_agent")
     @Size(max = 255)
     private String userAgent;
-
     @Column(name = "is_successful")
     @Builder.Default
     private boolean isSuccessful = false;
-
     @Column(name = "failure_reason")
     @Size(max = 255)
     private String failureReason; // e.g., INVALID_CREDENTIALS, ACCOUNT_LOCKED
-
     @Column(name = "latitude")
     private Double latitude;
-
     @Column(name = "longitude")
     private Double longitude;
 }

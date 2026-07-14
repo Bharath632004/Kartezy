@@ -1,15 +1,12 @@
 package com.kartezy.voiceservice.controller;
-
 import com.kartezy.voiceservice.service.VoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Map;
-
 /**
  * REST controller for voice service.
  * Provides endpoints for speech-to-text, text-to-speech, and voice command processing.
@@ -17,10 +14,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/voice")
 public class VoiceController {
-
     @Autowired
     private VoiceService voiceService;
-
     /**
      * Converts speech audio to text.
      * @param file the audio file (e.g., WAV, MP3)
@@ -36,7 +31,6 @@ public class VoiceController {
         String text = voiceService.speechToText(audioData, language);
         return ResponseEntity.ok(text);
     }
-
     /**
      * Converts text to speech audio.
      * @param text the text to convert to speech
@@ -58,7 +52,6 @@ public class VoiceController {
                 .headers(headers)
                 .body(new ByteArrayResource(audioData));
     }
-
     /**
      * Processes a voice command to determine intent and extract parameters.
      * @param file the audio file containing the voice command
@@ -74,7 +67,6 @@ public class VoiceController {
         Map<String, Object> result = voiceService.processVoiceCommand(audioData, language);
         return ResponseEntity.ok(result);
     }
-
     /**
      * Health check endpoint.
      * @return a simple status message

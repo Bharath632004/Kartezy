@@ -1,5 +1,4 @@
 package com.kartezy.chatbotservice.controller;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -7,10 +6,8 @@ import com.kartezy.chatbotservice.service.ChatbotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
-
 /**
  * REST controller for chatbot service.
  * Provides an endpoint for interacting with the chatbot.
@@ -18,10 +15,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/chatbot")
 public class ChatbotController {
-
     @Autowired
     private ChatbotService chatbotService;
-
     /**
      * Sends a message to the chatbot and returns the response.
      * @param message the user's message
@@ -43,7 +38,6 @@ public class ChatbotController {
         }
         return ResponseEntity.ok(chatbotService.getResponse(message, ctx));
     }
-
     /**
      * Health check endpoint.
      * @return a simple status message

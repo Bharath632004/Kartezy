@@ -1,10 +1,7 @@
 package com.kartezy.chatbotservice.service;
-
 import com.kartezy.nlpservice.service.NlpService;
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
-
 /**
  * Service for chatbot operations.
  * <p>
@@ -17,13 +14,10 @@ import java.util.Map;
  */
 @Service
 public class ChatbotService {
-
     private final NlpService nlpService;
-
     public ChatbotService(NlpService nlpService) {
         this.nlpService = nlpService;
     }
-
     /**
      * Processes a user message and returns a chatbot response.
      * @param userMessage the message from the user
@@ -34,7 +28,6 @@ public class ChatbotService {
     public Map<String, Object> getResponse(String userMessage, Map<String, Object> context) {
         throw new UnsupportedOperationException("Chatbot response generation is not implemented yet.");
     }
-
     /**
      * Detects the intent of a user message.
      * @param userMessage the user's message
@@ -45,7 +38,6 @@ public class ChatbotService {
         // Delegate to NLP service
         return nlpService.detectIntent(userMessage);
     }
-
     /**
      * Extracts entities from a user message.
      * @param userMessage the user's message

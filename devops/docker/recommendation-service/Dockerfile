@@ -5,7 +5,7 @@ COPY . .
 RUN mvn -B package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apk add --no-cache ca-certificates
 WORKDIR /app
 COPY --from=0 /app/target/*.jar app.jar
 EXPOSE 8080

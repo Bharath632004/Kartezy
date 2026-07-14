@@ -1,20 +1,15 @@
 package com.kartezy.shared.util;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 /**
  * Security utility class for common security operations.
  * This class will be expanded in later phases with more security utilities.
  */
 public final class SecurityUtils {
-
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     private SecurityUtils() {
         // Prevent instantiation
     }
-
     /**
      * Encodes a password using BCrypt.
      *
@@ -24,7 +19,6 @@ public final class SecurityUtils {
     public static String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }
-
     /**
      * Checks if a raw password matches an encoded password.
      *

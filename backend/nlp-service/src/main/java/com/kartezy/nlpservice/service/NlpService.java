@@ -1,10 +1,7 @@
 package com.kartezy.nlpservice.service;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
-
 /**
  * Service for Natural Language Processing (NLP) operations.
  * <p>
@@ -17,7 +14,6 @@ import java.util.Map;
  */
 @Service
 public class NlpService {
-
     /**
      * Analyzes the sentiment of a given text.
      * @param text the text to analyze
@@ -27,7 +23,6 @@ public class NlpService {
     public Map<String, Object> analyzeSentiment(String text) {
         throw new UnsupportedOperationException("Sentiment analysis is not implemented yet.");
     }
-
     /**
      * Recognizes named entities in a given text.
      * @param text the text to analyze
@@ -37,7 +32,6 @@ public class NlpService {
     public List<Map<String, Object>> recognizeEntities(String text) {
         throw new UnsupportedOperationException("Entity recognition is not implemented yet.");
     }
-
     /**
      * Detects the language of a given text.
      * @param text the text to analyze
@@ -47,7 +41,6 @@ public class NlpService {
     public String detectLanguage(String text) {
         throw new UnsupportedOperationException("Language detection is not implemented yet.");
     }
-
     /**
      * Translates text from one language to another.
      * @param text the text to translate
@@ -59,7 +52,6 @@ public class NlpService {
     public String translateText(String text, String sourceLanguage, String targetLanguage) {
         throw new UnsupportedOperationException("Translation is not implemented yet.");
     }
-
     /**
      * Summarizes a given text.
      * @param text the text to summarize
@@ -70,7 +62,6 @@ public class NlpService {
     public String summarizeText(String text, double ratio) {
         throw new UnsupportedOperationException("Summarization is not implemented yet.");
     }
-
     /**
      * Answers a question based on a given context or knowledge base.
      * @param question the question to answer
@@ -81,7 +72,6 @@ public class NlpService {
     public String answerQuestion(String question, String context) {
         throw new UnsupportedOperationException("Question answering is not implemented yet.");
     }
-
     /**
      * Extracts keywords or key phrases from a given text.
      * @param text the input text
@@ -92,7 +82,6 @@ public class NlpService {
     public List<String> extractKeywords(String text, int maxKeywords) {
         throw new UnsupportedOperationException("Keyword extraction is not implemented yet.");
     }
-
     /**
      * Checks the grammatical correctness of a sentence and suggests corrections.
      * @param sentence the sentence to check
@@ -102,7 +91,6 @@ public class NlpService {
     public List<Map<String, Object>> checkGrammar(String sentence) {
         throw new UnsupportedOperationException("Grammar checking is not implemented yet.");
     }
-
     /**
      * Determines the intent of a user utterance (e.g., for chatbots).
      * @param utterance the user's input

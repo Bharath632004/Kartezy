@@ -1,24 +1,19 @@
 package com.kartezy.shared.util;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 /**
  * Utility class for validation operations using Jakarta Bean Validation.
  */
 public final class ValidationUtil {
-
     private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private static final Validator validator = factory.getValidator();
-
     private ValidationUtil() {
         // Prevent instantiation
     }
-
     /**
      * Validates the given object and throws a ConstraintViolationException if any constraints are violated.
      *
@@ -34,7 +29,6 @@ public final class ValidationUtil {
             throw new IllegalArgumentException("Validation failed: " + message);
         }
     }
-
     /**
      * Validates the given object and returns a set of constraint violations.
      *

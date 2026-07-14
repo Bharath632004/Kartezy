@@ -1,5 +1,4 @@
 package com.kartezy.userservice;
-
 import com.kartezy.authservice.dto.UserDto;
 import com.kartezy.authservice.entity.User;
 import com.kartezy.authservice.entity.UserStatus;
@@ -20,18 +19,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
-
 @PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserServiceController {
-
     private final UserRepository userRepository;
     private final CustomerProfileRepository customerProfileRepository;
     private final WishlistRepository wishlistRepository;
@@ -41,7 +37,6 @@ public class UserServiceController {
     private final LoginHistoryRepository loginHistoryRepository;
     private final AddressRepository addressRepository;
     private final WalletReferenceRepository walletReferenceRepository;
-
     @GetMapping
     public ResponseEntity<List<UserDto>> getList(@RequestParam Map<String, String> params) {
         // In a real implementation, this would support filtering, pagination, etc.
@@ -60,7 +55,6 @@ public class UserServiceController {
         }
         return ResponseEntity.ok(userDtos);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getDetail(@PathVariable UUID id) {
         return userRepository.findById(id)
@@ -76,7 +70,6 @@ public class UserServiceController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/block")
     public ResponseEntity<?> blockUser(@PathVariable UUID id) {
         return userRepository.findById(id)
@@ -87,7 +80,6 @@ public class UserServiceController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}/unblock")
     public ResponseEntity<?> unblockUser(@PathVariable UUID id) {
         return userRepository.findById(id)
@@ -102,7 +94,6 @@ public class UserServiceController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
         return userRepository.findById(id)
@@ -113,7 +104,6 @@ public class UserServiceController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @GetMapping("/{id}/wallet")
     public ResponseEntity<WalletReferenceDto> getWallet(@PathVariable UUID id) {
         WalletReferenceDto wallet = WalletReferenceDto.builder()
@@ -126,20 +116,17 @@ public class UserServiceController {
                 .build();
         return ResponseEntity.ok(wallet);
     }
-
     @GetMapping("/{id}/wallet/transactions")
     public ResponseEntity<List<WalletTransactionDto>> getWalletTransactions(@PathVariable UUID id) {
         // Return empty list for now - in a real implementation, this would fetch actual transactions
         return ResponseEntity.ok(Collections.emptyList());
     }
-
     @GetMapping("/{id}/orders")
     public ResponseEntity<List<OrderDto>> getOrders(@PathVariable UUID id) {
         // In a real implementation, this would fetch orders for the user
         // For now, return empty list
         return ResponseEntity.ok(Collections.emptyList());
     }
-
     @GetMapping("/{id}/login-history")
     public ResponseEntity<List<LoginHistoryDto>> getLoginHistory(@PathVariable UUID id) {
         LoginHistoryDto lh = LoginHistoryDto.builder()
@@ -152,7 +139,6 @@ public class UserServiceController {
                 .build();
         return ResponseEntity.ok(Collections.singletonList(lh));
     }
-
     @GetMapping("/{id}/addresses")
     public ResponseEntity<List<AddressDto>> getAddresses(@PathVariable UUID id) {
         AddressDto addr = AddressDto.builder()
@@ -168,9 +154,7 @@ public class UserServiceController {
                 .build();
         return ResponseEntity.ok(Collections.singletonList(addr));
     }
-
     // New endpoints for recommendation service
-
     @GetMapping("/{id}/wishlist")
     public ResponseEntity<List<WishlistItemDto>> getWishlist(@PathVariable UUID id) {
         // Get customer profile by userId
@@ -179,7 +163,6 @@ public class UserServiceController {
             return ResponseEntity.ok(Collections.emptyList());
         }
         CustomerProfile cp = optionalCp.get();
-
         // Get wishlist for this customer profile (assuming one wishlist per user)
         List<Wishlist> wishlists = wishlistRepository.findByCustomerProfileId(cp.getId());
         if (wishlists.isEmpty()) {
@@ -187,7 +170,6 @@ public class UserServiceController {
         }
         // Take the first wishlist (or we could merge all)
         Wishlist wishlist = wishlists.get(0);
-
         // Get wishlist items
         List<WishlistItem> wishlistItems = wishlistItemRepository.findByWishlistId(wishlist.getId());
         List<WishlistItemDto> dtos = wishlistItems.stream()
@@ -202,7 +184,6 @@ public class UserServiceController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-
     @GetMapping("/{id}/favorite-products")
     public ResponseEntity<List<FavoriteProductDto>> getFavoriteProducts(@PathVariable UUID id) {
         // Get customer profile by userId
@@ -211,7 +192,6 @@ public class UserServiceController {
             return ResponseEntity.ok(Collections.emptyList());
         }
         CustomerProfile cp = optionalCp.get();
-
         // Get favorite products for this customer profile
         List<FavoriteProduct> favoriteProducts = favoriteProductRepository.findByCustomerProfileId(cp.getId());
         List<FavoriteProductDto> dtos = favoriteProducts.stream()
@@ -226,7 +206,6 @@ public class UserServiceController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-
     @GetMapping("/{id}/search-history")
     public ResponseEntity<List<SearchHistoryDto>> getSearchHistory(@PathVariable UUID id) {
         // Get customer profile by userId
@@ -235,7 +214,6 @@ public class UserServiceController {
             return ResponseEntity.ok(Collections.emptyList());
         }
         CustomerProfile cp = optionalCp.get();
-
         // Get search history for this customer profile
         List<SearchHistory> searchHistoryList = searchHistoryRepository.findByCustomerProfileId(cp.getId());
         List<SearchHistoryDto> dtos = searchHistoryList.stream()
@@ -251,7 +229,6 @@ public class UserServiceController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-
     @GetMapping("/{id}/customer-profile")
     public ResponseEntity<CustomerProfileDto> getCustomerProfileByUserId(@PathVariable UUID id) {
         return customerProfileRepository.findByUserId(id)
@@ -262,7 +239,6 @@ public class UserServiceController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     private OrderDto toDto(com.kartezy.orderservice.entity.Order order) {
         return OrderDto.builder()
                 .id(order.getId())

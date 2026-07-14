@@ -1,11 +1,8 @@
 package com.kartezy.computervisionservice.service;
-
 import org.springframework.stereotype.Service;
-
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
-
 /**
  * Service for computer vision operations.
  * <p>
@@ -18,7 +15,6 @@ import java.util.Map;
  */
 @Service
 public class ComputerVisionService {
-
     /**
      * Recognizes products in an image (e.g., identifies product categories, brands, or specific items).
      * @param image the input image as a BufferedImage
@@ -28,7 +24,6 @@ public class ComputerVisionService {
     public List<Map<String, Object>> recognizeProducts(BufferedImage image) {
         throw new UnsupportedOperationException("Product recognition is not implemented yet.");
     }
-
     /**
      * Detects barcodes in an image and returns the decoded values.
      * @param image the input image as a BufferedImage
@@ -38,7 +33,6 @@ public class ComputerVisionService {
     public List<String> detectBarcodes(BufferedImage image) {
         throw new UnsupportedOperationException("Barcode detection is not implemented yet.");
     }
-
     /**
      * Computes the similarity between two images (e.g., using feature descriptors or deep embeddings).
      * @param image1 the first image
@@ -49,7 +43,6 @@ public class ComputerVisionService {
     public double computeImageSimilarity(BufferedImage image1, BufferedImage image2) {
         throw new UnsupportedOperationException("Image similarity computation is not implemented yet.");
     }
-
     /**
      * Detects duplicate products in a catalog by comparing images.
      * @param images a list of product images to check for duplicates
@@ -59,7 +52,6 @@ public class ComputerVisionService {
     public List<List<Integer>> detectDuplicateProducts(List<BufferedImage> images) {
         throw new UnsupportedOperationException("Duplicate product detection is not implemented yet.");
     }
-
     /**
      * Analyzes a shelf image to identify products, their positions, and stock levels.
      * @param image the shelf image as a BufferedImage
@@ -69,7 +61,6 @@ public class ComputerVisionService {
     public Map<String, Object> analyzeShelfImage(BufferedImage image) {
         throw new UnsupportedOperationException("Shelf image analysis is not implemented yet.");
     }
-
     /**
      * Verifies the authenticity of a document (e.g., checks for tampering, validates security features).
      * @param image the document image as a BufferedImage

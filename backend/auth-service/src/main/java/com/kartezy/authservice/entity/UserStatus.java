@@ -1,5 +1,4 @@
 package com.kartezy.authservice.entity;
-
 /**
  * User status enum.
  */

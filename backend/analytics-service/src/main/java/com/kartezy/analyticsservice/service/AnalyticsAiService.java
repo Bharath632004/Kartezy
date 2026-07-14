@@ -1,9 +1,6 @@
 package com.kartezy.analyticsservice.service;
-
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
-
 /**
  * Service for AI-powered analytics operations.
  * <p>
@@ -15,7 +12,6 @@ import java.util.Map;
  */
 @Service
 public class AnalyticsAiService {
-
     /**
      * Generate business insights (e.g., revenue trends, profit margins, growth opportunities).
      * @param parameters optional parameters for the analysis (e.g., time range, filters, dimensions)
@@ -25,7 +21,6 @@ public class AnalyticsAiService {
     public Map<String, Object> generateBusinessInsights(Map<String, Object> parameters) {
         throw new UnsupportedOperationException("Business insights generation is not implemented yet.");
     }
-
     /**
      * Generate customer insights (e.g., segmentation, lifetime value, churn prediction).
      * @param parameters optional parameters (e.g., customer segment, time range, attributes)
@@ -35,7 +30,6 @@ public class AnalyticsAiService {
     public Map<String, Object> generateCustomerInsights(Map<String, Object> parameters) {
         throw new UnsupportedOperationException("Customer insights generation is not implemented yet.");
     }
-
     /**
      * Generate merchant insights (e.g., sales performance, product recommendations, inventory health).
      * @param parameters optional parameters (e.g., merchant ID, time range, product category)
@@ -45,7 +39,6 @@ public class AnalyticsAiService {
     public Map<String, Object> generateMerchantInsights(Map<String, Object> parameters) {
         throw new UnsupportedOperationException("Merchant insights generation is not implemented yet.");
     }
-
     /**
      * Generate delivery insights (e.g., delivery times, route efficiency, driver performance).
      * @param parameters optional parameters (e.g., region, time range, delivery type)
@@ -55,7 +48,6 @@ public class AnalyticsAiService {
     public Map<String, Object> generateDeliveryInsights(Map<String, Object> parameters) {
         throw new UnsupportedOperationException("Delivery insights generation is not implemented yet.");
     }
-
     /**
      * Generate marketing insights (e.g., campaign ROI, channel effectiveness, customer acquisition cost).
      * @param parameters optional parameters (e.g., campaign ID, time range, marketing channel)
@@ -65,7 +57,6 @@ public class AnalyticsAiService {
     public Map<String, Object> generateMarketingInsights(Map<String, Object> parameters) {
         throw new UnsupportedOperationException("Marketing insights generation is not implemented yet.");
     }
-
     /**
      * Generate operational insights (e.g., inventory turnover, supply chain efficiency, warehouse utilization).
      * @param parameters optional parameters (e.g., warehouse ID, time range, operation type)
@@ -75,7 +66,6 @@ public class AnalyticsAiService {
     public Map<String, Object> generateOperationalInsights(Map<String, Object> parameters) {
         throw new UnsupportedOperationException("Operational insights generation is not implemented yet.");
     }
-
     /**
      * Perform predictive analytics (e.g., forecasting future sales, demand, or detecting anomalies).
      * @param parameters parameters for the prediction task (e.g., metric to predict, horizon, model type)
