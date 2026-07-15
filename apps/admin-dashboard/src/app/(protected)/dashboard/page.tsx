@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Card, CardContent, Grid, Typography, Container, Skeleton } from '@mui/material';
 import { useEffect } from 'react';
 import { useDashboardStore } from '@/store/dashboardStore';

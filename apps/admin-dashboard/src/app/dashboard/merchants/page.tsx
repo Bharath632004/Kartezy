@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -33,7 +35,7 @@ import {
   FilterAltOutlined,
   RefreshOutlined,
   Block,
-  RestoreAltOutlined,
+  RestoreOutlined,
   CheckCircleOutlined,
   CancelOutlined,
   PauseCircleOutlined,

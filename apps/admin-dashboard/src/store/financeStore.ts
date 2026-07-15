@@ -191,16 +191,19 @@ export const useFinanceStore = create<FinanceState>()(
         set({ loading: true, error: null });
         try {
           const response = await financeService.getSettlements(filters);
-        })) {
-          set({ error: error.message, loading: false });
+          set({ loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
           throw error;
         }
-      } => set({ balance: () =>true,
-        error.message,        try {
-        const response = await financeService.getWalletBalance(); }
-        set({ loading: false }); }
-       } catch (error) {
-          set({ error: error.message, loading: false });
+      },
+      getWalletBalance: async () => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getWalletBalance();
+          set({ loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
           throw error;
         }
       },

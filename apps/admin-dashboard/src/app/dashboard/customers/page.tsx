@@ -12,7 +12,8 @@ import {
   Typography,
   Stack,
 } from '@mui/material';
-import { DataGrid, GridColDef, GridRowsProp, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import type { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { userService } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 

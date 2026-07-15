@@ -1195,10 +1195,10 @@ packages:
   kartezy_core:
     dependency: "direct main"
     description:
-      path: "../delivery-mobile/lib/core"
+      path: "../../lib/core"
       relative: true
     source: path
-    version: "1.0.0+1"
+    version: "1.0.0"
   leak_tracker:
     dependency: transitive
     description:

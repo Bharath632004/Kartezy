@@ -37,7 +37,6 @@ import {
   CloseOutlined,
   MoneyOffOutlined,
   RestoreOutlined,
-  RefreshOutlined as RefreshIcon,
   SwapHorizOutlined,
 } from '@mui/icons-material';
 import { orderService } from '@/lib/api';
@@ -218,7 +217,7 @@ const OrdersList = () => {
           <RefreshOutlined />
         </IconButton>
       </Toolbar>
-      <TableComponent component={Paper}>
+      <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -401,7 +400,7 @@ const OrdersList = () => {
         <DialogTitle>Return Order</DialogTitle>
         <DialogContent>
           Are you sure you want to accept the return for this order?
-        </DocumentContent>
+        </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenReturnDialog(false)}>Cancel</Button>
           <Button onClick={handleReturnConfirm} color="warning">

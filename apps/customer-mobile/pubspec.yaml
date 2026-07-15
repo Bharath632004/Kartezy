@@ -65,7 +65,7 @@ dependencies:
 
   # Shared core package
   kartezy_core:
-    path: ../lib/core
+    path: ../../lib/core
 
 dev_dependencies:
   flutter_test:

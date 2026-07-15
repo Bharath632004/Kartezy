@@ -1,4 +1,4 @@
-import 'package:delivery_mobile/core/config/app_constants.dart';
+import 'package:kartezy_core/config/app_constants.dart';
 
 class ApiConstants {
   static String get baseUrl => AppConstants.baseUrl;

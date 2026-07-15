@@ -12,8 +12,7 @@ part of 'address.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Address _$AddressFromJson(Map<String, dynamic> json) {
   return _Address.fromJson(json);
@@ -52,23 +51,22 @@ abstract class $AddressCopyWith<$Res> {
   factory $AddressCopyWith(Address value, $Res Function(Address) then) =
       _$AddressCopyWithImpl<$Res, Address>;
   @useResult
-  $Res call({
-    String id,
-    String? userId,
-    @JsonKey(name: 'recipientName') String name,
-    @JsonKey(name: 'phoneNumber') String phone,
-    String addressLine1,
-    String addressLine2,
-    String city,
-    String state,
-    String postalCode,
-    String country,
-    bool isDefault,
-    double? latitude,
-    double? longitude,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {String id,
+      String? userId,
+      @JsonKey(name: 'recipientName') String name,
+      @JsonKey(name: 'phoneNumber') String phone,
+      String addressLine1,
+      String addressLine2,
+      String city,
+      String state,
+      String postalCode,
+      String country,
+      bool isDefault,
+      double? latitude,
+      double? longitude,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -100,99 +98,94 @@ class _$AddressCopyWithImpl<$Res, $Val extends Address>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            userId: freezed == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            name: null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String,
-            phone: null == phone
-                ? _value.phone
-                : phone // ignore: cast_nullable_to_non_nullable
-                      as String,
-            addressLine1: null == addressLine1
-                ? _value.addressLine1
-                : addressLine1 // ignore: cast_nullable_to_non_nullable
-                      as String,
-            addressLine2: null == addressLine2
-                ? _value.addressLine2
-                : addressLine2 // ignore: cast_nullable_to_non_nullable
-                      as String,
-            city: null == city
-                ? _value.city
-                : city // ignore: cast_nullable_to_non_nullable
-                      as String,
-            state: null == state
-                ? _value.state
-                : state // ignore: cast_nullable_to_non_nullable
-                      as String,
-            postalCode: null == postalCode
-                ? _value.postalCode
-                : postalCode // ignore: cast_nullable_to_non_nullable
-                      as String,
-            country: null == country
-                ? _value.country
-                : country // ignore: cast_nullable_to_non_nullable
-                      as String,
-            isDefault: null == isDefault
-                ? _value.isDefault
-                : isDefault // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            latitude: freezed == latitude
-                ? _value.latitude
-                : latitude // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            longitude: freezed == longitude
-                ? _value.longitude
-                : longitude // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            updatedAt: null == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      addressLine1: null == addressLine1
+          ? _value.addressLine1
+          : addressLine1 // ignore: cast_nullable_to_non_nullable
+              as String,
+      addressLine2: null == addressLine2
+          ? _value.addressLine2
+          : addressLine2 // ignore: cast_nullable_to_non_nullable
+              as String,
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as String,
+      postalCode: null == postalCode
+          ? _value.postalCode
+          : postalCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      country: null == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDefault: null == isDefault
+          ? _value.isDefault
+          : isDefault // ignore: cast_nullable_to_non_nullable
+              as bool,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$AddressImplCopyWith<$Res> implements $AddressCopyWith<$Res> {
   factory _$$AddressImplCopyWith(
-    _$AddressImpl value,
-    $Res Function(_$AddressImpl) then,
-  ) = __$$AddressImplCopyWithImpl<$Res>;
+          _$AddressImpl value, $Res Function(_$AddressImpl) then) =
+      __$$AddressImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String? userId,
-    @JsonKey(name: 'recipientName') String name,
-    @JsonKey(name: 'phoneNumber') String phone,
-    String addressLine1,
-    String addressLine2,
-    String city,
-    String state,
-    String postalCode,
-    String country,
-    bool isDefault,
-    double? latitude,
-    double? longitude,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {String id,
+      String? userId,
+      @JsonKey(name: 'recipientName') String name,
+      @JsonKey(name: 'phoneNumber') String phone,
+      String addressLine1,
+      String addressLine2,
+      String city,
+      String state,
+      String postalCode,
+      String country,
+      bool isDefault,
+      double? latitude,
+      double? longitude,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -200,9 +193,8 @@ class __$$AddressImplCopyWithImpl<$Res>
     extends _$AddressCopyWithImpl<$Res, _$AddressImpl>
     implements _$$AddressImplCopyWith<$Res> {
   __$$AddressImplCopyWithImpl(
-    _$AddressImpl _value,
-    $Res Function(_$AddressImpl) _then,
-  ) : super(_value, _then);
+      _$AddressImpl _value, $Res Function(_$AddressImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -223,93 +215,90 @@ class __$$AddressImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _$AddressImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        userId: freezed == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        name: null == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String,
-        phone: null == phone
-            ? _value.phone
-            : phone // ignore: cast_nullable_to_non_nullable
-                  as String,
-        addressLine1: null == addressLine1
-            ? _value.addressLine1
-            : addressLine1 // ignore: cast_nullable_to_non_nullable
-                  as String,
-        addressLine2: null == addressLine2
-            ? _value.addressLine2
-            : addressLine2 // ignore: cast_nullable_to_non_nullable
-                  as String,
-        city: null == city
-            ? _value.city
-            : city // ignore: cast_nullable_to_non_nullable
-                  as String,
-        state: null == state
-            ? _value.state
-            : state // ignore: cast_nullable_to_non_nullable
-                  as String,
-        postalCode: null == postalCode
-            ? _value.postalCode
-            : postalCode // ignore: cast_nullable_to_non_nullable
-                  as String,
-        country: null == country
-            ? _value.country
-            : country // ignore: cast_nullable_to_non_nullable
-                  as String,
-        isDefault: null == isDefault
-            ? _value.isDefault
-            : isDefault // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        latitude: freezed == latitude
-            ? _value.latitude
-            : latitude // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        longitude: freezed == longitude
-            ? _value.longitude
-            : longitude // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        updatedAt: null == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$AddressImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      addressLine1: null == addressLine1
+          ? _value.addressLine1
+          : addressLine1 // ignore: cast_nullable_to_non_nullable
+              as String,
+      addressLine2: null == addressLine2
+          ? _value.addressLine2
+          : addressLine2 // ignore: cast_nullable_to_non_nullable
+              as String,
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as String,
+      postalCode: null == postalCode
+          ? _value.postalCode
+          : postalCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      country: null == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDefault: null == isDefault
+          ? _value.isDefault
+          : isDefault // ignore: cast_nullable_to_non_nullable
+              as bool,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AddressImpl implements _Address {
-  const _$AddressImpl({
-    required this.id,
-    required this.userId,
-    @JsonKey(name: 'recipientName') required this.name,
-    @JsonKey(name: 'phoneNumber') required this.phone,
-    required this.addressLine1,
-    required this.addressLine2,
-    required this.city,
-    required this.state,
-    required this.postalCode,
-    required this.country,
-    required this.isDefault,
-    required this.latitude,
-    required this.longitude,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  const _$AddressImpl(
+      {required this.id,
+      required this.userId,
+      @JsonKey(name: 'recipientName') required this.name,
+      @JsonKey(name: 'phoneNumber') required this.phone,
+      required this.addressLine1,
+      required this.addressLine2,
+      required this.city,
+      required this.state,
+      required this.postalCode,
+      required this.country,
+      required this.isDefault,
+      required this.latitude,
+      required this.longitude,
+      required this.createdAt,
+      required this.updatedAt});
 
   factory _$AddressImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddressImplFromJson(json);
@@ -318,7 +307,7 @@ class _$AddressImpl implements _Address {
   final String id;
   @override
   final String? userId;
-  // nullable for guest user
+// nullable for guest user
   @override
   @JsonKey(name: 'recipientName')
   final String name;
@@ -341,10 +330,10 @@ class _$AddressImpl implements _Address {
   final bool isDefault;
   @override
   final double? latitude;
-  // optional, for map integration
+// optional, for map integration
   @override
   final double? longitude;
-  // optional, for map integration
+// optional, for map integration
   @override
   final DateTime createdAt;
   @override
@@ -388,23 +377,22 @@ class _$AddressImpl implements _Address {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    userId,
-    name,
-    phone,
-    addressLine1,
-    addressLine2,
-    city,
-    state,
-    postalCode,
-    country,
-    isDefault,
-    latitude,
-    longitude,
-    createdAt,
-    updatedAt,
-  );
+      runtimeType,
+      id,
+      userId,
+      name,
+      phone,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      postalCode,
+      country,
+      isDefault,
+      latitude,
+      longitude,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -414,28 +402,29 @@ class _$AddressImpl implements _Address {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AddressImplToJson(this);
+    return _$$AddressImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Address implements Address {
-  const factory _Address({
-    required final String id,
-    required final String? userId,
-    @JsonKey(name: 'recipientName') required final String name,
-    @JsonKey(name: 'phoneNumber') required final String phone,
-    required final String addressLine1,
-    required final String addressLine2,
-    required final String city,
-    required final String state,
-    required final String postalCode,
-    required final String country,
-    required final bool isDefault,
-    required final double? latitude,
-    required final double? longitude,
-    required final DateTime createdAt,
-    required final DateTime updatedAt,
-  }) = _$AddressImpl;
+  const factory _Address(
+      {required final String id,
+      required final String? userId,
+      @JsonKey(name: 'recipientName') required final String name,
+      @JsonKey(name: 'phoneNumber') required final String phone,
+      required final String addressLine1,
+      required final String addressLine2,
+      required final String city,
+      required final String state,
+      required final String postalCode,
+      required final String country,
+      required final bool isDefault,
+      required final double? latitude,
+      required final double? longitude,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$AddressImpl;
 
   factory _Address.fromJson(Map<String, dynamic> json) = _$AddressImpl.fromJson;
 

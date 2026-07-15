@@ -127,9 +127,9 @@ export const useOrderStore = create<OrderState>()(
           get().updateOrder(orderId, { orderStatus: 'cancelled' });
           set({ loading: false });
         } catch (error) {
-          set({ error: error.message, loading: false });
-          throw error });
-      }
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
       },
       refundOrder: async (orderId) => {
         set({ loading: true, error: null });

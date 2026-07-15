@@ -1,11 +1,11 @@
 import { Typography, Container, Card, CardContent, CardHeader, Button } from '@mui/material';
 import {
-  SettingsIcon,
-  AttachMoneyIcon,
-  ShieldIcon,
-  PaletteIcon,
-  LanguageIcon,
-  FeaturedPlayListIcon,
+  Settings,
+  AttachMoney,
+  Shield,
+  Palette,
+  Language,
+  FeaturedPlayList,
 } from '@mui/icons-material';
 
 const SettingsPage = () => {
@@ -21,7 +21,7 @@ const SettingsPage = () => {
           <CardContent>
             <Button
               variant="outlined"
-              startIcon={<SettingsIcon />}
+              startIcon={<Settings />}
               href="/settings/platform"
               size="large"
               fullWidth
@@ -35,7 +35,7 @@ const SettingsPage = () => {
           <CardContent>
             <Button
               variant="outlined"
-              startIcon={<AttachMoneyIcon />}
+              startIcon={<AttachMoney />}
               href="/settings/payment"
               size="large"
               fullWidth
@@ -49,7 +49,7 @@ const SettingsPage = () => {
           <CardContent>
             <Button
               variant="outlined"
-              startIcon={<ShieldIcon />}
+              startIcon={<Shield />}
               href="/settings/security"
               size="large"
               fullWidth
@@ -63,7 +63,7 @@ const SettingsPage = () => {
           <CardContent>
             <Button
               variant="outlined"
-              startIcon={<PaletteIcon />}
+              startIcon={<Palette />}
               href="/settings/theme"
               size="large"
               fullWidth
@@ -77,7 +77,7 @@ const SettingsPage = () => {
           <CardContent>
             <Button
               variant="outlined"
-              startIcon={<LanguageIcon />}
+              startIcon={<Language />}
               href="/settings/language"
               size="large"
               fullWidth
@@ -91,7 +91,7 @@ const SettingsPage = () => {
           <CardContent>
             <Button
               variant="outlined"
-              startIcon={<FeaturedPlayListIcon />}
+              startIcon={<FeaturedPlayList />}
               href="/settings/feature-flags"
               size="large"
               fullWidth

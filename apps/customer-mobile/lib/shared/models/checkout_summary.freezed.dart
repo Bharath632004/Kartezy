@@ -12,8 +12,7 @@ part of 'checkout_summary.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CheckoutSummary _$CheckoutSummaryFromJson(Map<String, dynamic> json) {
   return _CheckoutSummary.fromJson(json);
@@ -46,26 +45,24 @@ mixin _$CheckoutSummary {
 /// @nodoc
 abstract class $CheckoutSummaryCopyWith<$Res> {
   factory $CheckoutSummaryCopyWith(
-    CheckoutSummary value,
-    $Res Function(CheckoutSummary) then,
-  ) = _$CheckoutSummaryCopyWithImpl<$Res, CheckoutSummary>;
+          CheckoutSummary value, $Res Function(CheckoutSummary) then) =
+      _$CheckoutSummaryCopyWithImpl<$Res, CheckoutSummary>;
   @useResult
-  $Res call({
-    String id,
-    String? userId,
-    List<CartItem> items,
-    String? couponCode,
-    double discountAmount,
-    double totalAmount,
-    int itemCount,
-    double platformFee,
-    double deliveryCharges,
-    double packagingFee,
-    double gstAmount,
-    double tipAmount,
-    double walletAmount,
-    double netAmount,
-  });
+  $Res call(
+      {String id,
+      String? userId,
+      List<CartItem> items,
+      String? couponCode,
+      double discountAmount,
+      double totalAmount,
+      int itemCount,
+      double platformFee,
+      double deliveryCharges,
+      double packagingFee,
+      double gstAmount,
+      double tipAmount,
+      double walletAmount,
+      double netAmount});
 }
 
 /// @nodoc
@@ -96,95 +93,90 @@ class _$CheckoutSummaryCopyWithImpl<$Res, $Val extends CheckoutSummary>
     Object? walletAmount = null,
     Object? netAmount = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            userId: freezed == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            items: null == items
-                ? _value.items
-                : items // ignore: cast_nullable_to_non_nullable
-                      as List<CartItem>,
-            couponCode: freezed == couponCode
-                ? _value.couponCode
-                : couponCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            discountAmount: null == discountAmount
-                ? _value.discountAmount
-                : discountAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            totalAmount: null == totalAmount
-                ? _value.totalAmount
-                : totalAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            itemCount: null == itemCount
-                ? _value.itemCount
-                : itemCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            platformFee: null == platformFee
-                ? _value.platformFee
-                : platformFee // ignore: cast_nullable_to_non_nullable
-                      as double,
-            deliveryCharges: null == deliveryCharges
-                ? _value.deliveryCharges
-                : deliveryCharges // ignore: cast_nullable_to_non_nullable
-                      as double,
-            packagingFee: null == packagingFee
-                ? _value.packagingFee
-                : packagingFee // ignore: cast_nullable_to_non_nullable
-                      as double,
-            gstAmount: null == gstAmount
-                ? _value.gstAmount
-                : gstAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            tipAmount: null == tipAmount
-                ? _value.tipAmount
-                : tipAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            walletAmount: null == walletAmount
-                ? _value.walletAmount
-                : walletAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            netAmount: null == netAmount
-                ? _value.netAmount
-                : netAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<CartItem>,
+      couponCode: freezed == couponCode
+          ? _value.couponCode
+          : couponCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      discountAmount: null == discountAmount
+          ? _value.discountAmount
+          : discountAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalAmount: null == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      itemCount: null == itemCount
+          ? _value.itemCount
+          : itemCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      platformFee: null == platformFee
+          ? _value.platformFee
+          : platformFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      deliveryCharges: null == deliveryCharges
+          ? _value.deliveryCharges
+          : deliveryCharges // ignore: cast_nullable_to_non_nullable
+              as double,
+      packagingFee: null == packagingFee
+          ? _value.packagingFee
+          : packagingFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      gstAmount: null == gstAmount
+          ? _value.gstAmount
+          : gstAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      tipAmount: null == tipAmount
+          ? _value.tipAmount
+          : tipAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      walletAmount: null == walletAmount
+          ? _value.walletAmount
+          : walletAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      netAmount: null == netAmount
+          ? _value.netAmount
+          : netAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$CheckoutSummaryImplCopyWith<$Res>
     implements $CheckoutSummaryCopyWith<$Res> {
-  factory _$$CheckoutSummaryImplCopyWith(
-    _$CheckoutSummaryImpl value,
-    $Res Function(_$CheckoutSummaryImpl) then,
-  ) = __$$CheckoutSummaryImplCopyWithImpl<$Res>;
+  factory _$$CheckoutSummaryImplCopyWith(_$CheckoutSummaryImpl value,
+          $Res Function(_$CheckoutSummaryImpl) then) =
+      __$$CheckoutSummaryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String? userId,
-    List<CartItem> items,
-    String? couponCode,
-    double discountAmount,
-    double totalAmount,
-    int itemCount,
-    double platformFee,
-    double deliveryCharges,
-    double packagingFee,
-    double gstAmount,
-    double tipAmount,
-    double walletAmount,
-    double netAmount,
-  });
+  $Res call(
+      {String id,
+      String? userId,
+      List<CartItem> items,
+      String? couponCode,
+      double discountAmount,
+      double totalAmount,
+      int itemCount,
+      double platformFee,
+      double deliveryCharges,
+      double packagingFee,
+      double gstAmount,
+      double tipAmount,
+      double walletAmount,
+      double netAmount});
 }
 
 /// @nodoc
@@ -192,9 +184,8 @@ class __$$CheckoutSummaryImplCopyWithImpl<$Res>
     extends _$CheckoutSummaryCopyWithImpl<$Res, _$CheckoutSummaryImpl>
     implements _$$CheckoutSummaryImplCopyWith<$Res> {
   __$$CheckoutSummaryImplCopyWithImpl(
-    _$CheckoutSummaryImpl _value,
-    $Res Function(_$CheckoutSummaryImpl) _then,
-  ) : super(_value, _then);
+      _$CheckoutSummaryImpl _value, $Res Function(_$CheckoutSummaryImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -214,88 +205,86 @@ class __$$CheckoutSummaryImplCopyWithImpl<$Res>
     Object? walletAmount = null,
     Object? netAmount = null,
   }) {
-    return _then(
-      _$CheckoutSummaryImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        userId: freezed == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        items: null == items
-            ? _value._items
-            : items // ignore: cast_nullable_to_non_nullable
-                  as List<CartItem>,
-        couponCode: freezed == couponCode
-            ? _value.couponCode
-            : couponCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        discountAmount: null == discountAmount
-            ? _value.discountAmount
-            : discountAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        totalAmount: null == totalAmount
-            ? _value.totalAmount
-            : totalAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        itemCount: null == itemCount
-            ? _value.itemCount
-            : itemCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        platformFee: null == platformFee
-            ? _value.platformFee
-            : platformFee // ignore: cast_nullable_to_non_nullable
-                  as double,
-        deliveryCharges: null == deliveryCharges
-            ? _value.deliveryCharges
-            : deliveryCharges // ignore: cast_nullable_to_non_nullable
-                  as double,
-        packagingFee: null == packagingFee
-            ? _value.packagingFee
-            : packagingFee // ignore: cast_nullable_to_non_nullable
-                  as double,
-        gstAmount: null == gstAmount
-            ? _value.gstAmount
-            : gstAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        tipAmount: null == tipAmount
-            ? _value.tipAmount
-            : tipAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        walletAmount: null == walletAmount
-            ? _value.walletAmount
-            : walletAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        netAmount: null == netAmount
-            ? _value.netAmount
-            : netAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-      ),
-    );
+    return _then(_$CheckoutSummaryImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<CartItem>,
+      couponCode: freezed == couponCode
+          ? _value.couponCode
+          : couponCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      discountAmount: null == discountAmount
+          ? _value.discountAmount
+          : discountAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalAmount: null == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      itemCount: null == itemCount
+          ? _value.itemCount
+          : itemCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      platformFee: null == platformFee
+          ? _value.platformFee
+          : platformFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      deliveryCharges: null == deliveryCharges
+          ? _value.deliveryCharges
+          : deliveryCharges // ignore: cast_nullable_to_non_nullable
+              as double,
+      packagingFee: null == packagingFee
+          ? _value.packagingFee
+          : packagingFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      gstAmount: null == gstAmount
+          ? _value.gstAmount
+          : gstAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      tipAmount: null == tipAmount
+          ? _value.tipAmount
+          : tipAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      walletAmount: null == walletAmount
+          ? _value.walletAmount
+          : walletAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      netAmount: null == netAmount
+          ? _value.netAmount
+          : netAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CheckoutSummaryImpl implements _CheckoutSummary {
-  const _$CheckoutSummaryImpl({
-    required this.id,
-    required this.userId,
-    required final List<CartItem> items,
-    required this.couponCode,
-    required this.discountAmount,
-    required this.totalAmount,
-    required this.itemCount,
-    required this.platformFee,
-    required this.deliveryCharges,
-    required this.packagingFee,
-    required this.gstAmount,
-    required this.tipAmount,
-    required this.walletAmount,
-    required this.netAmount,
-  }) : _items = items;
+  const _$CheckoutSummaryImpl(
+      {required this.id,
+      required this.userId,
+      required final List<CartItem> items,
+      required this.couponCode,
+      required this.discountAmount,
+      required this.totalAmount,
+      required this.itemCount,
+      required this.platformFee,
+      required this.deliveryCharges,
+      required this.packagingFee,
+      required this.gstAmount,
+      required this.tipAmount,
+      required this.walletAmount,
+      required this.netAmount})
+      : _items = items;
 
   factory _$CheckoutSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$CheckoutSummaryImplFromJson(json);
@@ -304,9 +293,9 @@ class _$CheckoutSummaryImpl implements _CheckoutSummary {
   final String id;
   @override
   final String? userId;
-  // nullable for guest user
+// nullable for guest user
   final List<CartItem> _items;
-  // nullable for guest user
+// nullable for guest user
   @override
   List<CartItem> get items {
     if (_items is EqualUnmodifiableListView) return _items;
@@ -377,55 +366,53 @@ class _$CheckoutSummaryImpl implements _CheckoutSummary {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    userId,
-    const DeepCollectionEquality().hash(_items),
-    couponCode,
-    discountAmount,
-    totalAmount,
-    itemCount,
-    platformFee,
-    deliveryCharges,
-    packagingFee,
-    gstAmount,
-    tipAmount,
-    walletAmount,
-    netAmount,
-  );
+      runtimeType,
+      id,
+      userId,
+      const DeepCollectionEquality().hash(_items),
+      couponCode,
+      discountAmount,
+      totalAmount,
+      itemCount,
+      platformFee,
+      deliveryCharges,
+      packagingFee,
+      gstAmount,
+      tipAmount,
+      walletAmount,
+      netAmount);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CheckoutSummaryImplCopyWith<_$CheckoutSummaryImpl> get copyWith =>
       __$$CheckoutSummaryImplCopyWithImpl<_$CheckoutSummaryImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CheckoutSummaryImplToJson(this);
+    return _$$CheckoutSummaryImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _CheckoutSummary implements CheckoutSummary {
-  const factory _CheckoutSummary({
-    required final String id,
-    required final String? userId,
-    required final List<CartItem> items,
-    required final String? couponCode,
-    required final double discountAmount,
-    required final double totalAmount,
-    required final int itemCount,
-    required final double platformFee,
-    required final double deliveryCharges,
-    required final double packagingFee,
-    required final double gstAmount,
-    required final double tipAmount,
-    required final double walletAmount,
-    required final double netAmount,
-  }) = _$CheckoutSummaryImpl;
+  const factory _CheckoutSummary(
+      {required final String id,
+      required final String? userId,
+      required final List<CartItem> items,
+      required final String? couponCode,
+      required final double discountAmount,
+      required final double totalAmount,
+      required final int itemCount,
+      required final double platformFee,
+      required final double deliveryCharges,
+      required final double packagingFee,
+      required final double gstAmount,
+      required final double tipAmount,
+      required final double walletAmount,
+      required final double netAmount}) = _$CheckoutSummaryImpl;
 
   factory _CheckoutSummary.fromJson(Map<String, dynamic> json) =
       _$CheckoutSummaryImpl.fromJson;

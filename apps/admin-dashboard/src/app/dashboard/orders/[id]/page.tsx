@@ -129,44 +129,44 @@ export default function OrderDetails({ params }: { params: { id: string } }) {
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell align="center">{item.quantity}</TableCell>
-                  <TableCell align="right">${parseFloat(item.price).toFixed(2)}</TableCell>
-                  <TableCell align="right">${parseFloat(item.price * item.quantity).toFixed(2)}</TableCell>
+                  <TableCell align="right">${parseFloat(String(item.price)).toFixed(2)}</TableCell>
+                  <TableCell align="right">${(parseFloat(String(item.price)) * parseInt(String(item.quantity))).toFixed(2)}</TableCell>
                 </TableRow>
               ))}
               <TableRow sx={{ borderTop: '2px solid #ddd' }}>
-                <TableCell colSpan={3} variant="body2" fontWeight="medium">
+                <TableCell colSpan={3} sx={{ fontWeight: 'medium' }}>
                   Subtotal
                 </TableCell>
-                <TableCell align="right" variant="body2" fontWeight="medium">
-                  ${parseFloat(order.subtotal || 0).toFixed(2)}
+                <TableCell align="right" sx={{ fontWeight: 'medium' }}>
+                  ${parseFloat(String(order.subtotal || 0)).toFixed(2)}
                 </TableCell>
               </TableRow>
               {order.tax > 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} variant="body2">
+                  <TableCell colSpan={3}>
                     Tax
                   </TableCell>
-                  <TableCell align="right" variant="body2">
-                    ${parseFloat(order.tax).toFixed(2)}
+                  <TableCell align="right">
+                    ${parseFloat(String(order.tax)).toFixed(2)}
                   </TableCell>
                 </TableRow>
               )}
               {order.deliveryFee > 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} variant="body2">
+                  <TableCell colSpan={3}>
                     Delivery Fee
                   </TableCell>
-                  <TableCell align="right" variant="body2">
-                    ${parseFloat(order.deliveryFee).toFixed(2)}
+                  <TableCell align="right">
+                    ${parseFloat(String(order.deliveryFee)).toFixed(2)}
                   </TableCell>
                 </TableRow>
               )}
               <TableRow sx={{ borderTop: '2px solid #ddd' }}>
-                <TableCell colSpan={3} variant="body2" fontWeight="medium">
+                <TableCell colSpan={3} sx={{ fontWeight: 'medium' }}>
                   Total Amount
                 </TableCell>
-                <TableCell align="right" variant="body2" fontWeight="medium">
-                  ${parseFloat(order.totalAmount).toFixed(2)}
+                <TableCell align="right" sx={{ fontWeight: 'medium' }}>
+                  ${parseFloat(String(order.totalAmount)).toFixed(2)}
                 </TableCell>
               </TableRow>
             </TableBody>

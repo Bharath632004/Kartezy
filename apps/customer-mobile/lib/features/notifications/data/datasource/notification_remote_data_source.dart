@@ -15,4 +15,12 @@ abstract class NotificationRemoteDataSource {
   Future<int> getUnreadCount();
 
   Stream<List<Notification>> notificationStream();
+
+  Future<Notification> sendNotification({
+    required String title,
+    required String body,
+    String? type,
+    String? relatedId,
+    Map<String, dynamic>? data,
+  });
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -84,7 +86,7 @@ const Escalations = () => {
         </Tooltip>
         <Tooltip title={`Auto-refresh: ${refreshInterval ? 'ON' : 'OFF'}`}>
           <IconButton onClick={handleToggleAutoRefresh}>
-            {intervalId ? <RefreshOutlined /> <br /> <span>ON</span> : <RefreshOutlined /> <br /> <span>OFF</span>}
+            {intervalId ? <><RefreshOutlined /><br /><span>ON</span></> : <><RefreshOutlined /><br /><span>OFF</span></>}
           </IconButton>
         </Tooltip>
       </Toolbar>
@@ -135,7 +137,7 @@ const Escalations = () => {
           <Typography variant="h6" gutterBottom>
             All Escalations Details
           </Typography>
-          <TableComponent component={Paper}>
+          <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="escalations table">
               <TableHead>
                 <TableRow>

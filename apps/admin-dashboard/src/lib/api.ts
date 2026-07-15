@@ -232,106 +232,106 @@ export const cmsService = {
   // Pages
   getPages: () => api.get('/api/cms/pages'),
   getPage: (id: string) => api.get(`/api/cms/pages/${id}`),
-  createPage: (data: Record<string, unknown>) => api.post('/api/cms/pages', data);
+  createPage: (data: Record<string, unknown>) => api.post('/api/cms/pages', data),
   updatePage: (id: string, data: Record<string, unknown>) =>
-    api.put(`/api/cms/pages/${id}`, data);
-  deletePage: (id: string) => api.delete(`/api/cms/pages/${id}`);
+    api.put(`/api/cms/pages/${id}`, data),
+  deletePage: (id: string) => api.delete(`/api/cms/pages/${id}`),
   // Blogs
   getBlogs: (filters: Record<string, unknown>) =>
-    api.get('/api/cms/blogs', { params: filters });
-  getBlog: (id: string) => api.get(`/api/cms/blogs/${id}`);
-  createBlog: (data: Record<string, unknown>) => api.post('/api/cms/blogs', data);
+    api.get('/api/cms/blogs', { params: filters }),
+  getBlog: (id: string) => api.get(`/api/cms/blogs/${id}`),
+  createBlog: (data: Record<string, unknown>) => api.post('/api/cms/blogs', data),
   updateBlog: (id: string, data: Record<string, unknown>) =>
-    api.put(`/api/cms/blogs/${id}`, data);
-  deleteBlog: (id: string) => api.delete(`/api/cms/blogs/${id}`);
+    api.put(`/api/cms/blogs/${id}`, data),
+  deleteBlog: (id: string) => api.delete(`/api/cms/blogs/${id}`),
   // FAQs
-  getFaqs: () => api.get('/api/cms/faqs');
-  createFaq: (data: Record<string, unknown>) => api.post('/api/cms/faqs', data);
+  getFaqs: () => api.get('/api/cms/faqs'),
+  createFaq: (data: Record<string, unknown>) => api.post('/api/cms/faqs', data),
   updateFaq: (id: string, data: Record<string, unknown>) =>
-    api.put(`/api/cms/faqs/${id}`, data);
-  deleteFaq: (id: string) => api.delete(`/api/cms/faqs/${id}`);
+    api.put(`/api/cms/faqs/${id}`, data),
+  deleteFaq: (id: string) => api.delete(`/api/cms/faqs/${id}`),
   // Banners
-  getBanners: () => api.get('/api/cms/banners');
-  createBanner: (data: Record<string, unknown>) => api.post('/api/cms/banners', data);
+  getBanners: () => api.get('/api/cms/banners'),
+  createBanner: (data: Record<string, unknown>) => api.post('/api/cms/banners', data),
   updateBanner: (id: string, data: Record<string, unknown>) =>
-    api.put(`/api/cms/banners/${id}`, data);
-  deleteBanner: (id: string) => api.delete(`/api/cms/banners/${id}`);
+    api.put(`/api/cms/banners/${id}`, data),
+  deleteBanner: (id: string) => api.delete(`/api/cms/banners/${id}`),
   // Settings
-  getSiteSettings: () => api.get('/api/cms/settings');
+  getSiteSettings: () => api.get('/api/cms/settings'),
   updateSiteSettings: (data: Record<string, unknown>) =>
-    api.put('/api/cms/settings', data);
+    api.put('/api/cms/settings', data),
 };
 
 export const reportsService = {
   // Sales Reports
   getSalesSummary: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/sales/summary', { params: filters });
+    api.get('/api/reports/sales/summary', { params: filters }),
   getSalesByProduct: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/sales/product', { params: filters });
+    api.get('/api/reports/sales/product', { params: filters }),
   getSalesByCategory: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/sales/category', { params: filters });
+    api.get('/api/reports/sales/category', { params: filters }),
   getSalesByMerchant: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/sales/merchant', { params: filters });
+    api.get('/api/reports/sales/merchant', { params: filters }),
   // Transaction Reports
   getTransactionReport: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/transactions', { params: filters });
+    api.get('/api/reports/transactions', { params: filters }),
   // User Reports
   getUserGrowthReport: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/users/growth', { params: filters });
+    api.get('/api/reports/users/growth', { params: filters }),
   getUserActivityReport: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/users/activity', { params: filters });
+    api.get('/api/reports/users/activity', { params: filters }),
   // Financial Reports
   getFinancialSummary: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/financial/summary', { params: filters });
+    api.get('/api/reports/financial/summary', { params: filters }),
   getProfitLoss: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/financial/pl', { params: filters });
+    api.get('/api/reports/financial/pl', { params: filters }),
   // Report Management
   getReports: (filters: Record<string, unknown>) =>
-    api.get('/api/reports', { params: filters });
+    api.get('/api/reports', { params: filters }),
   getReportHistory: (filters: Record<string, unknown>) =>
-    api.get('/api/reports/history', { params: filters });
+    api.get('/api/reports/history', { params: filters }),
   // Export
   exportSalesReport: (format: string, filters: Record<string, unknown>) =>
     api.get(
       `/api/reports/sales/export?format=${format}&${new URLSearchParams(
         filters as Record<string, string>
       ).toString()}`
-    );
+    ),
   exportFinancialReport: (format: string, filters: Record<string, unknown>) =>
     api.get(
       `/api/reports/financial/export?format=${format}&${new URLSearchParams(
         filters as Record<string, string>
       ).toString()}`
-    );
+    ),
 };
 
 export const analyticsService = {
-  getDashboardStats: () => api.get('/api/analytics/dashboard');
+  getDashboardStats: () => api.get('/api/analytics/dashboard'),
   getRevenueTrend: (period: string) =>
-    api.get(`/api/analytics/revenue-trend?period=${period}`);
+    api.get(`/api/analytics/revenue-trend?period=${period}`),
   getOrdersTrend: (period: string) =>
-    api.get(`/api/analytics/orders-trend?period=${period}`);
+    api.get(`/api/analytics/orders-trend?period=${period}`),
   getCustomerGrowth: (period: string) =>
-    api.get(`/api/analytics/customer-growth?period=${period}`);
+    api.get(`/api/analytics/customer-growth?period=${period}`),
   getMerchantGrowth: (period: string) =>
-    api.get(`/api/analytics/merchant-growth?period=${period}`);
-  getDeliveryPerformance: () => api.get('/api/analytics/delivery-performance');
-  getCategorySales: () => api.get('/api/analytics/category-sales');
-  getProductSales: () => api.get('/api/analytics/product-sales');
-  getHeatMapData: () => api.get('/api/analytics/heat-map');
+    api.get(`/api/analytics/merchant-growth?period=${period}`),
+  getDeliveryPerformance: () => api.get('/api/analytics/delivery-performance'),
+  getCategorySales: () => api.get('/api/analytics/category-sales'),
+  getProductSales: () => api.get('/api/analytics/product-sales'),
+  getHeatMapData: () => api.get('/api/analytics/heat-map'),
   // Advanced analytics
   getRetentionCohort: (cohortType: string) =>
-    api.get(`/api/analytics/retention?cohort=${cohortType}`);
+    api.get(`/api/analytics/retention?cohort=${cohortType}`),
   getFunnelAnalysis: (funnelId: string) =>
-    api.get(`/api/analytics/funnel/${funnelId}`);
-  getGrowthMetrics: () => api.get('/api/analytics/growth');
-  getPredictiveInsights: () => api.get('/api/analytics/predictions');
+    api.get(`/api/analytics/funnel/${funnelId}`),
+  getGrowthMetrics: () => api.get('/api/analytics/growth'),
+  getPredictiveInsights: () => api.get('/api/analytics/predictions'),
 };
 
 export const walletService = {
-  getWalletBalance: () => api.get('/api/wallet/balance');
+  getWalletBalance: () => api.get('/api/wallet/balance'),
   getWalletTransactions: (params: Record<string, unknown>) =>
-    api.get('/api/wallet/transactions', { params });
+    api.get('/api/wallet/transactions', { params }),
 };
 
 export const notificationService = {
@@ -340,32 +340,32 @@ export const notificationService = {
   markAsRead: (id: string) => api.put(`/api/notifications/${id}/read`),
   deleteNotification: (id: string) => api.delete(`/api/notifications/${id}`),
   updateNotificationSettings: (data: Record<string, unknown>) =>
-    api.put('/api/notifications/settings', data)
+    api.put('/api/notifications/settings', data),
 };
 
 export const supportService = {
   getTickets: (params: Record<string, unknown>) =>
-    api.get('/api/support/tickets', { params });
-  getTicket: (id: string) => api.get(`/api/support/tickets/${id}`);
-  createTicket: (data: Record<string, unknown>) => api.post('/api/support/tickets', data);
+    api.get('/api/support/tickets', { params }),
+  getTicket: (id: string) => api.get(`/api/support/tickets/${id}`),
+  createTicket: (data: Record<string, unknown>) => api.post('/api/support/tickets', data),
   updateTicket: (id: string, data: Record<string, unknown>) =>
-    api.put(`/api/support/tickets/${id}`, data);
-  deleteTicket: (id: string) => api.delete(`/api/support/tickets/${id}`);
+    api.put(`/api/support/tickets/${id}`, data),
+  deleteTicket: (id: string) => api.delete(`/api/support/tickets/${id}`),
   assignTicket: (ticketId: string, agentId: string) =>
-    api.put(`/api/support/tickets/${ticketId}/assign/${agentId}`);
+    api.put(`/api/support/tickets/${ticketId}/assign/${agentId}`),
   resolveTicket: (ticketId: string) =>
-    api.put(`/api/support/tickets/${ticketId}/resolve`);
+    api.put(`/api/support/tickets/${ticketId}/resolve`),
   fetchStats: (params: Record<string, unknown>) =>
-    api.get('/api/support/stats', { params });
+    api.get('/api/support/stats', { params }),
   exportTickets: (format: string, filters: Record<string, unknown>) =>
     api.get(
       `/api/support/export?format=${format}&${new URLSearchParams(
         filters as Record<string, string>
       ).toString()}`
-    );
-  getSettings: () => api.get('/api/support/settings');
+    ),
+  getSettings: () => api.get('/api/support/settings'),
   updateSettings: (data: Record<string, unknown>) =>
-    api.put('/api/support/settings', data);
+    api.put('/api/support/settings', data),
 };
 export const chatService = {
   getMessages: (conversationId: string) =>

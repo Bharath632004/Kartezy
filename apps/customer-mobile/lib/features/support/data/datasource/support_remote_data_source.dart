@@ -42,7 +42,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
     String? status,
   }) async {
     final response = await dioClient.get(
-      SupportApiEndpoints.supportTickets,
+      ApiConstants.supportTickets,
       queryParameters: {
         'limit': limit,
         'offset': offset,
@@ -57,7 +57,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
   @override
   Future<SupportTicket> getSupportTicketById(String ticketId) async {
     final response = await dioClient.get(
-      '${SupportApiEndpoints.supportTickets}/$ticketId',
+      '${ApiConstants.supportTickets}/$ticketId',
     );
     return SupportTicket.fromJson(response.data);
   }
@@ -71,7 +71,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
     List<String>? attachments,
   }) async {
     final response = await dioClient.post(
-      SupportApiEndpoints.supportTickets,
+      ApiConstants.supportTickets,
       data: {
         'subject': subject,
         'description': description,
@@ -89,7 +89,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
     Map<String, dynamic> updates,
   ) async {
     await dioClient.put(
-      '${SupportApiEndpoints.supportTickets}/$ticketId',
+      '${ApiConstants.supportTickets}/$ticketId',
       data: updates,
     );
   }
@@ -97,7 +97,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
   @override
   Future<void> closeSupportTicket(String ticketId) async {
     await dioClient.post(
-      '${SupportApiEndpoints.supportTickets}/$ticketId/close',
+      '${ApiConstants.supportTickets}/$ticketId/close',
     );
   }
 
@@ -108,7 +108,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
     String? contactInfo,
   ) async {
     await dioClient.post(
-      SupportApiEndpoints.feedback,
+      ApiConstants.feedback,
       data: {
         'feedback': feedback,
         'rating': rating,

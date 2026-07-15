@@ -32,7 +32,20 @@ mixin _$ProductModel {
   bool? get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  String? get imageUrl => throw _privateConstructorUsedError;
+  String? get imageUrl =>
+      throw _privateConstructorUsedError; // Additional fields that were missing
+  String? get dimensions => throw _privateConstructorUsedError;
+  String? get hsnCode => throw _privateConstructorUsedError;
+  double? get mrp => throw _privateConstructorUsedError;
+  double? get costPrice => throw _privateConstructorUsedError;
+  double? get discount => throw _privateConstructorUsedError;
+  double? get flashSalePrice => throw _privateConstructorUsedError;
+  double? get membershipPrice => throw _privateConstructorUsedError;
+  double? get comboPrice => throw _privateConstructorUsedError;
+  double? get tax => throw _privateConstructorUsedError;
+  bool? get dynamicPricingEnabled => throw _privateConstructorUsedError;
+  String? get shelfLife => throw _privateConstructorUsedError;
+  List<String>? get tags => throw _privateConstructorUsedError;
 
   /// Serializes this ProductModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,6 +77,18 @@ abstract class $ProductModelCopyWith<$Res> {
     DateTime? createdAt,
     DateTime? updatedAt,
     String? imageUrl,
+    String? dimensions,
+    String? hsnCode,
+    double? mrp,
+    double? costPrice,
+    double? discount,
+    double? flashSalePrice,
+    double? membershipPrice,
+    double? comboPrice,
+    double? tax,
+    bool? dynamicPricingEnabled,
+    String? shelfLife,
+    List<String>? tags,
   });
 }
 
@@ -94,6 +119,18 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? imageUrl = freezed,
+    Object? dimensions = freezed,
+    Object? hsnCode = freezed,
+    Object? mrp = freezed,
+    Object? costPrice = freezed,
+    Object? discount = freezed,
+    Object? flashSalePrice = freezed,
+    Object? membershipPrice = freezed,
+    Object? comboPrice = freezed,
+    Object? tax = freezed,
+    Object? dynamicPricingEnabled = freezed,
+    Object? shelfLife = freezed,
+    Object? tags = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -145,6 +182,54 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
                       as String?,
+            dimensions: freezed == dimensions
+                ? _value.dimensions
+                : dimensions // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            hsnCode: freezed == hsnCode
+                ? _value.hsnCode
+                : hsnCode // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            mrp: freezed == mrp
+                ? _value.mrp
+                : mrp // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            costPrice: freezed == costPrice
+                ? _value.costPrice
+                : costPrice // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            discount: freezed == discount
+                ? _value.discount
+                : discount // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            flashSalePrice: freezed == flashSalePrice
+                ? _value.flashSalePrice
+                : flashSalePrice // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            membershipPrice: freezed == membershipPrice
+                ? _value.membershipPrice
+                : membershipPrice // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            comboPrice: freezed == comboPrice
+                ? _value.comboPrice
+                : comboPrice // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            tax: freezed == tax
+                ? _value.tax
+                : tax // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            dynamicPricingEnabled: freezed == dynamicPricingEnabled
+                ? _value.dynamicPricingEnabled
+                : dynamicPricingEnabled // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            shelfLife: freezed == shelfLife
+                ? _value.shelfLife
+                : shelfLife // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            tags: freezed == tags
+                ? _value.tags
+                : tags // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
           )
           as $Val,
     );
@@ -173,6 +258,18 @@ abstract class _$$ProductModelImplCopyWith<$Res>
     DateTime? createdAt,
     DateTime? updatedAt,
     String? imageUrl,
+    String? dimensions,
+    String? hsnCode,
+    double? mrp,
+    double? costPrice,
+    double? discount,
+    double? flashSalePrice,
+    double? membershipPrice,
+    double? comboPrice,
+    double? tax,
+    bool? dynamicPricingEnabled,
+    String? shelfLife,
+    List<String>? tags,
   });
 }
 
@@ -202,6 +299,18 @@ class __$$ProductModelImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? imageUrl = freezed,
+    Object? dimensions = freezed,
+    Object? hsnCode = freezed,
+    Object? mrp = freezed,
+    Object? costPrice = freezed,
+    Object? discount = freezed,
+    Object? flashSalePrice = freezed,
+    Object? membershipPrice = freezed,
+    Object? comboPrice = freezed,
+    Object? tax = freezed,
+    Object? dynamicPricingEnabled = freezed,
+    Object? shelfLife = freezed,
+    Object? tags = freezed,
   }) {
     return _then(
       _$ProductModelImpl(
@@ -253,6 +362,54 @@ class __$$ProductModelImplCopyWithImpl<$Res>
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
                   as String?,
+        dimensions: freezed == dimensions
+            ? _value.dimensions
+            : dimensions // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        hsnCode: freezed == hsnCode
+            ? _value.hsnCode
+            : hsnCode // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        mrp: freezed == mrp
+            ? _value.mrp
+            : mrp // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        costPrice: freezed == costPrice
+            ? _value.costPrice
+            : costPrice // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        discount: freezed == discount
+            ? _value.discount
+            : discount // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        flashSalePrice: freezed == flashSalePrice
+            ? _value.flashSalePrice
+            : flashSalePrice // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        membershipPrice: freezed == membershipPrice
+            ? _value.membershipPrice
+            : membershipPrice // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        comboPrice: freezed == comboPrice
+            ? _value.comboPrice
+            : comboPrice // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        tax: freezed == tax
+            ? _value.tax
+            : tax // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        dynamicPricingEnabled: freezed == dynamicPricingEnabled
+            ? _value.dynamicPricingEnabled
+            : dynamicPricingEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        shelfLife: freezed == shelfLife
+            ? _value.shelfLife
+            : shelfLife // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        tags: freezed == tags
+            ? _value._tags
+            : tags // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
       ),
     );
   }
@@ -274,7 +431,20 @@ class _$ProductModelImpl extends _ProductModel {
     this.createdAt,
     this.updatedAt,
     this.imageUrl,
-  }) : super._();
+    this.dimensions,
+    this.hsnCode,
+    this.mrp,
+    this.costPrice,
+    this.discount,
+    this.flashSalePrice,
+    this.membershipPrice,
+    this.comboPrice,
+    this.tax,
+    this.dynamicPricingEnabled,
+    this.shelfLife,
+    final List<String>? tags,
+  }) : _tags = tags,
+       super._();
 
   factory _$ProductModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductModelImplFromJson(json);
@@ -303,10 +473,42 @@ class _$ProductModelImpl extends _ProductModel {
   final DateTime? updatedAt;
   @override
   final String? imageUrl;
+  // Additional fields that were missing
+  @override
+  final String? dimensions;
+  @override
+  final String? hsnCode;
+  @override
+  final double? mrp;
+  @override
+  final double? costPrice;
+  @override
+  final double? discount;
+  @override
+  final double? flashSalePrice;
+  @override
+  final double? membershipPrice;
+  @override
+  final double? comboPrice;
+  @override
+  final double? tax;
+  @override
+  final bool? dynamicPricingEnabled;
+  @override
+  final String? shelfLife;
+  final List<String>? _tags;
+  @override
+  List<String>? get tags {
+    final value = _tags;
+    if (value == null) return null;
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, sku: $sku, barcode: $barcode, categoryId: $categoryId, brandId: $brandId, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, imageUrl: $imageUrl)';
+    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, sku: $sku, barcode: $barcode, categoryId: $categoryId, brandId: $brandId, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, imageUrl: $imageUrl, dimensions: $dimensions, hsnCode: $hsnCode, mrp: $mrp, costPrice: $costPrice, discount: $discount, flashSalePrice: $flashSalePrice, membershipPrice: $membershipPrice, comboPrice: $comboPrice, tax: $tax, dynamicPricingEnabled: $dynamicPricingEnabled, shelfLife: $shelfLife, tags: $tags)';
   }
 
   @override
@@ -331,12 +533,32 @@ class _$ProductModelImpl extends _ProductModel {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+                other.imageUrl == imageUrl) &&
+            (identical(other.dimensions, dimensions) ||
+                other.dimensions == dimensions) &&
+            (identical(other.hsnCode, hsnCode) || other.hsnCode == hsnCode) &&
+            (identical(other.mrp, mrp) || other.mrp == mrp) &&
+            (identical(other.costPrice, costPrice) ||
+                other.costPrice == costPrice) &&
+            (identical(other.discount, discount) ||
+                other.discount == discount) &&
+            (identical(other.flashSalePrice, flashSalePrice) ||
+                other.flashSalePrice == flashSalePrice) &&
+            (identical(other.membershipPrice, membershipPrice) ||
+                other.membershipPrice == membershipPrice) &&
+            (identical(other.comboPrice, comboPrice) ||
+                other.comboPrice == comboPrice) &&
+            (identical(other.tax, tax) || other.tax == tax) &&
+            (identical(other.dynamicPricingEnabled, dynamicPricingEnabled) ||
+                other.dynamicPricingEnabled == dynamicPricingEnabled) &&
+            (identical(other.shelfLife, shelfLife) ||
+                other.shelfLife == shelfLife) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     id,
     name,
@@ -350,7 +572,19 @@ class _$ProductModelImpl extends _ProductModel {
     createdAt,
     updatedAt,
     imageUrl,
-  );
+    dimensions,
+    hsnCode,
+    mrp,
+    costPrice,
+    discount,
+    flashSalePrice,
+    membershipPrice,
+    comboPrice,
+    tax,
+    dynamicPricingEnabled,
+    shelfLife,
+    const DeepCollectionEquality().hash(_tags),
+  ]);
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.
@@ -380,6 +614,18 @@ abstract class _ProductModel extends ProductModel {
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final String? imageUrl,
+    final String? dimensions,
+    final String? hsnCode,
+    final double? mrp,
+    final double? costPrice,
+    final double? discount,
+    final double? flashSalePrice,
+    final double? membershipPrice,
+    final double? comboPrice,
+    final double? tax,
+    final bool? dynamicPricingEnabled,
+    final String? shelfLife,
+    final List<String>? tags,
   }) = _$ProductModelImpl;
   _ProductModel._() : super._();
 
@@ -409,7 +655,31 @@ abstract class _ProductModel extends ProductModel {
   @override
   DateTime? get updatedAt;
   @override
-  String? get imageUrl;
+  String? get imageUrl; // Additional fields that were missing
+  @override
+  String? get dimensions;
+  @override
+  String? get hsnCode;
+  @override
+  double? get mrp;
+  @override
+  double? get costPrice;
+  @override
+  double? get discount;
+  @override
+  double? get flashSalePrice;
+  @override
+  double? get membershipPrice;
+  @override
+  double? get comboPrice;
+  @override
+  double? get tax;
+  @override
+  bool? get dynamicPricingEnabled;
+  @override
+  String? get shelfLife;
+  @override
+  List<String>? get tags;
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.

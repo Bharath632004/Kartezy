@@ -6,7 +6,6 @@ import {
   Stack,
   Typography,
   Table,
- 0,
   TableHead,
   TableRow,
   TableCell,
@@ -16,7 +15,6 @@ import {
   CircularProgress,
   Tabs,
   Tab,
-  TabPanel,
 } from '@mui/material';
 import { userService } from '@/lib/api';
 
@@ -141,11 +139,10 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
           <Tab label="Addresses" />
           <Tab label="Login History" />
         </Tabs>
-        <TabPanel value={0} index={0}>
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              Wallet Balance
-            </Typography>
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h5" gutterBottom>
+            Wallet Balance
+          </Typography>
             <Typography variant="h4">
               ${parseFloat(walletData?.balance || 0).toFixed(2)} {walletData?.currency || 'USD'}
             </Typography>
@@ -187,8 +184,8 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
               </Table>
             </TableContainer>
           </Box>
-        </TabPanel>
-        <TabPanel value={1} index={1}>
+        </Box>
+        <Box sx={{ p: 3 }}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Recent Orders
@@ -230,8 +227,8 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
               <Typography>No orders found</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={2} index={2}>
+        </Box>
+        <Box sx={{ p: 3 }}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Addresses
@@ -273,8 +270,8 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
               <Typography>No addresses found</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={3} index={3}>
+        </Box>
+        <Box sx={{ p: 3 }}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Login History
@@ -294,7 +291,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
                   <TableBody>
                     {loginHistory.map((log: any) => (
                       <TableRow key={log.id}>
-                        <TableCell>{new Date(loginTimestamp).toLocaleString()}</TableCell>
+                        <TableCell>{new Date(log.timestamp).toLocaleString()}</TableCell>
                         <TableCell>{log.ipAddress}</TableCell>
                         <TableCell>{log.device}</TableCell>
                         <TableCell>{log.location}</TableCell>
@@ -316,7 +313,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
               <Typography>No login history found</Typography>
             )}
           </Box>
-        </TabPanel>
+        </Box>
       </Stack>
     </Container>
   );

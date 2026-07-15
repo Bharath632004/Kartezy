@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup, Slider, FormLabel, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { notificationService } from '@/lib/api';

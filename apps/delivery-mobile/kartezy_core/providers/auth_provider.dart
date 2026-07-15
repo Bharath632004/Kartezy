@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:delivery_mobile/core/services/auth_service.dart';
-import 'package:delivery_mobile/core/storage/secure_storage.dart';
+import 'package:kartezy_core/services/auth_service.dart';
+import 'package:kartezy_core/storage/secure_storage.dart';
 
 /// State for authentication
 class AuthState {

@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, Typography as MuiTypography } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
@@ -45,15 +45,13 @@ export default function LoyaltyCampaignsPage() {
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            SelectProps={{ MenuProps: { sx: { width: 200 } } }}
           >
             <option value="">All Statuses</option>
             <option value="active">Active</option>
             <option value="paused">Paused</option>
             <option value="maintenance">Maintenance</option>
-          </TextField
+          </TextField>
           <TextField
             label="Tier"
             select
@@ -348,7 +346,8 @@ export default function LoyaltyCampaignsPage() {
             <MenuItem value="gold">Gold</MenuItem>
             <MenuItem value="platinum">Platinum</MenuItem>
             <MenuItem value="diamond">Diamond</MenuItem>
-          </TextField
+          </TextField>
+            <TextField
             label="Points per Dollar Spent"
             type="number"
             value={selectedLoyalty?.pointsPerDollar || ''}

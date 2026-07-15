@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -84,7 +86,7 @@ const FraudAlerts = () => {
         </Tooltip>
         <Tooltip title={`Auto-refresh: ${refreshInterval ? 'ON' : 'OFF'}`}>
           <IconButton onClick={handleToggleAutoRefresh}>
-            {intervalId ? <RefreshOutlined /> <br /> <span>ON</span> : <RefreshOutlined /> <br /> <span>OFF</span>}
+            {intervalId ? <><RefreshOutlined /><br /><span>ON</span></> : <><RefreshOutlined /><br /><span>OFF</span></>}
           </IconButton>
         </Tooltip>
       </Toolbar>
@@ -135,7 +137,7 @@ const FraudAlerts = () => {
           <Typography variant="h6" gutterBottom>
             All Fraud Alerts Details
           </Typography>
-          <TableComponent component={Paper}>
+          <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="fraud alerts table">
               <TableHead>
                 <TableRow>

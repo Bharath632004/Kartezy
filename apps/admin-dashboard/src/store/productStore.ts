@@ -90,6 +90,7 @@ export const useProductStore = create<ProductState>()(
           set({ error: error.message, loading: false });
           throw error;
         }
+      },
       fetchProductDetail: async (id: string) => {
         set({ loading: true, error: null });
         try {
@@ -100,6 +101,7 @@ export const useProductStore = create<ProductState>()(
           set({ error: error.message, loading: false });
           throw error;
         }
+      },
       bulkUpdate: async (updates) => {
         set({ loading: true, error: null });
         try {

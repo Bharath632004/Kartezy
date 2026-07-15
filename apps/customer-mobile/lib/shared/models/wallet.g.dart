@@ -7,12 +7,12 @@ part of 'wallet.dart';
 // **************************************************************************
 
 _$WalletImpl _$$WalletImplFromJson(Map<String, dynamic> json) => _$WalletImpl(
-  balance: (json['balance'] as num).toDouble(),
-  currency: json['currency'] as String?,
-  lastUpdated: json['lastUpdated'] == null
-      ? null
-      : DateTime.parse(json['lastUpdated'] as String),
-);
+      balance: (json['balance'] as num).toDouble(),
+      currency: json['currency'] as String?,
+      lastUpdated: json['lastUpdated'] == null
+          ? null
+          : DateTime.parse(json['lastUpdated'] as String),
+    );
 
 Map<String, dynamic> _$$WalletImplToJson(_$WalletImpl instance) =>
     <String, dynamic>{

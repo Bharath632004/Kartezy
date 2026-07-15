@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -27,7 +29,6 @@ import {
   DialogActions,
   Link,
   Badge,
-  Circle,
   StarBorder,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -37,7 +38,7 @@ import {
   FilterAltOutlined,
   RefreshOutlined,
   Block,
-  RestoreAltOutlined,
+  RestoreOutlined,
 } from '@mui/icons-material';
 import { deliveryService } from '@/lib/api';
 
@@ -182,13 +183,9 @@ const DeliveryList = () => {
                 <TableCell align="right">{driver.phoneNumber}</TableCell>
                 <TableCell align="right">
                   {driver.status === 'ACTIVE' ? (
-                    <Badge badgeContent="Active" color="success">
-                      <Circle />
-                    </Badge>
+                    <Badge badgeContent="Active" color="success" />
                   ) : (
-                    <Badge badgeContent="Suspended" color="error">
-                      <Circle />
-                    </Badge>
+                    <Badge badgeContent="Suspended" color="error" />
                   )}
                 </TableCell>
                 <TableCell align="right">{driver.vehicle?.model}</TableCell>
@@ -223,7 +220,7 @@ const DeliveryList = () => {
                       onClick={() => handleActivateClick(driver.id)}
                       disabled={driver.status !== 'SUSPENDED'}
                     >
-                      {driver.status !== 'SUSPENDED' ? null : <RestoreAltOutlined />}
+                      {driver.status !== 'SUSPENDED' ? null : <RestoreOutlined />}
                     </IconButton>
                   </Tooltip>
                 </TableCell>

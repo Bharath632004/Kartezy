@@ -4,10 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:customer_mobile/features/tracking/provider/tracking_provider.dart';
 import 'package:customer_mobile/features/tracking/domain/models/tracking_info.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
-import 'package:customer_mobile/shared/widgets/card.dart';
-import 'package:customer_mobile/core/utils/formatters.dart';
-import 'package:customer_mobile/core/config/app_constants.dart';
 
 class TrackingPage extends ConsumerWidget {
   final String orderId;

@@ -15,9 +15,8 @@ _$TrackingInfoImpl _$$TrackingInfoImplFromJson(Map<String, dynamic> json) =>
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
       distanceRemaining: (json['distanceRemaining'] as num).toDouble(),
       eta: Duration(microseconds: (json['eta'] as num).toInt()),
-      currentLocation: const LatLngJsonConverter().fromJson(
-        json['currentLocation'] as Map<String, dynamic>,
-      ),
+      currentLocation: const LatLngJsonConverter()
+          .fromJson(json['currentLocation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$TrackingInfoImplToJson(_$TrackingInfoImpl instance) =>
@@ -29,7 +28,6 @@ Map<String, dynamic> _$$TrackingInfoImplToJson(_$TrackingInfoImpl instance) =>
       'lastUpdated': instance.lastUpdated.toIso8601String(),
       'distanceRemaining': instance.distanceRemaining,
       'eta': instance.eta.inMicroseconds,
-      'currentLocation': const LatLngJsonConverter().toJson(
-        instance.currentLocation,
-      ),
+      'currentLocation':
+          const LatLngJsonConverter().toJson(instance.currentLocation),
     };

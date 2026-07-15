@@ -3,14 +3,12 @@ import 'package:customer_mobile/core/network/api_constants.dart';
 import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/features/referral/data/datasource/referral_remote_data_source.dart';
 import 'package:customer_mobile/features/referral/domain/entities/referral.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 
 class ReferralRemoteDataSourceImpl implements ReferralRemoteDataSource {
   final DioClient _dioClient;
-  final Ref _ref;
 
-  ReferralRemoteDataSourceImpl(this._ref) : _dioClient = DioClient();
+  ReferralRemoteDataSourceImpl(this._dioClient);
 
   @override
   Future<Referral> getReferralCode() async {

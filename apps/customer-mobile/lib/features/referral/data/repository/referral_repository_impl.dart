@@ -1,17 +1,12 @@
 // lib/features/referral/data/repository/referral_repository_impl.dart
-import 'package:customer_mobile/core/network/api_constants.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/features/referral/data/datasource/referral_remote_data_source.dart';
 import 'package:customer_mobile/features/referral/domain/entities/referral.dart';
 import 'package:customer_mobile/features/referral/domain/repository/referral_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
 
 class ReferralRepositoryImpl implements ReferralRepository {
   final ReferralRemoteDataSource _remoteDataSource;
 
-  ReferralRepositoryImpl(this._ref)
-    : _remoteDataSource = ReferralRemoteDataSourceImpl(_ref);
+  ReferralRepositoryImpl(this._remoteDataSource);
 
   @override
   Future<Referral> getReferralCode() async {

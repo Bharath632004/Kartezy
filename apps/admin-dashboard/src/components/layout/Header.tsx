@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from 'react';
 import {
   AppBar,
@@ -5,23 +7,23 @@ import {
   Typography,
   IconButton,
   Button,
-  DropdownMenu,
   MenuItem,
   Tooltip,
   Stack,
   Avatar,
   Badge,
+  Menu,
 } from '@mui/material';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  NotificationsOutlined,
+  Notifications as NotificationsOutlined,
   AccountCircle,
-  MenuIcon,
+  Menu as MenuIcon,
   Brightness6,
   Brightness7,
-} from '@mui/icons.material';
+} from '@mui/icons-material';
 
 interface HeaderProps {
   isMobile: boolean;
@@ -113,26 +115,19 @@ export default function Header({
                   </Button>
                 )}
               </div>
-              <DropdownMenu
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'account-menu',
-                }}
-              >
-                {user ? (
-                  <>
-                    <MenuItem onClick={handleLogout}>
-                      Logout
-                    </MenuItem>
-                    <MenuItem onClick={handleLogoutAllDevices}>
-                      Logout from all devices
-                    </MenuItem>
-                  </>
-                ) : null}
-              </DropdownMenu>
+            <Menu
+              anchorEl={anchorEl}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              open={open}
+              onClose={handleClose}
+            >
+              {user ? (
+                <div>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  <MenuItem onClick={handleLogoutAllDevices}>Logout from all devices</MenuItem>
+                </div>
+              ) : null}
+            </Menu>
             </Tooltip>
             <Tooltip title="Toggle theme">
               <IconButton

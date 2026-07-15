@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, Typography as MuiTypography } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
@@ -45,9 +45,7 @@ export default function SmsCampaignsPage() {
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            SelectProps={{ MenuProps: { sx: { width: 200 } } }}
           >
             <option value="">All Statuses</option>
             <option value="draft">Draft</option>
@@ -63,15 +61,13 @@ export default function SmsCampaignsPage() {
             id="type-select"
             value={filters.type || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            SelectProps={{ MenuProps: { sx: { width: 200 } } }}
           >
             <option value="">All Types</option>
             <option value="promotional">Promotional</option>
             <option value="transactional">Transactional</option>
             <option value="reminder">Reminder</option>
-            <option value="alert">Alert</Option>
+            <option value="alert">Alert</option>
           </TextField>
           <TextField
             label="Start Date"

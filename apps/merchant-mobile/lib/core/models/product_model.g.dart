@@ -24,6 +24,18 @@ _$ProductModelImpl _$$ProductModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       imageUrl: json['imageUrl'] as String?,
+      dimensions: json['dimensions'] as String?,
+      hsnCode: json['hsnCode'] as String?,
+      mrp: (json['mrp'] as num?)?.toDouble(),
+      costPrice: (json['costPrice'] as num?)?.toDouble(),
+      discount: (json['discount'] as num?)?.toDouble(),
+      flashSalePrice: (json['flashSalePrice'] as num?)?.toDouble(),
+      membershipPrice: (json['membershipPrice'] as num?)?.toDouble(),
+      comboPrice: (json['comboPrice'] as num?)?.toDouble(),
+      tax: (json['tax'] as num?)?.toDouble(),
+      dynamicPricingEnabled: json['dynamicPricingEnabled'] as bool?,
+      shelfLife: json['shelfLife'] as String?,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
@@ -40,4 +52,16 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'imageUrl': instance.imageUrl,
+      'dimensions': instance.dimensions,
+      'hsnCode': instance.hsnCode,
+      'mrp': instance.mrp,
+      'costPrice': instance.costPrice,
+      'discount': instance.discount,
+      'flashSalePrice': instance.flashSalePrice,
+      'membershipPrice': instance.membershipPrice,
+      'comboPrice': instance.comboPrice,
+      'tax': instance.tax,
+      'dynamicPricingEnabled': instance.dynamicPricingEnabled,
+      'shelfLife': instance.shelfLife,
+      'tags': instance.tags,
     };

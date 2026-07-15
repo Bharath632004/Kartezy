@@ -6,6 +6,7 @@ import 'package:customer_mobile/features/referral/domain/usecase/get_referral_co
 import 'package:customer_mobile/features/referral/domain/usecase/get_referral_history.dart';
 import 'package:customer_mobile/features/referral/domain/usecase/share_referral_code.dart';
 import 'package:customer_mobile/features/referral/domain/entities/referral.dart';
+import 'package:customer_mobile/features/referral/provider/provider.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
 import 'package:customer_mobile/shared/widgets/app_bar.dart';
 
@@ -66,10 +67,10 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
     });
 
     try {
-      await ref.read(shareReferralCodeProvider).call({
+      await ref.read(shareReferralCodeProvider).call(Params(data: {
         'code': _referral!.code,
         'method': method,
-      });
+      }));
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -123,7 +124,7 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
                         child: Column(
                           children: [
                             const Icon(
-                              CardGiftcard,
+                              Icons.card_giftcard,
                               size: 48,
                               color: Colors.green,
                             ),
@@ -160,7 +161,7 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
                               children: [
                                 _buildShareButton(
                                   'WhatsApp',
-                                  Icons.whatsapp,
+                                  Icons.chat,
                                   Colors.green,
                                 ),
                                 _buildShareButton(
@@ -170,7 +171,7 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
                                 ),
                                 _buildShareButton(
                                   'Twitter',
-                                  Icons.twitter,
+                                  Icons.share,
                                   Colors.lightBlue,
                                 ),
                                 _buildShareButton(
@@ -250,7 +251,7 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
                             ),
                             child: ListTile(
                               leading: const Icon(
-                                PersonAdd,
+                                Icons.person_add,
                                 color: Colors.green,
                               ),
                               title: Text('Referral #${index + 1}'),

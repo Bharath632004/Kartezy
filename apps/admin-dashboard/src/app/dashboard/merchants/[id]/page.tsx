@@ -14,7 +14,6 @@ import {
   TableContainer,
   Tabs,
   Tab,
-  TabPanel,
 } from '@mui/material';
 import { merchantService } from '@/lib/api';
 
@@ -170,7 +169,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
           <Tab label="Revenue" />
           <Tab label="Commission" />
         </Tabs>
-        <TabPanel value={0} index={0}>
+        <TabPanelContent value={0} index={0}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Merchant Information
@@ -206,8 +205,8 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               </TableBody>
             </Table>
           </Box>
-        </TabPanel>
-        <TabPanel value={1} index={1}>
+        </TabPanelContent>
+        <TabPanelContent value={1} index={1}>
           <Box>
             <Typography variant="h5" gutterBottom>
               KYC Status
@@ -234,16 +233,16 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
                   {kycData.notes && (
                     <>
                       <TableRow>
-                        <TableColspan columnSpan={2}>
+                        <TableCell colSpan={2}>
                           <Typography variant="body2" fontWeight="medium">
                             Notes
                           </Typography>
-                        </TableColspan>
+                        </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableColspan columnSpan={2}>
+                        <TableCell colSpan={2}>
                           <Typography>{kycData.notes}</Typography>
-                        </TableColspan>
+                        </TableCell>
                       </TableRow>
                     </>
                   )}
@@ -253,8 +252,8 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               <Typography>No KYC data available</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={2} index={2}>
+        </TabPanelContent>
+        <TabPanelContent value={2} index={2}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Documents
@@ -288,8 +287,8 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               <Typography>No documents found</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={3} index={3}>
+        </TabPanelContent>
+        <TabPanelContent value={3} index={3}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Store Details
@@ -341,8 +340,8 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               <Typography>No store details available</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={4} index={4}>
+        </TabPanelContent>
+        <TabPanelContent value={4} index={4}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Ratings
@@ -378,8 +377,8 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               <Typography>No ratings available</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={5} index={5}>
+        </TabPanelContent>
+        <TabPanelContent value={5} index={5}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Revenue
@@ -408,11 +407,11 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
                   {revenue.breakdown && (
                     <>
                       <TableRow>
-                        <TableColspan columnSpan={2}>
+                        <TableCell colSpan={2}>
                           <Typography variant="body2" fontWeight="medium">
                             Revenue Breakdown
                           </Typography>
-                        </TableColspan>
+                        </TableCell>
                       </TableRow>
                       {revenue.breakdown.map((item: any) => (
                         <TableRow key={item.type}>
@@ -430,8 +429,8 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               <Typography>No revenue data available</Typography>
             )}
           </Box>
-        </TabPanel>
-        <TabPanel value={6} index={6}>
+        </TabPanelContent>
+        <TabPanelContent value={6} index={6}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Commission
@@ -463,13 +462,13 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
               <Typography>No commission data available</Typography>
             )}
           </Box>
-        </TabPanel>
+        </TabPanelContent>
       </Stack>
     </Container>
   );
 }
 
-function TabPanel(props: {
+function TabPanelContent(props: {
   value: number;
   index: number;
   children: React.ReactNode;

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -82,7 +84,7 @@ const FleetMonitoring = () => {
         </Tooltip>
         <Tooltip title={`Auto-refresh: ${refreshInterval ? 'ON' : 'OFF'}`}>
           <IconButton onClick={handleToggleAutoRefresh}>
-            {intervalId ? <RefreshOutlined /> <br /> <span>ON</span> : <RefreshOutlined /> <br /> <span>OFF</span>}
+            {intervalId ? <><RefreshOutlined /><br /><span>ON</span></> : <><RefreshOutlined /><br /><span>OFF</span></>}
           </IconButton>
         </Tooltip>
       </Toolbar>
@@ -138,6 +140,6 @@ const FleetMonitoring = () => {
       </Box>
     </Box>
   );
-);
+}
 
 export default FleetMonitoring;

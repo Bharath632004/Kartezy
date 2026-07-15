@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup, Slider, TextareaAutosize, Select, MenuItem, Stack, FormLabel } from '@mui/material';
 import { useState } from 'react';
 

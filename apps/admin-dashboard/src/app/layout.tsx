@@ -1,3 +1,5 @@
+"use client";
+
 import './globals.css';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
@@ -5,12 +7,10 @@ import Providers from '@/app/providers';
 import { CssBaseline } from '@mui/material';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
-export const metadata: Metadata = {
-  title: 'Admin Dashboard',
-  description: 'Admin Dashboard for managing the platform',
-};
+// Note: metadata export is not supported in 'use client' components
+// Metadata should be set via next/link or layout.tsx files in app router
 
 export default function RootLayout({
   children,

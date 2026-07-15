@@ -12,8 +12,7 @@ part of 'banner.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Banner _$BannerFromJson(Map<String, dynamic> json) {
   return _Banner.fromJson(json);
@@ -38,13 +37,12 @@ abstract class $BannerCopyWith<$Res> {
   factory $BannerCopyWith(Banner value, $Res Function(Banner) then) =
       _$BannerCopyWithImpl<$Res, Banner>;
   @useResult
-  $Res call({
-    String id,
-    String imageUrl,
-    String targetUrl,
-    String? targetType,
-    String? title,
-  });
+  $Res call(
+      {String id,
+      String imageUrl,
+      String targetUrl,
+      String? targetType,
+      String? title});
 }
 
 /// @nodoc
@@ -66,49 +64,44 @@ class _$BannerCopyWithImpl<$Res, $Val extends Banner>
     Object? targetType = freezed,
     Object? title = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            imageUrl: null == imageUrl
-                ? _value.imageUrl
-                : imageUrl // ignore: cast_nullable_to_non_nullable
-                      as String,
-            targetUrl: null == targetUrl
-                ? _value.targetUrl
-                : targetUrl // ignore: cast_nullable_to_non_nullable
-                      as String,
-            targetType: freezed == targetType
-                ? _value.targetType
-                : targetType // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            title: freezed == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetUrl: null == targetUrl
+          ? _value.targetUrl
+          : targetUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetType: freezed == targetType
+          ? _value.targetType
+          : targetType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$BannerImplCopyWith<$Res> implements $BannerCopyWith<$Res> {
   factory _$$BannerImplCopyWith(
-    _$BannerImpl value,
-    $Res Function(_$BannerImpl) then,
-  ) = __$$BannerImplCopyWithImpl<$Res>;
+          _$BannerImpl value, $Res Function(_$BannerImpl) then) =
+      __$$BannerImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String imageUrl,
-    String targetUrl,
-    String? targetType,
-    String? title,
-  });
+  $Res call(
+      {String id,
+      String imageUrl,
+      String targetUrl,
+      String? targetType,
+      String? title});
 }
 
 /// @nodoc
@@ -116,9 +109,8 @@ class __$$BannerImplCopyWithImpl<$Res>
     extends _$BannerCopyWithImpl<$Res, _$BannerImpl>
     implements _$$BannerImplCopyWith<$Res> {
   __$$BannerImplCopyWithImpl(
-    _$BannerImpl _value,
-    $Res Function(_$BannerImpl) _then,
-  ) : super(_value, _then);
+      _$BannerImpl _value, $Res Function(_$BannerImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -129,43 +121,40 @@ class __$$BannerImplCopyWithImpl<$Res>
     Object? targetType = freezed,
     Object? title = freezed,
   }) {
-    return _then(
-      _$BannerImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        imageUrl: null == imageUrl
-            ? _value.imageUrl
-            : imageUrl // ignore: cast_nullable_to_non_nullable
-                  as String,
-        targetUrl: null == targetUrl
-            ? _value.targetUrl
-            : targetUrl // ignore: cast_nullable_to_non_nullable
-                  as String,
-        targetType: freezed == targetType
-            ? _value.targetType
-            : targetType // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        title: freezed == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$BannerImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetUrl: null == targetUrl
+          ? _value.targetUrl
+          : targetUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetType: freezed == targetType
+          ? _value.targetType
+          : targetType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$BannerImpl implements _Banner {
-  const _$BannerImpl({
-    required this.id,
-    required this.imageUrl,
-    required this.targetUrl,
-    this.targetType,
-    this.title,
-  });
+  const _$BannerImpl(
+      {required this.id,
+      required this.imageUrl,
+      required this.targetUrl,
+      this.targetType,
+      this.title});
 
   factory _$BannerImpl.fromJson(Map<String, dynamic> json) =>
       _$$BannerImplFromJson(json);
@@ -178,7 +167,7 @@ class _$BannerImpl implements _Banner {
   final String targetUrl;
   @override
   final String? targetType;
-  // e.g., 'category', 'product', 'store'
+// e.g., 'category', 'product', 'store'
   @override
   final String? title;
 
@@ -215,18 +204,19 @@ class _$BannerImpl implements _Banner {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BannerImplToJson(this);
+    return _$$BannerImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Banner implements Banner {
-  const factory _Banner({
-    required final String id,
-    required final String imageUrl,
-    required final String targetUrl,
-    final String? targetType,
-    final String? title,
-  }) = _$BannerImpl;
+  const factory _Banner(
+      {required final String id,
+      required final String imageUrl,
+      required final String targetUrl,
+      final String? targetType,
+      final String? title}) = _$BannerImpl;
 
   factory _Banner.fromJson(Map<String, dynamic> json) = _$BannerImpl.fromJson;
 

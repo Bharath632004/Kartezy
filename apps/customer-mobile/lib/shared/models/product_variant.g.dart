@@ -17,12 +17,12 @@ _$ProductVariantImpl _$$ProductVariantImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$ProductVariantImplToJson(
-  _$ProductVariantImpl instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'productId': instance.productId,
-  'sku': instance.sku,
-  'price': instance.price,
-  'attributes': instance.attributes,
-  'isDefault': instance.isDefault,
-};
+        _$ProductVariantImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'productId': instance.productId,
+      'sku': instance.sku,
+      'price': instance.price,
+      'attributes': instance.attributes,
+      'isDefault': instance.isDefault,
+    };

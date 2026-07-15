@@ -15,42 +15,40 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import {
-  DashboardIcon,
-  PeopleIcon,
-  LocalShippingIcon,
-  AttachMoneyIcon,
-  AccountBalanceWalletIcon,
-  ShowChartIcon,
-  ShieldIcon,
-  SettingsIcon,
-  HistoryIcon,
-  LogoutIcon,
-  NotificationsOutlined,
-  AccessTimeIcon,
-  LockOutlined,
-  AccountCircle,
-  WidgetsIcon,
-  TimelineIcon,
-  BarChartIcon,
-  PieChartIcon,
-  StoreIcon,
-  LocalOfferIcon,
-  MailIcon,
-  ChatIcon,
-  PersonAddIcon,
-  GroupIcon,
-  WorkIcon,
-  InventoryIcon,
-  ReceiptIcon,
-  PaymentsIcon,
-  AccountBalanceIcon,
-  CurrencyExchangeIcon,
-  CreditCardIcon,
-  CalcIcon,
-  ExpandLess,
-  ExpandMore,
-} from '@mui/icons-material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import ShieldIcon from '@mui/icons-material/Shield';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HistoryIcon from '@mui/icons-material/History';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsOutlined from '@mui/icons-material/NotificationsOutlined';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import LockOutlined from '@mui/icons-material/LockOutlined';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import PieChartIcon from '@mui/icons-material/PieChart';
+import StoreIcon from '@mui/icons-material/Store';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import MailIcon from '@mui/icons-material/Mail';
+import ChatIcon from '@mui/icons-material/Chat';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupIcon from '@mui/icons-material/Group';
+import WorkIcon from '@mui/icons-material/Work';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import CalcIcon from '@mui/icons-material/Calculate';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export default function Sidebar() {
   const { user } = useAuthStore();

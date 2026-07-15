@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:delivery_mobile/core/services/auth_service.dart';
-import 'package:delivery_mobile/core/network/api_constants.dart';
+import 'package:kartezy_core/services/auth_service.dart';
+import 'package:kartezy_core/network/api_constants.dart';
 
 class DioClient {
   final Dio dio;

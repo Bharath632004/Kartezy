@@ -21,6 +21,19 @@ class ProductModel with _$ProductModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     String? imageUrl,
+    // Additional fields that were missing
+    String? dimensions,
+    String? hsnCode,
+    double? mrp,
+    double? costPrice,
+    double? discount,
+    double? flashSalePrice,
+    double? membershipPrice,
+    double? comboPrice,
+    double? tax,
+    bool? dynamicPricingEnabled,
+    String? shelfLife,
+    List<String>? tags,
   }) = _ProductModel;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>

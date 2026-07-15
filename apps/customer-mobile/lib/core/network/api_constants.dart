@@ -16,4 +16,14 @@ class ApiConstants {
   static const String pricing = 'pricing';
   static const String user = 'user';
   static const String notificationsEndpoint = 'notifications';
+
+  // Referral endpoints
+  static const String getReferralCode = 'referral/code';
+  static const String shareReferralCode = 'referral/share';
+  static const String getReferralHistory = 'referral/history';
+  static const String validateReferralCode = 'referral/validate';
+
+  // Support endpoints
+  static const String supportTickets = 'support/tickets';
+  static const String feedback = 'support/feedback';
 }

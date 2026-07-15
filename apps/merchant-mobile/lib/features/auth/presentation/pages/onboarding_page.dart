@@ -116,7 +116,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: ElevatedButton(
-                  onClicked: _next,
+                  onPressed: _next,
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     backgroundColor: Colors.deepPurple,

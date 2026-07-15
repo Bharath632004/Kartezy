@@ -1,36 +1,29 @@
-// lib/features/referral/domain/entities/referral.dart
-class Referral {
-  final String code;
-  final String shareUrl;
-  final int referralCount;
-  final double earnedAmount;
-  final DateTime createdAt;
 
-  Referral({
+import 'package:equatable/equatable.dart';
+
+class Referral extends Equatable {
+  final String code;
+  final int referralCount;
+  final double rewardsEarned;
+
+  const Referral({
     required this.code,
-    required this.shareUrl,
     required this.referralCount,
-    required this.earnedAmount,
-    required this.createdAt,
+    required this.rewardsEarned,
   });
 
-  factory Referral.fromJson(Map<String, dynamic> json) {
-    return Referral(
-      code: json['code'] as String,
-      shareUrl: json['shareUrl'] as String,
-      referralCount: json['referralCount'] as int,
-      earnedAmount: (json['earnedAmount'] as num).toDouble(),
-      createdAt: DateTime.parse(json['createdAt'] as String),
-    );
-  }
+  factory Referral.fromJson(Map<String, dynamic> json) => Referral(
+        code: json['code'] as String,
+        referralCount: json['referralCount'] as int,
+        rewardsEarned: (json['rewardsEarned'] as num).toDouble(),
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'shareUrl': shareUrl,
-      'referralCount': referralCount,
-      'earnedAmount': earnedAmount,
-      'createdAt': createdAt.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'code': code,
+        'referralCount': referralCount,
+        'rewardsEarned': rewardsEarned,
+      };
+
+  @override
+  List<Object?> get props => [code, referralCount, rewardsEarned];
 }
