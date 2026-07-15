@@ -14,7 +14,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init/postgres:/docker-entrypoint-initdb.d:ro
+      # Optional: mount SQL init scripts at ./init/postgres/ (create dir if needed)
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kartezy}"]
       interval: 10s
@@ -956,15 +956,15 @@ services:
     environment:
       NGINX_HOST: ${NGINX_HOST:-localhost}
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ../nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
       - api-gateway
     healthcheck:
-      test: ["CMD", "nginx", "-t"]
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
       interval: 30s
-      timeout: 5s
+      timeout: 10s
       retries: 3
+      start_period: 10s
     restart: unless-stopped
     networks:
       - kartezy-network

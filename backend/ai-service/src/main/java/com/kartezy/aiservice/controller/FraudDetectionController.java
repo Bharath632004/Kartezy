@@ -2,7 +2,7 @@ package com.kartezy.aiservice.controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/fraud")
+@RequestMapping("/v1/fraud")
 public class FraudDetectionController {
     @PostMapping("/check/order")
     public Map<String, Object> checkOrderForFraud(@RequestBody Map<String, Object> orderDetails) {

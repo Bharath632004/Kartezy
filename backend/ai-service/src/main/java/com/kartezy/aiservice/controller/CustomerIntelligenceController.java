@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/customer/insights")
+@RequestMapping("/v1/customer/insights")
 public class CustomerIntelligenceController {
     @GetMapping("/profile")
     public Map<String, Object> getCustomerProfile(@RequestParam String customerId) {

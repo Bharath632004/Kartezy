@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/chatbot")
+@RequestMapping("/v1/chatbot")
 public class ChatbotController {
     @PostMapping("/converse")
     public Map<String, Object> converse(@RequestBody Map<String, String> request) {

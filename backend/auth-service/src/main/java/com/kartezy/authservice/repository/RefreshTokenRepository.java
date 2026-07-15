@@ -9,16 +9,17 @@ import org.springframework.stereotype.Repository;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 @Repository
-public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID> {
     Optional<RefreshToken> findByToken(String token);
     List<RefreshToken> findByUser(User user);
     @Modifying
     @Query("UPDATE RefreshToken r SET r.revoked = true WHERE r.user.id = :userId")
-    void revokeAllByUserId(@Param("userId") Long userId);
+    void revokeAllByUserId(@Param("userId") UUID userId);
     @Modifying
     @Query("UPDATE RefreshToken r SET r.revoked = true WHERE r.token = :token")
     void revokeByToken(@Param("token") String token);
     @Query("SELECT r FROM RefreshToken r WHERE r.user.id = :userId AND r.revoked = false AND r.expiryDate > :now")
-    Optional<RefreshToken> findValidByUserId(@Param("userId") Long userId, @Param("now") Instant now);
+    Optional<RefreshToken> findValidByUserId(@Param("userId") UUID userId, @Param("now") Instant now);
 }

@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/delivery/intelligence")
+@RequestMapping("/v1/delivery/intelligence")
 public class DeliveryIntelligenceController {
     @GetMapping("/eta")
     public Map<String, Object> getETA(@RequestParam String orderId,

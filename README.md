@@ -1,244 +1,207 @@
 # Kartezy
 
-A modern, scalable food delivery platform inspired by Blinkit, Zepto, Instamart, Amazon Fresh, and Uber Eats.
+An AI-powered Hyperlocal Quick Commerce Marketplace connecting nearby local merchants with nearby customers for instant and scheduled deliveries. Inspired by Blinkit, Zepto, Swiggy Instamart, BigBasket Now, Flipkart Minutes, and Amazon Fresh.
 
 ## Repository Structure
 
 ```
 Kartezy/
-├── backend/                  # Backend services (Spring Boot microservices)
-│   ├── api-gateway/          # API Gateway service
+├── backend/                  # Backend services (Spring Boot 3 microservices)
+│   ├── api-gateway/          # API Gateway (Spring Cloud Gateway)
 │   ├── config-server/        # Spring Cloud Config Server
 │   ├── discovery-server/     # Service Discovery (Eureka)
-│   ├── auth-service/         # Authentication and Authorization service
-│   ├── user-service/         # User management service
-│   ├── merchant-service/     # Merchant/restaurant management
-│   ├── catalog-service/      # Product catalog service
-│   ├── inventory-service/    # Inventory management
-│   ├── order-service/        # Order processing
-│   ├── payment-service/      # Payment processing
-│   ├── delivery-service/     # Delivery management
-│   ├── notification-service/ # Notification service (email, SMS, push)
-│   ├── review-service/       # Review and rating service
-│   ├── wallet-service/       # Wallet and payment methods
-│   ├── analytics-service/    # Analytics and reporting
-│   ├── recommendation-service/ # Recommendation engine
-│   └── shared/               # Shared libraries and common utilities
+│   ├── auth-service/         # Authentication & Authorization
+│   ├── user-service/         # User management
+│   ├── merchant-service/     # Merchant onboarding & management
+│   ├── catalog-service/      # Product catalog & category management
+│   ├── inventory-service/    # Real-time inventory tracking
+│   ├── order-service/        # Order processing & lifecycle
+│   ├── payment-service/      # Payment processing & reconciliation
+│   ├── delivery-service/     # Delivery assignment & tracking
+│   ├── notification-service/ # Email, SMS, push notifications
+│   ├── review-service/       # Product & merchant reviews
+│   ├── wallet-service/       # Digital wallet & transactions
+│   ├── analytics-service/    # Analytics & reporting
+│   ├── recommendation-service/ # ML-driven recommendations
+│   ├── fraud-detection-service/ # Real-time fraud prevention
+│   ├── forecasting-service/  # Demand & inventory forecasting
+│   ├── chatbot-service/      # AI-powered customer support
+│   ├── computer-vision-service/ # Image recognition for catalog
+│   ├── nlp-service/          # Natural language search
+│   ├── ocr-service/          # OCR for documents & bills
+│   ├── voice-service/        # Voice-based shopping assistant
+│   ├── ai-service/           # Unified AI/ML platform
+│   └── shared/               # Shared libraries & common utilities
 ├── apps/                     # Frontend applications
 │   ├── customer-mobile/      # Customer mobile app (Flutter)
 │   ├── merchant-mobile/      # Merchant mobile app (Flutter)
-│   ├── delivery-mobile/      # Delivery personnel mobile app (Flutter)
-│   ├── customer-web/         # Customer web app (React)
-│   ├── merchant-web/         # Merchant web app (React)
-│   ├── admin-dashboard/      # Admin dashboard (React) - ENTERPRISE EDITION
-│   └── landing-page/         # Landing page (React)
-├── database/                 # Database schemas and migrations
-├── devops/                   # DevOps and infrastructure
-│   ├── docker/               # Dockerfiles
+│   ├── delivery-mobile/      # Delivery partner app (Flutter)
+│   ├── kartezy-website/      # Customer website (Next.js)
+│   └── admin-dashboard/      # Enterprise admin dashboard (Next.js)
+├── database/                 # Database schemas & migrations
+├── devops/                   # DevOps & infrastructure
+│   ├── docker/               # Docker Compose & Dockerfiles
 │   ├── kubernetes/           # Kubernetes manifests
-│   ├── terraform/            # Terraform infrastructure as code
-│   └── nginx/                # NGINX configurations
+│   └── nginx/                # NGINX reverse proxy configs
+├── config-repo/              # Spring Cloud Config repository
 ├── docs/                     # Documentation
-├── infra/                    # Infrastructure scripts
 ├── scripts/                  # Utility scripts
-└── .github/                  # GitHub workflows and issue templates
+└── .github/                  # GitHub workflows & templates
 ```
 
-## Admin Dashboard (Enterprise Edition)
+## Platform Overview
 
-The admin dashboard is a comprehensive enterprise-grade administration panel built with Next.js 15, React 19, TypeScript, Material-UI, and Tailwind CSS. It provides complete control over all aspects of the Kartezy platform.
+Kartezy is built for **Hyperlocal Quick Commerce** — connecting customers with nearby merchants for:
 
-### Features
+- **Groceries & Essentials**: Kirana stores, supermarkets, F&V, dairy, bakery
+- **Health & Wellness**: Pharmacies, medical stores, organic stores
+- **Lifestyle & Electronics**: Mobile stores, electronics, fashion, cosmetics
+- **Home & Daily Needs**: Hardware, stationery, pet supplies, baby products
+- **Gifts & Flowers**: Local flower shops, gift shops, home essentials
 
-#### Finance Management
-- Revenue Overview & Analytics
-- Commission Management & Tracking
-- Settlement Processing & Reconciliation
-- Wallet Management & Transactions
-- Refund Processing & Dispute Handling
-- Tax Management & GST Reporting
-- Payout Management & Scheduling
-- Transaction Monitoring & Audit Trail
+### Key Differentiators
 
-#### Marketing & Promotions
-- Coupon & Discount Code Management
-- Campaign Creation & Performance Tracking
-- Push Notification Scheduling & Analytics
-- Email Campaign Builder & Automation
-- SMS Campaign Management & Delivery Reports
-- Referral Program Configuration & Tracking
-- Loyalty Program Management & Tier System
-- Sponsored Products & Bidding System
+- **Multi-Merchant Marketplace**: Customers can order from multiple local merchants in a single transaction
+- **AI-Powered Everything**: Demand forecasting, personalized recommendations, dynamic pricing, fraud detection
+- **Real-Time Inventory**: Live stock tracking across all merchant locations
+- **Instant & Scheduled Delivery**: Choose delivery windows from 10 minutes to 24 hours
+- **Enterprise Ready**: Built for scale with microservices, event-driven architecture, and cloud-native deployment
 
-#### Content Management System (CMS)
-- Banner Management & A/B Testing
-- Category Hierarchy Management
-- Static Page Creation & Editing
-- FAQ Management & Organization
-- Blog Post Creation & Publishing
-- Terms & Conditions Management
-- Privacy Policy Administration
-- Rich Text Content Editor (WYSIWYG)
+### Merchant Categories
 
-#### Reports & Analytics
-- Revenue Reports with Export Options
-- Sales Performance Analytics
-- Merchant Performance Reports
-- Customer Behavior & Cohort Analysis
-- Delivery Performance Metrics
-- Payment Success Rate Analysis
-- Inventory Turnover Reports
-- Custom Report Builder with Scheduling
+| Category | Examples |
+|----------|----------|
+| Kirana & Grocery | Local kirana stores, grocery shops, supermarkets |
+| Fruits & Vegetables | Fresh produce vendors, organic stores |
+| Dairy & Bakery | Milk booths, dairy stores, bakeries |
+| Pharmacy | Medical stores, chemist shops |
+| Electronics | Mobile stores, electronics shops |
+| Fashion | Clothing stores, cosmetic shops |
+| Home & Stationery | Hardware stores, stationery shops |
+| Gifts & Flowers | Flower shops, gift shops |
+| Baby & Pet | Baby products, pet stores |
 
-#### Advanced Analytics
-- KPI Dashboard with Real-time Updates
-- Heatmap Visualization for User Behavior
-- Retention Analysis & Cohort Studies
-- Funnel Analysis & Conversion Optimization
-- Growth Metrics & Trend Prediction
-- Predictive Analytics & Forecasting
+## Technology Stack
 
-#### Support & Operations
-- Ticket Management System
-- Live Chat Monitoring & History
-- Customer Complaint Tracking
-- Escalation Workflow Management
-- System Health Monitoring
-- Performance Analytics & Alerts
-- Audit Trail & Compliance Reporting
-- User Activity Logging
+### Backend
 
-#### System Settings & Configuration
-- Platform Configuration & Feature Flags
-- Payment Gateway Integration Settings
-- Notification Template Management
-- Security Policies & Access Control
-- Role-Based Access Control (RBAC)
-- Session Management & Policies
-- Backup & Disaster Recovery Settings
-- API Rate Limiting & Throttling
+| Component | Technology |
+|-----------|-----------|
+| Language | Java 21 |
+| Framework | Spring Boot 3.2 |
+| Cloud | Spring Cloud 2023.0 |
+| API Gateway | Spring Cloud Gateway |
+| Service Discovery | Netflix Eureka |
+| Config Management | Spring Cloud Config |
+| Database (Relational) | PostgreSQL 15 |
+| Database (NoSQL) | MongoDB 7 |
+| Cache | Redis 7 |
+| Message Queue | RabbitMQ 3.13, Kafka 7.6 |
+| Search | Elasticsearch 8.14 |
+| AI/ML | Spring AI, OpenAI, TensorFlow |
+| Documentation | OpenAPI 3 / SpringDoc |
 
-### Technical Stack
+### Frontend - Mobile
 
-- **Framework**: Next.js 15 (App Router) with React 19
-- **Language**: TypeScript 5.x
-- **Styling**: Material-UI (MUI) v6 + Tailwind CSS
-- **State Management**: Zustand with persistence middleware
-- **Data Fetching**: React Query (TanStack Query v5)
-- **HTTP Client**: Axios with interceptors
-- **Form Handling**: React Hook Form v7 + Zod validation
-- **Authentication**: JWT with refresh token mechanism
-- **UI Framework**: Material Design 3 with dark/light themes
-- **Data Visualization**: Recharts & Chart.js integration
-- **Internationalization**: i18next for multi-language support
-- **Testing**: Jest + React Testing Library + Cypress E2E
-- **Code Quality**: ESLint, Prettier, TypeScript strict mode
-- **Performance**: Code splitting, lazy loading, React.Suspense
-- **Accessibility**: WCAG 2.2 compliance, ARIA labels, keyboard navigation
+| Component | Technology |
+|-----------|-----------|
+| Framework | Flutter (Stable) |
+| Language | Dart 3.x |
+| State Management | Riverpod |
+| Navigation | GoRouter |
+| Networking | Dio |
+| Local Storage | Hive, Flutter Secure Storage |
+| Maps | Google Maps Flutter |
 
-### Key Architectural Decisions
+### Frontend - Web
 
-1. **Modular Store Architecture**: Separate Zustand stores for each domain (finance, marketing, cms, etc.)
-2. **Server Components**: Leveraging React Server Components for improved performance and SEO
-3. **Optimistic Updates**: Immediate UI feedback with background synchronization
-4. **Real-time Updates**: WebSocket integration for live data synchronization
-5. **Role-Based Access Control**: Dynamic menu rendering based on user permissions
-6. **Error Boundaries**: Comprehensive error handling with fallback UIs
-7. **Loading & Empty States**: Consistent UX patterns across all components
-8. **Export Functionality**: CSV, Excel, and PDF export for all reports
-9. **Data Validation**: Schema validation with Zod at form level
-10. **Security**: XSS protection, CSRF tokens, input sanitization
+| Component | Technology |
+|-----------|-----------|
+| Framework | Next.js 16 |
+| Language | TypeScript 5.x |
+| UI Library | Material-UI 9 + Tailwind CSS 4 |
+| State Management | Zustand |
+| Data Fetching | TanStack Query |
+| HTTP Client | Axios |
+| Forms | React Hook Form + Zod |
 
-### Integration Points
+### Infrastructure
 
-The admin dashboard integrates with the following backend microservices:
+| Component | Technology |
+|-----------|-----------|
+| Containerization | Docker & Docker Compose |
+| Orchestration | Kubernetes |
+| CI/CD | GitHub Actions |
+| Monitoring | Prometheus + Grafana |
+| Logging | ELK Stack |
 
-- **Auth Service**: Authentication, authorization, role management
-- **User Service**: Customer and administrator user management
-- **Merchant Service**: Restaurant/merchant onboarding and management
-- **Catalog Service**: Product and category management
-- **Order Service**: Order lifecycle management and tracking
-- **Payment Service**: Payment processing and reconciliation
-- **Wallet Service**: Digital wallet and transaction management
-- **Delivery Service**: Assignment tracking and performance metrics
-- **Notification Service**: Email, SMS, and push notification delivery
-- **Analytics Service**: Event tracking and metric aggregation
-- **Recommendation Service**: Personalization and suggestion algorithms
+## Getting Started
 
-### Getting Started with Admin Dashboard
+### Prerequisites
+
+- **Java**: 21 (OpenJDK or Oracle JDK)
+- **Node.js**: 20 LTS or higher
+- **Flutter**: Stable channel (Dart 3.x)
+- **Docker**: 24+ & Docker Compose v2
+- **Git**: 2.30+
+
+### Quick Start
 
 ```bash
-# Navigate to the admin dashboard directory
-cd apps/admin-dashboard
+# 1. Clone the repository
+git clone https://github.com/your-org/kartezy.git
+cd kartezy
 
-# Install dependencies
+# 2. Copy environment template and configure
+cp .env.example .env
+
+# 3. Start infrastructure services
+cd devops/docker
+docker compose up -d postgres redis mongodb kafka
+
+# 4. Start backend services
+cd ../../backend
+./mvnw clean install -DskipTests
+./mvnw spring-boot:run -pl discovery-server & ./mvnw spring-boot:run -pl config-server & ./mvnw spring-boot:run -pl api-gateway &
+
+# 5. Start frontend applications
+cd apps/kartezy-website
 npm install
-
-# Start the development server
 npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
 ```
 
-### Environment Variables
-
-Create a `.env.local` file in the `apps/admin-dashboard` directory:
+### Environment Configuration
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8080/api
-NEXT_PUBLIC_WS_URL=ws://localhost:8080/ws
-NEXT_PUBLIC_APP_NAME=Kartezy Admin Dashboard
-NEXT_PUBLIC_APP_VERSION=1.0.0
+POSTGRES_PASSWORD=<your_password>
+MONGODB_PASSWORD=<your_password>
+JWT_SECRET=<your_base64_256bit_secret>
+JWT_EXPIRATION=86400000
+REDIS_HOST=localhost
+REDIS_PORT=6379
 ```
 
-### Available Routes
+## Documentation
 
-- `/dashboard` - Main dashboard with overview metrics
-- `/dashboard/finance/*` - Financial management sections
-- `/dashboard/marketing/*` - Marketing and promotions sections
-- `/dashboard/cms/*` - Content management sections
-- `/dashboard/reports/*` - Reporting and analytics sections
-- `/dashboard/analytics/*` - Advanced analytics sections
-- `/dashboard/support/*` - Customer support sections
-- `/dashboard/settings/*` - System configuration sections
+- [Architecture Guide](docs/architecture-guide.md)
+- [Development Guide](docs/development-guide.md)
+- [Folder Structure](docs/folder-structure.md)
+- [Coding Standards](docs/coding-standards.md)
+- [Contributing Guide](.github/CONTRIBUTING.md)
 
-### Testing
+## Contributing
 
-```bash
-# Run unit tests
-npm run test
+Please read our [Contributing Guidelines](.github/CONTRIBUTING.md) for details.
 
-# Run end-to-end tests
-npm run test:e2e
+## Security
 
-# Run accessibility tests
-npm run test:a11y
+- Report vulnerabilities to security@kartezy.com
+- See our [Security Policy](.github/SECURITY.md) for details
 
-# Run performance tests
-npm run test:perf
-```
+## License
 
-### Deployment
+Proprietary. All rights reserved.
 
-The admin dashboard can be deployed to various platforms:
+---
 
-- **Vercel** (recommended for Next.js applications)
-- **AWS Amplify**
-- **Docker containers**
-- **Kubernetes** (using provided manifests in devops/kubernetes)
-
-### Contributing
-
-Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-### License
-
-This project is proprietary and confidential.
-
-### Contact
-
-For any inquiries, please contact [your-email@example.com].
+*Kartezy — Your Neighborhood, Delivered.*

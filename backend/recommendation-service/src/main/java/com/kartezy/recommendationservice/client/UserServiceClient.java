@@ -1,14 +1,17 @@
 package com.kartezy.recommendationservice.client;
-import com.kartezy.userservice.dto.CustomerProfileDto;
-import com.kartezy.userservice.dto.FavoriteProductDto;
-import com.kartezy.userservice.dto.OrderDto;
-import com.kartezy.userservice.dto.SearchHistoryDto;
-import com.kartezy.userservice.dto.WishlistItemDto;
+import com.kartezy.recommendationservice.dto.CustomerProfileDto;
+import com.kartezy.recommendationservice.dto.FavoriteProductDto;
+import com.kartezy.recommendationservice.dto.OrderDto;
+import com.kartezy.recommendationservice.dto.SearchHistoryDto;
+import com.kartezy.recommendationservice.dto.WishlistItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
+
 @Component
 public class UserServiceClient {
     private final WebClient webClient;

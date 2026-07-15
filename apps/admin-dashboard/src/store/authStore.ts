@@ -6,8 +6,11 @@ export type User = {
   id: string;
   email: string;
   role: string;
-  name: string;
-  // Add other fields as needed
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
+  emailVerified?: boolean;
+  phoneVerified?: boolean;
 };
 
 type AuthState = {

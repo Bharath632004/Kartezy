@@ -27,27 +27,34 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "bearerAuth";
 
-        return new OpenAPI()
-                .info(new Info()
-                        .title(serviceName)
-                        .description("Kartezy " + serviceName + " API documentation")
-                        .version("1.0.0")
-                        .contact(new Contact()
-                                .name("Kartezy Team")
-                                .email("support@kartezy.com"))
-                        .license(new License()
-                                .name("Proprietary")
-                                .url("https://kartezy.com")))
-                .servers(List.of(
-                        new Server().url("http://localhost:" + serverPort).description("Local development"),
-                        new Server().url("https://api.kartezy.com").description("Production")))
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(new Components()
-                        .addSecuritySchemes(securitySchemeName, new SecurityScheme()
+        Components components = new Components()
+                .addSecuritySchemes(securitySchemeName,
+                        new SecurityScheme()
                                 .name(securitySchemeName)
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
-                                .description("Enter JWT Bearer token"))));
+                                .description("Enter JWT Bearer token"));
+
+        List<Server> servers = List.of(
+                new Server().url("http://localhost:" + serverPort).description("Local development"),
+                new Server().url("https://api.kartezy.com").description("Production"));
+
+        Info info = new Info()
+                .title(serviceName)
+                .description("Kartezy " + serviceName + " API documentation")
+                .version("1.0.0")
+                .contact(new Contact()
+                        .name("Kartezy Team")
+                        .email("support@kartezy.com"))
+                .license(new License()
+                        .name("Proprietary")
+                        .url("https://kartezy.com"));
+
+        return new OpenAPI()
+                .info(info)
+                .servers(servers)
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(components);
     }
 }

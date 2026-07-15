@@ -274,8 +274,8 @@ class TrackingPage extends ConsumerWidget {
         return 'Order Placed';
       case 'order_confirmed':
         return 'Order Confirmed';
-      case 'preparing':
-        return 'Preparing Order';
+      case 'packing':
+        return 'Packing Order';
       case 'ready_for_pickup':
         return 'Ready for Pickup';
       case 'out_for_delivery':
@@ -293,8 +293,8 @@ class TrackingPage extends ConsumerWidget {
         return Icons.check_circle;
       case 'out_for_delivery':
         return Icons.local_shipping;
-      case 'preparing':
-        return Icons.restaurant_menu;
+      case 'packing':
+        return Icons.inventory_2;
       default:
         return Icons.access_time;
     }
@@ -306,7 +306,7 @@ class TrackingPage extends ConsumerWidget {
         return Colors.green;
       case 'out_for_delivery':
         return Colors.orange;
-      case 'preparing':
+      case 'packing':
         return Colors.blue;
       default:
         return Colors.grey;

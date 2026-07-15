@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/pricing")
+@RequestMapping("/v1/pricing")
 public class DynamicPricingController {
     @GetMapping("/price")
     public Map<String, Object> getDynamicPrice(@RequestParam String productId,

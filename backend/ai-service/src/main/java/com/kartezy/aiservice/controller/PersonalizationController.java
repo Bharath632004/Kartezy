@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/personalization")
+@RequestMapping("/v1/personalization")
 public class PersonalizationController {
     @GetMapping("/homepage")
     public Map<String, Object> getPersonalizedHomepage(@RequestParam String userId) {

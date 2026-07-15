@@ -48,9 +48,6 @@ dependencies:
   google_fonts: ^6.2.1
   collection: ^1.18.0
   equatable: ^2.0.5
-  flutter_bloc: ^8.1.5
-  country_code_picker:
-    version: 3.4.1
   mobile_scanner: ^5.0.0
   image_picker: ^1.0.0
   share_plus: ^7.0.0
@@ -65,7 +62,7 @@ dependencies:
 
   # Shared core package
   kartezy_core:
-    path: ../../lib/core
+    path: ../../shared/core
 
 dev_dependencies:
   flutter_test:

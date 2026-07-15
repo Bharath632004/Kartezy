@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/merchant/insights")
+@RequestMapping("/v1/merchant/insights")
 public class MerchantInsightsController {
     @GetMapping("/dashboard")
     public Map<String, Object> getDashboard(@RequestParam String merchantId) {

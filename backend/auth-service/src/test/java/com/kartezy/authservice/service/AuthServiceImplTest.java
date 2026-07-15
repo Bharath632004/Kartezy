@@ -6,7 +6,6 @@ import com.kartezy.authservice.entity.*;
 import com.kartezy.authservice.repository.*;
 import com.kartezy.authservice.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,8 +57,11 @@ class AuthServiceImplTest {
     private LoginRequest loginRequest;
     private HttpServletRequest request;
 
+    private UUID testUserId;
+
     @BeforeEach
     void setUp() {
+        testUserId = UUID.randomUUID();
         testUser = User.builder()
                 .email("test@example.com")
                 .firstName("Test")
@@ -70,7 +72,7 @@ class AuthServiceImplTest {
                 .phoneVerified(true)
                 .mfaEnabled(true)
                 .build();
-        testUser.setId(1L);
+        testUser.setId(testUserId);
         loginRequest = new LoginRequest();
         loginRequest.setEmail("test@example.com");
         loginRequest.setPassword("password");
@@ -129,7 +131,7 @@ class AuthServiceImplTest {
         assertEquals("fakeAccessToken", loginResponse.getAccessToken());
         assertEquals("fakeRefreshToken", loginResponse.getRefreshToken());
         assertEquals("Bearer", loginResponse.getTokenType());
-        assertEquals(1L, loginResponse.getId());
+        assertEquals(testUserId, loginResponse.getId());
         assertEquals("test@example.com", loginResponse.getEmail());
         assertEquals("Test", loginResponse.getFirstName());
         assertEquals("User", loginResponse.getLastName());

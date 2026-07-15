@@ -13,7 +13,7 @@ import java.util.Map;
  * Provides an endpoint for interacting with the chatbot.
  */
 @RestController
-@RequestMapping("/api/chatbot")
+@RequestMapping("/chatbot")
 public class ChatbotController {
     @Autowired
     private ChatbotService chatbotService;

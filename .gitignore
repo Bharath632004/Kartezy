@@ -93,10 +93,8 @@ Temporary Items
 Thumbs.db
 Thumbs.db:encryptable
 ehthumbs_vista.ini
-Docker\
+# Docker
 Dockerfile*
-docker-compose*.yml
-docker-compose*.yaml
 .dockerignore
 
 # Kubernetes
@@ -186,31 +184,23 @@ lerna-debug.log*
 .fvm/
 .packages
 .pub/
-# Web
-web/
-# Flutter plugins
-.dart_tool/
-.build/
-.fvm/
-dart_tool/
-/.build/
-.dart_tool/
-.build/
-.fvm/
-.packages
-.pub/
-# Web
-web/
-# Flutter plugins
-.dart_tool/
-.build/
-.fvm/
-.dart_tool/
-.build/
-.fvm/
-.dart_tool/
-.build/
-.fvm/
+
+# Environment
+.env
+.env.local
+.env.development
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Misc
 *.bak

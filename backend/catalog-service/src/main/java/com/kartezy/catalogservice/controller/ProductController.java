@@ -1,98 +1,88 @@
 package com.kartezy.catalogservice.controller;
-import com.kartezy.catalogservice.dto.ProductDto;
-import com.kartezy.catalogservice.entity.Category;
-import com.kartezy.catalogservice.entity.Product;
-import com.kartezy.catalogservice.repository.CategoryRepository;
-import com.kartezy.catalogservice.repository.ProductRepository;
-import lombok.AllArgsConstructor;
+
+import com.kartezy.catalogservice.dto.*;
+import com.kartezy.catalogservice.service.CatalogService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.*;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
-@PreAuthorize("isAuthenticated()")
+import java.util.Map;
+
 @RestController
-@RequestMapping("/api/products")
-@AllArgsConstructor
+@RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    private final CatalogService catalogService;
+
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getList() {
-        List<Product> products = productRepository.findAll();
-        List<ProductDto> dtos = products.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<List<ProductEnhancedDto>> getAllProducts() {
+        return ResponseEntity.ok(catalogService.getAllProducts());
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getDetail(@PathVariable Long id) {
-        return productRepository.findById(id)
-                .map(this::toDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ProductEnhancedDto> getProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(catalogService.getProduct(id));
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<ProductEnhancedDto>> getByCategory(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(catalogService.getProductsByCategory(categoryId));
+    }
+
+    @GetMapping("/merchant/{merchantId}")
+    public ResponseEntity<List<ProductEnhancedDto>> getByMerchant(@PathVariable Long merchantId) {
+        return ResponseEntity.ok(catalogService.getProductsByMerchant(merchantId));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<ProductEnhancedDto>> getByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(catalogService.getProductsByStatus(status));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductSearchDto>> search(@RequestParam String q) {
+        return ResponseEntity.ok(catalogService.searchProducts(q));
+    }
+
     @PostMapping
-    public ResponseEntity<ProductDto> create(@RequestBody ProductDto dto) {
-        Product product = toEntity(dto);
-        product = productRepository.save(product);
-        return ResponseEntity.ok(toDto(product));
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ProductEnhancedDto> createProduct(@Valid @RequestBody ProductEnhancedDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(catalogService.createProduct(dto));
     }
-    @PatchMapping("/{id}/stock")
-    public ResponseEntity<ProductDto> updateStock(@PathVariable Long id, @RequestParam Integer quantity) {
-        return productRepository.findById(id)
-                .map(p -> {
-                    p.setStockQuantity(quantity);
-                    p = productRepository.save(p);
-                    return ResponseEntity.ok(toDto(p));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> update(@PathVariable Long id, @RequestBody ProductDto dto) {
-        if (!productRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        dto.setId(id);
-        Product product = toEntity(dto);
-        product = productRepository.save(product);
-        return ResponseEntity.ok(toDto(product));
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ProductEnhancedDto> updateProduct(@PathVariable Long id,
+                                                             @Valid @RequestBody ProductEnhancedDto dto) {
+        return ResponseEntity.ok(catalogService.updateProduct(id, dto));
     }
+
+    @PatchMapping("/{id}/stock")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ProductEnhancedDto> updateStock(@PathVariable Long id,
+                                                           @RequestBody Map<String, Integer> body) {
+        return ResponseEntity.ok(catalogService.updateStock(id, body.get("quantity")));
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        if (!productRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        productRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        catalogService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
-    private ProductDto toDto(Product entity) {
-        return ProductDto.builder()
-                .id(entity.getId())
-                .sku(entity.getSku())
-                .name(entity.getName())
-                .description(entity.getDescription())
-                .price(entity.getPrice() == null ? null : entity.getPrice().doubleValue())
-                .stockQuantity(entity.getStockQuantity())
-                .categoryId(entity.getCategory() != null ? entity.getCategory().getId() : null)
-                .categoryName(entity.getCategory() != null ? entity.getCategory().getName() : null)
-                .active(entity.isActive())
-                .build();
+
+    // Brand endpoints
+    @GetMapping("/brands")
+    public ResponseEntity<List<BrandDto>> getBrands() {
+        return ResponseEntity.ok(catalogService.getBrands());
     }
-    private Product toEntity(ProductDto dto) {
-        Category category = null;
-        if (dto.getCategoryId() != null) {
-            category = categoryRepository.findById(dto.getCategoryId()).orElse(null);
-        }
-        return Product.builder()
-                .id(dto.getId())
-                .sku(dto.getSku())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(dto.getPrice() == null ? null : java.math.BigDecimal.valueOf(dto.getPrice()))
-                .stockQuantity(dto.getStockQuantity())
-                .category(category)
-                .active(dto.getActive())
-                .build();
+
+    @PostMapping("/brands")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<BrandDto> createBrand(@Valid @RequestBody BrandDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(catalogService.createBrand(dto));
     }
 }

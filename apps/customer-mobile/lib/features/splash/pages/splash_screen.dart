@@ -111,7 +111,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       }
     });
 
-    // Return a placeholder while redirecting (could also return splash screen)
+    // Show splash branding while navigating
     return const Scaffold(
       backgroundColor: Colors.blue,
       body: Center(

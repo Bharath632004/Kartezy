@@ -12,7 +12,7 @@ import java.util.Map;
  * Provides endpoints for various OCR functionalities: invoice, bill, product, document, KYC, receipt.
  */
 @RestController
-@RequestMapping("/api/ocr")
+@RequestMapping("/ocr")
 public class OcrController {
     @Autowired
     private OcrService ocrService;

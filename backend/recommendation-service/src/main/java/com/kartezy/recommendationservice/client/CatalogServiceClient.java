@@ -1,6 +1,6 @@
 package com.kartezy.recommendationservice.client;
-import com.kartezy.catalogservice.dto.CategoryDto;
-import com.kartezy.catalogservice.dto.ProductDto;
+import com.kartezy.recommendationservice.dto.CategoryDto;
+import com.kartezy.recommendationservice.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;

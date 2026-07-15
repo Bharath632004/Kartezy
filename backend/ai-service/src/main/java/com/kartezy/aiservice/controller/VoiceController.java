@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/voice")
+@RequestMapping("/v1/voice")
 public class VoiceController {
     @PostMapping("/speech-to-text")
     public Map<String, Object> speechToText(@RequestParam("file") MultipartFile audioFile,

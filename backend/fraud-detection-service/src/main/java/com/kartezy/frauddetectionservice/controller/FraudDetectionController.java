@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Provides endpoints for fraud detection operations.
  */
 @RestController
-@RequestMapping("/api/fraud-detection")
+@RequestMapping("/fraud-detection")
 public class FraudDetectionController {
     /**
      * Health check endpoint.

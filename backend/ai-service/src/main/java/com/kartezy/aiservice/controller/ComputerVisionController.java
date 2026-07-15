@@ -2,9 +2,10 @@ package com.kartezy.aiservice.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/computer-vision")
+@RequestMapping("/v1/computer-vision")
 public class ComputerVisionController {
     @PostMapping("/detect/objects")
     public Object detectObjects(@RequestParam("file") MultipartFile file) {

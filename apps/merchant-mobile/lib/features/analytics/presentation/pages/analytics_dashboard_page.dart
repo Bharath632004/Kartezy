@@ -29,7 +29,7 @@ class AnalyticsDashboardPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Revenue Chart Placeholder
+                  // Revenue Chart - data loaded from API
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

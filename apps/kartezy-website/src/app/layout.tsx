@@ -12,14 +12,14 @@ import { QueryClientProviderWrapper } from '@/lib/query';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// Create a theme customizable for the Karthezy brand
+// Create a theme customizable for the Kartezy brand
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2', // Karthezy blue
+      main: '#1976d2', // Kartezy blue
     },
     secondary: {
-      main: '#dc004e', // Karthezy pink/red
+      main: '#dc004e', // Kartezy accent
     },
     background: {
       default: '#f5f5f5',
@@ -34,8 +34,8 @@ const theme = createTheme({
 });
 
 export const metadata: Metadata = {
-  title: 'Kartezy - Fast Grocery Delivery',
-  description: 'Get groceries, essentials, and more delivered in minutes. Fresh produce, household items, and snacks delivered to your doorstep.',
+  title: 'Kartezy - Hyperlocal Quick Commerce',
+  description: 'Shop from nearby local merchants for groceries, essentials, electronics, and more. Get everything delivered in minutes.',
   icons: [
     {
       rel: 'icon',
@@ -43,23 +43,23 @@ export const metadata: Metadata = {
     },
   ],
   openGraph: {
-    title: 'Kartezy - Fast Grocery Delivery',
-    description: 'Get groceries, essentials, and more delivered in minutes.',
+    title: 'Kartezy - Hyperlocal Quick Commerce',
+    description: 'Shop from nearby local merchants for everything you need, delivered in minutes.',
     url: 'https://kartezy.com',
     images: [
       {
         url: 'https://kartezy.com/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kortezy - Grocery Delivery App',
+        alt: 'Kartezy - Quick Commerce Marketplace',
       },
     ],
     siteName: 'Kartezy',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kartezy - Fast Grocery Delivery',
-    description: 'Get groceries, essentials, and more delivered in minutes.',
+    title: 'Kartezy - Hyperlocal Quick Commerce',
+    description: 'Shop from nearby merchants for everything you need, delivered in minutes.',
     images: ['https://kartezy.com/twitter-image.jpg'],
   },
 };

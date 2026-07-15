@@ -5,6 +5,7 @@ import com.kartezy.authservice.repository.*;
 import com.kartezy.authservice.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -178,7 +180,7 @@ public class AuthServiceImpl implements AuthService {
             otpRepository.save(otpEntity);
             // Send OTP via email (async, using email service)
             // For development, we log the OTP. In production, replace with actual email service.
-            System.out.println("Password reset OTP for email " + email + ": " + otp);
+            log.info("Password reset OTP for email {}: {}", email, otp);
         }
         // Always return same message to prevent user enumeration
         return ResponseEntity.ok("If the email exists, a password reset OTP has been sent.");
@@ -229,7 +231,7 @@ public class AuthServiceImpl implements AuthService {
         otpRepository.save(otpEntity);
         // Send OTP via SMS or email (depending on contact type)
         // For development, we log the OTP. In production, replace with actual SMS/email service.
-        System.out.println("OTP for contact " + contact + " (purpose: " + purpose + "): " + otp);
+        log.info("OTP for contact {} (purpose: {}): {}", contact, purpose, otp);
         return ResponseEntity.ok("OTP sent successfully");
     }
     @Override

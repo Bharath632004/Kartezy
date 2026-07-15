@@ -16,7 +16,7 @@ import java.util.Map;
  * shelf analysis, and document verification.
  */
 @RestController
-@RequestMapping("/api/cv")
+@RequestMapping("/cv")
 public class ComputerVisionController {
     @Autowired
     private ComputerVisionService computerVisionService;

@@ -132,7 +132,7 @@ class OrderHistoryItem extends StatelessWidget {
           child: Image.network(
             order.items.isNotEmpty
                 ? order.items.first.product.imageUrl
-                : 'https://via.placeholder.com/60',
+                : '',
             width: 60,
             height: 60,
             fit: BoxFit.cover,

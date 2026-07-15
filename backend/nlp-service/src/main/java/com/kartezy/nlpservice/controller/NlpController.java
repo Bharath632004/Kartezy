@@ -11,7 +11,7 @@ import java.util.Map;
  * summarization, question answering, keyword extraction, grammar checking, and intent detection.
  */
 @RestController
-@RequestMapping("/api/nlp")
+@RequestMapping("/nlp")
 public class NlpController {
     @Autowired
     private NlpService nlpService;

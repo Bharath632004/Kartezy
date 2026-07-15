@@ -6,23 +6,31 @@ This document details the folder structure of the Kartezy monorepo.
 
 ```
 backend/
-├── api-gateway/          # API Gateway service
-├── config-server/        # Spring Cloud Config Server
-├── discovery-server/     # Service Discovery (Eureka)
-├── auth-service/         # Authentication and Authorization
-├── user-service/         # User management
-├── merchant-service/     # Merchant/restaurant management
-├── catalog-service/      # Product catalog
-├── inventory-service/    # Inventory management
-├── order-service/        # Order processing
-├── payment-service/      # Payment processing
-├── delivery-service/     # Delivery management
-├── notification-service/ # Notifications (email, SMS, push)
-├── review-service/       # Reviews and ratings
-├── wallet-service/       # Wallet and payment methods
-├── analytics-service/    # Analytics and reporting
-├── recommendation-service/ # Recommendation engine
-└── shared/               # Shared libraries and common utilities
+├── api-gateway/                # API Gateway (Spring Cloud Gateway)
+├── config-server/              # Spring Cloud Config Server
+├── discovery-server/           # Service Discovery (Eureka)
+├── auth-service/               # Authentication and Authorization
+├── user-service/               # User management
+├── merchant-service/           # Merchant onboarding & management
+├── catalog-service/            # Product catalog & categories
+├── inventory-service/          # Real-time inventory tracking
+├── order-service/              # Order processing & lifecycle
+├── payment-service/            # Payment processing & reconciliation
+├── delivery-service/           # Delivery assignment & tracking
+├── notification-service/       # Email, SMS, push notifications
+├── review-service/             # Product & merchant reviews
+├── wallet-service/             # Digital wallet & transactions
+├── analytics-service/          # Analytics & reporting
+├── recommendation-service/     # ML-driven recommendations
+├── fraud-detection-service/    # Real-time fraud prevention
+├── forecasting-service/        # Demand & inventory forecasting
+├── chatbot-service/            # AI-powered customer support
+├── computer-vision-service/    # Image recognition
+├── nlp-service/                # Natural language search
+├── ocr-service/                # OCR for documents
+├── voice-service/              # Voice shopping assistant
+├── ai-service/                 # Unified AI/ML platform
+└── shared/                     # Shared libraries & common utilities
 ```
 
 Each backend service follows the standard Maven directory structure:
@@ -37,35 +45,32 @@ service-name/
 │       ├── java/
 │       └── resources/
 ├── pom.xml
-└── Dockerfile (located in devops/docker/service-name/)
+└── Dockerfile
 ```
 
 ## Frontend
 
-### React Applications
+### Next.js Applications
 
 ```
 apps/
-├── customer-web/         # Customer web application
-├── merchant-web/         # Merchant web application
-├── admin-dashboard/      # Admin dashboard
-└── landing-page/         # Public landing page
+├── kartezy-website/      # Customer-facing website
+└── admin-dashboard/       # Enterprise admin dashboard
 ```
 
-Each React application follows the standard Create React App structure:
+Each Next.js application follows:
 
 ```
 app-name/
-├── public/
-│   └── index.html
 ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   ├── App.js
-│   └── index.js
+│   ├── app/              # App Router pages & layouts
+│   ├── components/       # Shared components
+│   ├── lib/              # Utilities & API clients
+│   ├── store/            # State management
+│   └── theme/            # Theme configuration
+├── public/                # Static assets
 ├── package.json
-└── Dockerfile (located in devops/docker/app-name/)
+└── next.config.ts
 ```
 
 ### Flutter Applications
@@ -74,41 +79,57 @@ app-name/
 apps/
 ├── customer-mobile/      # Customer mobile application
 ├── merchant-mobile/      # Merchant mobile application
-└── delivery-mobile/      # Delivery personnel mobile application
+└── delivery-mobile/      # Delivery partner application
 ```
 
-Each Flutter application follows the standard Flutter project structure:
+Each Flutter application follows feature-first architecture:
 
 ```
 app-name/
 ├── lib/
+│   ├── features/         # Feature modules
+│   │   └── feature-name/
+│   │       ├── data/     # Data layer (repositories, DTOs)
+│   │       ├── domain/   # Domain layer (entities, usecases)
+│   │       └── presentation/ # UI layer (pages, widgets, providers)
+│   ├── core/             # Core utilities, constants, themes
+│   ├── navigation/       # Route definitions
 │   └── main.dart
 ├── android/
 ├── ios/
 ├── pubspec.yaml
-└── Dockerfile (located in devops/docker/app-name/)
+└── test/
 ```
 
 ## DevOps
 
 ```
 devops/
-├── docker/               # Dockerfiles for each service and application
+├── docker/               # Docker Compose & environment templates
 ├── kubernetes/           # Kubernetes manifests
-├── terraform/            # Terraform infrastructure as code
-└── nginx/                # NGINX configuration and Dockerfile
+└── nginx/                # NGINX configuration & Dockerfile
+```
+
+## Configuration
+
+```
+config-repo/              # Spring Cloud Config external configurations
+  ├── application.yml
+  ├── auth-service.yml
+  ├── catalog-service.yml
+  └── ...
 ```
 
 ## Other Directories
 
-- `database/`: Contains SQL scripts for database schema and migrations.
+- `database/`: Contains SQL migration scripts for schema and data.
 - `docs/`: Documentation files.
 - `infra/`: Infrastructure scripts and configurations.
-- `scripts/`: Utility scripts for development, testing, and deployment.
-- `.github/`: GitHub-specific configurations (workflows, issue templates, PR templates).
+- `scripts/`: Utility scripts for development and deployment.
+- `.github/`: GitHub workflows, issue templates, PR templates.
 
 ## Navigation Tips
 
-- Each service and application has its own `README.md` with specific instructions.
-- Use the scripts in the `scripts/` directory for common tasks.
-- Refer to the [Development Guide](./development-guide.md) for setting up your development environment.
+- Each service and application has its own self-contained structure.
+- Use the scripts in `scripts/` directory for common tasks.
+- Refer to the [Development Guide](./development-guide.md) for environment setup.

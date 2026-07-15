@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/forecast")
+@RequestMapping("/v1/forecast")
 public class ForecastingController {
     @GetMapping("/demand")
     public Map<String, Object> getDemandForecast(@RequestParam String productId,
@@ -18,7 +18,7 @@ public class ForecastingController {
     }
     @GetMapping("/demand/top-products")
     public List<Map<String, Object>> getTopProductsForecast(@RequestParam String storeId,
-                                                            @RequestParam int daysAhead int) {
+                                                            @RequestParam int daysAhead) {
         return List.of();
     }
     @GetMapping("/demand/category")

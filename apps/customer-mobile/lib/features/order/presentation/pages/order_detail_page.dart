@@ -69,7 +69,7 @@ class OrderDetailPage extends ConsumerWidget {
                         child: Image.network(
                           order.items.isNotEmpty
                               ? order.items.first.product.imageUrl
-                              : 'https://via.placeholder.com/80',
+                              : '',
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,

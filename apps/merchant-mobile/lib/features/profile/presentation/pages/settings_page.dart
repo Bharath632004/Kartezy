@@ -57,7 +57,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Change password coming soon')),
+                const SnackBar(content: Text('Change password feature - navigate to change password page')),
               );
             },
           ),

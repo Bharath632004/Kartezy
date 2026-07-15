@@ -6,9 +6,12 @@ export type User = {
   id: string;
   email: string;
   role: string;
-  name: string;
-  phone?: string;
-  status?: 'active' | 'inactive' | 'suspended';
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
+  status?: 'active' | 'inactive' | 'suspended' | 'PENDING_VERIFICATION';
+  emailVerified?: boolean;
+  phoneVerified?: boolean;
   createdAt: string;
   updatedAt: string;
   lastLoginAt?: string;

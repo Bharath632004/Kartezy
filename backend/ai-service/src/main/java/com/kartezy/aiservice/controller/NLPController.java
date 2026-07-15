@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/nlp")
+@RequestMapping("/v1/nlp")
 public class NLPController {
     @PostMapping("/analyze/sentiment")
     public Object analyzeSentiment(@RequestBody Map<String, String> request) {
@@ -43,9 +43,9 @@ public class NLPController {
         String text = request.get("text");
         return Map.of("intent", "unknown", "confidence", 0.0);
     }
-    @PostMapping("/entities/extract")
-    public Object extractEntities(@RequestBody Map<String, Object> request) {
-        // Alternative endpoint for entity extraction
+    @PostMapping("/entities/extract-structured")
+    public Object extractEntitiesStructured(@RequestBody Map<String, Object> request) {
+        // Alternative endpoint for structured entity extraction
         return List.of();
     }
 }

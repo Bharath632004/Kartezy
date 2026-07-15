@@ -9,7 +9,7 @@ import java.util.List;
  * Provides endpoints for personalized recommendations, product similarity, trending items, etc.
  */
 @RestController
-@RequestMapping("/api/recommendations")
+@RequestMapping("/recommendations")
 public class RecommendationController {
     @Autowired
     private RecommendationService recommendationService;

@@ -12,7 +12,7 @@ import java.util.Map;
  * Provides endpoints for speech-to-text, text-to-speech, and voice command processing.
  */
 @RestController
-@RequestMapping("/api/voice")
+@RequestMapping("/voice")
 public class VoiceController {
     @Autowired
     private VoiceService voiceService;

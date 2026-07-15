@@ -1,14 +1,14 @@
 "use client";
-import { Box, Container, Stack, Typography, TextField, Button, InputAdornment, Grid } from '@mui/material';
-import { Search as SearchIcon, LocalOffer as LocalOfferIcon, PlayArrow as PlayArrowIcon, AccessTime, Security, Truck, Star } from '@mui/icons-material';
+import { Box, Container, Stack, Typography, TextField, Button, InputAdornment } from '@mui/material';
+import { Search as SearchIcon, AccessTime, Truck } from '@mui/icons-material';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function HeroSectionWithSearch({ data } = {}) {
   // Default data if none provided
   const defaultData = {
-    title: 'Get groceries delivered in minutes',
-    subtitle: 'Fresh produce, household items, and more delivered to your doorstep',
+    title: 'Get essentials delivered in minutes',
+    subtitle: 'Shop from local merchants for groceries, electronics, pharmacy & more delivered to your doorstep',
     primaryButtonText: 'Shop Now',
     secondaryButtonText: 'How it works',
     backgroundImage: '/images/hero-bg.jpg',
@@ -20,36 +20,33 @@ export default function HeroSectionWithSearch({ data } = {}) {
     ],
     popularSearches: [
       'Fresh Vegetables', 'Dairy Products', 'Snacks', 'Beverages',
-      'Personal Care', 'Household', 'Household', 'Fruits', 'Bread & Bakery'
+      'Personal Care', 'Household Items', 'Fruits', 'Bread & Bakery', 'Pharmacy'
     ],
   };
 
   const dataToUse = data || defaultData;
-  const [searchQuery, setSearchQuery] = useState('className="searchQuery"
+  const [searchQuery, setSearchQuery] = useState('');
+
   const handleSearch = () => {
     if (searchQuery.trim()) {
       // Navigate to search page with query
       // In a real app, we would use useRouter from next/router
-      // For now, we'll just log
-      console.log('Searching for:', searchQuery);
     }
   };
 
-  const handleQuickSearch = (term) => {
+  const handleQuickSearch = (term: string) => {
     setSearchQuery(term);
-    // Optionally trigger search
-    // handleSearch();
   };
 
   return (
-    <section position="relative" py={20}>
+    <Box component="section" sx={{ position: 'relative', py: 20 }}>
       <Container maxWidth="lg">
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={6} alignItems="center">
           {/* Text Content */}
           <Box flex={{ xs: 12, md: 6 }}>
             <Stack spacing={3}>
               {/* Badges */}
-              {dataToUse.badges?.map((badge, index) => (
+              {dataToUse.badges?.map((badge: any, index: number) => (
                 <Box key={index} display="flex" alignItems="center" sx={{ mb: 1 }}>
                   {badge.icon && (
                     <Box sx={{ color: badge.color, mr: 1 }}>
@@ -131,7 +128,7 @@ export default function HeroSectionWithSearch({ data } = {}) {
               sx={{
                 position: 'relative',
                 zIndex: 1,
-                bg: 'background.paper',
+                bgcolor: 'background.paper',
                 p: 4,
                 borderRadius: 2,
                 boxShadow: 3,
@@ -147,7 +144,7 @@ export default function HeroSectionWithSearch({ data } = {}) {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon size="small" />
+                      <SearchIcon fontSize="small" />
                     </InputAdornment>
                   ),
                 }}
@@ -178,7 +175,7 @@ export default function HeroSectionWithSearch({ data } = {}) {
               </Typography>
 
               <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center">
-                {dataToUse.popularSearches.map((term, index) => (
+                {dataToUse.popularSearches.map((term: string, index: number) => (
                   <Box
                     key={index}
                     component={motion.div}
@@ -224,6 +221,6 @@ export default function HeroSectionWithSearch({ data } = {}) {
           zIndex: 0,
         }}
       />
-    </section>
+    </Box>
   );
 }

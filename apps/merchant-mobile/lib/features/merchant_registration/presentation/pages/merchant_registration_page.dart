@@ -286,7 +286,7 @@ class _MerchantRegistrationPageState
       title: const Text('Documents & KYC'),
       content: const Column(
         children: [
-          // Placeholder for document upload UI
+          // Document upload UI will be implemented with file_picker
           Text('Document upload functionality will be implemented here.'),
           SizedBox(height: 16),
           Text('KYC status will be updated after verification.'),

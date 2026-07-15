@@ -4,14 +4,15 @@ import com.kartezy.authservice.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.UUID;
 @Repository
-public interface SessionRepository extends JpaRepository<Session, Long> {
+public interface SessionRepository extends JpaRepository<Session, UUID> {
     // Find all active sessions for a user
-    java.util.List<Session> findByUserIdAndExpiredIsFalse(Long userId);
+    java.util.List<Session> findByUserIdAndExpiredIsFalse(UUID userId);
     // Find session by session ID (token)
     Session findBySessionId(String sessionId);
     // Find all sessions for a user
     java.util.List<Session> findByUser(User user);
     // Delete all sessions for a user (logout all devices)
-    void deleteByUserId(Long userId);
+    void deleteByUserId(UUID userId);
 }

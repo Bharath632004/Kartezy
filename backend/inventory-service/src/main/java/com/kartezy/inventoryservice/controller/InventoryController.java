@@ -4,11 +4,11 @@ import com.kartezy.inventoryservice.entity.InventoryItem;
 import com.kartezy.inventoryservice.repository.InventoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.*;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 @RestController
-@RequestMapping("/api/inventory")
+@RequestMapping("/inventory")
 @AllArgsConstructor
 public class InventoryController {
     private final InventoryRepository inventoryRepository;

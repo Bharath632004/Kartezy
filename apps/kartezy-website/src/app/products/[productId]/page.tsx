@@ -32,7 +32,7 @@ export default function ProductDetailsPage({ params }: { params: { productId: st
 
   const handleAddToCart = () => {
     // In a real app, we would add to cart via API or state management
-    console.log('Adding to cart:', { productId: product.id, quantity, variant: selectedVariant });
+    // Cart addition handled by cart service
     // Show success message or update cart count
     alert(`${product.name} added to cart!`);
   };

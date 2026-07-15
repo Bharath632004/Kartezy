@@ -1,7 +1,9 @@
 package com.kartezy.aiservice.controller;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/search")
+@RequestMapping("/v1/search")
 public class SearchController {
     @GetMapping("/suggest")
     public Object getSuggestions(@RequestParam String query, @RequestParam int limit) {

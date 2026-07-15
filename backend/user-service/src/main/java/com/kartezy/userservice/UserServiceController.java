@@ -1,4 +1,5 @@
 package com.kartezy.userservice;
+
 import com.kartezy.authservice.dto.UserDto;
 import com.kartezy.authservice.entity.User;
 import com.kartezy.authservice.entity.UserStatus;
@@ -14,6 +15,10 @@ import com.kartezy.userservice.dto.WalletTransactionDto;
 import com.kartezy.userservice.dto.WishlistItemDto;
 import com.kartezy.userservice.entity.CustomerProfile;
 import com.kartezy.userservice.entity.LoginHistory;
+import com.kartezy.userservice.entity.FavoriteProduct;
+import com.kartezy.userservice.entity.SearchHistory;
+import com.kartezy.userservice.entity.Wishlist;
+import com.kartezy.userservice.entity.WishlistItem;
 import com.kartezy.userservice.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +30,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 @PreAuthorize("isAuthenticated()")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class UserServiceController {
     private final UserRepository userRepository;
@@ -143,14 +148,14 @@ public class UserServiceController {
     public ResponseEntity<List<AddressDto>> getAddresses(@PathVariable UUID id) {
         AddressDto addr = AddressDto.builder()
                 .id(UUID.randomUUID())
-                .userId(id)
-                .type("HOME")
+                .customerProfileId(id)
+                .type(AddressDto.AddressType.HOME)
                 .street("123 Main St")
                 .city("Anytown")
                 .state("NY")
                 .postalCode("12345")
                 .country("USA")
-                .isDefault(true)
+                .defaultAddress(true)
                 .build();
         return ResponseEntity.ok(Collections.singletonList(addr));
     }
@@ -193,7 +198,7 @@ public class UserServiceController {
         }
         CustomerProfile cp = optionalCp.get();
         // Get favorite products for this customer profile
-        List<FavoriteProduct> favoriteProducts = favoriteProductRepository.findByCustomerProfileId(cp.getId());
+        List<FavoriteProduct> favoriteProducts = favoriteProductRepository.findByCustomerProfile(cp);
         List<FavoriteProductDto> dtos = favoriteProducts.stream()
                 .map(fp -> FavoriteProductDto.builder()
                         .id(fp.getId())
@@ -239,16 +244,5 @@ public class UserServiceController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    private OrderDto toDto(com.kartezy.orderservice.entity.Order order) {
-        return OrderDto.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .orderNumber(order.getOrderNumber())
-                .totalAmount(order.getTotalAmount())
-                .status(order.getStatus())
-                .driverId(order.getDriverId())
-                .createdAt(order.getCreatedAt())
-                .updatedAt(order.getUpdatedAt())
-                .build();
-    }
+
 }

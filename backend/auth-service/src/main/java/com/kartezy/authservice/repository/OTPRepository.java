@@ -7,8 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
 @Repository
-public interface OTPRepository extends JpaRepository<OTP, Long> {
+public interface OTPRepository extends JpaRepository<OTP, UUID> {
     // Find OTP by email and purpose
     Optional<OTP> findByEmailAndPurpose(String email, String purpose);
     // Find OTP by phone and purpose
@@ -24,7 +25,7 @@ public interface OTPRepository extends JpaRepository<OTP, Long> {
     // Mark OTP as used
     @Modifying
     @Query("UPDATE OTP o SET o.used = true WHERE o.id = :id")
-    void markAsUsed(@Param("id") Long id);
+    void markAsUsed(@Param("id") UUID id);
     // Delete expired OTPs
     @Modifying
     @Query("DELETE FROM OTP o WHERE o.expiryDate < :now")

@@ -2,12 +2,13 @@
 
 This document outlines the setup and development practices for the Kartezy project.
 
-## Prerequisites
+## Prerequisites- **Java**: Version 21 or higher (OpenJDK or Oracle JDK)
 
-- **Java**: Version 17 or higher (OpenJDK or Oracle JDK)
-- **Node.js**: Version 18 or higher (LTS)
-- **Flutter**: Version 3.0 or higher
-- **Docker**: Version 20.10 or higher
+- **Node.js**: Version 20 or higher (LTS)
+
+- **Flutter**: Stable channel (Dart 3.x)
+
+- **Docker**: Version 24 or higher
 - **Docker Compose**: Version 2.0 or higher
 - **Git**: Version 2.30 or higher
 
@@ -141,12 +142,13 @@ We'll replace the file with an updated version.
 
 This document outlines the setup and development practices for the Kartezy project.
 
-## Prerequisites
+## Prerequisites- **Java**: Version 21 or higher (OpenJDK or Oracle JDK)
 
-- **Java**: Version 17 or higher (OpenJDK or Oracle JDK)
-- **Node.js**: Version 18 or higher (LTS)
-- **Flutter**: Version 3.0 or higher
-- **Docker**: Version 20.10 or higher
+- **Node.js**: Version 20 or higher (LTS)
+
+- **Flutter**: Stable channel (Dart 3.x)
+
+- **Docker**: Version 24 or higher
 - **Docker Compose**: Version 2.0 or higher
 - **Git**: Version 2.30 or higher
 
@@ -161,47 +163,46 @@ cd kartezy
 
 ### 2. Backend Services
 
-All backend services are built with Maven. To build a specific service:
+All backend services are built with Maven. To build all services:
+
+```bash
+cd backend
+./mvnw clean install -DskipTests
+```
+
+To run a specific service locally:
 
 ```bash
 cd backend/service-name
-./mvnw clean install
-```
-
-To run a service locally:
-
-```bash
 ./mvnw spring-boot:run
 ```
 
 ### 3. Frontend Applications
 
-#### React Applications
+#### Next.js Applications (Website & Admin Dashboard)
 
 ```bash
-cd apps/app-name
+cd apps/kartezy-website  # or apps/admin-dashboard
 npm install
-npm start
+npm run dev
 ```
 
-#### Flutter Applications
+#### Flutter Applications (Mobile)
 
 ```bash
-cd apps/app-name
+cd apps/customer-mobile  # or merchant-mobile, delivery-mobile
 flutter pub get
 flutter run
 ```
 
 ### 4. Running All Services with Docker Compose
 
-We provide a `docker-compose.yml` file for local development:
-
 ```bash
 cd devops/docker
-docker-compose up
+docker compose up
 ```
 
-This will start the essential services (discovery-server, config-server, api-gateway, and others).
+This starts all infrastructure (PostgreSQL, Redis, MongoDB, Kafka, Elasticsearch), service infrastructure (Eureka, Config Server, API Gateway), business microservices, and AI microservices.
 
 ### 5. Running Tests
 
@@ -212,7 +213,7 @@ cd backend/service-name
 ./mvnw test
 ```
 
-#### Frontend (React)
+#### Frontend (Next.js)
 
 ```bash
 cd apps/app-name
@@ -273,53 +274,53 @@ flutter analyze
 
 ## Database Migrations
 
-Database schema changes are managed using Flyway (or similar). Migration scripts are located in the `database/` directory.
+Database schema changes are managed through Flyway. Migration scripts are located in the `database/` directory.
 
 To apply migrations:
 
 ```bash
-# Example for a service that uses Flywheel
+cd backend/service-name
 ./mvnw flyway:migrate
 ```
 
 ## Environment Configuration
 
-Configuration is managed through Spring Cloud Config. The `config-server` service serves configuration to all other services.
+Configuration is managed through Spring Cloud Config. The `config-server` service serves configuration to all other services via the `config-repo/` directory.
 
-Local development can use `application.yml` in each service's `src/main/resources` directory.
+Local development uses `application.yml` in each service's `src/main/resources` directory.
 
-For Docker and Kubernetes, environment variables are used to override configuration.
+For Docker and Kubernetes, environment variables override configuration at runtime.
 
 ## Logging
 
-We use SLF4J with Logback for logging in Java services. Log levels can be configured via `application.yml` or environment variables.
-
-In JavaScript and Dart, we use console.log for debugging, but in production, we rely on structured logging sent to a centralized system.
+- **Java**: SLF4J with Logback
+- **JavaScript/TypeScript**: Structured logging via configured transports
+- **Dart**: Logging framework with environment-based levels
 
 ## Debugging
 
 ### Backend
 
-- Use your IDE's debugger (IntelliJ, Eclipse, VS Code) to attach to the running JVM.
-- Remote debugging is enabled via the `JAVA_TOOL_OPTIONS` environment variable.
+- Use your IDE's debugger (IntelliJ, VS Code) to attach to the running JVM.
+- Remote debugging is enabled via `JAVA_TOOL_OPTIONS` environment variable.
 
 ### Frontend
 
-- Use browser developer tools for React applications.
-- Use Flutter DevTools or IDE debugging for Flutter applications.
+- **Next.js**: Browser developer tools + React DevTools + Next.js debugger
+- **Flutter**: Flutter DevTools or IDE debugging
 
 ## Performance Profiling
 
-- **Java**: Use Java Flight Recorder (JFR) or Async Profiler.
-- **JavaScript**: Use Chrome DevTools performance tab.
-- **Flutter**: Use Flutter's performance overlay and DevTools.
+- **Java**: Java Flight Recorder (JFR) or Async Profiler
+- **JavaScript**: Chrome DevTools Performance tab
+- **Flutter**: Flutter's performance overlay and DevTools
 
 ## Security
 
 - Never commit secrets to the repository. Use environment variables or a secrets management system.
-- All dependencies are scanned for vulnerabilities using Dependabot and similar tools.
-- Regular security audits are conducted using tools like OWASP ZAP and Snyk.
+- All dependencies are scanned for vulnerabilities using Dependabot.
+- Regular security audits are conducted using OWASP ZAP and Snyk.
 
 ## Getting Help
 
-If you encounter issues, please check the documentation in the `docs/` directory or reach out to the team via the project's communication channels.
+If you encounter issues, please check the documentation in the `docs/` directory or reach out to the team.

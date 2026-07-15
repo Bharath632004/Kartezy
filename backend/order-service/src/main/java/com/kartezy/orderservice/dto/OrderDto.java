@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+
 /**
  * Data Transfer Object for Order
  */
@@ -24,4 +26,5 @@ public class OrderDto {
     private UUID driverId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<OrderItemDto> items;
 }

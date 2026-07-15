@@ -81,8 +81,6 @@ export const authService = {
 export const userService = {
   getList: (params: Record<string, unknown>) => api.get('/api/users', { params }),
   getDetail: (id: string) => api.get(`/api/users/${id}`),
-  blockUser: (id: string) => api.put(`/api/users/${id}/block`),
-  unblockUser: (id: string) => api.put(`/api/users/${id}/unblock`),
   deleteUser: (id: string) => api.delete(`/api/users/${id}`),
   getWallet: (id: string) => api.get(`/api/users/${id}/wallet`),
   getWalletTransactions: (id: string) => api.get(`/api/users/${id}/wallet/transactions`),
@@ -133,17 +131,17 @@ export const merchantService = {
 };
 
 export const deliveryService = {
-  getList: (params: Record<string, unknown>) => api.get('/api/drivers', { params }),
-  getDetail: (id: string) => api.get(`/api/drivers/${id}`),
-  approve: (id: string) => api.put(`/api/drivers/${id}/approve`),
-  suspend: (id: string) => api.put(`/api/drivers/${id}/suspend`),
-  activate: (id: string) => api.put(`/api/drivers/${id}/activate`),
-  getVehicleDetails: (id: string) => api.get(`/api/drivers/${id}/vehicle`),
-  getKYC: (id: string) => api.get(`/api/drivers/${id}/kyc`),
-  getLiveLocation: (id: string) => api.get(`/api/drivers/${id}/location`),
-  getRatings: (id: string) => api.get(`/api/drivers/${id}/ratings`),
-  getEarnings: (id: string) => api.get(`/api/drivers/${id}/earnings`),
-  getPerformance: (id: string) => api.get(`/api/drivers/${id}/performance`),
+  getList: (params: Record<string, unknown>) => api.get('/api/delivery', { params }),
+  getDetail: (id: string) => api.get(`/api/delivery/${id}`),
+  approve: (id: string) => api.put(`/api/delivery/${id}/approve`),
+  suspend: (id: string) => api.put(`/api/delivery/${id}/suspend`),
+  activate: (id: string) => api.put(`/api/delivery/${id}/activate`),
+  getVehicleDetails: (id: string) => api.get(`/api/delivery/${id}/vehicle`),
+  getKYC: (id: string) => api.get(`/api/delivery/${id}/kyc`),
+  getLiveLocation: (id: string) => api.get(`/api/delivery/${id}/location`),
+  getRatings: (id: string) => api.get(`/api/delivery/${id}/ratings`),
+  getEarnings: (id: string) => api.get(`/api/delivery/${id}/earnings`),
+  getPerformance: (id: string) => api.get(`/api/delivery/${id}/performance`),
 };
 
 export const orderService = {
@@ -172,36 +170,33 @@ export const operationsService = {
   getEscalations: () => api.get('/api/escalations'),
 };
 
+// NOTE: Finance endpoints require a dedicated finance-service microservice
+// These are placeholders for when that service is implemented
+// For now, finance data is proxied through the analytics-service
+const FINANCE_BASE = '/api/analytics/finance';
+
 export const financeService = {
-  // Revenue
-  getRevenueOverview: () => api.get('/api/finance/revenue/overview'),
-  getRevenueByPeriod: (period: string) => api.get(`/api/finance/revenue?period=${period}`),
-  getRevenueBySource: () => api.get('/api/finance/revenue/source'),
-  // Commission
-  getCommissionSummary: () => api.get('/api/finance/commission/summary'),
+  getRevenueOverview: () => api.get(`${FINANCE_BASE}/revenue/overview`),
+  getRevenueByPeriod: (period: string) => api.get(`${FINANCE_BASE}/revenue?period=${period}`),
+  getRevenueBySource: () => api.get(`${FINANCE_BASE}/revenue/source`),
+  getCommissionSummary: () => api.get(`${FINANCE_BASE}/commission/summary`),
   getCommissionDetails: (filters: Record<string, unknown>) =>
-    api.get('/api/finance/commission', { params: filters }),
-  // Payouts
+    api.get(`${FINANCE_BASE}/commission`, { params: filters }),
   getPayouts: (filters: Record<string, unknown>) =>
-    api.get('/api/finance/payouts', { params: filters }),
-  createPayout: (data: Record<string, unknown>) => api.post('/api/finance/payouts', data),
-  // Settlements
+    api.get(`${FINANCE_BASE}/payouts`, { params: filters }),
+  createPayout: (data: Record<string, unknown>) => api.post(`${FINANCE_BASE}/payouts`, data),
   getSettlements: (filters: Record<string, unknown>) =>
-    api.get('/api/finance/settlements', { params: filters }),
-  // Wallet
-  getWalletBalance: () => api.get('/api/finance/wallet/balance'),
+    api.get(`${FINANCE_BASE}/settlements`, { params: filters }),
+  getWalletBalance: () => api.get(`${FINANCE_BASE}/wallet/balance`),
   getWalletTransactions: (params: Record<string, unknown>) =>
-    api.get('/api/finance/wallet/transactions', { params }),
-  // Refunds
+    api.get(`${FINANCE_BASE}/wallet/transactions`, { params }),
   getRefunds: (filters: Record<string, unknown>) =>
-    api.get('/api/finance/refunds', { params: filters }),
+    api.get(`${FINANCE_BASE}/refunds`, { params: filters }),
   processRefund: (id: string, data: Record<string, unknown>) =>
-    api.post(`/api/finance/refunds/${id}/process`, data),
-  // Taxes
-  getTaxReport: (year: number) => api.get(`/api/finance/taxes?year=${year}`),
-  // Transactions
+    api.post(`${FINANCE_BASE}/refunds/${id}/process`, data),
+  getTaxReport: (year: number) => api.get(`${FINANCE_BASE}/taxes?year=${year}`),
   getTransactions: (filters: Record<string, unknown>) =>
-    api.get('/api/finance/transactions', { params: filters }),
+    api.get(`${FINANCE_BASE}/transactions`, { params: filters }),
 };
 
 export const marketingService = {

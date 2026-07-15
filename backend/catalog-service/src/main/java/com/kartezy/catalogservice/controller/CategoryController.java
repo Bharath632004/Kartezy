@@ -5,12 +5,12 @@ import com.kartezy.catalogservice.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.*;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 @PreAuthorize("isAuthenticated()")
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/categories")
 @AllArgsConstructor
 public class CategoryController {
     private final CategoryRepository categoryRepository;

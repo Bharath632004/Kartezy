@@ -26,15 +26,15 @@ class OrderTimeline extends StatelessWidget {
         'status': _getStepStatus(1),
       },
       {
-        'title': 'Processing',
-        'icon': Icons.restaurant_menu,
-        'time': null, // We don't have a time for this step
+        'title': 'Packing',
+        'icon': Icons.inventory_2,
+        'time': null,
         'status': _getStepStatus(2),
       },
       {
         'title': 'Ready for Pickup',
-        'icon': Icons.local_dining,
-        'time': null, // We don't have a time for this step
+        'icon': Icons.store,
+        'time': null,
         'status': _getStepStatus(3),
       },
       {

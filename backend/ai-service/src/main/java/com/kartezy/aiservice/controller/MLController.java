@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/api/v1/ml")
+@RequestMapping("/v1/ml")
 public class MLController {
     @PostMapping("/train")
     public Map<String, String> startTraining(@RequestBody Map<String, Object> request) {
@@ -33,7 +33,7 @@ public class MLController {
                 "status", "deployed",
                 "modelId", modelId,
                 "version", version,
-                "endpoint", "/api/v1/ml/models/" + modelId + "/predict"
+                "endpoint", "/v1/ml/models/" + modelId + "/predict"
         );
     }
     @PostMapping("/predict/{modelId}")
