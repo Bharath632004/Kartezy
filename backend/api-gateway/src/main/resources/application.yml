@@ -161,6 +161,34 @@ spring:
             - Path=/api/voice/**
           filters:
             - StripPrefix=1
+        # Support / Ticketing
+        - id: support-service
+          uri: lb://support-service
+          predicates:
+            - Path=/api/support/**
+          filters:
+            - StripPrefix=1
+        # CMS
+        - id: cms-service
+          uri: lb://cms-service
+          predicates:
+            - Path=/api/cms/**
+          filters:
+            - StripPrefix=1
+        # Finance
+        - id: finance-service
+          uri: lb://finance-service
+          predicates:
+            - Path=/api/finance/**
+          filters:
+            - StripPrefix=1
+        # Search
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1
       discovery:
         locator:
           enabled: true
@@ -220,6 +248,14 @@ resilience4j:
       order-service:
         baseConfig: default
       payment-service:
+        baseConfig: default
+      support-service:
+        baseConfig: default
+      cms-service:
+        baseConfig: default
+      finance-service:
+        baseConfig: default
+      search-service:
         baseConfig: default
   retry:
     configs:

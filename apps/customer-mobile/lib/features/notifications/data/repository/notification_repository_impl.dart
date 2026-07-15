@@ -55,13 +55,21 @@ class NotificationRepositoryImpl implements NotificationRepository {
     return _remoteDataSource.notificationStream();
   }
 
+  @override
   Future<void> subscribeToTopic(String topic) async {
-    // Implementation would depend on your push notification service
-    // For now, we'll leave it as a placeholder
+    try {
+      await _remoteDataSource.subscribeToTopic(topic);
+    } catch (e) {
+      // Log error but don't crash - topic subscription is non-critical
+    }
   }
 
+  @override
   Future<void> unsubscribeFromTopic(String topic) async {
-    // Implementation would depend on your push notification service
-    // For now, we'll leave it as a placeholder
+    try {
+      await _remoteDataSource.unsubscribeFromTopic(topic);
+    } catch (e) {
+      // Log error but don't crash - topic unsubscription is non-critical
+    }
   }
 }

@@ -1,6 +1,7 @@
 package com.kartezy.catalogservice.controller;
 import com.kartezy.catalogservice.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -29,6 +30,7 @@ public class CatalogServiceController {
      * @return list of product IDs
      */
     @GetMapping("/search/text")
+    @Cacheable(value = "search", key = "'text:'+#query+':'+#limit")
     public ResponseEntity<List<String>> textSearch(
             @RequestParam String query,
             @RequestParam(defaultValue = "10") int limit) {

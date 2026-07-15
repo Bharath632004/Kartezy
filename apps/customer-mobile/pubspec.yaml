@@ -62,7 +62,7 @@ dependencies:
 
   # Shared core package
   kartezy_core:
-    path: ../../shared/core
+    path: ../delivery-mobile/kartezy_core
 
 dev_dependencies:
   flutter_test:
