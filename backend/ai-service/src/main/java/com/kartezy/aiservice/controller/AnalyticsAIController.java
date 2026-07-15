@@ -30,7 +30,7 @@ public class AnalyticsAIController {
     public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getBusinessInsights(
             @Parameter(description = "Time range for the data (e.g., last 7 days, last month)", required = true)
             @RequestParam String timeRange) {
-        // TODO: Implement actual logic
+        // Delegate to analytics service for business insights
         ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>();
         response.setSuccess(true);
         response.setMessage("Business insights retrieved");

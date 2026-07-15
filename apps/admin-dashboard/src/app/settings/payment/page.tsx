@@ -1,9 +1,12 @@
 "use client";
 
-import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup, FormLabel, Select, MenuItem } from '@mui/material';
+import { Box, Typography, Container, TextField, Button, Switch, FormControlLabel, FormGroup, FormLabel, Select, MenuItem, Snackbar, Alert, CircularProgress } from '@mui/material';
 import { useState } from 'react';
+import axios from 'axios';
 
 const PaymentSettingsPage = () => {
+  const [saving, setSaving] = useState(false);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; severity: 'success' | 'error'; message: string }>({ open: false, severity: 'success', message: '' });
   const [stripeEnabled, setStripeEnabled] = useState(false);
   const [paypalEnabled, setPaypalEnabled] = useState(false);
   const [razorpayEnabled, setRazorpayEnabled] = useState(false);
@@ -17,9 +20,22 @@ const PaymentSettingsPage = () => {
   const currencies = ['USD', 'EUR', 'GBP', 'INR', 'CAD', 'AUD'];
   const [defaultCurrency, setDefaultCurrency] = useState('USD');
 
-  const handleSave = () => {
-    // TODO: Save to backend
-    alert('Payment settings saved');
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const payload = {
+        stripe: { enabled: stripeEnabled, publishableKey: stripePublishableKey, secretKey: stripeSecretKey },
+        paypal: { enabled: paypalEnabled, clientId: paypalClientId, secret: paypalSecret },
+        razorpay: { enabled: razorpayEnabled, keyId: razorpayKeyId, keySecret: razorpayKeySecret },
+        defaultCurrency,
+      };
+      await axios.put('/settings/payment', payload);
+      setSnackbar({ open: true, severity: 'success', message: 'Payment settings saved successfully' });
+    } catch (error) {
+      setSnackbar({ open: true, severity: 'error', message: error instanceof Error ? error.message : 'Failed to save settings' });
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -120,10 +136,15 @@ const PaymentSettingsPage = () => {
             ))}
           </Select>
         </FormGroup>
-        <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 4 }}>
-          Save Settings
+        <Button variant="contained" color="primary" onClick={handleSave} disabled={saving} sx={{ mt: 4 }}>
+          {saving ? <CircularProgress size={24} color="inherit" /> : 'Save Settings'}
         </Button>
       </Box>
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}>
+        <Alert severity={snackbar.severity} onClose={() => setSnackbar(prev => ({ ...prev, open: false }))} variant="filled">
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

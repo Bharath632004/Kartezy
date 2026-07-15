@@ -375,7 +375,7 @@ public class AuthServiceImpl implements AuthService {
     private String extractDeviceType(String userAgent) {
         if (userAgent == null) return "unknown";
         if (userAgent.matches(".*(iPhone|iPod).*")) return "mobile";
-        if (userAgent.matches(".*(iPad).*)")) return "tablet";
+        if (userAgent.matches(".*(iPad).*")) return "tablet";
         if (userAgent.matches(".*(Android).*Mobile.*")) return "mobile";
         if (userAgent.matches(".*(Android).*")) return "mobile";
         if (userAgent.matches(".*(Windows NT|Macintosh|Linux).*")) return "desktop";

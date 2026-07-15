@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import java.util.List;
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.kartezy.apigateway", "com.kartezy.shared"})
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
     public static void main(String[] args) {
@@ -251,7 +251,7 @@ public class ApiGatewayApplication {
     @Order(-1) // High precedence
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
-                .csrf().disable()
+                .csrf(csrf -> csrf.disable())
                 .authorizeExchange()
                 .pathMatchers("/actuator/**").permitAll()
                 .pathMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()

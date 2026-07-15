@@ -5,7 +5,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  * Main application class for the computer vision service.
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.kartezy.computervisionservice", "com.kartezy.shared"})
 @EnableDiscoveryClient
 public class ComputerVisionServiceApplication {
     public static void main(String[] args) {

@@ -5,7 +5,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  * Main application class for the NLP service.
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.kartezy.nlpservice", "com.kartezy.shared"})
 @EnableDiscoveryClient
 public class NlpServiceApplication {
     public static void main(String[] args) {
