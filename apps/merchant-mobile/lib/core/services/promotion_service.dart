@@ -25,7 +25,7 @@ class PromotionService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionList}',
+        ApiConstants.promotionList,
         queryParameters: {
           'type': type,
           'is_active': isActive,
@@ -44,7 +44,7 @@ class PromotionService {
   Future<Map<String, dynamic>> getPromotionById(String promotionId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionDetail}'.replaceAll(
+        ApiConstants.promotionDetail.replaceAll(
           '{id}',
           promotionId,
         ),
@@ -60,7 +60,7 @@ class PromotionService {
   ) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionCreate}',
+        ApiConstants.promotionCreate,
         data: promotionData,
       );
       return response.data;
@@ -75,7 +75,7 @@ class PromotionService {
   ) async {
     try {
       final response = await _dio.put(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionUpdate}'.replaceAll(
+        ApiConstants.promotionUpdate.replaceAll(
           '{id}',
           promotionId,
         ),
@@ -90,7 +90,7 @@ class PromotionService {
   Future<void> deletePromotion(String promotionId) async {
     try {
       await _dio.delete(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionDelete}'.replaceAll(
+        ApiConstants.promotionDelete.replaceAll(
           '{id}',
           promotionId,
         ),
@@ -108,7 +108,7 @@ class PromotionService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.promotionCoupons}',
+        ApiConstants.promotionCoupons,
         queryParameters: {'is_active': isActive, 'page': page, 'limit': limit}
           ..removeWhere((key, value) => value == null),
       );

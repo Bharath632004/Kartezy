@@ -28,7 +28,7 @@ class ProductService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.product}',
+        ApiConstants.product,
         queryParameters: {
           'search': search,
           'category_id': categoryId,
@@ -50,7 +50,7 @@ class ProductService {
   Future<ProductModel> getProductById(String productId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.product}/$productId',
+        '${ApiConstants.product}/$productId',
       );
       return ProductModel.fromJson(response.data);
     } catch (e) {
@@ -61,7 +61,7 @@ class ProductService {
   Future<ProductModel> createProduct(ProductModel product) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.product}',
+        ApiConstants.product,
         data: product.toJson(),
       );
       return ProductModel.fromJson(response.data);
@@ -76,7 +76,7 @@ class ProductService {
   ) async {
     try {
       final response = await _dio.put(
-        '${ApiConstants.baseUrl}${ApiConstants.product}/$productId',
+        '${ApiConstants.product}/$productId',
         data: product.toJson(),
       );
       return ProductModel.fromJson(response.data);
@@ -88,7 +88,7 @@ class ProductService {
   Future<void> deleteProduct(String productId) async {
     try {
       await _dio.delete(
-        '${ApiConstants.baseUrl}${ApiConstants.product}/$productId',
+        '${ApiConstants.product}/$productId',
       );
     } catch (e) {
       throw Exception('Failed to delete product: $e');
@@ -98,7 +98,7 @@ class ProductService {
   Future<ProductModel> duplicateProduct(String productId) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.product}/$productId/duplicate',
+        '${ApiConstants.product}/$productId/duplicate',
       );
       return ProductModel.fromJson(response.data);
     } catch (e) {
@@ -112,7 +112,7 @@ class ProductService {
   ) async {
     try {
       final response = await _dio.patch(
-        '${ApiConstants.baseUrl}${ApiConstants.product}/$productId/status',
+        '${ApiConstants.product}/$productId/status',
         data: {'is_active': isActive},
       );
       return ProductModel.fromJson(response.data);

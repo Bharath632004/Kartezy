@@ -26,6 +26,8 @@ import 'package:merchant_mobile/features/inventory/presentation/pages/edit_inven
 import 'package:merchant_mobile/features/orders/presentation/pages/order_list_page.dart';
 import 'package:merchant_mobile/features/profile/presentation/pages/settings_page.dart';
 import 'package:merchant_mobile/features/profile/presentation/pages/support_page.dart';
+import 'package:merchant_mobile/features/notifications/presentation/pages/notifications_page.dart';
+import 'package:merchant_mobile/features/customers/presentation/pages/customers_page.dart';
 import 'package:merchant_mobile/core/services/auth_service.dart';
 
 /// A ChangeNotifier that triggers GoRouter redirect re-evaluation.
@@ -61,7 +63,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           .read(isInitializedProvider)
           .maybeWhen(
             loading: () => true,
-            error: (_, __) => false,
+            error: (_, _) => false,
             data: (_) => false,
             orElse: () => false,
           );
@@ -190,6 +192,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/support',
         builder: (context, state) => const SupportPage(),
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) => const NotificationsPage(),
+      ),
+      GoRoute(
+        path: '/customers',
+        builder: (context, state) => const CustomersPage(),
       ),
     ],
   );

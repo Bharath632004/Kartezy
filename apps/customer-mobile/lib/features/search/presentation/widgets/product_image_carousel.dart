@@ -28,9 +28,31 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    final displayImages = widget.images.isNotEmpty
-        ? widget.images
-        : ['https://via.placeholder.com/400x400?text=No+Image'];
+    final displayImages = widget.images;
+
+    if (displayImages.isEmpty) {
+      return Center(
+        child: Container(
+          margin: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.grey[50],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.image_not_supported_outlined,
+                  size: 64, color: Colors.grey[300]),
+              const SizedBox(height: 8),
+              Text(
+                'No images available',
+                style: TextStyle(color: Colors.grey[400], fontSize: 13),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Column(
       children: [
@@ -60,7 +82,8 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                       ),
                       errorWidget: (_, __, ___) => Container(
                         color: Colors.grey[100],
-                        child: const Icon(Icons.image_not_supported, size: 64, color: Colors.grey),
+                        child: const Icon(Icons.image_not_supported,
+                            size: 64, color: Colors.grey),
                       ),
                     ),
                   ),
@@ -135,7 +158,8 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
     );
   }
 
-  void _showImageFullScreen(BuildContext context, List<String> images, int initialIndex) {
+  void _showImageFullScreen(
+      BuildContext context, List<String> images, int initialIndex) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => Scaffold(
@@ -152,7 +176,8 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                 child: CachedNetworkImage(
                   imageUrl: images[index],
                   fit: BoxFit.contain,
-                  placeholder: (_, __) => const CircularProgressIndicator(color: Colors.white),
+                  placeholder: (_, __) =>
+                      const CircularProgressIndicator(color: Colors.white),
                 ),
               ),
             ),

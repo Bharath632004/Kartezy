@@ -59,15 +59,15 @@ class ProfilePage extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: profile!['approval_status'] == 'approved'
+                            color: profile?['approval_status'] == 'approved'
                                 ? Colors.green
-                                : profile!['approval_status'] == 'rejected'
+                                : profile?['approval_status'] == 'rejected'
                                     ? Colors.red
                                     : Colors.orange,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            profile!['approval_status'] as String,
+                            '${profile?['approval_status'] ?? ''}',
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 11),
                           ),

@@ -178,7 +178,9 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                 await ref
                     .read(promotionProvider.notifier)
                     .createPromotion(promotionData);
+                if (!mounted) return;
                 Navigator.pop(context);
+                if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Promotion created successfully'),

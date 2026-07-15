@@ -24,7 +24,7 @@ class InventoryService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}',
+        ApiConstants.inventory,
         queryParameters: {
           'product_id': productId,
           'warehouse_id': warehouseId,
@@ -42,7 +42,7 @@ class InventoryService {
   Future<InventoryModel> getInventoryById(String inventoryId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}/$inventoryId',
+        '${ApiConstants.inventory}/$inventoryId',
       );
       return InventoryModel.fromJson(response.data);
     } catch (e) {
@@ -53,7 +53,7 @@ class InventoryService {
   Future<InventoryModel> createInventory(InventoryModel inventory) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}',
+        ApiConstants.inventory,
         data: inventory.toJson(),
       );
       return InventoryModel.fromJson(response.data);
@@ -68,7 +68,7 @@ class InventoryService {
   ) async {
     try {
       final response = await _dio.put(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}/$inventoryId',
+        '${ApiConstants.inventory}/$inventoryId',
         data: inventory.toJson(),
       );
       return InventoryModel.fromJson(response.data);
@@ -80,7 +80,7 @@ class InventoryService {
   Future<void> deleteInventory(String inventoryId) async {
     try {
       await _dio.delete(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}/$inventoryId',
+        '${ApiConstants.inventory}/$inventoryId',
       );
     } catch (e) {
       throw Exception('Failed to delete inventory: $e');
@@ -91,7 +91,7 @@ class InventoryService {
   Future<InventoryModel> adjustStock(String inventoryId, int adjustment) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}/$inventoryId/adjust',
+        '${ApiConstants.inventory}/$inventoryId/adjust',
         data: {'adjustment': adjustment},
       );
       return InventoryModel.fromJson(response.data);
@@ -107,7 +107,7 @@ class InventoryService {
   ) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.inventory}/transfer',
+        '${ApiConstants.inventory}/transfer',
         data: {
           'from_inventory_id': fromInventoryId,
           'to_inventory_id': toInventoryId,

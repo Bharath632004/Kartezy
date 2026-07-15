@@ -24,7 +24,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}',
+        ApiConstants.marketingSponsoredProducts,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -48,7 +48,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingFeaturedProducts}',
+        ApiConstants.marketingFeaturedProducts,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -72,7 +72,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingBannerCampaigns}',
+        ApiConstants.marketingBannerCampaigns,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -96,7 +96,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingSeasonalCampaigns}',
+        ApiConstants.marketingSeasonalCampaigns,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -120,7 +120,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingFestivalCampaigns}',
+        ApiConstants.marketingFestivalCampaigns,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -144,7 +144,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingPushCampaigns}',
+        ApiConstants.marketingPushCampaigns,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -168,7 +168,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingEmailCampaigns}',
+        ApiConstants.marketingEmailCampaigns,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -192,7 +192,7 @@ class MarketingService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingSmsCampaigns}',
+        ApiConstants.marketingSmsCampaigns,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -213,7 +213,7 @@ class MarketingService {
   ) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}',
+        ApiConstants.marketingSponsoredProducts,
         data: sponsoredProductData,
       );
       return response.data;
@@ -229,7 +229,7 @@ class MarketingService {
   ) async {
     try {
       final response = await _dio.put(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}/$id',
+        '${ApiConstants.marketingSponsoredProducts}/$id',
         data: sponsoredProductData,
       );
       return response.data;
@@ -242,7 +242,7 @@ class MarketingService {
   Future<void> deleteSponsoredProduct(String id) async {
     try {
       await _dio.delete(
-        '${ApiConstants.baseUrl}${ApiConstants.marketingSponsoredProducts}/$id',
+        '${ApiConstants.marketingSponsoredProducts}/$id',
       );
     } catch (e) {
       throw Exception('Failed to delete sponsored product: $e');

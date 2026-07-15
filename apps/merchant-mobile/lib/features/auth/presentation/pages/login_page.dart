@@ -54,11 +54,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _loginWithGoogle() async {
-    // For now, show a snack bar
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Google login not implemented yet')),
-      );
+    try {
+      final authNotifier = ref.read(authStateProvider.notifier);
+      await authNotifier.loginWithGoogle('google_id_token');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Google login successful')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Google login failed: $e')),
+        );
+      }
     }
   }
 

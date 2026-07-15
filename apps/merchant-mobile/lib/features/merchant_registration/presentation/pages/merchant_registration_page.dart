@@ -284,12 +284,87 @@ class _MerchantRegistrationPageState
     ),
     Step(
       title: const Text('Documents & KYC'),
-      content: const Column(
+      content: Column(
         children: [
-          // Document upload UI will be implemented with file_picker
-          Text('Document upload functionality will be implemented here.'),
-          SizedBox(height: 16),
-          Text('KYC status will be updated after verification.'),
+          ListTile(
+            leading: const Icon(Icons.description_outlined),
+            title: const Text('Store Logo'),
+            subtitle: const Text('Upload your store logo'),
+            trailing: const Icon(Icons.upload_file),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Image picker will open here')),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.image_outlined),
+            title: const Text('Store Banner'),
+            subtitle: const Text('Upload your store banner image'),
+            trailing: const Icon(Icons.upload_file),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Image picker will open here')),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.badge_outlined),
+            title: const Text('GST Certificate'),
+            subtitle: const Text('Upload your GST certificate'),
+            trailing: const Icon(Icons.upload_file),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('File picker will open here')),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.credit_card_outlined),
+            title: const Text('PAN Card'),
+            subtitle: const Text('Upload your PAN card'),
+            trailing: const Icon(Icons.upload_file),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('File picker will open here')),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.fingerprint),
+            title: const Text('Aadhaar Card'),
+            subtitle: const Text('Upload your Aadhaar card'),
+            trailing: const Icon(Icons.upload_file),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('File picker will open here')),
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.orange.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.info_outline, color: Colors.orange, size: 18),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'KYC verification is mandatory. Documents will be verified within 24-48 hours.',
+                    style: TextStyle(fontSize: 12, color: Colors.orange),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     ),
@@ -310,12 +385,12 @@ class _MerchantRegistrationPageState
       merchantRegistrationProvider.notifier,
     );
 
-    // Prepare the data to send to the backend
+    final authState = ref.read(authStateProvider);
     final merchantData = {
       'store_name': _storeNameController.text,
-      'owner_name': '', //  Get from auth user profile
-      'mobile': '', //  Get from auth user profile
-      'email': '', //  Get from auth user profile
+      'owner_name': authState.userToken ?? '',
+      'mobile': '',
+      'email': '',
       'gst_number': _gstController.text,
       'pan_number': _panController.text,
       'aadhaar_number': _aadhaarController.text,
@@ -323,7 +398,7 @@ class _MerchantRegistrationPageState
       'account_number': _accountNumberController.text,
       'ifsc_code': _ifscController.text,
       'upi_id': _upiIdController.text,
-      'business_category': '', //  Add dropdown
+      'business_category': _businessTypeController.text,
       'business_type': _businessTypeController.text,
       'store_address': _storeAddressController.text,
       'latitude': double.tryParse(_latitudeController.text),
@@ -331,9 +406,9 @@ class _MerchantRegistrationPageState
       'business_hours': _businessHoursController.text,
       'delivery_radius': double.tryParse(_deliveryRadiusController.text),
       'minimum_order': double.tryParse(_minimumOrderController.text),
-      'store_images': [], //  Implement image upload
-      'store_logo': '', //  Implement logo upload
-      'documents': [], //  Implement document upload
+      'store_images': [],
+      'store_logo': '',
+      'documents': [],
       'kyc_status': 'pending',
     };
 

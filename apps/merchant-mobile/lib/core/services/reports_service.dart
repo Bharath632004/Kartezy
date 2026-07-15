@@ -19,7 +19,7 @@ class ReportsService {
   Future<Map<String, dynamic>> getDailyReport({String? date}) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsDaily}',
+        ApiConstants.reportsDaily,
         queryParameters: {'date': date}
           ..removeWhere((key, value) => value == null),
       );
@@ -36,7 +36,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsWeekly}',
+        ApiConstants.reportsWeekly,
         queryParameters: {'start_date': startDate, 'end_date': endDate}
           ..removeWhere((key, value) => value == null),
       );
@@ -53,7 +53,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsMonthly}',
+        ApiConstants.reportsMonthly,
         queryParameters: {'month': month, 'year': year}
           ..removeWhere((key, value) => value == null),
       );
@@ -67,7 +67,7 @@ class ReportsService {
   Future<Map<String, dynamic>> getYearlyReport({String? year}) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsYearly}',
+        ApiConstants.reportsYearly,
         queryParameters: {'year': year}
           ..removeWhere((key, value) => value == null),
       );
@@ -84,7 +84,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsInventory}',
+        ApiConstants.reportsInventory,
         queryParameters: {'start_date': startDate, 'end_date': endDate}
           ..removeWhere((key, value) => value == null),
       );
@@ -102,7 +102,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsProduct}',
+        ApiConstants.reportsProduct,
         queryParameters: {
           'product_id': productId,
           'start_date': startDate,
@@ -122,7 +122,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsSales}',
+        ApiConstants.reportsSales,
         queryParameters: {'start_date': startDate, 'end_date': endDate}
           ..removeWhere((key, value) => value == null),
       );
@@ -139,7 +139,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsFinancial}',
+        ApiConstants.reportsFinancial,
         queryParameters: {'start_date': startDate, 'end_date': endDate}
           ..removeWhere((key, value) => value == null),
       );
@@ -156,7 +156,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsRefund}',
+        ApiConstants.reportsRefund,
         queryParameters: {'start_date': startDate, 'end_date': endDate}
           ..removeWhere((key, value) => value == null),
       );
@@ -173,7 +173,7 @@ class ReportsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.reportsSettlement}',
+        ApiConstants.reportsSettlement,
         queryParameters: {'start_date': startDate, 'end_date': endDate}
           ..removeWhere((key, value) => value == null),
       );

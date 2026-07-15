@@ -1,8 +1,6 @@
-// lib/features/authentication/presentation/phone_login_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:customer_mobile/features/authentication/domain/usecase/send_otp_usecase.dart';
 import 'package:customer_mobile/shared/widgets/button.dart';
 
@@ -15,9 +13,18 @@ class PhoneLoginPage extends ConsumerStatefulWidget {
 
 class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
   final _phoneController = TextEditingController();
-  String _selectedCountryCode = 'US'; // Default to US
+  String _selectedCountryCode = '+91'; // Default to India
   bool _isSending = false;
   String? _errorMessage;
+
+  final _countryCodes = [
+    {'code': '+91', 'name': 'India', 'flag': '🇮🇳'},
+    {'code': '+1', 'name': 'USA', 'flag': '🇺🇸'},
+    {'code': '+44', 'name': 'UK', 'flag': '🇬🇧'},
+    {'code': '+61', 'name': 'Australia', 'flag': '🇦🇺'},
+    {'code': '+971', 'name': 'UAE', 'flag': '🇦🇪'},
+    {'code': '+65', 'name': 'Singapore', 'flag': '🇸🇬'},
+  ];
 
   @override
   void dispose() {
@@ -30,11 +37,10 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
       _isSending = true;
       _errorMessage = null;
     });
-    final phoneNumber = '+$_selectedCountryCode${_phoneController.text}';
+    final phoneNumber = '$_selectedCountryCode${_phoneController.text}';
     try {
       final sendOtpUseCase = ref.read(sendOtpUseCaseProvider);
       await sendOtpUseCase.call(phoneNumber);
-      // OTP sent successfully, navigate to verification screen
       if (mounted) {
         context.go('/otp-verification', extra: {'phoneNumber': phoneNumber});
       }
@@ -56,7 +62,7 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Login with Phone')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -65,34 +71,49 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
             // Country picker and phone number input
             Row(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: CountryCodePicker(
-                    onChanged: (CountryCode countryCode) {
-                      setState(() {
-                        _selectedCountryCode = countryCode.code ?? 'US';
-                      });
-                    },
-                    initialSelection: 'US',
-                    favorite: const ['+1', 'us'],
-                    // Hide the country name, only show code and flag
-                    showCountryOnly: false,
-                    showOnlyCountryWhenClosed: false,
-                    alignLeft: false,
+                Container(
+                  width: 100,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[300]!),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedCountryCode,
+                      isExpanded: true,
+                      items: _countryCodes.map((c) {
+                        return DropdownMenuItem<String>(
+                          value: c['code'],
+                          child: Text(
+                            '${c['flag']} ${c['code']}',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() => _selectedCountryCode = value);
+                        }
+                      },
+                    ),
                   ),
                 ),
+                const SizedBox(width: 12),
                 Expanded(
-                  flex: 3,
                   child: TextField(
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Phone Number',
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: '9876543210',
                     ),
                   ),
                 ),
@@ -100,17 +121,44 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
             ),
             const SizedBox(height: 16),
             if (_errorMessage != null)
-              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
-            const SizedBox(height: 16),
-            _isSending
-                ? const CircularProgressIndicator()
-                : AppButton(text: 'Send OTP', onPressed: _sendOtp),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red[50],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.red, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(_errorMessage!,
+                          style: const TextStyle(color: Colors.red, fontSize: 13)),
+                    ),
+                  ],
+                ),
+              ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: _isSending
+                  ? const Center(child: CircularProgressIndicator())
+                  : ElevatedButton(
+                      onPressed: _phoneController.text.length >= 10
+                          ? _sendOtp
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text('Send OTP', style: TextStyle(fontSize: 16)),
+                    ),
+            ),
             const SizedBox(height: 16),
             TextButton(
-              onPressed: () {
-                // Go back to login
-                context.go('/login');
-              },
+              onPressed: () => context.go('/login'),
               child: const Text('Back to Login'),
             ),
           ],

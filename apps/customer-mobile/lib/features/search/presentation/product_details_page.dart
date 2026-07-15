@@ -1,4 +1,3 @@
-// lib/features/search/presentation/product_details_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/features/search/presentation/widgets/product_image_carousel.dart';
@@ -21,15 +20,24 @@ class ProductDetailsPage extends ConsumerStatefulWidget {
   ConsumerState<ProductDetailsPage> createState() => _ProductDetailsPageState();
 }
 
-class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
+class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage>
+    with SingleTickerProviderStateMixin {
   late final Product _product;
   bool _isLoading = true;
   String _error = '';
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
     _loadProductDetails();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadProductDetails() async {
@@ -72,18 +80,14 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.share),
-            onPressed: () {
-              //  Share product
-            },
+            onPressed: () {},
           ),
           IconButton(
             icon: Icon(
               _product.isFavorite ? Icons.favorite : Icons.favorite_border,
               color: _product.isFavorite ? Colors.red : null,
             ),
-            onPressed: () {
-              //  Toggle favorite
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -91,29 +95,45 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductImageCarousel(images: [_product.imageUrl]),
+            ProductImageCarousel(
+              images: [_product.imageUrl],
+              productName: _product.name,
+            ),
             ProductDetailsInfo(product: _product),
             ProductPriceSection(product: _product),
-            ProductVariantSelector(product: _product),
+            ProductVariantSelector(
+              variantGroups: const [],
+              selectedVariants: const {},
+              onVariantChanged: (_) {},
+            ),
             ProductActionButtons(product: _product),
             const Divider(height: 32),
-            const TabBar(
+            TabBar(
+              controller: _tabController,
               labelColor: Colors.black,
               unselectedLabelColor: Colors.grey,
               indicatorColor: Colors.black,
-              tabs: [
+              tabs: const [
                 Tab(text: 'Description'),
                 Tab(text: 'Reviews'),
                 Tab(text: 'Related'),
               ],
             ),
-            const SizedBox(height: 16),
-            const TabBarView(
-              children: [
-                ProductDescriptionTab(),
-                ProductReviewsTab(),
-                ProductRelatedItems(),
-              ],
+            SizedBox(
+              height: 400,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  const ProductDescriptionTab(),
+                  ProductReviewsTab(
+                    productId: widget.productId,
+                  ),
+                  ProductRelatedItems(
+                    productId: widget.productId,
+                    categoryId: '',
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -32,10 +32,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
           .read(authServiceProvider)
           .verifyOtp(widget.phoneNumber, _otpController.text.trim());
       if (!mounted) return;
-      // Navigate to dashboard on success
-      // Note: We could also check if the user is new and redirect to onboarding or profile setup
-      // For now, we go to dashboard
-      GoRouter.of(context).go('/dashboard');
+      context.go('/dashboard');
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class ProductReviewsTab extends ConsumerWidget {
+class ProductReviewsTab extends StatelessWidget {
   final String productId;
   final double averageRating;
   final int totalReviews;
@@ -16,7 +15,7 @@ class ProductReviewsTab extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
@@ -74,7 +73,8 @@ class ProductReviewsTab extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          Text('50%', style: theme.textTheme.bodySmall),
+                          Text('${((5 - star + 1) * 20)}%',
+                              style: theme.textTheme.bodySmall),
                         ],
                       ),
                     );
@@ -87,7 +87,14 @@ class ProductReviewsTab extends ConsumerWidget {
           Row(
             children: [
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Review submission coming soon'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.star_border, size: 18),
                 label: const Text('Write a Review'),
                 style: OutlinedButton.styleFrom(
@@ -108,26 +115,47 @@ class ProductReviewsTab extends ConsumerWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                _buildFilterChip('All', true),
-                _buildFilterChip('With Photos', false),
-                _buildFilterChip('5 Star', false),
-                _buildFilterChip('4 Star', false),
-                _buildFilterChip('3 Star', false),
-                _buildFilterChip('2 Star', false),
-                _buildFilterChip('1 Star', false),
+                _buildFilterChip(context, 'All', true),
+                _buildFilterChip(context, 'With Photos', false),
+                _buildFilterChip(context, '★★★★★', false),
+                _buildFilterChip(context, '★★★★', false),
+                _buildFilterChip(context, '★★★', false),
+                _buildFilterChip(context, '★★', false),
+                _buildFilterChip(context, '★', false),
               ],
             ),
           ),
           const SizedBox(height: 16),
 
-          // Review list
-          ...List.generate(3, (i) => _buildReviewCard(context, i)),
+          // Empty state when no reviews loaded
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Center(
+              child: Column(
+                children: [
+                  Icon(Icons.rate_review_outlined, size: 48, color: Colors.grey[300]),
+                  const SizedBox(height: 8),
+                  Text(
+                    totalReviews > 0
+                        ? '$totalReviews reviews available'
+                        : 'Be the first to review this product',
+                    style: TextStyle(color: Colors.grey[500]),
+                  ),
+                  if (totalReviews > 0)
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text('View all reviews'),
+                    ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildFilterChip(String label, bool selected) {
+  Widget _buildFilterChip(BuildContext context, String label, bool selected) {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilterChip(
@@ -137,75 +165,6 @@ class ProductReviewsTab extends ConsumerWidget {
         visualDensity: VisualDensity.compact,
         selectedColor: Theme.of(context).primaryColor.withOpacity(0.1),
         checkmarkColor: Theme.of(context).primaryColor,
-      ),
-    );
-  }
-
-  Widget _buildReviewCard(BuildContext context, int index) {
-    final names = ['Rahul S.', 'Priya M.', 'Amit K.'];
-    final reviews = [
-      'Excellent quality and fast delivery!',
-      'Good product but packaging could be better.',
-      'Very happy with the purchase. Recommended!',
-    ];
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.grey[200]!),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 16,
-                  child: Text(names[index][0], style: const TextStyle(fontSize: 12)),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(names[index], style: const TextStyle(fontWeight: 600, fontSize: 13)),
-                      Row(
-                        children: [
-                          ...List.generate(5, (i) => Icon(
-                            Icons.star,
-                            size: 14,
-                            color: i < 4 ? Colors.amber : Colors.grey[300],
-                          )),
-                          const SizedBox(width: 8),
-                          Text(DateFormat.yMMMd().format(DateTime.now().subtract(Duration(days: index * 5))),
-                              style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(Icons.more_vert, size: 18, color: Colors.grey[400]),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(reviews[index], style: const TextStyle(fontSize: 13, height: 1.4)),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.thumb_up_outlined, size: 14, color: Colors.grey[500]),
-                const SizedBox(width: 4),
-                Text('${index + 1}', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-                const SizedBox(width: 16),
-                Icon(Icons.thumb_down_outlined, size: 14, color: Colors.grey[500]),
-                const SizedBox(width: 4),
-                Text('0', style: TextStyle(fontSize: 11, color: Colors.grey[500])),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

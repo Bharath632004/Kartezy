@@ -15,15 +15,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize services and then navigate
     _initializeApp();
   }
 
   Future<void> _initializeApp() async {
-    // Wait for a moment to show the splash screen
     await Future.delayed(const Duration(seconds: 2));
 
-    // Check if the user has seen the onboarding
     final hasSeenOnboarding = await ref
         .read(hiveManagerProvider)
         .getHasSeenOnboarding();
@@ -31,16 +28,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (!mounted) return;
 
     if (!hasSeenOnboarding) {
-      // Go to onboarding
-      GoRouter.of(context).go('/onboarding');
+      context.go('/onboarding');
+      return;
+    }
+
+    final isLoggedIn = await ref.read(authServiceProvider).isLoggedIn();
+    if (!mounted) return;
+
+    if (isLoggedIn) {
+      context.go('/dashboard');
     } else {
-      // Check if user is logged in
-      final isLoggedIn = await ref.read(authServiceProvider).isLoggedIn();
-      if (isLoggedIn) {
-        GoRouter.of(context).go('/dashboard');
-      } else {
-        GoRouter.of(context).go('/login');
-      }
+      context.go('/login');
     }
   }
 

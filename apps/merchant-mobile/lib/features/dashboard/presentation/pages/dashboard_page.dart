@@ -16,8 +16,31 @@ class DashboardPage extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {
-              //  Implement logout
+            onPressed: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text('Logout'),
+                  content: const Text('Are you sure you want to logout?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, false),
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(ctx, true),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      child: const Text('Logout'),
+                    ),
+                  ],
+                ),
+              );
+              if (confirm == true) {
+                await ref.read(authServiceProvider).logout();
+                if (context.mounted) {
+                  context.go('/login');
+                }
+              }
             },
           ),
         ],
@@ -44,7 +67,7 @@ class DashboardPage extends ConsumerWidget {
                       _buildStatItem(
                         label: 'Sales',
                         value:
-                            '\$${dashboardState.todaySales.toStringAsFixed(2)}',
+                            '₹${dashboardState.todaySales.toStringAsFixed(2)}',
                         icon: Icons.sell,
                       ),
                       _buildStatItem(
@@ -87,14 +110,14 @@ class DashboardPage extends ConsumerWidget {
                     children: [
                       _buildStatItem(
                         label: 'Revenue',
-                        value: '\$${dashboardState.revenue.toStringAsFixed(2)}',
+                        value: '₹${dashboardState.revenue.toStringAsFixed(2)}',
                         icon: Icons.attach_money,
                       ),
                       _buildStatItem(
                         label: 'Average Order Value',
                         value: dashboardState.orders > 0
-                            ? '\$${(dashboardState.revenue / dashboardState.orders).toStringAsFixed(2)}'
-                            : '\$0.00',
+                            ? '₹${(dashboardState.revenue / dashboardState.orders).toStringAsFixed(2)}'
+                            : '₹0.00',
                         icon: Icons.attach_money,
                       ),
                     ],
@@ -171,17 +194,16 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStatusItem(
-                  label: 'Pending',
-                  value: '$pending',
-                  color: Colors.orange,
-                ),
-                _buildStatusItem(
-                  label: 'Cancelled',
-                  value: '$cancelled',
-                  color: Colors.red,
-                ),
+              children: [                  _buildStatusItem(
+                    label: 'Pending',
+                    value: pending.toString(),
+                    color: Colors.orange,
+                  ),
+                  _buildStatusItem(
+                    label: 'Cancelled',
+                    value: cancelled.toString(),
+                    color: Colors.red,
+                  ),
               ],
             ),
           ],
@@ -262,7 +284,7 @@ class DashboardPage extends ConsumerWidget {
                   icon: Icons.local_offer,
                   label: 'Promotions',
                   onTap: () {
-                    GoRouter.of(context).go('/promotions');
+                    context.go('/promotions');
                   },
                 ),
                 _buildFeatureItem(
@@ -270,7 +292,7 @@ class DashboardPage extends ConsumerWidget {
                   icon: Icons.account_balance_wallet,
                   label: 'Finance',
                   onTap: () {
-                    GoRouter.of(context).go('/finance');
+                    context.go('/finance');
                   },
                 ),
                 _buildFeatureItem(
@@ -278,7 +300,7 @@ class DashboardPage extends ConsumerWidget {
                   icon: Icons.analytics,
                   label: 'Analytics',
                   onTap: () {
-                    GoRouter.of(context).go('/analytics');
+                    context.go('/analytics');
                   },
                 ),
                 _buildFeatureItem(
@@ -286,7 +308,7 @@ class DashboardPage extends ConsumerWidget {
                   icon: Icons.description,
                   label: 'Reports',
                   onTap: () {
-                    GoRouter.of(context).go('/reports');
+                    context.go('/reports');
                   },
                 ),
                 _buildFeatureItem(
@@ -294,7 +316,7 @@ class DashboardPage extends ConsumerWidget {
                   icon: Icons.campaign,
                   label: 'Marketing',
                   onTap: () {
-                    GoRouter.of(context).go('/marketing');
+                    context.go('/marketing');
                   },
                 ),
                 _buildFeatureItem(
@@ -302,7 +324,7 @@ class DashboardPage extends ConsumerWidget {
                   icon: Icons.receipt_long,
                   label: 'Invoices',
                   onTap: () {
-                    GoRouter.of(context).go('/invoices');
+                    context.go('/invoices');
                   },
                 ),
               ],

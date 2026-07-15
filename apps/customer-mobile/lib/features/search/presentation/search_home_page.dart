@@ -50,7 +50,7 @@ class _SearchHomePageState extends ConsumerState<SearchHomePage> {
               const SizedBox(height: 24),
               const PopularCategoriesWidget(),
               const SizedBox(height: 24),
-              const PopularBrandsWidget(),
+              const PopularBrands(),
               const SizedBox(height: 24),
               const RecommendedSearchesWidget(),
               const SizedBox(height: 24),

@@ -105,8 +105,43 @@ class _SupportPageState extends State<SupportPage> {
               subtitle: const Text('Found a bug? Let us know'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Report issue feature coming soon')),
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Report an Issue'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            hintText: 'Describe the issue...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Issue reported. We will look into it.'),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        },
+                        child: const Text('Submit'),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

@@ -1,4 +1,3 @@
-// lib/navigation/router.dart
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +15,17 @@ import 'package:customer_mobile/features/search/presentation/product_details_pag
 import 'package:customer_mobile/features/order/presentation/pages/order_history_page.dart';
 import 'package:customer_mobile/features/order/presentation/pages/order_detail_page.dart';
 import 'package:customer_mobile/core/services/auth_service.dart';
+import 'package:customer_mobile/features/cart/presentation/cart_page.dart';
+import 'package:customer_mobile/features/checkout/presentation/checkout_page.dart';
+import 'package:customer_mobile/features/wallet/presentation/wallet_page.dart';
+import 'package:customer_mobile/features/membership/presentation/membership_page.dart';
+import 'package:customer_mobile/features/support/presentation/support_page.dart';
+import 'package:customer_mobile/features/notifications/presentation/notifications_page.dart';
+import 'package:customer_mobile/features/rewards/presentation/rewards_page.dart';
+import 'package:customer_mobile/features/wishlist/presentation/wishlist_page.dart';
+import 'package:customer_mobile/features/tracking/presentation/pages/tracking_page.dart';
+import 'package:customer_mobile/features/categories/presentation/categories_page.dart';
+import 'package:customer_mobile/features/reviews/presentation/reviews_page.dart';
 
 /// List of public route prefixes that don't require authentication
 const Set<String> _publicRoutePrefixes = {
@@ -140,6 +150,74 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/cart',
+        builder: (context, state) => const CartPage(),
+      ),
+      GoRoute(
+        path: '/checkout',
+        builder: (context, state) => const CheckoutPage(),
+      ),
+      GoRoute(
+        path: '/wallet',
+        builder: (context, state) => const WalletPage(),
+      ),
+      GoRoute(
+        path: '/membership',
+        builder: (context, state) => const MembershipPage(),
+      ),
+      GoRoute(
+        path: '/support',
+        builder: (context, state) => const SupportPage(),
+        routes: [
+          GoRoute(
+            path: 'ticket/:id',
+            builder: (context, state) {
+              final ticketId = state.pathParameters['id'] ?? '';
+              return SupportPage(ticketId: ticketId);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) => const NotificationsPage(),
+      ),
+      GoRoute(
+        path: '/rewards',
+        builder: (context, state) => const RewardsPage(),
+      ),
+      GoRoute(
+        path: '/wishlist',
+        builder: (context, state) => const WishlistPage(),
+      ),
+      GoRoute(
+        path: '/tracking/:orderId',
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId'] ?? '';
+          return TrackingPage(orderId: orderId);
+        },
+      ),
+      GoRoute(
+        path: '/categories',
+        builder: (context, state) => const CategoriesPage(),
+        routes: [
+          GoRoute(
+            path: ':categoryId',
+            builder: (context, state) {
+              final categoryId = state.pathParameters['categoryId'] ?? '';
+              return CategoriesPage(categoryId: categoryId);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/reviews/:productId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId'] ?? '';
+          return ReviewsPage(productId: productId);
+        },
       ),
     ],
   );

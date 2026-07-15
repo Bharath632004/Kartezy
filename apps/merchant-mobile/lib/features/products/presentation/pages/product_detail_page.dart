@@ -92,7 +92,7 @@ class ProductDetailPage extends ConsumerWidget {
                   _buildInfoRow(
                     context,
                     'Dimensions',
-                    '${productState.selectedProduct!.dimensions ?? 'N/A'}',
+                    productState.selectedProduct!.dimensions ?? 'N/A',
                   ),
                   _buildInfoRow(
                     context,

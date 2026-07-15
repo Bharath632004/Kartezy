@@ -24,7 +24,7 @@ class OrderService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.merchantOrders}',
+        ApiConstants.merchantOrders,
         queryParameters: {
           'status': status,
           'start_date': startDate,
@@ -43,7 +43,7 @@ class OrderService {
   Future<Map<String, dynamic>> getOrderById(String orderId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.merchantOrders}/$orderId',
+        '${ApiConstants.merchantOrders}/$orderId',
       );
       return response.data;
     } catch (e) {
@@ -54,7 +54,7 @@ class OrderService {
   Future<void> updateOrderStatus(String orderId, String status) async {
     try {
       await _dio.put(
-        '${ApiConstants.baseUrl}${ApiConstants.merchantOrders}/$orderId/status',
+        '${ApiConstants.merchantOrders}/$orderId/status',
         data: {'status': status},
       );
     } catch (e) {

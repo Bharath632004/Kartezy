@@ -17,7 +17,7 @@ class DashboardRemoteDataSourceImpl extends BaseService
   Future<DashboardModel> getDashboardData() async {
     return safeCall(() async {
       final response = await dioClient.instance.get(
-        '${ApiConstants.dashboardStats}',
+        ApiConstants.dashboardStats,
       );
       return DashboardModel.fromJson(response.data);
     });

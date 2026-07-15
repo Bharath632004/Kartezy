@@ -35,6 +35,17 @@ class HiveManager {
   Future<void> setMerchantId(String merchantId) async =>
       await _merchantBox.put('merchantId', merchantId);
   Future<String?> getMerchantId() async => _merchantBox.get('merchantId');
+
+  // Clear
+  Future<void> clearSettings() async {
+    await _settingsBox.clear();
+  }
+
+  Future<void> clearAll() async {
+    await _settingsBox.clear();
+    await _userBox.clear();
+    await _merchantBox.clear();
+  }
 }
 
 final hiveManagerProvider = Provider<HiveManager>((ref) => HiveManager());

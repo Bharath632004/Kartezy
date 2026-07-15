@@ -22,7 +22,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsRevenue}',
+        ApiConstants.analyticsRevenue,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -42,7 +42,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsOrders}',
+        ApiConstants.analyticsOrders,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -62,7 +62,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsCustomers}',
+        ApiConstants.analyticsCustomers,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -82,7 +82,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsProducts}',
+        ApiConstants.analyticsProducts,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -102,7 +102,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsInventory}',
+        ApiConstants.analyticsInventory,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -122,7 +122,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsDeliveryPerformance}',
+        ApiConstants.analyticsDeliveryPerformance,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -142,7 +142,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsConversionRate}',
+        ApiConstants.analyticsConversionRate,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -162,7 +162,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsAverageOrderValue}',
+        ApiConstants.analyticsAverageOrderValue,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -182,7 +182,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsCustomerRetention}',
+        ApiConstants.analyticsCustomerRetention,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -202,7 +202,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsRepeatCustomers}',
+        ApiConstants.analyticsRepeatCustomers,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -223,7 +223,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsBestSellers}',
+        ApiConstants.analyticsBestSellers,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate, 'limit': limit}.entries
               .where((entry) => entry.value != null)
@@ -245,7 +245,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsWorstSellers}',
+        ApiConstants.analyticsWorstSellers,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate, 'limit': limit}.entries
               .where((entry) => entry.value != null)
@@ -266,7 +266,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsPeakHours}',
+        ApiConstants.analyticsPeakHours,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -286,7 +286,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsSalesByCategory}',
+        ApiConstants.analyticsSalesByCategory,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -307,7 +307,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsSalesByBrand}',
+        ApiConstants.analyticsSalesByBrand,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -328,7 +328,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsSalesByCity}',
+        ApiConstants.analyticsSalesByCity,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)
@@ -349,7 +349,7 @@ class AnalyticsService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.analyticsSalesByStore}',
+        ApiConstants.analyticsSalesByStore,
         queryParameters: Map.fromEntries(
           {'start_date': startDate, 'end_date': endDate}.entries
               .where((entry) => entry.value != null)

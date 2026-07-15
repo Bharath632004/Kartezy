@@ -18,9 +18,10 @@ class _ProductFormState extends ConsumerState<ProductForm> {
   late final TextEditingController _descriptionController;
   late final TextEditingController _skuController;
   late final TextEditingController _priceController;
+  late final TextEditingController _mrpController;
+  late final TextEditingController _discountController;
   late final TextEditingController _currencyController;
   late final TextEditingController _imageUrlController;
-  // Add more controllers as needed
 
   @override
   void initState() {
@@ -37,13 +38,18 @@ class _ProductFormState extends ConsumerState<ProductForm> {
     _priceController = TextEditingController(
       text: widget.initialProduct?.price?.toString() ?? '',
     );
+    _mrpController = TextEditingController(
+      text: widget.initialProduct?.mrp?.toString() ?? '',
+    );
+    _discountController = TextEditingController(
+      text: widget.initialProduct?.discount?.toString() ?? '',
+    );
     _currencyController = TextEditingController(
-      text: 'USD',
+      text: 'INR',
     );
     _imageUrlController = TextEditingController(
       text: widget.initialProduct?.imageUrl ?? '',
     );
-    // Initialize other controllers
   }
 
   @override
@@ -52,9 +58,10 @@ class _ProductFormState extends ConsumerState<ProductForm> {
     _descriptionController.dispose();
     _skuController.dispose();
     _priceController.dispose();
+    _mrpController.dispose();
+    _discountController.dispose();
     _currencyController.dispose();
     _imageUrlController.dispose();
-    // Dispose other controllers
     super.dispose();
   }
 
@@ -105,6 +112,18 @@ class _ProductFormState extends ConsumerState<ProductForm> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              controller: _mrpController,
+              decoration: const InputDecoration(labelText: 'MRP'),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _discountController,
+              decoration: const InputDecoration(labelText: 'Discount (%)'),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
               controller: _currencyController,
               decoration: const InputDecoration(labelText: 'Currency'),
             ),
@@ -113,7 +132,6 @@ class _ProductFormState extends ConsumerState<ProductForm> {
               controller: _imageUrlController,
               decoration: const InputDecoration(labelText: 'Image URL'),
             ),
-            // Add more fields as needed
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {

@@ -25,7 +25,7 @@ class InvoicesService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesList}',
+        ApiConstants.invoicesList,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,
@@ -45,7 +45,7 @@ class InvoicesService {
   Future<Map<String, dynamic>> getInvoiceDetails(String invoiceId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesDetail}'.replaceAll(
+        ApiConstants.invoicesDetail.replaceAll(
           '{id}',
           invoiceId,
         ),
@@ -60,7 +60,7 @@ class InvoicesService {
   Future<List<int>> downloadInvoicePdf(String invoiceId) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesDownloadPdf}'.replaceAll(
+        ApiConstants.invoicesDownloadPdf.replaceAll(
           '{id}',
           invoiceId,
         ),
@@ -76,7 +76,7 @@ class InvoicesService {
   Future<void> printInvoice(String invoiceId) async {
     try {
       await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesPrint}'.replaceAll(
+        ApiConstants.invoicesPrint.replaceAll(
           '{id}',
           invoiceId,
         ),
@@ -96,7 +96,7 @@ class InvoicesService {
   }) async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.invoicesExport}',
+        ApiConstants.invoicesExport,
         queryParameters: {
           'start_date': startDate,
           'end_date': endDate,

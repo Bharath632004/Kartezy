@@ -208,8 +208,40 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
   }
 
   void _showCreateInvoiceDialog(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Create invoice feature coming soon')),
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Create Invoice'),
+        content: const SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Customer Name'),
+              ),
+              SizedBox(height: 12),
+              TextField(
+                decoration: InputDecoration(labelText: 'Order Number'),
+              ),
+              SizedBox(height: 12),
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: null,
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: null,
+            child: Text('Create'),
+          ),
+        ],
+      ),
     );
   }
 

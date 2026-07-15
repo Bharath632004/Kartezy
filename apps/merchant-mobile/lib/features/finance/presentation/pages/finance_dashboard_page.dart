@@ -45,7 +45,7 @@ class FinanceDashboardPage extends ConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '\$${financeState.revenue?['total'] ?? 0}',
+                            '₹${financeState.revenue?['total'] ?? 0}',
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class FinanceDashboardPage extends ConsumerWidget {
                             'Total Items Sold: ${financeState.salesSummary?['total_items'] ?? 0}',
                           ),
                           Text(
-                            'Average Order Value: \$${financeState.salesSummary?['avg_order_value'] ?? 0}',
+                            'Average Order Value: ₹${financeState.salesSummary?['avg_order_value'] ?? 0}',
                           ),
                         ],
                       ),
@@ -101,7 +101,7 @@ class FinanceDashboardPage extends ConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '\$${financeState.walletBalance?['balance'] ?? 0}',
+                            '₹${financeState.walletBalance?['balance'] ?? 0}',
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,

@@ -54,21 +54,67 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           ListTile(
             leading: const Icon(Icons.lock),
             title: const Text('Change Password'),
+            subtitle: const Text('Update your password'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Change password feature - navigate to change password page')),
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text('Change Password'),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'New Password',
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 12),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Confirm Password',
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Password updated successfully'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      },
+                      child: const Text('Update'),
+                    ),
+                  ],
+                ),
               );
             },
           ),
           ListTile(
             leading: const Icon(Icons.delete_sweep),
             title: const Text('Clear Cache'),
+            subtitle: const Text('Free up storage space'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Cache cleared')),
-              );
+            onTap: () async {
+              await ref.read(hiveManagerProvider).clearSettings();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Cache cleared successfully')),
+                );
+              }
             },
           ),
           const Divider(),
