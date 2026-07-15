@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import { Box, Typography, Container, Button, Stack, Alert, TextField } from '@mui/material';
-import { Qrcode, CheckCircle, ErrorOutline } from '@mui/icons-material';
+import { CheckCircle } from '@mui/icons-material';
 import { useState } from 'react';
 
 const MfaPage = () => {

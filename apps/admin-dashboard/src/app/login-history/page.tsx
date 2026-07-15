@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Box, Typography, Container, Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton, Tooltip, CircularProgress } from '@mui/material';
 import { History, Refresh as Reload, CheckCircle, Cancel } from '@mui/icons-material';

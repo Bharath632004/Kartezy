@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Box, Typography, Container, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';

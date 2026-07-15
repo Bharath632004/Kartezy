@@ -56,7 +56,7 @@ dependencies:
   share_plus: ^7.0.0
   video_player: ^2.8.0
   dartz: ^0.10.1
-  speech_to_text: 6.6.0
+  speech_to_text: ^7.4.0
 
   # Authentication dependencies
   google_sign_in: ^6.2.1

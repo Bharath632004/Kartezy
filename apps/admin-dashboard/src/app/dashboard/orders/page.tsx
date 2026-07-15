@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import {
   Box,
@@ -238,7 +240,7 @@ const OrdersList = () => {
                     {order.id}
                   </Link>
                 </TableCell>
-                <TableCell align="right">{order.customerName}</Cell>
+                <TableCell align="right">{order.customerName}</TableCell>
                 <TableCell align="right">{new Date(order.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell align="right">{order.status}</TableCell>
                 <TableCell align="right">${parseFloat(order.totalAmount).toFixed(2)}</TableCell>
@@ -289,7 +291,7 @@ const OrdersList = () => {
             ))}
           </TableBody>
         </Table>
-      </TableComponent>
+      </TableContainer>
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box>
           {totalElements > 0 && (

@@ -120,7 +120,7 @@ export default function OrderDetails({ params }: { params: { id: string } }) {
               <TableRow>
                 <TableCell>Item</TableCell>
                 <TableCell align="center">Quantity</TableCell>
-                <TableCell align="right">Price</Cell>
+                <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Total</TableCell>
               </TableRow>
             </TableHead>
