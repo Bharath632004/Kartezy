@@ -23,5 +23,5 @@ String formatCurrency(
   String symbol = '\$',
   int decimalPlaces = 2,
 }) {
-  return '\$${amount.toStringAsFixed(decimalPlaces)}';
+  return '$symbol${amount.toStringAsFixed(decimalPlaces)}';
 }

@@ -1,14 +1,15 @@
 // lib/features/notifications/provider/provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
-import '../data/datasource/notification_remote_data_source_impl.dart';
-import '../data/repository/notification_repository_impl.dart';
-import '../domain/repository/notification_repository.dart';
-import '../domain/usecase/get_notifications.dart';
-import '../domain/usecase/mark_notification_as_read.dart';
-import '../domain/usecase/mark_all_notifications_as_read.dart';
-import '../domain/usecase/delete_notification.dart';
-import '../domain/usecase/get_unread_count.dart';
+import 'package:customer_mobile/features/notifications/data/datasource/notification_remote_data_source.dart';
+import 'package:customer_mobile/features/notifications/data/datasource/notification_remote_data_source_impl.dart';
+import 'package:customer_mobile/features/notifications/data/repository/notification_repository_impl.dart';
+import 'package:customer_mobile/features/notifications/domain/repository/notification_repository.dart';
+import 'package:customer_mobile/features/notifications/domain/usecase/get_notifications.dart';
+import 'package:customer_mobile/features/notifications/domain/usecase/mark_notification_as_read.dart';
+import 'package:customer_mobile/features/notifications/domain/usecase/mark_all_notifications_as_read.dart';
+import 'package:customer_mobile/features/notifications/domain/usecase/delete_notification.dart';
+import 'package:customer_mobile/features/notifications/domain/usecase/get_unread_count.dart';
 
 // Provider for notification remote data source
 final notificationRemoteDataSourceProvider = Provider<NotificationRemoteDataSource>((ref) {

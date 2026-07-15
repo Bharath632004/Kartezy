@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/repositories/dashboard_repository.dart';
-import '../../core/services/auth_service.dart';
-import '../../core/api/dio_client.dart';
+import 'package:merchant_mobile/features/dashboard/data/repositories/dashboard_repository.dart';
+import 'package:merchant_mobile/core/services/auth_service.dart';
+import 'package:merchant_mobile/core/api/dio_client.dart';
 
 final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   return DashboardRepositoryImpl(
@@ -85,12 +85,12 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       final dashboardData = await _dashboardRepository.getDashboardData();
       state = state.copyWith(
         todaySales: dashboardData.todaySales,
-        revenue: dashboardData.revenue,
-        orders: dashboardData.orders,
+        revenue: dashboardData.totalRevenue,
+        orders: dashboardData.todayOrders,
         pendingOrders: dashboardData.pendingOrders,
         cancelledOrders: dashboardData.cancelledOrders,
         visitors: dashboardData.visitors,
-        rating: dashboardData.rating,
+        rating: dashboardData.storeRating,
         isLoading: false,
       );
     } catch (e) {

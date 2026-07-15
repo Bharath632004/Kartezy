@@ -12,6 +12,7 @@ _$ProductModelImpl _$$ProductModelImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       description: json['description'] as String?,
       price: (json['price'] as num?)?.toDouble(),
+      currency: json['currency'] as String?,
       sku: json['sku'] as String?,
       barcode: json['barcode'] as String?,
       categoryId: json['categoryId'] as String?,
@@ -36,6 +37,9 @@ _$ProductModelImpl _$$ProductModelImplFromJson(Map<String, dynamic> json) =>
       dynamicPricingEnabled: json['dynamicPricingEnabled'] as bool?,
       shelfLife: json['shelfLife'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      unit: json['unit'] as String?,
+      weight: (json['weight'] as num?)?.toDouble(),
+      sellingPrice: (json['sellingPrice'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
@@ -44,6 +48,7 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'name': instance.name,
       'description': instance.description,
       'price': instance.price,
+      'currency': instance.currency,
       'sku': instance.sku,
       'barcode': instance.barcode,
       'categoryId': instance.categoryId,
@@ -64,4 +69,7 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'dynamicPricingEnabled': instance.dynamicPricingEnabled,
       'shelfLife': instance.shelfLife,
       'tags': instance.tags,
+      'unit': instance.unit,
+      'weight': instance.weight,
+      'sellingPrice': instance.sellingPrice,
     };

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:merchant_mobile/features/promotions/presentation/pages/promotions_page.dart';
-import 'package:merchant_mobile/features/finance/presentation/pages/finance_dashboard_page.dart';
-import 'package:merchant_mobile/features/analytics/presentation/pages/analytics_dashboard_page.dart';
-import 'package:merchant_mobile/features/reports/presentation/pages/reports_page.dart';
-import 'package:merchant_mobile/features/marketing/presentation/pages/marketing_dashboard_page.dart';
-import 'package:merchant_mobile/features/invoices/presentation/pages/invoices_page.dart';
-import '../providers.dart';
+import 'package:go_router/go_router.dart';
+import 'package:merchant_mobile/features/dashboard/providers.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -43,6 +38,7 @@ class DashboardPage extends ConsumerWidget {
                 children: [
                   // Today's Overview
                   _buildOverviewCard(
+                    context: context,
                     title: 'Today Overview',
                     children: [
                       _buildStatItem(
@@ -61,12 +57,14 @@ class DashboardPage extends ConsumerWidget {
                   const SizedBox(height: 16),
                   // Order Status
                   _buildOrderStatusCard(
+                    context: context,
                     pending: dashboardState.pendingOrders,
                     cancelled: dashboardState.cancelledOrders,
                   ),
                   const SizedBox(height: 16),
                   // Visitors and Rating
                   _buildStatsCard(
+                    context: context,
                     title: 'Visitors & Rating',
                     children: [
                       _buildStatItem(
@@ -84,6 +82,7 @@ class DashboardPage extends ConsumerWidget {
                   const SizedBox(height: 16),
                   // Revenue and Earnings
                   _buildStatsCard(
+                    context: context,
                     title: 'Revenue & Earnings',
                     children: [
                       _buildStatItem(
@@ -102,7 +101,7 @@ class DashboardPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   // Featured Features
-                  _buildFeaturesCard(),
+                  _buildFeaturesCard(context: context),
                 ],
               ),
             ),
@@ -110,6 +109,7 @@ class DashboardPage extends ConsumerWidget {
   }
 
   Widget _buildOverviewCard({
+    required BuildContext context,
     required String title,
     required List<Widget> children,
   }) {
@@ -151,7 +151,11 @@ class DashboardPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildOrderStatusCard({required int pending, required int cancelled}) {
+  Widget _buildOrderStatusCard({
+    required BuildContext context,
+    required int pending,
+    required int cancelled,
+  }) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -207,6 +211,7 @@ class DashboardPage extends ConsumerWidget {
   }
 
   Widget _buildStatsCard({
+    required BuildContext context,
     required String title,
     required List<Widget> children,
   }) {
@@ -230,7 +235,7 @@ class DashboardPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildFeaturesCard() {
+  Widget _buildFeaturesCard({required BuildContext context}) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -253,63 +258,51 @@ class DashboardPage extends ConsumerWidget {
               mainAxisSpacing: 12,
               children: [
                 _buildFeatureItem(
+                  context: context,
                   icon: Icons.local_offer,
                   label: 'Promotions',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const PromotionsPage()),
-                    );
+                    GoRouter.of(context).go('/promotions');
                   },
                 ),
                 _buildFeatureItem(
+                  context: context,
                   icon: Icons.account_balance_wallet,
                   label: 'Finance',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const FinanceDashboardPage(),
-                      ),
-                    );
+                    GoRouter.of(context).go('/finance');
                   },
                 ),
                 _buildFeatureItem(
+                  context: context,
                   icon: Icons.analytics,
                   label: 'Analytics',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const AnalyticsDashboardPage(),
-                      ),
-                    );
+                    GoRouter.of(context).go('/analytics');
                   },
                 ),
                 _buildFeatureItem(
+                  context: context,
                   icon: Icons.description,
                   label: 'Reports',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const ReportsPage()),
-                    );
+                    GoRouter.of(context).go('/reports');
                   },
                 ),
                 _buildFeatureItem(
+                  context: context,
                   icon: Icons.campaign,
                   label: 'Marketing',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const MarketingDashboardPage(),
-                      ),
-                    );
+                    GoRouter.of(context).go('/marketing');
                   },
                 ),
                 _buildFeatureItem(
+                  context: context,
                   icon: Icons.receipt_long,
                   label: 'Invoices',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const InvoicesPage()),
-                    );
+                    GoRouter.of(context).go('/invoices');
                   },
                 ),
               ],
@@ -321,6 +314,7 @@ class DashboardPage extends ConsumerWidget {
   }
 
   Widget _buildFeatureItem({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required VoidCallback onTap,
@@ -333,7 +327,7 @@ class DashboardPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, size: 28, color: Theme.of(context).primaryColor),

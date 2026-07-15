@@ -25,6 +25,7 @@ mixin _$ProductModel {
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get price => throw _privateConstructorUsedError;
+  String? get currency => throw _privateConstructorUsedError;
   String? get sku => throw _privateConstructorUsedError;
   String? get barcode => throw _privateConstructorUsedError;
   String? get categoryId => throw _privateConstructorUsedError;
@@ -32,8 +33,7 @@ mixin _$ProductModel {
   bool? get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  String? get imageUrl =>
-      throw _privateConstructorUsedError; // Additional fields that were missing
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get dimensions => throw _privateConstructorUsedError;
   String? get hsnCode => throw _privateConstructorUsedError;
   double? get mrp => throw _privateConstructorUsedError;
@@ -46,6 +46,9 @@ mixin _$ProductModel {
   bool? get dynamicPricingEnabled => throw _privateConstructorUsedError;
   String? get shelfLife => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
+  String? get unit => throw _privateConstructorUsedError;
+  double? get weight => throw _privateConstructorUsedError;
+  double? get sellingPrice => throw _privateConstructorUsedError;
 
   /// Serializes this ProductModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,6 +72,7 @@ abstract class $ProductModelCopyWith<$Res> {
     String? name,
     String? description,
     double? price,
+    String? currency,
     String? sku,
     String? barcode,
     String? categoryId,
@@ -89,6 +93,9 @@ abstract class $ProductModelCopyWith<$Res> {
     bool? dynamicPricingEnabled,
     String? shelfLife,
     List<String>? tags,
+    String? unit,
+    double? weight,
+    double? sellingPrice,
   });
 }
 
@@ -111,6 +118,7 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
     Object? name = freezed,
     Object? description = freezed,
     Object? price = freezed,
+    Object? currency = freezed,
     Object? sku = freezed,
     Object? barcode = freezed,
     Object? categoryId = freezed,
@@ -131,6 +139,9 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
     Object? dynamicPricingEnabled = freezed,
     Object? shelfLife = freezed,
     Object? tags = freezed,
+    Object? unit = freezed,
+    Object? weight = freezed,
+    Object? sellingPrice = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -150,6 +161,10 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
                 ? _value.price
                 : price // ignore: cast_nullable_to_non_nullable
                       as double?,
+            currency: freezed == currency
+                ? _value.currency
+                : currency // ignore: cast_nullable_to_non_nullable
+                      as String?,
             sku: freezed == sku
                 ? _value.sku
                 : sku // ignore: cast_nullable_to_non_nullable
@@ -230,6 +245,18 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
                 ? _value.tags
                 : tags // ignore: cast_nullable_to_non_nullable
                       as List<String>?,
+            unit: freezed == unit
+                ? _value.unit
+                : unit // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            weight: freezed == weight
+                ? _value.weight
+                : weight // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            sellingPrice: freezed == sellingPrice
+                ? _value.sellingPrice
+                : sellingPrice // ignore: cast_nullable_to_non_nullable
+                      as double?,
           )
           as $Val,
     );
@@ -250,6 +277,7 @@ abstract class _$$ProductModelImplCopyWith<$Res>
     String? name,
     String? description,
     double? price,
+    String? currency,
     String? sku,
     String? barcode,
     String? categoryId,
@@ -270,6 +298,9 @@ abstract class _$$ProductModelImplCopyWith<$Res>
     bool? dynamicPricingEnabled,
     String? shelfLife,
     List<String>? tags,
+    String? unit,
+    double? weight,
+    double? sellingPrice,
   });
 }
 
@@ -291,6 +322,7 @@ class __$$ProductModelImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
     Object? price = freezed,
+    Object? currency = freezed,
     Object? sku = freezed,
     Object? barcode = freezed,
     Object? categoryId = freezed,
@@ -311,6 +343,9 @@ class __$$ProductModelImplCopyWithImpl<$Res>
     Object? dynamicPricingEnabled = freezed,
     Object? shelfLife = freezed,
     Object? tags = freezed,
+    Object? unit = freezed,
+    Object? weight = freezed,
+    Object? sellingPrice = freezed,
   }) {
     return _then(
       _$ProductModelImpl(
@@ -330,6 +365,10 @@ class __$$ProductModelImplCopyWithImpl<$Res>
             ? _value.price
             : price // ignore: cast_nullable_to_non_nullable
                   as double?,
+        currency: freezed == currency
+            ? _value.currency
+            : currency // ignore: cast_nullable_to_non_nullable
+                  as String?,
         sku: freezed == sku
             ? _value.sku
             : sku // ignore: cast_nullable_to_non_nullable
@@ -410,6 +449,18 @@ class __$$ProductModelImplCopyWithImpl<$Res>
             ? _value._tags
             : tags // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
+        unit: freezed == unit
+            ? _value.unit
+            : unit // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        weight: freezed == weight
+            ? _value.weight
+            : weight // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        sellingPrice: freezed == sellingPrice
+            ? _value.sellingPrice
+            : sellingPrice // ignore: cast_nullable_to_non_nullable
+                  as double?,
       ),
     );
   }
@@ -423,6 +474,7 @@ class _$ProductModelImpl extends _ProductModel {
     this.name,
     this.description,
     this.price,
+    this.currency,
     this.sku,
     this.barcode,
     this.categoryId,
@@ -443,6 +495,9 @@ class _$ProductModelImpl extends _ProductModel {
     this.dynamicPricingEnabled,
     this.shelfLife,
     final List<String>? tags,
+    this.unit,
+    this.weight,
+    this.sellingPrice,
   }) : _tags = tags,
        super._();
 
@@ -457,6 +512,8 @@ class _$ProductModelImpl extends _ProductModel {
   final String? description;
   @override
   final double? price;
+  @override
+  final String? currency;
   @override
   final String? sku;
   @override
@@ -473,7 +530,6 @@ class _$ProductModelImpl extends _ProductModel {
   final DateTime? updatedAt;
   @override
   final String? imageUrl;
-  // Additional fields that were missing
   @override
   final String? dimensions;
   @override
@@ -507,8 +563,15 @@ class _$ProductModelImpl extends _ProductModel {
   }
 
   @override
+  final String? unit;
+  @override
+  final double? weight;
+  @override
+  final double? sellingPrice;
+
+  @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, sku: $sku, barcode: $barcode, categoryId: $categoryId, brandId: $brandId, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, imageUrl: $imageUrl, dimensions: $dimensions, hsnCode: $hsnCode, mrp: $mrp, costPrice: $costPrice, discount: $discount, flashSalePrice: $flashSalePrice, membershipPrice: $membershipPrice, comboPrice: $comboPrice, tax: $tax, dynamicPricingEnabled: $dynamicPricingEnabled, shelfLife: $shelfLife, tags: $tags)';
+    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, currency: $currency, sku: $sku, barcode: $barcode, categoryId: $categoryId, brandId: $brandId, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, imageUrl: $imageUrl, dimensions: $dimensions, hsnCode: $hsnCode, mrp: $mrp, costPrice: $costPrice, discount: $discount, flashSalePrice: $flashSalePrice, membershipPrice: $membershipPrice, comboPrice: $comboPrice, tax: $tax, dynamicPricingEnabled: $dynamicPricingEnabled, shelfLife: $shelfLife, tags: $tags, unit: $unit, weight: $weight, sellingPrice: $sellingPrice)';
   }
 
   @override
@@ -521,6 +584,8 @@ class _$ProductModelImpl extends _ProductModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.sku, sku) || other.sku == sku) &&
             (identical(other.barcode, barcode) || other.barcode == barcode) &&
             (identical(other.categoryId, categoryId) ||
@@ -553,7 +618,11 @@ class _$ProductModelImpl extends _ProductModel {
                 other.dynamicPricingEnabled == dynamicPricingEnabled) &&
             (identical(other.shelfLife, shelfLife) ||
                 other.shelfLife == shelfLife) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.sellingPrice, sellingPrice) ||
+                other.sellingPrice == sellingPrice));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -564,6 +633,7 @@ class _$ProductModelImpl extends _ProductModel {
     name,
     description,
     price,
+    currency,
     sku,
     barcode,
     categoryId,
@@ -584,6 +654,9 @@ class _$ProductModelImpl extends _ProductModel {
     dynamicPricingEnabled,
     shelfLife,
     const DeepCollectionEquality().hash(_tags),
+    unit,
+    weight,
+    sellingPrice,
   ]);
 
   /// Create a copy of ProductModel
@@ -606,6 +679,7 @@ abstract class _ProductModel extends ProductModel {
     final String? name,
     final String? description,
     final double? price,
+    final String? currency,
     final String? sku,
     final String? barcode,
     final String? categoryId,
@@ -626,6 +700,9 @@ abstract class _ProductModel extends ProductModel {
     final bool? dynamicPricingEnabled,
     final String? shelfLife,
     final List<String>? tags,
+    final String? unit,
+    final double? weight,
+    final double? sellingPrice,
   }) = _$ProductModelImpl;
   _ProductModel._() : super._();
 
@@ -641,6 +718,8 @@ abstract class _ProductModel extends ProductModel {
   @override
   double? get price;
   @override
+  String? get currency;
+  @override
   String? get sku;
   @override
   String? get barcode;
@@ -655,7 +734,7 @@ abstract class _ProductModel extends ProductModel {
   @override
   DateTime? get updatedAt;
   @override
-  String? get imageUrl; // Additional fields that were missing
+  String? get imageUrl;
   @override
   String? get dimensions;
   @override
@@ -680,6 +759,12 @@ abstract class _ProductModel extends ProductModel {
   String? get shelfLife;
   @override
   List<String>? get tags;
+  @override
+  String? get unit;
+  @override
+  double? get weight;
+  @override
+  double? get sellingPrice;
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.

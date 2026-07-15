@@ -1,4 +1,4 @@
-// lib/core/network/api_constants.dart
+// lib/core/config/api_constants.dart
 import 'package:customer_mobile/core/config/app_constants.dart';
 
 class ApiConstants {

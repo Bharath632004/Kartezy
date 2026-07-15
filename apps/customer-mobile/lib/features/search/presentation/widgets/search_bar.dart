@@ -16,7 +16,6 @@ class SearchBarWidget extends ConsumerStatefulWidget {
 class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
   final TextEditingController _controller = TextEditingController();
   bool _isLoading = false;
-  bool _hasFocus = false;
 
   @override
   void initState() {
@@ -88,8 +87,6 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final isFocused = _hasFocus || _controller.text.isNotEmpty;
-
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Theme.of(context).dividerColor, width: 1.0),
@@ -116,9 +113,7 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
             vertical: 12,
           ),
         ),
-        onTap: () {
-          setState(() => _hasFocus = true);
-        },
+        // onTap handled via focusNode
       ),
     );
   }

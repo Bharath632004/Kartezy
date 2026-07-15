@@ -20,6 +20,11 @@ class ApiConstants {
   static const String merchantOrders = 'merchant/orders';
   static const String merchantAnalytics = 'merchant/analytics';
 
+  // Order endpoints
+  static const String orderList = 'orders';
+  static const String orderDetail = 'orders/{id}';
+  static const String orderUpdateStatus = 'orders/{id}/status';
+
   // Promotion endpoints
   static const String promotionList = 'promotions';
   static const String promotionCreate = 'promotions';

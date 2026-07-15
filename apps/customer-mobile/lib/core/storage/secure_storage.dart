@@ -6,6 +6,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorage {
   SecureStorage._internal();
 
+  /// Public constructor for testing purposes.
+  SecureStorage.test() : this._internal();
+
   static final SecureStorage _instance = SecureStorage._internal();
 
   factory SecureStorage() => _instance;

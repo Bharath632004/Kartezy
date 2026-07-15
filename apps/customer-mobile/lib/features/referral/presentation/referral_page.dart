@@ -1,13 +1,12 @@
 // lib/features/referral/presentation/referral_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:customer_mobile/core/usecases/no_params.dart';
 import 'package:customer_mobile/features/referral/domain/usecase/get_referral_code.dart';
 import 'package:customer_mobile/features/referral/domain/usecase/get_referral_history.dart';
 import 'package:customer_mobile/features/referral/domain/usecase/share_referral_code.dart';
 import 'package:customer_mobile/features/referral/domain/entities/referral.dart';
 import 'package:customer_mobile/features/referral/provider/provider.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
 import 'package:customer_mobile/shared/widgets/app_bar.dart';
 
 class ReferralPage extends ConsumerStatefulWidget {
@@ -37,10 +36,10 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
 
     try {
       // Get referral code
-      final referralCode = await ref.read(getReferralCodeProvider).call();
+      final referralCode = await ref.read(getReferralCodeProvider).call(NoParams());
 
       // Get referral history
-      final referralHistory = await ref.read(getReferralHistoryProvider).call();
+      final referralHistory = await ref.read(getReferralHistoryProvider).call(NoParams());
 
       if (mounted) {
         setState(() {
@@ -67,10 +66,10 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
     });
 
     try {
-      await ref.read(shareReferralCodeProvider).call(Params(data: {
-        'code': _referral!.code,
-        'method': method,
-      }));
+      await ref.read(shareReferralCodeProvider).call(ShareReferralCodeParams(
+        code: _referral!.code,
+        method: method,
+      ));
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -317,8 +316,4 @@ final getReferralCodeProvider = Provider<GetReferralCode>(
 
 final getReferralHistoryProvider = Provider<GetReferralHistory>(
   (ref) => GetReferralHistory(ref.read(referralRepositoryProvider)),
-);
-
-final shareReferralCodeProvider = Provider<ShareReferralCode>(
-  (ref) => ShareReferralCode(ref.read(referralRepositoryProvider)),
 );

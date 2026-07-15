@@ -104,7 +104,7 @@ class FirebaseService {
   }
 
   // Analytics methods
-  Future<void> logEvent(String name, {Map<String, dynamic>? parameters}) async {
+  Future<void> logEvent(String name, {Map<String, Object>? parameters}) async {
     await _analytics.logEvent(name: name, parameters: parameters);
   }
 

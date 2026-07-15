@@ -19,8 +19,7 @@ class AuthService {
 
   Future<void> loginWithEmail(String email, String password) async {
     try {
-      final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.login}',
+      final response = await _dio.post(          ApiConstants.login,
         data: {'email': email, 'password': password},
       );
       // Save tokens
@@ -36,7 +35,7 @@ class AuthService {
   Future<void> sendOtp(String phone) async {
     try {
       await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.sendOtp}',
+        ApiConstants.sendOtp,
         data: {'phone': phone},
       );
     } catch (e) {
@@ -47,7 +46,7 @@ class AuthService {
   Future<void> verifyOtp(String phone, String otp) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.verifyOtp}',
+        ApiConstants.verifyOtp,
         data: {'phone': phone, 'otp': otp},
       );
       await _saveTokens(
@@ -67,7 +66,7 @@ class AuthService {
   Future<void> loginWithGoogle(String idToken) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.login}/google',
+        '${ApiConstants.login}/google',
         data: {'id_token': idToken},
       );
       await _saveTokens(
@@ -82,7 +81,7 @@ class AuthService {
   Future<void> register(String email, String password, String fullName) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.register}',
+        ApiConstants.register,
         data: {'email': email, 'password': password, 'full_name': fullName},
       );
       await _saveTokens(
@@ -100,7 +99,7 @@ class AuthService {
       if (refreshToken == null) throw Exception('No refresh token');
 
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.refreshToken}',
+        ApiConstants.refreshToken,
         data: {'refresh_token': refreshToken},
       );
       await _saveTokens(
@@ -114,7 +113,7 @@ class AuthService {
 
   Future<void> logout() async {
     try {
-      await _dio.post('${ApiConstants.baseUrl}${ApiConstants.logout}');
+      await _dio.post(ApiConstants.logout);
     } catch (e) {
       // Ignore logout errors
     } finally {

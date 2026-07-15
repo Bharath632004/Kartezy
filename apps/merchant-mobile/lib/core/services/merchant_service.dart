@@ -18,7 +18,7 @@ class MerchantService {
   Future<void> registerMerchant(Map<String, dynamic> merchantData) async {
     try {
       final response = await _dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.merchantRegister}',
+        ApiConstants.merchantRegister,
         data: merchantData,
       );
       return response.data;
@@ -30,7 +30,7 @@ class MerchantService {
   Future<Map<String, dynamic>> getMerchantProfile() async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.merchantProfile}',
+        ApiConstants.merchantProfile,
       );
       return response.data;
     } catch (e) {
@@ -41,7 +41,7 @@ class MerchantService {
   Future<void> updateMerchantProfile(Map<String, dynamic> profileData) async {
     try {
       final response = await _dio.put(
-        '${ApiConstants.baseUrl}/${ApiConstants.merchantUpdateProfile}',
+        ApiConstants.merchantUpdateProfile,
         data: profileData,
       );
       return response.data;
@@ -53,7 +53,7 @@ class MerchantService {
   Future<Map<String, dynamic>> getDashboardStats() async {
     try {
       final response = await _dio.get(
-        '${ApiConstants.baseUrl}${ApiConstants.dashboardStats}',
+        ApiConstants.dashboardStats,
       );
       return response.data;
     } catch (e) {

@@ -3,8 +3,7 @@ import 'package:customer_mobile/features/notifications/data/datasource/notificat
 import 'package:customer_mobile/features/notifications/domain/entities/notification.dart';
 import 'package:customer_mobile/features/notifications/domain/repository/notification_repository.dart';
 
-class NotificationRepositoryImpl extends BaseRepository
-    implements NotificationRepository {
+class NotificationRepositoryImpl implements NotificationRepository {
   final NotificationRemoteDataSource _remoteDataSource;
 
   NotificationRepositoryImpl(this._remoteDataSource);
@@ -56,13 +55,11 @@ class NotificationRepositoryImpl extends BaseRepository
     return _remoteDataSource.notificationStream();
   }
 
-  @override
   Future<void> subscribeToTopic(String topic) async {
     // Implementation would depend on your push notification service
     // For now, we'll leave it as a placeholder
   }
 
-  @override
   Future<void> unsubscribeFromTopic(String topic) async {
     // Implementation would depend on your push notification service
     // For now, we'll leave it as a placeholder

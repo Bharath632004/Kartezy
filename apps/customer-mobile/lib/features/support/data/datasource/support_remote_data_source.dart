@@ -46,7 +46,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
       queryParameters: {
         'limit': limit,
         'offset': offset,
-        if (status != null) 'status': status,
+        'status': status,
       },
     );
 
@@ -77,7 +77,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
         'description': description,
         'category': category,
         'priority': priority,
-        if (attachments != null) 'attachments': attachments,
+        'attachments': attachments,
       },
     );
     return SupportTicket.fromJson(response.data);
@@ -112,7 +112,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
       data: {
         'feedback': feedback,
         'rating': rating,
-        if (contactInfo != null) 'contact_info': contactInfo,
+        'contact_info': contactInfo,
       },
     );
   }

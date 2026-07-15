@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/promotion_service.dart';
-import 'providers/promotion_provider.dart';
+import 'package:merchant_mobile/core/services/promotion_service.dart';
+import 'package:merchant_mobile/features/promotions/presentation/providers/promotion_provider.dart';
 
 class PromotionsPage extends ConsumerStatefulWidget {
-  const PromotionsPage({Key? key}) : super(key: key);
+  const PromotionsPage({super.key});
 
   @override
   ConsumerState<PromotionsPage> createState() => _PromotionsPageState();
@@ -92,11 +92,11 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                           IconButton(
                             icon: const Icon(Icons.edit),
                             onPressed: () =>
-                                _editPromotion(context, promotion['id']),
+                                _editPromotion(context, promotion['id']?.toString() ?? ''),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () => _deletePromotion(promotion['id']),
+                            onPressed: () => _deletePromotion(promotion['id']?.toString() ?? ''),
                           ),
                         ],
                       ),
@@ -201,9 +201,8 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
 
   void _editPromotion(BuildContext context, String id) async {
     try {
-      final promotion = await ref
-          .read(promotionProvider.notifier)
-          .getPromotionById(id);
+      final promotionService = ref.read(promotionServiceProvider);
+      final promotion = await promotionService.getPromotionById(id);
       if (!mounted) return;
 
       final TextEditingController nameController = TextEditingController(

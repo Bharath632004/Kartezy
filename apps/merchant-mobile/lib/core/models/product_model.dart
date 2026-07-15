@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'product_model.freezed.dart';
 part 'product_model.g.dart';
@@ -13,6 +12,7 @@ class ProductModel with _$ProductModel {
     String? name,
     String? description,
     double? price,
+    String? currency,
     String? sku,
     String? barcode,
     String? categoryId,
@@ -21,7 +21,6 @@ class ProductModel with _$ProductModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     String? imageUrl,
-    // Additional fields that were missing
     String? dimensions,
     String? hsnCode,
     double? mrp,
@@ -34,12 +33,11 @@ class ProductModel with _$ProductModel {
     bool? dynamicPricingEnabled,
     String? shelfLife,
     List<String>? tags,
+    String? unit,
+    double? weight,
+    double? sellingPrice,
   }) = _ProductModel;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$$ProductModelImplFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() =>
-      _$$ProductModelImplToJson(this as _$ProductModelImpl);
 }

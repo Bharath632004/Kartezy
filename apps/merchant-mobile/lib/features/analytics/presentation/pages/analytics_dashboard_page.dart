@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../analytics_notifier.dart';
+import 'package:merchant_mobile/features/analytics/presentation/providers/analytics_provider.dart';
 
 class AnalyticsDashboardPage extends ConsumerWidget {
-  const AnalyticsDashboardPage({Key? key}) : super(key: key);
+  const AnalyticsDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

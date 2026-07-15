@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/reports_service.dart';
+import 'package:merchant_mobile/core/services/reports_service.dart';
 
 final reportsProvider = StateNotifierProvider<ReportsNotifier, ReportsState>((
   ref,

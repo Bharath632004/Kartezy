@@ -1,24 +1,57 @@
 // lib/navigation/router.dart
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/splash/pages/splash_screen.dart';
 import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
 import 'package:customer_mobile/features/home/home_page.dart';
 import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
-import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/otp_verification_page.dart';
 import 'package:customer_mobile/features/profile/presentation/profile_page.dart';
 import 'package:customer_mobile/features/referral/presentation/referral_page.dart';
+import 'package:customer_mobile/features/search/presentation/search_home_page.dart';
+import 'package:customer_mobile/features/search/presentation/search_results_page.dart';
+import 'package:customer_mobile/features/search/presentation/product_details_page.dart';
+import 'package:customer_mobile/features/order/presentation/pages/order_history_page.dart';
+import 'package:customer_mobile/features/order/presentation/pages/order_detail_page.dart';
 import 'package:customer_mobile/core/services/auth_service.dart';
 
+/// List of public route prefixes that don't require authentication
+const Set<String> _publicRoutePrefixes = {
+  '/splash',
+  '/onboarding',
+  '/login',
+  '/phone-login',
+  '/otp-verification',
+};
+
+/// A ChangeNotifier that the GoRouter can listen to for refreshing redirects
+/// when auth state changes.
+class GoRouterRefreshNotifier extends ChangeNotifier {
+  void notify() {
+    notifyListeners();
+  }
+}
+
+final goRouterRefreshNotifierProvider = Provider<GoRouterRefreshNotifier>((ref) {
+  return GoRouterRefreshNotifier();
+});
+
 final goRouterProvider = Provider<GoRouter>((ref) {
+  final refreshNotifier = ref.watch(goRouterRefreshNotifierProvider);
+
+  // Listen for auth state changes and trigger a router refresh
+  ref.listen(authStateProvider, (previous, next) {
+    refreshNotifier.notify();
+  });
+
   return GoRouter(
-    refreshListenable: null,
+    refreshListenable: refreshNotifier,
     redirect: (context, state) {
-      final authState = ref.watch(authStateProvider);
+      final authState = ref.read(authStateProvider);
       final isInitializing = ref
-          .watch(initializeAuthProvider)
+          .read(initializeAuthProvider)
           .maybeWhen(
             loading: () => true,
             error: (Object error, StackTrace stackTrace) => false,
@@ -31,22 +64,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
 
       final loggedIn = authState;
-      final loggingIn = state.uri.path == '/login';
-      final loggingOut = state.uri.path == '/logout';
-      final signingUp = state.uri.path == '/sign-up';
-      final verifyingOtp = state.uri.path == '/otp-verification';
-      final phoneLogin = state.uri.path == '/phone-login';
+      final currentPath = state.uri.path;
+      final isPublicRoute = _publicRoutePrefixes.any((r) => currentPath == r || currentPath.startsWith('$r/'));
+
       // If not logged in and trying to access a protected route, redirect to login
-      if (!loggedIn &&
-          !loggingIn &&
-          !signingUp &&
-          !verifyingOtp &&
-          !phoneLogin &&
-          !state.uri.path.startsWith('/splash')) {
+      if (!loggedIn && !isPublicRoute) {
         return '/login';
       }
-      // If logged in and trying to access login or sign up page, redirect to home
-      if (loggedIn && (loggingIn || signingUp)) {
+      // If logged in and trying to access login page, redirect to home
+      if (loggedIn && (currentPath == '/login' || currentPath == '/sign-up' || currentPath == '/onboarding')) {
         return '/home';
       }
       return null; // No redirect needed
@@ -75,12 +101,45 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/home', builder: (context, state) => const HomePage()),
       GoRoute(
+        path: '/search',
+        builder: (context, state) => const SearchHomePage(),
+        routes: [
+          GoRoute(
+            path: 'results',
+            builder: (context, state) {
+              final query = state.uri.queryParameters['q'] ?? '';
+              return SearchResultsPage(query: query);
+            },
+          ),
+          GoRoute(
+            path: 'product/:id',
+            builder: (context, state) {
+              final productId = state.pathParameters['id'] ?? '';
+              return ProductDetailsPage(productId: productId);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfilePage(),
       ),
       GoRoute(
         path: '/referral',
         builder: (context, state) => const ReferralPage(),
+      ),
+      GoRoute(
+        path: '/orders',
+        builder: (context, state) => const OrderHistoryPage(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final orderId = state.pathParameters['id'] ?? '';
+              return OrderDetailPage(orderId: orderId);
+            },
+          ),
+        ],
       ),
     ],
   );

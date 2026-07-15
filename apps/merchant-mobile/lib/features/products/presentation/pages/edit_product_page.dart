@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/services/product_notifier.dart';
+import 'package:merchant_mobile/core/services/product_notifier.dart';
 import '../widgets/product_form.dart';
 
 class EditProductPage extends ConsumerStatefulWidget {
-  const EditProductPage({Key? key}) : super(key: key);
+  const EditProductPage({super.key});
 
   @override
   ConsumerState<EditProductPage> createState() => _EditProductPageState();
@@ -18,10 +18,8 @@ class _EditProductPageState extends ConsumerState<EditProductPage> {
   @override
   void initState() {
     super.initState();
-    // In a real app, you would get the productId from the route parameters
-    // For now, we'll assume it's passed via arguments
-    //  Implement proper route parameter extraction
-    productId = ''; // Placeholder
+    final args = GoRouterState.of(context).extra as String?;
+    productId = args ?? '';
     _loadProduct();
   }
 
@@ -30,19 +28,23 @@ class _EditProductPageState extends ConsumerState<EditProductPage> {
         .read(productNotifierProvider.notifier)
         .fetchProductById(productId)
         .then((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          if (mounted) {
+            setState(() {
+              _isLoading = false;
+            });
+          }
         })
         .catchError((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          if (mounted) {
+            setState(() {
+              _isLoading = false;
+            });
+          }
         });
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final productState = ref.watch(productNotifierProvider);
     final product = productState.selectedProduct;
 

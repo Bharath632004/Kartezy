@@ -39,7 +39,6 @@ class SettlementState {
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
       settlementHistory: settlementHistory ?? this.settlementHistory,
-      pendingSettlements: pendingSettlements ?? this.pendingSettlementHistory,
       pendingSettlements: pendingSettlements ?? this.pendingSettlements,
       hasMoreHistory: hasMoreHistory ?? this.hasMoreHistory,
       hasMorePending: hasMorePending ?? this.hasMorePending,
@@ -52,8 +51,6 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
   final FinanceService _financeService;
   int _historyPage = 1;
   int _pendingPage = 1;
-  bool _hasMoreHistory = true;
-  bool _hasMorePending = true;
 
   SettlementNotifier(this._financeService) : super(SettlementState.initial());
 
@@ -64,7 +61,6 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
   }) async {
     if (refresh) {
       _historyPage = 1;
-      _hasMoreHistory = true;
       state = state.copyWith(
         isLoading: true,
         error: null,
@@ -85,7 +81,7 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
         state = state.copyWith(
           isLoading: false,
           settlementHistory: settlementHistory,
-          hasMoreHistory: settlementHistory.length >= 20, // assuming limit 20
+          hasMoreHistory: settlementHistory.length >= 20,
         );
       } else {
         state = state.copyWith(
@@ -106,7 +102,6 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
   Future<void> fetchPendingSettlements({bool refresh = false}) async {
     if (refresh) {
       _pendingPage = 1;
-      _hasMorePending = true;
       state = state.copyWith(
         isLoading: true,
         error: null,
@@ -125,7 +120,7 @@ class SettlementNotifier extends StateNotifier<SettlementState> {
         state = state.copyWith(
           isLoading: false,
           pendingSettlements: pendingSettlements,
-          hasMorePending: pendingSettlements.length >= 20, // assuming limit 20
+          hasMorePending: pendingSettlements.length >= 20,
         );
       } else {
         state = state.copyWith(

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/finance_service.dart';
+import 'package:merchant_mobile/core/services/finance_service.dart';
 
 final financeProvider = StateNotifierProvider<FinanceNotifier, FinanceState>((
   ref,

@@ -1,23 +1,21 @@
 // lib/features/referral/domain/usecase/share_referral_code.dart
-import '../../../../core/usecases/usecase.dart';
-import '../repository/referral_repository.dart';
+import 'package:customer_mobile/core/usecases/usecase.dart';
+import 'package:customer_mobile/features/referral/domain/repository/referral_repository.dart';
 
-class ShareReferralCode implements UseCase<void, Params> {
+class ShareReferralCode implements UseCase<void, ShareReferralCodeParams> {
   final ReferralRepository repository;
 
   ShareReferralCode(this.repository);
 
   @override
-  Future<void> call(Params params) {
-    final Map<String, dynamic> data = params.data as Map<String, dynamic>;
-    final String code = data['code'] as String;
-    final String method = data['method'] as String;
-    return repository.shareReferralCode(code, method);
+  Future<void> call(ShareReferralCodeParams params) {
+    return repository.shareReferralCode(params.code, params.method);
   }
 }
 
-class Params {
-  final Map<String, dynamic> data;
+class ShareReferralCodeParams {
+  final String code;
+  final String method;
 
-  const Params({required this.data});
+  ShareReferralCodeParams({required this.code, required this.method});
 }

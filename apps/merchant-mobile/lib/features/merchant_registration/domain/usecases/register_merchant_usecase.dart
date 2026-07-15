@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:merchant_mobile/core/error/exceptions.dart';
 import 'package:merchant_mobile/features/merchant_registration/domain/entities/merchant_profile.dart';
 import 'package:merchant_mobile/features/merchant_registration/domain/repositories/merchant_registration_repository.dart';
 

@@ -1,6 +1,6 @@
 // lib/features/referral/domain/usecase/validate_referral_code.dart
-import '../../../../core/usecases/usecase.dart';
-import '../repository/referral_repository.dart';
+import 'package:customer_mobile/core/usecases/usecase.dart';
+import 'package:customer_mobile/features/referral/domain/repository/referral_repository.dart';
 
 class ValidateReferralCode implements UseCase<bool, String> {
   final ReferralRepository repository;

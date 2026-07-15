@@ -14,7 +14,6 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
-  bool _isInitialized = false;
   bool _isOnboardingComplete = false;
   bool _isAuthenticated = false;
   bool _isLoading = true;
@@ -70,7 +69,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     } finally {
       if (mounted) {
         setState(() {
-          _isInitialized = true;
           _isLoading = false;
         });
       }

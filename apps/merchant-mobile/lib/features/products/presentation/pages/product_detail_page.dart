@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/product_notifier.dart';
+import 'package:go_router/go_router.dart';
+import 'package:merchant_mobile/core/services/product_notifier.dart';
 
 class ProductDetailPage extends ConsumerWidget {
-  static const String routeName = '/product-detail';
-
-  const ProductDetailPage({Key? key}) : super(key: key);
+  const ProductDetailPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productId = ModalRoute.of(context)!.settings.arguments as String?;
     final productState = ref.watch(productNotifierProvider);
+    final productId = productState.selectedProduct?.id;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,9 +19,7 @@ class ProductDetailPage extends ConsumerWidget {
             icon: const Icon(Icons.edit),
             onPressed: () {
               if (productId != null) {
-                Navigator.of(
-                  context,
-                ).pushNamed('/edit-product', arguments: productId);
+                GoRouter.of(context).push('/edit-product', extra: productId);
               }
             },
           ),
@@ -49,106 +46,84 @@ class ProductDetailPage extends ConsumerWidget {
                   const SizedBox(height: 16),
                   Text(
                     productState.selectedProduct!.name ?? 'Unnamed',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'SKU: ${productState.selectedProduct!.sku ?? 'N/A'}',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Price: \$${productState.selectedProduct!.sellingPrice?.toStringAsFixed(2) ?? '0.00'}',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    'Price: \$${productState.selectedProduct!.price?.toStringAsFixed(2) ?? '0.00'}',
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 16),
                   const Divider(),
                   const SizedBox(height: 8),
                   Text(
                     'Description',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     productState.selectedProduct!.description ??
                         'No description',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 16),
                   const Divider(),
                   const SizedBox(height: 8),
                   Text(
                     'Additional Information',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 4),
                   _buildInfoRow(
+                    context,
                     'Category',
                     productState.selectedProduct!.categoryId ?? 'N/A',
                   ),
                   _buildInfoRow(
+                    context,
                     'Brand',
                     productState.selectedProduct!.brandId ?? 'N/A',
                   ),
                   _buildInfoRow(
-                    'Weight',
-                    '${productState.selectedProduct!.weight ?? 0} ${productState.selectedProduct!.unit ?? ''}',
-                  ),
-                  _buildInfoRow(
+                    context,
                     'Dimensions',
-                    '${productState.selectedProduct!.dimensions?.length ?? 0} x '
-                        '${productState.selectedProduct!.dimensions?.width ?? 0} x '
-                        '${productState.selectedProduct!.dimensions?.height ?? 0} ${productState.selectedProduct!.dimensions?.unit ?? ''}',
+                    '${productState.selectedProduct!.dimensions ?? 'N/A'}',
                   ),
                   _buildInfoRow(
+                    context,
                     'Barcode',
                     productState.selectedProduct!.barcode ?? 'N/A',
                   ),
                   _buildInfoRow(
+                    context,
                     'HSN Code',
                     productState.selectedProduct!.hsnCode ?? 'N/A',
                   ),
                   _buildInfoRow(
+                    context,
                     'MRP',
                     '\$${productState.selectedProduct!.mrp?.toStringAsFixed(2) ?? '0.00'}',
                   ),
                   _buildInfoRow(
+                    context,
                     'Cost Price',
                     '\$${productState.selectedProduct!.costPrice?.toStringAsFixed(2) ?? '0.00'}',
                   ),
                   _buildInfoRow(
+                    context,
                     'Discount',
                     '${productState.selectedProduct!.discount?.toStringAsFixed(2) ?? '0.00'}%',
                   ),
                   _buildInfoRow(
-                    'Flash Sale Price',
-                    '\$${productState.selectedProduct!.flashSalePrice?.toStringAsFixed(2) ?? '0.00'}',
-                  ),
-                  _buildInfoRow(
-                    'Membership Price',
-                    '\$${productState.selectedProduct!.membershipPrice?.toStringAsFixed(2) ?? '0.00'}',
-                  ),
-                  _buildInfoRow(
-                    'Combo Price',
-                    '\$${productState.selectedProduct!.comboPrice?.toStringAsFixed(2) ?? '0.00'}',
-                  ),
-                  _buildInfoRow(
-                    'Tax (GST)',
-                    '${productState.selectedProduct!.tax?.toStringAsFixed(2) ?? '0.00'}%',
-                  ),
-                  _buildInfoRow(
-                    'Dynamic Pricing',
-                    '${productState.selectedProduct!.dynamicPricingEnabled ?? false ? 'Yes' : 'No'}',
-                  ),
-                  _buildInfoRow(
+                    context,
                     'Is Active',
                     '${productState.selectedProduct!.isActive ?? false ? 'Yes' : 'No'}',
                   ),
-                  _buildInfoRow(
-                    'Shelf Life (days)',
-                    '${productState.selectedProduct!.shelfLife ?? 'N/A'}',
-                  ),
-                  _buildInfoRow('Expiry Date', 'N/A'),
                   const SizedBox(height: 16),
                   const Divider(),
                   const SizedBox(height: 8),
@@ -164,7 +139,7 @@ class ProductDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildInfoRow(BuildContext context, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
@@ -176,11 +151,11 @@ class ProductDetailPage extends ConsumerWidget {
               '$label:',
               style: Theme.of(
                 context,
-              ).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
-            child: Text(value, style: Theme.of(context).textTheme.bodyText2),
+            child: Text(value, style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),

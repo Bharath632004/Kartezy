@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/finance_service.dart';
+import 'package:merchant_mobile/features/finance/presentation/providers/finance_provider.dart';
 
 class FinanceDashboardPage extends ConsumerWidget {
-  const FinanceDashboardPage({Key? key}) : super(key: key);
+  const FinanceDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

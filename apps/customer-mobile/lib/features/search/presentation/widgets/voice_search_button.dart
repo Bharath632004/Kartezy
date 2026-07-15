@@ -37,7 +37,7 @@ class _VoiceSearchButtonState extends ConsumerState<VoiceSearchButton> {
   void _startListening() async {
     await _speech.listen(
       onResult: (val) => setState(() {
-        _lastWords = val.recognizedWords ?? '';
+        _lastWords = val.recognizedWords;
         if (val.hasConfidenceRating && val.confidence > 0) {
           // If we have a confident result, use it to search
           if (val.finalResult || val.confidence > 0.8) {

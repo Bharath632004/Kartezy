@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/marketing_service.dart';
+import 'package:merchant_mobile/features/marketing/presentation/providers/marketing_provider.dart';
 
 class MarketingDashboardPage extends ConsumerWidget {
-  const MarketingDashboardPage({Key? key}) : super(key: key);
+  const MarketingDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

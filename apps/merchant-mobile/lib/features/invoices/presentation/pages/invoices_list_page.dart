@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:merchant_mobile/features/invoices/presentation/providers/invoices_provider.dart';
 
-class InvoicesPage extends ConsumerStatefulWidget {
-  const InvoicesPage({Key? key}) : super(key: key);
+class InvoicesListPage extends ConsumerStatefulWidget {
+  const InvoicesListPage({super.key});
 
   @override
-  ConsumerState<InvoicesPage> createState() => _InvoicesPageState();
+  ConsumerState<InvoicesListPage> createState() => _InvoicesListPageState();
 }
 
-class _InvoicesPageState extends ConsumerState<InvoicesPage> {
+class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
   late final ScrollController _scrollController;
   bool _isLoadingMore = false;
 
@@ -97,21 +97,21 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
                             value: 'view',
                             child: ListTile(
                               leading: Icon(Icons.visibility),
-                              text: 'View Details',
+                              title: Text('View Details'),
                             ),
                           ),
                           const PopupMenuItem(
                             value: 'download_pdf',
                             child: ListTile(
                               leading: Icon(Icons.picture_as_pdf),
-                              text: 'Download PDF',
+                              title: Text('Download PDF'),
                             ),
                           ),
                           const PopupMenuItem(
                             value: 'print',
                             child: ListTile(
                               leading: Icon(Icons.print),
-                              text: 'Print',
+                              title: Text('Print'),
                             ),
                           ),
                         ],
@@ -130,16 +130,17 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
     );
   }
 
-  void _handlePopupMenuSelection(String value, String invoiceId) async {
+  void _handlePopupMenuSelection(String value, dynamic invoiceId) async {
+    final id = invoiceId?.toString() ?? '';
     switch (value) {
       case 'view':
-        _showInvoiceDetails(context, invoiceId);
+        _showInvoiceDetails(context, id);
         break;
       case 'download_pdf':
-        _downloadInvoicePdf(invoiceId);
+        _downloadInvoicePdf(id);
         break;
       case 'print':
-        _printInvoice(invoiceId);
+        _printInvoice(id);
         break;
     }
   }
@@ -176,11 +177,9 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
 
   void _downloadInvoicePdf(String invoiceId) async {
     try {
-      final pdfBytes = await ref
+      await ref
           .read(invoicesProvider.notifier)
           .downloadInvoicePdf(invoiceId);
-      // In a real app, you would save or share the PDF file
-      // For now, we'll just show a success message
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('PDF downloaded successfully')),
@@ -209,16 +208,12 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
   }
 
   void _showCreateInvoiceDialog(BuildContext context) {
-    // Implementation for creating a new invoice
-    // This would typically navigate to a create invoice screen
-    // For now, we'll just show a placeholder
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Create invoice feature coming soon')),
     );
   }
 
   void _exportInvoices(BuildContext context) async {
-    // Simple export implementation
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -235,10 +230,9 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
                   onPressed: () async {
                     Navigator.pop(context);
                     try {
-                      final csvData = await ref
+                      await ref
                           .read(invoicesProvider.notifier)
                           .exportInvoices(format: 'csv');
-                      // In a real app, you would save or share the CSV file
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -258,10 +252,9 @@ class _InvoicesPageState extends ConsumerState<InvoicesPage> {
                   onPressed: () async {
                     Navigator.pop(context);
                     try {
-                      final pdfData = await ref
+                      await ref
                           .read(invoicesProvider.notifier)
                           .exportInvoices(format: 'pdf');
-                      // In a real app, you would save or share the PDF file
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

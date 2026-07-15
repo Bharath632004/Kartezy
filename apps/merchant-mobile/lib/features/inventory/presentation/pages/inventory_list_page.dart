@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/services/inventory_notifier.dart';
+import 'package:merchant_mobile/core/services/inventory_notifier.dart';
 
 class InventoryListPage extends ConsumerWidget {
-  const InventoryListPage({Key? key}) : super(key: key);
+  const InventoryListPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -89,7 +89,7 @@ class InventoryListPage extends ConsumerWidget {
               onPressed: () => ref
                   .read(inventoryNotifierProvider.notifier)
                   .fetchInventories(page: inventoryState.page + 1),
-              child: const Icon(Icons.load_more),
+              child: const Icon(Icons.expand_more),
             )
           : null,
     );

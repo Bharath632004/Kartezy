@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:merchant_mobile/core/services/auth_service.dart';
+import 'package:merchant_mobile/core/storage/hive_manager.dart';
 
 class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
@@ -49,8 +51,6 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
   void _goToNext() {
     if (!mounted) return;
-    final isLoggedIn = ref.read(authServiceProvider).isLoggedIn();
-    // We can't await here because we are not in async, but we can use then
     ref.read(authServiceProvider).isLoggedIn().then((value) {
       if (mounted) {
         if (value) {

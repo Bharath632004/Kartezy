@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/reports_service.dart';
-import 'providers/reports_provider.dart';
+import 'package:merchant_mobile/features/reports/presentation/providers/reports_provider.dart';
 
 class ReportsPage extends ConsumerStatefulWidget {
-  const ReportsPage({Key? key}) : super(key: key);
+  const ReportsPage({super.key});
 
   @override
   ConsumerState<ReportsPage> createState() => _ReportsPageState();
@@ -30,6 +29,7 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
   @override
   Widget build(BuildContext context) {
     final reportsState = ref.watch(reportsProvider);
+    final reportsNotifier = ref.read(reportsProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Reports')),
@@ -67,11 +67,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                           onPressed: reportsState.isLoading
                               ? null
                               : () {
-                                  ref
-                                      .read(reportsProvider.notifier)
-                                      .generateDailyReport(
-                                        date: _dateController.text,
-                                      );
+                                  reportsNotifier.generateDailyReport(
+                                    date: _dateController.text,
+                                  );
                                 },
                           child: const Text('Generate'),
                         ),
@@ -147,12 +145,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                             onPressed: reportsState.isLoading
                                 ? null
                                 : () {
-                                    ref
-                                        .read(reportsProvider.notifier)
-                                        .generateMonthlyReport(
-                                          month: _monthController.text,
-                                          year: _yearController.text,
-                                        );
+                                    reportsNotifier.generateMonthlyReport(
+                                      month: _monthController.text,
+                                      year: _yearController.text,
+                                    );
                                   },
                             child: const Text('Generate'),
                           ),
@@ -231,12 +227,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                             onPressed: reportsState.isLoading
                                 ? null
                                 : () {
-                                    ref
-                                        .read(reportsProvider.notifier)
-                                        .generateSalesReport(
-                                          startDate: _startDateController.text,
-                                          endDate: _endDateController.text,
-                                        );
+                                    reportsNotifier.generateSalesReport(
+                                      startDate: _startDateController.text,
+                                      endDate: _endDateController.text,
+                                    );
                                   },
                             child: const Text('Generate'),
                           ),
@@ -276,7 +270,7 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                 ElevatedButton(
                   onPressed: reportsState.isLoading
                       ? null
-                      : () => ref.read(reportsProvider.notifier).clearReports(),
+                      : () => reportsNotifier.clearReports(),
                   child: const Text('Clear Reports'),
                 ),
                 ElevatedButton.icon(

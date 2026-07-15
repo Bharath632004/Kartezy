@@ -24,8 +24,8 @@ class FinanceService {
       final response = await _dio.get(
         "${ApiConstants.baseUrl}${ApiConstants.financeRevenue}",
         queryParameters: {
-          if (startDate != null) "start_date": startDate,
-          if (endDate != null) "end_date": endDate,
+          ?'start_date': startDate,
+          ?'end_date': endDate,
         },
       );
       return response.data;
@@ -43,8 +43,8 @@ class FinanceService {
       final response = await _dio.get(
         "${ApiConstants.baseUrl}${ApiConstants.financeSalesSummary}",
         queryParameters: {
-          if (startDate != null) "start_date": startDate,
-          if (endDate != null) "end_date": endDate,
+          ?'start_date': startDate,
+          ?'end_date': endDate,
         },
       );
       return response.data;

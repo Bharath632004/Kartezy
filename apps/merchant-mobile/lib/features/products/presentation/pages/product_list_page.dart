@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/services/product_notifier.dart';
+import 'package:merchant_mobile/core/services/product_notifier.dart';
 
 class ProductListPage extends ConsumerWidget {
-  const ProductListPage({Key? key}) : super(key: key);
+  const ProductListPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,7 +45,7 @@ class ProductListPage extends ConsumerWidget {
                         : null,
                     title: Text(product.name ?? 'Unnamed'),
                     subtitle: Text(
-                      'SKU: ${product.sku ?? 'N/A'} | \$${product.sellingPrice?.toStringAsFixed(2) ?? '0.00'}',
+                      'SKU: ${product.sku ?? 'N/A'} | \$${product.price?.toStringAsFixed(2) ?? '0.00'}',
                     ),
                     trailing: PopupMenuButton<String>(
                       onSelected: (value) async {
@@ -122,7 +122,7 @@ class ProductListPage extends ConsumerWidget {
               onPressed: () => ref
                   .read(productNotifierProvider.notifier)
                   .fetchProducts(page: productState.page + 1),
-              child: const Icon(Icons.load_more),
+              child: const Icon(Icons.expand_more),
             )
           : null,
     );

@@ -35,8 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   dio: ^5.3.3
-  freezed: ^2.4.5
-  json_serializable: ^6.7.1
   flutter_riverpod: ^2.4.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -45,29 +43,21 @@ dependencies:
   go_router: ^14.0.2
   flutter_secure_storage: ^9.0.0
   google_sign_in: ^6.2.1
-  firebase_auth: ^4.12.0
-  firebase_core: ^2.24.0
-  firebase_analytics: ^10.10.7
-  firebase_crashlytics: ^3.5.7
-  firebase_messaging: ^14.7.10
+  firebase_auth: ^5.5.1
+  firebase_core: ^3.13.0
+  firebase_analytics: ^11.4.6
+  firebase_crashlytics: ^4.3.9
+  firebase_messaging: ^15.2.5
   logger: ^2.7.0
   connectivity_plus: ^7.2.0
   equatable: ^2.1.0
   dartz: ^0.10.1
   flutter_local_notifications: ^22.0.1
   smooth_page_indicator: ^2.0.1
-  # For secure storage, we also need flutter_secure_storage for web and other platforms.
-  # For Firebase, we need to configure it separately.
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^6.0.0
   build_runner: ^2.4.6
   freezed: ^2.4.5

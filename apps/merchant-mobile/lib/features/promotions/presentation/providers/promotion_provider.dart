@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/services/promotion_service.dart';
+import 'package:merchant_mobile/core/services/promotion_service.dart';
 
 // Promotion State
 class PromotionState {
@@ -37,7 +37,6 @@ class PromotionState {
 class PromotionNotifier extends StateNotifier<PromotionState> {
   final PromotionService _promotionService;
   int _currentPage = 1;
-  bool _hasMore = true;
 
   PromotionNotifier(this._promotionService) : super(PromotionState.initial());
 
@@ -49,7 +48,6 @@ class PromotionNotifier extends StateNotifier<PromotionState> {
   }) async {
     if (refresh) {
       _currentPage = 1;
-      _hasMore = true;
       state = state.copyWith(isLoading: true, error: null);
     } else if (!state.isLoading) {
       state = state.copyWith(isLoading: true, error: null);

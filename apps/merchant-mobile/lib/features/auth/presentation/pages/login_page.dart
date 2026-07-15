@@ -192,7 +192,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   onPressed: authState.isLoading
                       ? null
                       : () {
-                          Navigator.of(context).pushNamed('/register');
+                          GoRouter.of(context).go('/register');
                         },
                   child: const Text('Don\'t have an account? Register'),
                 ),

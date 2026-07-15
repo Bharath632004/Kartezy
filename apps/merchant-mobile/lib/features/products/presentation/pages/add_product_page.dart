@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../widgets/product_form.dart';
 
 class AddProductPage extends ConsumerWidget {
-  const AddProductPage({Key? key}) : super(key: key);
+  const AddProductPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

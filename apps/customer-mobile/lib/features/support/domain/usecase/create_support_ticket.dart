@@ -1,14 +1,12 @@
 // lib/features/support/domain/usecase/create_support_ticket.dart
 import '../repository/support_repository.dart';
-import '../../core/usecases/usecase.dart';
+import '../entities/support_ticket.dart';
 
-class CreateSupportTicket
-    extends UseCase<SupportTicket, CreateSupportTicketParams> {
+class CreateSupportTicket {
   final SupportRepository repository;
 
   CreateSupportTicket(this.repository);
 
-  @override
   Future<SupportTicket> call(CreateSupportTicketParams params) async {
     return await repository.createSupportTicket(
       title: params.title,

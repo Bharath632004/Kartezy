@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:merchant_mobile/features/auth/presentation/pages/onboarding_page.dart';
@@ -13,32 +14,54 @@ import 'package:merchant_mobile/features/finance/presentation/pages/finance_dash
 import 'package:merchant_mobile/features/analytics/presentation/pages/analytics_dashboard_page.dart';
 import 'package:merchant_mobile/features/reports/presentation/pages/reports_page.dart';
 import 'package:merchant_mobile/features/marketing/presentation/pages/marketing_dashboard_page.dart';
-import 'package:merchant_mobile/features/invoices/presentation/pages/invoices_page.dart';
+import 'package:merchant_mobile/features/invoices/presentation/pages/invoices_list_page.dart';
 import 'package:merchant_mobile/features/merchant_registration/presentation/pages/merchant_registration_page.dart';
+import 'package:merchant_mobile/features/products/presentation/pages/product_list_page.dart';
+import 'package:merchant_mobile/features/products/presentation/pages/add_product_page.dart';
+import 'package:merchant_mobile/features/products/presentation/pages/edit_product_page.dart';
+import 'package:merchant_mobile/features/products/presentation/pages/product_detail_page.dart';
+import 'package:merchant_mobile/features/inventory/presentation/pages/inventory_list_page.dart';
+import 'package:merchant_mobile/features/inventory/presentation/pages/add_inventory_page.dart';
+import 'package:merchant_mobile/features/inventory/presentation/pages/edit_inventory_page.dart';
+import 'package:merchant_mobile/features/orders/presentation/pages/order_list_page.dart';
+import 'package:merchant_mobile/features/profile/presentation/pages/settings_page.dart';
+import 'package:merchant_mobile/features/profile/presentation/pages/support_page.dart';
 import 'package:merchant_mobile/core/services/auth_service.dart';
 
+/// A ChangeNotifier that triggers GoRouter redirect re-evaluation.
+class GoRouterRefreshNotifier extends ChangeNotifier {
+  void notify() => notifyListeners();
+}
+
+final goRouterRefreshNotifierProvider = Provider<GoRouterRefreshNotifier>((ref) {
+  return GoRouterRefreshNotifier();
+});
+
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final authService = ref.read(authServiceProvider);
+  final refreshNotifier = ref.watch(goRouterRefreshNotifierProvider);
+
+  // Listen for auth state changes and trigger router refresh
+  ref.listen(authStateProvider, (previous, next) {
+    refreshNotifier.notify();
+  });
+
   return GoRouter(
-    refreshListenable: Listenable.merge([
-      ref.read(authStateProvider.notifier),
-      ref.read(isInitializedProvider.future),
-    ]),
+    refreshListenable: refreshNotifier,
     redirect: (context, state) {
       final loggingIn = state.uri.path == '/login';
       final signingUp = state.uri.path == '/register';
       final verifyingOtp = state.uri.path == '/otp-verification';
       final phoneLogin = state.uri.path == '/phone-login';
-      final resetPassword = state.uri.path == '/reset-password';
-      final verifyingOtpReset = state.uri.path == '/verify-otp-reset';
       final onboarding = state.uri.path == '/onboarding';
       final splash = state.uri.path == '/splash';
+      final isAuthRoute =
+          loggingIn || signingUp || verifyingOtp || phoneLogin || onboarding || splash;
 
       final isInitializing = ref
-          .watch(isInitializedProvider)
+          .read(isInitializedProvider)
           .maybeWhen(
             loading: () => true,
-            error: () => false,
+            error: (_, __) => false,
             data: (_) => false,
             orElse: () => false,
           );
@@ -47,42 +70,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         return '/splash';
       }
 
-      final loggedIn = ref.watch(authStateProvider);
-      final hasSeenOnboarding = ref.watch(
-        hiveManagerProvider.select((value) => value.hasSeenOnboarding),
-      );
+      final loggedIn =
+          ref.read(authStateProvider).isLoggedIn;
 
-      // If not logged in and not onboarding/splash/login/register/etc, go to login
-      if (!loggedIn &&
-          !onboarding &&
-          !splash &&
-          !loggingIn &&
-          !signingUp &&
-          !verifyingOtp &&
-          !phoneLogin &&
-          !resetPassword &&
-          !verifyingOtpReset) {
+      // If not logged in and not on an auth route, redirect to login
+      if (!loggedIn && !isAuthRoute) {
         return '/login';
       }
 
-      // If logged in and trying to access onboarding, login, register, go to dashboard
-      if (loggedIn &&
-          (onboarding ||
-              loggingIn ||
-              signingUp ||
-              verifyingOtp ||
-              phoneLogin ||
-              resetPassword ||
-              verifyingOtpReset)) {
+      // If logged in and on an auth route, redirect to dashboard
+      if (loggedIn && isAuthRoute) {
         return '/dashboard';
       }
 
-      // If not logged in and trying to access dashboard, go to login
-      if (!loggedIn && state.uri.path.startsWith('/dashboard')) {
-        return '/login';
-      }
-
-      return null; // No redirect needed
+      return null;
     },
     routes: [
       GoRoute(
@@ -140,11 +141,55 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/invoices',
-        builder: (context, state) => const InvoicesPage(),
+        builder: (context, state) => const InvoicesListPage(),
       ),
       GoRoute(
         path: '/merchant-register',
         builder: (context, state) => const MerchantRegistrationPage(),
+      ),
+      GoRoute(
+        path: '/products',
+        builder: (context, state) => const ProductListPage(),
+      ),
+      GoRoute(
+        path: '/add-product',
+        builder: (context, state) => const AddProductPage(),
+      ),
+      GoRoute(
+        path: '/edit-product',
+        builder: (context, state) => const EditProductPage(),
+      ),
+      GoRoute(
+        path: '/product-detail',
+        builder: (context, state) => const ProductDetailPage(),
+      ),
+      GoRoute(
+        path: '/inventory',
+        builder: (context, state) => const InventoryListPage(),
+      ),
+      GoRoute(
+        path: '/add-inventory',
+        builder: (context, state) => const AddInventoryPage(),
+      ),
+      GoRoute(
+        path: '/edit-inventory',
+        builder: (context, state) => const EditInventoryPage(),
+      ),
+      GoRoute(
+        path: '/inventory-detail',
+        builder: (context, state) => const EditInventoryPage(),
+      ),
+      GoRoute(
+        path: '/orders',
+        builder: (context, state) => const OrderListPage(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: '/support',
+        builder: (context, state) => const SupportPage(),
       ),
     ],
   );
@@ -152,18 +197,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
 // Provider to check if app initialization is complete
 final isInitializedProvider = FutureProvider<bool>((ref) async {
-  // Wait for Firebase, Hive, etc. to initialize
-  // We'll do a simple delay for now, but in reality you'd wait for futures
   await Future.delayed(const Duration(seconds: 1));
   return true;
 });
-
-// Helper extension to check if user has seen onboarding
-extension HiveManagerExtension on AsyncValue<HiveManager> {
-  bool get hasSeenOnboarding {
-    return whenData(
-      (manager) => manager.hasSeenOnboarding(),
-      orElse: () => false,
-    );
-  }
-}

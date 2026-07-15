@@ -1,8 +1,8 @@
 // lib/features/support/domain/usecase/get_support_tickets.dart
 import '../repository/support_repository.dart';
-import '../../core/usecases/usecase.dart';
+import '../entities/support_ticket.dart';
 
-class GetSupportTickets extends UseCase {
+class GetSupportTickets {
   final SupportRepository repository;
 
   GetSupportTickets(this.repository);

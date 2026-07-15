@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/models/product_model.dart';
+import 'package:merchant_mobile/core/models/product_model.dart';
+import 'package:merchant_mobile/core/services/product_notifier.dart';
 
 class ProductForm extends ConsumerStatefulWidget {
   final ProductModel? initialProduct;
@@ -37,7 +38,7 @@ class _ProductFormState extends ConsumerState<ProductForm> {
       text: widget.initialProduct?.price?.toString() ?? '',
     );
     _currencyController = TextEditingController(
-      text: widget.initialProduct?.currency ?? '',
+      text: 'USD',
     );
     _imageUrlController = TextEditingController(
       text: widget.initialProduct?.imageUrl ?? '',
@@ -58,13 +59,13 @@ class _ProductFormState extends ConsumerState<ProductForm> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisalignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
               controller: _nameController,
@@ -124,7 +125,6 @@ class _ProductFormState extends ConsumerState<ProductForm> {
                     description: _descriptionController.text,
                     sku: _skuController.text,
                     price: double.tryParse(_priceController.text),
-                    currency: _currencyController.text,
                     imageUrl: _imageUrlController.text.isEmpty
                         ? null
                         : _imageUrlController.text,
@@ -136,7 +136,7 @@ class _ProductFormState extends ConsumerState<ProductForm> {
                     ref
                         .read(productNotifierProvider.notifier)
                         .createProduct(product);
-                  } else {
+                  } else if (widget.initialProduct?.id != null) {
                     // Updating existing product
                     ref
                         .read(productNotifierProvider.notifier)

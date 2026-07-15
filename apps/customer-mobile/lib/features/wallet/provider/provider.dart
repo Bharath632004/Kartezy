@@ -6,7 +6,6 @@ import 'package:customer_mobile/features/wallet/domain/repository/wallet_reposit
 import 'package:customer_mobile/features/wallet/domain/usecase/get_wallet_balance_use_case.dart';
 import 'package:customer_mobile/features/wallet/domain/usecase/add_wallet_money_use_case.dart';
 import 'package:customer_mobile/features/wallet/domain/usecase/withdraw_wallet_money_use_case.dart';
-import 'package:customer_mobile/core/network/dio_client.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository

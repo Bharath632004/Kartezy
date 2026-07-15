@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:merchant_mobile/core/services/auth_service.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -39,7 +40,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       );
       // If successful, navigate to login
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/login');
+        GoRouter.of(context).go('/login');
       }
     } catch (e) {
       if (mounted) {
@@ -195,7 +196,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   onPressed: authState.isLoading
                       ? null
                       : () {
-                          Navigator.of(context).pushReplacementNamed('/login');
+                          GoRouter.of(context).go('/login');
                         },
                   child: const Text('Already have an account? Login'),
                 ),
