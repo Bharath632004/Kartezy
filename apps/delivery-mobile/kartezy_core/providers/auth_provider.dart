@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartezy_core/services/auth_service.dart';
 import 'package:kartezy_core/storage/secure_storage.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
+import 'package:kartezy_core/network/api_constants.dart';
 
-/// State for authentication
 class AuthState {
   final bool isAuthenticated;
   final String? userId;
@@ -32,10 +32,8 @@ class AuthState {
   }
 }
 
-/// Notifier for authentication state
 class AuthNotifier extends StateNotifier<AuthState> {
   final Ref _ref;
-  StreamSubscription? _authSubscription;
 
   AuthNotifier(this._ref) : super(const AuthState(isAuthenticated: false)) {
     _init();
@@ -54,26 +52,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
       token: token,
       refreshToken: refreshToken,
     );
-
-    // Listen to auth state changes
-    _authSubscription = authService.authStateChanges.listen((isAuthenticated) {
-      final userId = authService.getUserId();
-      final token = authService.getAccessToken();
-      final refreshToken = authService.getRefreshToken();
-      state = state.copyWith(
-        isAuthenticated: isAuthenticated,
-        userId: userId,
-        token: token,
-        refreshToken: refreshToken,
-      );
-    });
   }
 
   Future<void> loginWithEmail(String email, String password) async {
     try {
-      final authRepository = _ref.read(authRepositoryProvider);
-      final user = await authRepository.login(email, password);
-      await _updateAuthState(user);
+      final dio = _ref.read(dioProvider);
+      final response = await dio.post(
+        ApiConstants.deliveryPartnerAuthLogin,
+        data: {'email': email, 'password': password},
+      );
+      final authService = _ref.read(authServiceProvider);
+      await authService.saveTokens(
+        accessToken: response.data['access_token'] as String?,
+        refreshToken: response.data['refresh_token'] as String?,
+      );
+      await _refreshState();
     } catch (e) {
       rethrow;
     }
@@ -81,10 +74,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> sendOtp(String phoneNumber) async {
     try {
-      final authRepository = _ref.read(authRepositoryProvider);
-      await authRepository.sendOtp(phoneNumber);
-      // Note: We don't update auth state here because we don't have a user yet.
-      // We might want to store that an OTP has been sent for this phone number.
+      final dio = _ref.read(dioProvider);
+      await dio.post(
+        ApiConstants.deliveryPartnerAuthSendOtp,
+        data: {'phone_number': phoneNumber},
+      );
     } catch (e) {
       rethrow;
     }
@@ -92,24 +86,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> verifyOtp(String phoneNumber, String otp) async {
     try {
-      final authRepository = _ref.read(authRepositoryProvider);
-      final user = await authRepository.verifyOtp(phoneNumber, otp);
-      await _updateAuthState(user);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> register(
-    String email,
-    String password,
-    Map<String, dynamic> profileData,
-  ) async {
-    try {
-      final authRepository = _ref.read(authRepositoryProvider);
-      // Assuming the authRepository has a register method; if not, we need to add it.
-      final user = await authRepository.register(email, password, profileData);
-      await _updateAuthState(user);
+      final dio = _ref.read(dioProvider);
+      final response = await dio.post(
+        ApiConstants.deliveryPartnerAuthVerifyOtp,
+        data: {'phone_number': phoneNumber, 'otp': otp},
+      );
+      final authService = _ref.read(authServiceProvider);
+      await authService.saveTokens(
+        accessToken: response.data['access_token'] as String?,
+        refreshToken: response.data['refresh_token'] as String?,
+      );
+      await _refreshState();
     } catch (e) {
       rethrow;
     }
@@ -118,15 +105,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> logout() async {
     final authService = _ref.read(authServiceProvider);
     await authService.logout();
-    // State will be updated via the authStateChanges listener
+    state = const AuthState(isAuthenticated: false);
   }
 
-  Future<void> _updateAuthState(dynamic user) async {
+  Future<void> _refreshState() async {
     final authService = _ref.read(authServiceProvider);
-    await authService.saveTokens(
-      accessToken: user.accessToken,
-      refreshToken: user.refreshToken,
-    );
     final userId = await authService.getUserId();
     final token = await authService.getAccessToken();
     final refreshToken = await authService.getRefreshToken();
@@ -137,15 +120,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       refreshToken: refreshToken,
     );
   }
-
-  @override
-  void dispose() {
-    _authSubscription?.cancel();
-    super.dispose();
-  }
 }
 
-/// Provider for auth notifier
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(ref);
 });

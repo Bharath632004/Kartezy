@@ -1,7 +1,8 @@
-// lib/core/services/auth_service.dart
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartezy_core/storage/secure_storage.dart';
-import 'package:delivery_mobile/features/authentication/provider/provider.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
+import 'package:kartezy_core/network/api_constants.dart';
 
 class AuthService {
   final Ref _ref;
@@ -12,7 +13,6 @@ class AuthService {
     final secureStorage = _ref.read(secureStorageProvider);
     final token = await secureStorage.read(key: 'accessToken');
     final isLoggedIn = token != null && token.isNotEmpty;
-    // Update the auth state provider
     _ref.read(authStateProvider.notifier).state = isLoggedIn;
     return isLoggedIn;
   }
@@ -29,25 +29,26 @@ class AuthService {
 
   Future<bool> refreshToken() async {
     try {
-      final refreshToken = await getRefreshToken();
-      if (refreshToken == null || refreshToken.isEmpty) {
-        return false;
-      }
-      final authRepository = _ref.read(authRepositoryProvider);
-      final user = await authRepository.refreshToken(refreshToken);
-      // Update stored tokens
+      final token = await getRefreshToken();
+      if (token == null || token.isEmpty) return false;
+
+      final dio = _ref.read(dioProvider);
+      final response = await dio.post(
+        ApiConstants.deliveryPartnerAuthRefresh,
+        data: {'refresh_token': token},
+      );
+
       final secureStorage = _ref.read(secureStorageProvider);
-      final accessToken = user.accessToken;
-      final refreshTokenValue = user.refreshToken;
-      if (accessToken == null) {
-        throw Exception('Access token is null');
+      final newAccessToken = response.data['access_token'] as String?;
+      final newRefreshToken = response.data['refresh_token'] as String?;
+
+      if (newAccessToken != null) {
+        await secureStorage.write(key: 'accessToken', value: newAccessToken);
       }
-      if (refreshTokenValue == null) {
-        throw Exception('Refresh token is null');
+      if (newRefreshToken != null) {
+        await secureStorage.write(key: 'refreshToken', value: newRefreshToken);
       }
-      await secureStorage.write(key: 'accessToken', value: accessToken);
-      await secureStorage.write(key: 'refreshToken', value: refreshTokenValue);
-      // Update auth state to true
+
       _ref.read(authStateProvider.notifier).state = true;
       return true;
     } catch (e) {
@@ -59,11 +60,9 @@ class AuthService {
     final secureStorage = _ref.read(secureStorageProvider);
     await secureStorage.delete(key: 'accessToken');
     await secureStorage.delete(key: 'refreshToken');
-    // Update auth state to false
     _ref.read(authStateProvider.notifier).state = false;
   }
 
-  // Additional methods for token storage
   Future<void> saveTokens({String? accessToken, String? refreshToken}) async {
     final secureStorage = _ref.read(secureStorageProvider);
     if (accessToken != null && accessToken.isNotEmpty) {
@@ -72,7 +71,6 @@ class AuthService {
     if (refreshToken != null && refreshToken.isNotEmpty) {
       await secureStorage.write(key: 'refreshToken', value: refreshToken);
     }
-    // Update auth state to true (assuming we have a token)
     _ref.read(authStateProvider.notifier).state = true;
   }
 
@@ -82,22 +80,18 @@ class AuthService {
   }
 }
 
-/// Provider to check if the user is logged in (StateProvider)
 final authStateProvider = StateProvider<bool>((ref) => false);
 
-/// Provider to initialize the auth state at app startup
 final initializeAuthProvider = FutureProvider<bool>((ref) async {
   final authService = ref.read(authServiceProvider);
   final isLoggedIn = await authService.isLoggedIn();
   return isLoggedIn;
 });
 
-/// Provider for auth service
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService(ref);
 });
 
-/// Provider to get the access token (Future)
 final accessTokenProvider = FutureProvider<String?>((ref) {
   final authService = ref.read(authServiceProvider);
   return authService.getAccessToken();

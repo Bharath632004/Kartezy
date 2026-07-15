@@ -1,10 +1,10 @@
 // lib/features/order_management/data/datasource/order_remote_data_source.dart
 import 'package:dio/dio.dart';
-import 'package:delivery_mobile/core/api/api_constants.dart';
+import 'package:kartezy_core/network/api_constants.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
 import 'package:delivery_mobile/shared/models/order_item.dart';
 import 'package:delivery_mobile/shared/models/order_timeline.dart';
-import 'package:kartezy_core/core/providers/network_provider.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderRemoteDataSource {
@@ -79,13 +79,13 @@ class OrderRemoteDataSource {
     final response = await _dio.get(
       '${ApiConstants.order}/history',
       queryParameters: {
-        'page': page': page,
+        'page': page,
         'limit': limit,
         'status': status,
-      },
+      }..removeWhere((key, value) => value == null),
     );
     return (response.data['data'] as List)
-        .map((json) => Order.fromJsonSfromJson(json))
+        .map((json) => Order.fromJson(json))
         .toList());
   }
 

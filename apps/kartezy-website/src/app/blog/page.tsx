@@ -148,9 +148,8 @@ const BlogHomePage = () => {
                       >
                         Read More
                       </Button>
-                    </Box>
-                  </CardContent>
-                </Card))
+                    </CardContent>
+                </Card>
               )}
             </Box>
           )}

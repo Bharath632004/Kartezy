@@ -51,7 +51,7 @@ const CheckoutPage = () => {
           originalPrice: 50,
           discount: 20,
           store: 'Bakery Corner',
-          deliveryTime': '15-20 mins',
+          'deliveryTime': '15-20 mins',
         },
         quantity: 1,
       },

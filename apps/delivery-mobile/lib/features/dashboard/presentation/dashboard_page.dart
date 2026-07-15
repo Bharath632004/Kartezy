@@ -80,15 +80,15 @@ class DashboardPage extends ConsumerWidget {
                   children: [
                     _buildEarningCard(
                       'Today',
-                      '\$${data['todayEarnings']?.toStringAsFixed(2) ?? '0.00'}',
+                      '₹${data['todayEarnings']?.toStringAsFixed(2) ?? '0.00'}',
                     ),
                     _buildEarningCard(
                       'Weekly',
-                      '\$${data['weeklyEarnings']?.toStringAsFixed(2) ?? '0.00'}',
+                      '₹${data['weeklyEarnings']?.toStringAsFixed(2) ?? '0.00'}',
                     ),
                     _buildEarningCard(
                       'Monthly',
-                      '\$${data['monthlyEarnings']?.toStringAsFixed(2) ?? '0.00'}',
+                      '₹${data['monthlyEarnings']?.toStringAsFixed(2) ?? '0.00'}',
                     ),
                   ],
                 ),
@@ -132,7 +132,7 @@ class DashboardPage extends ConsumerWidget {
                     ),
                     _buildMetricCard(
                       'Wallet',
-                      '\$${data['walletBalance'] ?? 0.00}',
+                      '₹${data['walletBalance'] ?? 0.00}',
                       Icons.account_balance_wallet,
                     ),
                     _buildMetricCard(

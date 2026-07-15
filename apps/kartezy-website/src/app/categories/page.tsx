@@ -1,6 +1,6 @@
 "use client";
 import { Box, Container, Grid, Typography, TextField, InputAdornment, Card, CardContent, Stack, Chip, Button } from '@mui/material';
-import { Search as SearchIcon, LocalGroceryStore, LocalCafe, LocalPizza, LocalFlorist, LocalPharmacy, Home, Favorite, Pets } from '@mui/icons/material';
+import { Search as SearchIcon, LocalGroceryStore, LocalCafe, LocalPizza, LocalFlorist, LocalPharmacy, Home, Favorite, Pets } from '@mui/icons-material';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';

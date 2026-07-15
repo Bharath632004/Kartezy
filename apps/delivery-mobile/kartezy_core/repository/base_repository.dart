@@ -13,23 +13,23 @@ abstract class BaseRepository {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.receiveTimeout:
         case DioExceptionType.sendTimeout:
-          return Left(Failure(message: 'Connection timeout'));
+          return Left(ServerFailure(message: 'Connection timeout'));
         case DioExceptionType.badResponse:
           return Left(
-            Failure(message: 'Bad response: ${error.response?.statusCode}'),
+            ServerFailure(message: 'Bad response: ${error.response?.statusCode}'),
           );
-        case DioExceptionType.cancelled:
-          return Left(Failure(message: 'Request cancelled'));
+        case DioExceptionType.connectionError:
+          return Left(ServerFailure(message: 'Connection error'));
         case DioExceptionType.unknown:
-          if (error.message!.contains('SocketException')) {
-            return Left(Failure(message: 'No internet connection'));
+          if (error.message?.contains('SocketException') ?? false) {
+            return Left(ServerFailure(message: 'No internet connection'));
           }
-          return Left(Failure(message: 'Unexpected error: ${error.message}'));
+          return Left(ServerFailure(message: 'Unexpected error: ${error.message}'));
         default:
-          return Left(Failure(message: 'Something went wrong'));
+          return Left(ServerFailure(message: 'Something went wrong'));
       }
     } else {
-      return Left(Failure(message: error.toString()));
+      return Left(ServerFailure(message: error.toString()));
     }
   }
 }

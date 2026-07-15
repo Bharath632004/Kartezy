@@ -7,7 +7,7 @@ import 'package:delivery_mobile/features/navigation/domain/usecase/cancel_naviga
 import 'package:delivery_mobile/features/navigation/domain/usecase/get_directions_use_case.dart';
 import 'package:delivery_mobile/features/navigation/domain/usecase/get_current_location_use_case.dart';
 import 'package:delivery_mobile/features/navigation/domain/usecase/get_location_stream_use_case.dart';
-import 'package:kratezy_core/core/providers/network_provider.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final navigationRemoteDataSourceProvider = Provider<NavigationRemoteDataSource>(

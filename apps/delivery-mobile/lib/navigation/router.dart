@@ -13,10 +13,10 @@ import 'package:kartezy_core/core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    refreshListenable: [
+    refreshListenable: Listenable.merge([
       ref.read(authStateProvider.notifier),
       ref.read(initializeAuthProvider.notifier),
-    ],
+    ]),
     redirect: (context, state) {
       final authState = ref.watch(authStateProvider);
       final isInitializing = ref

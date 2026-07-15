@@ -1,11 +1,11 @@
 // lib/features/navigation/data/datasource/navigation_remote_data_source.dart
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:delivery_mobile/core/config/app_constants.dart';
+import 'package:kartezy_core/config/app_constants.dart';
 import 'package:delivery_mobile/shared/models/route_info.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:kratezy_core/core/providers/network_provider.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NavigationRemoteDataSource {

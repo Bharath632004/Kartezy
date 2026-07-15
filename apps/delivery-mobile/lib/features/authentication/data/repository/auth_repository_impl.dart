@@ -1,6 +1,6 @@
 // lib/features/authentication/data/repository/auth_repository_impl.dart
-import 'package:delivery_mobile/core/storage/secure_storage.dart';
-import 'package:delivery_mobile/core/storage/hive_manager.dart';
+import 'package:kartezy_core/storage/secure_storage.dart';
+import 'package:kartezy_core/storage/hive_manager.dart';
 import 'package:delivery_mobile/features/authentication/domain/repository/auth_repository.dart';
 import 'package:delivery_mobile/features/authentication/data/datasource/auth_remote_data_source.dart';
 import 'package:delivery_mobile/shared/models/user.dart';

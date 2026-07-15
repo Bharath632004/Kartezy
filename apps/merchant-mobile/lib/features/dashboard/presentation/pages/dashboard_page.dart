@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:merchant_mobile/features/dashboard/providers.dart';
+import 'package:merchant_mobile/core/services/auth_service.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});

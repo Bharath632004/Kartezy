@@ -16,7 +16,7 @@ class DashboardState {
   factory DashboardState.loading() => const DashboardState(isLoading: true);
   factory DashboardState.success(Map<String, dynamic> data) =>
       DashboardState(isLoading: false, data: data);
-  Factory DashboardState.error(String error) =>
+  factory DashboardState.error(String error) =>
       DashboardState(isLoading: false, error: error);
 }
 

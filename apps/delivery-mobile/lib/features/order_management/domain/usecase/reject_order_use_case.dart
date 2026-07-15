@@ -1,5 +1,5 @@
 // lib/features/order_management/domain/usecase/reject_order_use_case.dart
-import 'package:delivery_mobile/features/order_management/domain/order_repository.dart';
+import 'package:delivery_mobile/features/order_management/domain/repository/order_repository.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

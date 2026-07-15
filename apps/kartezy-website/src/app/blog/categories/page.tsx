@@ -93,7 +93,7 @@ const BlogCategoriesPage = () => {
                       onClick={() => setSelectedCategory(category.name)}
                     >
                       <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                        <Folder fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+                        <Folder sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
                         <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
                           {category.name}
                         </Typography>

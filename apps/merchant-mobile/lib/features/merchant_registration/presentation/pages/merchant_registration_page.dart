@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:merchant_mobile/core/services/auth_service.dart';
 import 'package:merchant_mobile/features/merchant_registration/provider.dart';
 
 class MerchantRegistrationPage extends ConsumerStatefulWidget {

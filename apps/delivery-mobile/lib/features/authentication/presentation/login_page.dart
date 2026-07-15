@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:delivery_mobile/core/providers/auth_provider.dart';
+import 'package:kartezy_core/providers/auth_provider.dart';
 import 'package:delivery_mobile/shared/widgets/button.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
