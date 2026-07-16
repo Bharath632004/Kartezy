@@ -26,19 +26,27 @@ public class PrivacySettings extends AuditableEntity {
     @JoinColumn(name = "customer_profile_id", nullable = false)
     private CustomerProfile customerProfile;
     @Column(name = "profile_visible")
+    @Builder.Default
     private boolean profileVisible = true;
     @Column(name = "activity_visible")
+    @Builder.Default
     private boolean activityVisible = true;
     @Column(name = "location_sharing")
+    @Builder.Default
     private boolean locationSharing = false;
     @Column(name = "data_personalization")
+    @Builder.Default
     private boolean dataPersonalization = true;
     @Column(name = "ad_personalization")
+    @Builder.Default
     private boolean adPersonalization = true;
     @Column(name = "show_online_status")
+    @Builder.Default
     private boolean showOnlineStatus = true;
     @Column(name = "allow_message_from_everyone")
+    @Builder.Default
     private boolean allowMessageFromEveryone = false;
     @Column(name = "allow_friend_request_from_everyone")
+    @Builder.Default
     private boolean allowFriendRequestFromEveryone = false;
 }

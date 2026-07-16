@@ -40,22 +40,29 @@ public class CustomerProfile extends AuditableEntity {
     @Column(name = "profile_photo_url", length = 500)
     private String profilePhotoUrl;
     @Column(name = "email_verified")
+    @Builder.Default
     private boolean emailVerified = false;
     @Column(name = "phone_verified")
+    @Builder.Default
     private boolean phoneVerified = false;
     @Column(name = "mfa_enabled")
+    @Builder.Default
     private boolean mfaEnabled = false;
     // One-to-Many with Address
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Address> addresses = new HashSet<>();
     // One-to-Many with FavoriteStore
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<FavoriteStore> favoriteStores = new HashSet<>();
     // One-to-Many with FavoriteProduct
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<FavoriteProduct> favoriteProducts = new HashSet<>();
     // One-to-Many with Wishlist (maybe one wishlist per user? We'll make it a collection for now)
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Wishlist> wishlists = new HashSet<>();
     // One-to-One with NotificationPreference
     @OneToOne(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -74,6 +81,7 @@ public class CustomerProfile extends AuditableEntity {
     private UserPreference userPreference;
     // One-to-Many with Referral (as referrer)
     @OneToMany(mappedBy = "referrer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Referral> referralsMade = new HashSet<>();
     // One-to-One with ReferralReward (the rewards for this user)
     @OneToOne(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -89,15 +97,19 @@ public class CustomerProfile extends AuditableEntity {
     private WalletReference walletReference;
     // One-to-Many with ActivityLog
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<ActivityLog> activityLogs = new HashSet<>();
     // One-to-Many with SearchHistory
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<SearchHistory> searchHistories = new HashSet<>();
     // One-to-Many with DeviceHistory
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<DeviceHistory> deviceHistories = new HashSet<>();
     // One-to-Many with LoginHistory
     @OneToMany(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<LoginHistory> loginHistories = new HashSet<>();
     // One-to-One with DeleteAccountRequest (if any)
     @OneToOne(mappedBy = "customerProfile", cascade = CascadeType.ALL, orphanRemoval = true)

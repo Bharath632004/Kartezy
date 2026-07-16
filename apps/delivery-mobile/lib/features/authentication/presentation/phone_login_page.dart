@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:delivery_mobile/features/authentication/domain/usecase/send_otp_usecase.dart';
 import 'package:delivery_mobile/shared/widgets/button.dart';
-import 'package:delivery_mobile/features/authentication/presentation/otp_verification_page.dart';
 
 class PhoneLoginPage extends ConsumerStatefulWidget {
   const PhoneLoginPage({super.key});

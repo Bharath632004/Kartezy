@@ -241,9 +241,7 @@ class MarketingService {
   // Delete Sponsored Product
   Future<void> deleteSponsoredProduct(String id) async {
     try {
-      await _dio.delete(
-        '${ApiConstants.marketingSponsoredProducts}/$id',
-      );
+      await _dio.delete('${ApiConstants.marketingSponsoredProducts}/$id');
     } catch (e) {
       throw Exception('Failed to delete sponsored product: $e');
     }

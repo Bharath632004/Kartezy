@@ -40,6 +40,7 @@ import {
   MoneyOffOutlined,
   RestoreOutlined,
   SwapHorizOutlined,
+  Autorenew as AutorenewIcon,
 } from '@mui/icons-material';
 import { orderService } from '@/lib/api';
 
@@ -281,7 +282,7 @@ const OrdersList = () => {
                       </Tooltip>
                       <Tooltip title="Replacement">
                         <IconButton onClick={() => handleReplacementClick(order.id)}>
-                          <RefreshIcon />
+                          <AutorenewIcon />
                         </IconButton>
                       </Tooltip>
                     </>

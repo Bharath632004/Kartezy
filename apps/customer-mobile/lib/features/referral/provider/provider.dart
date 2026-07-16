@@ -10,7 +10,9 @@ import 'package:customer_mobile/features/referral/domain/usecase/get_referral_hi
 import 'package:customer_mobile/features/referral/domain/usecase/share_referral_code.dart';
 
 // Provider for referral remote data source
-final referralRemoteDataSourceProvider = Provider<ReferralRemoteDataSource>((ref) {
+final referralRemoteDataSourceProvider = Provider<ReferralRemoteDataSource>((
+  ref,
+) {
   final dioClient = ref.read(dioClientProvider);
   return ReferralRemoteDataSourceImpl(dioClient);
 });

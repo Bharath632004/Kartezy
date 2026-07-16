@@ -19,7 +19,8 @@ class AuthService {
 
   Future<void> loginWithEmail(String email, String password) async {
     try {
-      final response = await _dio.post(          ApiConstants.login,
+      final response = await _dio.post(
+        ApiConstants.login,
         data: {'email': email, 'password': password},
       );
       // Save tokens
@@ -34,10 +35,7 @@ class AuthService {
 
   Future<void> sendOtp(String phone) async {
     try {
-      await _dio.post(
-        ApiConstants.sendOtp,
-        data: {'phone': phone},
-      );
+      await _dio.post(ApiConstants.sendOtp, data: {'phone': phone});
     } catch (e) {
       throw Exception('Failed to send OTP: $e');
     }

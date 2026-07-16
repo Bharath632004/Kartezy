@@ -26,7 +26,9 @@ public class InventoryItem {
     @Column(length = 100)
     private String location;
     @Column(nullable = false)
+    @Builder.Default
     private Boolean lowStockAlertEnabled = true;
     @Column(nullable = false)
+    @Builder.Default
     private Integer lowStockThreshold = 10;
 }

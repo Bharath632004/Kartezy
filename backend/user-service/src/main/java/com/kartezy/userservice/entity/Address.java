@@ -42,6 +42,7 @@ public class Address extends AuditableEntity {
     @Column(name = "longitude")
     private Double longitude;
     @Column(name = "is_default")
+    @Builder.Default
     private boolean defaultAddress = false;
     @Column(name = "instructions", length = 500)
     private String instructions;

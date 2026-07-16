@@ -41,6 +41,7 @@ public class AddressDto {
     private String postalCode;
     private Double latitude;
     private Double longitude;
+    @Builder.Default
     private boolean defaultAddress = false;
     @Size(max = 500)
     private String instructions;

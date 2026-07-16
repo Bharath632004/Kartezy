@@ -20,6 +20,8 @@ public class WalletReferenceDto {
     @NotBlank
     @Size(max = 100)
     private String walletType; // e.g., WALLET, BANK, CARD
+    @Builder.Default
     private boolean isPrimary = false;
+    @Builder.Default
     private boolean isVerified = false;
 }

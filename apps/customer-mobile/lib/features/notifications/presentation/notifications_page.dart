@@ -14,8 +14,10 @@ class NotificationsPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () {},
-            child: Text('Mark All Read',
-                style: TextStyle(fontSize: 12, color: theme.primaryColor)),
+            child: Text(
+              'Mark All Read',
+              style: TextStyle(fontSize: 12, color: theme.primaryColor),
+            ),
           ),
         ],
       ),
@@ -29,17 +31,21 @@ class NotificationsPage extends ConsumerWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.08),
+                  color: theme.primaryColor.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.notifications_none_outlined,
-                    size: 48, color: theme.primaryColor),
+                child: Icon(
+                  Icons.notifications_none_outlined,
+                  size: 48,
+                  color: theme.primaryColor,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
                 'No notifications yet',
                 style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Text(

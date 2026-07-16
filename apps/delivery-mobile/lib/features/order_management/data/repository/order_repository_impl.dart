@@ -12,38 +12,32 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<List<Order>> getAvailableOrders() async {
-    final response = await _remoteDataSource.getAvailableOrders();
-    return response.map((e) => Order.fromJson(e)).toList();
+    return await _remoteDataSource.getAvailableOrders();
   }
 
   @override
   Future<Order> acceptOrder(String orderId) async {
-    final response = await _remoteDataSource.acceptOrder(orderId);
-    return Order.fromJson(response);
+    return await _remoteDataSource.acceptOrder(orderId);
   }
 
   @override
   Future<Order> rejectOrder(String orderId, String reason) async {
-    final response = await _remoteDataSource.rejectOrder(orderId, reason);
-    return Order.fromJson(response);
+    return await _remoteDataSource.rejectOrder(orderId, reason);
   }
 
   @override
   Future<Order> pickupOrder(String orderId, String otp) async {
-    final response = await _remoteDataSource.pickupOrder(orderId, otp);
-    return Order.fromJson(response);
+    return await _remoteDataSource.pickupOrder(orderId, otp);
   }
 
   @override
   Future<Order> verifyOtp(String orderId, String otp) async {
-    final response = await _remoteDataSource.verifyOtp(orderId, otp);
-    return Order.fromJson(response);
+    return await _remoteDataSource.verifyOtp(orderId, otp);
   }
 
   @override
   Future<Order> deliverOrder(String orderId) async {
-    final response = await _remoteDataSource.deliverOrder(orderId);
-    return Order.fromJson(response);
+    return await _remoteDataSource.deliverOrder(orderId);
   }
 
   @override
@@ -53,13 +47,12 @@ class OrderRepositoryImpl implements OrderRepository {
     List<String>? photos,
     String? notes,
   ) async {
-    final response = await _remoteDataSource.submitProofOfDelivery(
+    return await _remoteDataSource.submitProofOfDelivery(
       orderId,
       signature,
       photos,
       notes,
     );
-    return Order.fromJson(response);
   }
 
   @override
@@ -68,18 +61,16 @@ class OrderRepositoryImpl implements OrderRepository {
     int? limit,
     String? status,
   }) async {
-    final response = await _remoteDataSource.getOrderHistory(
+    return await _remoteDataSource.getOrderHistory(
       page: page,
       limit: limit,
       status: status,
     );
-    return response.map((e) => Order.fromJson(e)).toList();
   }
 
   @override
   Future<List<OrderTimeline>> getOrderTimeline(String orderId) async {
-    final response = await _remoteDataSource.getOrderTimeline(orderId);
-    return response.map((e) => OrderTimeline.fromJson(e)).toList();
+    return await _remoteDataSource.getOrderTimeline(orderId);
   }
 }
 

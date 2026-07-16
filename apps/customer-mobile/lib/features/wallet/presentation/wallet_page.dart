@@ -27,7 +27,10 @@ class WalletPage extends ConsumerWidget {
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [theme.primaryColor, theme.primaryColor.withOpacity(0.7)],
+                colors: [
+                  theme.primaryColor,
+                  theme.primaryColor.withValues(alpha: 0.7),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -39,7 +42,7 @@ class WalletPage extends ConsumerWidget {
                 Text(
                   'Total Balance',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
                   ),
                 ),
@@ -95,12 +98,17 @@ class WalletPage extends ConsumerWidget {
           Text(
             'Quick Actions',
             style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildActionChip(context, Icons.card_giftcard_outlined, 'Refer & Earn'),
+              _buildActionChip(
+                context,
+                Icons.card_giftcard_outlined,
+                'Refer & Earn',
+              ),
               const SizedBox(width: 12),
               _buildActionChip(context, Icons.redeem_outlined, 'Rewards'),
               const SizedBox(width: 12),
@@ -113,7 +121,8 @@ class WalletPage extends ConsumerWidget {
           Text(
             'Recent Transactions',
             style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 12),
           Center(
@@ -121,8 +130,11 @@ class WalletPage extends ConsumerWidget {
               padding: const EdgeInsets.all(32),
               child: Column(
                 children: [
-                  Icon(Icons.receipt_long_outlined,
-                      size: 48, color: Colors.grey[300]),
+                  Icon(
+                    Icons.receipt_long_outlined,
+                    size: 48,
+                    color: Colors.grey[300],
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     'No transactions yet',

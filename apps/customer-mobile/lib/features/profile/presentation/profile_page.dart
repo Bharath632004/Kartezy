@@ -61,26 +61,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadProfile,
-                        child: const Text('Retry'),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
                   ),
-                )
-              : _user == null
-                  ? const Center(child: Text('No profile data'))
-                  : _buildProfileContent(context),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _loadProfile,
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            )
+          : _user == null
+          ? const Center(child: Text('No profile data'))
+          : _buildProfileContent(context),
     );
   }
 
@@ -99,42 +99,22 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   : null,
               child: user.avatarUrl == null
                   ? Text(
-                      user.name.isNotEmpty
-                          ? user.name[0].toUpperCase()
-                          : '?',
+                      user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
                       style: const TextStyle(fontSize: 24),
                     )
                   : null,
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            'Name:',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          Text(
-            user.name,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          Text('Name:', style: Theme.of(context).textTheme.titleMedium),
+          Text(user.name, style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(height: 8),
-          Text(
-            'Email:',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          Text(
-            user.email,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          Text('Email:', style: Theme.of(context).textTheme.titleMedium),
+          Text(user.email, style: Theme.of(context).textTheme.bodyLarge),
           if (user.phone != null) ...[
             const SizedBox(height: 8),
-            Text(
-              'Phone:',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(
-              user.phone!,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+            Text('Phone:', style: Theme.of(context).textTheme.titleMedium),
+            Text(user.phone!, style: Theme.of(context).textTheme.bodyLarge),
           ],
           const Spacer(),
           SizedBox(

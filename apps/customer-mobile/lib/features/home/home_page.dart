@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:geolocator/geolocator.dart';
 
 class HomePage extends ConsumerWidget {
@@ -31,7 +29,7 @@ class HomePage extends ConsumerWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       theme.primaryColor,
-                      theme.primaryColor.withOpacity(0.9),
+                      theme.primaryColor.withValues(alpha: 0.9),
                     ],
                   ),
                 ),
@@ -48,7 +46,7 @@ class HomePage extends ConsumerWidget {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -65,17 +63,24 @@ class HomePage extends ConsumerWidget {
                                   Text(
                                     'Deliver to',
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.7),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       fontSize: 11,
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () async {
-                                      final position = await Geolocator.getCurrentPosition();
+                                      final position =
+                                          await Geolocator.getCurrentPosition();
                                       if (context.mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
                                           SnackBar(
-                                            content: Text('Location: ${position.latitude.toStringAsFixed(4)}, ${position.longitude.toStringAsFixed(4)}'),
+                                            content: Text(
+                                              'Location: ${position.latitude.toStringAsFixed(4)}, ${position.longitude.toStringAsFixed(4)}',
+                                            ),
                                             behavior: SnackBarBehavior.floating,
                                           ),
                                         );
@@ -94,7 +99,9 @@ class HomePage extends ConsumerWidget {
                                         const SizedBox(width: 4),
                                         Icon(
                                           Icons.keyboard_arrow_down,
-                                          color: Colors.white.withOpacity(0.8),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.8,
+                                          ),
                                           size: 18,
                                         ),
                                       ],
@@ -107,9 +114,12 @@ class HomePage extends ConsumerWidget {
                             Stack(
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.notifications_outlined,
-                                      color: Colors.white),
-                                  onPressed: () => context.push('/notifications'),
+                                  icon: const Icon(
+                                    Icons.notifications_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () =>
+                                      context.push('/notifications'),
                                 ),
                                 Positioned(
                                   right: 8,
@@ -130,16 +140,21 @@ class HomePage extends ConsumerWidget {
                               onTap: () => context.push('/wallet'),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 6),
+                                  horizontal: 10,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.account_balance_wallet_outlined,
-                                        color: Colors.white, size: 16),
+                                    const Icon(
+                                      Icons.account_balance_wallet_outlined,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
                                     const SizedBox(width: 4),
                                     Text(
                                       '₹0',
@@ -161,16 +176,22 @@ class HomePage extends ConsumerWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
                           elevation: 2,
-                          shadowColor: Colors.black.withOpacity(0.1),
+                          shadowColor: Colors.black.withValues(alpha: 0.1),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(12),
                             onTap: () => context.push('/search'),
                             child: Container(
                               height: 44,
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Row(
                                 children: [
-                                  Icon(Icons.search, color: Colors.grey[400], size: 20),
+                                  Icon(
+                                    Icons.search,
+                                    color: Colors.grey[400],
+                                    size: 20,
+                                  ),
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
@@ -187,8 +208,11 @@ class HomePage extends ConsumerWidget {
                                     color: Colors.grey[200],
                                   ),
                                   const SizedBox(width: 8),
-                                  Icon(Icons.mic_outlined,
-                                      color: theme.primaryColor, size: 20),
+                                  Icon(
+                                    Icons.mic_outlined,
+                                    color: theme.primaryColor,
+                                    size: 20,
+                                  ),
                                 ],
                               ),
                             ),
@@ -266,7 +290,7 @@ class HomePage extends ConsumerWidget {
                 Text(
                   'Limited time offers ending soon',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 12,
                   ),
                 ),
@@ -276,11 +300,23 @@ class HomePage extends ConsumerWidget {
                   children: [
                     _buildTimerChip('02'),
                     const SizedBox(width: 4),
-                    Text(':', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    Text(
+                      ':',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(width: 4),
                     _buildTimerChip('45'),
                     const SizedBox(width: 4),
-                    Text(':', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    Text(
+                      ':',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(width: 4),
                     _buildTimerChip('30'),
                   ],
@@ -292,7 +328,7 @@ class HomePage extends ConsumerWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.local_offer, color: Colors.white, size: 40),
@@ -306,7 +342,7 @@ class HomePage extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
@@ -353,7 +389,7 @@ class HomePage extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: categories.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               final cat = categories[index];
               return GestureDetector(
@@ -364,10 +400,14 @@ class HomePage extends ConsumerWidget {
                       width: 64,
                       height: 64,
                       decoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.08),
+                        color: theme.primaryColor.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Icon(cat.icon, color: theme.primaryColor, size: 28),
+                      child: Icon(
+                        cat.icon,
+                        color: theme.primaryColor,
+                        size: 28,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
@@ -375,7 +415,10 @@ class HomePage extends ConsumerWidget {
                       child: Text(
                         cat.name,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -421,13 +464,16 @@ class HomePage extends ConsumerWidget {
                 Text(
                   'on your first order! Use code WELCOME100',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -444,7 +490,11 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-          Icon(Icons.percent, color: Colors.white.withOpacity(0.3), size: 64),
+          Icon(
+            Icons.percent,
+            color: Colors.white.withValues(alpha: 0.3),
+            size: 64,
+          ),
         ],
       ),
     );
@@ -478,8 +528,8 @@ class HomePage extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: 0,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (_, __) => const SizedBox.shrink(),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
+            itemBuilder: (_, _) => const SizedBox.shrink(),
           ),
         ),
         // Empty state for stores
@@ -537,8 +587,8 @@ class HomePage extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: 0,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (_, __) => const SizedBox.shrink(),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
+            itemBuilder: (_, _) => const SizedBox.shrink(),
           ),
         ),
         Padding(
@@ -566,79 +616,6 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildProductCard(BuildContext context, ThemeData theme) {
-    return Container(
-      width: 150,
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-            child: Container(
-              height: 110,
-              color: Colors.grey[100],
-              child: const Center(
-                child: Icon(Icons.image_outlined, color: Colors.grey),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 120,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Container(
-                  width: 80,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(Icons.add, color: theme.primaryColor, size: 18),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _CategoryData {

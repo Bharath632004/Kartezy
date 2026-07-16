@@ -59,22 +59,18 @@ public class CategoryController {
                 .code(entity.getCode())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .parentId(entity.getParent() != null ? entity.getParent().getId() : null)
-                .active(entity.isActive())
+                .parentId(entity.getParentId())
+                .isActive(entity.isActive())
                 .build();
     }
     private Category toEntity(CategoryDto dto) {
-        Category parent = null;
-        if (dto.getParentId() != null) {
-            parent = categoryRepository.findById(dto.getParentId()).orElse(null);
-        }
         return Category.builder()
                 .id(dto.getId())
                 .code(dto.getCode())
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .parent(parent)
-                .active(dto.getActive())
+                .parentId(dto.getParentId())
+                .isActive(dto.isActive())
                 .build();
     }
 }

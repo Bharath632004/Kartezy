@@ -43,11 +43,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
   }) async {
     final response = await dioClient.get(
       ApiConstants.supportTickets,
-      queryParameters: {
-        'limit': limit,
-        'offset': offset,
-        'status': status,
-      },
+      queryParameters: {'limit': limit, 'offset': offset, 'status': status},
     );
 
     final List<dynamic> data = response.data['tickets'] as List<dynamic>;
@@ -96,9 +92,7 @@ class SupportRemoteDataSourceImpl implements SupportRemoteDataSource {
 
   @override
   Future<void> closeSupportTicket(String ticketId) async {
-    await dioClient.post(
-      '${ApiConstants.supportTickets}/$ticketId/close',
-    );
+    await dioClient.post('${ApiConstants.supportTickets}/$ticketId/close');
   }
 
   @override

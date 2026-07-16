@@ -11,7 +11,7 @@ public class ProductDocument {
     @Id private String id;
     @MultiField(mainField = @Field(type = FieldType.Text, analyzer = "standard"),
                 otherFields = {
-                    @InnerField(suffix = "autocomplete", type = FieldType.SearchAsYouType, analyzer = "autocomplete"),
+                    @InnerField(suffix = "autocomplete", type = FieldType.Text, analyzer = "autocomplete"),
                     @InnerField(suffix = "keyword", type = FieldType.Keyword)
                 })
     private String name;

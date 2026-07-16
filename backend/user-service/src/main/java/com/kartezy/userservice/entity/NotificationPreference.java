@@ -26,19 +26,27 @@ public class NotificationPreference extends AuditableEntity {
     @JoinColumn(name = "customer_profile_id", nullable = false)
     private CustomerProfile customerProfile;
     @Column(name = "email_enabled")
+    @Builder.Default
     private boolean emailEnabled = true;
     @Column(name = "sms_enabled")
+    @Builder.Default
     private boolean smsEnabled = true;
     @Column(name = "push_enabled")
+    @Builder.Default
     private boolean pushEnabled = true;
     @Column(name = "marketing_emails_enabled")
+    @Builder.Default
     private boolean marketingEmailsEnabled = true;
     @Column(name = "marketing_sms_enabled")
+    @Builder.Default
     private boolean marketingSmsEnabled = true;
     @Column(name = "marketing_push_enabled")
+    @Builder.Default
     private boolean marketingPushEnabled = true;
     @Column(name = "order_updates_enabled")
+    @Builder.Default
     private boolean orderUpdatesEnabled = true;
     @Column(name = "promotional_offers_enabled")
+    @Builder.Default
     private boolean promotionalOffersEnabled = true;
 }

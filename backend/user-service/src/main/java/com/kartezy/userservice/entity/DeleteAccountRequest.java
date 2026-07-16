@@ -32,6 +32,7 @@ public class DeleteAccountRequest extends AuditableEntity {
     private LocalDateTime scheduledDeletionDate;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Status status = Status.PENDING;
     @Column(name = "reason")
     @Size(max = 500)

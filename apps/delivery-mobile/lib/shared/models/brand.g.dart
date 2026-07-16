@@ -7,10 +7,10 @@ part of 'brand.dart';
 // **************************************************************************
 
 _$BrandImpl _$$BrandImplFromJson(Map<String, dynamic> json) => _$BrandImpl(
-  id: json['id'] as String,
-  name: json['name'] as String,
-  imageUrl: json['imageUrl'] as String,
-);
+      id: json['id'] as String,
+      name: json['name'] as String,
+      imageUrl: json['imageUrl'] as String,
+    );
 
 Map<String, dynamic> _$$BrandImplToJson(_$BrandImpl instance) =>
     <String, dynamic>{

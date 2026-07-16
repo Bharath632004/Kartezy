@@ -35,7 +35,9 @@ class GoRouterRefreshNotifier extends ChangeNotifier {
   void notify() => notifyListeners();
 }
 
-final goRouterRefreshNotifierProvider = Provider<GoRouterRefreshNotifier>((ref) {
+final goRouterRefreshNotifierProvider = Provider<GoRouterRefreshNotifier>((
+  ref,
+) {
   return GoRouterRefreshNotifier();
 });
 
@@ -57,7 +59,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final onboarding = state.uri.path == '/onboarding';
       final splash = state.uri.path == '/splash';
       final isAuthRoute =
-          loggingIn || signingUp || verifyingOtp || phoneLogin || onboarding || splash;
+          loggingIn ||
+          signingUp ||
+          verifyingOtp ||
+          phoneLogin ||
+          onboarding ||
+          splash;
 
       final isInitializing = ref
           .read(isInitializedProvider)
@@ -72,8 +79,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         return '/splash';
       }
 
-      final loggedIn =
-          ref.read(authStateProvider).isLoggedIn;
+      final loggedIn = ref.read(authStateProvider).isLoggedIn;
 
       // If not logged in and not on an auth route, redirect to login
       if (!loggedIn && !isAuthRoute) {

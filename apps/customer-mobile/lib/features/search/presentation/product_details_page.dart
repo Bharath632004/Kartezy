@@ -78,10 +78,7 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage>
       appBar: AppBar(
         title: Text(_product.name),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(Icons.share), onPressed: () {}),
           IconButton(
             icon: Icon(
               _product.isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -125,9 +122,7 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage>
                 controller: _tabController,
                 children: [
                   const ProductDescriptionTab(),
-                  ProductReviewsTab(
-                    productId: widget.productId,
-                  ),
+                  ProductReviewsTab(productId: widget.productId),
                   ProductRelatedItems(
                     productId: widget.productId,
                     categoryId: '',

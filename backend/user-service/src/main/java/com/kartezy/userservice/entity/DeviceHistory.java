@@ -49,6 +49,7 @@ public class DeviceHistory extends AuditableEntity {
     @Column(name = "last_used")
     private LocalDateTime lastUsed;
     @Column(name = "is_active")
+    @Builder.Default
     private boolean isActive = false;
     @Column(name = "latitude")
     private Double latitude;

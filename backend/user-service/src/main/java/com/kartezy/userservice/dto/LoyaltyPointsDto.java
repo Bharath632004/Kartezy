@@ -14,8 +14,11 @@ public class LoyaltyPointsDto {
     private UUID id;
     @NotNull
     private UUID customerProfileId;
+    @Builder.Default
     private Long currentPoints = 0L;
+    @Builder.Default
     private Long totalEarned = 0L;
+    @Builder.Default
     private Long totalRedeemed = 0L;
     @NotBlank
     @Size(max = 20)

@@ -231,21 +231,6 @@ export default function CustomersPage() {
               },
             }}
           >
-            {/* Override the actions column rendering */}
-            {columns.map((col) =>
-              col.field === 'actions' ? (
-                <GridColDef
-                  key={col.field}
-                  field={col.field}
-                  headerName={col.headerName}
-                  width={col.width}
-                  sortable={col.sortable}
-                  renderCell={renderActions}
-                />
-              ) : (
-                <GridColDef key={col.field} {...col} />
-              )
-            )}
           </DataGrid>
         </Box>
       </Container>

@@ -10,9 +10,7 @@ class WishlistPage extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Wishlist'),
-      ),
+      appBar: AppBar(title: const Text('My Wishlist')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -23,17 +21,21 @@ class WishlistPage extends ConsumerWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.pink.withOpacity(0.08),
+                  color: Colors.pink.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.favorite_outline,
-                    size: 48, color: Colors.pink[300]),
+                child: Icon(
+                  Icons.favorite_outline,
+                  size: 48,
+                  color: Colors.pink[300],
+                ),
               ),
               const SizedBox(height: 24),
               Text(
                 'Your wishlist is empty',
                 style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -47,9 +49,13 @@ class WishlistPage extends ConsumerWidget {
                 icon: const Icon(Icons.explore_outlined),
                 label: const Text('Discover Products'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 14,
+                  ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ],

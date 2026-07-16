@@ -36,10 +36,14 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
 
     try {
       // Get referral code
-      final referralCode = await ref.read(getReferralCodeProvider).call(NoParams());
+      final referralCode = await ref
+          .read(getReferralCodeProvider)
+          .call(NoParams());
 
       // Get referral history
-      final referralHistory = await ref.read(getReferralHistoryProvider).call(NoParams());
+      final referralHistory = await ref
+          .read(getReferralHistoryProvider)
+          .call(NoParams());
 
       if (mounted) {
         setState(() {
@@ -66,10 +70,9 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
     });
 
     try {
-      await ref.read(shareReferralCodeProvider).call(ShareReferralCodeParams(
-        code: _referral!.code,
-        method: method,
-      ));
+      await ref
+          .read(shareReferralCodeProvider)
+          .call(ShareReferralCodeParams(code: _referral!.code, method: method));
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

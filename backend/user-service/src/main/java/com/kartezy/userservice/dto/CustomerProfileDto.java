@@ -37,12 +37,19 @@ public class CustomerProfileDto {
     private String occupation;
     @Size(max = 500)
     private String profilePhotoUrl;
+    @Builder.Default
     private boolean emailVerified = false;
+    @Builder.Default
     private boolean phoneVerified = false;
+    @Builder.Default
     private boolean mfaEnabled = false;
+    @Builder.Default
     private Set<AddressDto> addresses = java.util.Set.of();
+    @Builder.Default
     private Set<FavoriteStoreDto> favoriteStores = java.util.Set.of();
+    @Builder.Default
     private Set<FavoriteProductDto> favoriteProducts = java.util.Set.of();
+    @Builder.Default
     private Set<WishlistDto> wishlists = java.util.Set.of();
     private NotificationPreferenceDto notificationPreference;
     private LanguagePreferenceDto languagePreference;

@@ -1,7 +1,7 @@
 // lib/features/earnings_wallet/data/datasource/wallet_remote_data_source.dart
 import 'package:dio/dio.dart';
 import 'package:delivery_mobile/shared/models/wallet.dart';
-import 'package:kartezy_core/core/providers/network_provider.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WalletRemoteDataSource {

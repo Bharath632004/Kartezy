@@ -26,15 +26,21 @@ public class ReferralReward extends AuditableEntity {
     @JoinColumn(name = "customer_profile_id", nullable = false)
     private CustomerProfile customerProfile;
     @Column(name = "total_referrals")
+    @Builder.Default
     private int totalReferrals = 0;
     @Column(name = "successful_referrals")
+    @Builder.Default
     private int successfulReferrals = 0;
     @Column(name = "pending_referrals")
+    @Builder.Default
     private int pendingReferrals = 0;
     @Column(name = "total_earned")
+    @Builder.Default
     private Double totalEarned = 0.0;
     @Column(name = "total_redeemed")
+    @Builder.Default
     private Double totalRedeemed = 0.0;
     @Column(name = "available_balance")
+    @Builder.Default
     private Double availableBalance = 0.0;
 }

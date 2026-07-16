@@ -1,5 +1,4 @@
 // lib/features/navigation/data/datasource/navigation_remote_data_source.dart
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:kartezy_core/config/app_constants.dart';
 import 'package:delivery_mobile/shared/models/route_info.dart';
@@ -80,7 +79,7 @@ class NavigationRemoteDataSource {
       }
 
       double totalDistance = 0;
-      int totalDuration = 0;
+      num totalDuration = 0;
       LatLng? startPoint;
       LatLng? endPoint;
 
@@ -105,7 +104,7 @@ class NavigationRemoteDataSource {
         startPoint: startPoint!,
         endPoint: endPoint!,
         totalDistance: totalDistance / 1000.0, // Convert to km
-        estimatedDuration: Duration(seconds: totalDuration),
+        estimatedDuration: Duration(seconds: totalDuration.toInt()),
       );
       routes.add(routeInfo);
     }

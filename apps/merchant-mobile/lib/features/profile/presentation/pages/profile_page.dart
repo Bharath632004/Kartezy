@@ -19,7 +19,9 @@ class ProfilePage extends ConsumerWidget {
           // Profile Header
           Container(
             padding: const EdgeInsets.all(24),
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
+            color: Theme.of(
+              context,
+            ).colorScheme.primary.withValues(alpha: 0.05),
             child: Row(
               children: [
                 CircleAvatar(
@@ -57,19 +59,23 @@ class ProfilePage extends ConsumerWidget {
                         Container(
                           margin: const EdgeInsets.only(top: 4),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: profile?['approval_status'] == 'approved'
                                 ? Colors.green
                                 : profile?['approval_status'] == 'rejected'
-                                    ? Colors.red
-                                    : Colors.orange,
+                                ? Colors.red
+                                : Colors.orange,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             '${profile?['approval_status'] ?? ''}',
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 11),
+                              color: Colors.white,
+                              fontSize: 11,
+                            ),
                           ),
                         ),
                     ],
@@ -173,7 +179,9 @@ class ProfilePage extends ConsumerWidget {
     return ListTile(
       leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
       title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle, style: const TextStyle(fontSize: 12)) : null,
+      subtitle: subtitle != null
+          ? Text(subtitle, style: const TextStyle(fontSize: 12))
+          : null,
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );

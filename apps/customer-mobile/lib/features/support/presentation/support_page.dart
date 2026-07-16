@@ -14,7 +14,9 @@ class SupportPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(ticketId != null ? 'Ticket #$ticketId' : 'Help & Support'),
       ),
-      body: ticketId != null ? _buildTicketDetail(context, theme) : _buildSupportHome(context, theme),
+      body: ticketId != null
+          ? _buildTicketDetail(context, theme)
+          : _buildSupportHome(context, theme),
     );
   }
 
@@ -27,7 +29,10 @@ class SupportPage extends ConsumerWidget {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [theme.primaryColor, theme.primaryColor.withOpacity(0.8)],
+              colors: [
+                theme.primaryColor,
+                theme.primaryColor.withValues(alpha: 0.8),
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -49,10 +54,15 @@ class SupportPage extends ConsumerWidget {
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Search help articles...',
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.6)),
-                  prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.8)),
+                  hintStyle: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.white.withValues(alpha: 0.8),
+                  ),
                   filled: true,
-                  fillColor: Colors.white.withOpacity(0.15),
+                  fillColor: Colors.white.withValues(alpha: 0.15),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -68,14 +78,40 @@ class SupportPage extends ConsumerWidget {
         Text(
           'Quick Help',
           style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 12),
-        _buildHelpOption(context, Icons.chat_outlined, 'Live Chat', 'Chat with our support team'),
-        _buildHelpOption(context, Icons.phone_outlined, 'Call Us', 'Speak to a representative'),
-        _buildHelpOption(context, Icons.email_outlined, 'Email Support', 'We\'ll respond within 24 hrs'),
-        _buildHelpOption(context, Icons.article_outlined, 'FAQs', 'Find answers to common questions'),
-        _buildHelpOption(context, Icons.confirmation_number_outlined, 'My Tickets', 'Track your support tickets'),
+        _buildHelpOption(
+          context,
+          Icons.chat_outlined,
+          'Live Chat',
+          'Chat with our support team',
+        ),
+        _buildHelpOption(
+          context,
+          Icons.phone_outlined,
+          'Call Us',
+          'Speak to a representative',
+        ),
+        _buildHelpOption(
+          context,
+          Icons.email_outlined,
+          'Email Support',
+          'We\'ll respond within 24 hrs',
+        ),
+        _buildHelpOption(
+          context,
+          Icons.article_outlined,
+          'FAQs',
+          'Find answers to common questions',
+        ),
+        _buildHelpOption(
+          context,
+          Icons.confirmation_number_outlined,
+          'My Tickets',
+          'Track your support tickets',
+        ),
 
         const SizedBox(height: 24),
 
@@ -83,7 +119,8 @@ class SupportPage extends ConsumerWidget {
         Text(
           'Frequently Asked Questions',
           style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 12),
         ExpansionTile(
@@ -126,7 +163,12 @@ class SupportPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHelpOption(BuildContext context, IconData icon, String title, String subtitle) {
+  Widget _buildHelpOption(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String subtitle,
+  ) {
     final theme = Theme.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -140,12 +182,15 @@ class SupportPage extends ConsumerWidget {
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(0.08),
+            color: theme.primaryColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: theme.primaryColor, size: 22),
         ),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+        ),
         subtitle: Text(subtitle, style: const TextStyle(fontSize: 12)),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {},
@@ -168,22 +213,34 @@ class SupportPage extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Ticket #$ticketId',
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        'Ticket #$ticketId',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.orange[50],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text('Open',
-                            style: TextStyle(color: Colors.orange[700], fontSize: 12)),
+                        child: Text(
+                          'Open',
+                          style: TextStyle(
+                            color: Colors.orange[700],
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text('Order related inquiry',
-                      style: TextStyle(color: Colors.grey[600])),
+                  Text(
+                    'Order related inquiry',
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
                   const SizedBox(height: 16),
                   TextField(
                     maxLines: 3,

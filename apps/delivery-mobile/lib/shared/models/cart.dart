@@ -1,22 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 import 'package:delivery_mobile/shared/models/cart_item.dart';
 
 part 'cart.freezed.dart';
 part 'cart.g.dart';
 
 @freezed
-class Cart with _$Cart, EquatableMixin {
+class Cart with _$Cart {
   const Cart._();
   const factory Cart({
     required String id,
-    required String? userId, // nullable for guest cart
+    required String? userId,
     required List<CartItem> items,
     required String? couponCode,
     required double discountAmount,
     required double totalAmount,
     required int itemCount,
-    // Additional fields for charge breakdown
     required double platformFee,
     required double deliveryCharges,
     required double packagingFee,
@@ -36,12 +34,8 @@ class Cart with _$Cart, EquatableMixin {
   }
 
   double get discount => discountAmount;
-
   double get deliveryFee => deliveryCharges;
-
   double get tax => gstAmount;
-
   String? get coupon => couponCode;
-
   double get total => netAmount;
 }

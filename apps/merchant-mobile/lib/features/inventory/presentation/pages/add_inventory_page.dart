@@ -38,7 +38,9 @@ class _AddInventoryPageState extends ConsumerState<AddInventoryPage> {
         quantity: int.tryParse(_quantityController.text) ?? 0,
         location: _locationController.text,
       );
-      await ref.read(inventoryNotifierProvider.notifier).createInventory(inventory);
+      await ref
+          .read(inventoryNotifierProvider.notifier)
+          .createInventory(inventory);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Inventory added successfully')),
@@ -47,9 +49,9 @@ class _AddInventoryPageState extends ConsumerState<AddInventoryPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add inventory: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to add inventory: $e')));
       }
     } finally {
       if (mounted) setState(() => _isSaving = false);

@@ -45,7 +45,7 @@ class ProductListPage extends ConsumerWidget {
                         : null,
                     title: Text(product.name ?? 'Unnamed'),
                     subtitle: Text(
-                      'SKU: ${product.sku ?? 'N/A'} | ₹${product.price?.toStringAsFixed(2) ?? '0.00'}'
+                      'SKU: ${product.sku ?? 'N/A'} | ₹${product.price?.toStringAsFixed(2) ?? '0.00'}',
                     ),
                     trailing: PopupMenuButton<String>(
                       onSelected: (value) async {
@@ -97,7 +97,9 @@ class ProductListPage extends ConsumerWidget {
                                   : Icons.radio_button_unchecked,
                             ),
                             title: Text(
-                              '${product.isActive ?? false ? 'Deactivate' : 'Activate'}',
+                              product.isActive ?? false
+                                  ? 'Deactivate'
+                                  : 'Activate',
                             ),
                           ),
                         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class CartPage extends ConsumerWidget {
   const CartPage({super.key});
@@ -35,17 +34,21 @@ class CartPage extends ConsumerWidget {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: theme.primaryColor.withOpacity(0.08),
+                color: theme.primaryColor.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.shopping_cart_outlined,
-                  size: 48, color: theme.primaryColor),
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                size: 48,
+                color: theme.primaryColor,
+              ),
             ),
             const SizedBox(height: 24),
             Text(
               'Your cart is empty',
               style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
@@ -59,9 +62,13 @@ class CartPage extends ConsumerWidget {
               icon: const Icon(Icons.explore_outlined),
               label: const Text('Explore Stores'),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
           ],

@@ -20,6 +20,8 @@ public class ThemePreferenceDto {
     @NotBlank
     @Size(max = 20)
     private String accentColor; // e.g., BLUE, GREEN, RED, PURPLE
+    @Builder.Default
     private boolean systemThemeEnabled = false;
+    @Builder.Default
     private boolean autoDarkMode = false;
 }

@@ -226,7 +226,7 @@ export const useCMSStore = create<CMSState>()(
         set((state) => ({ banners: [...state.banners, banner] })),
       updateBanner: (id, banner) =>
         set((state) => ({
-          бanners: state.banners.map((b) =>
+          banners: state.banners.map((b) =>
             b.id === id ? { ...b, ...banner } : b
           ),
         })),

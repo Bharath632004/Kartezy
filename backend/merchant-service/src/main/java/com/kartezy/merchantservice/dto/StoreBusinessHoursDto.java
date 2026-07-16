@@ -9,6 +9,9 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
+/**
+ * Data Transfer Object for Store Business Hours.
+ */
 @Getter
 @Setter
 @Builder
@@ -21,39 +24,4 @@ public class StoreBusinessHoursDto {
     private LocalTime openTime;
     private LocalTime closeTime;
     private Boolean isOpen;
-}
-
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class StoreFollowDto {
-    private UUID storeId;
-    private UUID userId;
-}
-
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class StoreSearchDto {
-    private UUID id;
-    private UUID merchantId;
-    private String name;
-    private String description;
-    private String category;
-    private String logoUrl;
-    private String bannerUrl;
-    private String city;
-    private String state;
-    private Double latitude;
-    private Double longitude;
-    private Double distance;
-    private String status;
-    private Boolean isOpen;
-    private Double rating;
-    private Long totalRatings;
-    private boolean isFollowing;
 }

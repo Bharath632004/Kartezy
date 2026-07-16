@@ -286,7 +286,7 @@ public class OrderService {
         return OrderStatsDto.builder()
             .totalOrders(total).pendingOrders(pending).activeOrders(active)
             .deliveredOrders(delivered).cancelledOrders(cancelled).returnedOrders(returned)
-            .totalRevenue(totalRevenue).averageOrderValue(total > 0 ? totalRevenue.divide(BigDecimal.valueOf(total), BigDecimal.ROUND_HALF_UP) : BigDecimal.ZERO.doubleValue())
+            .totalRevenue(totalRevenue).averageOrderValue(total > 0 ? totalRevenue.divide(BigDecimal.valueOf(total), BigDecimal.ROUND_HALF_UP).doubleValue() : 0.0)
             .totalItemsSold(allOrders.stream().mapToLong(o -> orderItemRepository.findByOrderId(o.getId()).size()).sum())
             .build();
     }

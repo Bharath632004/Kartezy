@@ -14,13 +14,22 @@ public class UserPreferenceDto {
     private UUID id;
     @NotNull
     private UUID customerProfileId;
+    @Builder.Default
     private boolean notificationSound = true;
+    @Builder.Default
     private boolean vibrationEnabled = true;
+    @Builder.Default
     private boolean autoPlayVideos = true;
+    @Builder.Default
     private boolean dataSaverMode = false;
+    @Builder.Default
     private boolean autoUpdate = true;
+    @Builder.Default
     private boolean helpTipsEnabled = true;
+    @Builder.Default
     private boolean orderNotifications = true;
+    @Builder.Default
     private boolean promotionalNotifications = true;
+    @Builder.Default
     private boolean newsletterSubscription = false;
 }

@@ -12,7 +12,8 @@ part of 'order_item.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 OrderItem _$OrderItemFromJson(Map<String, dynamic> json) {
   return _OrderItem.fromJson(json);
@@ -41,15 +42,16 @@ abstract class $OrderItemCopyWith<$Res> {
   factory $OrderItemCopyWith(OrderItem value, $Res Function(OrderItem) then) =
       _$OrderItemCopyWithImpl<$Res, OrderItem>;
   @useResult
-  $Res call(
-      {String id,
-      String productId,
-      String productName,
-      double price,
-      int quantity,
-      Map<String, String> selectedVariants,
-      double total,
-      Product product});
+  $Res call({
+    String id,
+    String productId,
+    String productName,
+    double price,
+    int quantity,
+    Map<String, String> selectedVariants,
+    double total,
+    Product product,
+  });
 
   $ProductCopyWith<$Res> get product;
 }
@@ -76,40 +78,43 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
     Object? total = null,
     Object? product = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      productId: null == productId
-          ? _value.productId
-          : productId // ignore: cast_nullable_to_non_nullable
-              as String,
-      productName: null == productName
-          ? _value.productName
-          : productName // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      quantity: null == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectedVariants: null == selectedVariants
-          ? _value.selectedVariants
-          : selectedVariants // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as double,
-      product: null == product
-          ? _value.product
-          : product // ignore: cast_nullable_to_non_nullable
-              as Product,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            productId: null == productId
+                ? _value.productId
+                : productId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            productName: null == productName
+                ? _value.productName
+                : productName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            quantity: null == quantity
+                ? _value.quantity
+                : quantity // ignore: cast_nullable_to_non_nullable
+                      as int,
+            selectedVariants: null == selectedVariants
+                ? _value.selectedVariants
+                : selectedVariants // ignore: cast_nullable_to_non_nullable
+                      as Map<String, String>,
+            total: null == total
+                ? _value.total
+                : total // ignore: cast_nullable_to_non_nullable
+                      as double,
+            product: null == product
+                ? _value.product
+                : product // ignore: cast_nullable_to_non_nullable
+                      as Product,
+          )
+          as $Val,
+    );
   }
 
   @override
@@ -125,19 +130,21 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
 abstract class _$$OrderItemImplCopyWith<$Res>
     implements $OrderItemCopyWith<$Res> {
   factory _$$OrderItemImplCopyWith(
-          _$OrderItemImpl value, $Res Function(_$OrderItemImpl) then) =
-      __$$OrderItemImplCopyWithImpl<$Res>;
+    _$OrderItemImpl value,
+    $Res Function(_$OrderItemImpl) then,
+  ) = __$$OrderItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String productId,
-      String productName,
-      double price,
-      int quantity,
-      Map<String, String> selectedVariants,
-      double total,
-      Product product});
+  $Res call({
+    String id,
+    String productId,
+    String productName,
+    double price,
+    int quantity,
+    Map<String, String> selectedVariants,
+    double total,
+    Product product,
+  });
 
   @override
   $ProductCopyWith<$Res> get product;
@@ -148,8 +155,9 @@ class __$$OrderItemImplCopyWithImpl<$Res>
     extends _$OrderItemCopyWithImpl<$Res, _$OrderItemImpl>
     implements _$$OrderItemImplCopyWith<$Res> {
   __$$OrderItemImplCopyWithImpl(
-      _$OrderItemImpl _value, $Res Function(_$OrderItemImpl) _then)
-      : super(_value, _then);
+    _$OrderItemImpl _value,
+    $Res Function(_$OrderItemImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -163,56 +171,58 @@ class __$$OrderItemImplCopyWithImpl<$Res>
     Object? total = null,
     Object? product = null,
   }) {
-    return _then(_$OrderItemImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      productId: null == productId
-          ? _value.productId
-          : productId // ignore: cast_nullable_to_non_nullable
-              as String,
-      productName: null == productName
-          ? _value.productName
-          : productName // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      quantity: null == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      selectedVariants: null == selectedVariants
-          ? _value._selectedVariants
-          : selectedVariants // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as double,
-      product: null == product
-          ? _value.product
-          : product // ignore: cast_nullable_to_non_nullable
-              as Product,
-    ));
+    return _then(
+      _$OrderItemImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        productId: null == productId
+            ? _value.productId
+            : productId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        productName: null == productName
+            ? _value.productName
+            : productName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+        quantity: null == quantity
+            ? _value.quantity
+            : quantity // ignore: cast_nullable_to_non_nullable
+                  as int,
+        selectedVariants: null == selectedVariants
+            ? _value._selectedVariants
+            : selectedVariants // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>,
+        total: null == total
+            ? _value.total
+            : total // ignore: cast_nullable_to_non_nullable
+                  as double,
+        product: null == product
+            ? _value.product
+            : product // ignore: cast_nullable_to_non_nullable
+                  as Product,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$OrderItemImpl implements _OrderItem {
-  const _$OrderItemImpl(
-      {required this.id,
-      required this.productId,
-      required this.productName,
-      required this.price,
-      required this.quantity,
-      required final Map<String, String> selectedVariants,
-      required this.total,
-      required this.product})
-      : _selectedVariants = selectedVariants;
+  const _$OrderItemImpl({
+    required this.id,
+    required this.productId,
+    required this.productName,
+    required this.price,
+    required this.quantity,
+    required final Map<String, String> selectedVariants,
+    required this.total,
+    required this.product,
+  }) : _selectedVariants = selectedVariants;
 
   factory _$OrderItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderItemImplFromJson(json);
@@ -235,7 +245,7 @@ class _$OrderItemImpl implements _OrderItem {
     return EqualUnmodifiableMapView(_selectedVariants);
   }
 
-// e.g., {'size': 'M', 'color': 'Red'}
+  // e.g., {'size': 'M', 'color': 'Red'}
   @override
   final double total;
   @override
@@ -259,8 +269,10 @@ class _$OrderItemImpl implements _OrderItem {
             (identical(other.price, price) || other.price == price) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedVariants, _selectedVariants) &&
+            const DeepCollectionEquality().equals(
+              other._selectedVariants,
+              _selectedVariants,
+            ) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.product, product) || other.product == product));
   }
@@ -268,15 +280,16 @@ class _$OrderItemImpl implements _OrderItem {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      productId,
-      productName,
-      price,
-      quantity,
-      const DeepCollectionEquality().hash(_selectedVariants),
-      total,
-      product);
+    runtimeType,
+    id,
+    productId,
+    productName,
+    price,
+    quantity,
+    const DeepCollectionEquality().hash(_selectedVariants),
+    total,
+    product,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -286,22 +299,21 @@ class _$OrderItemImpl implements _OrderItem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$OrderItemImplToJson(
-      this,
-    );
+    return _$$OrderItemImplToJson(this);
   }
 }
 
 abstract class _OrderItem implements OrderItem {
-  const factory _OrderItem(
-      {required final String id,
-      required final String productId,
-      required final String productName,
-      required final double price,
-      required final int quantity,
-      required final Map<String, String> selectedVariants,
-      required final double total,
-      required final Product product}) = _$OrderItemImpl;
+  const factory _OrderItem({
+    required final String id,
+    required final String productId,
+    required final String productName,
+    required final double price,
+    required final int quantity,
+    required final Map<String, String> selectedVariants,
+    required final double total,
+    required final Product product,
+  }) = _$OrderItemImpl;
 
   factory _OrderItem.fromJson(Map<String, dynamic> json) =
       _$OrderItemImpl.fromJson;

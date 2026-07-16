@@ -13,7 +13,8 @@ class _SupportPageState extends State<SupportPage> {
   static const List<Map<String, String>> _faqs = [
     {
       'q': 'How do I add a new product?',
-      'a': 'Go to Products → tap + icon → fill in product details → tap Add Product.',
+      'a':
+          'Go to Products → tap + icon → fill in product details → tap Add Product.',
     },
     {
       'q': 'How do I manage inventory?',
@@ -27,11 +28,13 @@ class _SupportPageState extends State<SupportPage> {
     },
     {
       'q': 'How do I view my earnings?',
-      'a': 'Visit the Finance Dashboard to see revenue, settlements, and wallet balance.',
+      'a':
+          'Visit the Finance Dashboard to see revenue, settlements, and wallet balance.',
     },
     {
       'q': 'How do I contact support?',
-      'a': 'Use the contact options below to reach our support team via email or phone.',
+      'a':
+          'Use the contact options below to reach our support team via email or phone.',
     },
   ];
 
@@ -67,35 +70,35 @@ class _SupportPageState extends State<SupportPage> {
           // FAQ Section
           Text(
             'Frequently Asked Questions',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           ..._faqs.asMap().entries.map(
-                (entry) => Card(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: ExpansionTile(
-                    title: Text(entry.value['q']!),
-                    initiallyExpanded: _expandedFaqs.contains(entry.key),
-                    onExpansionChanged: (expanded) {
-                      setState(() {
-                        if (expanded) {
-                          _expandedFaqs.add(entry.key);
-                        } else {
-                          _expandedFaqs.remove(entry.key);
-                        }
-                      });
-                    },
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        child: Text(entry.value['a']!),
-                      ),
-                    ],
+            (entry) => Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              child: ExpansionTile(
+                title: Text(entry.value['q']!),
+                initiallyExpanded: _expandedFaqs.contains(entry.key),
+                onExpansionChanged: (expanded) {
+                  setState(() {
+                    if (expanded) {
+                      _expandedFaqs.add(entry.key);
+                    } else {
+                      _expandedFaqs.remove(entry.key);
+                    }
+                  });
+                },
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: Text(entry.value['a']!),
                   ),
-                ),
+                ],
               ),
+            ),
+          ),
           const SizedBox(height: 24),
           // Report Issue
           Card(
@@ -133,7 +136,9 @@ class _SupportPageState extends State<SupportPage> {
                           Navigator.pop(ctx);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Issue reported. We will look into it.'),
+                              content: Text(
+                                'Issue reported. We will look into it.',
+                              ),
                               behavior: SnackBarBehavior.floating,
                             ),
                           );
@@ -160,7 +165,9 @@ class _SupportPageState extends State<SupportPage> {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+          backgroundColor: Theme.of(
+            context,
+          ).colorScheme.primary.withValues(alpha: 0.1),
           child: Icon(icon, color: Theme.of(context).colorScheme.primary),
         ),
         title: Text(title),

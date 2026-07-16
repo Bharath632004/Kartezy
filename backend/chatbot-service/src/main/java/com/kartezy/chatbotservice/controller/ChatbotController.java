@@ -1,49 +1,59 @@
 package com.kartezy.chatbotservice.controller;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.kartezy.chatbotservice.service.ChatbotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
+
+import java.util.List;
 import java.util.Map;
-/**
- * REST controller for chatbot service.
- * Provides an endpoint for interacting with the chatbot.
- */
+
 @RestController
 @RequestMapping("/chatbot")
 public class ChatbotController {
+
     @Autowired
     private ChatbotService chatbotService;
-    /**
-     * Sends a message to the chatbot and returns the response.
-     * @param message the user's message
-     * @param context optional context (e.g., user ID, session ID) as JSON string
-     * @return the chatbot's response
-     */
+
     @PostMapping("/chat")
     public ResponseEntity<Map<String, Object>> chat(
-            @RequestParam String message,
-            @RequestParam(required = false) String context) {
-        Map<String, Object> ctx = new HashMap<>();
-        if (context != null && !context.isEmpty()) {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                ctx = objectMapper.readValue(context, new TypeReference<Map<String, Object>>() {});
-            } catch (JsonProcessingException e) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Invalid JSON context"));
-            }
-        }
-        return ResponseEntity.ok(chatbotService.getResponse(message, ctx));
+            @RequestBody Map<String, String> request) {
+        String userId = request.get("userId");
+        String message = request.get("message");
+        String context = request.getOrDefault("context", null);
+        return ResponseEntity.ok(chatbotService.getResponse(userId, message, context));
     }
-    /**
-     * Health check endpoint.
-     * @return a simple status message
-     */
+
+    @GetMapping("/suggestions/{userId}")
+    public ResponseEntity<List<String>> getSuggestions(@PathVariable String userId) {
+        return ResponseEntity.ok(chatbotService.getSuggestions(userId));
+    }
+
+    @PostMapping("/train")
+    public ResponseEntity<Map<String, String>> trainModel(@RequestBody Map<String, Object> request) {
+        return ResponseEntity.ok(chatbotService.trainModel(request));
+    }
+
+    @PostMapping("/feedback")
+    public ResponseEntity<Map<String, String>> submitFeedback(@RequestBody Map<String, Object> request) {
+        String conversationId = (String) request.get("conversationId");
+        String feedback = (String) request.getOrDefault("feedback", "");
+        int rating = (int) request.getOrDefault("rating", 0);
+        return ResponseEntity.ok(chatbotService.submitFeedback(conversationId, feedback, rating));
+    }
+
+    @GetMapping("/history/{userId}")
+    public ResponseEntity<List<Map<String, Object>>> getConversationHistory(@PathVariable String userId) {
+        return ResponseEntity.ok(chatbotService.getConversationHistory(userId));
+    }
+
+    @GetMapping("/analytics/{userId}")
+    public ResponseEntity<Map<String, Object>> getConversationAnalytics(@PathVariable String userId) {
+        return ResponseEntity.ok(chatbotService.getConversationAnalytics(userId));
+    }
+
     @GetMapping("/health")
-    public ResponseEntity<String> health() {
-        return ResponseEntity.ok("Chatbot service is healthy");
+    public ResponseEntity<Map<String, String>> health() {
+        return ResponseEntity.ok(Map.of("status", "UP", "service", "chatbot-service"));
     }
 }

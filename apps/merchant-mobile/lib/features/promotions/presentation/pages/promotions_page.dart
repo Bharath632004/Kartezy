@@ -91,12 +91,16 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.edit),
-                            onPressed: () =>
-                                _editPromotion(context, promotion['id']?.toString() ?? ''),
+                            onPressed: () => _editPromotion(
+                              context,
+                              promotion['id']?.toString() ?? '',
+                            ),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () => _deletePromotion(promotion['id']?.toString() ?? ''),
+                            onPressed: () => _deletePromotion(
+                              promotion['id']?.toString() ?? '',
+                            ),
                           ),
                         ],
                       ),
@@ -178,16 +182,16 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                 await ref
                     .read(promotionProvider.notifier)
                     .createPromotion(promotionData);
-                if (!mounted) return;
+                if (!context.mounted) return;
                 Navigator.pop(context);
-                if (!mounted) return;
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Promotion created successfully'),
                   ),
                 );
               } catch (e) {
-                if (mounted) {
+                if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Failed to create promotion: $e')),
                   );
@@ -205,7 +209,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
     try {
       final promotionService = ref.read(promotionServiceProvider);
       final promotion = await promotionService.getPromotionById(id);
-      if (!mounted) return;
+      if (!context.mounted) return;
 
       final TextEditingController nameController = TextEditingController(
         text: promotion['name'],
@@ -281,6 +285,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                   await ref
                       .read(promotionProvider.notifier)
                       .updatePromotion(id, promotionData);
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -288,7 +293,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                     ),
                   );
                 } catch (e) {
-                  if (mounted) {
+                  if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Failed to update promotion: $e')),
                     );
@@ -301,7 +306,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
         ),
       );
     } catch (e) {
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Error loading promotion: $e')));
@@ -324,6 +329,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
             onPressed: () async {
               try {
                 await ref.read(promotionProvider.notifier).deletePromotion(id);
+                if (!context.mounted) return;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -331,7 +337,7 @@ class _PromotionsPageState extends ConsumerState<PromotionsPage> {
                   ),
                 );
               } catch (e) {
-                if (mounted) {
+                if (context.mounted) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Failed to delete promotion: $e')),

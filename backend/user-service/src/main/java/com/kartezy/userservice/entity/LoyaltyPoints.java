@@ -26,14 +26,18 @@ public class LoyaltyPoints extends AuditableEntity {
     @JoinColumn(name = "customer_profile_id", nullable = false)
     private CustomerProfile customerProfile;
     @Column(name = "current_points")
+    @Builder.Default
     private Long currentPoints = 0L;
     @Column(name = "total_earned")
+    @Builder.Default
     private Long totalEarned = 0L;
     @Column(name = "total_redeemed")
+    @Builder.Default
     private Long totalRedeemed = 0L;
     @NotBlank
     @Size(max = 20)
     @Column(name = "tier", length = 20)
+    @Builder.Default
     private String tier = "BRONZE"; // BRONZE, SILVER, GOLD, PLATINUM
     @Column(name = "last_updated")
     private Long lastUpdated;

@@ -15,8 +15,9 @@ _$TrackingInfoImpl _$$TrackingInfoImplFromJson(Map<String, dynamic> json) =>
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
       distanceRemaining: (json['distanceRemaining'] as num).toDouble(),
       eta: Duration(microseconds: (json['eta'] as num).toInt()),
-      currentLocation:
-          _latLngFromJson(json['currentLocation'] as Map<String, dynamic>),
+      currentLocation: _latLngFromJson(
+        json['currentLocation'] as Map<String, dynamic>,
+      ),
     );
 
 Map<String, dynamic> _$$TrackingInfoImplToJson(_$TrackingInfoImpl instance) =>

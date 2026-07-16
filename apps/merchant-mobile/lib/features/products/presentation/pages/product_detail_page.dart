@@ -122,7 +122,9 @@ class ProductDetailPage extends ConsumerWidget {
                   _buildInfoRow(
                     context,
                     'Is Active',
-                    '${productState.selectedProduct!.isActive ?? false ? 'Yes' : 'No'}',
+                    productState.selectedProduct!.isActive ?? false
+                        ? 'Yes'
+                        : 'No',
                   ),
                   const SizedBox(height: 16),
                   const Divider(),

@@ -54,6 +54,4 @@ class NotificationRepositoryImpl implements NotificationRepository {
   Stream<List<Notification>> notificationStream() {
     return _remoteDataSource.notificationStream();
   }
-
-
 }

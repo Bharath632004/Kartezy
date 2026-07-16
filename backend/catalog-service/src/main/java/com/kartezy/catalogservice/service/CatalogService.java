@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class CatalogService {
             .map(this::toEnhancedDto).collect(Collectors.toList());
     }
 
-    public List<ProductSearchDto> searchProducts(String query) {
+    public List<ProductEnhancedDto.ProductSearchDto> searchProducts(String query) {
         return productRepository.findByNameContainingIgnoreCase(query).stream()
             .map(this::toSearchDto).collect(Collectors.toList());
     }
@@ -87,7 +88,7 @@ public class CatalogService {
 
         if (dto.getVariants() != null && !dto.getVariants().isEmpty()) {
             product.setHasVariants(true);
-            for (ProductVariantDto vDto : dto.getVariants()) {
+            for (ProductEnhancedDto.ProductVariantDto vDto : dto.getVariants()) {
                 ProductVariant variant = ProductVariant.builder()
                     .productId(product.getId()).sku(vDto.getSku()).name(vDto.getName())
                     .price(vDto.getPrice()).compareAtPrice(vDto.getCompareAtPrice() != null ? vDto.getCompareAtPrice() : BigDecimal.ZERO)
@@ -153,13 +154,13 @@ public class CatalogService {
     }
 
     // Brand operations
-    public List<BrandDto> getBrands() {
+    public List<ProductEnhancedDto.BrandDto> getBrands() {
         return brandRepository.findByIsActiveTrue().stream()
             .map(this::toBrandDto).collect(Collectors.toList());
     }
 
     @Transactional
-    public BrandDto createBrand(BrandDto dto) {
+    public ProductEnhancedDto.BrandDto createBrand(ProductEnhancedDto.BrandDto dto) {
         Brand brand = Brand.builder()
             .name(dto.getName()).description(dto.getDescription())
             .logoUrl(dto.getLogoUrl()).website(dto.getWebsite()).build();
@@ -206,8 +207,8 @@ public class CatalogService {
             .build();
     }
 
-    private ProductVariantDto toVariantDto(ProductVariant v) {
-        return ProductVariantDto.builder()
+    private ProductEnhancedDto.ProductVariantDto toVariantDto(ProductVariant v) {
+        return ProductEnhancedDto.ProductVariantDto.builder()
             .id(v.getId()).sku(v.getSku()).name(v.getName())
             .price(v.getPrice()).compareAtPrice(v.getCompareAtPrice())
             .option1Name(v.getOption1Name()).option1Value(v.getOption1Value())
@@ -216,8 +217,8 @@ public class CatalogService {
             .stock(v.getStock()).isActive(v.isActive()).imageUrl(v.getImageUrl()).build();
     }
 
-    private BrandDto toBrandDto(Brand b) {
-        return BrandDto.builder()
+    private ProductEnhancedDto.BrandDto toBrandDto(Brand b) {
+        return ProductEnhancedDto.BrandDto.builder()
             .id(b.getId()).name(b.getName()).description(b.getDescription())
             .logoUrl(b.getLogoUrl()).website(b.getWebsite())
             .isActive(b.isActive()).createdAt(b.getCreatedAt()).build();
@@ -230,8 +231,8 @@ public class CatalogService {
             .sortOrder(c.getSortOrder()).isActive(c.isActive()).build();
     }
 
-    private ProductSearchDto toSearchDto(Product p) {
-        return ProductSearchDto.builder()
+    private ProductEnhancedDto.ProductSearchDto toSearchDto(Product p) {
+        return ProductEnhancedDto.ProductSearchDto.builder()
             .id(p.getId()).name(p.getName()).sku(p.getSku())
             .price(p.getPrice()).compareAtPrice(p.getCompareAtPrice())
             .stock(p.getStock()).status(p.getStatus().name())

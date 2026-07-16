@@ -21,32 +21,31 @@ Map<String, dynamic> _$$RewardPointsImplToJson(_$RewardPointsImpl instance) =>
     };
 
 _$RewardTransactionImpl _$$RewardTransactionImplFromJson(
-  Map<String, dynamic> json,
-) => _$RewardTransactionImpl(
-  id: json['id'] as String,
-  type: json['type'] as String,
-  points: (json['points'] as num).toInt(),
-  description: json['description'] as String,
-  timestamp: DateTime.parse(json['timestamp'] as String),
-);
+        Map<String, dynamic> json) =>
+    _$RewardTransactionImpl(
+      id: json['id'] as String,
+      type: json['type'] as String,
+      points: (json['points'] as num).toInt(),
+      description: json['description'] as String,
+      timestamp: DateTime.parse(json['timestamp'] as String),
+    );
 
 Map<String, dynamic> _$$RewardTransactionImplToJson(
-  _$RewardTransactionImpl instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'type': instance.type,
-  'points': instance.points,
-  'description': instance.description,
-  'timestamp': instance.timestamp.toIso8601String(),
-};
+        _$RewardTransactionImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': instance.type,
+      'points': instance.points,
+      'description': instance.description,
+      'timestamp': instance.timestamp.toIso8601String(),
+    };
 
 _$RewardLevelImpl _$$RewardLevelImplFromJson(Map<String, dynamic> json) =>
     _$RewardLevelImpl(
       level: json['level'] as String,
       minPoints: (json['minPoints'] as num).toInt(),
-      benefits: (json['benefits'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      benefits:
+          (json['benefits'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$RewardLevelImplToJson(_$RewardLevelImpl instance) =>
@@ -57,11 +56,11 @@ Map<String, dynamic> _$$RewardLevelImplToJson(_$RewardLevelImpl instance) =>
     };
 
 _$RewardImpl _$$RewardImplFromJson(Map<String, dynamic> json) => _$RewardImpl(
-  id: json['id'] as String,
-  name: json['name'] as String,
-  description: json['description'] as String,
-  pointsRequired: (json['pointsRequired'] as num).toInt(),
-);
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      pointsRequired: (json['pointsRequired'] as num).toInt(),
+    );
 
 Map<String, dynamic> _$$RewardImplToJson(_$RewardImpl instance) =>
     <String, dynamic>{

@@ -12,7 +12,8 @@ part of 'search_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SearchResult _$SearchResultFromJson(Map<String, dynamic> json) {
   return _SearchResult.fromJson(json);
@@ -37,17 +38,19 @@ mixin _$SearchResult {
 /// @nodoc
 abstract class $SearchResultCopyWith<$Res> {
   factory $SearchResultCopyWith(
-          SearchResult value, $Res Function(SearchResult) then) =
-      _$SearchResultCopyWithImpl<$Res, SearchResult>;
+    SearchResult value,
+    $Res Function(SearchResult) then,
+  ) = _$SearchResultCopyWithImpl<$Res, SearchResult>;
   @useResult
-  $Res call(
-      {List<Product> products,
-      List<Store> stores,
-      List<Brand> brands,
-      List<Category> categories,
-      List<String> suggestions,
-      Map<String, dynamic>? facets,
-      int totalResults});
+  $Res call({
+    List<Product> products,
+    List<Store> stores,
+    List<Brand> brands,
+    List<Category> categories,
+    List<String> suggestions,
+    Map<String, dynamic>? facets,
+    int totalResults,
+  });
 }
 
 /// @nodoc
@@ -71,36 +74,39 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
     Object? facets = freezed,
     Object? totalResults = null,
   }) {
-    return _then(_value.copyWith(
-      products: null == products
-          ? _value.products
-          : products // ignore: cast_nullable_to_non_nullable
-              as List<Product>,
-      stores: null == stores
-          ? _value.stores
-          : stores // ignore: cast_nullable_to_non_nullable
-              as List<Store>,
-      brands: null == brands
-          ? _value.brands
-          : brands // ignore: cast_nullable_to_non_nullable
-              as List<Brand>,
-      categories: null == categories
-          ? _value.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
-      suggestions: null == suggestions
-          ? _value.suggestions
-          : suggestions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      facets: freezed == facets
-          ? _value.facets
-          : facets // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      totalResults: null == totalResults
-          ? _value.totalResults
-          : totalResults // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            products: null == products
+                ? _value.products
+                : products // ignore: cast_nullable_to_non_nullable
+                      as List<Product>,
+            stores: null == stores
+                ? _value.stores
+                : stores // ignore: cast_nullable_to_non_nullable
+                      as List<Store>,
+            brands: null == brands
+                ? _value.brands
+                : brands // ignore: cast_nullable_to_non_nullable
+                      as List<Brand>,
+            categories: null == categories
+                ? _value.categories
+                : categories // ignore: cast_nullable_to_non_nullable
+                      as List<Category>,
+            suggestions: null == suggestions
+                ? _value.suggestions
+                : suggestions // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            facets: freezed == facets
+                ? _value.facets
+                : facets // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            totalResults: null == totalResults
+                ? _value.totalResults
+                : totalResults // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -108,18 +114,20 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
 abstract class _$$SearchResultImplCopyWith<$Res>
     implements $SearchResultCopyWith<$Res> {
   factory _$$SearchResultImplCopyWith(
-          _$SearchResultImpl value, $Res Function(_$SearchResultImpl) then) =
-      __$$SearchResultImplCopyWithImpl<$Res>;
+    _$SearchResultImpl value,
+    $Res Function(_$SearchResultImpl) then,
+  ) = __$$SearchResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<Product> products,
-      List<Store> stores,
-      List<Brand> brands,
-      List<Category> categories,
-      List<String> suggestions,
-      Map<String, dynamic>? facets,
-      int totalResults});
+  $Res call({
+    List<Product> products,
+    List<Store> stores,
+    List<Brand> brands,
+    List<Category> categories,
+    List<String> suggestions,
+    Map<String, dynamic>? facets,
+    int totalResults,
+  });
 }
 
 /// @nodoc
@@ -127,8 +135,9 @@ class __$$SearchResultImplCopyWithImpl<$Res>
     extends _$SearchResultCopyWithImpl<$Res, _$SearchResultImpl>
     implements _$$SearchResultImplCopyWith<$Res> {
   __$$SearchResultImplCopyWithImpl(
-      _$SearchResultImpl _value, $Res Function(_$SearchResultImpl) _then)
-      : super(_value, _then);
+    _$SearchResultImpl _value,
+    $Res Function(_$SearchResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -141,56 +150,58 @@ class __$$SearchResultImplCopyWithImpl<$Res>
     Object? facets = freezed,
     Object? totalResults = null,
   }) {
-    return _then(_$SearchResultImpl(
-      products: null == products
-          ? _value._products
-          : products // ignore: cast_nullable_to_non_nullable
-              as List<Product>,
-      stores: null == stores
-          ? _value._stores
-          : stores // ignore: cast_nullable_to_non_nullable
-              as List<Store>,
-      brands: null == brands
-          ? _value._brands
-          : brands // ignore: cast_nullable_to_non_nullable
-              as List<Brand>,
-      categories: null == categories
-          ? _value._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
-      suggestions: null == suggestions
-          ? _value._suggestions
-          : suggestions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      facets: freezed == facets
-          ? _value._facets
-          : facets // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      totalResults: null == totalResults
-          ? _value.totalResults
-          : totalResults // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$SearchResultImpl(
+        products: null == products
+            ? _value._products
+            : products // ignore: cast_nullable_to_non_nullable
+                  as List<Product>,
+        stores: null == stores
+            ? _value._stores
+            : stores // ignore: cast_nullable_to_non_nullable
+                  as List<Store>,
+        brands: null == brands
+            ? _value._brands
+            : brands // ignore: cast_nullable_to_non_nullable
+                  as List<Brand>,
+        categories: null == categories
+            ? _value._categories
+            : categories // ignore: cast_nullable_to_non_nullable
+                  as List<Category>,
+        suggestions: null == suggestions
+            ? _value._suggestions
+            : suggestions // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        facets: freezed == facets
+            ? _value._facets
+            : facets // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        totalResults: null == totalResults
+            ? _value.totalResults
+            : totalResults // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SearchResultImpl implements _SearchResult {
-  const _$SearchResultImpl(
-      {required final List<Product> products,
-      required final List<Store> stores,
-      required final List<Brand> brands,
-      required final List<Category> categories,
-      required final List<String> suggestions,
-      required final Map<String, dynamic>? facets,
-      required this.totalResults})
-      : _products = products,
-        _stores = stores,
-        _brands = brands,
-        _categories = categories,
-        _suggestions = suggestions,
-        _facets = facets;
+  const _$SearchResultImpl({
+    required final List<Product> products,
+    required final List<Store> stores,
+    required final List<Brand> brands,
+    required final List<Category> categories,
+    required final List<String> suggestions,
+    required final Map<String, dynamic>? facets,
+    required this.totalResults,
+  }) : _products = products,
+       _stores = stores,
+       _brands = brands,
+       _categories = categories,
+       _suggestions = suggestions,
+       _facets = facets;
 
   factory _$SearchResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchResultImplFromJson(json);
@@ -261,10 +272,14 @@ class _$SearchResultImpl implements _SearchResult {
             const DeepCollectionEquality().equals(other._products, _products) &&
             const DeepCollectionEquality().equals(other._stores, _stores) &&
             const DeepCollectionEquality().equals(other._brands, _brands) &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories) &&
-            const DeepCollectionEquality()
-                .equals(other._suggestions, _suggestions) &&
+            const DeepCollectionEquality().equals(
+              other._categories,
+              _categories,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._suggestions,
+              _suggestions,
+            ) &&
             const DeepCollectionEquality().equals(other._facets, _facets) &&
             (identical(other.totalResults, totalResults) ||
                 other.totalResults == totalResults));
@@ -273,14 +288,15 @@ class _$SearchResultImpl implements _SearchResult {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_products),
-      const DeepCollectionEquality().hash(_stores),
-      const DeepCollectionEquality().hash(_brands),
-      const DeepCollectionEquality().hash(_categories),
-      const DeepCollectionEquality().hash(_suggestions),
-      const DeepCollectionEquality().hash(_facets),
-      totalResults);
+    runtimeType,
+    const DeepCollectionEquality().hash(_products),
+    const DeepCollectionEquality().hash(_stores),
+    const DeepCollectionEquality().hash(_brands),
+    const DeepCollectionEquality().hash(_categories),
+    const DeepCollectionEquality().hash(_suggestions),
+    const DeepCollectionEquality().hash(_facets),
+    totalResults,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -290,21 +306,20 @@ class _$SearchResultImpl implements _SearchResult {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SearchResultImplToJson(
-      this,
-    );
+    return _$$SearchResultImplToJson(this);
   }
 }
 
 abstract class _SearchResult implements SearchResult {
-  const factory _SearchResult(
-      {required final List<Product> products,
-      required final List<Store> stores,
-      required final List<Brand> brands,
-      required final List<Category> categories,
-      required final List<String> suggestions,
-      required final Map<String, dynamic>? facets,
-      required final int totalResults}) = _$SearchResultImpl;
+  const factory _SearchResult({
+    required final List<Product> products,
+    required final List<Store> stores,
+    required final List<Brand> brands,
+    required final List<Category> categories,
+    required final List<String> suggestions,
+    required final Map<String, dynamic>? facets,
+    required final int totalResults,
+  }) = _$SearchResultImpl;
 
   factory _SearchResult.fromJson(Map<String, dynamic> json) =
       _$SearchResultImpl.fromJson;

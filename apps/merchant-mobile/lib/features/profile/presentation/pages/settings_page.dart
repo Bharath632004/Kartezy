@@ -160,9 +160,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     ],
                   ),
                 );
-                if (confirm == true && mounted) {
+                if (confirm == true && context.mounted) {
                   await ref.read(authServiceProvider).logout();
-                  if (mounted) {
+                  if (context.mounted) {
                     GoRouter.of(context).go('/login');
                   }
                 }

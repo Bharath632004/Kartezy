@@ -130,9 +130,7 @@ class OrderHistoryItem extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
-            order.items.isNotEmpty
-                ? order.items.first.product.imageUrl
-                : '',
+            order.items.isNotEmpty ? order.items.first.product.imageUrl : '',
             width: 60,
             height: 60,
             fit: BoxFit.cover,

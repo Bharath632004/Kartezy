@@ -1,6 +1,4 @@
-// lib/shared/models/order.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 import 'package:delivery_mobile/shared/models/address.dart';
 import 'package:delivery_mobile/shared/models/order_item.dart';
 
@@ -8,14 +6,12 @@ part 'order.freezed.dart';
 part 'order.g.dart';
 
 @freezed
-class Order with _$Order, EquatableMixin {
+class Order with _$Order {
   const factory Order({
     required String id,
-    required String? userId, // nullable for guest user
-    required String cartId, // id of the cart that was converted to order
-    required List<OrderItem>
-    items, // snapshot of cart items at the time of order
-    // Financial breakdown (similar to Cart)
+    required String? userId,
+    required String cartId,
+    required List<OrderItem> items,
     required double discountAmount,
     required double totalAmount,
     required int itemCount,
@@ -26,21 +22,17 @@ class Order with _$Order, EquatableMixin {
     required double tipAmount,
     required double walletAmount,
     required double netAmount,
-    // Delivery details
     required Address deliveryAddress,
-    required Address? billingAddress, // optional, if different from delivery
-    required String
-    orderStatus, // e.g., 'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'
-    required String
-    paymentStatus, // e.g., 'pending', 'paid', 'failed', 'refunded'
-    required String?
-    paymentMethod, // e.g., 'razorpay', 'cashfree', 'stripe', 'phonepe', 'google_pay', 'paytm', 'upi', 'credit_card', 'debit_card', 'net_banking', 'wallet', 'cod'
+    required Address? billingAddress,
+    required String orderStatus,
+    required String paymentStatus,
+    required String? paymentMethod,
     required String? deliveryInstructions,
     required bool contactlessDelivery,
-    required DateTime? deliverySlotStart, // for scheduled delivery
+    required DateTime? deliverySlotStart,
     required DateTime? deliverySlotEnd,
     required DateTime estimatedDeliveryTime,
-    required String? couponCode, // if any coupon applied
+    required String? couponCode,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Order;

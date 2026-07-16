@@ -22,7 +22,7 @@ class DashboardState {
 
 // Define the notifier
 class DashboardNotifier extends StateNotifier<DashboardState> {
-  DashboardNotifier() : super(const DashboardState.loading()) {
+  DashboardNotifier() : super(DashboardState.loading()) {
     _loadDashboardData();
   }
 
@@ -49,7 +49,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   }
 
   Future<void> refresh() async {
-    state = const DashboardState.loading();
+    state = DashboardState.loading();
     await _loadDashboardData();
   }
 }

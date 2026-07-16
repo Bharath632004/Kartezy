@@ -9,9 +9,7 @@ class MembershipPage extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kartezy Plus'),
-      ),
+      appBar: AppBar(title: const Text('Kartezy Plus')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -35,8 +33,11 @@ class MembershipPage extends ConsumerWidget {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.workspace_premium,
-                      color: Colors.amber[700], size: 32),
+                  child: Icon(
+                    Icons.workspace_premium,
+                    color: Colors.amber[700],
+                    size: 32,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -51,7 +52,7 @@ class MembershipPage extends ConsumerWidget {
                 Text(
                   'Unlock exclusive benefits & savings',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 13,
                   ),
                 ),
@@ -64,17 +65,34 @@ class MembershipPage extends ConsumerWidget {
           Text(
             'Membership Benefits',
             style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 12),
-          _buildBenefitTile(context, Icons.local_shipping_outlined, 'Free Delivery',
-              'Unlimited free delivery on all orders'),
-          _buildBenefitTile(context, Icons.discount_outlined, 'Extra Discounts',
-              'Up to 20% extra discount on selected products'),
-          _buildBenefitTile(context, Icons.flash_on_outlined, 'Priority Delivery',
-              'Faster delivery with priority processing'),
-          _buildBenefitTile(context, Icons.support_agent_outlined, 'Priority Support',
-              '24/7 dedicated customer support'),
+          _buildBenefitTile(
+            context,
+            Icons.local_shipping_outlined,
+            'Free Delivery',
+            'Unlimited free delivery on all orders',
+          ),
+          _buildBenefitTile(
+            context,
+            Icons.discount_outlined,
+            'Extra Discounts',
+            'Up to 20% extra discount on selected products',
+          ),
+          _buildBenefitTile(
+            context,
+            Icons.flash_on_outlined,
+            'Priority Delivery',
+            'Faster delivery with priority processing',
+          ),
+          _buildBenefitTile(
+            context,
+            Icons.support_agent_outlined,
+            'Priority Support',
+            '24/7 dedicated customer support',
+          ),
 
           const SizedBox(height: 24),
 
@@ -82,31 +100,27 @@ class MembershipPage extends ConsumerWidget {
           Text(
             'Choose Your Plan',
             style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
-                child: _buildPlanCard(
-                  context,
-                  'Monthly',
-                  '₹99',
-                  '/mo',
-                  ['Free delivery', '5% extra discount', 'Priority support'],
-                  false,
-                ),
+                child: _buildPlanCard(context, 'Monthly', '₹99', '/mo', [
+                  'Free delivery',
+                  '5% extra discount',
+                  'Priority support',
+                ], false),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _buildPlanCard(
-                  context,
-                  'Yearly',
-                  '₹999',
-                  '/yr',
-                  ['Free delivery', '20% extra discount', 'Priority support', 'Free gifts'],
-                  true,
-                ),
+                child: _buildPlanCard(context, 'Yearly', '₹999', '/yr', [
+                  'Free delivery',
+                  '20% extra discount',
+                  'Priority support',
+                  'Free gifts',
+                ], true),
               ),
             ],
           ),
@@ -115,7 +129,12 @@ class MembershipPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildBenefitTile(BuildContext context, IconData icon, String title, String subtitle) {
+  Widget _buildBenefitTile(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String subtitle,
+  ) {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -125,7 +144,7 @@ class MembershipPage extends ConsumerWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: theme.primaryColor.withOpacity(0.08),
+              color: theme.primaryColor.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: theme.primaryColor, size: 22),
@@ -135,10 +154,17 @@ class MembershipPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                Text(subtitle,
-                    style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -148,17 +174,20 @@ class MembershipPage extends ConsumerWidget {
   }
 
   Widget _buildPlanCard(
-      BuildContext context,
-      String name,
-      String price,
-      String period,
-      List<String> benefits,
-      bool recommended) {
+    BuildContext context,
+    String name,
+    String price,
+    String period,
+    List<String> benefits,
+    bool recommended,
+  ) {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: recommended ? theme.primaryColor.withOpacity(0.05) : theme.cardColor,
+        color: recommended
+            ? theme.primaryColor.withValues(alpha: 0.05)
+            : theme.cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: recommended ? theme.primaryColor : Colors.grey[200]!,
@@ -184,31 +213,41 @@ class MembershipPage extends ConsumerWidget {
               ),
             ),
           if (recommended) const SizedBox(height: 8),
-          Text(name,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Text(
+            name,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(price,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 28)),
-              Text(period,
-                  style: TextStyle(color: Colors.grey[500], fontSize: 12)),
+              Text(
+                price,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                ),
+              ),
+              Text(
+                period,
+                style: TextStyle(color: Colors.grey[500], fontSize: 12),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          ...benefits.map((b) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Row(
-                  children: [
-                    Icon(Icons.check, size: 14, color: Colors.green[600]),
-                    const SizedBox(width: 4),
-                    Text(b, style: const TextStyle(fontSize: 11)),
-                  ],
-                ),
-              )),
+          ...benefits.map(
+            (b) => Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Row(
+                children: [
+                  Icon(Icons.check, size: 14, color: Colors.green[600]),
+                  const SizedBox(width: 4),
+                  Text(b, style: const TextStyle(fontSize: 11)),
+                ],
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
@@ -218,7 +257,8 @@ class MembershipPage extends ConsumerWidget {
                 backgroundColor: recommended ? theme.primaryColor : null,
                 foregroundColor: recommended ? Colors.white : null,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               child: const Text('Subscribe'),
             ),

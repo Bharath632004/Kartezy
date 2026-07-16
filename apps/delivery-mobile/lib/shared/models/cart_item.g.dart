@@ -12,9 +12,8 @@ _$CartItemImpl _$$CartItemImplFromJson(Map<String, dynamic> json) =>
       productId: json['productId'] as String,
       product: Product.fromJson(json['product'] as Map<String, dynamic>),
       quantity: (json['quantity'] as num).toInt(),
-      selectedVariants: Map<String, String>.from(
-        json['selectedVariants'] as Map,
-      ),
+      selectedVariants:
+          Map<String, String>.from(json['selectedVariants'] as Map),
     );
 
 Map<String, dynamic> _$$CartItemImplToJson(_$CartItemImpl instance) =>

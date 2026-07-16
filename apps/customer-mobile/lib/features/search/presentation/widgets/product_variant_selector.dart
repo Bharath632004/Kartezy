@@ -52,7 +52,9 @@ class _ProductVariantSelectorState extends State<ProductVariantSelector> {
                 children: [
                   Text(
                     group.name,
-                    style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   if (_selected.containsKey(group.name))
                     Text(
@@ -79,21 +81,28 @@ class _ProductVariantSelectorState extends State<ProductVariantSelector> {
                         widget.onVariantChanged(Map.from(_selected));
                       }
                     },
-                    selectedColor: theme.primaryColor.withOpacity(0.1),
+                    selectedColor: theme.primaryColor.withValues(alpha: 0.1),
                     backgroundColor: Colors.grey[50],
                     side: BorderSide(
-                      color: isSelected ? theme.primaryColor : Colors.grey[300]!,
+                      color: isSelected
+                          ? theme.primaryColor
+                          : Colors.grey[300]!,
                       width: isSelected ? 2 : 1,
                     ),
                     labelStyle: TextStyle(
                       color: isSelected ? theme.primaryColor : Colors.grey[700],
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                       fontSize: 13,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                   );
                 }).toList(),
               ),
@@ -109,8 +118,5 @@ class ProductVariantGroup {
   final String name;
   final List<String> values;
 
-  const ProductVariantGroup({
-    required this.name,
-    required this.values,
-  });
+  const ProductVariantGroup({required this.name, required this.values});
 }

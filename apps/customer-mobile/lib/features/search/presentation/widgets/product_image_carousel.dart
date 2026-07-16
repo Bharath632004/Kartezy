@@ -41,8 +41,11 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.image_not_supported_outlined,
-                  size: 64, color: Colors.grey[300]),
+              Icon(
+                Icons.image_not_supported_outlined,
+                size: 64,
+                color: Colors.grey[300],
+              ),
               const SizedBox(height: 8),
               Text(
                 'No images available',
@@ -58,7 +61,8 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () => _showImageFullScreen(context, displayImages, _currentIndex),
+            onTap: () =>
+                _showImageFullScreen(context, displayImages, _currentIndex),
             child: PageView.builder(
               controller: _pageController,
               onPageChanged: (index) => setState(() => _currentIndex = index),
@@ -72,7 +76,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                     child: CachedNetworkImage(
                       imageUrl: displayImages[index],
                       fit: BoxFit.contain,
-                      placeholder: (_, __) => Shimmer.fromColors(
+                      placeholder: (_, _) => Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
                         child: Container(
@@ -80,10 +84,13 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                           margin: const EdgeInsets.all(16),
                         ),
                       ),
-                      errorWidget: (_, __, ___) => Container(
+                      errorWidget: (_, _, _) => Container(
                         color: Colors.grey[100],
-                        child: const Icon(Icons.image_not_supported,
-                            size: 64, color: Colors.grey),
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          size: 64,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -121,7 +128,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: displayImages.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
                 final isSelected = index == _currentIndex;
                 return GestureDetector(
@@ -159,7 +166,10 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
   }
 
   void _showImageFullScreen(
-      BuildContext context, List<String> images, int initialIndex) {
+    BuildContext context,
+    List<String> images,
+    int initialIndex,
+  ) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => Scaffold(
@@ -176,7 +186,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                 child: CachedNetworkImage(
                   imageUrl: images[index],
                   fit: BoxFit.contain,
-                  placeholder: (_, __) =>
+                  placeholder: (_, _) =>
                       const CircularProgressIndicator(color: Colors.white),
                 ),
               ),

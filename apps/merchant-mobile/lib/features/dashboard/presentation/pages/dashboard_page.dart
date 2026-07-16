@@ -30,7 +30,9 @@ class DashboardPage extends ConsumerWidget {
                     ),
                     ElevatedButton(
                       onPressed: () => Navigator.pop(ctx, true),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
                       child: const Text('Logout'),
                     ),
                   ],
@@ -98,7 +100,7 @@ class DashboardPage extends ConsumerWidget {
                       ),
                       _buildStatItem(
                         label: 'Rating',
-                        value: '${dashboardState.rating.toStringAsFixed(1)}',
+                        value: dashboardState.rating.toStringAsFixed(1),
                         icon: Icons.star,
                       ),
                     ],
@@ -195,16 +197,17 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [                  _buildStatusItem(
-                    label: 'Pending',
-                    value: pending.toString(),
-                    color: Colors.orange,
-                  ),
-                  _buildStatusItem(
-                    label: 'Cancelled',
-                    value: cancelled.toString(),
-                    color: Colors.red,
-                  ),
+              children: [
+                _buildStatusItem(
+                  label: 'Pending',
+                  value: pending.toString(),
+                  color: Colors.orange,
+                ),
+                _buildStatusItem(
+                  label: 'Cancelled',
+                  value: cancelled.toString(),
+                  color: Colors.red,
+                ),
               ],
             ),
           ],

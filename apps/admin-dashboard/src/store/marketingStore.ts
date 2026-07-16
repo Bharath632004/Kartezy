@@ -189,9 +189,10 @@ export const useMarketingStore = create<MarketingState>()(
       fetchCampaignDetail: async (id) => {
         set({ loading: true, error: null });
         try {
-          const response = await marketingService.getCampaignDetail(id); // This would need to be added to service
+          const response = await marketingService.getCampaigns({ id });
           set({ loading: false });
-          return response.data;
+          const data = Array.isArray(response.data) ? response.data[0] : response.data;
+          return data;
         } catch (error) {
           set({ error: error.message, loading: false });
           throw error;

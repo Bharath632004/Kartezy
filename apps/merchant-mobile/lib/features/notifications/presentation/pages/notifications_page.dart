@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final notificationsListProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final notificationsListProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
   return [];
 });
 
@@ -20,8 +22,10 @@ class NotificationsPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () {},
-            child: Text('Mark All Read',
-                style: TextStyle(fontSize: 12, color: theme.primaryColor)),
+            child: Text(
+              'Mark All Read',
+              style: TextStyle(fontSize: 12, color: theme.primaryColor),
+            ),
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -39,8 +43,10 @@ class NotificationsPage extends ConsumerWidget {
               children: [
                 Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
                 const SizedBox(height: 16),
-                Text('Failed to load notifications',
-                    style: theme.textTheme.titleMedium),
+                Text(
+                  'Failed to load notifications',
+                  style: theme.textTheme.titleMedium,
+                ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => ref.invalidate(notificationsListProvider),
@@ -65,14 +71,18 @@ class NotificationsPage extends ConsumerWidget {
                         color: theme.primaryColor.withValues(alpha: 0.08),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.notifications_none_outlined,
-                          size: 48, color: theme.primaryColor),
+                      child: Icon(
+                        Icons.notifications_none_outlined,
+                        size: 48,
+                        color: theme.primaryColor,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     Text(
                       'No notifications yet',
                       style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -132,8 +142,13 @@ class NotificationsPage extends ConsumerWidget {
                 }
 
                 return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  color: isRead ? null : theme.primaryColor.withValues(alpha: 0.03),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 8,
+                  ),
+                  color: isRead
+                      ? null
+                      : theme.primaryColor.withValues(alpha: 0.03),
                   child: ListTile(
                     leading: CircleAvatar(
                       backgroundColor: iconColor.withValues(alpha: 0.1),
@@ -142,7 +157,9 @@ class NotificationsPage extends ConsumerWidget {
                     title: Text(
                       notification['title'] ?? 'Notification',
                       style: TextStyle(
-                        fontWeight: isRead ? FontWeight.normal : FontWeight.bold,
+                        fontWeight: isRead
+                            ? FontWeight.normal
+                            : FontWeight.bold,
                       ),
                     ),
                     subtitle: Text(
@@ -155,7 +172,10 @@ class NotificationsPage extends ConsumerWidget {
                       children: [
                         Text(
                           notification['created_at'] ?? '',
-                          style: const TextStyle(fontSize: 10, color: Colors.grey),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey,
+                          ),
                         ),
                         if (!isRead)
                           Container(
@@ -180,7 +200,10 @@ class NotificationsPage extends ConsumerWidget {
     );
   }
 
-  void _handleNotificationTap(BuildContext context, Map<String, dynamic> notification) {
+  void _handleNotificationTap(
+    BuildContext context,
+    Map<String, dynamic> notification,
+  ) {
     final type = notification['type'] as String?;
     switch (type) {
       case 'order':
@@ -196,9 +219,9 @@ class NotificationsPage extends ConsumerWidget {
         context.go('/promotions');
         break;
       default:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Notification opened')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Notification opened')));
     }
   }
 }

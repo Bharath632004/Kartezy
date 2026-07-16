@@ -2,7 +2,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartezy_core/storage/hive_manager.dart';
 import 'package:kartezy_core/storage/secure_storage.dart';
-import 'package:delivery_mobile/navigation/router.dart';
 
 class SplashState {
   final bool isLoading;
@@ -35,7 +34,6 @@ class SplashViewModel extends StateNotifier<SplashState> {
 
       final hiveManager = _ref.read(hiveManagerProvider);
       final secureStorage = _ref.read(secureStorageProvider);
-      final goRouter = _ref.read(goRouterProvider);
 
       // Check if onboarding has been completed
       final onboardingBox = hiveManager.getBox<bool>(boxName: 'onboarding');
@@ -53,7 +51,6 @@ class SplashViewModel extends StateNotifier<SplashState> {
       } else if (accessToken == null || accessToken.isEmpty) {
         nextRoute = '/login';
       } else {
-        //  Validate token and refresh if needed
         nextRoute = '/dashboard';
       }
 
@@ -64,9 +61,6 @@ class SplashViewModel extends StateNotifier<SplashState> {
   }
 }
 
-/// Provider for splash view model
-final splashProvider = StateNotifierProvider<SplashViewModel, SplashState>((
-  ref,
-) {
-  return SplashViewModel(ref);
-});
+final splashProvider = StateNotifierProvider<SplashViewModel, SplashState>(
+  (ref) => SplashViewModel(ref),
+);

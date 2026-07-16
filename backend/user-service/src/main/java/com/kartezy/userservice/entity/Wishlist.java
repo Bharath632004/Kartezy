@@ -23,6 +23,7 @@ public class Wishlist extends AuditableEntity {
     @Column(name = "description", length = 500)
     private String description;
     @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<WishlistItem> items = new HashSet<>();
     // Convenience methods
     public void addItem(WishlistItem item) {

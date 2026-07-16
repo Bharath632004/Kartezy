@@ -44,10 +44,7 @@ class PromotionService {
   Future<Map<String, dynamic>> getPromotionById(String promotionId) async {
     try {
       final response = await _dio.get(
-        ApiConstants.promotionDetail.replaceAll(
-          '{id}',
-          promotionId,
-        ),
+        ApiConstants.promotionDetail.replaceAll('{id}', promotionId),
       );
       return response.data;
     } catch (e) {
@@ -75,10 +72,7 @@ class PromotionService {
   ) async {
     try {
       final response = await _dio.put(
-        ApiConstants.promotionUpdate.replaceAll(
-          '{id}',
-          promotionId,
-        ),
+        ApiConstants.promotionUpdate.replaceAll('{id}', promotionId),
         data: promotionData,
       );
       return response.data;
@@ -90,10 +84,7 @@ class PromotionService {
   Future<void> deletePromotion(String promotionId) async {
     try {
       await _dio.delete(
-        ApiConstants.promotionDelete.replaceAll(
-          '{id}',
-          promotionId,
-        ),
+        ApiConstants.promotionDelete.replaceAll('{id}', promotionId),
       );
     } catch (e) {
       throw Exception('Failed to delete promotion: $e');

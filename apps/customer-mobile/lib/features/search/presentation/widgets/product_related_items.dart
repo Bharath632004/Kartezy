@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProductRelatedItems extends StatelessWidget {
   final String productId;
@@ -28,7 +26,9 @@ class ProductRelatedItems extends StatelessWidget {
             children: [
               Text(
                 'Related Products',
-                style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               TextButton(
                 onPressed: () {},
@@ -44,7 +44,7 @@ class ProductRelatedItems extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: 0, // Will be populated from API
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
             itemBuilder: (context, index) => const SizedBox.shrink(),
           ),
         ),
@@ -55,7 +55,11 @@ class ProductRelatedItems extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  Icon(Icons.category_outlined, size: 40, color: Colors.grey[300]),
+                  Icon(
+                    Icons.category_outlined,
+                    size: 40,
+                    color: Colors.grey[300],
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     'Related products will appear here',

@@ -59,7 +59,7 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
           ),
           IconButton(
             icon: const Icon(Icons.file_download),
-            onPressed: () => _exportInvoices(context),
+            onPressed: () => _exportInvoices(),
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -116,7 +116,7 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
                           ),
                         ],
                       ),
-                      onTap: () => _showInvoiceDetails(context, invoice['id']),
+                      onTap: () => _showInvoiceDetails(invoice['id']),
                     );
                   } else {
                     return const Padding(
@@ -130,11 +130,11 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
     );
   }
 
-  void _handlePopupMenuSelection(String value, dynamic invoiceId) async {
+  void _handlePopupMenuSelection(String value, dynamic invoiceId) {
     final id = invoiceId?.toString() ?? '';
     switch (value) {
       case 'view':
-        _showInvoiceDetails(context, id);
+        _showInvoiceDetails(id);
         break;
       case 'download_pdf':
         _downloadInvoicePdf(id);
@@ -145,65 +145,75 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
     }
   }
 
-  void _showInvoiceDetails(BuildContext context, String invoiceId) async {
-    try {
-      final invoiceDetails = await ref
-          .read(invoicesProvider.notifier)
-          .getInvoiceDetails(invoiceId);
-      if (!mounted) return;
-
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Invoice Details'),
-          content: SingleChildScrollView(
-            child: Text(invoiceDetails.toString()),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+  void _showInvoiceDetails(String invoiceId) {
+    // Use FutureBuilder inside the dialog to avoid async gaps with BuildContext
+    showDialog(
+      context: context,
+      builder: (ctx) => FutureBuilder<Map<String, dynamic>>(
+        future: ref.read(invoicesProvider.notifier).getInvoiceDetails(invoiceId),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const AlertDialog(
+              content: SizedBox(
+                height: 100,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            );
+          }
+          if (snapshot.hasError) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: Text('${snapshot.error}'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          }
+          return AlertDialog(
+            title: const Text('Invoice Details'),
+            content: SingleChildScrollView(
+              child: Text('${snapshot.data}'),
             ),
-          ],
-        ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading invoice details: $e')),
-      );
-    }
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   void _downloadInvoicePdf(String invoiceId) async {
+    final messenger = context.mounted ? ScaffoldMessenger.of(context) : null;
     try {
-      await ref
-          .read(invoicesProvider.notifier)
-          .downloadInvoicePdf(invoiceId);
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      await ref.read(invoicesProvider.notifier).downloadInvoicePdf(invoiceId);
+      messenger?.showSnackBar(
         const SnackBar(content: Text('PDF downloaded successfully')),
       );
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error downloading PDF: $e')));
+      messenger?.showSnackBar(
+        SnackBar(content: Text('Error downloading PDF: $e')),
+      );
     }
   }
 
   void _printInvoice(String invoiceId) async {
+    final messenger = context.mounted ? ScaffoldMessenger.of(context) : null;
     try {
       await ref.read(invoicesProvider.notifier).printInvoice(invoiceId);
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Print command sent')));
+      messenger?.showSnackBar(
+        const SnackBar(content: Text('Print command sent')),
+      );
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error printing: $e')));
+      messenger?.showSnackBar(
+        SnackBar(content: Text('Error printing: $e')),
+      );
     }
   }
 
@@ -220,9 +230,7 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
                 decoration: InputDecoration(labelText: 'Customer Name'),
               ),
               SizedBox(height: 12),
-              TextField(
-                decoration: InputDecoration(labelText: 'Order Number'),
-              ),
+              TextField(decoration: InputDecoration(labelText: 'Order Number')),
               SizedBox(height: 12),
               TextField(
                 decoration: InputDecoration(labelText: 'Amount'),
@@ -232,23 +240,20 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: null,
-            child: Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: null,
-            child: Text('Create'),
-          ),
+          TextButton(onPressed: null, child: Text('Cancel')),
+          ElevatedButton(onPressed: null, child: Text('Create')),
         ],
       ),
     );
   }
 
-  void _exportInvoices(BuildContext context) async {
-    showDialog(
+  Future<void> _exportInvoices() async {
+    // Capture messenger before any async gap
+    final messenger = context.mounted ? ScaffoldMessenger.of(context) : null;
+    // Show dialog to let user choose format - no async work inside dialog
+    final format = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: const Text('Export Invoices'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -259,47 +264,11 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
               spacing: 12,
               children: [
                 ElevatedButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    try {
-                      await ref
-                          .read(invoicesProvider.notifier)
-                          .exportInvoices(format: 'csv');
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('CSV exported successfully'),
-                        ),
-                      );
-                    } catch (e) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error exporting CSV: $e')),
-                      );
-                    }
-                  },
+                  onPressed: () => Navigator.pop(ctx, 'csv'),
                   child: const Text('CSV'),
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    try {
-                      await ref
-                          .read(invoicesProvider.notifier)
-                          .exportInvoices(format: 'pdf');
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('PDF exported successfully'),
-                        ),
-                      );
-                    } catch (e) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error exporting PDF: $e')),
-                      );
-                    }
-                  },
+                  onPressed: () => Navigator.pop(ctx, 'pdf'),
                   child: const Text('PDF'),
                 ),
               ],
@@ -308,11 +277,26 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(ctx),
             child: const Text('Cancel'),
           ),
         ],
       ),
     );
+
+    // Do the async work outside the dialog builder closures
+    if (format == null || messenger == null) return;
+    try {
+      await ref.read(invoicesProvider.notifier).exportInvoices(format: format);
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text('${format.toUpperCase()} exported successfully'),
+        ),
+      );
+    } catch (e) {
+      messenger.showSnackBar(
+        SnackBar(content: Text('Error exporting $format: $e')),
+      );
+    }
   }
 }

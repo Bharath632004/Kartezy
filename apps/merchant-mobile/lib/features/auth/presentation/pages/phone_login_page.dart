@@ -27,7 +27,10 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
     try {
       await ref.read(authServiceProvider).sendOtp(_phoneController.text.trim());
       if (!mounted) return;
-      context.go('/otp-verification', extra: {'phoneNumber': _phoneController.text});
+      context.go(
+        '/otp-verification',
+        extra: {'phoneNumber': _phoneController.text},
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(

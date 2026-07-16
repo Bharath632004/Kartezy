@@ -23,7 +23,8 @@ class RecommendedSearchesWidget extends ConsumerWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: recommendations                    .map(
+              children: recommendations
+                  .map(
                     (recommendation) => Chip(
                       label: Text(recommendation),
                       avatar: const Icon(Icons.search, size: 16),

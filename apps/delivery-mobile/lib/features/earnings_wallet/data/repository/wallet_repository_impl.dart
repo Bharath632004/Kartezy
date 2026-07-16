@@ -1,7 +1,6 @@
 // lib/features/earnings_wallet/data/repository/wallet_repository_impl.dart
 import 'package:delivery_mobile/features/earnings_wallet/data/datasource/wallet_remote_data_source.dart';
 import 'package:delivery_mobile/features/earnings_wallet/domain/repository/wallet_repository.dart';
-import 'package:delivery_mobile/shared/models/wallet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WalletRepositoryImpl implements WalletRepository {

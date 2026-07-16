@@ -21,6 +21,7 @@ public class ReferralDto {
     @Size(max = 20)
     private String referralCode;
     private LocalDateTime referredAt;
+    @Builder.Default
     private boolean rewardClaimed = false;
     private Double rewardAmount;
 }

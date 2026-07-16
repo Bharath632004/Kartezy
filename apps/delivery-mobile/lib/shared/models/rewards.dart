@@ -1,12 +1,11 @@
 // lib/shared/models/rewards.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'rewards.freezed.dart';
 part 'rewards.g.dart';
 
 @freezed
-class RewardPoints with _$RewardPoints, EquatableMixin {
+class RewardPoints with _$RewardPoints {
   const factory RewardPoints({required int points, DateTime? expiresAt}) =
       _RewardPoints;
 
@@ -15,10 +14,10 @@ class RewardPoints with _$RewardPoints, EquatableMixin {
 }
 
 @freezed
-class RewardTransaction with _$RewardTransaction, EquatableMixin {
+class RewardTransaction with _$RewardTransaction {
   const factory RewardTransaction({
     required String id,
-    required String type, // earn, redeem, adjustment
+    required String type,
     required int points,
     required String description,
     required DateTime timestamp,
@@ -29,7 +28,7 @@ class RewardTransaction with _$RewardTransaction, EquatableMixin {
 }
 
 @freezed
-class RewardLevel with _$RewardLevel, EquatableMixin {
+class RewardLevel with _$RewardLevel {
   const factory RewardLevel({
     required String level,
     required int minPoints,
@@ -40,9 +39,8 @@ class RewardLevel with _$RewardLevel, EquatableMixin {
       _$RewardLevelFromJson(json);
 }
 
-// Missing Reward model as per spec
 @freezed
-class Reward with _$Reward, EquatableMixin {
+class Reward with _$Reward {
   const factory Reward({
     required String id,
     required String name,

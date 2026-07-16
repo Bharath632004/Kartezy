@@ -9,16 +9,15 @@ class CategoriesPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-
+  
     if (categoryId != null) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(categoryId!),
-        ),
+        appBar: AppBar(title: Text(categoryId!)),
         body: Center(
-          child: Text('Products in ${categoryId!} coming soon',
-              style: TextStyle(color: Colors.grey[500])),
+          child: Text(
+            'Products in ${categoryId!} coming soon',
+            style: TextStyle(color: Colors.grey[500]),
+          ),
         ),
       );
     }
@@ -43,9 +42,7 @@ class CategoriesPage extends ConsumerWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Categories'),
-      ),
+      appBar: AppBar(title: const Text('All Categories')),
       body: GridView.builder(
         padding: const EdgeInsets.all(16),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -65,7 +62,7 @@ class CategoriesPage extends ConsumerWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: cat.color.withOpacity(0.1),
+                    color: cat.color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(cat.icon, color: cat.color, size: 28),
@@ -74,7 +71,10 @@ class CategoriesPage extends ConsumerWidget {
                 Text(
                   cat.name,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

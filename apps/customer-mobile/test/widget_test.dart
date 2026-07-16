@@ -32,7 +32,9 @@ void main() {
     await Hive.deleteFromDisk();
   });
 
-  testWidgets('HiveManager initializes and opens boxes', (WidgetTester tester) async {
+  testWidgets('HiveManager initializes and opens boxes', (
+    WidgetTester tester,
+  ) async {
     final hive = MockHiveManager();
     await hive.init();
 
@@ -50,6 +52,3 @@ void main() {
     expect(value, 42);
   });
 }
-
-
-

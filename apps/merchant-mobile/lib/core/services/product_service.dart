@@ -49,9 +49,7 @@ class ProductService {
 
   Future<ProductModel> getProductById(String productId) async {
     try {
-      final response = await _dio.get(
-        '${ApiConstants.product}/$productId',
-      );
+      final response = await _dio.get('${ApiConstants.product}/$productId');
       return ProductModel.fromJson(response.data);
     } catch (e) {
       throw Exception('Failed to fetch product: $e');
@@ -87,9 +85,7 @@ class ProductService {
 
   Future<void> deleteProduct(String productId) async {
     try {
-      await _dio.delete(
-        '${ApiConstants.product}/$productId',
-      );
+      await _dio.delete('${ApiConstants.product}/$productId');
     } catch (e) {
       throw Exception('Failed to delete product: $e');
     }

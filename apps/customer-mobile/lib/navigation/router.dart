@@ -44,7 +44,9 @@ class GoRouterRefreshNotifier extends ChangeNotifier {
   }
 }
 
-final goRouterRefreshNotifierProvider = Provider<GoRouterRefreshNotifier>((ref) {
+final goRouterRefreshNotifierProvider = Provider<GoRouterRefreshNotifier>((
+  ref,
+) {
   return GoRouterRefreshNotifier();
 });
 
@@ -75,14 +77,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       final loggedIn = authState;
       final currentPath = state.uri.path;
-      final isPublicRoute = _publicRoutePrefixes.any((r) => currentPath == r || currentPath.startsWith('$r/'));
+      final isPublicRoute = _publicRoutePrefixes.any(
+        (r) => currentPath == r || currentPath.startsWith('$r/'),
+      );
 
       // If not logged in and trying to access a protected route, redirect to login
       if (!loggedIn && !isPublicRoute) {
         return '/login';
       }
       // If logged in and trying to access login page, redirect to home
-      if (loggedIn && (currentPath == '/login' || currentPath == '/sign-up' || currentPath == '/onboarding')) {
+      if (loggedIn &&
+          (currentPath == '/login' ||
+              currentPath == '/sign-up' ||
+              currentPath == '/onboarding')) {
         return '/home';
       }
       return null; // No redirect needed
@@ -151,18 +158,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
-      GoRoute(
-        path: '/cart',
-        builder: (context, state) => const CartPage(),
-      ),
+      GoRoute(path: '/cart', builder: (context, state) => const CartPage()),
       GoRoute(
         path: '/checkout',
         builder: (context, state) => const CheckoutPage(),
       ),
-      GoRoute(
-        path: '/wallet',
-        builder: (context, state) => const WalletPage(),
-      ),
+      GoRoute(path: '/wallet', builder: (context, state) => const WalletPage()),
       GoRoute(
         path: '/membership',
         builder: (context, state) => const MembershipPage(),

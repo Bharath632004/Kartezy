@@ -10,5 +10,6 @@ class GetReferralHistory implements UseCase<List<Referral>, NoParams> {
   GetReferralHistory(this.repository);
 
   @override
-  Future<List<Referral>> call(NoParams params) => repository.getReferralHistory();
+  Future<List<Referral>> call(NoParams params) =>
+      repository.getReferralHistory();
 }

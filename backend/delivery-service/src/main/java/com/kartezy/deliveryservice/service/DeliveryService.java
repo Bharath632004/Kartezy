@@ -84,7 +84,7 @@ public class DeliveryService {
         DeliveryPartner partner = partnerRepository.findById(request.getPartnerId())
             .orElseThrow(() -> new ResourceNotFoundException("Partner not found"));
 
-        if (!partner.getIsAvailable() || !partner.getIsOnline()) {
+        if (!partner.getIsAvailable() || !partner.isOnline()) {
             throw new BadRequestException("Partner is not available");
         }
 
@@ -232,7 +232,7 @@ public class DeliveryService {
         DeliveryPartner partner = partnerRepository.findById(partnerId)
             .orElseThrow(() -> new ResourceNotFoundException("Partner not found"));
 
-        partner.setIsOnline(online);
+        partner.setOnline(online);
         if (online) {
             partner.setLastOnlineAt(LocalDateTime.now());
         }
@@ -245,7 +245,7 @@ public class DeliveryService {
         DeliveryPartner partner = partnerRepository.findById(partnerId)
             .orElseThrow(() -> new ResourceNotFoundException("Partner not found"));
 
-        partner.setIsVerified(verified);
+        partner.setVerified(verified);
         if (verified) {
             partner.setKycStatus(KycStatus.VERIFIED);
             partner.setStatus(PartnerStatus.APPROVED);

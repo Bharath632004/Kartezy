@@ -1,7 +1,6 @@
 // lib/features/dashboard/presentation/dashboard_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:delivery_mobile/features/dashboard/provider/provider.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -23,26 +22,30 @@ class DashboardPage extends ConsumerWidget {
           ),
         ],
       ),
-      body: dashboardState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Error: $error'),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(dashboardProvider.notifier).refresh();
-                },
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-        data: (data) {
-          if (data == null) {
-            return const Center(child: Text('No data available'));
-          }
+      body: () {
+        if (dashboardState.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (dashboardState.error != null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: ${dashboardState.error}'),
+                ElevatedButton(
+                  onPressed: () {
+                    ref.read(dashboardProvider.notifier).refresh();
+                  },
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+        final data = dashboardState.data;
+        if (data == null) {
+          return const Center(child: Text('No data available'));
+        }
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -157,8 +160,7 @@ class DashboardPage extends ConsumerWidget {
               ],
             ),
           );
-        },
-      ),
+      }(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0, // Dashboard index
         onTap: (index) {

@@ -10,9 +10,7 @@ class CheckoutPage extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Checkout'),
-      ),
+      appBar: AppBar(title: const Text('Checkout')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -23,17 +21,21 @@ class CheckoutPage extends ConsumerWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.08),
+                  color: theme.primaryColor.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.receipt_long_outlined,
-                    size: 48, color: theme.primaryColor),
+                child: Icon(
+                  Icons.receipt_long_outlined,
+                  size: 48,
+                  color: theme.primaryColor,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
                 'No items to checkout',
                 style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Text(

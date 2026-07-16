@@ -14,7 +14,7 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            product.imageUrl ?? '',
+            product.imageUrl,
             height: 100,
             width: double.infinity,
             fit: BoxFit.cover,
@@ -25,11 +25,11 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name ?? '',
+                  product.name,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Text(
-                  '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
+                  '\$${product.price.toStringAsFixed(2)}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],

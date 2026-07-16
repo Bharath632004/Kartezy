@@ -23,10 +23,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         ApiConstants.financeRevenue,
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -42,10 +40,8 @@ class FinanceService {
     try {
       final response = await _dio.get(
         ApiConstants.financeSalesSummary,
-        queryParameters: {
-          'start_date': startDate,
-          'end_date': endDate,
-        }..removeWhere((key, value) => value == null),
+        queryParameters: {'start_date': startDate, 'end_date': endDate}
+          ..removeWhere((key, value) => value == null),
       );
       return response.data;
     } catch (e) {
@@ -98,9 +94,7 @@ class FinanceService {
   // Wallet Balance
   Future<Map<String, dynamic>> getWalletBalance() async {
     try {
-      final response = await _dio.get(
-        ApiConstants.financeWalletBalance,
-      );
+      final response = await _dio.get(ApiConstants.financeWalletBalance);
       return response.data;
     } catch (e) {
       throw Exception('Failed to fetch wallet balance: $e');

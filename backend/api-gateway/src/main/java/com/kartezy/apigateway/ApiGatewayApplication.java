@@ -252,16 +252,15 @@ public class ApiGatewayApplication {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeExchange()
-                .pathMatchers("/actuator/**").permitAll()
-                .pathMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
-                .pathMatchers("/api/auth/**").permitAll()
-                .anyExchange().authenticated()
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .and()
-                .and()
+                .authorizeExchange(authz -> authz
+                    .pathMatchers("/actuator/**").permitAll()
+                    .pathMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                    .pathMatchers("/api/auth/**").permitAll()
+                    .anyExchange().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2
+                    .jwt(Customizer.withDefaults())
+                )
                 .build();
     }
     @Bean

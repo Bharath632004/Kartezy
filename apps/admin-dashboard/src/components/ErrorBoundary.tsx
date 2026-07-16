@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography, Button, Stack } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-export default class ErrorBoundary extends React.Component<
+class ErrorBoundaryClass extends React.Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
@@ -38,34 +38,41 @@ export default class ErrorBoundary extends React.Component<
   public render() {
     if (this.state.hasError) {
       const { fallbackRender } = this.props;
-      const { error } = this.state;
+      const error = this.state.error;
 
-      if (typeof fallbackRender === 'function') {
-        return fallbackRender(this.error, this.handleReset);
+      if (typeof fallbackRender === 'function' && error) {
+        return fallbackRender(error, this.handleReset);
       }
 
       return (
         <Box
           sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
             p: 4,
             textAlign: 'center',
             bgcolor: 'background.default',
-            color: 'text.primary'
+            color: 'text.primary',
           }}
         >
-          <Typography variant="h4" color="error.main">
-            Something went wrong.
+          <Typography variant="h3" gutterBottom>
+            ⚠️
           </Typography>
-          <Typography variant="body1">
-            {this.state.error?.message}
+          <Typography variant="h5" color="error.main" gutterBottom>
+            Something went wrong
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3, maxWidth: 500 }}>
+            {this.state.error?.message || 'An unexpected error occurred. Please try again.'}
           </Typography>
           <Button
             variant="contained"
-            color="error"
             onClick={this.handleReset}
             sx={{ mt: 2 }}
           >
-            Try again
+            Try Again
           </Button>
         </Box>
       );
@@ -74,3 +81,6 @@ export default class ErrorBoundary extends React.Component<
     return this.props.children;
   }
 }
+
+export { ErrorBoundaryClass as ErrorBoundary };
+export default ErrorBoundaryClass;

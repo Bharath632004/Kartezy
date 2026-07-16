@@ -1,15 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 import 'package:delivery_mobile/shared/models/cart_item.dart';
 
 part 'checkout_summary.freezed.dart';
 part 'checkout_summary.g.dart';
 
 @freezed
-class CheckoutSummary with _$CheckoutSummary, EquatableMixin {
+class CheckoutSummary with _$CheckoutSummary {
   const factory CheckoutSummary({
     required String id,
-    required String? userId, // nullable for guest user
+    required String? userId,
     required List<CartItem> items,
     required String? couponCode,
     required double discountAmount,

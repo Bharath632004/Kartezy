@@ -12,7 +12,7 @@ import 'package:delivery_mobile/features/order_management/domain/usecase/get_ord
 import 'package:delivery_mobile/features/order_management/domain/usecase/pickup_order_use_case.dart';
 import 'package:delivery_mobile/features/order_management/domain/usecase/submit_proof_of_delivery_use_case.dart';
 import 'package:delivery_mobile/features/order_management/domain/usecase/verify_otp_use_case.dart';
-import 'package:kartezy_core/core/providers/network_provider.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
 
 // Providers for data source and repository
 final orderRemoteDataSourceProvider = Provider<OrderRemoteDataSource>((ref) {

@@ -41,9 +41,7 @@ class InventoryService {
 
   Future<InventoryModel> getInventoryById(String inventoryId) async {
     try {
-      final response = await _dio.get(
-        '${ApiConstants.inventory}/$inventoryId',
-      );
+      final response = await _dio.get('${ApiConstants.inventory}/$inventoryId');
       return InventoryModel.fromJson(response.data);
     } catch (e) {
       throw Exception('Failed to fetch inventory: $e');
@@ -79,9 +77,7 @@ class InventoryService {
 
   Future<void> deleteInventory(String inventoryId) async {
     try {
-      await _dio.delete(
-        '${ApiConstants.inventory}/$inventoryId',
-      );
+      await _dio.delete('${ApiConstants.inventory}/$inventoryId');
     } catch (e) {
       throw Exception('Failed to delete inventory: $e');
     }

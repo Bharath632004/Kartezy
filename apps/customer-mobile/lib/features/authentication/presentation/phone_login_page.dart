@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/authentication/domain/usecase/send_otp_usecase.dart';
-import 'package:customer_mobile/shared/widgets/button.dart';
 
 class PhoneLoginPage extends ConsumerStatefulWidget {
   const PhoneLoginPage({super.key});
@@ -129,11 +128,17 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.red, size: 18),
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(_errorMessage!,
-                          style: const TextStyle(color: Colors.red, fontSize: 13)),
+                      child: Text(
+                        _errorMessage!,
+                        style: const TextStyle(color: Colors.red, fontSize: 13),
+                      ),
                     ),
                   ],
                 ),
@@ -153,7 +158,10 @@ class _PhoneLoginPageState extends ConsumerState<PhoneLoginPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text('Send OTP', style: TextStyle(fontSize: 16)),
+                      child: const Text(
+                        'Send OTP',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
             ),
             const SizedBox(height: 16),

@@ -1,8 +1,6 @@
 // lib/features/delivery_onboarding/onboarding_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
 import 'package:kartezy_core/storage/hive_manager.dart';
 import 'package:delivery_mobile/navigation/router.dart';
 

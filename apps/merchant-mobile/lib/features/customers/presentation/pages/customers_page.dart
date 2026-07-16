@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final customersListProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final customersListProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
   return [];
 });
 
@@ -41,10 +43,15 @@ class CustomersPage extends ConsumerWidget {
               children: [
                 Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
                 const SizedBox(height: 16),
-                Text('Failed to load customers',
-                    style: theme.textTheme.titleMedium),
+                Text(
+                  'Failed to load customers',
+                  style: theme.textTheme.titleMedium,
+                ),
                 const SizedBox(height: 8),
-                Text('$err', style: TextStyle(color: Colors.grey[600], fontSize: 13)),
+                Text(
+                  '$err',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => ref.invalidate(customersListProvider),
@@ -69,14 +76,18 @@ class CustomersPage extends ConsumerWidget {
                         color: theme.primaryColor.withValues(alpha: 0.08),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.people_outline,
-                          size: 48, color: theme.primaryColor),
+                      child: Icon(
+                        Icons.people_outline,
+                        size: 48,
+                        color: theme.primaryColor,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     Text(
                       'No customers yet',
                       style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -103,10 +114,15 @@ class CustomersPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final customer = customers[index];
                 return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 8,
+                  ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
+                      backgroundColor: theme.primaryColor.withValues(
+                        alpha: 0.1,
+                      ),
                       child: Text(
                         ((customer['name'] as String?) ?? '?')
                             .substring(0, 1)
@@ -132,12 +148,15 @@ class CustomersPage extends ConsumerWidget {
                         '${customer['orders_count'] ?? 0}',
                         style: const TextStyle(fontSize: 12),
                       ),
-                      backgroundColor: theme.primaryColor.withValues(alpha: 0.08),
+                      backgroundColor: theme.primaryColor.withValues(
+                        alpha: 0.08,
+                      ),
                     ),
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        builder: (ctx) => _CustomerDetailsSheet(customer: customer),
+                        builder: (ctx) =>
+                            _CustomerDetailsSheet(customer: customer),
                       );
                     },
                   ),
@@ -167,7 +186,8 @@ class _CustomerDetailsSheet extends StatelessWidget {
         children: [
           Center(
             child: Container(
-              width: 40, height: 4,
+              width: 40,
+              height: 4,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(2),
@@ -175,12 +195,20 @@ class _CustomerDetailsSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(customer['name'] ?? 'Customer',
-              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            customer['name'] ?? 'Customer',
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
           _detailRow(Icons.phone, 'Phone', '${customer['phone'] ?? 'N/A'}'),
           _detailRow(Icons.email, 'Email', '${customer['email'] ?? 'N/A'}'),
-          _detailRow(Icons.shopping_cart, 'Total Orders', '${customer['orders_count'] ?? 0}'),
+          _detailRow(
+            Icons.shopping_cart,
+            'Total Orders',
+            '${customer['orders_count'] ?? 0}',
+          ),
           _detailRow(Icons.star, 'Rating', '${customer['rating'] ?? 'N/A'}'),
           const SizedBox(height: 16),
           SizedBox(
@@ -214,10 +242,7 @@ class _CustomerDetailsSheet extends StatelessWidget {
 class _CustomerSearchDelegate extends SearchDelegate<String?> {
   @override
   List<Widget>? buildActions(BuildContext context) => [
-    IconButton(
-      icon: const Icon(Icons.clear),
-      onPressed: () => query = '',
-    ),
+    IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
   ];
 
   @override

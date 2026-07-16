@@ -1,61 +1,48 @@
-// lib/navigation/router.dart
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:delivery_mobile/features/splash/pages/splash_screen.dart';
+import 'package:delivery_mobile/features/splash/presentation/splash_page.dart';
 import 'package:delivery_mobile/features/authentication/presentation/login_page.dart';
-import 'package:delivery_mobile/features/home/home_page.dart';
 import 'package:delivery_mobile/features/delivery_onboarding/onboarding_page.dart';
 import 'package:delivery_mobile/features/authentication/presentation/phone_login_page.dart';
 import 'package:delivery_mobile/features/authentication/presentation/otp_verification_page.dart';
-import 'package:delivery_mobile/features/profile/presentation/profile_page.dart';
-import 'package:kartezy_core/core/services/auth_service.dart';
+import 'package:delivery_mobile/features/dashboard/presentation/dashboard_page.dart';
+import 'package:kartezy_core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
-  return GoRouter(
-    refreshListenable: Listenable.merge([
-      ref.read(authStateProvider.notifier),
-      ref.read(initializeAuthProvider.notifier),
-    ]),
-    redirect: (context, state) {
-      final authState = ref.watch(authStateProvider);
-      final isInitializing = ref
-          .watch(initializeAuthProvider)
-          .maybeWhen(
-            loading: () => true,
-            error: () => false,
-            data: (_) => false,
-          );
+  final authState = ref.watch(authStateProvider);
 
-      if (isInitializing) {
-        return '/splash';
+  return GoRouter(
+    initialLocation: '/splash',
+    redirect: (context, state) {
+      final loggedIn = authState;
+      final matchedLocation = state.matchedLocation;
+
+      if (matchedLocation == '/splash') {
+        return null;
       }
 
-      final loggedIn = authState;
-      final loggingIn = state.location == '/login';
-      final loggingOut = state.location == '/logout';
-      final signingUp = state.location == '/sign-up';
-      final verifyingOtp = state.location == '/otp-verification';
-      final phoneLogin = state.location == '/phone-login';
-      // If not logged in and trying to access a protected route, redirect to login
+      final loggingIn = matchedLocation == '/login';
+      final signingUp = matchedLocation == '/sign-up';
+      final verifyingOtp = matchedLocation == '/otp-verification';
+      final phoneLogin = matchedLocation == '/phone-login';
+
       if (!loggedIn &&
           !loggingIn &&
           !signingUp &&
           !verifyingOtp &&
           !phoneLogin &&
-          !state.location.startsWith('/splash')) {
+          !matchedLocation.startsWith('/splash')) {
         return '/login';
       }
-      // If logged in and trying to access login or sign up page, redirect to home
       if (loggedIn && (loggingIn || signingUp)) {
         return '/home';
       }
-      return null; // No redirect needed
+      return null;
     },
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
         path: '/onboarding',
@@ -74,10 +61,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return OtpVerificationPage(phoneNumber: phoneNumber ?? '');
         },
       ),
-      GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const DashboardPage(),
+      ),
       GoRoute(
         path: '/profile',
-        builder: (context, state) => const ProfilePage(),
+        builder: (context, state) => const DashboardPage(),
       ),
     ],
   );

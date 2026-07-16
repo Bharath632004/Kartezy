@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Card, CardContent, Grid, Typography, Container, Skeleton } from '@mui/material';
+import { Box, Card, CardContent, Typography, Container, Skeleton } from '@mui/material';
+import Grid2 from '@mui/material/Grid2';
 import { useEffect } from 'react';
 import { useDashboardStore } from '@/store/dashboardStore';
 import { useAnalyticsStore } from '@/store/analyticsStore';
@@ -51,10 +52,10 @@ export default function DashboardPage() {
           <Typography variant="h4" gutterBottom>
             Dashboard Overview
           </Typography>
-          <Grid container spacing={3}>
+          <Grid2 container spacing={3}>
             {/* Skeletons for the 16 metric cards */}
             {Array.from({ length: 16 }).map((_, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+              <Grid2 size={{ xs: 12, sm: 6, md: 3 }} key={index}>
                 <Card sx={{ height: '100%' }}>
                   <CardContent>
                     <Skeleton variant="rectangle" width={100} height={16} sx={{ mb: 1 }} />
@@ -70,8 +71,8 @@ export default function DashboardPage() {
             <Typography variant="h4" gutterBottom>
               Trends
             </Typography>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={6}>
+            <Grid2 container spacing={3}>
+              <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                 <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 2, p: 2 }}>
                   <Typography variant="h5" gutterBottom>
                     Revenue Trend
@@ -86,8 +87,8 @@ export default function DashboardPage() {
                   </Typography>
                   <Skeleton variant="rectangle" width={300} height={200} sx={{ display: 'block', margin: '0 auto' }} />
                 </Box>
-              </Grid>
-            </Grid>
+              </Grid2>
+            </Grid2>
           </Box>
         </Box>
       </Container>
@@ -100,9 +101,9 @@ export default function DashboardPage() {
         <Typography variant="h4" gutterBottom>
           Dashboard Overview
         </Typography>
-        <Grid container spacing={3}>
+        <Grid2 container spacing={3}>
           {/* GMV */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
             <Card sx={{ height: '100%' }}>
               <CardContent>
                 <Typography variant="body2" color="text.secondary">

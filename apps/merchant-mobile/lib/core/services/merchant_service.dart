@@ -29,9 +29,7 @@ class MerchantService {
 
   Future<Map<String, dynamic>> getMerchantProfile() async {
     try {
-      final response = await _dio.get(
-        ApiConstants.merchantProfile,
-      );
+      final response = await _dio.get(ApiConstants.merchantProfile);
       return response.data;
     } catch (e) {
       throw Exception('Failed to fetch merchant profile: $e');
@@ -52,9 +50,7 @@ class MerchantService {
 
   Future<Map<String, dynamic>> getDashboardStats() async {
     try {
-      final response = await _dio.get(
-        ApiConstants.dashboardStats,
-      );
+      final response = await _dio.get(ApiConstants.dashboardStats);
       return response.data;
     } catch (e) {
       throw Exception('Failed to fetch dashboard stats: $e');

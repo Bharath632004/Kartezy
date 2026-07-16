@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 
 class ProductReviewsTab extends StatelessWidget {
   final String productId;
@@ -36,15 +34,22 @@ class ProductReviewsTab extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    children: List.generate(5, (i) => Icon(
-                      Icons.star,
-                      size: 16,
-                      color: i < averageRating.round() ? Colors.amber : Colors.grey[300],
-                    )),
+                    children: List.generate(
+                      5,
+                      (i) => Icon(
+                        Icons.star,
+                        size: 16,
+                        color: i < averageRating.round()
+                            ? Colors.amber
+                            : Colors.grey[300],
+                      ),
+                    ),
                   ),
                   Text(
                     '$totalReviews reviews',
-                    style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ],
               ),
@@ -73,8 +78,10 @@ class ProductReviewsTab extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          Text('${((5 - star + 1) * 20)}%',
-                              style: theme.textTheme.bodySmall),
+                          Text(
+                            '${((5 - star + 1) * 20)}%',
+                            style: theme.textTheme.bodySmall,
+                          ),
                         ],
                       ),
                     );
@@ -133,7 +140,11 @@ class ProductReviewsTab extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  Icon(Icons.rate_review_outlined, size: 48, color: Colors.grey[300]),
+                  Icon(
+                    Icons.rate_review_outlined,
+                    size: 48,
+                    color: Colors.grey[300],
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     totalReviews > 0
@@ -163,7 +174,7 @@ class ProductReviewsTab extends StatelessWidget {
         selected: selected,
         onSelected: (_) {},
         visualDensity: VisualDensity.compact,
-        selectedColor: Theme.of(context).primaryColor.withOpacity(0.1),
+        selectedColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         checkmarkColor: Theme.of(context).primaryColor,
       ),
     );

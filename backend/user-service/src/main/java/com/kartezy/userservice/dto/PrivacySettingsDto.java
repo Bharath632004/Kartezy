@@ -14,12 +14,20 @@ public class PrivacySettingsDto {
     private UUID id;
     @NotNull
     private UUID customerProfileId;
+    @Builder.Default
     private boolean profileVisible = true;
+    @Builder.Default
     private boolean activityVisible = true;
+    @Builder.Default
     private boolean locationSharing = false;
+    @Builder.Default
     private boolean dataPersonalization = true;
+    @Builder.Default
     private boolean adPersonalization = true;
+    @Builder.Default
     private boolean showOnlineStatus = true;
+    @Builder.Default
     private boolean allowMessageFromEveryone = false;
+    @Builder.Default
     private boolean allowFriendRequestFromEveryone = false;
 }

@@ -7,12 +7,12 @@ part of 'store.dart';
 // **************************************************************************
 
 _$StoreImpl _$$StoreImplFromJson(Map<String, dynamic> json) => _$StoreImpl(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      imageUrl: json['imageUrl'] as String,
-      distance: (json['distance'] as num).toDouble(),
-      isOpen: json['isOpen'] as bool,
-    );
+  id: json['id'] as String,
+  name: json['name'] as String,
+  imageUrl: json['imageUrl'] as String,
+  distance: (json['distance'] as num).toDouble(),
+  isOpen: json['isOpen'] as bool,
+);
 
 Map<String, dynamic> _$$StoreImplToJson(_$StoreImpl instance) =>
     <String, dynamic>{

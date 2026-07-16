@@ -34,7 +34,9 @@ public class WalletReference extends AuditableEntity {
     @Column(name = "wallet_type", length = 100)
     private String walletType; // e.g., WALLET, BANK, CARD
     @Column(name = "is_primary")
+    @Builder.Default
     private boolean isPrimary = false;
     @Column(name = "is_verified")
+    @Builder.Default
     private boolean isVerified = false;
 }

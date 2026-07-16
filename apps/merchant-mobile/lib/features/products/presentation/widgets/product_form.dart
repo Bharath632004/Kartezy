@@ -6,7 +6,7 @@ import 'package:merchant_mobile/core/services/product_notifier.dart';
 class ProductForm extends ConsumerStatefulWidget {
   final ProductModel? initialProduct;
 
-  const ProductForm({Key? key, this.initialProduct}) : super(key: key);
+  const ProductForm({super.key, this.initialProduct});
 
   @override
   ConsumerState<ProductForm> createState() => _ProductFormState();
@@ -44,9 +44,7 @@ class _ProductFormState extends ConsumerState<ProductForm> {
     _discountController = TextEditingController(
       text: widget.initialProduct?.discount?.toString() ?? '',
     );
-    _currencyController = TextEditingController(
-      text: 'INR',
-    );
+    _currencyController = TextEditingController(text: 'INR');
     _imageUrlController = TextEditingController(
       text: widget.initialProduct?.imageUrl ?? '',
     );

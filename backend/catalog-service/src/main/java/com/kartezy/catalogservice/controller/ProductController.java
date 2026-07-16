@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ProductSearchDto>> search(@RequestParam String q) {
+    public ResponseEntity<List<ProductEnhancedDto.ProductSearchDto>> search(@RequestParam String q) {
         return ResponseEntity.ok(catalogService.searchProducts(q));
     }
 
@@ -76,13 +76,13 @@ public class ProductController {
 
     // Brand endpoints
     @GetMapping("/brands")
-    public ResponseEntity<List<BrandDto>> getBrands() {
+    public ResponseEntity<List<ProductEnhancedDto.BrandDto>> getBrands() {
         return ResponseEntity.ok(catalogService.getBrands());
     }
 
     @PostMapping("/brands")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<BrandDto> createBrand(@Valid @RequestBody BrandDto dto) {
+    public ResponseEntity<ProductEnhancedDto.BrandDto> createBrand(@Valid @RequestBody ProductEnhancedDto.BrandDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(catalogService.createBrand(dto));
     }
 }

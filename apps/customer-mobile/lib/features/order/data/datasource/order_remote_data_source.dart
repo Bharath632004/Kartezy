@@ -24,9 +24,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   Future<List<Order>> getUserOrders(String? userId) async {
     final response = await _dio.get(
       '/orders',
-      queryParameters: {
-        'userId': userId,
-      },
+      queryParameters: {'userId': userId},
     );
     final List<dynamic> data = response.data;
     return data.map((json) => Order.fromJson(json)).toList();
