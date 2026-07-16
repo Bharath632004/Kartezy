@@ -1,0 +1,458 @@
+name: Kartezy CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop, 'release/**']
+    tags: ['v*']
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 6 * * 0'  # Weekly security scan on Sundays
+
+env:
+  REGISTRY: ghcr.io
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # =============================================
+  # CHECKOUT & DEPENDENCY CACHE
+  # =============================================
+  prepare:
+    name: Prepare & Cache Dependencies
+    runs-on: ubuntu-latest
+    outputs:
+      maven-cache-key: ${{ steps.cache-maven.outputs.cache-hit }}
+      npm-admin-cache-key: ${{ steps.cache-npm-admin.outputs.cache-hit }}
+      npm-website-cache-key: ${{ steps.cache-npm-website.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache Maven Dependencies
+        id: cache-maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('backend/pom.xml', 'backend/**/pom.xml') }}
+          restore-keys: maven-
+
+      - name: Cache NPM (Admin Dashboard)
+        id: cache-npm-admin
+        uses: actions/cache@v4
+        with:
+          path: apps/admin-dashboard/node_modules
+          key: npm-admin-${{ hashFiles('apps/admin-dashboard/package-lock.json') }}
+
+      - name: Cache NPM (Website)
+        id: cache-npm-website
+        uses: actions/cache@v4
+        with:
+          path: apps/kartezy-website/node_modules
+          key: npm-website-${{ hashFiles('apps/kartezy-website/package-lock.json') }}
+
+  # =============================================
+  # SECURITY SCAN
+  # =============================================
+  security-scan:
+    name: Security Scan
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Run Dependency Check (OWASP)
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'Kartezy'
+          path: '.'
+          format: 'SARIF'
+        continue-on-error: true
+
+      - name: Secret scanning with Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+
+  # =============================================
+  # BACKEND BUILD & TEST
+  # =============================================
+  backend:
+    name: Backend Build & Test
+    needs: prepare
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: kartezy_test
+          POSTGRES_USER: kartezy
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build & Test with Maven
+        run: |
+          cd backend
+          mvn -B clean verify \
+            -Dspring.profiles.active=test \
+            -DskipITs=false \
+            -Dtest-postgres.host=localhost \
+            -Dtest-redis.host=localhost
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: backend/**/target/surefire-reports/
+
+      - name: Upload Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: backend/**/target/site/jacoco/
+
+  # =============================================
+  # FLUTTER BUILD & TEST (Customer, Merchant, Delivery)
+  # =============================================
+  flutter-apps:
+    name: Flutter ${{ matrix.app }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [customer-mobile, merchant-mobile, delivery-mobile]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: |
+          cd apps/${{ matrix.app }}
+          flutter pub get
+
+      - name: Analyze
+        run: |
+          cd apps/${{ matrix.app }}
+          flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Run tests
+        run: |
+          cd apps/${{ matrix.app }}
+          flutter test --coverage
+
+      - name: Build APK (Release)
+        run: |
+          cd apps/${{ matrix.app }}
+          flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-apk
+          path: apps/${{ matrix.app }}/build/app/outputs/flutter-apk/*.apk
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-test-results
+          path: apps/${{ matrix.app }}/build/test-results/
+
+  # =============================================
+  # WEB BUILD (Admin Dashboard, Website)
+  # =============================================
+  web-apps:
+    name: Web ${{ matrix.app }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [admin-dashboard, kartezy-website]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: apps/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd apps/${{ matrix.app }}
+          npm ci
+
+      - name: Lint
+        run: |
+          cd apps/${{ matrix.app }}
+          npm run lint
+
+      - name: Build
+        run: |
+          cd apps/${{ matrix.app }}
+          npm run build
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-build
+          path: apps/${{ matrix.app }}/out/
+
+  # =============================================
+  # AI PLATFORM BUILD
+  # =============================================
+  ai-platform:
+    name: AI Platform Build & Test
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ai-platform/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd ai-platform
+          npm ci
+
+      - name: Lint
+        run: |
+          cd ai-platform
+          npm run lint
+
+      - name: Build
+        run: |
+          cd ai-platform
+          npm run build
+
+      - name: Test
+        run: |
+          cd ai-platform
+          npm test
+
+  # =============================================
+  # DOCKER BUILD & PUSH
+  # =============================================
+  docker-build:
+    name: Docker Build & Push
+    needs: [backend, flutter-apps, web-apps, ai-platform]
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    strategy:
+      matrix:
+        service:
+          - api-gateway
+          - auth-service
+          - user-service
+          - merchant-service
+          - catalog-service
+          - inventory-service
+          - order-service
+          - payment-service
+          - delivery-service
+          - notification-service
+          - wallet-service
+          - review-service
+          - recommendation-service
+          - analytics-service
+          - fraud-detection-service
+          - forecasting-service
+          - chatbot-service
+          - computer-vision-service
+          - nlp-service
+          - ocr-service
+          - voice-service
+          - ai-service
+          - config-server
+          - discovery-server
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.service }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,format=short
+            type=ref,event=branch
+            latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend
+          file: backend/${{ matrix.service }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # =============================================
+  # DEPLOYMENT (Kubernetes)
+  # =============================================
+  deploy:
+    name: Deploy to Production
+    needs: [docker-build, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+
+      - name: Configure Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Deploy infrastructure components
+        run: |
+          kubectl apply -f devops/kubernetes/kartezy-namespace.yaml
+          kubectl apply -f devops/kubernetes/secrets.yaml
+          kubectl apply -f devops/kubernetes/infrastructure.yaml
+          kubectl apply -f devops/kubernetes/service-infrastructure.yaml
+          kubectl apply -f devops/kubernetes/monitoring.yaml
+          kubectl apply -f devops/kubernetes/network-policies.yaml
+
+      - name: Deploy business services
+        run: |
+          kubectl apply -f devops/kubernetes/business-services.yaml
+          kubectl apply -f devops/kubernetes/ai-services.yaml
+          kubectl apply -f devops/kubernetes/ingress.yaml
+          kubectl apply -f devops/kubernetes/hpa.yaml
+          kubectl apply -f devops/kubernetes/pod-disruption-budgets.yaml
+
+      - name: Verify deployment
+        run: |
+          kubectl -n kartezy rollout status deployment/api-gateway --timeout=300s
+          kubectl -n kartezy rollout status deployment/auth-service --timeout=300s
+          kubectl -n kartezy rollout status deployment/order-service --timeout=300s
+
+      - name: Health check
+        run: |
+          kubectl -n kartezy get pods
+          kubectl -n kartezy get svc
+          curl -f http://api-gateway.kartezy.svc.cluster.local:8080/actuator/health || true
+
+  # =============================================
+  # ROLLBACK (on failure)
+  # =============================================
+  rollback:
+    name: Rollback Deployment
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Rollback to previous version
+        run: |
+          kubectl -n kartezy rollout undo deployment/api-gateway
+          kubectl -n kartezy rollout undo deployment/auth-service
+          kubectl -n kartezy rollout undo deployment/order-service
+
+  # =============================================
+  # RELEASE
+  # =============================================
+  release:
+    name: Create Release
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate release notes
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            apps/customer-mobile/build/app/outputs/flutter-apk/*.apk
+            apps/merchant-mobile/build/app/outputs/flutter-apk/*.apk
+            apps/delivery-mobile/build/app/outputs/flutter-apk/*.apk

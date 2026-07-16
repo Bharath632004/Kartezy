@@ -1,4 +1,11 @@
-    // Methods called by AnalyticsServiceController
+package com.kartezy.analyticsservice.service;
+
+import org.springframework.stereotype.Service;
+import java.util.Map;
+
+@Service
+public class AnalyticsAiService {
+
     public Map<String, Object> generateBusinessInsights(Map<String, Object> params) {
         String timeRange = (String) params.getOrDefault("timeRange", "last_30_days");
         return getBusinessInsights(timeRange);

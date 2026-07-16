@@ -1,27 +1,31 @@
-name: Flutter CI
+name: Flutter CI (Legacy - delegates to ci-cd.yml)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop, 'release/**' ]
     paths:
       - 'apps/**'
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
       - 'apps/**'
 
 jobs:
-  build:
+  flutter-apps:
+    name: Flutter ${{ matrix.app }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         app: [customer-mobile, merchant-mobile, delivery-mobile]
+      fail-fast: false
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.10.0'
+        flutter-version: '3.22.0'
+        channel: 'stable'
+        cache: true
     - name: Get dependencies
       run: |
         cd apps/${{ matrix.app }}
@@ -29,8 +33,23 @@ jobs:
     - name: Analyze
       run: |
         cd apps/${{ matrix.app }}
-        flutter analyze
-    - name: Test
+        flutter analyze --no-fatal-infos --no-fatal-warnings
+    - name: Run tests
       run: |
         cd apps/${{ matrix.app }}
-        flutter test
+        flutter test --coverage
+    - name: Build APK (Release)
+      run: |
+        cd apps/${{ matrix.app }}
+        flutter build apk --release
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.app }}-apk
+        path: apps/${{ matrix.app }}/build/app/outputs/flutter-apk/*.apk
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.app }}-test-results
+        path: apps/${{ matrix.app }}/build/test-results/

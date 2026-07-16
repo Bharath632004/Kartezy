@@ -1,0 +1,167 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: kartezy
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-gateway-ingress
+  namespace: kartezy
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - port: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-web
+  namespace: kartezy
+spec:
+  podSelector:
+    matchExpressions:
+      - key: tier
+        operator: In
+        values: [frontend]
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-business-services-from-gateway
+  namespace: kartezy
+spec:
+  podSelector:
+    matchLabels:
+      tier: business
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: api-gateway
+      ports:
+        - port: 8081
+        - port: 8082
+        - port: 8083
+        - port: 8084
+        - port: 8085
+        - port: 8086
+        - port: 8087
+        - port: 8088
+        - port: 8089
+        - port: 8090
+        - port: 8091
+        - port: 8092
+        - port: 8093
+        - port: 8101
+    - from:
+        - podSelector:
+            matchLabels:
+              app: discovery-server
+    - from:
+        - podSelector:
+            matchLabels:
+              app: config-server
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ai-services-from-gateway
+  namespace: kartezy
+spec:
+  podSelector:
+    matchLabels:
+      tier: ai
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: api-gateway
+      ports:
+        - port: 8094
+        - port: 8095
+        - port: 8096
+        - port: 8097
+        - port: 8098
+        - port: 8099
+        - port: 8100
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-database-access
+  namespace: kartezy
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values: [postgres, mongodb, redis, elasticsearch]
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: business
+        - podSelector:
+            matchLabels:
+              tier: ai
+        - podSelector:
+            matchLabels:
+              app: api-gateway
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-message-queue-access
+  namespace: kartezy
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values: [rabbitmq, kafka]
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: business
+        - podSelector:
+            matchLabels:
+              tier: ai

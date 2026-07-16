@@ -1,0 +1,301 @@
+---
+# Support Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: support-service
+  namespace: kartezy
+  labels:
+    app: support-service
+    tier: business
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: support-service
+  template:
+    metadata:
+      labels:
+        app: support-service
+        tier: business
+    spec:
+      containers:
+        - name: support-service
+          image: kartezy/support-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8103
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: support-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8103
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8103
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 768Mi
+              cpu: 500m
+            requests:
+              memory: 384Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: support-service
+  namespace: kartezy
+spec:
+  selector:
+    app: support-service
+  ports:
+    - port: 8103
+      targetPort: 8103
+
+---
+# Finance Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finance-service
+  namespace: kartezy
+  labels:
+    app: finance-service
+    tier: business
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finance-service
+  template:
+    metadata:
+      labels:
+        app: finance-service
+        tier: business
+    spec:
+      containers:
+        - name: finance-service
+          image: kartezy/finance-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8104
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: finance-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8104
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8104
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 768Mi
+              cpu: 500m
+            requests:
+              memory: 384Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finance-service
+  namespace: kartezy
+spec:
+  selector:
+    app: finance-service
+  ports:
+    - port: 8104
+      targetPort: 8104
+
+---
+# CMS Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cms-service
+  namespace: kartezy
+  labels:
+    app: cms-service
+    tier: business
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cms-service
+  template:
+    metadata:
+      labels:
+        app: cms-service
+        tier: business
+    spec:
+      containers:
+        - name: cms-service
+          image: kartezy/cms-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8105
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: cms-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8105
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8105
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 500m
+            requests:
+              memory: 256Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cms-service
+  namespace: kartezy
+spec:
+  selector:
+    app: cms-service
+  ports:
+    - port: 8105
+      targetPort: 8105
+---
+# Search Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-service
+  namespace: kartezy
+  labels:
+    app: search-service
+    tier: business
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: search-service
+  template:
+    metadata:
+      labels:
+        app: search-service
+        tier: business
+    spec:
+      containers:
+        - name: search-service
+          image: kartezy/search-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8106
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: search-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: ELASTICSEARCH_HOST
+              value: elasticsearch
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8106
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8106
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 500m
+            requests:
+              memory: 512Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-service
+  namespace: kartezy
+spec:
+  selector:
+    app: search-service
+  ports:
+    - port: 8106
+      targetPort: 8106

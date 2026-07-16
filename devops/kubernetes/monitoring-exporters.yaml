@@ -1,0 +1,258 @@
+---
+# PostgreSQL Exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-exporter
+  namespace: kartezy
+  labels:
+    app: postgres-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  template:
+    metadata:
+      labels:
+        app: postgres-exporter
+    spec:
+      containers:
+        - name: postgres-exporter
+          image: prometheuscommunity/postgres-exporter:v0.15.0
+          ports:
+            - containerPort: 9187
+          env:
+            - name: DATA_SOURCE_NAME
+              value: postgresql://kartezy:$(POSTGRES_PASSWORD)@postgres:5432/kartezy?sslmode=disable
+          envFrom:
+            - secretRef:
+                name: kartezy-secrets
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 200m
+            requests:
+              memory: 128Mi
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-exporter
+  namespace: kartezy
+  labels:
+    app: postgres-exporter
+spec:
+  selector:
+    app: postgres-exporter
+  ports:
+    - port: 9187
+      targetPort: 9187
+
+---
+# Redis Exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-exporter
+  namespace: kartezy
+  labels:
+    app: redis-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-exporter
+  template:
+    metadata:
+      labels:
+        app: redis-exporter
+    spec:
+      containers:
+        - name: redis-exporter
+          image: oliver006/redis_exporter:v1.61.0
+          ports:
+            - containerPort: 9121
+          env:
+            - name: REDIS_ADDR
+              value: redis:6379
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 100m
+            requests:
+              memory: 64Mi
+              cpu: 50m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-exporter
+  namespace: kartezy
+  labels:
+    app: redis-exporter
+spec:
+  selector:
+    app: redis-exporter
+  ports:
+    - port: 9121
+      targetPort: 9121
+
+---
+# Kafka Exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-exporter
+  namespace: kartezy
+  labels:
+    app: kafka-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-exporter
+  template:
+    metadata:
+      labels:
+        app: kafka-exporter
+    spec:
+      containers:
+        - name: kafka-exporter
+          image: danielqsj/kafka-exporter:v1.7.0
+          ports:
+            - containerPort: 9308
+          args:
+            - --kafka.server=kafka:9092
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 200m
+            requests:
+              memory: 128Mi
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-exporter
+  namespace: kartezy
+  labels:
+    app: kafka-exporter
+spec:
+  selector:
+    app: kafka-exporter
+  ports:
+    - port: 9308
+      targetPort: 9308
+
+---
+# RabbitMQ Exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-exporter
+  namespace: kartezy
+  labels:
+    app: rabbitmq-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-exporter
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-exporter
+    spec:
+      containers:
+        - name: rabbitmq-exporter
+          image: kbudde/rabbitmq-exporter:v1.1.0
+          ports:
+            - containerPort: 9419
+          env:
+            - name: RABBITMQ_URL
+              value: http://rabbitmq:15672
+            - name: RABBITMQ_USER
+              value: kartezy
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: rabbitmq-password
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 100m
+            requests:
+              memory: 64Mi
+              cpu: 50m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-exporter
+  namespace: kartezy
+  labels:
+    app: rabbitmq-exporter
+spec:
+  selector:
+    app: rabbitmq-exporter
+  ports:
+    - port: 9419
+      targetPort: 9419
+
+---
+# Elasticsearch Exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch-exporter
+  namespace: kartezy
+  labels:
+    app: elasticsearch-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch-exporter
+  template:
+    metadata:
+      labels:
+        app: elasticsearch-exporter
+    spec:
+      containers:
+        - name: elasticsearch-exporter
+          image: quay.io/prometheuscommunity/elasticsearch-exporter:v1.7.0
+          ports:
+            - containerPort: 9114
+          args:
+            - --es.uri=http://elasticsearch:9200
+            - --es.all
+            - --es.indices
+            - --es.cluster_settings
+            - --es.indices_settings
+            - --es.shards
+            - --es.snapshots
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 200m
+            requests:
+              memory: 128Mi
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-exporter
+  namespace: kartezy
+  labels:
+    app: elasticsearch-exporter
+spec:
+  selector:
+    app: elasticsearch-exporter
+  ports:
+    - port: 9114
+      targetPort: 9114

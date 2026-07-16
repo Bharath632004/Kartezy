@@ -65,24 +65,24 @@ class AnalyticsDashboardPage extends ConsumerWidget {
                               color: Colors.grey[50],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.trending_up,
-                                  size: 48,
-                                  color: Colors.grey[300],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Revenue data will appear here',
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 13,
+                            child: (analyticsState.revenueTrend != null && (analyticsState.revenueTrend as List).isNotEmpty)
+                                ? ListView(
+                                    children: (analyticsState.revenueTrend as List).map((point) {
+                                      return ListTile(
+                                        dense: true,
+                                        title: Text('${point['date'] ?? point['month'] ?? ''}'),
+                                        trailing: Text('₹${point['revenue'] ?? point['value'] ?? 0}'),
+                                      );
+                                    }).toList(),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.trending_up, size: 48, color: Colors.grey[300]),
+                                      const SizedBox(height: 8),
+                                      Text('No revenue data yet', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ),

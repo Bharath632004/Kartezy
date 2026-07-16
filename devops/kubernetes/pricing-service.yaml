@@ -1,0 +1,69 @@
+---
+# Pricing Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-service
+  namespace: kartezy
+  labels:
+    app: pricing-service
+    tier: business
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pricing-service
+  template:
+    metadata:
+      labels:
+        app: pricing-service
+        tier: business
+    spec:
+      containers:
+        - name: pricing-service
+          image: kartezy/pricing-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8102
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: pricing-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_REDIS_HOST
+              value: redis
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8102
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8102
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 500m
+            requests:
+              memory: 256Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing-service
+  namespace: kartezy
+spec:
+  selector:
+    app: pricing-service
+  ports:
+    - port: 8102
+      targetPort: 8102

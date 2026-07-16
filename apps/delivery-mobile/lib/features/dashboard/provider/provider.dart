@@ -1,5 +1,5 @@
-// lib/features/dashboard/provider/provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:delivery_mobile/core/services/api_service.dart';
 
 // Define the state of the dashboard
 class DashboardState {
@@ -22,34 +22,24 @@ class DashboardState {
 
 // Define the notifier
 class DashboardNotifier extends StateNotifier<DashboardState> {
-  DashboardNotifier() : super(DashboardState.loading()) {
+  final ApiService _apiService;
+
+  DashboardNotifier(this._apiService) : super(DashboardState.loading()) {
     _loadDashboardData();
   }
 
   Future<void> _loadDashboardData() async {
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 2));
-    // In a real app, we would call a dashboard service here
-        final mockData = {
-      'isOnline': true,
-      'todayEarnings': 125.50,
-      'weeklyEarnings': 875.25,
-      'monthlyEarnings': 3500.00,
-      'availableOrders': 5,
-      'acceptedOrders': 3,
-      'deliveredOrders': 42,
-      'cancelledOrders': 2,
-      'rating': 4.8,
-      'walletBalance': 250.75,
-      'totalDistance': 1250,
-      'avgDeliveryTime': 25,
-      'acceptanceRate': 85,
-    };
-    state = DashboardState.success(mockData);
+    try {
+      state = DashboardState.loading();
+      final response = await _apiService.get('/api/delivery/dashboard');
+      final data = response.data as Map<String, dynamic>? ?? {};
+      state = DashboardState.success(data);
+    } catch (e) {
+      state = DashboardState.error(e.toString());
+    }
   }
 
   Future<void> refresh() async {
-    state = DashboardState.loading();
     await _loadDashboardData();
   }
 }
@@ -57,5 +47,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
 // Provider for the dashboard notifier
 final dashboardProvider =
     StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
-  return DashboardNotifier();
+  final apiService = ref.watch(apiServiceProvider);
+  return DashboardNotifier(apiService);
 });

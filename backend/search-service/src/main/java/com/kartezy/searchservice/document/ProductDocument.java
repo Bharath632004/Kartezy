@@ -45,4 +45,6 @@ public class ProductDocument {
     private String tags;
     @Field(type = FieldType.Double)
     private Double rating;
+    @Field(type = FieldType.Double)
+    private Double popularityScore;
 }

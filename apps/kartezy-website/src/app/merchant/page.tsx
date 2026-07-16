@@ -1,209 +1,85 @@
 "use client";
 
-import { Box, Container, Stack, Typography, Card, CardContent, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, Link, TextField, CircularProgress, Alert } from '@mui/material';
-import { LocalMall, Person, Shield, Description, Timeline, TimelineItem, TimelineConnector, TrendingUp, AccessTime, Group, Work, Handshake, Award, Scale, BusinessCenter, Store, LocalShipping, LocalAtm, CreditCard, Wallet, Redeem } from '@mui/icons/material';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Request interceptor to add auth token
-api.interceptors.request.use(
-  (config) => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    if (token) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+import { Box, Container, Typography, Card, CardContent, Button, Divider, Grid, CircularProgress, Alert } from '@mui/material';
+import { Store, TrendingUp, Group, LocationOn, LocalShipping, Shield, Handshake, Timeline, Payment } from '@mui/icons-material';
+import { useState, useEffect, useCallback } from 'react';
+import api from '@/lib/api';
+import { useRouter } from 'next/navigation';
 
 const MerchantLandingPage = () => {
-  const [stats, setStats] = useState([]);
+  const router = useRouter();
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const loadStats = async () => {
-      try {
-        setLoading(true);
-        // In a real app, we would fetch from API
-        // For now, mock data
-        const mockStats = [
-          { title: 'Active Merchants', value: '1,200+', icon: Store, color: 'success' },
-          { title: 'Average Monthly Revenue', value: '₹2.5L+', icon: TrendingUp, color: 'success' },
-          { title: 'Cities Covered', value: '10+', icon: LocationOn, color: 'info' },
-          { title: 'Customer Base', value: '500K+', icon: Group, color: 'success' },
-        ];
-        setStats(mockStats);
-      } catch (err) {
-        setError('Failed to load stats');
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const loadStats = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await api.get('/api/merchants/stats');
+      setStats(res.data);
+    } catch (err) {
+      if (err.response?.status !== 401) {
+        setError(err.response?.data?.message || 'Failed to load stats');
       }
-    };
-
-    loadStats();
+      setStats({ activeMerchants: '0', avgRevenue: '₹0', cities: '0', customerBase: '0' });
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleSignUp = () => {
-    // Redirect to merchant registration
-    // In a real app, we would use router.push
-    window.location.href = '/merchant/register';
-  };
+  useEffect(() => { loadStats(); }, [loadStats]);
+
+  const features = [
+    { icon: Store, title: 'Instant Online Presence', desc: 'Get your storefront on Kartezy in minutes. No technical expertise needed.' },
+    { icon: Shield, title: 'Secure & Reliable Payments', desc: 'We handle all payment processing. Get paid directly to your bank weekly.' },
+    { icon: LocalShipping, title: 'Hassle-Free Logistics', desc: 'Our delivery network ensures timely doorstep delivery to customers.' },
+    { icon: Handshake, title: 'Dedicated Support', desc: 'Merchant success team available 24/7 to help you grow.' },
+    { icon: Timeline, title: 'Real-Time Analytics', desc: 'Track sales, inventory, and customer insights on your dashboard.' },
+    { icon: Payment, title: 'Marketing & Promotions', desc: 'Participate in campaigns and create discounts to boost sales.' }
+  ];
+
+  const howItWorks = [
+    { icon: '1', title: 'Sign Up', desc: 'Register as a merchant with basic business details.' },
+    { icon: '2', title: 'List Products', desc: 'Upload your catalog, set prices, and manage inventory.' },
+    { icon: '3', title: 'Receive Orders', desc: 'Get notified instantly when customers place orders.' },
+    { icon: '4', title: 'We Deliver', desc: 'Our partners pick up and deliver to customers.' },
+    { icon: '5', title: 'Get Paid', desc: 'Receive weekly payouts directly to your bank.' }
+  ];
 
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
-          Sell on Kartify
+      {/* Hero */}
+      <Box sx={{ mb: 6, textAlign: 'center' }}>
+        <Typography variant="h2" fontWeight={700} sx={{ mb: 2 }}>Sell on Kartezy</Typography>
+        <Typography variant="h6" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
+          Reach millions of customers and grow your business with India&apos;s fastest grocery delivery platform
         </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Reach millions of customers and grow your business with India's fastest grocery delivery platform
-        </Typography>
-        <Box sx={{ mt: 4 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{ px: 6, py: 2 }}
-            onClick={handleSignUp}
-          >
-            Join as a Merchant
-          </Button>
-        </Box>
+        <Button variant="contained" size="large" sx={{ px: 6, py: 2, fontSize: '1.1rem' }}
+          onClick={() => router.push('/merchant/register')}>
+          Join as a Merchant
+        </Button>
       </Box>
 
-      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 6, mb: 4 }}>
+      {/* Stats */}
+      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 6 }, mb: 4 }}>
         <CardContent>
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardContent>
-                  <LocalMall fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Instant Online Presence
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Get your own online storefront on Kartify within minutes. No technical expertise needed.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardContent>
-                  <Shield fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Secure & Reliable Payments
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    We handle all payment processing securely. Get paid directly to your bank account weekly.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardContent>
-                  <LocalShipping fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Hassle-Free Logistics
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Our dedicated delivery network ensures timely delivery to customers doorstep.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardContent>
-                  <Handshake fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Dedicated Support
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Our merchant success team is available 24/7 to help you grow your business.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardContent>
-                  <TimelineIcon fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Real-Time Analytics
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Track sales inventory and customer insights with our easy-to-use dashboard.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardContent>
-                  <DiscountIcon fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Marketing & Promotions
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Participate in platform-wide campaigns and create your own discounts to boost sales.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-
-      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 6, mb: 4 }}>
-        <CardContent>
-          <Typography variant="h3" fontWeight={600} sx={{ mb: 4 }}>
-            Join Thousands of Successful Merchants
-          </Typography>
+          <Typography variant="h3" fontWeight={600} sx={{ mb: 4, textAlign: 'center' }}>Join Thousands of Successful Merchants</Typography>
           {loading ? (
-            <Box sx={{ textAlign: 'center', py: 8 }}>
-              <CircularProgress />
-            </Box>
-          ) : error ? (
-            <Alert severity="error">{error}</Alert>
+            <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
           ) : (
-            <Grid container spacing={4}>
-              {stats.map((stat, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
-                  <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                    <CardContent>
-                      <Box sx={{ mb: 2 }}>
-                        {stat.icon && <stat.icon fontSize={36} color={stat.color} />}
-                      </Box>
-                      <Typography variant="h4" fontWeight={600} color={stat.color}>
-                        {stat.value}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {stat.title}
-                      </Typography>
-                    </CardContent>
+            <Grid container spacing={3}>
+              {[
+                { value: stats?.activeMerchants ?? '1,200+', label: 'Active Merchants', icon: Group },
+                { value: stats?.avgRevenue ?? '₹2.5L+', label: 'Avg Monthly Revenue', icon: TrendingUp },
+                { value: stats?.cities ?? '10+', label: 'Cities Covered', icon: LocationOn },
+                { value: stats?.customerBase ?? '500K+', label: 'Customer Base', icon: Group }
+              ].map((stat, i) => (
+                <Grid item xs={12} sm={6} md={3} key={i}>
+                  <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                    <stat.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1 }} />
+                    <Typography variant="h4" fontWeight={700} color="primary.main">{stat.value}</Typography>
+                    <Typography variant="body2" color="text.secondary">{stat.label}</Typography>
                   </Card>
                 </Grid>
               ))}
@@ -212,73 +88,47 @@ const MerchantLandingPage = () => {
         </CardContent>
       </Card>
 
-      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 6 }}>
+      {/* Features */}
+      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 6 }, mb: 4 }}>
         <CardContent>
-          <Typography variant="h3" fontWeight={600} sx={{ mb: 4 }}>
-            How It Works
-          </Typography>
-          <Timeline alignLeft>
-            <TimelineItem>
-              <TimelineConnector />
-              <Box sx={{ flexGrow: 1 }}>
-                <TimerIcon fontSize={30} color="primary.main" sx={{ mb: 1 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                  Sign Up
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Register as a merchant in minutes with basic business details.
-                </Typography>
-              </Box>
-            </TimelineItem>
-            <TimelineItem>
-              <Connector />
-              <Box sx={{ flexGrow: 1 }}>
-                <StoreIcon fontSize={30} color="primary.main" sx={{ mb: 1 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                  List Your Products
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Upload your product catalog set prices and manage inventory.
-                </Typography>
-              </Box>
-            </TimelineItem>
-            <TimelineItem>
-              <Connector />
-              <Box sx={{ flexGrow: 1 }}>
-                <ShoppingCartIcon fontSize={30} color="primary.main" sx={{ mb: 1 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                  Receive Orders
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Get notified instantly when customers place orders from your store.
-                </Typography>
-              </Box>
-            </TimelineItem>
-            <TimelineItem>
-              <Connector />
-              <Box sx={{ flexGrow: 1 }}>
-                <LocalShippingIcon fontSize={30} color="primary.main" sx={{ mb: 1 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                  We Handle Delivery
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Our delivery partners pick up and deliver orders to customers doorstep.
-                </Typography>
-              </Box>
-            </TimelineItem>
-            <TimelineItem>
-              <Connector />
-              <Box sx={{ flexGrow: 1 }}>
-                <PaymentIcon fontSize={30} color="primary.main" sx={{ mb: 1 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                  Get Paid
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Receive weekly payouts directly to your bank account minus our commission.
-                </Typography>
-              </Box>
-            </TimelineItem>
-          </Timeline>
+          <Typography variant="h3" fontWeight={600} sx={{ mb: 4, textAlign: 'center' }}>Why Sell on Kartezy?</Typography>
+          <Grid container spacing={3}>
+            {features.map((f, i) => (
+              <Grid item xs={12} sm={6} md={4} key={i}>
+                <Card sx={{ p: 3, borderRadius: 4, height: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                  <f.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1 }} />
+                  <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>{f.title}</Typography>
+                  <Typography variant="body2" color="text.secondary">{f.desc}</Typography>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+      </Card>
+
+      {/* How it works */}
+      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 6 } }}>
+        <CardContent>
+          <Typography variant="h3" fontWeight={600} sx={{ mb: 4, textAlign: 'center' }}>How It Works</Typography>
+          <Grid container spacing={3} justifyContent="center">
+            {howItWorks.map((step, i) => (
+              <Grid item xs={12} sm={6} md={4} key={i}>
+                <Box sx={{ textAlign: 'center', p: 3 }}>
+                  <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: 'primary.main', color: 'white',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 700, mx: 'auto', mb: 2 }}>
+                    {step.icon}
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>{step.title}</Typography>
+                  <Typography variant="body2" color="text.secondary">{step.desc}</Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Button variant="contained" size="large" onClick={() => router.push('/merchant/register')}>
+              Start Selling Today
+            </Button>
+          </Box>
         </CardContent>
       </Card>
     </Container>

@@ -24,53 +24,43 @@ type NotificationState = {
 
 export const useNotificationStore = create<NotificationState>()(
   devtools(
-  (set, get) => ({
-    notifications: [],
-    unreadCount: 0,
-    setNotifications: (notifications) => {
-      const unreadCount = notifications.filter((n) => !n.read).length;
-      set({ notifications, unreadCount });
-    },
-    addNotification: (notification) => {
-      set((state) => {
-        const newNotifications = [notification, ...state.notifications];
+    (set, get) => ({
+      notifications: [],
+      unreadCount: 0,
+      setNotifications: (notifications: Notification[]) => {
+        const unreadCount = notifications.filter((n) => !n.read).length;
+        set({ notifications, unreadCount });
+      },
+      addNotification: (notification: Notification) => {
+        const newNotifications = [notification, ...get().notifications];
         const unreadCount = newNotifications.filter((n) => !n.read).length;
-        return { notifications: newNotifications, unreadCount };
-      });
-    },
-    markAsRead: (id) => {
-      set((state) => {
-        const notifications = state.notifications.map((n) =>
+        set({ notifications: newNotifications, unreadCount });
+      },
+      markAsRead: (id: string) => {
+        const notifications = get().notifications.map((n) =>
           n.id === id ? { ...n, read: true } : n
         );
         const unreadCount = notifications.filter((n) => !n.read).length;
-        return { notifications, unreadCount };
-      });
-    },
-    markAllAsRead: () => {
-      set((state) => {
-        const notifications = state.notifications.map((n) => ({
-          ...n,
-          read: true,
-        }));
-        return { notifications, unreadCount: 0 };
-      });
-    },
-    removeNotification: (id) => {
-      set((state) => {
-        const notifications = state.notifications.filter((n) => n.id !== id);
+        set({ notifications, unreadCount });
+      },
+      markAllAsRead: () => {
+        const notifications = get().notifications.map((n) => ({ ...n, read: true }));
+        set({ notifications, unreadCount: 0 });
+      },
+      removeNotification: (id: string) => {
+        const notifications = get().notifications.filter((n) => n.id !== id);
         const unreadCount = notifications.filter((n) => !n.read).length;
-        return { notifications, unreadCount };
-      });
-    },
-    fetchNotifications: async () => {
-      try {
-        const response = await notificationService.getNotifications({});
-        get().setNotifications(response.data);
-      } catch (error) {
-        console.error('Failed to fetch notifications', error);
-      }
-    },
-  }),
-  { name: 'NotificationStore' }
+        set({ notifications, unreadCount });
+      },
+      fetchNotifications: async () => {
+        try {
+          const response = await notificationService.getNotifications({});
+          get().setNotifications(response.data);
+        } catch (error) {
+          console.error('Failed to fetch notifications', error);
+        }
+      },
+    }),
+    { name: 'NotificationStore' }
+  )
 );

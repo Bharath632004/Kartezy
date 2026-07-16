@@ -21,6 +21,18 @@ spec:
         app: auth-service
         tier: business
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - auth-service
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: auth-service
         image: kartezy/auth-service:latest

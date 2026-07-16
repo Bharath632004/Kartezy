@@ -1,373 +1,170 @@
 "use client";
 
-import { Box, Container, Stack, Typography, Card, CardContent, TextField, Button, Chip, Divider, Stack as MuiStack, Typography as MuiTypography } from '@mui/material';
-import { LocalMall, LocationOn, Phone, Email, Money, Schedule, Lock, Person, CreditCard, Wallet, Redeem } from '@mui/icons-material';
-import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createOrder } from '@/lib/services';
-import Link from 'next/link';
+import { Box, Container, Typography, Card, CardContent, Button, Divider, TextField, CircularProgress, Alert, Grid, Stepper, Step, StepLabel } from '@mui/material';
+import { ShoppingCart, LocalShipping, Payment, CheckCircle } from '@mui/icons-material';
+import { useState, useEffect, useCallback } from 'react';
+import api from '@/lib/api';
+import { useRouter } from 'next/navigation';
+
+const STEPS = ['Cart', 'Delivery', 'Payment', 'Confirm'];
 
 const CheckoutPage = () => {
-  const queryClient = useQueryClient();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    address: '',
-    landmark: '',
-    city: '',
-    pincode: '',
-    paymentMethod: 'cod', // cod, card, wallet
-    useWallet: false,
-  });
-  const [orderSummary, setOrderSummary] = useState(null);
+  const router = useRouter();
+  const [activeStep, setActiveStep] = useState(0);
+  const [cart, setCart] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [deliveryAddress, setDeliveryAddress] = useState({ address: '', city: '', pincode: '', phone: '' });
 
-  // In a real app, we would fetch cart data and user profile
-  // For now, we'll simulate
-  const mockCart = {
-    items: [
-      {
-        id: 1,
-        product: {
-          id: 'p1',
-          name: 'Organic Apples',
-          image: 'https://example.com/apples.jpg',
-          price: 120,
-          originalPrice: 150,
-          discount: 20,
-          store: 'FreshMart',
-          deliveryTime: '20-30 mins',
-        },
-        quantity: 2,
-      },
-      {
-        id: 2,
-        product: {
-          id: 'p2',
-          name: 'Bread Loaf',
-          image: 'https://example.com/bread.jpg',
-          price: 40,
-          originalPrice: 50,
-          discount: 20,
-          store: 'Bakery Corner',
-          'deliveryTime': '15-20 mins',
-        },
-        quantity: 1,
-      },
-    ],
-    totalAmount: 280, // (120*2 + 40) = 280
-  };
-
-  const handleSubmit = async () => {
-    setLoading(true);
+  const loadCart = useCallback(async () => {
     try {
-      // Calculate total with discount (if any)
-      const totalAmount = mockCart.totalAmount;
-      const discount = 0; // Would come from coupon
-      const finalAmount = totalAmount - discount;
+      setLoading(true);
+      setError(null);
+      const res = await api.get('/api/cart');
+      setCart(res.data);
+    } catch (err) {
+      if (err.response?.status === 401) {
+        setError('Please log in to checkout');
+      } else if (err.response?.status === 404) {
+        setCart({ items: [], totalAmount: 0, discountAmount: 0, deliveryFee: 0, taxAmount: 0 });
+      } else {
+        setError(err.response?.data?.message || 'Failed to load cart');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-      const orderData = {
-        items: mockCart.items.map((item: any) => ({
-          productId: item.product.id,
-          quantity: item.quantity,
-          price: item.product.price,
-        })),
-        totalAmount,
-        discount,
-        finalAmount,
-        shippingAddress: {
-          fullName: formData.fullName,
-          phone: formData.phone,
-          email: formData.email,
-          address: formData.address,
-          landmark: formData.landmark,
-          city: formData.city,
-          pincode: formData.pincode,
-        },
-        paymentMethod: formData.paymentMethod,
-        // In a real app, we would also include wallet usage, etc.
-      };
+  useEffect(() => { loadCart(); }, [loadCart]);
 
-      // Call API to create order
-      const response = await createOrder(orderData);
-
-      // Clear cart
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-
-      // Set order summary for confirmation
-      setOrderSummary({
-        orderId: response.id,
-        status: 'confirmed',
-        totalAmount: finalAmount,
-        items: mockCart.items,
-        shippingAddress: formData,
+  const handlePlaceOrder = async () => {
+    try {
+      setSubmitting(true);
+      const res = await api.post('/api/orders', {
+        deliveryAddress,
+        paymentMethod: 'COD',
+        items: cart.items,
+        totalAmount: cart.totalAmount
       });
-
-      setLoading(false);
-    } catch (error) {
-      alert('Failed to place order: ' + (error as Error).message);
-      setLoading(false);
+      const orderId = res.data.orderId || res.data.id;
+      router.push(`/orders/${orderId}?success=true`);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to place order');
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  if (!orderSummary) {
-    return (
-      <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
-            Checkout
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Enter your delivery and payment details to complete your order
-          </Typography>
-        </Box>
+  if (loading) return (
+    <Container maxWidth="md" sx={{ py: 8, textAlign: 'center' }}>
+      <CircularProgress /><Typography sx={{ mt: 2 }}>Loading cart...</Typography>
+    </Container>
+  );
 
-        <Card sx={{ borderRadius: 4, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 4 }}>
-          <Stack spacing={4}>
-            {/* Order Summary */}
+  if (error && !cart) return (
+    <Container maxWidth="md" sx={{ py: 8 }}>
+      <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
+      <Button variant="outlined" onClick={loadCart}>Retry</Button>
+    </Container>
+  );
+
+  if (!cart?.items?.length) return (
+    <Container maxWidth="md" sx={{ py: 8, textAlign: 'center' }}>
+      <ShoppingCart sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
+      <Typography variant="h5" sx={{ mb: 1 }}>Your cart is empty</Typography>
+      <Typography color="text.secondary" sx={{ mb: 3 }}>Add items from nearby stores</Typography>
+      <Button variant="contained" onClick={() => router.push('/')}>Browse Stores</Button>
+    </Container>
+  );
+
+  return (
+    <Container maxWidth="md" sx={{ py: { xs: 4, md: 6 } }}>
+      <Typography variant="h3" fontWeight={600} sx={{ mb: 4 }}>Checkout</Typography>
+
+      <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
+        {STEPS.map(label => <Step key={label}><StepLabel>{label}</StepLabel></Step>)}
+      </Stepper>
+
+      <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 5 } }}>
+        <CardContent>
+          {activeStep === 0 && (
             <Box>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
-                Order Summary
-              </Typography>
-              <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, p: 3, mb: 3 }}>
-                {mockCart.items.map((item: any) => (
-                  <Box key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, pb: 2, borderBottom: '1px solid #f0f0f0' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box
-                        sx={{
-                          width: 40,
-                          height: 40,
-                          mr: 2,
-                          backgroundColor: '#f5f5f5',
-                          borderRadius: 2,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <img src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                      </Box>
-                      <Box>
-                        <Typography variant="body2" fontWeight={600} sx={{ mb: 0.5 }}>
-                          {item.product.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem' }}>
-                          {item.product.store}
-                        </Typography>
-                      </Box>
-                      <Typography variant="body2" fontWeight={600}>
-                        ₹{item.product.price} × {item.quantity}
-                      </Typography>
-                    </Box>
-                  ))}
-                  <Divider sx={{ my: 2 }} />
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography variant="body2">
-                      Subtotal
-                    </Typography>
-                    <Typography variant="body2" fontWeight={600}>
-                      ₹{mockCart.totalAmount}
-                    </Typography>
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>Cart Items</Typography>
+              {cart.items.map((item, idx) => (
+                <Box key={item.productId || idx} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1.5, borderBottom: idx < cart.items.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
+                  <Box>
+                    <Typography variant="body1" fontWeight={500}>{item.productName || item.name}</Typography>
+                    <Typography variant="caption" color="text.secondary">Qty: {item.quantity} × ₹{item.price || item.unitPrice}</Typography>
                   </Box>
-                  {/* Discount section would go here */}
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography variant="body2">
-                      Estimated Total
-                    </Typography>
-                    <Typography variant="h5" fontWeight={600} color="primary.main">
-                      ₹{mockCart.totalAmount}
-                    </Typography>
-                  </Box>
+                  <Typography variant="body1" fontWeight={600}>₹{((item.price || item.unitPrice) * item.quantity).toLocaleString('en-IN')}</Typography>
                 </Box>
+              ))}
+              <Divider sx={{ my: 2 }} />
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, alignItems: 'flex-end' }}>
+                <Typography variant="body2">Subtotal: ₹{(cart.subtotal ?? cart.totalAmount).toLocaleString('en-IN')}</Typography>
+                {cart.discountAmount > 0 && <Typography variant="body2" color="success.main">Discount: -₹{cart.discountAmount.toLocaleString('en-IN')}</Typography>}
+                <Typography variant="body2">Delivery: ₹{(cart.deliveryFee ?? 0).toLocaleString('en-IN')}</Typography>
+                <Typography variant="h6" fontWeight={600}>Total: ₹{cart.totalAmount.toLocaleString('en-IN')}</Typography>
+              </Box>
+              <Button variant="contained" fullWidth sx={{ mt: 3 }} onClick={() => setActiveStep(1)}>Continue to Delivery</Button>
             </Box>
+          )}
 
-            {/* Delivery Details */}
+          {activeStep === 1 && (
             <Box>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
-                Delivery Details
-              </Typography>
-              <Stack spacing={3}>
-                <TextField
-                  label="Full Name"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  required
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Phone Number"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  required
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Email Address"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  type="email"
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Address"
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  required
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Landmark (Optional)"
-                  value={formData.landmark}
-                  onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
-                  sx={{ mb: 2 }}
-                />
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    label="City"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    required
-                    sx={{ flex: 1, mb: 2 }}
-                  />
-                  <TextField
-                    label="Pincode"
-                    value={formData.pincode}
-                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                    required
-                    sx={{ width: 100, mb: 2 }}
-                  />
-                </Stack>
-              </Stack>
-            </Box>
-
-            {/* Payment Method */}
-            <Box>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
-                Payment Method
-              </Typography>
-              <Stack spacing={2}>
-                <FormControlLabel
-                  value="cod"
-                  control={<Radio color="primary" />}
-                  label="Cash on Delivery"
-                  labelPlacement="start"
-                />
-                <FormControlLabel
-                  value="card"
-                  control={<Radio color="primary" />}
-                  label="Credit/Debit Card"
-                  labelPlacement="start"
-                />
-                <FormControlLabel
-                  value="wallet"
-                  control={<Radio color="primary" />}
-                  label="Kartezy Wallet"
-                  labelPlacement="start"
-                />
-              </Stack>
-              <Box sx={{ mt: 3, p: 2, backgroundColor: '#f5f5f5', borderRadius: 4 }}>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  Wallet Balance: ₹500
-                </Typography>
-                <Checkbox
-                  checked={formData.useWallet}
-                  onChange={(e) => setFormData({ ...formData, useWallet: e.target.checked })}
-                  sx={{ mr: 2 }}
-                />
-                <Typography variant="body2">
-                  Use Wallet Balance
-                </Typography>
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>Delivery Address</Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}><TextField fullWidth label="Address" value={deliveryAddress.address} onChange={e => setDeliveryAddress(a => ({ ...a, address: e.target.value }))} multiline rows={2} /></Grid>
+                <Grid item xs={6}><TextField fullWidth label="City" value={deliveryAddress.city} onChange={e => setDeliveryAddress(a => ({ ...a, city: e.target.value }))} /></Grid>
+                <Grid item xs={6}><TextField fullWidth label="Pincode" value={deliveryAddress.pincode} onChange={e => setDeliveryAddress(a => ({ ...a, pincode: e.target.value }))} /></Grid>
+                <Grid item xs={12}><TextField fullWidth label="Phone" value={deliveryAddress.phone} onChange={e => setDeliveryAddress(a => ({ ...a, phone: e.target.value }))} /></Grid>
+              </Grid>
+              <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                <Button variant="outlined" onClick={() => setActiveStep(0)}>Back</Button>
+                <Button variant="contained" onClick={() => setActiveStep(2)} disabled={!deliveryAddress.address || !deliveryAddress.city || !deliveryAddress.phone}>Continue to Payment</Button>
               </Box>
             </Box>
-          </Stack>
+          )}
 
-          <Box sx={{ mt: 4, textAlign: 'right' }}>
-            <Button
-              variant="outlined"
-              size="medium"
-              sx={{ px: 4, py: 2, mr: 2 }}
-              onClick={() => {
-                // Go back to cart
-              }}
-            >
-              Back to Cart
-            </Button>
-            <Button
-              variant="contained"
-              size="medium"
-              color="primary"
-              sx={{ px: 4, py: 2 }}
-              disabled={loading}
-              onClick={handleSubmit}
-            >
-              {loading ? 'Processing...' : 'Place Order'}
-            </Button>
-          </Box>
-        </Card>
-      </Container>
-    );
-  }
+          {activeStep === 2 && (
+            <Box>
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>Payment Method</Typography>
+              <Card sx={{ p: 2, mb: 2, border: '2px solid #1976d2', cursor: 'pointer' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Payment color="primary" />
+                  <Typography variant="body1" fontWeight={500}>Cash on Delivery</Typography>
+                </Box>
+              </Card>
+              <Card sx={{ p: 2, mb: 2, cursor: 'pointer' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Payment color="action" />
+                  <Typography variant="body1" color="text.secondary">Online Payment (Coming Soon)</Typography>
+                </Box>
+              </Card>
+              <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                <Button variant="outlined" onClick={() => setActiveStep(1)}>Back</Button>
+                <Button variant="contained" onClick={() => setActiveStep(3)}>Review Order</Button>
+              </Box>
+            </Box>
+          )}
 
-  // Order Confirmation View
-  return (
-    <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
-      <Box sx={{ textAlign: 'center', py: 8 }}>
-        <CheckCircle fontSize={60} color="success.main" sx={{ mb: 4 }} />
-        <Typography variant="h4" fontWeight={600} sx={{ mb: 2 }}>
-          Order Confirmed!
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-          Your order has been placed successfully. We’ll notify you once it’s on the way.
-        </Typography>
-
-        <Card sx={{ maxWidth: 400, mx: 'auto', mb: 6 }}>
-          <CardContent>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
-              Order Details
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
-            <Stack spacing={2}>
-              <Typography variant="body2">
-                <Strong>Order ID:</Strong> {orderSummary.orderId}
-              </Typography>
-              <Typography variant="body2">
-                <Strong>Status:</Strong> {orderSummary.status}
-              </Typography>
-              <Typography variant="body2">
-                <Strong>Total:</Strong> ₹{orderSummary.totalAmount}
-              </Typography>
-              <Typography variant="body2">
-                <Strong>Delivery To:</Strong> {orderSummary.shippingAddress.fullName}
-              </Typography>
-              <Typography variant="body2">
-                <Strong>Phone:</Strong> {orderSummary.shippingAddress.phone}
-              </Typography>
-              <Typography variant="body2">
-                <Strong>Address:</Strong> {orderSummary.shippingAddress.address}, {orderSummary.shippingAddress.city} {orderSummary.shippingAddress.pincode}
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, mt: 6 }}>
-          <Button
-            variant="outlined"
-            size="medium"
-            sx={{ px: 4, py: 2 }}
-          >
-            Track Order
-          </Button>
-          <Button
-            variant="contained"
-            size="medium"
-            color="primary"
-            sx={{ px: 4, py: 2 }}
-          >
-            Shop Again
-          </Button>
-        </Box>
-      </Box>
+          {activeStep === 3 && (
+            <Box sx={{ textAlign: 'center' }}>
+              <CheckCircle sx={{ fontSize: 64, color: 'success.main', mb: 2 }} />
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>Order Summary</Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>Total Amount: <strong>₹{cart.totalAmount.toLocaleString('en-IN')}</strong></Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>Pay on delivery</Typography>
+              <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+                <Button variant="outlined" onClick={() => setActiveStep(2)}>Back</Button>
+                <Button variant="contained" onClick={handlePlaceOrder} disabled={submitting}>
+                  {submitting ? <CircularProgress size={24} /> : 'Place Order'}
+                </Button>
+              </Box>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
     </Container>
   );
 };

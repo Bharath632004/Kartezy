@@ -171,7 +171,9 @@ public class NlpService {
 
     public List<Map<String, Object>> extractEntitiesStructured(Map<String, Object> request) {
         String text = (String) request.get("text");
-        List<String> entityTypes = (List<String>) request.getOrDefault("entityTypes", List.of("ALL"));
+        Object rawTypes = request.getOrDefault("entityTypes", List.of("ALL"));
+        @SuppressWarnings("unchecked")
+        List<String> entityTypes = rawTypes instanceof List ? (List<String>) rawTypes : List.of("ALL");
         log.info("Extracting structured entities: {}", entityTypes);
 
         List<Map<String, Object>> entities = new ArrayList<>();
@@ -394,8 +396,12 @@ public class NlpService {
         all.remove(detected);
         Random random = new Random(detected.hashCode());
         Collections.shuffle(all, random);
-        return all.stream().limit(3).map(l -> Map.of("language", l, "languageName", getLanguageName(l)))
-                .collect(Collectors.toList());
+        return all.stream().limit(3).map(l -> {
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("language", l);
+            entry.put("languageName", getLanguageName(l));
+            return entry;
+        }).collect(Collectors.toList());
     }
 
     private String performTranslation(String text, String targetLanguage) {
