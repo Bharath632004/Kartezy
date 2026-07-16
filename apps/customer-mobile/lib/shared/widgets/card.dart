@@ -13,6 +13,8 @@ class AppCard extends ConsumerWidget {
     this.color,
     this.margin,
     this.padding,
+    this.width,
+    this.height,
   });
 
   final Widget child;
@@ -21,6 +23,8 @@ class AppCard extends ConsumerWidget {
   final Color? color;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,6 +32,8 @@ class AppCard extends ConsumerWidget {
     final cardColor = color ?? theme.cardColor;
 
     return Container(
+      width: width,
+      height: height,
       margin: margin,
       decoration: BoxDecoration(
         color: cardColor,

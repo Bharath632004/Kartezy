@@ -1,0 +1,33 @@
+{
+  "name": "@kartezy/bi-platform",
+  "version": "1.0.0",
+  "description": "Kartezy Enterprise Business Intelligence Platform - Complete BI solution with data warehouse, analytics engines, dashboards, and BI tool integrations",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "csv-stringify": "^6.5.0",
+    "exceljs": "^4.4.0",
+    "pdfkit": "^0.15.0",
+    "typescript": "^5.0.0",
+    "zod": "^3.23.0",
+    "kafkajs": "^2.2.4",
+    "@elastic/elasticsearch": "^8.14.0",
+    "ioredis": "^5.4.0",
+    "mongodb": "^6.8.0",
+    "pg": "^8.12.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/uuid": "^10.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.0",
+    "@types/jest": "^29.5.0",
+    "eslint": "^9.0.0"
+  }
+}

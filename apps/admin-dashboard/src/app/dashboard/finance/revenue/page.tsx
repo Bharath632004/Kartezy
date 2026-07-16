@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Paper as MuiPaper, Box as MuiBox, Stack, Button, TextField, DatePicker, Typography as MuiTypography } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import * as React from 'react';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -23,26 +23,25 @@ export default function RevenuePage() {
         <Typography variant="h5" gutterBottom>
           Revenue Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
-          <TextField
-            label="Date Range"
-            select
-            labelId="date-range-label"
-            id="date-range-select"
-            value={filters.dateRange}
-            onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
-          >
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_7_days">Last 7 Days</option>
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="custom">Custom Range</option>
-          </TextField>
+        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+          <FormControl sx={{ minWidth: 180 }}>
+            <InputLabel id="date-range-label">Date Range</InputLabel>
+            <Select
+              labelId="date-range-label"
+              id="date-range-select"
+              value={filters.dateRange}
+              onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
+              label="Date Range"
+            >
+              <MenuItem value="today">Today</MenuItem>
+              <MenuItem value="yesterday">Yesterday</MenuItem>
+              <MenuItem value="last_7_days">Last 7 Days</MenuItem>
+              <MenuItem value="last_30_days">Last 30 Days</MenuItem>
+              <MenuItem value="this_month">This Month</MenuItem>
+              <MenuItem value="last_month">Last Month</MenuItem>
+              <MenuItem value="custom">Custom Range</MenuItem>
+            </Select>
+          </FormControl>
           {filters.dateRange === 'custom' && (
             <>
               <TextField

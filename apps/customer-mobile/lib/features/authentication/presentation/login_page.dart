@@ -87,11 +87,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Forgot password feature coming soon!'),
-                  ),
-                );
+                context.push('/phone-login?purpose=reset');
               },
               child: const Text('Forgot Password?'),
             ),
@@ -106,9 +102,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Sign up feature coming soon!')),
-                );
+                context.push('/phone-login?purpose=register');
               },
               child: const Text('Create Account'),
             ),

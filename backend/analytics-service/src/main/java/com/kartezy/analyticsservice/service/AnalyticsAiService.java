@@ -41,3 +41,4 @@ public class AnalyticsAiService {
         int daysAhead = (int) params.getOrDefault("daysAhead", 30);
         return getSalesPrediction(daysAhead);
     }
+}

@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, Typography as MuiTypography } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -15,34 +15,30 @@ export default function CommissionPage() {
     fetchCommissionData(filters);
   }, [filters, fetchCommissionData]);
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Commission Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
-            labelId="date-range-label"
-            id="date-range-select"
             value={filters.dateRange}
             onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_7_days">Last 7 Days</option>
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="custom">Custom Range</option>
+            <MenuItem value="today">Today</MenuItem>
+            <MenuItem value="yesterday">Yesterday</MenuItem>
+            <MenuItem value="last_7_days">Last 7 Days</MenuItem>
+            <MenuItem value="last_30_days">Last 30 Days</MenuItem>
+            <MenuItem value="this_month">This Month</MenuItem>
+            <MenuItem value="last_month">Last Month</MenuItem>
+            <MenuItem value="custom">Custom Range</MenuItem>
           </TextField>
           <TextField
             label="Merchant ID"
@@ -64,8 +60,7 @@ export default function CommissionPage() {
                 type="date"
                 value={filters.endDate || ''}
                 onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
-                sx={{ width: 150 }}
-                style={{ marginLeft: 1 }}
+                sx={{ width: 150, ml: 1 }}
               />
             </>
           )}
@@ -76,12 +71,12 @@ export default function CommissionPage() {
       </Box>
 
       {!commissionData || commissionData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No commission data available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Commission Transactions
             </Typography>
@@ -106,15 +101,16 @@ export default function CommissionPage() {
                       <TableCell>{commission.merchantName}</TableCell>
                       <TableCell>{commission.transactionId}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box sx={{
                           bgcolor: commission.status.toLowerCase() === 'paid' ? 'success.main' :
                                    commission.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
                           px: 1,
-                          borderRadius: 1
+                          borderRadius: 1,
+                          display: 'inline'
                         }}>
                           {commission.status}
-                        </span>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}

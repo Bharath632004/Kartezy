@@ -81,6 +81,8 @@ export const authService = {
 export const userService = {
   getList: (params: Record<string, unknown>) => api.get('/api/users', { params }),
   getDetail: (id: string) => api.get(`/api/users/${id}`),
+  blockUser: (id: string) => api.put(`/api/users/${id}/block`),
+  unblockUser: (id: string) => api.put(`/api/users/${id}/unblock`),
   deleteUser: (id: string) => api.delete(`/api/users/${id}`),
   getWallet: (id: string) => api.get(`/api/users/${id}/wallet`),
   getWalletTransactions: (id: string) => api.get(`/api/users/${id}/wallet/transactions`),
@@ -170,9 +172,8 @@ export const operationsService = {
   getEscalations: () => api.get('/api/escalations'),
 };
 
-// NOTE: Finance endpoints require a dedicated finance-service microservice
-// These are placeholders for when that service is implemented
-// For now, finance data is proxied through the analytics-service
+// Finance endpoints are served through the analytics-service proxy
+// Once the dedicated finance-service microservice is deployed, update FINANCE_BASE to '/api/finance'
 const FINANCE_BASE = '/api/analytics/finance';
 
 export const financeService = {
@@ -379,3 +380,110 @@ export const knowledgeBaseService = {
     api.put(`/api/knowledge-base/${id}`, data),
   deleteArticle: (id: string) => api.delete(`/api/knowledge-base/${id}`),
 };
+
+// ============================================================================
+// Kartezy Enterprise BI Platform - Business Intelligence API Endpoints
+// ============================================================================
+// These endpoints connect the BI Platform to the admin dashboard.
+// All BI data is served through the analytics-service or bi-service.
+// ============================================================================
+
+const BI_BASE = '/api/bi';
+
+export const biService = {
+  // === Executive Dashboard ===
+  getExecutiveSummary: () => api.get(`${BI_BASE}/executive/summary`),
+  getKPIOverview: (period: string) => api.get(`${BI_BASE}/kpi/overview?period=${period}`),
+  getKPIMetricTrend: (metricName: string) => api.get(`${BI_BASE}/kpi/trend/${metricName}`),
+  getBusinessHealth: () => api.get(`${BI_BASE}/executive/health`),
+
+  // === Customer Analytics ===
+  getCustomerOverview: () => api.get(`${BI_BASE}/analytics/customers/overview`),
+  getCustomerSegments: () => api.get(`${BI_BASE}/analytics/customers/segments`),
+  getCustomerAcquisition: (period: string) => api.get(`${BI_BASE}/analytics/customers/acquisition?period=${period}`),
+  getCustomerRetention: (period: string) => api.get(`${BI_BASE}/analytics/customers/retention?period=${period}`),
+  getCustomerBehavior: () => api.get(`${BI_BASE}/analytics/customers/behavior`),
+  getCustomer360: (customerId: string) => api.get(`${BI_BASE}/analytics/customers/360/${customerId}`),
+
+  // === Merchant Analytics ===
+  getMerchantOverview: () => api.get(`${BI_BASE}/analytics/merchants/overview`),
+  getMerchantPerformance: (merchantId: string) => api.get(`${BI_BASE}/analytics/merchants/${merchantId}/performance`),
+  getMerchantBenchmarks: (merchantId: string) => api.get(`${BI_BASE}/analytics/merchants/${merchantId}/benchmarks`),
+
+  // === Delivery Analytics ===
+  getDeliveryOverview: () => api.get(`${BI_BASE}/analytics/delivery/overview`),
+  getDriverPerformance: (driverId: string) => api.get(`${BI_BASE}/analytics/delivery/drivers/${driverId}`),
+  getZoneAnalytics: () => api.get(`${BI_BASE}/analytics/delivery/zones`),
+  getDeliveryTrend: (period: string) => api.get(`${BI_BASE}/analytics/delivery/trend?period=${period}`),
+
+  // === Finance Analytics ===
+  getFinanceOverview: () => api.get(`${BI_BASE}/analytics/finance/overview`),
+  getRevenueBreakdown: () => api.get(`${BI_BASE}/analytics/finance/revenue-breakdown`),
+  getCommissionSummary: () => api.get(`${BI_BASE}/analytics/finance/commission`),
+  getPayoutSummary: () => api.get(`${BI_BASE}/analytics/finance/payouts`),
+  getGSTReport: (period: string) => api.get(`${BI_BASE}/analytics/finance/gst?period=${period}`),
+  getFinancialForecast: () => api.get(`${BI_BASE}/analytics/finance/forecast`),
+
+  // === Marketing Analytics ===
+  getMarketingOverview: () => api.get(`${BI_BASE}/analytics/marketing/overview`),
+  getCampaignPerformance: (campaignId: string) => api.get(`${BI_BASE}/analytics/marketing/campaigns/${campaignId}`),
+  getChannelPerformance: () => api.get(`${BI_BASE}/analytics/marketing/channels`),
+
+  // === Product Analytics ===
+  getProductOverview: () => api.get(`${BI_BASE}/analytics/products/overview`),
+  getProductPerformance: (productId: string) => api.get(`${BI_BASE}/analytics/products/${productId}`),
+  getCategoryAnalytics: () => api.get(`${BI_BASE}/analytics/products/categories`),
+
+  // === Inventory Analytics ===
+  getInventoryOverview: () => api.get(`${BI_BASE}/analytics/inventory/overview`),
+  getProductInventory: (productId: string) => api.get(`${BI_BASE}/analytics/inventory/${productId}`),
+  getReplenishmentSuggestions: () => api.get(`${BI_BASE}/analytics/inventory/replenishment`),
+
+  // === Advanced Analytics ===
+  getCohortMatrix: (cohortType: string) => api.get(`${BI_BASE}/analytics/cohort?type=${cohortType}`),
+  getFunnelAnalysis: () => api.get(`${BI_BASE}/analytics/funnel`),
+  getFunnelComparison: () => api.get(`${BI_BASE}/analytics/funnel/comparison`),
+  getFunnelInsights: () => api.get(`${BI_BASE}/analytics/funnel/insights`),
+  getHeatMapData: (city?: string) => api.get(`${BI_BASE}/analytics/heatmap${city ? `?city=${city}` : ''}`),
+
+  // === City Analytics ===
+  getCityPerformance: () => api.get(`${BI_BASE}/analytics/cities`),
+  getCityComparison: () => api.get(`${BI_BASE}/analytics/cities/comparison`),
+  getCityHeatMap: (city: string) => api.get(`${BI_BASE}/analytics/cities/${city}/heatmap`),
+  getExpansionOpportunities: () => api.get(`${BI_BASE}/analytics/cities/expansion-opportunities`),
+
+  // === CLV & Churn ===
+  getCLVAnalysis: (customerId: string) => api.get(`${BI_BASE}/analytics/clv/${customerId}`),
+  getCLVDistribution: () => api.get(`${BI_BASE}/analytics/clv/distribution`),
+  getCLVForecast: () => api.get(`${BI_BASE}/analytics/clv/forecast`),
+  getChurnOverview: () => api.get(`${BI_BASE}/analytics/churn/overview`),
+  getChurnPrediction: (customerId: string) => api.get(`${BI_BASE}/analytics/churn/predict/${customerId}`),
+  getChurnSegments: () => api.get(`${BI_BASE}/analytics/churn/segments`),
+
+  // === Reports & Export ===
+  generateReport: (type: string, format: string, period: string) =>
+    api.post(`${BI_BASE}/reports/generate`, { type, format, period }),
+  getReportTemplates: () => api.get(`${BI_BASE}/reports/templates`),
+  getReportHistory: () => api.get(`${BI_BASE}/reports/history`),
+  exportData: (dataType: string, format: string, filters: Record<string, unknown>) =>
+    api.post(`${BI_BASE}/reports/export`, { dataType, format, filters }),
+
+  // === BI Tools ===
+  getBIDashboardEmbedUrl: (tool: string, dashboardId: string) =>
+    api.get(`${BI_BASE}/tools/${tool}/embed/${dashboardId}`),
+  getPowerBIDatasets: () => api.get(`${BI_BASE}/tools/powerbi/datasets`),
+  getLookerExplores: () => api.get(`${BI_BASE}/tools/looker/explores`),
+  getMetabaseGuide: () => api.get(`${BI_BASE}/tools/metabase/guide`),
+  getSupersetCharts: () => api.get(`${BI_BASE}/tools/superset/charts`),
+
+  // === Data Warehouse ===
+  getWarehouseStats: () => api.get(`${BI_BASE}/warehouse/stats`),
+  getWarehouseSchema: () => api.get(`${BI_BASE}/warehouse/schema`),
+  getETLPipelineStatus: () => api.get(`${BI_BASE}/warehouse/etl/status`),
+  runETLPipeline: (pipelineId: string) => api.post(`${BI_BASE}/warehouse/etl/run/${pipelineId}`),
+
+  // === Data Sync ===
+  getSyncStatus: () => api.get(`${BI_BASE}/sync/status`),
+  triggerSync: () => api.post(`${BI_BASE}/sync/trigger`),
+  getIntegrationStatuses: () => api.get(`${BI_BASE}/integrations/status`),
+} as const;

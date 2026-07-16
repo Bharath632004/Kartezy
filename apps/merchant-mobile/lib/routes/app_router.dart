@@ -213,6 +213,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
 // Provider to check if app initialization is complete
 final isInitializedProvider = FutureProvider<bool>((ref) async {
-  await Future.delayed(const Duration(seconds: 1));
-  return true;
+  final authService = ref.read(authServiceProvider);
+  final isLoggedIn = await authService.isLoggedIn();
+  return isLoggedIn;
 });

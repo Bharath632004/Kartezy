@@ -2,7 +2,7 @@ import { Box, Typography, Container } from '@mui/material';
 
 export default function OrdersPage() {
   return (
-    <Container maxWidth="lg" py={4}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" gutterBottom>
         Orders Management
       </Typography>

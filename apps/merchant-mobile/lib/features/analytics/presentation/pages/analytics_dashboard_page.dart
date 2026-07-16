@@ -65,9 +65,9 @@ class AnalyticsDashboardPage extends ConsumerWidget {
                               color: Colors.grey[50],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: (analyticsState.revenueTrend != null && (analyticsState.revenueTrend as List).isNotEmpty)
+                            child: (analyticsState.revenueAnalytics != null && (analyticsState.revenueAnalytics as List).isNotEmpty)
                                 ? ListView(
-                                    children: (analyticsState.revenueTrend as List).map((point) {
+                                    children: (analyticsState.revenueAnalytics as List).map((point) {
                                       return ListTile(
                                         dense: true,
                                         title: Text('${point['date'] ?? point['month'] ?? ''}'),

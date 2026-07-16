@@ -16,68 +16,56 @@ export default function GstReportsPage() {
     fetchGstReportsData(filters);
   }, [filters, fetchGstReportsData]);
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           GST Reports Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
-            labelId="date-range-label"
-            id="date-range-select"
             value={filters.dateRange}
             onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_7_days">Last 7 Days</option>
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="custom">Custom Range</option>
+            <MenuItem value="today">Today</MenuItem>
+            <MenuItem value="yesterday">Yesterday</MenuItem>
+            <MenuItem value="last_7_days">Last 7 Days</MenuItem>
+            <MenuItem value="last_30_days">Last 30 Days</MenuItem>
+            <MenuItem value="this_month">This Month</MenuItem>
+            <MenuItem value="last_month">Last Month</MenuItem>
+            <MenuItem value="custom">Custom Range</MenuItem>
           </TextField>
           <TextField
             label="Report Type"
             select
-            labelId="report-type-label"
-            id="report-type-select"
             value={filters.reportType || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, reportType: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
-            <option value="">All Types</option>
-            <option value="gstr1">GSTR-1</option>
-            <option value="gstr3b">GSTR-3B</option>
-            <option value="gstr9">GSTR-9</option>
-            <option value="gstr9c">GSTR-9C</option>
+            <MenuItem value="">All Types</MenuItem>
+            <MenuItem value="gstr1">GSTR-1</MenuItem>
+            <MenuItem value="gstr3b">GSTR-3B</MenuItem>
+            <MenuItem value="gstr9">GSTR-9</MenuItem>
+            <MenuItem value="gstr9c">GSTR-9C</MenuItem>
           </TextField>
           <TextField
             label="Status"
             select
-            labelId="status-label"
-            id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
-            <option value="">All Statuses</option>
-            <option value="generated">Generated</option>
-            <option value="pending">Pending</option>
-            <option value="filed">Filed</option>
-            <option value="rejected">Rejected</option>
+            <MenuItem value="">All Statuses</MenuItem>
+            <MenuItem value="generated">Generated</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
+            <MenuItem value="filed">Filed</MenuItem>
+            <MenuItem value="rejected">Rejected</MenuItem>
           </TextField>
           {filters.dateRange === 'custom' && (
             <>
@@ -93,8 +81,7 @@ export default function GstReportsPage() {
                 type="date"
                 value={filters.endDate || ''}
                 onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
-                sx={{ width: 150 }}
-                style={{ marginLeft: 1 }}
+                sx={{ width: 150, ml: 1 }}
               />
             </>
           )}
@@ -105,12 +92,12 @@ export default function GstReportsPage() {
       </Box>
 
       {!gstReportsData || gstReportsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No GST reports available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               GST Reports
             </Typography>
@@ -136,15 +123,16 @@ export default function GstReportsPage() {
                       <TableCell align="right">{report.taxAmount?.toLocaleString() ?? '0.00'}</TableCell>
                       <TableCell>{report.filingDate || '-'}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box sx={{
                           bgcolor: report.status.toLowerCase() === 'filed' ? 'success.main' :
                                    report.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
                           px: 1,
-                          borderRadius: 1
-                        }}>
+                          borderRadius: 1,
+                          display: 'inline'
+                        }} component="span">
                           {report.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }}>

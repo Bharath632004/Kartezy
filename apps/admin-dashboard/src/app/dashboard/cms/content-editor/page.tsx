@@ -1,6 +1,19 @@
-import { Box, Container, Typography, TextField, Button, Stack, Paper, Elevation, Dialog, DialogTitle, DialogContent, DialogActions, Slider, Switch, FormControlLabel, FormControlLabelProps } from '@mui/material';
+"use client";
+
+import { Box, Typography, TextField, Button, Stack, Paper, Dialog, DialogTitle, DialogContent, DialogActions, Switch, FormControlLabel } from '@mui/material';
 import * as React from 'react';
 import { useCMSStore } from '@/store/cmsStore';
+
+interface PageData {
+  id?: string;
+  title?: string;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  content?: string;
+  seoKeywords?: string[];
+  isPublished?: boolean;
+}
 
 export default function ContentEditorPage() {
   const { pages, loading, error, fetchPages, createPage, updatePage, deletePage } = useCMSStore();
@@ -11,11 +24,11 @@ export default function ContentEditorPage() {
   });
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedPage, setSelectedPage] = React.useState(null);
+  const [selectedPage, setSelectedPage] = React.useState<PageData | null>(null);
 
   React.useEffect(() => {
-    fetchPages(filters);
-  }, [filters, fetchPages]);
+    fetchPages();
+  }, [fetchPages]);
 
   const handleToggleCreateDialog = () => {
     setOpenCreateDialog(!openCreateDialog);
@@ -27,26 +40,22 @@ export default function ContentEditorPage() {
     setOpenEditDialog(!openEditDialog);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Content Editor
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Status"
             select
-            labelId="status-label"
-            id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ minWidth: 150 }}
           >
             <option value="">All Statuses</option>
             <option value="published">Published</option>
@@ -67,7 +76,7 @@ export default function ContentEditorPage() {
             onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
             sx={{ width: 150 }}
           />
-          <Button variant="contained" onClick={() => fetchPages(filters)}>
+          <Button variant="contained" onClick={() => fetchPages()}>
             Apply Filters
           </Button>
           <Button variant="contained" sx={{ ml: 2 }} onClick={handleToggleCreateDialog}>
@@ -77,12 +86,12 @@ export default function ContentEditorPage() {
       </Box>
 
       {!pages || pages.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No pages available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Pages List
             </Typography>
@@ -192,15 +201,17 @@ export default function ContentEditorPage() {
             value={selectedPage?.seoKeywords || ''}
             onChange={(e) => {
               if (selectedPage) {
-                setSelectedPage({ ...selectedPage, seoKeywords: e.target.value });
+                const keywords = (e.target.value as string).split(',').map(k => k.trim()).filter(Boolean);
+                setSelectedPage({ ...selectedPage, seoKeywords: keywords });
               } else {
-                setSelectedPage({ ...(selectedPage || {}), seoKeywords: e.target.value });
+                const keywords = (e.target.value as string).split(',').map(k => k.trim()).filter(Boolean);
+                setSelectedPage({ ...(selectedPage || {}), seoKeywords: keywords });
               }
             }}
             fullWidth
             margin="normal"
           />
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
             <FormControlLabel
               control={<Switch
                 checked={selectedPage?.isPublished ?? false}
@@ -225,7 +236,7 @@ export default function ContentEditorPage() {
                 setOpenCreateDialog(false);
                 setSelectedPage(null);
                 // Refresh after creation
-                fetchPages(filters);
+                fetchPages();
               } catch (err) {
                 console.error('Error creating page:', err);
               }
@@ -304,13 +315,14 @@ export default function ContentEditorPage() {
             value={selectedPage?.seoKeywords || ''}
             onChange={(e) => {
               if (selectedPage) {
-                setSelectedPage({ ...selectedPage, seoKeywords: e.target.value });
+                const keywords = (e.target.value as string).split(',').map(k => k.trim()).filter(Boolean);
+                setSelectedPage({ ...selectedPage, seoKeywords: keywords });
               }
             }}
             fullWidth
             margin="normal"
           />
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
             <FormControlLabel
               control={<Switch
                 checked={selectedPage?.isPublished ?? false}
@@ -327,13 +339,12 @@ export default function ContentEditorPage() {
         <DialogActions>
           <Button onClick={handleToggleEditDialog}>Cancel</Button>
           <Button variant="contained" onClick={async () => {
-            if (selectedPage) {
+            if (selectedPage && selectedPage.id) {
               try {
                 await updatePage(selectedPage.id, selectedPage);
                 setOpenEditDialog(false);
                 setSelectedPage(null);
-                // Refresh after update
-                fetchPages(filters);
+                fetchPages();
               } catch (err) {
                 console.error('Error updating page:', err);
               }

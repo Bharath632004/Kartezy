@@ -77,10 +77,11 @@ public class CatalogServiceController {
     }
 
     /**
-     * Image search placeholder - expects image data as base64.
-     * In production, this should be a POST with multipart file.
+     * Image search via base64-encoded image data.
+     * Use POST with multipart file upload for production.
      */
-    @GetMapping("/search/image")
+    @PostMapping("/search/image")
+    @SuppressWarnings("unchecked")
     public ResponseEntity<List<String>> imageSearch(
             @RequestParam String imageDataBase64,
             @RequestParam(defaultValue = "10") int limit) {

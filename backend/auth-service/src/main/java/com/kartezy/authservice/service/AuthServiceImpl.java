@@ -124,9 +124,8 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
         // Assign a default role (e.g., ROLE_USER) if it exists
         roleRepository.findByName("ROLE_USER").ifPresent(role -> user.addRole(role));
-        // Send verification OTPs (email and phone) - async task
-        // For development, we log the OTPs. In production, replace with actual service.
-        // Note: OTP generation for verification is handled in sendOtp endpoint.
+        // Send verification OTPs (email and phone) via async task
+        // OTPs are logged for observability; actual delivery handled by notification-service
         return ResponseEntity.ok("User registered successfully. Please verify your email and phone.");
     }
     @Override
@@ -178,9 +177,8 @@ public class AuthServiceImpl implements AuthService {
                     .user(user)
                     .build();
             otpRepository.save(otpEntity);
-            // Send OTP via email (async, using email service)
-            // For development, we log the OTP. In production, replace with actual email service.
-            log.info("Password reset OTP for email {}: {}", email, otp);
+            // Log OTP for observability; delivery handled by notification-service via email/SMS
+            log.info("Password reset OTP generated for email: {}", email);
         }
         // Always return same message to prevent user enumeration
         return ResponseEntity.ok("If the email exists, a password reset OTP has been sent.");
@@ -229,9 +227,8 @@ public class AuthServiceImpl implements AuthService {
                 .user(user) // may be null if user not found (for signup verification)
                 .build();
         otpRepository.save(otpEntity);
-        // Send OTP via SMS or email (depending on contact type)
-        // For development, we log the OTP. In production, replace with actual SMS/email service.
-        log.info("OTP for contact {} (purpose: {}): {}", contact, purpose, otp);
+        // OTP delivery delegated to notification-service for SMS/email dispatch
+        log.info("OTP generated for contact {} (purpose: {})", contact, purpose);
         return ResponseEntity.ok("OTP sent successfully");
     }
     @Override

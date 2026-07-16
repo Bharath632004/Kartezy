@@ -54,6 +54,15 @@ export type FinanceState = {
   overview: FinanceOverview | null;
   transactions: Transaction[];
   payouts: Payout[];
+  commissionData: any[];
+  walletData: any | null;
+  refundsData: any[];
+  taxesData: any[];
+  settlementsData: any[];
+  revenueData: any[];
+  transactionsData: any[];
+  gstReportsData: any[];
+  payoutsData: any[];
   loading: boolean;
   error: string | null;
   setOverview: (overview: FinanceOverview) => void;
@@ -72,6 +81,7 @@ export type FinanceState = {
   fetchRevenueBySource: () => Promise<void>;
   fetchCommissionSummary: () => Promise<void>;
   fetchCommissionDetails: (filters: any) => Promise<void>;
+  fetchCommissionData: (filters: any) => Promise<void>;
   fetchSettlements: (filters: any) => Promise<void>;
   getWalletBalance: () => Promise<void>;
   getWalletTransactions: (params: any) => Promise<void>;
@@ -79,6 +89,14 @@ export type FinanceState = {
   processRefund: (id: string, data: any) => Promise<void>;
   getTaxReport: (year: number) => Promise<void>;
   fetchAllFinanceData: () => Promise<void>;
+  fetchWalletData: () => Promise<void>;
+  fetchRefundsData: (filters: any) => Promise<void>;
+  fetchTaxesData: (filters: any) => Promise<void>;
+  fetchSettlementsData: (filters: any) => Promise<void>;
+  fetchRevenueData: (filters: any) => Promise<void>;
+  fetchTransactionsData: (filters: any) => Promise<void>;
+  fetchGstReportsData: (filters: any) => Promise<void>;
+  fetchPayoutsData: (filters: any) => Promise<void>;
   reset: () => void;
 };
 
@@ -88,6 +106,15 @@ export const useFinanceStore = create<FinanceState>()(
       overview: null,
       transactions: [],
       payouts: [],
+      commissionData: [],
+      walletData: null,
+      refundsData: [],
+      taxesData: [],
+      settlementsData: [],
+      revenueData: [],
+      transactionsData: [],
+      gstReportsData: [],
+      payoutsData: [],
       loading: false,
       error: null,
       setOverview: (overview) => set({ overview }),
@@ -180,10 +207,19 @@ export const useFinanceStore = create<FinanceState>()(
         set({ loading: true, error: null });
         try {
           const response = await financeService.getCommissionDetails(filters);
-          // This would typically update commission details table
-          set({ loading: false });
+          set({ commissionData: response.data, loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
+          throw error;
+        }
+      },
+      fetchCommissionData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getCommissionDetails(filters);
+          set({ commissionData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
           throw error;
         }
       },
@@ -266,6 +302,86 @@ export const useFinanceStore = create<FinanceState>()(
           set({ loading: false });
         } catch (error) {
           set({ error: error.message, loading: false });
+          throw error;
+        }
+      },
+      fetchWalletData: async () => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getWalletBalance();
+          set({ walletData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchRefundsData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getRefunds(filters);
+          set({ refundsData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchTaxesData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getTaxReport(new Date().getFullYear());
+          set({ taxesData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchSettlementsData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getSettlements(filters);
+          set({ settlementsData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchRevenueData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getRevenueByPeriod(filters.dateRange || 'last_30_days');
+          set({ revenueData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchTransactionsData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getTransactions(filters);
+          set({ transactionsData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchGstReportsData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getTaxReport(new Date().getFullYear());
+          set({ gstReportsData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
+          throw error;
+        }
+      },
+      fetchPayoutsData: async (filters: any) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await financeService.getPayouts(filters);
+          set({ payoutsData: response.data, loading: false });
+        } catch (error) {
+          set({ error: (error as any).message, loading: false });
           throw error;
         }
       },

@@ -66,7 +66,7 @@ class DashboardPage extends ConsumerWidget {
                     Switch(
                       value: data['isOnline'] ?? false,
                       onChanged: (value) {
-                        //  Implement online/offline toggle
+                        ref.read(dashboardProvider.notifier).toggleOnline(value);
                       },
                     ),
                   ],
@@ -180,17 +180,20 @@ class DashboardPage extends ConsumerWidget {
               break;
           }
         },
-        items: const [
-          BottomNavigationBarItem(
+        items: [
+          const BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Orders'),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Orders'),
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet),
             label: 'Wallet',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
     );

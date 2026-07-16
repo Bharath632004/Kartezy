@@ -66,7 +66,7 @@ const defaultConfig: AIConfig = {
   security: {
     maxRequestSize: 10 * 1024 * 1024,
     rateLimitPerMin: 1000,
-    encryptionKey: process.env.ENCRYPTION_KEY || 'kartezy-ai-key-2024',
+    encryptionKey: process.env.ENCRYPTION_KEY || '',
   },
 };
 
@@ -89,6 +89,12 @@ export function loadConfig(overrides?: Partial<AIConfig>): AIConfig {
 }
 
 export function getConfig(): AIConfig {
+  if (!config.security.encryptionKey && process.env.NODE_ENV === 'production') {
+    console.warn(
+      'WARNING: ENCRYPTION_KEY environment variable is not set. ' +
+      'Set ENCRYPTION_KEY in your environment or .env file to a strong 256-bit key.'
+    );
+  }
   return config;
 }
 

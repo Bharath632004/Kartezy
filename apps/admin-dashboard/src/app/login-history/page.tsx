@@ -1,46 +1,17 @@
 "use client";
 
-import { Box, Typography, Container, Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton, Tooltip, CircularProgress } from '@mui/material';
-import { History, Refresh as Reload, CheckCircle, Cancel } from '@mui/icons-material';
-import { useState, useEffect } from 'react';
+import { Box, Typography, Container, Button, Table, TableBody, TableCell, TableHead, TableRow, Paper, Tooltip, CircularProgress } from '@mui/material';
+import { Refresh as Reload, CheckCircle, Cancel } from '@mui/icons-material';
+import { useQuery } from '@tanstack/react-query';
+import { userService } from '@/lib/api';
 
 const LoginHistoryPage = () => {
-  const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: logs, isLoading, error, refetch } = useQuery({
+    queryKey: ['login-history'],
+    queryFn: () => userService.getLoginHistory('current'),
+  });
 
-  useEffect(() => {
-    // Simulate fetching data
-    setTimeout(() => {
-      const mockLogs = Array.from({ length: 20 }, (_, i) => ({
-        id: i + 1,
-        timestamp: new Date(Date.now() - i * 86400000).toLocaleString(),
-        ipAddress: `192.168.1.${Math.floor(Math.random() * 255)}`,
-        device: ['Windows Chrome', 'Mac Safari', 'iPhone Safari', 'Android Chrome'][Math.floor(Math.random() * 4)],
-        location: ['New York, USA', 'London, UK', 'Tokyo, Japan', 'Sydney, Australia'][Math.floor(Math.random() * 4)],
-        status: Math.random() > 0.5 ? 'Success' : 'Failed',
-      }));
-      setLogs(mockLogs);
-      setLoading(false);
-    }, 1000);
-  }, []);
-
-  const handleRefresh = () => {
-    setLoading(true);
-    setTimeout(() => {
-      const mockLogs = Array.from({ length: 20 }, (_, i) => ({
-        id: i + 1,
-        timestamp: new Date(Date.now() - i * 86400000).toLocaleString(),
-        ipAddress: `192.168.1.${Math.floor(Math.random() * 255)}`,
-        device: ['Windows Chrome', 'Mac Safari', 'iPhone Safari', 'Android Chrome'][Math.floor(Math.random() * 4)],
-        location: ['New York, USA', 'London, UK', 'Tokyo, Japan', 'Sydney, Australia'][Math.floor(Math.random() * 4)],
-        status: Math.random() > 0.5 ? 'Success' : 'Failed',
-      }));
-      setLogs(mockLogs);
-      setLoading(false);
-    }, 1000);
-  };
-
-  if (loading) {
+  if (isLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '8vh' }}>
         <CircularProgress />
@@ -49,12 +20,12 @@ const LoginHistoryPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" py={4}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h4" gutterBottom>
         Login History
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-        <Button variant="outlined" onClick={handleRefresh} startIcon={<Reload />}>
+        <Button variant="outlined" onClick={() => refetch()} startIcon={<Reload />}>
           Refresh
         </Button>
       </Box>

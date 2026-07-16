@@ -33,7 +33,7 @@ class HiveManager {
   Future<void> init() async {
     await Hive.initFlutter();
 
-    // Register adapters for your models (if ())
+    // Register Hive type adapters here if you have custom model types
 
     // Open boxes
     await _openBoxes();

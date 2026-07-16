@@ -6,6 +6,7 @@ import 'package:delivery_mobile/features/delivery_onboarding/onboarding_page.dar
 import 'package:delivery_mobile/features/authentication/presentation/phone_login_page.dart';
 import 'package:delivery_mobile/features/authentication/presentation/otp_verification_page.dart';
 import 'package:delivery_mobile/features/dashboard/presentation/dashboard_page.dart';
+import 'package:delivery_mobile/features/profile/presentation/profile_page.dart';
 import 'package:kartezy_core/services/auth_service.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -67,7 +68,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/profile',
-        builder: (context, state) => const DashboardPage(),
+        builder: (context, state) => const ProfilePage(),
       ),
     ],
   );

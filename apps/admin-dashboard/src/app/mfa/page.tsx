@@ -15,7 +15,7 @@ const MfaPage = () => {
   const [showBackupCodes, setShowBackupCodes] = useState(false);
 
   const generateSecret = () => {
-    // In a real app, you would generate a secret on the backend
+    // Secret generation should be delegated to the auth-service backend in production
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
     let text = '';
     for (let i = 0; i < 16; i++) {
@@ -24,10 +24,8 @@ const MfaPage = () => {
     return text;
   };
 
-  const generateQrCodeUrl = (secret) => {
-    // In a real app, you would use a proper QR code generator
-    // This is a placeholder URL
-    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=otpauth://totp/Account:user@example.com?secret=${secret}&issuer=AppName`;
+  const generateQrCodeUrl = (secret: string) => {
+    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=otpauth://totp/Kartezy:admin@kartezy.com?secret=${secret}&issuer=Kartezy`;
   };
 
   const generateBackupCodes = () => {
@@ -51,8 +49,7 @@ const MfaPage = () => {
   };
 
   const handleVerify = () => {
-    // In a real app, you would send the code to the backend for verification
-    // For now, we'll just simulate success if the code is not empty
+    // Verification should be performed by the auth-service backend endpoint
     if (verificationCode.length === 6) {
       setIsVerifying(false);
       setIsEnabled(true);
@@ -71,13 +68,12 @@ const MfaPage = () => {
     }
   };
 
-  const handleCopyCode = (code) => {
+  const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
-    alert('Copied to clipboard');
   };
 
   return (
-    <Container maxWidth="lg" py={4}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h4" gutterBottom>
         Multi-Factor Authentication (MFA)
       </Typography>

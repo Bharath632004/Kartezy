@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:customer_mobile/shared/widgets/product_card.dart';
+import 'package:customer_mobile/shared/widgets/card.dart';
+import 'package:customer_mobile/features/home/home_providers.dart';
+import 'package:customer_mobile/shared/models/store.dart';
+import 'package:customer_mobile/shared/models/product.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -9,6 +14,8 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final storesAsync = ref.watch(featuredStoresProvider);
+    final trendingAsync = ref.watch(trendingProductsProvider);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -240,10 +247,10 @@ class HomePage extends ConsumerWidget {
                 _buildTopOffersBanner(context, theme),
 
                 // Featured Stores
-                _buildFeaturedStoresSection(context, theme),
+                _buildFeaturedStoresSection(context, theme, storesAsync),
 
                 // Trending Products
-                _buildTrendingSection(context, theme),
+                _buildTrendingSection(context, theme, trendingAsync),
 
                 const SizedBox(height: 16),
               ],
@@ -295,7 +302,6 @@ class HomePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                // Timer placeholder
                 Row(
                   children: [
                     _buildTimerChip('02'),
@@ -379,7 +385,7 @@ class HomePage extends ConsumerWidget {
             'Shop by Category',
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
-            ),
+            ) ?? const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         const SizedBox(height: 12),
@@ -500,7 +506,11 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildFeaturedStoresSection(BuildContext context, ThemeData theme) {
+  Widget _buildFeaturedStoresSection(
+    BuildContext context,
+    ThemeData theme,
+    AsyncValue<List<Store>> storesAsync,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -516,41 +526,113 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => context.push('/search?type=stores'),
                 child: const Text('View All', style: TextStyle(fontSize: 12)),
               ),
             ],
           ),
         ),
-        SizedBox(
-          height: 180,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 0,
-            separatorBuilder: (_, _) => const SizedBox(width: 12),
-            itemBuilder: (_, _) => const SizedBox.shrink(),
-          ),
-        ),
-        // Empty state for stores
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Icon(Icons.store_outlined, size: 40, color: Colors.grey[300]),
-                const SizedBox(height: 8),
-                Text(
-                  'Discover nearby stores',
-                  style: TextStyle(color: Colors.grey[500], fontSize: 13),
+        storesAsync.when(
+          data: (stores) {
+            if (stores.isEmpty) {
+              return const SizedBox.shrink();
+            }
+            return SizedBox(
+              height: 180,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: stores.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final store = stores[index];
+                  return AppCard(
+                    width: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Icon(
+                              Icons.store,
+                              size: 48,
+                              color: theme.primaryColor.withValues(alpha: 0.5),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                store.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${store.distance?.toStringAsFixed(1) ?? "0.0"} km',
+                                style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+          loading: () => SizedBox(
+            height: 180,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: 3,
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              itemBuilder: (_, _) => AppCard(
+                width: 150,
+                child: Center(
+                  child: SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: theme.primaryColor,
+                    ),
+                  ),
                 ),
-              ],
+              ),
+            ),
+          ),
+          error: (error, _) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  Icon(Icons.error_outline, size: 40, color: Colors.grey[300]),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Could not load stores. Pull to retry.',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 13),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -559,7 +641,11 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildTrendingSection(BuildContext context, ThemeData theme) {
+  Widget _buildTrendingSection(
+    BuildContext context,
+    ThemeData theme,
+    AsyncValue<List<Product>> trendingAsync,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -575,47 +661,81 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () => context.push('/search'),
+                onPressed: () => context.push('/search?sort=trending'),
                 child: const Text('View All', style: TextStyle(fontSize: 12)),
               ),
             ],
           ),
         ),
-        SizedBox(
-          height: 220,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 0,
-            separatorBuilder: (_, _) => const SizedBox(width: 12),
-            itemBuilder: (_, _) => const SizedBox.shrink(),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Icon(Icons.trending_up, size: 40, color: Colors.grey[300]),
-                const SizedBox(height: 8),
-                Text(
-                  'Trending products will appear here',
-                  style: TextStyle(color: Colors.grey[500], fontSize: 13),
+        trendingAsync.when(
+          data: (products) {
+            if (products.isEmpty) {
+              return const SizedBox.shrink();
+            }
+            return SizedBox(
+              height: 220,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: products.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  return ProductCard(product: products[index]);
+                },
+              ),
+            );
+          },
+          loading: () => SizedBox(
+            height: 220,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: 3,
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              itemBuilder: (_, _) => Container(
+                width: 140,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ],
+                child: Center(
+                  child: SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: theme.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          error: (error, _) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  Icon(Icons.trending_up, size: 40, color: Colors.grey[300]),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Could not load trending products. Pull to retry.',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 13),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ],
     );
   }
-
 }
 
 class _CategoryData {

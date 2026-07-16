@@ -10,7 +10,7 @@ import {
 
 const SettingsPage = () => {
   return (
-    <Container maxWidth="lg" py={4}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h4" gutterBottom>
         Settings
       </Typography>

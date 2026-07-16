@@ -7,9 +7,10 @@ part 'address.g.dart';
 class Address with _$Address {
   const factory Address({
     required String id,
-    required String? userId,
-    @JsonKey(name: 'recipientName') required String name,
-    @JsonKey(name: 'phoneNumber') required String phone,
+    // ignore: invalid_annotation_target
+    @JsonKey(includeToJson: false, includeFromJson: false) required String? userId,
+    required String name,
+    required String phone,
     required String addressLine1,
     required String addressLine2,
     required String city,

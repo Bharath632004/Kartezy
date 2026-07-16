@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:delivery_mobile/core/services/api_service.dart';
+import 'package:kartezy_core/providers/network_provider.dart';
+import 'package:kartezy_core/network/dio_client.dart';
 
 // Define the state of the dashboard
 class DashboardState {
@@ -22,16 +23,16 @@ class DashboardState {
 
 // Define the notifier
 class DashboardNotifier extends StateNotifier<DashboardState> {
-  final ApiService _apiService;
+  final DioClient _dioClient;
 
-  DashboardNotifier(this._apiService) : super(DashboardState.loading()) {
+  DashboardNotifier(this._dioClient) : super(DashboardState.loading()) {
     _loadDashboardData();
   }
 
   Future<void> _loadDashboardData() async {
     try {
       state = DashboardState.loading();
-      final response = await _apiService.get('/api/delivery/dashboard');
+      final response = await _dioClient.get('/api/delivery/dashboard');
       final data = response.data as Map<String, dynamic>? ?? {};
       state = DashboardState.success(data);
     } catch (e) {
@@ -42,11 +43,26 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   Future<void> refresh() async {
     await _loadDashboardData();
   }
+
+  Future<void> toggleOnline(bool isOnline) async {
+    try {
+      final currentData = Map<String, dynamic>.from(state.data ?? {});
+      currentData['isOnline'] = isOnline;
+      state = DashboardState.success(currentData);
+      await _dioClient.put('/api/delivery/partner/status', data: {
+        'is_online': isOnline,
+      });
+    } catch (e) {
+      final currentData = Map<String, dynamic>.from(state.data ?? {});
+      currentData['isOnline'] = !isOnline;
+      state = DashboardState.success(currentData);
+    }
+  }
 }
 
 // Provider for the dashboard notifier
 final dashboardProvider =
     StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
-  final apiService = ref.watch(apiServiceProvider);
-  return DashboardNotifier(apiService);
+  final dioClient = ref.watch(dioClientProvider);
+  return DashboardNotifier(dioClient);
 });

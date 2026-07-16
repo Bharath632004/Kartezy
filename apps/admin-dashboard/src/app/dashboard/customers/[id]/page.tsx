@@ -27,6 +27,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
   } = useQuery({
     queryKey: ['customer', id],
     queryFn: () => userService.getDetail(id),
+    select: (response: any) => response.data,
   });
 
   const {
@@ -37,6 +38,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
     queryKey: ['wallet', id],
     queryFn: () => userService.getWallet(id),
     enabled: !!id,
+    select: (response: any) => response.data,
   });
 
   const {
@@ -47,6 +49,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
     queryKey: ['wallet-transactions', id],
     queryFn: () => userService.getWalletTransactions(id),
     enabled: !!id,
+    select: (response: any) => response.data,
   });
 
   const {
@@ -57,6 +60,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
     queryKey: ['customer-orders', id],
     queryFn: () => userService.getOrders(id),
     enabled: !!id,
+    select: (response: any) => response.data,
   });
 
   const {
@@ -67,6 +71,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
     queryKey: ['login-history', id],
     queryFn: () => userService.getLoginHistory(id),
     enabled: !!id,
+    select: (response: any) => response.data,
   });
 
   const {
@@ -77,6 +82,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
     queryKey: ['customer-addresses', id],
     queryFn: () => userService.getAddresses(id),
     enabled: !!id,
+    select: (response: any) => response.data,
   });
 
   if (customerLoading || walletLoading || transactionsLoading || ordersLoading || historyLoading || addressesLoading) {
@@ -85,6 +91,10 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
 
   if (customerError || walletError || transactionsError || ordersError || historyError || addressesError) {
     return <div>Error loading customer data</div>;
+  }
+
+  if (!customer) {
+    return <div>No customer data available</div>;
   }
 
   return (
@@ -104,13 +114,13 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
         </Box>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Phone
             </Typography>
             <Typography>{customer.phoneNumber}</Typography>
           </Box>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Status
             </Typography>
             <Typography>
@@ -118,7 +128,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
             </Typography>
           </Box>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Wallet Balance
             </Typography>
             <Typography>
@@ -126,7 +136,7 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
             </Typography>
           </Box>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Total Orders
             </Typography>
             <Typography>{customer.totalOrders}</Typography>
@@ -170,9 +180,12 @@ export default function CustomerDetails({ params }: { params: { id: string } }) 
                       {tx.type === 'credit' ? `+${tx.amount}` : `-${tx.amount}`}
                     </TableCell>
                     <TableCell align="right">
-                      <span sx={{ color: tx.type === 'credit' ? 'success.main' : 'error.main' }}>
+                      <Typography
+                        component="span"
+                        sx={{ color: tx.type === 'credit' ? 'success.main' : 'error.main' }}
+                      >
                         {tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
-                      </span>
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 ))}

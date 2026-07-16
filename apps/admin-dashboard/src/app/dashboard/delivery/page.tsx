@@ -66,6 +66,7 @@ const DeliveryList = () => {
         page,
         size: rowsPerPage,
       }),
+    select: (res: any) => res.data,
   });
 
   const handleSuspendClick = (id: string) => {
@@ -246,7 +247,7 @@ const DeliveryList = () => {
             <Select
               value={rowsPerPage}
               onChange={(e) => {
-                setRowsPerPage(parseInt(e.target.value));
+                setRowsPerPage(e.target.value as number);
                 setPage(0);
               }}
               inputProps={{

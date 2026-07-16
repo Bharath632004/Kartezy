@@ -70,13 +70,13 @@ export default function CustomersPage() {
   };
 
   // Handle status filter change
-  const handleStatusChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+  const handleStatusChange = (e: any) => {
     setStatusFilter(e.target.value as string);
     setPage(0);
   };
 
   // Handle page size change
-  const handlePageSizeChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+  const handlePageSizeChange = (e: any) => {
     setPageSize(Number(e.target.value));
     setPage(0);
   };
@@ -156,7 +156,7 @@ export default function CustomersPage() {
   const rowsWithActions = useMemo(() => {
     return rows.map((row) => ({
       ...row,
-      actions: null, // placeholder for the actions column
+      actions: renderActions(null, row) // inline action buttons
     }));
   }, [rows]);
 
@@ -172,7 +172,7 @@ export default function CustomersPage() {
     <Box sx={{ py: 3 }}>
       <Container maxWidth="lg">
         <Toolbar>
-          <Typography variant="h6" flex={1}>
+          <Typography variant="h6" sx={{ flex: 1 }}>
             Customers
           </Typography>
           <Stack direction="row" spacing={2}>
@@ -216,22 +216,19 @@ export default function CustomersPage() {
           <DataGrid
             rows={rowsWithActions}
             columns={columns}
-            page={page}
-            pageSize={pageSize}
+            paginationModel={{ page, pageSize }}
+            onPaginationModelChange={(model) => {
+              setPage(model.page);
+              setPageSize(model.pageSize);
+            }}
             checkboxSelection
-            disableSelectionOnClick
+            disableRowSelectionOnClick
             loading={loading}
             getRowId={(row) => row.id?.toString() || ''}
-            components={{
-              Toolbar: GridToolbar,
+            slots={{
+              toolbar: GridToolbar,
             }}
-            componentsProps={{
-              toolbar: {
-                showQuickFilter: false,
-              },
-            }}
-          >
-          </DataGrid>
+          />
         </Box>
       </Container>
     </Box>
