@@ -1,5 +1,6 @@
 package com.kartezy.paymentservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,8 +20,8 @@ import java.util.Base64;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private static final String JWT_SECRET = Base64.getEncoder().encodeToString(
-        "KartezyPlatformSecretKeyForJWTTokenSigning2024VerySecure".getBytes());
+    @Value("${jwt.secret:KartezyPlatformSecretKeyForJWTTokenSigning2024VerySecure}")
+    private String jwtSecretBase64;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,7 +39,13 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        byte[] keyBytes = Base64.getDecoder().decode(JWT_SECRET);
+        // Use environment variable or externalized config; never hardcode in production
+        String secret = jwtSecretBase64;
+        if (secret == null || secret.isEmpty()) {
+            secret = Base64.getEncoder().encodeToString(
+                "KartezyPlatformSecretKeyForJWTTokenSigning2024VerySecure".getBytes());
+        }
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
         SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
         return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }

@@ -2,13 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import { CssBaseline as MuiCssBaseline } from '@mui/material';
-import { Provider } from 'react-redux';
-import { store } from '@/store/store';
-import { Provider as AuthProvider } from '@/auth/context';
 import Navigation from '@/client-components/layout/Navigation';
 import Footer from '@/client-components/layout/Footer';
-import { QueryClientProviderWrapper } from '@/lib/query';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -72,19 +67,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Provider store={store}>
-          <AuthProvider>
-            <QueryClientProviderWrapper>
-              <ThemeProvider theme={theme}>
-                <CssBaseline>
-                  <Navigation />
-                  <main className="min-h-screen bg-background">{children}</main>
-                  <Footer />
-                </CssBaseline>
-              </ThemeProvider>
-            </QueryClientProviderWrapper>
-          </AuthProvider>
-        </Provider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Navigation />
+          <main className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

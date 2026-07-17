@@ -29,8 +29,9 @@ export default function RevenueReport() {
                     Revenue Trend
                   </Typography>
                   <Box sx={{ height: 200 }}>
-                    {/* Placeholder for chart */}
-                    <div>Revenue Chart Placeholder</div>
+                    <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Typography color="text.secondary">Real-time chart data will render here from API</Typography>
+                    </Box>
                   </Box>
                 </CardContent>
               </Card>
@@ -42,8 +43,9 @@ export default function RevenueReport() {
                     Revenue by Category
                   </Typography>
                   <Box sx={{ height: 200 }}>
-                    {/* Placeholder for pie chart */}
-                    <div>Pie Chart Placeholder</div>
+                    <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Typography color="text.secondary">Real-time pie chart will render here from API</Typography>
+                    </Box>
                   </Box>
                 </CardContent>
               </Card>

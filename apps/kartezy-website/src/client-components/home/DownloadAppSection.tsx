@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography, Button, Grid, Paper, Link } from '@mui/material';
+import { Box, Container, Stack, Typography, Button, Grid, Paper } from '@mui/material';
 import {
   Apple,
   Android,
@@ -7,9 +7,9 @@ import {
   PhoneIphone,
   ContentCut,
   Laptop,
-} from '@mui/icons/material';
+} from '@mui/icons-material';
 
-export default function DownloadAppSection({ data } = {}) {
+export default function DownloadAppSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = {
     title: 'Download the Kartezy App',
@@ -36,12 +36,12 @@ export default function DownloadAppSection({ data } = {}) {
         color: '#2196f3',
       },
     ],
-    qrCodeUrl: '/images/qr-code.png', // or base64
+    qrCodeUrl: '/images/qr-code.png',
     alreadyDownloaded: {
       text: 'Already downloaded?',
       actions: [
-        { label: 'Login to Account', href: '/login', variant: 'contained' },
-        { label: 'Help & Support', href: '/support', variant: 'outlined' },
+        { label: 'Login to Account', href: '/login', variant: 'contained' as const },
+        { label: 'Help & Support', href: '/support', variant: 'outlined' as const },
       ],
     },
   };
@@ -66,7 +66,7 @@ export default function DownloadAppSection({ data } = {}) {
 
           <Grid container spacing={4} alignItems="center">
             {/* App Preview */}
-            <Grid item xs={12} md={6}>
+            <Grid item size={{ xs: 12, md: 6 }}>
               <Box sx={{ position: 'relative' }}>
                 <Paper
                   elevation={12}
@@ -147,9 +147,6 @@ export default function DownloadAppSection({ data } = {}) {
                         minWidth: 140,
                         fontWeight: 600,
                         '&:hover': {
-                          backgroundColor: '#140,
-                        fontWeight: 600,
-                        '&:hover': {
                           backgroundColor: '#1565c0',
                           transform: 'translateY(-2px)',
                           boxShadow: '0 4px 12px rgba(25,118,210,0.4)',
@@ -218,14 +215,14 @@ export default function DownloadAppSection({ data } = {}) {
             </Grid>
 
             {/* Features */}
-            <Grid item xs={12} md={6}>
+            <Grid item size={{ xs: 12, md: 6 }}>
               <Stack spacing={4}>
                 <Typography variant="h3" fontWeight={600} color="text.primary">
                   Why Download the Kartezy App?
                 </Typography>
 
                 <Box>
-                  {dataToUse.features.map((feature, index) => (
+                  {dataToUse.features.map((feature: any, index: number) => (
                     <Stack key={index} direction="row" alignItems="flex-start" spacing={2} sx={{ mb: 3 }}>
                       {feature.icon && (
                         <Box sx={{ fontSize: '1.5rem', color: feature.color, mt: 0.5 }}>
@@ -248,7 +245,7 @@ export default function DownloadAppSection({ data } = {}) {
                 {dataToUse.alreadyDownloaded && (
                   <Box
                     sx={{
-                      backgroundColor: 'linear-gradient(135deg, #1976d2 0%, #2196f3 100%)',
+                      background: 'linear-gradient(135deg, #1976d2 0%, #2196f3 100%)',
                       borderRadius: 3,
                       p: 3,
                       color: 'white',
@@ -259,13 +256,15 @@ export default function DownloadAppSection({ data } = {}) {
                       {dataToUse.alreadyDownloaded.text}
                     </Typography>
                     <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
-                      {dataToUse.alreadyDownloaded.actions.map((action, index) => (
+                      {dataToUse.alreadyDownloaded.actions.map((action: any, index: number) => (
                         <Button
                           key={index}
                           variant={action.variant}
                           size="small"
                           sx={{
                             px: 3,
+                            color: 'white',
+                            borderColor: 'white',
                             '&:hover': {
                               backgroundColor: action.variant === 'contained'
                                 ? 'rgba(255,255,255,0.2)'
@@ -288,20 +287,11 @@ export default function DownloadAppSection({ data } = {}) {
         </Stack>
       </Container>
 
-      <style jsx global>{`
+      <style>{`
         @keyframes pulse {
-          0% {
-            opacity: 0.6;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.05);
-          }
-          100% {
-            opacity: 0.6;
-            transform: scale(1);
-          }
+          0% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.05); }
+          100% { opacity: 0.6; transform: scale(1); }
         }
       `}</style>
     </Box>

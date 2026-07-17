@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Container, Typography, Card, CardContent, Button, Divider, TextField, CircularProgress, Alert, Snackbar } from '@mui/material';
-import { Wallet as WalletIcon, Bank, CreditCard, AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
+import { Wallet as WalletIcon, Bank, CreditCard } from '@mui/icons-material';
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
 
@@ -154,8 +154,8 @@ const WalletPage = () => {
                         backgroundColor: (txn.type === 'credit' || txn.amount > 0) ? '#e8f5e9' : '#ffebee',
                         display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 2 }}>
                         {(txn.type === 'credit' || txn.amount > 0)
-                          ? <AddCircleOutline sx={{ color: 'success.main', fontSize: 20 }} />
-                          : <RemoveCircleOutline sx={{ color: 'error.main', fontSize: 20 }} />}
+                          ? <Box sx={{ color: 'success.main', fontSize: 20 }}>+</Box>
+                          : <Box sx={{ color: 'error.main', fontSize: 20 }}>-</Box>}
                       </Box>
                       <Box>
                         <Typography variant="body2" fontWeight={600}>{txn.description || txn.type}</Typography>

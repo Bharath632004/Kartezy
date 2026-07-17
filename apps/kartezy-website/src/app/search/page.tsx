@@ -1,5 +1,6 @@
-import { Box, Container, Grid, Typography, TextField, InputAdornment, Card, CardContent, Stack, Chip, Button, IconButton, Paper } from '@mui/material';
-import { Search as SearchIcon, Favorite, Visibility, LocalOffer, AccessTime, Store } from '@mui/icons-material';
+"use client";
+import { Box, Container, Grid, Typography, TextField, InputAdornment, Card, CardContent, Button, IconButton, Paper, Chip, Stack } from '@mui/material';
+import { Search as SearchIcon, Favorite, Visibility, AccessTime } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getProducts, getCategories } from '@/lib/services';
@@ -28,9 +29,9 @@ const SearchPage = () => {
     queryFn: () => getProducts({
       search: searchQuery,
       sort: sortBy,
-      priceRange: selectedPriceRange,
+      priceRange: selectedPriceRange || undefined,
       stores: selectedStores.join(','),
-      category: selectedCategory,
+      category: selectedCategory || undefined,
     }),
   });
 
@@ -55,7 +56,7 @@ const SearchPage = () => {
     );
   };
 
-  const handleCategoryClick = (categoryId: string | null) => {
+  const handleCategoryClick = (categoryId: string) => {
     setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
   };
 
@@ -71,15 +72,16 @@ const SearchPage = () => {
           placeholder="Search for products, brands & more"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon size="small" />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" />
+                </InputAdornment>
+              ),
+            },
           }}
           sx={{ width: '100%', maxWidth: 600 }}
-          margin="normal"
         />
       </Box>
 
@@ -181,10 +183,7 @@ const SearchPage = () => {
               </Box>
 
               {/* Clear Filters */}
-              {(selectedPriceRange || selectedPriceRange || selectedStores.length >
-                   selectedCategory ||
-                   selectedStores.length > 0 ||
-                   searchQuery) && (
+              {(selectedPriceRange || selectedCategory || selectedStores.length > 0 || searchQuery) && (
                 <Button
                   variant="outlined"
                   color="error"
@@ -210,7 +209,7 @@ const SearchPage = () => {
           {/* Results Count */}
           <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant="h5" fontWeight={600}>
-              Search Results for "{searchQuery}" ({products.length})
+              Search Results ({products.length})
             </Typography>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body2" color="text.secondary">
@@ -224,7 +223,7 @@ const SearchPage = () => {
             </Stack>
           </Box>
 
-          {/* Active Filters (Mobile) */}
+          {/* Active Filters */}
           {(selectedPriceRange || selectedCategory || selectedStores.length > 0 || searchQuery) && (
             <Box sx={{ mb: 3, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {selectedPriceRange && (
@@ -237,7 +236,7 @@ const SearchPage = () => {
               )}
               {selectedCategory && (
                 <Chip
-                  label={`Category: ${categories.find((c: any) => c.id === selectedCategory)?.name}`}
+                  label={`Category: ${categories.find((c: any) => c.id === selectedCategory)?.name || ''}`}
                   size="small"
                   onDelete={() => setSelectedCategory(null)}
                   color="secondary"
@@ -265,7 +264,7 @@ const SearchPage = () => {
 
           {/* Products Grid */}
           <Grid container spacing={3}>
-            {products.map((product: any, index: number) => (
+            {products.map((product: any) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                 <Card
                   sx={{
@@ -334,23 +333,6 @@ const SearchPage = () => {
                   {/* Product Details */}
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
                     <Stack spacing={2}>
-                      {/* Store info */}
-                      <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <Chip
-                          label={product.store}
-                          size="small"
-                          variant="outlined"
-                          sx={{ fontSize: '0.75rem' }}
-                        />
-                        <Stack direction="row" alignItems="center" spacing={0.5}>
-                          <AccessTime sx={{ fontSize: '1rem', color: '#4caf50' }} />
-                          <Typography variant="body2" color="text.secondary" fontSize='0.75rem'>
-                            {product.deliveryTime}
-                          </Typography>
-                        </Stack>
-                      </Box>
-
-                      {/* Product name */}
                       <Typography
                         variant="subtitle1"
                         fontWeight={600}
@@ -360,25 +342,22 @@ const SearchPage = () => {
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
                           minHeight: '2.4rem',
-                          fontSize: '1rem',
                         }}
                       >
                         {product.name}
                       </Typography>
 
-                      {/* Rating */}
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="body2" fontWeight={600} color="text.primary">
+                        <Typography variant="body2" fontWeight={600}>
                           {product.rating}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary" fontSize='0.75rem'>
+                        <Typography variant="body2" color="text.secondary">
                           • {product.reviews} reviews
                         </Typography>
                       </Stack>
 
-                      {/* Price */}
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="h6" fontWeight={700} color="primary.main" fontSize='1.1rem'>
+                        <Typography variant="h6" fontWeight={700} color="primary.main">
                           ₹{product.price}
                         </Typography>
                         {product.originalPrice && (
@@ -386,17 +365,18 @@ const SearchPage = () => {
                             <Typography
                               variant="body2"
                               color="text.secondary"
-                              fontSize='0.75rem'
                               sx={{ textDecoration: 'line-through' }}
                             >
                               ₹{product.originalPrice}
                             </Typography>
-                            <Chip
-                              label={`${product.discount}% OFF`}
-                              size="small"
-                              color="error"
-                              sx={{ fontSize: '0.65rem', height: 18, fontWeight: 600 }}
-                            />
+                            {product.discount && (
+                              <Chip
+                                label={`${product.discount}% OFF`}
+                                size="small"
+                                color="error"
+                                sx={{ fontSize: '0.65rem', height: 18, fontWeight: 600 }}
+                              />
+                            )}
                           </>
                         )}
                       </Stack>

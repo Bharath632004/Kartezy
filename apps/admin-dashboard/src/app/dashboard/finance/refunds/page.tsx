@@ -26,25 +26,21 @@ export default function RefundsPage() {
         <Typography variant="h5" gutterBottom>
           Refunds Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
-            labelId="date-range-label"
-            id="date-range-select"
             value={filters.dateRange}
             onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ minWidth: 150 }}
           >
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_7_days">Last 7 Days</option>
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="custom">Custom Range</option>
+            <MenuItem value="today">Today</MenuItem>
+            <MenuItem value="yesterday">Yesterday</MenuItem>
+            <MenuItem value="last_7_days">Last 7 Days</MenuItem>
+            <MenuItem value="last_30_days">Last 30 Days</MenuItem>
+            <MenuItem value="this_month">This Month</MenuItem>
+            <MenuItem value="last_month">Last Month</MenuItem>
+            <MenuItem value="custom">Custom Range</MenuItem>
           </TextField>
           <TextField
             label="Refund ID"
@@ -88,7 +84,7 @@ export default function RefundsPage() {
           <Button variant="contained" onClick={() => fetchRefundsData(filters)}>
             Apply Filters
           </Button>
-        </Stack>
+        </Box>
       </Box>
 
       {!refundsData || refundsData.length === 0 ? (
@@ -113,7 +109,7 @@ export default function RefundsPage() {
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
-                <tbody>
+                <TableBody>
                   {refundsData.map((refund: any) => (
                     <TableRow key={refund.id}>
                       <TableCell>{refund.date}</TableCell>
@@ -121,15 +117,16 @@ export default function RefundsPage() {
                       <TableCell>{refund.orderId}</TableCell>
                       <TableCell>{refund.reason}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box sx={{
                           bgcolor: refund.status.toLowerCase() === 'processed' ? 'success.main' :
                                    refund.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
                           px: 1,
-                          borderRadius: 1
+                          borderRadius: 1,
+                          display: 'inline-block'
                         }}>
                           {refund.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }}>
@@ -138,7 +135,7 @@ export default function RefundsPage() {
                       </TableCell>
                     </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </Table>
             </TableContainer>
           </Box>

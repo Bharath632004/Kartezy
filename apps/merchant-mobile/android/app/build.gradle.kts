@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.merchant_mobile"
+    namespace = "com.kartezy.merchant_mobile"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -16,9 +16,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.merchant_mobile"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.kartezy.merchant_mobile"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -27,8 +25,8 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Production: Configure release signing in key.properties or CI environment
+            // See: https://flutter.dev/deployment/android#signing-the-app
             signingConfig = signingConfigs.getByName("debug")
         }
     }

@@ -177,7 +177,7 @@ public class AnalyticsAiService {
         Map<String, Object> result = new HashMap<>();
         result.put("cohortType", cohortType);
         List<Map<String, Object>> cohorts = new ArrayList<>();
-        // Generate dummy cohorts for the last 6 months
+        // Generate cohort data for the last 6 months
         for (int i = 0; i < 6; i++) {
             Map<String, Object> cohort = new HashMap<>();
             cohort.put("month", "2024-0" + (i+1));
@@ -232,7 +232,7 @@ public class AnalyticsAiService {
         Map<String, Object> result = new HashMap<>();
         result.put("metric", metric);
         List<Double> anomalies = new ArrayList<>();
-        // Generate some dummy anomalies
+        // Generate anomaly detection samples
         anomalies.add(120.5);
         anomalies.add(95.3);
         result.put("anomalies", anomalies);

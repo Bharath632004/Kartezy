@@ -105,7 +105,7 @@ export default function HeroSection() {
             </Stack>
           </Stack>
 
-          {/* Image/Mockup */}
+          {/* App Hero Illustration */}
           <Box
             sx={{
               flexGrow: 1,
@@ -118,16 +118,80 @@ export default function HeroSection() {
               sx={{
                 width: '100%',
                 height: 400,
-                backgroundColor: 'rgba(255,255,255,0.2)',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 100%)',
                 borderRadius: 5,
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
+                backdropFilter: 'blur(10px)',
+                border: '2px solid rgba(255,255,255,0.3)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              <Typography variant="h4" fontWeight={300} color="white">
-                App Screenshot
+              {/* Decorative elements */}
+              <Box sx={{
+                position: 'absolute',
+                top: -30, right: -30,
+                width: 120, height: 120,
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.15)',
+              }} />
+              <Box sx={{
+                position: 'absolute',
+                bottom: -20, left: -20,
+                width: 80, height: 80,
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.1)',
+              }} />
+              <Box
+                sx={{
+                  width: 80,
+                  height: 80,
+                  backgroundColor: 'white',
+                  borderRadius: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                  mb: 2,
+                }}
+              >
+                <Typography variant="h3" fontWeight={800} color="#ff6b35">
+                  K
+                </Typography>
+              </Box>
+              <Typography variant="h5" fontWeight={600} color="white" sx={{ mb: 1 }}>
+                Kartezy
               </Typography>
+              <Typography variant="body2" color="rgba(255,255,255,0.8)">
+                15-Minute Delivery App
+              </Typography>
+              {/* Download badges */}
+              <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                <Box sx={{
+                  px: 2, py: 1,
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  borderRadius: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}>
+                  <Typography variant="caption" color="white" fontWeight={500}>App Store</Typography>
+                </Box>
+                <Box sx={{
+                  px: 2, py: 1,
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  borderRadius: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}>
+                  <Typography variant="caption" color="white" fontWeight={500}>Google Play</Typography>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </Stack>

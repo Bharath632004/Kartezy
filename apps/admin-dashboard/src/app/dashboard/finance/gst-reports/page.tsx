@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -25,7 +25,7 @@ export default function GstReportsPage() {
         <Typography variant="h5" gutterBottom>
           GST Reports Overview
         </Typography>
-        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
@@ -88,7 +88,7 @@ export default function GstReportsPage() {
           <Button variant="contained" onClick={() => fetchGstReportsData(filters)}>
             Apply Filters
           </Button>
-        </Stack>
+        </Box>
       </Box>
 
       {!gstReportsData || gstReportsData.length === 0 ? (

@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Container, Typography, TextField, Button, Phone, Email } from '@mui/material';
+import { Box, Container, Typography, TextField, Button } from '@mui/material';
+import { Phone, Email } from '@mui/icons-material';
 import { useState } from 'react';
 
 const ContactPage = () => {
@@ -23,7 +24,7 @@ const ContactPage = () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       setSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (err) {
+    } catch {
       setError('Failed to send message. Please try again.');
     } finally {
       setLoading(false);

@@ -8,7 +8,7 @@ import {
   LocalConvenienceStore,
   ChildCare,
   LocalDrink,
-} from '@mui/icons/material';
+} from '@mui/icons-material';
 
 // Icon mapping
 const iconMap = {
@@ -100,10 +100,9 @@ export default function CategoriesSection({ data } = {}) {
 
           <Grid
             container
-            spacing={3}
-          >
+            spacing={3}>
             {categories.map((category, index) => (
-              <Grid item key={category.id} xs={12} sm={6} md={4} lg={3}>
+              <Grid key={category.id} size={{xs:12, sm:6, md:4, lg:3}}>
                 <Card
                   sx={{
                     height: '100%',

@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography, Chip, Button } from '@mui/material';
-import { Place } from '@mui/icons/material';
+import { Place } from '@mui/icons-material';
 
 export default function CitiesSection({ data } = {}) {
   // Default data if none provided

@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -26,25 +26,21 @@ export default function PayoutsPage() {
         <Typography variant="h5" gutterBottom>
           Payouts Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
-            labelId="date-range-label"
-            id="date-range-select"
             value={filters.dateRange}
             onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ minWidth: 150 }}
           >
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_7_days">Last 7 Days</option>
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="custom">Custom Range</option>
+            <MenuItem value="today">Today</MenuItem>
+            <MenuItem value="yesterday">Yesterday</MenuItem>
+            <MenuItem value="last_7_days">Last 7 Days</MenuItem>
+            <MenuItem value="last_30_days">Last 30 Days</MenuItem>
+            <MenuItem value="this_month">This Month</MenuItem>
+            <MenuItem value="last_month">Last Month</MenuItem>
+            <MenuItem value="custom">Custom Range</MenuItem>
           </TextField>
           <TextField
             label="Payout ID"
@@ -55,36 +51,28 @@ export default function PayoutsPage() {
           <TextField
             label="Recipient Type"
             select
-            labelId="recipient-type-label"
-            id="recipient-type-select"
             value={filters.recipientType || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, recipientType: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ minWidth: 150 }}
           >
-            <option value="">All Types</option>
-            <option value="merchant">Merchant</option>
-            <option value="partner">Partner</option>
-            <option value="driver">Driver</option>
-            <option value="vendor">Vendor</option>
+            <MenuItem value="">All Types</MenuItem>
+            <MenuItem value="merchant">Merchant</MenuItem>
+            <MenuItem value="partner">Partner</MenuItem>
+            <MenuItem value="driver">Driver</MenuItem>
+            <MenuItem value="vendor">Vendor</MenuItem>
           </TextField>
           <TextField
             label="Status"
             select
-            labelId="status-label"
-            id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ minWidth: 150 }}
           >
-            <option value="">All Statuses</option>
-            <option value="processed">Processed</option>
-            <option value="pending">Pending</option>
-            <option value="failed">Failed</option>
-            <option value="cancelled">Cancelled</option>
+            <MenuItem value="">All Statuses</MenuItem>
+            <MenuItem value="processed">Processed</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
+            <MenuItem value="failed">Failed</MenuItem>
+            <MenuItem value="cancelled">Cancelled</MenuItem>
           </TextField>
           {filters.dateRange === 'custom' && (
             <>
@@ -108,7 +96,7 @@ export default function PayoutsPage() {
           <Button variant="contained" onClick={() => fetchPayoutsData(filters)}>
             Apply Filters
           </Button>
-        </Stack>
+        </Box>
       </Box>
 
       {!payoutsData || payoutsData.length === 0 ? (
@@ -134,7 +122,7 @@ export default function PayoutsPage() {
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
-                <tbody>
+                <TableBody>
                   {payoutsData.map((payout: any) => (
                     <TableRow key={payout.id}>
                       <TableCell>{payout.date}</TableCell>
@@ -143,15 +131,16 @@ export default function PayoutsPage() {
                       <TableCell>{payout.recipientType}</TableCell>
                       <TableCell>{payout.referenceId}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box sx={{
                           bgcolor: payout.status.toLowerCase() === 'processed' ? 'success.main' :
                                    payout.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
                           px: 1,
-                          borderRadius: 1
+                          borderRadius: 1,
+                          display: 'inline-block'
                         }}>
                           {payout.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }}>
@@ -160,7 +149,7 @@ export default function PayoutsPage() {
                       </TableCell>
                     </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </Table>
             </TableContainer>
           </Box>

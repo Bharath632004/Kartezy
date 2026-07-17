@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography, Card, CardContent, Avatar, Divider } from '@mui/material';
-import { Star } from '@mui/icons/material';
+import { Star } from '@mui/icons-material';
 
 export default function TestimonialsSection({ data } = {}) {
   // Default data if none provided

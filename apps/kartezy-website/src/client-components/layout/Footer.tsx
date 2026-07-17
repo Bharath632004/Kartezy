@@ -1,12 +1,10 @@
-import { Box, Container, Stack, Typography, Divider } from '@mui/material';
+import { Box, Container, Stack, Typography, Divider, Button } from '@mui/material';
 import { 
   Email, 
   Phone, 
-  LocationOn, 
   Facebook, 
   Twitter, 
-  Instagram, 
-  LinkedIn 
+  Instagram 
 } from '@mui/icons-material';
 import Link from 'next/link';
 
@@ -89,13 +87,15 @@ export default function Footer() {
                   borderRadius: 10,
                   px: 2,
                   fontWeight: 600,
+                  minWidth: 48,
                   '&:hover': {
                     backgroundColor: '#1976d2',
                     color: 'white',
                   }
                 }}
-                startIcon={<Facebook fontSize="medium" />}
-              />
+              >
+                <Facebook fontSize="medium" />
+              </Button>
 
               <Button
                 variant="outlined"
@@ -106,13 +106,15 @@ export default function Footer() {
                   borderRadius: 10,
                   px: 2,
                   fontWeight: 600,
+                  minWidth: 48,
                   '&:hover': {
                     backgroundColor: '#1976d2',
                     color: 'white',
                   }
                 }}
-                startIcon={<Twitter fontSize="medium" />}
-              />
+              >
+                <Twitter fontSize="medium" />
+              </Button>
 
               <Button
                 variant="outlined"
@@ -123,13 +125,15 @@ export default function Footer() {
                   borderRadius: 10,
                   px: 2,
                   fontWeight: 600,
+                  minWidth: 48,
                   '&:hover': {
                     backgroundColor: '#1976d2',
                     color: 'white',
                   }
                 }}
-                startIcon={<Instagram fontSize="medium" />}
-              />
+              >
+                <Instagram fontSize="medium" />
+              </Button>
             </Box>
           </Box>
         </Box>

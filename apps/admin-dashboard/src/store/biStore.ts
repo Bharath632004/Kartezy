@@ -11,6 +11,296 @@ import { biService } from '@/lib/api';
 
 // === Type Definitions ===
 
+export interface ExecutiveSummary {
+  totalRevenue: string;
+  activeCustomers: number;
+  activeMerchants: number;
+  deliverySuccessRate: number;
+  companyHealthScore: number;
+  revenueGrowth: number;
+  profitMargin: number;
+  customerRetention: number;
+  marketShare: number;
+  yoyGrowth: number;
+  totalOrders: number;
+  strategicAlerts: Array<{ title: string; description: string; severity: 'high' | 'medium' | 'low' }>;
+  [key: string]: unknown;
+}
+
+export interface KPIMetric {
+  label: string;
+  value: string | number;
+  change?: string;
+  sub?: string;
+}
+
+export interface Scorecard {
+  category: string;
+  score: number;
+  maxScore: number;
+}
+
+export interface CustomerAnalyticsOverview {
+  totalCustomers: number;
+  activeCustomers: number;
+  customerGrowthRate: number;
+  retentionRate: number;
+  averageLifetimeValue: number;
+  averageCustomerLifetimeDays: number;
+  [key: string]: unknown;
+}
+
+export interface CustomerSegment {
+  id: string;
+  name: string;
+  count: number;
+  percentage: number;
+  averageOrderValue: number;
+}
+
+export interface CustomerAcquisitionData {
+  date: string;
+  newCustomers: number;
+  source: string;
+}
+
+export interface CustomerRetentionData {
+  cohort: string;
+  period: number;
+  retentionRate: number;
+}
+
+export interface CustomerBehaviorData {
+  averageSessionDuration: number;
+  pagesPerSession: number;
+  topActions: Array<{ action: string; count: number }>;
+  [key: string]: unknown;
+}
+
+export interface MerchantAnalyticsOverview {
+  totalMerchants: number;
+  activeMerchants: number;
+  averageRating: number;
+  totalCommission: number;
+  merchantsByCity: Record<string, number>;
+  merchantsByTier: Record<string, number>;
+  pendingMerchants: number;
+  [key: string]: unknown;
+}
+
+export interface MerchantPerformanceData {
+  merchantId: string;
+  merchantName: string;
+  totalOrders: number;
+  totalRevenue: number;
+  averageRating: number;
+  [key: string]: unknown;
+}
+
+export interface MerchantBenchmarkData {
+  category: string;
+  merchantValue: number;
+  averageValue: number;
+  percentile: number;
+}
+
+export interface DeliveryAnalyticsOverview {
+  totalDeliveries: number;
+  deliverySuccessRate: number;
+  averageDeliveryTime: number;
+  totalActiveDrivers: number;
+  driverUtilizationRate: number;
+  deliveriesByZone: Record<string, number>;
+  [key: string]: unknown;
+}
+
+export interface DriverPerformanceData {
+  driverId: string;
+  driverName: string;
+  totalDeliveries: number;
+  averageRating: number;
+  onTimeRate: number;
+  [key: string]: unknown;
+}
+
+export interface ZoneAnalyticsData {
+  zoneId: string;
+  zoneName: string;
+  totalOrders: number;
+  averageDeliveryTime: number;
+  activeDrivers: number;
+}
+
+export interface FinanceAnalyticsOverview {
+  totalRevenue: number;
+  revenueGrowth: number;
+  grossMargin: number;
+  grossProfit: number;
+  netMargin: number;
+  netProfit: number;
+  totalCommission: number;
+  revenueBySource: Record<string, number>;
+  [key: string]: unknown;
+}
+
+export interface RevenueBreakdownData {
+  source: string;
+  amount: number;
+  percentage: number;
+}
+
+export interface CommissionSummaryData {
+  totalCommission: number;
+  byMerchant: Array<{ merchantId: string; merchantName: string; commission: number }>;
+  [key: string]: unknown;
+}
+
+export interface PayoutSummaryData {
+  totalPayout: number;
+  pendingPayout: number;
+  completedPayout: number;
+  [key: string]: unknown;
+}
+
+export interface GSTReportData {
+  period: string;
+  totalGST: number;
+  inputGST: number;
+  outputGST: number;
+  [key: string]: unknown;
+}
+
+export interface MarketingAnalyticsOverview {
+  activeCampaigns: number;
+  totalImpressions: number;
+  totalClicks: number;
+  totalConversions: number;
+  totalSpend: number;
+  overallROAS: number;
+  campaignByChannel: Record<string, number>;
+  [key: string]: unknown;
+}
+
+export interface CampaignPerformanceData {
+  campaignId: string;
+  campaignName: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  spend: number;
+  revenue: number;
+  [key: string]: unknown;
+}
+
+export interface ChannelPerformanceData {
+  channel: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  spend: number;
+  revenue: number;
+}
+
+export interface ProductAnalyticsOverview {
+  totalProducts: number;
+  activeProducts: number;
+  categories: number;
+  averageProductPrice: number;
+  topCategories: Array<{ name: string; revenue: number; products: number }>;
+  [key: string]: unknown;
+}
+
+export interface CategoryAnalyticsData {
+  categoryId: string;
+  categoryName: string;
+  totalProducts: number;
+  totalRevenue: number;
+  growthRate: number;
+}
+
+export interface InventoryAnalyticsOverview {
+  totalSKUs: number;
+  stockoutRate: number;
+  averageTurnover: number;
+  inventoryAccuracy: number;
+  stockStatusDistribution: Record<string, number>;
+  [key: string]: unknown;
+}
+
+export interface ReplenishmentSuggestionData {
+  productId: string;
+  productName: string;
+  currentStock: number;
+  reorderPoint: number;
+  recommendedQuantity: number;
+  priority: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+}
+
+export interface CohortMatrixData {
+  periods: string[];
+  cohorts: string[];
+  cohortSizes: number[];
+  data: number[][];
+  [key: string]: unknown;
+}
+
+export interface FunnelStageData {
+  name: string;
+  users: number;
+  percentage: number;
+  dropOff: number;
+  [key: string]: unknown;
+}
+
+export interface HeatMapDataPoint {
+  x: number;
+  y: number;
+  value: number;
+  label?: string;
+}
+
+export interface CityComparisonData {
+  cities: Array<{
+    city: string;
+    totalOrders: number;
+    totalRevenue: number;
+    averageOrderValue: number;
+    averageDeliveryTime: number;
+    growthRate: number;
+    tier: string;
+  }>;
+  topCity: string;
+  [key: string]: unknown;
+}
+
+export interface CityHeatMapData {
+  city: string;
+  zones: Array<{ zone: string; value: number }>;
+}
+
+export interface ExpansionOpportunity {
+  city: string;
+  potentialRevenue: number;
+  marketSize: number;
+  competitionLevel: string;
+  recommendedAction: string;
+}
+
+export interface CLVDistribution {
+  segment: string;
+  customerCount: number;
+  averageCLV: number;
+  totalValue: number;
+}
+
+export interface ChurnOverview {
+  predictedChurnRate: number;
+  customersAtRisk: number;
+  estimatedRevenueAtRisk: number;
+  totalCustomers: number;
+  topRiskFactors: Array<{ factor: string; weight: number; affectedCustomers: number }>;
+}
+
 export interface BIState {
   // Overview / Executive Dashboard
   executiveSummary: ExecutiveSummary | null;
@@ -61,6 +351,10 @@ export interface BIState {
   cityComparison: CityComparisonData | null;
   cityHeatMap: CityHeatMapData | null;
   expansionOpportunities: ExpansionOpportunity[] | null;
+
+  // Advanced Analytics (set by fetchCLVAnalysis and fetchChurnPrediction)
+  clvDistribution: CLVDistribution[] | null;
+  churnOverview: ChurnOverview | null;
 
   // Loading & Error
   loading: boolean;
