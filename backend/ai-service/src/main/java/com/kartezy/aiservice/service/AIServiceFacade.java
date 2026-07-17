@@ -299,4 +299,12 @@ public class AIServiceFacade {
         response.put("recommendedAction", "APPROVE");
         return response;
     }
+
+    public Map<String, String> retrainFraudModels(Map<String, Object> request) {
+        try {
+            return fraudDetectionServiceClient.retrainFraudModels(request);
+        } catch (Exception e) {
+            return Map.of("status", "RETRAINING_FAILED", "message", e.getMessage());
+        }
+    }
 }

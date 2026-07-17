@@ -22,7 +22,7 @@ export interface ExcelWorkbook {
 export interface ExcelSheet {
   name: string;
   columns: ExcelColumn[];
-  data: Record<string, unknown>[][];
+  data: unknown[][];
   headerStyle?: ExcelStyle;
   dataStyle?: ExcelStyle;
   columnWidths?: number[];

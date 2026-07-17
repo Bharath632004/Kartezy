@@ -47,8 +47,8 @@ export default function BIDashboardPage() {
   const { loading, error, fetchAll } = useBIStore();
 
   useEffect(() => {
-    fetchAll(dateRange);
-  }, [fetchAll, dateRange]);
+    fetchAll();
+  }, [fetchAll]);
 
   const domain = DOMAINS[activeTab];
 
@@ -65,7 +65,7 @@ export default function BIDashboardPage() {
               Enterprise analytics platform with real-time insights across all business domains
             </Typography>
           </Box>
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
             <FormControl size="small" sx={{ minWidth: 160 }}>
               <InputLabel>Period</InputLabel>
               <Select value={dateRange} label="Period" onChange={(e) => setDateRange(e.target.value)}>
@@ -77,7 +77,7 @@ export default function BIDashboardPage() {
               </Select>
             </FormControl>
             <Tooltip title="Refresh Data">
-              <IconButton onClick={() => fetchAll(dateRange)} color="primary"><Refresh /></IconButton>
+              <IconButton onClick={() => fetchAll()} color="primary"><Refresh /></IconButton>
             </Tooltip>
             <Tooltip title="Export Report">
               <IconButton color="primary"><Download /></IconButton>
@@ -431,7 +431,7 @@ function ProductAnalyticsContent() {
     <Grid container spacing={3}>
       <Grid size={{ xs: 12, sm: 6, md: 3 }}><KPICard label="Total Products" value={(p?.totalProducts || 0).toLocaleString()} color="#607D8B" icon={Category} /></Grid>
       <Grid size={{ xs: 12, sm: 6, md: 3 }}><KPICard label="Active Products" value={(p?.activeProducts || 0).toLocaleString()} sub={`${((p?.activeProducts || 0) / (p?.totalProducts || 1) * 100).toFixed(0)}% active`} color="#4CAF50" icon={CheckCircle} /></Grid>
-      <Grid size={{ xs: 12, sm: 6, md: 3 }}><KPICard label="Categories" value={(p?.categories || 0).toString()} color="#2196F3" icon={CategoryIcon} /></Grid>
+      <Grid size={{ xs: 12, sm: 6, md: 3 }}><KPICard label="Categories" value={(p?.categories || 0).toString()} color="#2196F3" icon={Category} /></Grid>
       <Grid size={{ xs: 12, sm: 6, md: 3 }}><KPICard label="Avg Product Price" value={`₹${(p?.averageProductPrice || 0).toFixed(0)}`} color="#FF9800" icon={MonetizationOn} /></Grid>
       <Grid size={{ xs: 12 }}>
         <Paper sx={{ p: 3, borderRadius: 3 }}>

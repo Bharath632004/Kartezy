@@ -21,7 +21,7 @@ class ProfilePage extends ConsumerWidget {
             padding: const EdgeInsets.all(24),
             color: Theme.of(
               context,
-            ).colorScheme.primary.withValues(alpha: 0.05),
+            ).colorScheme.primary.withOpacity(0.05),
             child: Row(
               children: [
                 CircleAvatar(

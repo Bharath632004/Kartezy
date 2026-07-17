@@ -29,7 +29,7 @@ class WalletPage extends ConsumerWidget {
               gradient: LinearGradient(
                 colors: [
                   theme.primaryColor,
-                  theme.primaryColor.withValues(alpha: 0.7),
+                  theme.primaryColor.withOpacity(0.7),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -42,7 +42,7 @@ class WalletPage extends ConsumerWidget {
                 Text(
                   'Total Balance',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withOpacity(0.9),
                     fontSize: 14,
                   ),
                 ),

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -193,8 +194,11 @@ public class MLController {
 
         return features.stream().map(f -> {
             String[] parts = f.split(":");
-            return Map.of("featureName", parts[0], "dataType", parts[1]);
-        }).toList();
+            Map<String, Object> map = new HashMap<>();
+            map.put("featureName", parts[0]);
+            map.put("dataType", parts[1]);
+            return map;
+        }).collect(Collectors.toList());
     }
 
     @GetMapping("/experiments")

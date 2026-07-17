@@ -73,7 +73,7 @@ class CustomersPage extends ConsumerWidget {
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: theme.primaryColor.withValues(alpha: 0.08),
+                        color: theme.primaryColor.withOpacity(0.08),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -120,8 +120,8 @@ class CustomersPage extends ConsumerWidget {
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: theme.primaryColor.withValues(
-                        alpha: 0.1,
+                      backgroundColor: theme.primaryColor.withOpacity(
+                        0.1,
                       ),
                       child: Text(
                         ((customer['name'] as String?) ?? '?')
@@ -148,7 +148,7 @@ class CustomersPage extends ConsumerWidget {
                         '${customer['orders_count'] ?? 0}',
                         style: const TextStyle(fontSize: 12),
                       ),
-                      backgroundColor: theme.primaryColor.withValues(
+                      backgroundColor: theme.primaryColor.withOpacity(
                         alpha: 0.08,
                       ),
                     ),

@@ -86,23 +86,26 @@ class NavigationRemoteDataSource {
       for (var leg in route['legs']) {
         totalDistance += leg['distance']['value'];
         totalDuration += leg['duration']['value'];
-        if (startPoint == null) {
-          startPoint = LatLng(
-            leg['start_location']['lat'],
-            leg['start_location']['lng'],
-          );
-        }
+        startPoint ??= LatLng(
+          leg['start_location']['lat'],
+          leg['start_location']['lng'],
+        );
         endPoint = LatLng(
           leg['end_location']['lat'],
           leg['end_location']['lng'],
         );
       }
 
+      // Skip route if start or end point is not available
+      if (startPoint == null || endPoint == null) {
+        continue;
+      }
+
       RouteInfo routeInfo = RouteInfo(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         polylineCoordinates: polyPoints,
-        startPoint: startPoint!,
-        endPoint: endPoint!,
+        startPoint: startPoint,
+        endPoint: endPoint,
         totalDistance: totalDistance / 1000.0, // Convert to km
         estimatedDuration: Duration(seconds: totalDuration.toInt()),
       );

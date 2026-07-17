@@ -62,7 +62,7 @@ class CategoriesPage extends ConsumerWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: cat.color.withValues(alpha: 0.1),
+                    color: cat.color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(cat.icon, color: cat.color, size: 28),

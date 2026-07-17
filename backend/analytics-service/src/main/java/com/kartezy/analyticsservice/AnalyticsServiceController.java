@@ -137,17 +137,19 @@ public class AnalyticsServiceController {
     @GetMapping("/delivery-performance")
     public ResponseEntity<Map<String, Object>> getDeliveryPerformance() {
         Random random = new Random();
-        return ResponseEntity.ok(Map.of(
-                "onTimeDeliveryRate", Math.round((85 + random.nextDouble() * 15) * 10.0) / 10.0,
-                "averageDeliveryTimeMinutes", 20 + random.nextInt(20),
-                "deliveriesLastWeek", 800 + random.nextInt(2000),
-                "deliverySuccessRate", Math.round((92 + random.nextDouble() * 8) * 10.0) / 10.0
-        ));
+        Map<String, Object> map = new HashMap<>();
+        map.put("onTimeDeliveryRate", Math.round((85 + random.nextDouble() * 15) * 10.0) / 10.0);
+        map.put("averageDeliveryTimeMinutes", 20 + random.nextInt(20));
+        map.put("deliveriesLastWeek", 800 + random.nextInt(2000));
+        map.put("deliverySuccessRate", Math.round((92 + random.nextDouble() * 8) * 10.0) / 10.0);
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/category-sales")
     public ResponseEntity<Map<String, Object>> getCategorySales() {
-        return ResponseEntity.ok(Map.of("data", generateCategorySalesData()));
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", generateCategorySalesData());
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/heat-map")
@@ -198,7 +200,12 @@ public class AnalyticsServiceController {
                 "Personal Care", "Baby Care", "Pet Supplies", "Electronics", "Fashion"};
         Random random = new Random();
         return Arrays.stream(categories)
-                .map(cat -> Map.of("category", cat, "sales", Math.round((10000 + random.nextDouble() * 90000) * 100.0) / 100.0))
+                .map(cat -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("category", cat);
+                    map.put("sales", Math.round((10000 + random.nextDouble() * 90000) * 100.0) / 100.0);
+                    return map;
+                })
                 .sorted((a, b) -> Double.compare((Double) b.get("sales"), (Double) a.get("sales")))
                 .collect(Collectors.toList());
     }

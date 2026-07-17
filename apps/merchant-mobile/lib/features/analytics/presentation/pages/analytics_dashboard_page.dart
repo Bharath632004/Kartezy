@@ -295,7 +295,7 @@ class AnalyticsDashboardPage extends ConsumerWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.deepPurple.withValues(alpha: 0.08),
+            color: Colors.deepPurple.withOpacity(0.08),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, size: 24, color: Colors.deepPurple),

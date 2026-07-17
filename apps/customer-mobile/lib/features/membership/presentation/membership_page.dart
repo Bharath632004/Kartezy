@@ -52,7 +52,7 @@ class MembershipPage extends ConsumerWidget {
                 Text(
                   'Unlock exclusive benefits & savings',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withOpacity(0.9),
                     fontSize: 13,
                   ),
                 ),
@@ -144,7 +144,7 @@ class MembershipPage extends ConsumerWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: theme.primaryColor.withValues(alpha: 0.08),
+              color: theme.primaryColor.withOpacity(0.08),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: theme.primaryColor, size: 22),
@@ -186,7 +186,7 @@ class MembershipPage extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: recommended
-            ? theme.primaryColor.withValues(alpha: 0.05)
+            ? theme.primaryColor.withOpacity(0.05)
             : theme.cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(

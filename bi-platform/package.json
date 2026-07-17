@@ -5,9 +5,21 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
+    "start": "node dist/server.js",
+    "prestart": "tsc",
     "build": "tsc",
     "test": "jest --passWithNoTests",
-    "lint": "eslint src/"
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:restart": "docker compose restart",
+    "docker:logs": "docker compose logs -f",
+    "docker:ps": "docker compose ps",
+    "docker:clean": "docker compose down -v",
+    "docker:rebuild": "docker compose up -d --build bi-platform",
+    "docker:db:seed": "docker compose up db-init"
   },
   "dependencies": {
     "csv-stringify": "^6.5.0",

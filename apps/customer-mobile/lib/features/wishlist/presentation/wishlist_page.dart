@@ -21,7 +21,7 @@ class WishlistPage extends ConsumerWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.pink.withValues(alpha: 0.08),
+                  color: Colors.pink.withOpacity(0.08),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

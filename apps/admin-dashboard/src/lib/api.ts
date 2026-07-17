@@ -15,8 +15,7 @@ axiosRetry(api, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 // Request interceptor to add JWT token
 api.interceptors.request.use(
   (config) => {
-    const { getState } = useAuthStore.getState();
-    const { accessToken } = getState();
+    const { accessToken } = useAuthStore.getState();
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

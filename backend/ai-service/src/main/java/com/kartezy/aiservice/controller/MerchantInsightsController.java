@@ -187,15 +187,6 @@ public class MerchantInsightsController {
         );
     }
 
-    private List<Map<String, Object>> getTopProducts(String merchantId, int limit) {
-        Random random = new Random(merchantId.hashCode());
-        List<Map<String, Object>> products = new ArrayList<>();
-        for (int i = 1; i <= limit; i++) {
-            products.add(Map.of("productId", "PROD-" + (10000 + random.nextInt(5000)), "sales", Math.round(random.nextDouble() * 50000 * 100.0) / 100.0));
-        }
-        return products;
-    }
-
     private List<Map<String, Object>> generateSalesTrend(Random random) {
         List<Map<String, Object>> trend = new ArrayList<>();
         for (int i = 6; i >= 0; i--) {

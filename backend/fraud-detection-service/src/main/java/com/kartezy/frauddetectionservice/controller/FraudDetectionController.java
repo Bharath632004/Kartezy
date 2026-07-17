@@ -46,7 +46,7 @@ public class FraudDetectionController {
     }
 
     @PostMapping("/model/retrain")
-    public ResponseEntity<Map<String, String>> retrainModels(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<Map<String, Object>> retrainModels(@RequestBody Map<String, Object> request) {
         return ResponseEntity.ok(fraudDetectionService.retrainModels(request));
     }
 

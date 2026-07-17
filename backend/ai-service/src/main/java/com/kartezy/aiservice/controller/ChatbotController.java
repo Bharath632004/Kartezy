@@ -47,7 +47,7 @@ public class ChatbotController {
     }
 
     @PostMapping("/train")
-    public Map<String, String> trainModel(@RequestBody Map<String, Object> request) {
+    public Map<String,Object> trainModel(@RequestBody Map<String, Object> request) {
         return Map.of(
                 "status", "TRAINING_STARTED",
                 "jobId", UUID.randomUUID().toString(),
@@ -68,7 +68,7 @@ public class ChatbotController {
     }
 
     @PostMapping("/feedback")
-    public Map<String, String> submitFeedback(@RequestBody Map<String, Object> request) {
+    public Map<String,Object> submitFeedback(@RequestBody Map<String, Object> request) {
         String conversationId = (String) request.get("conversationId");
         String feedback = (String) request.getOrDefault("feedback", "");
         int rating = (int) request.getOrDefault("rating", 0);

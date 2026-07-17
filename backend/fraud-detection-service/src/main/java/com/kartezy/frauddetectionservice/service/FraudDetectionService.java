@@ -359,7 +359,7 @@ public class FraudDetectionService {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, String> retrainModels(Map<String, Object> request) {
+    public Map<String, Object> retrainModels(Map<String, Object> request) {
         log.info("Retraining fraud detection models");
         return Map.of(
                 "status", "RETRAINING_COMPLETED",
