@@ -1,0 +1,206 @@
+# ============================================================
+# Kartezy Geo Replication Configuration
+# Cross-region deployment for multi-city/state/country support
+# ============================================================
+
+---
+# Geo Replication Region ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geo-replication-config
+  namespace: kartezy
+data:
+  regions.json: |
+    [
+      {
+        "code": "ap-south-1",
+        "name": "Mumbai (India)",
+        "primary": true,
+        "active": true,
+        "cities": ["Mumbai", "Pune", "Delhi", "Bangalore", "Chennai"],
+        "states": ["MH", "KA", "TN", "DL", "UP"],
+        "countries": ["IN"],
+        "database": "postgres://postgres-kartezy-ap-south-1:5432/kartezy",
+        "redis": "redis://redis-kartezy-ap-south-1:6379",
+        "kafka": "kafka-kartezy-ap-south-1:9092"
+      },
+      {
+        "code": "us-east-1",
+        "name": "Virginia (USA)",
+        "primary": false,
+        "active": false,
+        "cities": ["New York", "Boston", "Washington DC"],
+        "states": ["NY", "MA", "DC", "NJ", "CT"],
+        "countries": ["US"],
+        "database": "postgres://postgres-kartezy-us-east-1:5432/kartezy",
+        "redis": "redis://redis-kartezy-us-east-1:6379",
+        "kafka": "kafka-kartezy-us-east-1:9092"
+      },
+      {
+        "code": "eu-west-1",
+        "name": "Ireland (Europe)",
+        "primary": false,
+        "active": false,
+        "cities": ["London", "Dublin", "Paris"],
+        "states": [],
+        "countries": ["GB", "IE", "FR"],
+        "database": "postgres://postgres-kartezy-eu-west-1:5432/kartezy",
+        "redis": "redis://redis-kartezy-eu-west-1:6379",
+        "kafka": "kafka-kartezy-eu-west-1:9092"
+      },
+      {
+        "code": "ap-southeast-1",
+        "name": "Singapore (SE Asia)",
+        "primary": false,
+        "active": false,
+        "cities": ["Singapore", "Kuala Lumpur", "Jakarta"],
+        "states": [],
+        "countries": ["SG", "MY", "ID"],
+        "database": "postgres://postgres-kartezy-ap-southeast-1:5432/kartezy",
+        "redis": "redis://redis-kartezy-ap-southeast-1:6379",
+        "kafka": "kafka-kartezy-ap-southeast-1:9092"
+      },
+      {
+        "code": "me-central-1",
+        "name": "Dubai (Middle East)",
+        "primary": false,
+        "active": false,
+        "cities": ["Dubai", "Abu Dhabi", "Riyadh"],
+        "states": [],
+        "countries": ["AE", "SA", "QA"],
+        "database": "postgres://postgres-kartezy-me-central-1:5432/kartezy",
+        "redis": "redis://redis-kartezy-me-central-1:6379",
+        "kafka": "kafka-kartezy-me-central-1:9092"
+      }
+    ]
+  geo-routing-rules: |
+    [
+      {"country": "IN", "region": "ap-south-1", "primary": true},
+      {"country": "US", "region": "us-east-1", "primary": true},
+      {"country": "GB", "region": "eu-west-1", "primary": true},
+      {"country": "SG", "region": "ap-southeast-1", "primary": true},
+      {"country": "AE", "region": "me-central-1", "primary": true}
+    ]
+
+---
+# Global DNS-based failover configuration
+# Used with ExternalDNS for multi-region routing
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-dns-config
+  namespace: kartezy
+data:
+  failover-config.json: |
+    {
+      "primary": "ap-south-1",
+      "failover": ["us-east-1", "eu-west-1", "ap-southeast-1"],
+      "healthCheckInterval": 30,
+      "failoverThreshold": 3,
+      "dnsTtl": 60,
+      "routingPolicy": "latency"
+    }
+
+---
+# PostgreSQL Read Replica Configuration
+# For read-heavy workloads across regions
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-replica-config
+  namespace: kartezy
+data:
+  postgresql.conf: |
+    wal_level = logical
+    max_wal_senders = 10
+    max_replication_slots = 10
+    hot_standby = on
+    hot_standby_feedback = on
+    wal_keep_size = 1024
+    max_connections = 200
+    shared_buffers = 2GB
+    effective_cache_size = 6GB
+    maintenance_work_mem = 512MB
+    checkpoint_completion_target = 0.9
+    wal_buffers = 16MB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 200
+    work_mem = 64MB
+    min_wal_size = 1GB
+    max_wal_size = 4GB
+    max_worker_processes = 8
+    max_parallel_workers_per_gather = 4
+    max_parallel_workers = 8
+    max_parallel_maintenance_workers = 4
+
+---
+# Cross-Region Service Discovery
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-api-gateway
+  namespace: kartezy
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    external-dns.alpha.kubernetes.io/hostname: "api.kartezy.com"
+spec:
+  type: LoadBalancer
+  selector:
+    app: api-gateway
+  ports:
+    - port: 443
+      targetPort: 8080
+      name: https
+    - port: 80
+      targetPort: 8080
+      name: http
+
+---
+# Global Traffic Management with ServiceImport
+# For multi-cluster service discovery (Submariner or similar)
+apiVersion: multicluster.x-k8s.io/v1alpha1
+kind: ServiceExport
+metadata:
+  name: api-gateway
+  namespace: kartezy
+spec: {}
+
+---
+# Geo-aware Zone Selection
+# Priority levels for multi-region scheduling
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geo-priority-config
+  namespace: kartezy
+data:
+  priority-levels.json: |
+    {
+      "critical": {
+        "services": ["api-gateway", "order-service", "payment-service", "auth-service"],
+        "multiRegion": true,
+        "minReplicas": 3,
+        "pdb": "minAvailable: 75%"
+      },
+      "high": {
+        "services": ["catalog-service", "delivery-service", "notification-service", "inventory-service"],
+        "multiRegion": true,
+        "minReplicas": 2,
+        "pdb": "minAvailable: 50%"
+      },
+      "medium": {
+        "services": ["user-service", "merchant-service", "wallet-service", "review-service", "fraud-detection-service"],
+        "multiRegion": false,
+        "minReplicas": 2,
+        "pdb": "minAvailable: 1"
+      },
+      "low": {
+        "services": ["analytics-service", "forecasting-service", "recommendation-service", "ai-service"],
+        "multiRegion": false,
+        "minReplicas": 1,
+        "pdb": "maxUnavailable: 1"
+      }
+    }

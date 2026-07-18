@@ -1,76 +1,102 @@
 package com.kartezy.shared.security.api;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.util.UrlPathHelper;
+import org.springframework.core.Ordered;
 
 /**
- * Configuration for security headers to protect against various web vulnerabilities.
+ * Security headers configuration for OWASP protection.
+ * Adds HSTS, CSP, X-Frame-Options, and other critical security headers
+ * via a servlet filter to avoid conflicts with per-service SecurityConfig.
+ *
+ * IMPORTANT: Each service's SecurityConfig should also configure headers
+ * via HttpSecurity.headers(). This filter provides a baseline that runs
+ * before Spring Security's filter chain.
  */
 @Configuration
-public class SecurityHeadersConfig implements WebMvcConfigurer {
+public class SecurityHeadersConfig {
 
-    /**
-     * Configures CORS mappings with security-conscious defaults.
-     * Adjust these values based on your application's requirements.
-     */
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("https://yourdomain.com") // Replace with your actual domain
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(false) // Set to true only if needed
-                .maxAge(3600);
-    }
-
-    /**
-     * Creates a filter to add security headers to responses.
-     * This would typically be implemented as a Filter or HandlerInterceptor.
-     * For brevity, we're showing the concept here.
-     */
     @Bean
-    public SecurityHeadersFilter securityHeadersFilter() {
-        return new SecurityHeadersFilter();
+    public FilterRegistrationBean<SecurityHeadersFilter> securityHeadersFilter() {
+        FilterRegistrationBean<SecurityHeadersFilter> registration =
+                new FilterRegistrationBean<>(new SecurityHeadersFilter());
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 5);
+        registration.addUrlPatterns("/*");
+        return registration;
     }
-}
 
-/**
- * Filter that adds security headers to HTTP responses.
- */
-class SecurityHeadersFilter implements jakarta.servlet.Filter {
+    /**
+     * Servlet filter that adds comprehensive security headers to every response.
+     * This runs before Spring Security to ensure headers are always present.
+     */
+    public static class SecurityHeadersFilter implements jakarta.servlet.Filter {
 
-    @Override
-    public void doFilter(jakarta.servlet.ServletRequest request,
-                         jakarta.servlet.ServletResponse response,
-                         jakarta.servlet.FilterChain chain)
-            throws java.io.IOException, jakarta.servlet.ServletException {
+        @Override
+        public void doFilter(jakarta.servlet.ServletRequest servletRequest,
+                             jakarta.servlet.ServletResponse servletResponse,
+                             jakarta.servlet.FilterChain filterChain)
+                throws java.io.IOException, jakarta.servlet.ServletException {
 
-        jakarta.servlet.http.HttpServletResponse httpResponse =
-                (jakarta.servlet.http.HttpServletResponse) response;
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        // Security Headers
-        httpResponse.setHeader("X-Content-Type-Options", "nosniff");
-        httpResponse.setHeader("X-Frame-Options", "DENY");
-        httpResponse.setHeader("X-XSS-Protection", "1; mode=block");
-        httpResponse.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-        httpResponse.setHeader("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+            // HSTS - Strict Transport Security
+            response.setHeader("Strict-Transport-Security",
+                    "max-age=31536000; includeSubDomains; preload");
 
-        // Content Security Policy - adjust based on your needs
-        String csp = "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-                "style-src 'self' 'unsafe-inline'; " +
-                "img-src 'self' data: https:; " +
-                "font-src 'self'; " +
-                "connect-src 'self'; " +
-                "frame-ancestors 'none';";
-        httpResponse.setHeader("Content-Security-Policy", csp);
+            // Content Security Policy
+            // Note: 'unsafe-inline' and 'unsafe-eval' are required for Next.js/React dev mode.
+            // For production, migrate to nonce-based or hash-based CSP.
+            response.setHeader("Content-Security-Policy",
+                    "default-src 'self'; " +
+                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.kartezy.com; " +
+                    "style-src 'self' 'unsafe-inline' https://*.kartezy.com https://fonts.googleapis.com; " +
+                    "img-src 'self' data: https://*.kartezy.com https://*.kartezy.in https://*.amazonaws.com blob:; " +
+                    "font-src 'self' https://fonts.gstatic.com https://*.kartezy.com; " +
+                    "connect-src 'self' https://*.kartezy.com wss://*.kartezy.com; " +
+                    "frame-src 'self' https://*.kartezy.com; " +
+                    "object-src 'none'; base-uri 'self'; form-action 'self' https://*.kartezy.com; " +
+                    "frame-ancestors 'self'; upgrade-insecure-requests");
 
-        // HTTP Strict Transport Security (HSTS) - enable in production with proper SSL
-        // httpResponse.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+            // X-Frame-Options (fallback for older browsers not supporting CSP frame-ancestors)
+            response.setHeader("X-Frame-Options", "SAMEORIGIN");
 
-        chain.doFilter(request, response);
+            // X-Content-Type-Options
+            response.setHeader("X-Content-Type-Options", "nosniff");
+
+            // X-XSS-Protection
+            response.setHeader("X-XSS-Protection", "1; mode=block");
+
+            // Referrer-Policy
+            response.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+
+            // Permissions Policy (replaces Feature Policy)
+            response.setHeader("Permissions-Policy",
+                    "geolocation=(self), microphone=(), camera=(), payment=(self)");
+
+            // Cross-Origin-Embedder-Policy
+            response.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+
+            // Cross-Origin-Opener-Policy
+            response.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+
+            // Cross-Origin-Resource-Policy
+            response.setHeader("Cross-Origin-Resource-Policy", "same-origin");
+
+            // X-DNS-Prefetch-Control
+            response.setHeader("X-DNS-Prefetch-Control", "off");
+
+            // X-Download-Options
+            response.setHeader("X-Download-Options", "noopen");
+
+            // X-Permitted-Cross-Domain-Policies
+            response.setHeader("X-Permitted-Cross-Domain-Policies", "none");
+
+            // Clear-Site-Data for logout endpoints (set by controllers when needed)
+            // response.setHeader("Clear-Site-Data", "\"cache\", \"cookies\", \"storage\"");
+
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
     }
 }

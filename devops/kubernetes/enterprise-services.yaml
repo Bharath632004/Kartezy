@@ -1,0 +1,352 @@
+# ============================================================
+# Kartezy Enterprise Services (New)
+# Multi-tenant, Warehouse, Vendor, Marketplace, Franchise
+# ============================================================
+
+---
+# Tenant Service - Multi-tenant management
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tenant-service
+  namespace: kartezy
+  labels:
+    app: tenant-service
+    tier: enterprise
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tenant-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: tenant-service
+        tier: enterprise
+    spec:
+      containers:
+        - name: tenant-service
+          image: kartezy/tenant-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8201
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: tenant-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+            - name: SPRING_REDIS_HOST
+              value: redis
+            - name: SPRING_REDIS_PORT
+              value: "6379"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8201
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8201
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 500m
+            requests:
+              memory: 512Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tenant-service
+  namespace: kartezy
+spec:
+  selector:
+    app: tenant-service
+  ports:
+    - port: 8201
+      targetPort: 8201
+
+---
+# Warehouse Service - WMS operations
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouse-service
+  namespace: kartezy
+  labels:
+    app: warehouse-service
+    tier: enterprise
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: warehouse-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: warehouse-service
+        tier: enterprise
+    spec:
+      containers:
+        - name: warehouse-service
+          image: kartezy/warehouse-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8202
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: warehouse-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+            - name: SPRING_REDIS_HOST
+              value: redis
+            - name: SPRING_REDIS_PORT
+              value: "6379"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:9092
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8202
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8202
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 500m
+            requests:
+              memory: 512Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse-service
+  namespace: kartezy
+spec:
+  selector:
+    app: warehouse-service
+  ports:
+    - port: 8202
+      targetPort: 8202
+
+---
+# Marketplace Service - Vendor & commission management
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketplace-service
+  namespace: kartezy
+  labels:
+    app: marketplace-service
+    tier: enterprise
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: marketplace-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: marketplace-service
+        tier: enterprise
+    spec:
+      containers:
+        - name: marketplace-service
+          image: kartezy/marketplace-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8203
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: marketplace-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+            - name: SPRING_REDIS_HOST
+              value: redis
+            - name: SPRING_REDIS_PORT
+              value: "6379"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:9092
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8203
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8203
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 500m
+            requests:
+              memory: 512Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: marketplace-service
+  namespace: kartezy
+spec:
+  selector:
+    app: marketplace-service
+  ports:
+    - port: 8203
+      targetPort: 8203
+
+---
+# Procurement Service - Vendor management & purchase orders
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: procurement-service
+  namespace: kartezy
+  labels:
+    app: procurement-service
+    tier: enterprise
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: procurement-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: procurement-service
+        tier: enterprise
+    spec:
+      containers:
+        - name: procurement-service
+          image: kartezy/procurement-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8204
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_APPLICATION_NAME
+              value: procurement-service
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server:8761/eureka/
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/kartezy
+            - name: SPRING_DATASOURCE_USERNAME
+              value: kartezy
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+            - name: SPRING_REDIS_HOST
+              value: redis
+            - name: SPRING_REDIS_PORT
+              value: "6379"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8204
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8204
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: 768Mi
+              cpu: 500m
+            requests:
+              memory: 384Mi
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: procurement-service
+  namespace: kartezy
+spec:
+  selector:
+    app: procurement-service
+  ports:
+    - port: 8204
+      targetPort: 8204

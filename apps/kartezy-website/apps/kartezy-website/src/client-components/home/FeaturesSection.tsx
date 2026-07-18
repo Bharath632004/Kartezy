@@ -6,7 +6,7 @@ import {
   Shield,
   LocalFlorist,
   BreadsAndNoodles
-} from '@mui/icons/material';
+} from '@mui/icons-material';
 
 export const FeaturesSection = () => {
   return (

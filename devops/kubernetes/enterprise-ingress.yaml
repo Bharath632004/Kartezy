@@ -1,0 +1,377 @@
+# ============================================================
+# Kartezy Enterprise Ingress Configuration
+# Multi-tenant routing, geo-routing, SSL termination, rate limiting
+# ============================================================
+
+---
+# Main API Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kartezy-api-ingress
+  namespace: kartezy
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+
+    # Rate Limiting
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-rpm: "6000"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "3"
+    nginx.ingress.kubernetes.io/limit-connections: "1000"
+
+    # CORS
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.kartezy.com"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Tenant-Id,X-Language,X-Currency,X-Timezone"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+
+    # Security Headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Permissions-Policy: geolocation=(self), microphone=(), camera=()";
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload";
+
+    # WAF
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
+
+    # Affinity
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "KARTEZY_SESSION"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+
+    # SSL
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - "*.kartezy.com"
+        - "kartezy.com"
+        - "api.kartezy.com"
+      secretName: kartezy-tls
+  rules:
+    # Main API routing
+    - host: api.kartezy.com
+      http:
+        paths:
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 8081
+          - path: /api/users
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8082
+          - path: /api/merchants
+            pathType: Prefix
+            backend:
+              service:
+                name: merchant-service
+                port:
+                  number: 8083
+          - path: /api/catalog
+            pathType: Prefix
+            backend:
+              service:
+                name: catalog-service
+                port:
+                  number: 8084
+          - path: /api/inventory
+            pathType: Prefix
+            backend:
+              service:
+                name: inventory-service
+                port:
+                  number: 8085
+          - path: /api/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8086
+          - path: /api/payments
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-service
+                port:
+                  number: 8087
+          - path: /api/delivery
+            pathType: Prefix
+            backend:
+              service:
+                name: delivery-service
+                port:
+                  number: 8088
+          - path: /api/notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 8089
+          - path: /api/wallet
+            pathType: Prefix
+            backend:
+              service:
+                name: wallet-service
+                port:
+                  number: 8090
+          - path: /api/reviews
+            pathType: Prefix
+            backend:
+              service:
+                name: review-service
+                port:
+                  number: 8091
+          - path: /api/recommendations
+            pathType: Prefix
+            backend:
+              service:
+                name: recommendation-service
+                port:
+                  number: 8092
+          - path: /api/analytics
+            pathType: Prefix
+            backend:
+              service:
+                name: analytics-service
+                port:
+                  number: 8093
+          - path: /api/ai
+            pathType: Prefix
+            backend:
+              service:
+                name: ai-service
+                port:
+                  number: 8094
+          - path: /api/forecasting
+            pathType: Prefix
+            backend:
+              service:
+                name: forecasting-service
+                port:
+                  number: 8095
+          - path: /api/chat
+            pathType: Prefix
+            backend:
+              service:
+                name: chatbot-service
+                port:
+                  number: 8096
+          - path: /api/search
+            pathType: Prefix
+            backend:
+              service:
+                name: search-service
+                port:
+                  number: 8106
+          - path: /api/fraud
+            pathType: Prefix
+            backend:
+              service:
+                name: fraud-detection-service
+                port:
+                  number: 8101
+          - path: /api/finance
+            pathType: Prefix
+            backend:
+              service:
+                name: finance-service
+                port:
+                  number: 8104
+          - path: /api/cms
+            pathType: Prefix
+            backend:
+              service:
+                name: cms-service
+                port:
+                  number: 8105
+          - path: /api/support
+            pathType: Prefix
+            backend:
+              service:
+                name: support-service
+                port:
+                  number: 8103
+          - path: /api/pricing
+            pathType: Prefix
+            backend:
+              service:
+                name: pricing-service
+                port:
+                  number: 8102
+          - path: /api/enterprise/tenants
+            pathType: Prefix
+            backend:
+              service:
+                name: tenant-service
+                port:
+                  number: 8201
+          - path: /api/enterprise/warehouses
+            pathType: Prefix
+            backend:
+              service:
+                name: warehouse-service
+                port:
+                  number: 8202
+          - path: /api/enterprise/vendors
+            pathType: Prefix
+            backend:
+              service:
+                name: marketplace-service
+                port:
+                  number: 8203
+          - path: /api/enterprise/procurement
+            pathType: Prefix
+            backend:
+              service:
+                name: procurement-service
+                port:
+                  number: 8204
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+          - path: /actuator
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+
+---
+# WebSocket Ingress for real-time services
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kartezy-ws-ingress
+  namespace: kartezy
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/limit-connections: "100"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - "ws.kartezy.com"
+      secretName: kartezy-ws-tls
+  rules:
+    - host: ws.kartezy.com
+      http:
+        paths:
+          - path: /ws/delivery
+            pathType: Prefix
+            backend:
+              service:
+                name: delivery-service
+                port:
+                  number: 8088
+          - path: /ws/notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 8089
+          - path: /ws/chat
+            pathType: Prefix
+            backend:
+              service:
+                name: chatbot-service
+                port:
+                  number: 8096
+
+---
+# Multi-tenant subdomain wildcard ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kartezy-tenant-ingress
+  namespace: kartezy
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - "*.kartezy.com"
+      secretName: kartezy-wildcard-tls
+  rules:
+    - host: "*.kartezy.com"
+      http:
+        paths:
+          - path: /api/(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+          - path: /(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kartezy-website
+                port:
+                  number: 3000
+
+---
+# Admin dashboard ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kartezy-admin-ingress
+  namespace: kartezy
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16"
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - admin.kartezy.com
+      secretName: kartezy-admin-tls
+  rules:
+    - host: admin.kartezy.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-dashboard
+                port:
+                  number: 3001

@@ -19,26 +19,23 @@ export default function TransactionsPage() {
     fetchTransactionsData(filters);
   }, [filters, fetchTransactionsData]);
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Transactions Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
-            labelId="date-range-label"
             id="date-range-select"
             value={filters.dateRange}
             onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
@@ -57,13 +54,10 @@ export default function TransactionsPage() {
           <TextField
             label="Type"
             select
-            labelId="type-label"
             id="type-select"
             value={filters.type || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
             <option value="">All Types</option>
             <option value="payment">Payment</option>
@@ -76,13 +70,10 @@ export default function TransactionsPage() {
           <TextField
             label="Status"
             select
-            labelId="status-label"
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
             <option value="">All Statuses</option>
             <option value="completed">Completed</option>
@@ -131,12 +122,12 @@ export default function TransactionsPage() {
       </Box>
 
       {!transactionsData || transactionsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No transaction data available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Financial Transactions
             </Typography>
@@ -159,7 +150,7 @@ export default function TransactionsPage() {
                       <TableCell>{transaction.date}</TableCell>
                       <TableCell align="right">{transaction.amount}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: transaction.type === 'payment' ? 'success.main' :
                                    transaction.type === 'refund' ? 'error.main' :
                                    transaction.type === 'payout' ? 'warning.main' : 'info.main',
@@ -168,12 +159,12 @@ export default function TransactionsPage() {
                           borderRadius: 1
                         }}>
                           {transaction.type}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>{transaction.referenceId}</TableCell>
                       <TableCell>{transaction.description}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: transaction.status.toLowerCase() === 'completed' ? 'success.main' :
                                    transaction.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
@@ -181,7 +172,7 @@ export default function TransactionsPage() {
                           borderRadius: 1
                         }}>
                           {transaction.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }}>

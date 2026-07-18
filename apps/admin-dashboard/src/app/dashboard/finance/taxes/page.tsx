@@ -120,7 +120,7 @@ export default function TaxesPage() {
                       <TableCell>{tax.taxType}</TableCell>
                       <TableCell>{tax.referenceId}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: tax.status.toLowerCase() === 'paid' ? 'success.main' :
                                    tax.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
@@ -128,7 +128,7 @@ export default function TaxesPage() {
                           borderRadius: 1
                         }}>
                           {tax.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }}>

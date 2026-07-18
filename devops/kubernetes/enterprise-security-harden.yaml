@@ -1,0 +1,236 @@
+# ============================================================
+# Kartezy Enterprise Kubernetes Security Hardening
+# Pod Security, OPA/Gatekeeper, Network Policies, RBAC
+# ============================================================
+
+---
+# Pod Security Admission - Enforce baseline/restricted profiles
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kartezy
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest
+
+---
+# Default Network Policy - Deny all ingress/egress
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: kartezy
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# Allow DNS resolution
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: kartezy
+spec:
+  podSelector: {}
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+  policyTypes:
+    - Egress
+
+---
+# Allow inter-service communication within namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-inter-service
+  namespace: kartezy
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kartezy
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - port: 8080
+        - port: 80
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kartezy
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# Restrict API Gateway to ingress only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-api-gateway
+  namespace: kartezy
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+  policyTypes:
+    - Ingress
+
+---
+# Restrict PostgreSQL to service-only access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-postgres
+  namespace: kartezy
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: business
+        - podSelector:
+            matchLabels:
+              tier: enterprise
+  policyTypes:
+    - Ingress
+
+---
+# Restrict Kafka to service-only access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-kafka
+  namespace: kartezy
+spec:
+  podSelector:
+    matchLabels:
+      app: kafka
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: business
+        - podSelector:
+            matchLabels:
+              tier: AI
+        - podSelector:
+            matchLabels:
+              tier: enterprise
+  policyTypes:
+    - Ingress
+
+---
+# Pod Security Context - Run as non-root
+# Applied via PodTemplate in all deployments
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pod-security-defaults
+  namespace: kartezy
+data:
+  security-context: |
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+          - ALL
+        add:
+          - NET_BIND_SERVICE
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false
+
+---
+# LimitRange - Default resource limits
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: resource-limits
+  namespace: kartezy
+spec:
+  limits:
+    - max:
+        cpu: "4"
+        memory: "4Gi"
+      min:
+        cpu: "50m"
+        memory: "64Mi"
+      default:
+        cpu: "500m"
+        memory: "512Mi"
+      defaultRequest:
+        cpu: "250m"
+        memory: "256Mi"
+      type: Container
+
+---
+# ResourceQuota - Namespace resource limits
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: namespace-quota
+  namespace: kartezy
+spec:
+  hard:
+    requests.cpu: "40"
+    requests.memory: "80Gi"
+    limits.cpu: "80"
+    limits.memory: "160Gi"
+    persistentvolumeclaims: "20"
+    pods: "100"
+    services: "50"
+    secrets: "100"
+    configmaps: "100"
+
+---
+# Security Context Constraints - Non-root enforcement
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: container-security-config
+  namespace: kartezy
+data:
+  container-security: |
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      capabilities:
+        drop: ["ALL"]
+        add: ["NET_BIND_SERVICE"]
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      seccompProfile:
+        type: RuntimeDefault

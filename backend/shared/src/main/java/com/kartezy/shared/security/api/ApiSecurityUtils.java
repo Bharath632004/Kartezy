@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * <p>
  * Note: Input validation should be performed using allow-lists where possible, and
  * output encoding should be used for preventing XSS. This utility provides basic
- * detection patterns but is not a substitute for proper security practices.
+ * detection patterns is not a substitute for proper security practices.
  * </p>
  */
 public final class ApiSecurityUtils {
@@ -70,8 +70,8 @@ public final class ApiSecurityUtils {
                 .replace("&", "&")
                 .replace("<", "<")
                 .replace(">", ">")
-                .replace("\"", """)
-                .replace("'", "'")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;")
                 .replace("/", "&#x2F;");
     }
 }

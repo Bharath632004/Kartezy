@@ -1,6 +1,7 @@
 package com.kartezy.apigateway;
 
 import com.kartezy.shared.security.api.OwaspTop10Protector;
+import com.kartezy.shared.util.SecurityUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -254,8 +255,11 @@ public class SecurityGatewayFilterFactory extends AbstractGatewayFilterFactory<S
 
         String authHeader = request.getHeaders().getFirst("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            // In a real implementation, extract user ID from JWT
-            return "jwt-user"; // Placeholder
+            // Extract user ID from JWT via shared utility
+            String userId = SecurityUtils.extractUserIdFromToken(authHeader);
+            if (userId != null) {
+                return userId;
+            }
         }
 
         return request.getRemoteAddress().getHostString();

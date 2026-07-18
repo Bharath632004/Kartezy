@@ -44,6 +44,12 @@
         <module>analytics-service</module>
         <module>fraud-detection-service</module>
         <module>ai-service</module>
+        <!-- Enterprise services - uncomment when service stubs are created
+        <module>tenant-service</module>
+        <module>warehouse-service</module>
+        <module>marketplace-service</module>
+        <module>procurement-service</module>
+        -->
     </modules>
 
     <properties>

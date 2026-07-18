@@ -1,44 +1,39 @@
-import { Box, Container, Stack, Typography, Grid } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 
 export const BrandsSection = () => {
-  // In a real implementation, these would be actual brand logos
-  const brands = Array.from({ length: 12 }, (_, index) => ({
-    id: index + 1,
-    name: `Brand ${index + 1}`,
-    placeholder: true
-  }));
+  const brands = [
+    { name: 'Coca-Cola', logo: '/brands/coca-cola.svg' },
+    { name: 'Pepsi', logo: '/brands/pepsi.svg' },
+    { name: 'Nestlé', logo: '/brands/nestle.svg' },
+    { name: 'Unilever', logo: '/brands/unilever.svg' },
+    { name: 'P&G', logo: '/brands/procter-gamble.svg' },
+    { name: 'Tata', logo: '/brands/tata.svg' },
+  ];
 
   return (
-    <section sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
+    <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
           <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 4 }}>
             Trusted Brands You Love
           </Typography>
-          <Typography 
-            variant="body1" 
-            color="text.secondary" 
-            textAlign="center" 
-            sx={{ mb: 6, maxWidth: 600 }}
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            textAlign="center"
+            sx={{ mb: 6, maxWidth: 600, mx: 'auto' }}
           >
             We partner with India's most trusted brands to bring you quality products at competitive prices.
           </Typography>
-          
-          <Grid 
-            container 
-            spacing={3} 
-            justifyContent="center"
-            alignItems="center"
-            sx={{ minHeight: 120 }}
-          >
-            {brands.map((brand) => (
-              <Box 
-                key={brand.id} 
+          <Stack direction="row" spacing={4} justifyContent="center" alignItems="center" flexWrap="wrap" sx={{ gap: 4 }}>
+            {brands.map((brand, index) => (
+              <Box
+                key={index}
                 sx={{
-                  width: 120,
+                  width: 140,
                   height: 60,
-                  backgroundColor: '#f5f5f5',
-                  borderRadius: 12,
+                  backgroundColor: '#fff',
+                  borderRadius: 2,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -50,19 +45,20 @@ export const BrandsSection = () => {
                   }
                 }}
               >
-                <Typography 
-                  variant="body2" 
-                  color="text.secondary" 
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
                   fontWeight={500}
                   textAlign="center"
+                  sx={{ px: 2 }}
                 >
                   {brand.name}
                 </Typography>
               </Box>
             ))}
-          </Grid>
+          </Stack>
         </Stack>
       </Container>
-    </section>
+    </Box>
   );
 };

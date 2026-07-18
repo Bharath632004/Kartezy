@@ -269,8 +269,8 @@ public final class OwaspTop10Protector {
                 .replace("&", "&")
                 .replace("<", "<")
                 .replace(">", ">")
-                .replace("\"", """)
-                .replace("'", "'")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;")
                 .replace("/", "&#x2F;");
     }
 

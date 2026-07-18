@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Container, Typography, Card, CardContent, Button, Divider, TextField, CircularProgress, Alert, Snackbar } from '@mui/material';
-import { Wallet as WalletIcon, Bank, CreditCard } from '@mui/icons-material';
+import { Wallet as WalletIcon, AccountBalance as Bank, CreditCard } from '@mui/icons-material';
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
 

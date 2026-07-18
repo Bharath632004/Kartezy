@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography, Card, CardContent, CardActions, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, Table, TableHead, TableRow, TableCell, TableBody, Paper, LinearProgress } from '@mui/material';
-import { History, Receipt, LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutline, LocalMall, LocationOn, Phone, Email } from '@mui/icons/material';
+import { History, Receipt, LocalShipping as LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutline, LocalMall, LocationOn, Phone, Email } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { getOrderById } from '@/lib/services';
 import Link from 'next/link';

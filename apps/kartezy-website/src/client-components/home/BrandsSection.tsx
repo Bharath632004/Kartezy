@@ -14,7 +14,7 @@ export default function BrandsSection({ data } = {}) {
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
-          <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 4 }}>
+          <Typography variant="h2" sx={{ fontWeight: 600, textAlign: 'center', mb: 4 }}>
             Trusted Brands You Love
           </Typography>
           <Typography

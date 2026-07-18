@@ -4,7 +4,7 @@ import {
   LocalTruck, 
   Person, 
   CheckCircle 
-} from '@mui/icons/material';
+} from '@mui/icons-material';
 
 export const HowItWorksSection = () => {
   return (

@@ -13,7 +13,7 @@ import {
   LocalAtm,
   LocalConvenienceStore,
   LocalDrink
-} from '@mui/icons/material';
+} from '@mui/icons-material';
 
 export const CategoriesSection = () => {
   const categories = [

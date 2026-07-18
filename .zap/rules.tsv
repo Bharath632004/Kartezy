@@ -1,0 +1,72 @@
+# ============================================================
+# Kartezy OWASP ZAP DAST Rules Configuration
+# Custom rules for dynamic security testing
+# ============================================================
+
+# Format: RuleId	Type	NewAlertThreshold	NewConfidence
+# Type: IGNORE, INFO, WARN, FAIL
+
+# CSRF - Allow our token implementation
+100001	IGNORE	HIGH	MEDIUM
+
+# X-Frame-Options - We use CSP frame-ancestors instead
+100020	WARN	LOW	MEDIUM
+
+# X-Content-Type-Options - Configured at edge
+100021	WARN	LOW	MEDIUM
+
+# Cookie without SameSite - We handle application-level
+100054	WARN	MEDIUM	MEDIUM
+
+# Cookie without Secure flag - Only applies to non-HTTPS
+100054	IGNORE	LOW	LOW
+
+# Incomplete or No Cache-control Header
+100015	INFO	MEDIUM	MEDIUM
+
+# PII Disclosure
+100062	FAIL	HIGH	HIGH
+
+# SQL Injection - Must be blocked
+40012	FAIL	HIGH	HIGH
+40014	FAIL	HIGH	HIGH
+40018	FAIL	HIGH	HIGH
+
+# XSS - Must be blocked
+40012	FAIL	HIGH	HIGH
+40014	FAIL	HIGH	HIGH
+40016	FAIL	HIGH	HIGH
+40017	FAIL	HIGH	HIGH
+40018	FAIL	HIGH	HIGH
+
+# Path Traversal - Must be blocked
+6	FAIL	HIGH	HIGH
+
+# OS Command Injection - Must be blocked
+90020	FAIL	HIGH	HIGH
+90021	FAIL	HIGH	HIGH
+
+# Remote Code Execution - Must be blocked
+90022	FAIL	HIGH	HIGH
+
+# LDAP Injection - Must be blocked
+40015	FAIL	HIGH	HIGH
+
+# Format String - Must be blocked
+30002	FAIL	HIGH	HIGH
+
+# SSRF - Must be blocked
+10010	FAIL	HIGH	HIGH
+
+# Open Redirect - Must be blocked
+10028	FAIL	HIGH	HIGH
+
+# Server Side Template Injection
+90035	FAIL	HIGH	HIGH
+
+# JWT security
+10101	FAIL	HIGH	HIGH
+10102	FAIL	HIGH	HIGH
+
+# GraphQL Introspection - Disabled in production
+90027	FAIL	MEDIUM	MEDIUM

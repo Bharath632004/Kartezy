@@ -1,0 +1,231 @@
+# ============================================================
+# Kartezy Enterprise Monitoring Configuration
+# Business KPI metrics, custom alerting, SLA dashboards
+# ============================================================
+
+---
+# Custom Prometheus Metrics ServiceMonitor for enterprise services
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: enterprise-service-monitor
+  namespace: kartezy
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      tier: enterprise
+  endpoints:
+    - port: http
+      interval: 15s
+      path: /actuator/prometheus
+  namespaceSelector:
+    matchNames:
+      - kartezy
+
+---
+# Business KPI Recording Rules
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kartezy-enterprise-alerts
+  namespace: kartezy
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: enterprise-sla
+      interval: 30s
+      rules:
+        # SLA Metrics
+        - record: sla:uptime:ratio_30d
+          expr: |
+            avg_over_time(up{namespace="kartezy"}[30d])
+        - record: sla:uptime:ratio_7d
+          expr: |
+            avg_over_time(up{namespace="kartezy"}[7d])
+        - record: sla:uptime:ratio_24h
+          expr: |
+            avg_over_time(up{namespace="kartezy"}[24h])
+
+        # Business Metrics
+        - record: enterprise:orders_per_minute:rate5m
+          expr: |
+            rate(order_events_total{type="order_placed"}[5m])
+        - record: enterprise:revenue_per_minute:rate5m
+          expr: |
+            rate(order_revenue_total[5m])
+        - record: enterprise:active_users
+          expr: |
+            sum(active_user_sessions)
+        - record: enterprise:active_merchants
+          expr: |
+            count(merchant_status == 1)
+        - record: enterprise:active_delivery_partners
+          expr: |
+            count(delivery_partner_status == 1)
+        - record: enterprise:tenant_count
+          expr: |
+            count(tenant_active)
+        - record: enterprise:vendor_count
+          expr: |
+            count(vendor_status{status="APPROVED"})
+        - record: enterprise:warehouse_utilization
+          expr: |
+            avg(warehouse_current_utilization) by (warehouse_id, city)
+        - record: enterprise:orders_by_city
+          expr: |
+            sum(rate(order_events_total{type="order_placed"}[5m])) by (city)
+
+        # Performance Metrics
+        - record: enterprise:avg_response_time_ms
+          expr: |
+            avg(http_server_requests_seconds_sum / http_server_requests_seconds_count) by (service)
+        - record: enterprise:p99_response_time_ms
+          expr: |
+            histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket[5m])) by (le, service))
+        - record: enterprise:error_rate
+          expr: |
+            sum(rate(http_server_requests_seconds_count{status=~"5.."}[5m])) / sum(rate(http_server_requests_seconds_count[5m])) * 100
+
+        # Multi-Tenant Metrics
+        - record: enterprise:requests_by_tenant
+          expr: |
+            sum(rate(http_server_requests_seconds_count[5m])) by (tenant_id)
+        - record: enterprise:errors_by_tenant
+          expr: |
+            sum(rate(http_server_requests_seconds_count{status=~"5.."}[5m])) by (tenant_id)
+
+        # Infrastructure Metrics
+        - record: enterprise:node_cpu_utilization
+          expr: |
+            avg(rate(node_cpu_seconds_total{mode!="idle"}[5m])) by (node) * 100
+        - record: enterprise:cluster_memory_utilization
+          expr: |
+            sum(container_memory_working_set_bytes) / sum(kube_node_status_capacity_memory_bytes) * 100
+
+    - name: enterprise-alerts
+      interval: 30s
+      rules:
+        # SLA Alerts
+        - alert: SLABreach
+          expr: |
+            sla:uptime:ratio_7d < 0.9995
+          for: 5m
+          labels:
+            severity: critical
+            sla: "99.95%"
+          annotations:
+            summary: "SLA breach detected - 7 day uptime below 99.95%"
+            description: "Current 7-day uptime: {{ $value | humanizePercentage }}"
+
+        - alert: HighErrorRate
+          expr: |
+            enterprise:error_rate > 5
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High error rate: {{ $value | humanize }}%"
+            description: "Error rate is {{ $value | humanize }}% across all services"
+
+        - alert: HighResponseTime
+          expr: |
+            enterprise:p99_response_time_ms > 2000
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "P99 response time > 2s"
+            description: "P99 response time is {{ $value | humanizeDuration }}"
+
+        - alert: TenantProvisioningFailure
+          expr: |
+            rate(tenant_provisioning_errors_total[5m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Tenant provisioning failures detected"
+            description: "There have been {{ $value }} tenant provisioning failures in the last 5 minutes"
+
+        - alert: VendorOnboardingBacklog
+          expr: |
+            vendor_status{status="PENDING"} > 50
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "Vendor onboarding backlog"
+            description: "There are {{ $value }} vendors pending onboarding"
+
+        - alert: WarehouseCapacityCritical
+          expr: |
+            enterprise:warehouse_utilization > 90
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Warehouse capacity critical ({{ $value | humanize }}%)"
+            description: "Warehouse {{ $labels.warehouse_id }} in {{ $labels.city }} is at {{ $value | humanize }}% capacity"
+
+        - alert: InventoryStockout
+          expr: |
+            sum(inventory_stock_status{status="OUT_OF_STOCK"}) by (warehouse_id) > 100
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Inventory stockouts detected"
+            description: "Warehouse {{ $labels.warehouse_id }} has {{ $value }} out-of-stock items"
+
+        - alert: HighKafkaConsumerLag
+          expr: |
+            kafka_consumer_lag > 5000
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High Kafka consumer lag: {{ $value }}"
+            description: "Consumer group lag is {{ $value }} messages behind"
+
+        - alert: CrossRegionFailover
+          expr: |
+            geo_region_health{status="unhealthy"} > 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Cross-region failover required"
+            description: "Region {{ $labels.region }} is unhealthy, initiating failover"
+
+        - alert: MultiTenantResourceExhaustion
+          expr: |
+            tenant_resource_usage / tenant_resource_limit > 0.9
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Tenant resource limit approaching"
+            description: "Tenant {{ $labels.tenant_id }} is at {{ $value | humanize }}% of resource limit"
+
+        - alert: ExchangeRateStale
+          expr: |
+            time() - exchange_rate_last_update > 7200
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Exchange rates stale"
+            description: "Exchange rates have not been updated for > 2 hours"
+
+        - alert: DisasterRecoveryBackupFailed
+          expr: |
+            backup_status{status="failed"} > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Backup failed"
+            description: "Database backup has failed. Check backup logs immediately."

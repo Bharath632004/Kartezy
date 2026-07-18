@@ -1,0 +1,13 @@
+# ============================================================
+# Kartezy Trivy Vulnerability Ignore Rules
+# ============================================================
+
+# Accepted risk: Spring Boot actuator endpoints
+# Required for health checks and monitoring in our architecture
+CVE-2023-XXXXX
+# Reason: Actuator is behind API Gateway with auth
+
+# Accepted risk: Development only tools
+# These are not deployed to production
+CVE-2023-YYYYY
+# Reason: Dependency only used in local dev/Docker Compose

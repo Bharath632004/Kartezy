@@ -1,6 +1,6 @@
 "use client";
 import { Box, Container, Stack, Typography, TextField, Button, InputAdornment } from '@mui/material';
-import { Search as SearchIcon, AccessTime, Truck } from '@mui/icons-material';
+import { Search as SearchIcon, AccessTime, LocalShipping as Truck } from '@mui/icons-material';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 

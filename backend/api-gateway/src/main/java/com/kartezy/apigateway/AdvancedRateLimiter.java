@@ -8,6 +8,7 @@ import org.springframework.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import com.kartezy.shared.util.SecurityUtils;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -66,8 +67,11 @@ public class AdvancedRateLimiter extends AbstractGatewayFilterFactory<AdvancedRa
 
         String authHeader = request.getHeaders().getFirst("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            // In a real implementation, extract user ID from JWT
-            return "jwt-user"; // Placeholder
+            // Extract user ID from JWT via shared utility
+            String userId = SecurityUtils.extractUserIdFromToken(authHeader);
+            if (userId != null) {
+                return userId;
+            }
         }
 
         return request.getRemoteAddress().getHostString();

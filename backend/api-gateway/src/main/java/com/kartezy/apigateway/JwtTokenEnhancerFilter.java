@@ -1,5 +1,6 @@
 package com.kartezy.apigateway;
 
+import com.kartezy.shared.util.SecurityUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -45,11 +46,13 @@ public class JwtTokenEnhancerFilter extends AbstractGatewayFilterFactory<JwtToke
 
                 // Add user ID from token if available (simplified)
                 if (config.isAddUserIdHeader()) {
-                    // In a real app, decode JWT and extract user ID
-                    // String userId = extractUserIdFromToken(token);
-                    // For demo, we'll add a placeholder
+                    // Extract user ID from JWT using shared utility
+                    String userId = SecurityUtils.extractUserIdFromToken(token);
+                    if (userId == null) {
+                        userId = "unknown";
+                    }
                     ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-                        .header("X-User-ID", "token-user") // Would be extracted from JWT
+                        .header("X-User-ID", userId)
                         .build();
 
                     return chain.filter(exchange.mutate().request(mutatedRequest).build());

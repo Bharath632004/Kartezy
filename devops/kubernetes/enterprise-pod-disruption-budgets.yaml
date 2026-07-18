@@ -1,0 +1,148 @@
+# ============================================================
+# Kartezy Enterprise Pod Disruption Budgets
+# Ensures high availability during voluntary disruptions
+# ============================================================
+
+---
+# API Gateway - Max 25% unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api-gateway-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 75%
+  selector:
+    matchLabels:
+      app: api-gateway
+---
+# Auth Service - Max 1 pod unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: auth-service-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: auth-service
+---
+# Order Service - Max 1 pod unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: order-service-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: order-service
+---
+# Payment Service - Max 1 pod unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: payment-service-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: payment-service
+---
+# Delivery Service - Max 25% unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: delivery-service-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 75%
+  selector:
+    matchLabels:
+      app: delivery-service
+---
+# Catalog Service - Max 1 pod unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: catalog-service-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: catalog-service
+---
+# Critical Infrastructure (PostgreSQL, Kafka) - Zero tolerance
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: postgres-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: postgres
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: kafka-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: kafka
+---
+# AI Services - Allow partial disruption
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ai-service-pdb
+  namespace: kartezy
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: ai-service
+---
+# Notification Service - Tolerant of disruption
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: notification-service-pdb
+  namespace: kartezy
+spec:
+  maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: notification-service
+---
+# Warehouse Service - Max 25% unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: warehouse-service-pdb
+  namespace: kartezy
+spec:
+  minAvailable: 75%
+  selector:
+    matchLabels:
+      app: warehouse-service
+---
+# Fraud Detection - Max 1 pod unavailable
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: fraud-detection-pdb
+  namespace: kartezy
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: fraud-detection-service

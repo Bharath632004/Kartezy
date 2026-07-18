@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { ExpandMore } from '@mui/icons/material';
+import { ExpandMore } from '@mui/icons-material';
 
 export default function FAQSection({ data } = {}) {
   // Default data if none provided

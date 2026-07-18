@@ -1,7 +1,7 @@
 "use client";
 
-import { Box, Container, Stack, Typography, Card, CardContent, Button, Divider, Chip, TextField, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { Person, Phone, Email, LocationOn, Chat, Headset, HelpOutline, Description, Category, Mail, Link, Web } from '@mui/icons/material';
+import { Box, Container, Stack, Typography, Card, CardContent, Button, Divider, TextField, Accordion, AccordionSummary, AccordionDetails, Avatar } from '@mui/material';
+import { Person, Phone, Email, LocationOn, Chat, Headset, Help, Description, Category, Mail, Link as LinkIcon, Web, ExpandMore, Receipt, LocalMall, AccountBalanceWallet } from '@mui/icons-material';
 import { useState } from 'react';
 
 const SupportPage = () => {
@@ -65,38 +65,35 @@ const SupportPage = () => {
             </Typography>
             <Box sx={{ display: 'flex', gap: 3, mb: 4 }}>
               <Button
-                variant="outlined"
+                variant={contactMethod === 'chat' ? 'contained' : 'outlined'}
                 color="primary"
                 size="medium"
                 sx={{ px: 4, py: 2 }}
-                selected={contactMethod === 'chat'}
                 onClick={() => setContactMethod('chat')}
               >
-                <Chat fontSize="medium" sx={{ mr: 2 }} />
+                <Chat sx={{ mr: 1 }} />
                 Live Chat
               </Button>
 
               <Button
-                variant="outlined"
+                variant={contactMethod === 'email' ? 'contained' : 'outlined'}
                 color="primary"
                 size="medium"
                 sx={{ px: 4, py: 2 }}
-                selected={contactMethod === 'email'}
                 onClick={() => setContactMethod('email')}
               >
-                <Email fontSize="medium" sx={{ mr: 2 }} />
+                <Email sx={{ mr: 1 }} />
                 Email Support
               </Button>
 
               <Button
-                variant="outlined"
+                variant={contactMethod === 'phone' ? 'contained' : 'outlined'}
                 color="primary"
                 size="medium"
                 sx={{ px: 4, py: 2 }}
-                selected={contactMethod === 'phone'}
                 onClick={() => setContactMethod('phone')}
               >
-                <Phone fontSize="medium" sx={{ mr: 2 }} />
+                <Phone sx={{ mr: 1 }} />
                 Call Support
               </Button>
             </Box>
@@ -111,29 +108,26 @@ const SupportPage = () => {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                 Chat with our support team in real-time for quick assistance
               </Typography>
-              <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, height: 200, mb: 3, p: 3, display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto' }}>
-                {/* Chat messages would go here */}
+              <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, height: 200, mb: 3, p: 3, display: 'flex', flexDirection: 'column', overflowY: 'auto', bgcolor: '#fafafa' }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
-                  <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
+                  <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', mr: 1 }}>
                     K
                   </Avatar>
-                  <Box sx={{ ml: 2, maxWidth: '70%' }}>
-                    <Typography variant="body2" backgroundColor="#e3f2fd" px={2} py={1} borderRadius={4} maxWidth="max-content">
+                  <Box sx={{ maxWidth: '70%' }}>
+                    <Typography variant="body2" bgcolor="#e3f2fd" px={2} py={1} borderRadius={2}>
                       Hi! How can I help you today?
                     </Typography>
                   </Box>
                 </Box>
-                <Box sx={{ mt: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#f0f0f0' }}>
-                      U
-                    </Avatar>
-                    <Box sx={{ ml: 2, maxWidth: '70%', alignSelf: 'flex-end' }}>
-                      <Typography variant="body2" backgroundColor="#f5f5f5" px={2} py={1} borderRadius={4} maxWidth="max-content">
-                        Hello, I have a question about my recent order.
-                      </Typography>
-                    </Box>
+                <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', mb: 2 }}>
+                  <Box sx={{ maxWidth: '70%' }}>
+                    <Typography variant="body2" bgcolor="#f5f5f5" px={2} py={1} borderRadius={2}>
+                      Hello, I have a question about my recent order.
+                    </Typography>
                   </Box>
+                  <Avatar sx={{ width: 32, height: 32, bgcolor: '#e0e0e0', ml: 1 }}>
+                    U
+                  </Avatar>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', gap: 2 }}>
@@ -147,7 +141,7 @@ const SupportPage = () => {
                   variant="contained"
                   color="primary"
                   size="medium"
-                  sx={{ px: 4, py: 2 }}
+                  sx={{ px: 4 }}
                   disabled={!query.trim()}
                 >
                   Send
@@ -165,17 +159,12 @@ const SupportPage = () => {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                 Send us an email and we'll get back to you within 24 hours.
               </Typography>
-              <TextField label="Your Name" sx={{ mb: 2 }} required />
-              <TextField label="Your Email" type="email" sx={{ mb: 2 }} required />
-              <TextField label="Subject" sx={{ mb: 2 }} required />
-              <TextField label="Message" multiline rows={4} sx={{ mb: 3 }} required />
+              <TextField label="Your Name" sx={{ mb: 2, display: 'block' }} required />
+              <TextField label="Your Email" type="email" sx={{ mb: 2, display: 'block' }} required />
+              <TextField label="Subject" sx={{ mb: 2, display: 'block' }} required />
+              <TextField label="Message" multiline rows={4} sx={{ mb: 3, display: 'block' }} required />
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  sx={{ px: 4, py: 2 }}
-                >
+                <Button variant="contained" color="primary" size="medium" sx={{ px: 4 }}>
                   Send Email
                 </Button>
               </Box>
@@ -192,7 +181,7 @@ const SupportPage = () => {
                 Call us for immediate assistance
               </Typography>
               <Box sx={{ textAlign: 'center', mb: 4 }}>
-                <Telegram fontSize={48} color="primary.main" sx={{ mb: 2 }} />
+                <Phone sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
                 <Typography variant="h4" fontWeight={600} sx={{ mb: 1 }}>
                   1800-123-4567
                 </Typography>
@@ -211,18 +200,14 @@ const SupportPage = () => {
         <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
           Frequently Asked Questions
         </Typography>
-        <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, overflow: 'hidden' }}>
+        <Box sx={{ borderRadius: 4, overflow: 'hidden' }}>
           {faqs.map((faq, index) => (
-            <Accordion key={index} disableGutters square>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel${index}-content`}
-                id={`panel${index}-header`}
-              >
-                <Typography>{faq.question}</Typography>
+            <Accordion key={index} disableGutters square sx={{ '&:not(:last-child)': { borderBottom: '1px solid #e0e0e0' } }}>
+              <AccordionSummary expandIcon={<ExpandMore />}>
+                <Typography fontWeight={500}>{faq.question}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>{faq.answer}</Typography>
+                <Typography color="text.secondary">{faq.answer}</Typography>
               </AccordionDetails>
             </Accordion>
           ))}
@@ -237,37 +222,37 @@ const SupportPage = () => {
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 3 }}>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <Link fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+            <LinkIcon sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Track Order
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <Receipt fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+            <Receipt sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Order History
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <Wallet fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+            <AccountBalanceWallet sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Wallet
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <LocalMall fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+            <LocalMall sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Shop Now
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <Person fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+            <Person sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               My Account
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <HelpOutline fontSize={32} color="primary.main" sx={{ mb: 2 }} />
+            <Help sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Help Center
             </Typography>

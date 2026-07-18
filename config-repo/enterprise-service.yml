@@ -1,0 +1,199 @@
+# ============================================================
+# Kartezy Enterprise Services - Centralized Configuration
+# ============================================================
+
+kartezy:
+  enterprise:
+    multitenant:
+      enabled: true
+      schema-strategy: schema_per_tenant
+      cache-enabled: true
+      cache-ttl-seconds: 300
+    i18n:
+      enabled: true
+      default-language: en
+      fallback-language: en
+      bundle-base-name: messages
+      cache-messages: true
+    currency:
+      enabled: true
+      default-currency: INR
+      supported-currencies: INR,USD,EUR,GBP,JPY,AED,SGD,MYR
+      rate-update-interval-minutes: 60
+    timezone:
+      enabled: true
+      default-timezone: Asia/Kolkata
+    geography:
+      enabled: true
+      supported-countries: IN,US,AE,SG,MY,GB
+      max-city-radius-km: 25
+    franchise:
+      enabled: false
+      auto-approve: false
+      onboarding-timeout-days: 30
+    marketplace:
+      enabled: true
+      multi-vendor-cart: true
+      max-vendors-per-order: 5
+      default-commission-model: PERCENTAGE
+      supported-payout-modes: DAILY,WEEKLY,BIWEEKLY,MONTHLY
+    warehouse:
+      enabled: true
+      auto-replenish: false
+      low-stock-threshold: 10
+      max-transfer-distance-km: 200
+    whitelabel:
+      enabled: false
+      allow-custom-domain: true
+      allow-custom-css: true
+    horizontal-scaling:
+      enabled: true
+      min-replicas: 2
+      max-replicas: 10
+      cpu-threshold: 0.7
+      memory-threshold: 0.8
+    disaster-recovery:
+      enabled: true
+      backup-schedule: "0 */6 * * *"
+      backup-retention-days: 30
+      rpo-minutes: 60
+      rto-minutes: 240
+    geo-replication:
+      enabled: false
+      regions: ap-south-1,us-east-1,eu-west-1,ap-southeast-1
+      active-passive: true
+      cross-region-failover: true
+
+server:
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 1024
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        default_schema: kartezy_enterprise
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+        generate_statistics: ${HIBERNATE_STATISTICS:false}
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+
+  datasource:
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 5
+      idle-timeout: 600000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      pool-name: EnterprisePool
+      connection-test-query: SELECT 1
+
+  redis:
+    timeout: 60000
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 10
+        min-idle: 5
+
+  kafka:
+    producer:
+      acks: all
+      compression-type: snappy
+      retries: 3
+      batch-size: 32768
+      linger-ms: 5
+    consumer:
+      enable-auto-commit: false
+      max-poll-records: 500
+      max-poll-interval-ms: 300000
+      session-timeout-ms: 45000
+      heartbeat-interval-ms: 15000
+      concurrency: 5
+
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 20
+        minimum-number-of-calls: 10
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 5000
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30000
+        permitted-number-of-calls-in-half-open-state: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 500ms
+        retry-exceptions:
+          - org.springframework.dao.DataAccessException
+          - java.net.ConnectException
+  bulkhead:
+    configs:
+      default:
+        max-concurrent-calls: 50
+        max-wait-duration: 500
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 30s
+        cancel-running-future: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,loggers,caches,circuitbreakers,retries,heapdump,env
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,db,redis,kafka,elasticsearch
+        liveness:
+          include: livenessState
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        kafka.consumer.fetch.manager.records.lag: true
+      slo:
+        http.server.requests: 100ms,500ms,1s,2s,5s
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    com.kartezy: ${LOG_LEVEL:INFO}
+    org.springframework.cloud: WARN
+    org.springframework.kafka: WARN
+    org.hibernate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: /var/log/kartezy/${spring.application.name}.log
+    max-size: 100MB
+    max-history: 30

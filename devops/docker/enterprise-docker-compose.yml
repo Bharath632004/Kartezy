@@ -1,0 +1,170 @@
+# ============================================================
+# Kartezy Enterprise Services - Docker Compose Extension
+# Add these services to the main docker-compose.yml
+# ============================================================
+
+services:
+  # =====================
+  # Enterprise Services
+  # =====================
+  tenant-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/tenant-service/Dockerfile
+    ports:
+      - "${TENANT_SERVICE_PORT:-8201}:8201"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: tenant-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8201/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  warehouse-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/warehouse-service/Dockerfile
+    ports:
+      - "${WAREHOUSE_SERVICE_PORT:-8202}:8202"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: warehouse-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8202/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  marketplace-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/marketplace-service/Dockerfile
+    ports:
+      - "${MARKETPLACE_SERVICE_PORT:-8203}:8203"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: marketplace-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8203/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  procurement-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/procurement-service/Dockerfile
+    ports:
+      - "${PROCUREMENT_SERVICE_PORT:-8204}:8204"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: procurement-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8204/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+volumes:
+  tenant_data:
+    driver: local
+  warehouse_data:
+    driver: local
+  marketplace_data:
+    driver: local
+  procurement_data:
+    driver: local
