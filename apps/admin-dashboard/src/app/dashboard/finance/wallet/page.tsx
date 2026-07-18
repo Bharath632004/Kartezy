@@ -9,16 +9,16 @@ export default function WalletPage() {
     fetchWalletData();
   }, [fetchWalletData]);
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h5" gutterBottom>
           Wallet Overview
         </Typography>
-        <Stack direction="row" spacing={3} flexWrap="wrap">
+        <Stack direction="row" spacing={3} sx={{ flexWrap: 'wrap' }}>
           <Paper elevation={3} sx={{ p: 3, flexGrow: 1, minWidth: 200 }}>
             <Typography variant="h6" gutterBottom>
               Total Balance
@@ -82,7 +82,7 @@ export default function WalletPage() {
       </Box>
 
       {!walletData || !walletData.transactions || walletData.transactions.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No wallet transactions available</Typography>
         </Box>
       ) : (

@@ -12,6 +12,7 @@ import {
   generateWarehouseDDL, DWTable,
 } from './schemas';
 import { generateBIId } from '../utils/helpers';
+import { Pool, QueryResult as PGQueryResult } from 'pg';
 
 const logger = createBILogger('DataWarehouse');
 
@@ -46,7 +47,7 @@ export class DataWarehouse {
   private static instance: DataWarehouse;
   private connection: WarehouseConnection;
   private initialized: boolean = false;
-  private mockData: Map<string, any[]> = new Map();
+  private pool: Pool | null = null;
 
   private constructor() {
     const config = getBIConfig();
@@ -72,20 +73,32 @@ export class DataWarehouse {
 
     logger.info('Initializing data warehouse schema...');
     try {
-      // In production, connect to actual PostgreSQL and run schema DDL
-      // For now, pre-populate mock data structures
-      this.seedMockData();
+      // Create connection pool to PostgreSQL
+      this.pool = new Pool({
+        host: this.connection.host,
+        port: this.connection.port,
+        database: this.connection.database,
+        user: this.connection.user,
+        password: getBIConfig().warehouse.password,
+        max: getBIConfig().warehouse.poolSize,
+        connectionTimeoutMillis: getBIConfig().warehouse.connectionTimeoutMs,
+      });
+
+      // Test connection
+      const client = await this.pool.connect();
+      try {
+        const ddl = generateWarehouseDDL();
+        await client.query(ddl);
+        logger.info('Data warehouse schema created/verified successfully');
+      } finally {
+        client.release();
+      }
+
       this.initialized = true;
       logger.info('Data warehouse initialized successfully');
     } catch (error) {
       logger.error('Failed to initialize data warehouse', { error: (error as Error).message });
       throw error;
-    }
-  }
-
-  private seedMockData(): void {
-    for (const table of allDWTables) {
-      this.mockData.set(table.name, []);
     }
   }
 
@@ -98,35 +111,25 @@ export class DataWarehouse {
 
     logger.debug('Executing query', { queryId, query: query.substring(0, 100) });
 
-    // In production, this would execute against PostgreSQL
-    // For now, simulate query execution with mock data
-    await new Promise(resolve => setTimeout(resolve, 10));
-
-    const executionTimeMs = Date.now() - startTime;
-
-    // Try to parse table name from query for mock data
-    const tableNameMatch = query.match(/FROM\s+(\w+)/i);
-    const mockRows = tableNameMatch ? (this.mockData.get(tableNameMatch[1]) || []) : [];
-
-    // Apply basic filters based on params
-    let filteredRows = mockRows;
-    if (params) {
-      for (const [key, value] of Object.entries(params)) {
-        if (typeof value === 'string' || typeof value === 'number') {
-          filteredRows = filteredRows.filter((row: any) =>
-            row[key] === value || String(row[key]).includes(String(value))
-          );
-        }
-      }
+    if (!this.pool) {
+      throw new Error('Data warehouse not initialized. Call initialize() first.');
     }
 
-    return {
-      rows: filteredRows as T[],
-      rowCount: filteredRows.length,
-      fields: Object.keys(mockRows[0] || {}),
-      executionTimeMs,
-      queryId,
-    };
+    try {
+      const result: PGQueryResult<any> = await this.pool.query(query, params ? Object.values(params) : []);
+      const executionTimeMs = Date.now() - startTime;
+
+      return {
+        rows: result.rows as T[],
+        rowCount: result.rowCount || 0,
+        fields: result.fields.map(f => f.name),
+        executionTimeMs,
+        queryId,
+      };
+    } catch (error) {
+      logger.error('Query execution failed', { queryId, error: (error as Error).message });
+      throw error;
+    }
   }
 
   async getTableSchema(tableName: string): Promise<DWTable | undefined> {
@@ -137,21 +140,72 @@ export class DataWarehouse {
     const factTables = getFactTables();
     const dimTables = getDimensionTables();
 
-    return {
-      totalTables: allDWTables.length,
-      factTables: factTables.length,
-      dimensionTables: dimTables.length,
-      factRows: 0,
-      dimensionRows: 0,
-      lastUpdated: new Date().toISOString(),
-      dataSizeBytes: 0,
-      tableStats: allDWTables.map(t => ({
-        name: t.name,
-        type: t.type,
-        rows: t.rowEstimate || 0,
-        sizeBytes: (t.rowEstimate || 0) * 512,
-      })),
-    };
+    try {
+      // Query actual row counts from PostgreSQL
+      const tableStats: Array<{ name: string; type: string; rows: number; sizeBytes: number }> = [];
+      let totalFactRows = 0;
+      let totalDimRows = 0;
+
+      for (const table of allDWTables) {
+        try {
+          const countResult = await this.executeQuery<{ count: string }>(
+            `SELECT COUNT(*) as count FROM "${this.connection.schema}"."${table.name}"`
+          );
+          const rowCount = parseInt(countResult.rows[0]?.count || '0', 10);
+          if (table.type === 'fact') {
+            totalFactRows += rowCount;
+          } else {
+            totalDimRows += rowCount;
+          }
+          tableStats.push({
+            name: table.name,
+            type: table.type,
+            rows: rowCount,
+            sizeBytes: rowCount * 512,
+          });
+        } catch {
+          tableStats.push({ name: table.name, type: table.type, rows: 0, sizeBytes: 0 });
+        }
+      }
+
+      let dataSizeBytes = 0;
+      try {
+        const sizeResult = await this.executeQuery<{ size: string }>(
+          `SELECT pg_database_size('${this.connection.database}') as size`
+        );
+        dataSizeBytes = parseInt(sizeResult.rows[0]?.size || '0', 10);
+      } catch {
+        dataSizeBytes = 0;
+      }
+
+      return {
+        totalTables: allDWTables.length,
+        factTables: factTables.length,
+        dimensionTables: dimTables.length,
+        factRows: totalFactRows,
+        dimensionRows: totalDimRows,
+        lastUpdated: new Date().toISOString(),
+        dataSizeBytes,
+        tableStats,
+      };
+    } catch {
+      // Fallback to estimated stats if queries fail
+      return {
+        totalTables: allDWTables.length,
+        factTables: factTables.length,
+        dimensionTables: dimTables.length,
+        factRows: 0,
+        dimensionRows: 0,
+        lastUpdated: new Date().toISOString(),
+        dataSizeBytes: 0,
+        tableStats: allDWTables.map(t => ({
+          name: t.name,
+          type: t.type,
+          rows: t.rowEstimate || 0,
+          sizeBytes: (t.rowEstimate || 0) * 512,
+        })),
+      };
+    }
   }
 
   async getDDL(): Promise<string> {
@@ -202,22 +256,36 @@ export class DataWarehouse {
       }
     }
 
-    // Simulate data aggregation
-    const mockData: any[] = [];
-    const numRows = 10 + Math.floor(Math.random() * 20);
+    // Build SELECT clause
+    const selectCols = [...dimensions, ...measures.map(m => `SUM(${m}) as ${m}`)].join(', ');
+    const groupBy = dimensions.join(', ');
 
-    for (let i = 0; i < numRows; i++) {
-      const row: any = {};
-      for (const dim of dimensions) {
-        row[dim] = `Value_${i}_${dim.substring(0, 3)}`;
+    let whereClause = '';
+    if (filters) {
+      const conditions = Object.entries(filters)
+        .filter(([_, v]) => v !== undefined && v !== null)
+        .map(([k, v]) => typeof v === 'string' ? `${k} = '${v}'` : `${k} = ${v}`);
+      if (conditions.length > 0) {
+        whereClause = 'WHERE ' + conditions.join(' AND ');
       }
-      for (const measure of measures) {
-        row[measure] = Math.round(Math.random() * 100000 * 100) / 100;
-      }
-      mockData.push(row);
     }
 
-    return mockData;
+    const query = `
+      SELECT ${selectCols}
+      FROM "${this.connection.schema}"."${tableName}"
+      ${whereClause}
+      ${groupBy ? `GROUP BY ${groupBy}` : ''}
+      ORDER BY ${dimensions.join(', ')}
+      LIMIT 1000
+    `;
+
+    try {
+      const result = await this.executeQuery(query);
+      return result.rows;
+    } catch (error) {
+      logger.error('Failed to generate report data', { tableName, error: (error as Error).message });
+      throw error;
+    }
   }
 }
 

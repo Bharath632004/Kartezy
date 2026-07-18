@@ -36,9 +36,9 @@ export default function AnalyticsPage() {
             {Array.from({ length: 7 }).map((_, index) => (
               <Box key={index} sx={{ border: 1, borderColor: 'divider', borderRadius: 2, p: 2 }}>
                 <Typography variant="h5" gutterBottom>
-                  Chart Placeholder
+                  Loading Chart Data...
                 </Typography>
-                <Skeleton variant="rectangular" width={300} height={200} sx={{ display: 'block', margin: '0 auto' }} />
+                <Skeleton variant="rectangular" width="100%" height={200} sx={{ margin: '0 auto' }} />
               </Box>
             ))}
           </Box>

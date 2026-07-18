@@ -1,12 +1,21 @@
 import { Box, Container, Stack, Typography, Grid } from '@mui/material';
 
 export default function BrandsSection({ data } = {}) {
-  // Default data if none provided
-  const defaultData = Array.from({ length: 12 }, (_, index) => ({
-    id: index + 1,
-    name: `Brand ${index + 1}`,
-    logo: `/images/brand-${index + 1}.png`,
-  }));
+  // Default brand data with real Indian brand names
+  const defaultData = [
+    { id: 1, name: 'Tata', logo: '/images/brand-tata.svg' },
+    { id: 2, name: 'Reliance', logo: '/images/brand-reliance.svg' },
+    { id: 3, name: 'Britannia', logo: '/images/brand-britannia.svg' },
+    { id: 4, name: 'Nestlé', logo: '/images/brand-nestle.svg' },
+    { id: 5, name: 'Patanjali', logo: '/images/brand-patanjali.svg' },
+    { id: 6, name: 'Amul', logo: '/images/brand-amul.svg' },
+    { id: 7, name: 'PepsiCo', logo: '/images/brand-pepsico.svg' },
+    { id: 8, name: 'Coca-Cola', logo: '/images/brand-cocacola.svg' },
+    { id: 9, name: 'ITC', logo: '/images/brand-itc.svg' },
+    { id: 10, name: 'Dabur', logo: '/images/brand-dabur.svg' },
+    { id: 11, name: 'Hindustan Unilever', logo: '/images/brand-hul.svg' },
+    { id: 12, name: 'Marico', logo: '/images/brand-marico.svg' },
+  ];
 
   const brands = data || defaultData;
 

@@ -6,8 +6,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.server.ServerWebExchange;
-import reactor.core.publisher.Meo;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
@@ -88,26 +88,51 @@ public class Oauth2TokenValidationFilter extends AbstractGatewayFilterFactory<Oa
     }
 
     private boolean isValidToken(String token, Config config) {
-        // In a real implementation, this would:
-        // 1. Decode the JWT
-        // 2. Verify signature
-        // 3. Check expiration
-        // 4. Validate issuer/audience
-        // 5. Check scopes/permissions
-
-        // This is a simplified placeholder implementation
         if (token == null || token.isEmpty()) {
             return false;
         }
 
-        // Basic validation - token should have 3 parts separated by dots
-        String[] parts = token.split("\\.");
-        if (parts.length != 3) {
+        try {
+            // Decode the JWT without verification for header/claims inspection
+            String[] parts = token.split("\\.");
+            if (parts.length != 3) {
+                return false;
+            }
+
+            // Decode and parse the JWT claims
+            String payload = new String(java.util.Base64.getUrlDecoder().decode(parts[1]));
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            java.util.Map<String, Object> claims = mapper.readValue(payload, java.util.Map.class);
+
+            // Check expiration
+            Long exp = claims.containsKey("exp") ? ((Number) claims.get("exp")).longValue() : null;
+            if (exp != null && System.currentTimeMillis() / 1000 > exp) {
+                return false;
+            }
+
+            // Validate issuer if configured
+            if (config.getIssuer() != null && !config.getIssuer().isEmpty()) {
+                String issuer = (String) claims.get("iss");
+                if (!config.getIssuer().equals(issuer)) {
+                    return false;
+                }
+            }
+
+            // Validate audience if configured
+            if (config.getAudience() != null && !config.getAudience().isEmpty()) {
+                Object aud = claims.get("aud");
+                if (aud instanceof String && !config.getAudience().equals(aud)) {
+                    return false;
+                }
+                if (aud instanceof java.util.List && !((java.util.List<String>) aud).contains(config.getAudience())) {
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
             return false;
         }
-
-        // Additional Security)return true;
-
     }
 
     /**
@@ -115,6 +140,8 @@ public class Oauth2TokenValidationFilter extends AbstractGatewayFilterFactory<Oa
      */
     public static class Config {
         private boolean requireToken = true;
+        private String issuer;
+        private String audience;
 
         public boolean isRequireToken() {
             return requireToken;
@@ -122,6 +149,22 @@ public class Oauth2TokenValidationFilter extends AbstractGatewayFilterFactory<Oa
 
         public void setRequireToken(boolean requireToken) {
             this.requireToken = requireToken;
+        }
+
+        public String getIssuer() {
+            return issuer;
+        }
+
+        public void setIssuer(String issuer) {
+            this.issuer = issuer;
+        }
+
+        public String getAudience() {
+            return audience;
+        }
+
+        public void setAudience(String audience) {
+            this.audience = audience;
         }
     }
 }

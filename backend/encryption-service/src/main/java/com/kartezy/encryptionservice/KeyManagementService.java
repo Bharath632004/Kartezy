@@ -70,6 +70,25 @@ public class KeyManagementService {
     }
 
     /**
+     * Returns a map of all key IDs to their creation dates.
+     */
+    public java.util.Map<String, java.util.Date> getAllKeyCreationDates() {
+        java.util.Map<String, java.util.Date> result = new java.util.HashMap<>();
+        for (java.util.Map.Entry<String, KeyEntry> entry : keyStore.entrySet()) {
+            result.put(entry.getKey(), entry.getValue().getCreationDate());
+        }
+        return result;
+    }
+
+    /**
+     * Returns the alias for a given key ID.
+     */
+    public String getKeyAlias(String keyId) {
+        KeyEntry entry = keyStore.get(keyId);
+        return entry != null ? entry.getAlias() : null;
+    }
+
+    /**
      * Generates a unique key ID.
      *
      * @return a unique key ID string

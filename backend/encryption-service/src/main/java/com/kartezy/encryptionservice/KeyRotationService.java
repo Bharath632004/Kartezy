@@ -28,18 +28,17 @@ public class KeyRotationService {
      */
     @Scheduled(cron = "0 0 2 * * ?")
     public void rotateExpiredKeys() {
-        // In a real implementation, we would check actual key creation dates
-        // against the current date and rotate keys that have exceeded their lifetime
-
-        // For this example, we're just logging that the check occurred
-        System.out.println("Key rotation check performed at: " +
-                java.time.LocalDateTime.now());
-
-        // Actual implementation would:
-        // 1. Iterate through all keys in the key store
-        // 2. Check if each key has exceeded its lifetime
-        // 3. For expired keys, generate new versions and update references
-        // 4. Notify dependent services of key changes
+        java.util.Map<String, java.util.Date> keys = keyManagementService.getAllKeyCreationDates();
+        for (java.util.Map.Entry<String, java.util.Date> entry : keys.entrySet()) {
+            if (isKeyExpired(entry.getValue(), defaultKeyLifetimeDays)) {
+                String newKeyId = rotateKey(entry.getKey());
+                if (newKeyId != null) {
+                    // Log rotation and notify dependent services
+                    System.out.println("Rotated key: " + entry.getKey() + " -> new key: " + newKeyId);
+                }
+            }
+        }
+        System.out.println("Key rotation check completed at: " + java.time.LocalDateTime.now());
     }
 
     /**
@@ -65,14 +64,15 @@ public class KeyRotationService {
      * @return      the ID of the new key version, or null if rotation failed
      */
     public String rotateKey(String keyId) {
-        // In a real implementation:
-        // 1. Retrieve the key metadata by keyId
-        // 2. Generate a new key with the same alias and key size
-        // 3. Update any references to use the new key
-        // 4. Optionally keep the old key for decryption of existing data
-        // 5. Return the new key ID
-
-        // Placeholder implementation
-        return null;
+        byte[] existingKey = keyManagementService.getKey(keyId);
+        if (existingKey == null) {
+            return null;
+        }
+        // Generate new key with same alias but new material
+        String alias = keyManagementService.getKeyAlias(keyId);
+        if (alias == null) {
+            return null;
+        }
+        return keyManagementService.generateKey(alias, existingKey.length * 8);
     }
 }

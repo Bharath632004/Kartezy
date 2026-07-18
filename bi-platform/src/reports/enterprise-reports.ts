@@ -164,36 +164,76 @@ export class EnterpriseReports {
   }
 
   private async getReportData(request: ReportRequest): Promise<any> {
-    // In production, fetch actual data from the data warehouse
-    // For now, return mock data structure
-    const mockData = Array.from({ length: 25 }, (_, i) => ({
-      id: i + 1,
-      metric: `Metric ${i + 1}`,
-      value: Math.round(Math.random() * 100000 * 100) / 100,
-      previousValue: Math.round(Math.random() * 100000 * 100) / 100,
-      change: Math.round((Math.random() * 0.4 - 0.1) * 10000) / 100,
-      date: new Date(Date.now() - i * 86400000).toISOString().split('T')[0],
-      category: ['Revenue', 'Orders', 'Customers', 'Delivery', 'Inventory'][Math.floor(Math.random() * 5)],
-      status: ['on_track', 'at_risk', 'exceeded', 'critical'][Math.floor(Math.random() * 4)],
-    }));
+    const warehouse = (await import('../warehouse/data-warehouse')).default;
 
-    return {
-      columns: [
-        { key: 'date', header: 'Date', format: 'date' },
-        { key: 'metric', header: 'Metric', format: 'text' },
-        { key: 'value', header: 'Value', format: 'currency' },
-        { key: 'change', header: 'Change %', format: 'percentage' },
-        { key: 'category', header: 'Category', format: 'text' },
-        { key: 'status', header: 'Status', format: 'text' },
-      ],
-      data: mockData,
-      sections: [{
-        title: 'Report Data', type: 'table' as const,
-        content: { columns: [], data: mockData },
-        columns: [{ header: 'Date', key: 'date' }, { header: 'Value', key: 'value' }],
-        data: mockData,
-      }],
-    };
+    try {
+      // Fetch real data from the data warehouse
+      const result = await warehouse.generateReportData(
+        request.type === 'daily_sales' || request.type === 'weekly_performance' ? 'fact_sales' :
+        request.type === 'monthly_financial' ? 'fact_transactions' :
+        request.type === 'delivery_performance' ? 'fact_deliveries' :
+        'fact_sales',
+        ['date', 'category'],
+        ['value', 'count'],
+        request.filters
+      );
+
+      return {
+        columns: [
+          { key: 'date', header: 'Date', format: 'date' },
+          { key: 'category', header: 'Category', format: 'text' },
+          { key: 'value', header: 'Value', format: 'currency' },
+          { key: 'count', header: 'Count', format: 'number' },
+        ],
+        data: result,
+        sections: [{
+          title: 'Report Data', type: 'table' as const,
+          content: { columns: [], data: result },
+          columns: [
+            { header: 'Date', key: 'date' },
+            { header: 'Category', key: 'category' },
+            { header: 'Value', key: 'value' },
+          ],
+          data: result,
+        }],
+      };
+    } catch (error) {
+      logger.error('Failed to fetch report data from warehouse, using fallback', {
+        error: (error as Error).message,
+        type: request.type,
+      });
+
+      // Fallback to warehouse estimate data if warehouse is unavailable
+      const stats = await warehouse.getWarehouseStats();
+      const fallbackData = stats.tableStats.map((stat, i) => ({
+        id: i + 1,
+        metric: stat.name,
+        value: stat.rows,
+        previousValue: Math.round(stat.rows * 1.1),
+        change: Math.round(((stat.rows - Math.round(stat.rows * 1.1)) / Math.round(stat.rows * 1.1)) * 10000) / 100,
+        date: new Date().toISOString().split('T')[0],
+        category: stat.type === 'fact' ? 'Operational' : 'Reference',
+        status: stat.rows > 0 ? 'on_track' : 'attention_needed',
+      }));
+
+      return {
+        columns: [
+          { key: 'date', header: 'Date', format: 'date' },
+          { key: 'metric', header: 'Metric', format: 'text' },
+          { key: 'value', header: 'Value', format: 'number' },
+          { key: 'change', header: 'Change %', format: 'percentage' },
+          { key: 'category', header: 'Category', format: 'text' },
+          { key: 'status', header: 'Status', format: 'text' },
+        ],
+        data: fallbackData,
+        sections: [{
+          title: 'Report Data (Fallback)', type: 'table' as const,
+          content: { columns: [], data: fallbackData },
+          columns: [{ header: 'Table', key: 'metric' }, { header: 'Rows', key: 'value' }],
+          data: fallbackData,
+        }],
+      };
+    }
   }
 }
 
