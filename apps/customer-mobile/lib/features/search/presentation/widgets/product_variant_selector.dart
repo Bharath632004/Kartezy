@@ -81,7 +81,7 @@ class _ProductVariantSelectorState extends State<ProductVariantSelector> {
                         widget.onVariantChanged(Map.from(_selected));
                       }
                     },
-                    selectedColor: theme.primaryColor.withOpacity(0.1),
+                    selectedColor: theme.primaryColor.withValues(alpha:0.1),
                     backgroundColor: Colors.grey[50],
                     side: BorderSide(
                       color: isSelected

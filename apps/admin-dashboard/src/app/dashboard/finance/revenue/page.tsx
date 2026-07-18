@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import * as React from 'react';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -14,16 +14,16 @@ export default function RevenuePage() {
     fetchRevenueData(filters);
   }, [filters, fetchRevenueData]);
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Revenue Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
           <FormControl sx={{ minWidth: 180 }}>
             <InputLabel id="date-range-label">Date Range</InputLabel>
             <Select
@@ -56,24 +56,23 @@ export default function RevenuePage() {
                 type="date"
                 value={filters.endDate || ''}
                 onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
-                sx={{ width: 150 }}
-                style={{ marginLeft: 1 }}
+                sx={{ width: 150, ml: 1 }}
               />
             </>
           )}
           <Button variant="contained" onClick={() => fetchRevenueData(filters)}>
             Apply Filters
           </Button>
-        </Stack>
+        </Box>
       </Box>
 
       {!revenueData || revenueData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No revenue data available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Revenue Transactions
             </Typography>
@@ -89,7 +88,7 @@ export default function RevenuePage() {
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
-                <tbody>
+                <TableBody>
                   {revenueData.map((transaction: any) => (
                     <TableRow key={transaction.id}>
                       <TableCell>{transaction.date}</TableCell>
@@ -97,15 +96,16 @@ export default function RevenuePage() {
                       <TableCell align="right">{transaction.currency}</TableCell>
                       <TableCell>{transaction.source}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box sx={{
                           bgcolor: transaction.status.toLowerCase() === 'completed' ? 'success.main' :
                                    transaction.status.toLowerCase() === 'pending' ? 'warning.main' : 'error.main',
                           color: 'white',
                           px: 1,
-                          borderRadius: 1
+                          borderRadius: 1,
+                          display: 'inline-block'
                         }}>
                           {transaction.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }}>
@@ -114,7 +114,7 @@ export default function RevenuePage() {
                       </TableCell>
                     </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </Table>
             </TableContainer>
           </Box>

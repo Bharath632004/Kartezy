@@ -31,7 +31,7 @@ class NotificationsPage extends ConsumerWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.08),
+                  color: theme.primaryColor.withValues(alpha:0.08),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

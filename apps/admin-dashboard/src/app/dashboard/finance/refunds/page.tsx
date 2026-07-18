@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField } from '@mui/material';
+import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -50,17 +50,17 @@ export default function RefundsPage() {
           />
           <TextField
             label="Reason"
+            select
             value={filters.reason || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, reason: e.target.value }))}
-            sx={{ width: 200 }}
-            select
+            sx={{ minWidth: 150 }}
           >
-            <option value="">All Reasons</option>
-            <option value="defective_product">Defective Product</option>
-            <option value="not_as_described">Not As Described</option>
-            <option value="changed_mind">Changed Mind</option>
-            <option value="fraudulent">Fraudulent</option>
-            <option value="duplicate_charge">Duplicate Charge</option>
+            <MenuItem value="">All Reasons</MenuItem>
+            <MenuItem value="defective_product">Defective Product</MenuItem>
+            <MenuItem value="not_as_described">Not As Described</MenuItem>
+            <MenuItem value="changed_mind">Changed Mind</MenuItem>
+            <MenuItem value="fraudulent">Fraudulent</MenuItem>
+            <MenuItem value="duplicate_charge">Duplicate Charge</MenuItem>
           </TextField>
           {filters.dateRange === 'custom' && (
             <>
@@ -76,8 +76,7 @@ export default function RefundsPage() {
                 type="date"
                 value={filters.endDate || ''}
                 onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
-                sx={{ width: 150 }}
-                style={{ marginLeft: 1 }}
+                sx={{ width: 150, ml: 1 }}
               />
             </>
           )}
@@ -88,12 +87,12 @@ export default function RefundsPage() {
       </Box>
 
       {!refundsData || refundsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No refund data available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Refund Transactions
             </Typography>

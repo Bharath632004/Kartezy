@@ -16,26 +16,21 @@ export default function TaxesPage() {
     fetchTaxesData(filters);
   }, [filters, fetchTaxesData]);
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Taxes Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Date Range"
             select
-            labelId="date-range-label"
-            id="date-range-select"
             value={filters.dateRange}
             onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
           >
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
@@ -48,13 +43,8 @@ export default function TaxesPage() {
           <TextField
             label="Tax Type"
             select
-            labelId="tax-type-label"
-            id="tax-type-select"
             value={filters.taxType || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, taxType: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
           >
             <option value="">All Types</option>
             <option value="sales_tax">Sales Tax</option>
@@ -66,13 +56,8 @@ export default function TaxesPage() {
           <TextField
             label="Status"
             select
-            labelId="status-label"
-            id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
           >
             <option value="">All Statuses</option>
             <option value="paid">Paid</option>
@@ -106,12 +91,12 @@ export default function TaxesPage() {
       </Box>
 
       {!taxesData || taxesData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No tax data available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Tax Transactions
             </Typography>

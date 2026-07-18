@@ -36,7 +36,7 @@ class HomePage extends ConsumerWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       theme.primaryColor,
-                      theme.primaryColor.withOpacity(0.9),
+                      theme.primaryColor.withValues(alpha:0.9),
                     ],
                   ),
                 ),
@@ -53,7 +53,7 @@ class HomePage extends ConsumerWidget {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha:0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -70,7 +70,7 @@ class HomePage extends ConsumerWidget {
                                   Text(
                                     'Deliver to',
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.7),
+                                      color: Colors.white.withValues(alpha:0.7),
                                       fontSize: 11,
                                     ),
                                   ),
@@ -104,7 +104,7 @@ class HomePage extends ConsumerWidget {
                                         const SizedBox(width: 4),
                                         Icon(
                                           Icons.keyboard_arrow_down,
-                                          color: Colors.white.withOpacity(0.8),
+                                          color: Colors.white.withValues(alpha:0.8),
                                           size: 18,
                                         ),
                                       ],
@@ -147,7 +147,7 @@ class HomePage extends ConsumerWidget {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha:0.2),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Row(
@@ -179,7 +179,7 @@ class HomePage extends ConsumerWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
                           elevation: 2,
-                          shadowColor: Colors.black.withOpacity(0.1),
+                          shadowColor: Colors.black.withValues(alpha:0.1),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(12),
                             onTap: () => context.push('/search'),
@@ -293,7 +293,7 @@ class HomePage extends ConsumerWidget {
                 Text(
                   'Limited time offers ending soon',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha:0.9),
                     fontSize: 12,
                   ),
                 ),
@@ -330,7 +330,7 @@ class HomePage extends ConsumerWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha:0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.local_offer, color: Colors.white, size: 40),
@@ -344,7 +344,7 @@ class HomePage extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha:0.2),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
@@ -402,7 +402,7 @@ class HomePage extends ConsumerWidget {
                       width: 64,
                       height: 64,
                       decoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.08),
+                        color: theme.primaryColor.withValues(alpha:0.08),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(
@@ -466,7 +466,7 @@ class HomePage extends ConsumerWidget {
                 Text(
                   'on your first order! Use code WELCOME100',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha:0.9),
                     fontSize: 12,
                   ),
                 ),
@@ -494,7 +494,7 @@ class HomePage extends ConsumerWidget {
           ),
           Icon(
             Icons.percent,
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha:0.3),
             size: 64,
           ),
         ],
@@ -552,7 +552,7 @@ class HomePage extends ConsumerWidget {
                             child: Icon(
                               Icons.store,
                               size: 48,
-                              color: theme.primaryColor.withOpacity(0.5),
+                              color: theme.primaryColor.withValues(alpha:0.5),
                             ),
                           ),
                         ),
@@ -562,7 +562,7 @@ class HomePage extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                store.name ?? '',
+                                store.name,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 13,
@@ -572,7 +572,7 @@ class HomePage extends ConsumerWidget {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                '${store.distance?.toStringAsFixed(1) ?? '0.0'} km',
+                                '${store.distance.toStringAsFixed(1)} km',
                                 style: TextStyle(
                                   color: Colors.grey.shade500,
                                   fontSize: 11,

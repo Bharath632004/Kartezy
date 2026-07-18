@@ -33,7 +33,6 @@
         <module>cms-service</module>
         <module>finance-service</module>
         <module>lead-service</module>
-        <module>customer-service</module>
         <module>search-service</module>
         <module>recommendation-service</module>
         <module>ocr-service</module>

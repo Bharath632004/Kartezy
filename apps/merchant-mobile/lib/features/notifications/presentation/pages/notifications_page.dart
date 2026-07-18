@@ -68,7 +68,7 @@ class NotificationsPage extends ConsumerWidget {
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.08),
+                        color: theme.primaryColor.withValues(alpha:0.08),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -148,10 +148,10 @@ class NotificationsPage extends ConsumerWidget {
                   ),
                   color: isRead
                       ? null
-                      : theme.primaryColor.withOpacity(0.03),
+                      : theme.primaryColor.withValues(alpha:0.03),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: iconColor.withOpacity(0.1),
+                      backgroundColor: iconColor.withValues(alpha:0.1),
                       child: Icon(icon, color: iconColor, size: 20),
                     ),
                     title: Text(

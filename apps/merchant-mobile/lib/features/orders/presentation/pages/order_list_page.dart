@@ -180,7 +180,7 @@ class _OrderListPageState extends ConsumerState<OrderListPage>
                           leading: CircleAvatar(
                             backgroundColor: _statusColor(
                               index,
-                            ).withOpacity(0.1),
+                            ).withValues(alpha:0.1),
                             child: Icon(
                               _statusIcon(index),
                               color: _statusColor(index),
