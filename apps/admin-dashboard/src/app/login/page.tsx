@@ -142,7 +142,7 @@ export default function LoginPage() {
                   <Typography sx={{ color: 'error.main', mb: 2 }}>{error}</Typography>
                 )}
                 <Grid container justifyContent="flex-end">
-                  <Grid item>
+                  <Grid>
                     <Link
                       href="/forgot-password"
                       variant="body2"

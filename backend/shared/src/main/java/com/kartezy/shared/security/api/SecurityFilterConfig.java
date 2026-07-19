@@ -1,15 +1,13 @@
-package com.kratezy.shared.security.api;
+package com.kartezy.shared.security.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Configuration class for registering security filters and interceptors.
  */
 @Configuration
-public class SecurityFilterConfig implements WebMvcConfigurer {
+public class SecurityFilterConfig {
 
     /**
      * Registers the enhanced API security filter.

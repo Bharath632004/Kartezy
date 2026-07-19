@@ -38,7 +38,7 @@ export default function CrmMerchantsPage() {
           { label: 'Active This Month', value: '892', color: '#388e3c', icon: <TrendingUp /> },
           { label: 'Pending Review', value: '28', color: '#f57c00', icon: <Warning /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>

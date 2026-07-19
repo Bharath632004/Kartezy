@@ -40,7 +40,7 @@ export default function CrmCustomersPage() {
           { label: 'At Risk', value: '128', color: '#f57c00', icon: <PeopleAlt /> },
           { label: 'Churned (MTD)', value: '42', color: '#d32f2f', icon: <PeopleAlt /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>

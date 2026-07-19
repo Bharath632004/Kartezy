@@ -32,7 +32,7 @@ export default function SegmentsPage() {
           { label: 'Avg Conversion', value: '59.9%', color: '#7b1fa2', icon: <TrendingUp /> },
           { label: 'Auto-Sync Rules', value: 4, color: '#f57c00', icon: <GroupWork /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>
@@ -46,7 +46,7 @@ export default function SegmentsPage() {
 
       <Grid container spacing={2}>
         {segments.map((seg) => (
-          <Grid item xs={12} md={6} key={seg.id}>
+          <Grid size={{ xs: 12, md: 6 }} key={seg.id}>
             <Card sx={{ height: '100%', transition: '0.3s', '&:hover': { transform: 'translateY(-4px)', boxShadow: 4 }, borderLeft: 4, borderColor: seg.color }}>
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
@@ -57,15 +57,15 @@ export default function SegmentsPage() {
                   <Chip label={`${seg.count.toLocaleString()} users`} size="small" sx={{ bgcolor: `${seg.color}20`, color: seg.color, fontWeight: 600 }} />
                 </Box>
                 <Grid container spacing={2} sx={{ mt: 1 }}>
-                  <Grid item xs={4}>
+                  <Grid size={{ xs: 4 }}>
                     <Typography variant="caption" color="text.secondary">Avg Orders</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>{seg.avgOrders}</Typography>
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid size={{ xs: 4 }}>
                     <Typography variant="caption" color="text.secondary">Avg Spent</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>₹{seg.avgSpent.toLocaleString()}</Typography>
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid size={{ xs: 4 }}>
                     <Typography variant="caption" color="text.secondary">Conv. Rate</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 600, color: seg.conversionRate > 50 ? 'success.main' : 'warning.main' }}>{seg.conversionRate}%</Typography>
                   </Grid>

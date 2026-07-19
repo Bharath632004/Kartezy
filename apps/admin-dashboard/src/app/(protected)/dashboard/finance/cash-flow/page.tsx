@@ -95,7 +95,7 @@ export default function CashFlowPage() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis tickFormatter={(v) => `₹${(v/1000).toFixed(0)}K`} />
-                <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
+                <Tooltip formatter={(v: any) => v ? `₹${Number(v).toLocaleString()}` : ''} />
                 <Area type="monotone" dataKey="operating" stroke="#1976d2" fill="url(#opGrad)" name="Operating" strokeWidth={2} />
                 <Area type="monotone" dataKey="net" stroke="#388e3c" fill="url(#netGrad)" name="Net Cash Flow" strokeWidth={2} />
               </AreaChart>

@@ -34,7 +34,7 @@ export default function LeadsPage() {
           { label: 'Qualified', value: 1, color: '#7b1fa2' },
           { label: 'Converted (MTD)', value: 12, color: '#388e3c' },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2 }}>
               <Typography variant="caption" color="text.secondary">{s.label}</Typography>
               <Typography variant="h5" sx={{ fontWeight: 700, color: s.color }}>{s.value}</Typography>

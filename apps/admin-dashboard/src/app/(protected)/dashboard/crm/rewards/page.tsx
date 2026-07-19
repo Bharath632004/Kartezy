@@ -38,7 +38,7 @@ export default function RewardsPage() {
           { label: 'Redemption Rate', value: '62.4%', color: '#7b1fa2', icon: <EmojiEvents /> },
           { label: 'Points in Circulation', value: '2,45,000', color: '#f57c00', icon: <EmojiEvents /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>

@@ -36,12 +36,12 @@ export default function LedgerPage() {
       </Box>
 
       <Paper sx={{ p: 2, mb: 2 }}>
-        <Grid container spacing={2} alignItems="center">
+        <Grid spacing={2} sx={{ alignItems: 'center' }}>
           <Grid size={{ xs: 4 }}>
-            <TextField size="small" label="From Date" type="date" fullWidth InputLabelProps={{ shrink: true }} />
+            <TextField size="small" label="From Date" type="date" fullWidth slotProps={{ inputLabel: { shrink: true } }} />
           </Grid>
           <Grid size={{ xs: 4 }}>
-            <TextField size="small" label="To Date" type="date" fullWidth InputLabelProps={{ shrink: true }} />
+            <TextField size="small" label="To Date" type="date" fullWidth slotProps={{ inputLabel: { shrink: true } }} />
           </Grid>
           <Grid size={{ xs: 4 }}>
             <FormControl fullWidth size="small">

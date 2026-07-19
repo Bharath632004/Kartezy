@@ -149,8 +149,8 @@ export default function SettlementsPage() {
                 <MenuItem value={3}>Daily Needs Store</MenuItem>
               </Select>
             </FormControl>
-            <TextField size="small" label="Cycle Start Date" type="date" InputLabelProps={{ shrink: true }} />
-            <TextField size="small" label="Cycle End Date" type="date" InputLabelProps={{ shrink: true }} />
+            <TextField size="small" label="Cycle Start Date" type="date" slotProps={{ inputLabel: { shrink: true } }} />
+            <TextField size="small" label="Cycle End Date" type="date" slotProps={{ inputLabel: { shrink: true } }} />
           </Box>
         </DialogContent>
         <DialogActions>

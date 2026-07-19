@@ -48,7 +48,7 @@ export default function CrmDashboard() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {metrics.map((m) => (
-          <Grid item xs={3} key={m.label}>
+          <Grid size={{ xs: 3 }} key={m.label}>
             <Card sx={{ height: '100%', transition: '0.3s', '&:hover': { transform: 'translateY(-4px)', boxShadow: 4 } }}>
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -66,12 +66,12 @@ export default function CrmDashboard() {
       </Grid>
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Customer Segments</Typography>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
-                <Pie data={segmentData} dataKey="value" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }) => `${name} ${(percent*100).toFixed(0)}%`}>
+                <Pie data={segmentData} dataKey="value" cx="50%" cy="50%" outerRadius={80} label={(entry: any) => `${entry.name} ${entry.percent ? (entry.percent*100).toFixed(0) : 0}%`}>
                   {segmentData.map((e, i) => <Cell key={i} fill={e.color} />)}
                 </Pie>
                 <Tooltip />
@@ -79,7 +79,7 @@ export default function CrmDashboard() {
             </ResponsiveContainer>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Campaign Performance by Channel</Typography>
             <ResponsiveContainer width="100%" height={250}>
@@ -100,7 +100,7 @@ export default function CrmDashboard() {
       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Quick Actions</Typography>
       <Grid container spacing={2}>
         {quickActions.map((action) => (
-          <Grid item xs={6} sm={4} md={2} key={action.name}>
+          <Grid size={{ xs: 6, sm: 4, md: 2 }} key={action.name}>
             <Card sx={{ cursor: 'pointer', transition: '0.3s', '&:hover': { transform: 'translateY(-4px)', boxShadow: 3, borderColor: action.color }, border: '2px solid transparent' }} onClick={() => window.location.href = action.href}>
               <CardContent sx={{ textAlign: 'center', p: 2 }}>
                 <Box sx={{ width: 40, height: 40, borderRadius: '50%', bgcolor: `${action.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 1 }}>

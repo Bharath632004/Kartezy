@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, TextField, IconButton, Card, CardContent, Grid2 } from '@mui/material';
+import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, TextField, IconButton, Card, CardContent, Grid } from '@mui/material';
 import { Search, Add, Edit, Visibility, Star } from '@mui/icons-material';
 import { useFinanceStore } from '@/store/financeStore';
 
@@ -44,7 +44,7 @@ export default function SuppliersPage() {
           { label: 'Expiring Soon', value: expiringSoon || 0, color: '#d32f2f' },
           { label: 'Avg Rating', value: displayedSuppliers.length > 0 ? 'N/A' : '-', color: '#7b1fa2' },
         ].map((stat) => (
-          <Grid key={stat.label} size={{ xs: 3 }}>
+          <Grid size={{ xs: 3 }} key={stat.label}>
             <Card>
               <CardContent sx={{ p: 2, textAlign: 'center' }}>
                 <Typography variant="h4" sx={{ fontWeight: 700, color: stat.color }}>{stat.value}</Typography>
@@ -62,7 +62,7 @@ export default function SuppliersPage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           sx={{ flex: 1 }} 
-          InputProps={{ startAdornment: <Search sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} /> }} 
+          slotProps={{ input: { startAdornment: <Search sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} /> } }} 
         />
       </Paper>
 

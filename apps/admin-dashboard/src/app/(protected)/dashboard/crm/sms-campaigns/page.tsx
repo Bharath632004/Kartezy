@@ -32,7 +32,7 @@ export default function SmsCampaignsPage() {
           { label: 'Click Rate', value: '9.8%', color: '#7b1fa2', icon: <BarChart /> },
           { label: 'Cost (MTD)', value: '₹8,425', color: '#f57c00', icon: <Sms /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>

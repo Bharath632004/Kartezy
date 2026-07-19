@@ -41,7 +41,7 @@ export default function LoyaltyPage() {
           { label: 'Points Redeemed', value: '12,500', color: '#f57c00', icon: <TrendingUp /> },
           { label: 'Redemption Rate', value: '27.8%', color: '#7b1fa2', icon: <EmojiEvents /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>
@@ -55,7 +55,7 @@ export default function LoyaltyPage() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {programs.map((p) => (
-          <Grid item xs={6} md={3} key={p.id}>
+          <Grid size={{ xs: 6, md: 3 }} key={p.id}>
             <Card sx={{ borderTop: 4, borderColor: p.color, height: '100%' }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 700 }}>{p.name}</Typography>

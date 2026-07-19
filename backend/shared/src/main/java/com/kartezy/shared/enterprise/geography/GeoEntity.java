@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
  */
 @MappedSuperclass
 @Getter @Setter @ToString @EqualsAndHashCode
+@SuperBuilder
 public abstract class GeoEntity implements Serializable {
 
     @Id

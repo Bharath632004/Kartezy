@@ -62,7 +62,7 @@ export default function InvoicesPage() {
 
       <Paper sx={{ p: 2, mb: 2 }}>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField size="small" placeholder="Search invoices..." sx={{ flex: 1 }} InputProps={{ startAdornment: <Search sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} /> }} />
+          <TextField size="small" placeholder="Search invoices..." sx={{ flex: 1 }} slotProps={{ input: { startAdornment: <Search sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} /> } }} />
           <FormControl size="small" sx={{ minWidth: 150 }}><InputLabel>Status</InputLabel><Select label="Status"><MenuItem value="ALL">All</MenuItem><MenuItem value="PAID">Paid</MenuItem><MenuItem value="SENT">Sent</MenuItem><MenuItem value="OVERDUE">Overdue</MenuItem><MenuItem value="DRAFT">Draft</MenuItem></Select></FormControl>
           <IconButton><FilterList /></IconButton>
         </Box>
@@ -131,7 +131,7 @@ export default function InvoicesPage() {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
             <TextField size="small" label="Merchant/Vendor" fullWidth />
             <TextField size="small" label="Amount" type="number" fullWidth />
-            <TextField size="small" label="Due Date" type="date" InputLabelProps={{ shrink: true }} />
+            <TextField size="small" label="Due Date" type="date" slotProps={{ inputLabel: { shrink: true } }} />
           </Box>
         </DialogContent>
         <DialogActions>

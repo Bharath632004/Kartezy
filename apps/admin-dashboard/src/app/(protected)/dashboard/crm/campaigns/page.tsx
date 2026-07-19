@@ -38,7 +38,7 @@ export default function CampaignsPage() {
           { label: 'Drafts', value: 2, color: '#757575' },
           { label: 'Total Sent (MTD)', value: '46,000', color: '#f57c00' },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2 }}>
               <Typography variant="caption" color="text.secondary">{s.label}</Typography>
               <Typography variant="h5" sx={{ fontWeight: 700, color: s.color }}>{s.value}</Typography>

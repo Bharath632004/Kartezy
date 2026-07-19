@@ -32,7 +32,7 @@ export default function WhatsAppCampaignsPage() {
           { label: 'Click Rate', value: '28.4%', color: '#7b1fa2', icon: <BarChart /> },
           { label: 'Delivery Rate', value: '98.8%', color: '#388e3c', icon: <WhatsApp /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>
