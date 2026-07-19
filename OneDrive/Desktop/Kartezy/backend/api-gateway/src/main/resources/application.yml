@@ -1,0 +1,321 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Auth
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+        # User
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=1
+        # Merchant
+        - id: merchant-service
+          uri: lb://merchant-service
+          predicates:
+            - Path=/api/merchants/**
+          filters:
+            - StripPrefix=1
+        # Catalog
+        - id: catalog-service
+          uri: lb://catalog-service
+          predicates:
+            - Path=/api/catalog/**
+          filters:
+            - StripPrefix=1
+        # Categories
+        - id: catalog-categories
+          uri: lb://catalog-service
+          predicates:
+            - Path=/api/categories/**
+          filters:
+            - StripPrefix=1
+        # Products
+        - id: catalog-products
+          uri: lb://catalog-service
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - StripPrefix=1
+        # Inventory
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/inventory/**
+          filters:
+            - StripPrefix=1
+        # Order
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=1
+        # Payment
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payments/**
+          filters:
+            - StripPrefix=1
+        # Wallet
+        - id: wallet-service
+          uri: lb://wallet-service
+          predicates:
+            - Path=/api/wallet/**
+          filters:
+            - StripPrefix=1
+        # Delivery
+        - id: delivery-service
+          uri: lb://delivery-service
+          predicates:
+            - Path=/api/delivery/**
+          filters:
+            - StripPrefix=1
+        # Notification
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - StripPrefix=1
+        # Review
+        - id: review-service
+          uri: lb://review-service
+          predicates:
+            - Path=/api/reviews/**
+          filters:
+            - StripPrefix=1
+        # Recommendation
+        - id: recommendation-service
+          uri: lb://recommendation-service
+          predicates:
+            - Path=/api/recommendations/**
+          filters:
+            - StripPrefix=1
+        # Analytics
+        - id: analytics-service
+          uri: lb://analytics-service
+          predicates:
+            - Path=/api/analytics/**
+          filters:
+            - StripPrefix=1
+        # AI Service
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/v1/**
+          filters:
+            - StripPrefix=1
+        # Fraud Detection
+        - id: fraud-detection-service
+          uri: lb://fraud-detection-service
+          predicates:
+            - Path=/api/fraud/**
+          filters:
+            - StripPrefix=1
+        # Chatbot
+        - id: chatbot-service
+          uri: lb://chatbot-service
+          predicates:
+            - Path=/api/chatbot/**
+          filters:
+            - StripPrefix=1
+        # Computer Vision
+        - id: computer-vision-service
+          uri: lb://computer-vision-service
+          predicates:
+            - Path=/api/cv/**
+          filters:
+            - StripPrefix=1
+        # NLP
+        - id: nlp-service
+          uri: lb://nlp-service
+          predicates:
+            - Path=/api/nlp/**
+          filters:
+            - StripPrefix=1
+        # OCR
+        - id: ocr-service
+          uri: lb://ocr-service
+          predicates:
+            - Path=/api/ocr/**
+          filters:
+            - StripPrefix=1
+        # Voice
+        - id: voice-service
+          uri: lb://voice-service
+          predicates:
+            - Path=/api/voice/**
+          filters:
+            - StripPrefix=1
+        # Support / Ticketing
+        - id: support-service
+          uri: lb://support-service
+          predicates:
+            - Path=/api/support/**
+          filters:
+            - StripPrefix=1
+        # CMS
+        - id: cms-service
+          uri: lb://cms-service
+          predicates:
+            - Path=/api/cms/**
+          filters:
+            - StripPrefix=1
+        # Finance
+        - id: finance-service
+          uri: lb://finance-service
+          predicates:
+            - Path=/api/finance/**
+          filters:
+            - StripPrefix=1
+        # Search
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "${CORS_ALLOWED_ORIGINS:*}"
+            allowedMethods: "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+            allowedHeaders: "*"
+            allowCredentials: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        - RemoveResponseHeader=Cookie
+        - RemoveRequestHeader=Cookie
+    config:
+      uri: http://config-server:8888
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+        max-attempts: 6
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8080}
+          jwk-set-uri: ${JWK_SET_URI:http://auth-service:8080/oauth2/jwks}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5000
+        slidingWindowType: COUNT_BASED
+    instances:
+      auth-service:
+        baseConfig: default
+      user-service:
+        baseConfig: default
+      order-service:
+        baseConfig: default
+      payment-service:
+        baseConfig: default
+      support-service:
+        baseConfig: default
+      cms-service:
+        baseConfig: default
+      finance-service:
+        baseConfig: default
+      search-service:
+        baseConfig: default
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 500ms
+        retryExceptions:
+          - org.springframework.cloud.gateway.support.NotFoundException
+          - java.util.concurrent.TimeoutException
+    instances:
+      default:
+        baseConfig: default
+  ratelimiter:
+    configs:
+      default:
+        registerHealthIndicator: true
+        limitForPeriod: 1000
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0s
+    instances:
+      default:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 4s
+    instances:
+      default:
+        baseConfig: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+    health:
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState,discoveryClient
+        readiness:
+          include: readinessState,discoveryClient
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: when-authorized
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      slo:
+        http.server.requests: 10ms,50ms,100ms,200ms,500ms,1s,2s,5s,10s
+  tracing:
+    sampling:
+      probability: 0.1
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}
+  refresh-token:
+    expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000}

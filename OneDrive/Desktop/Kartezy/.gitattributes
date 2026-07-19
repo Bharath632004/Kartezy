@@ -1,0 +1,59 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Java
+*.java text diff=java
+*.xml text
+*.properties text
+
+# Dart/Flutter
+*.dart text diff=dart
+*.yaml text
+*.yml text
+
+# TypeScript/JavaScript
+*.ts text diff=typescript
+*.tsx text diff=typescript
+*.js text diff=javascript
+*.jsx text diff=javascript
+*.json text
+*.css text
+*.scss text
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# PowerShell
+*.ps1 text eol=crlf
+
+# Docker
+Dockerfile text
+Dockerfile.* text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.mp4 binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.jar binary
+
+# Lock files - use union merge strategy
+package-lock.json -diff merge=union
+yarn.lock -diff merge=union
+
+# Generated files
+*.g.dart text
+*.pb.dart text
+*.freezed.dart text

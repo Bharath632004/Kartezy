@@ -1,0 +1,36 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'apps/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [customer-mobile, merchant-mobile, delivery-mobile]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.10.0'
+    - name: Get dependencies
+      run: |
+        cd apps/${{ matrix.app }}
+        flutter pub get
+    - name: Analyze
+      run: |
+        cd apps/${{ matrix.app }}
+        flutter analyze
+    - name: Test
+      run: |
+        cd apps/${{ matrix.app }}
+        flutter test

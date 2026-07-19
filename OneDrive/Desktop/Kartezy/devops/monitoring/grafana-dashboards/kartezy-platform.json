@@ -1,0 +1,81 @@
+{
+  "title": "Kartezy Platform Overview",
+  "uid": "kartezy-platform",
+  "version": 2,
+  "timezone": "browser",
+  "editable": true,
+  "panels": [
+    {
+      "title": "API Gateway - Requests per Second",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "rate(http_requests_total[5m])", "legendFormat": "{{service}}"}],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+    },
+    {
+      "title": "Service Health",
+      "type": "stat",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "up{namespace='kartezy'}", "legendFormat": "{{service}}"}],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+    },
+    {
+      "title": "JVM Memory Usage",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "jvm_memory_used_bytes{area='heap'}", "legendFormat": "{{service}}"}],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+    },
+    {
+      "title": "CPU Usage by Service",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "rate(process_cpu_usage[5m])", "legendFormat": "{{service}}"}],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+    },
+    {
+      "title": "Order Processing Latency",
+      "type": "heatmap",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "rate(http_request_duration_seconds_bucket{service='order-service'}[5m])"}],
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16}
+    },
+    {
+      "title": "Database Connection Pool",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "hikaricp_connections_active", "legendFormat": "{{pool}}"}],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24}
+    },
+    {
+      "title": "Kafka Lag by Consumer Group",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "kafka_consumer_lag", "legendFormat": "{{consumer_group}}"}],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24}
+    },
+    {
+      "title": "Orders per Minute",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "rate(orders_total[5m])", "legendFormat": "Orders"}],
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 32}
+    },
+    {
+      "title": "Revenue per Hour",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "rate(revenue_total[1h])", "legendFormat": "Revenue"}],
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 32}
+    },
+    {
+      "title": "Error Rate by Service",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{"expr": "rate(http_requests_errors_total[5m])", "legendFormat": "{{service}}"}],
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 32}
+    }
+  ],
+  "tags": ["kartezy", "platform", "microservices"],
+  "schemaVersion": 36
+}

@@ -1,0 +1,57 @@
+// lib/features/tracking/data/datasource/tracking_remote_data_source_impl.dart
+import 'package:customer_mobile/features/tracking/data/datasource/tracking_remote_data_source.dart';
+import 'package:customer_mobile/features/tracking/domain/models/driver_info.dart';
+import 'package:customer_mobile/features/tracking/domain/models/route_info.dart';
+import 'package:customer_mobile/features/tracking/domain/models/tracking_info.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:async';
+
+class TrackingRemoteDataSourceImpl implements TrackingRemoteDataSource {
+  final Dio dio;
+
+  TrackingRemoteDataSourceImpl(this.dio);
+
+  @override
+  Stream<TrackingInfo> getOrderTracking(String orderId) async* {
+    try {
+      final response = await dio.get(
+        '/tracking/$orderId',
+        options: Options(
+          responseType: ResponseType.stream,
+          followRedirects: false,
+          validateStatus: (status) => true,
+        ),
+      );
+
+      await for (var event
+          in response.data.stream
+              .transform(utf8.decoder)
+              .transform(const LineSplitter())) {
+        if (event.isNotEmpty) {
+          try {
+            final Map<String, dynamic> json = jsonDecode(event);
+            yield TrackingInfo.fromJson(json);
+          } catch (_) {
+            // Skip invalid JSON lines
+          }
+        }
+      }
+    } catch (e) {
+      // Re-throw as a stream error
+      yield* Stream.error(e);
+    }
+  }
+
+  @override
+  Future<DriverInfo> getDriverInfo(String orderId) async {
+    final response = await dio.get('/delivery/$orderId/driver');
+    return DriverInfo.fromJson(response.data);
+  }
+
+  @override
+  Future<RouteInfo> getRouteInfo(String orderId) async {
+    final response = await dio.get('/delivery/$orderId/route');
+    return RouteInfo.fromJson(response.data);
+  }
+}

@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for Karthezy */
+:root {
+  --kartezy-primary: #1976d2;
+  --kartezy-secondary: #dc004e;
+  --kartezy-success: #4caf50;
+  --kartezy-warning: #ff9800;
+  --kartezy-danger: #f44336;
+  --kartezy-info: #2196f3;
+  --kartezy-light: #f5f5f5;
+  --kartezy-dark: #212121;
+  --kartezy-border-radius: 12px;
+  --kartezy-shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --kartezy-shadow-md: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  --kartezy-shadow-lg: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom animations */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(25, 118, 210, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+  }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+/* Glass morphism effect */
+.glass-morphism {
+  @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* Page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Form styles */
+input, textarea, select {
+  @apply border-gray-300 focus:border-kartezy-primary focus:ring-2 focus:ring-kartezy-primary/20;
+}
+
+/* Button styles */
+.button-primary {
+  @apply bg-kartezy-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-kartezy-primary/90 transition-all focus:outline-none focus:ring-2 focus:ring-kartezy-primary/20 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.button-secondary {
+  @apply bg-kartezy-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-kartezy-secondary/90 transition-all focus:outline-none focus:ring-2 focus:ring-kartezy-secondary/20 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.button-outline {
+  @apply border border-kartezy-primary text-kartezy-primary px-6 py-3 rounded-lg font-medium hover:bg-kartezy-primary/10 transition-all focus:outline-none focus:ring-2 focus:ring-kartezy-primary/20 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden;
+}
+
+.card-hover {
+  @apply hover:shadow-lg transition-shadow duration-300;
+}
+
+/* Utility classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.sm:px-6 {
+  @media (min-width: 640px) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.lg:px-8 {
+  @media (min-width: 1024px) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}

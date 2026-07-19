@@ -1,0 +1,35 @@
+---
+# Resource Quota for Kartezy namespace
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: kartezy-quota
+  namespace: kartezy
+spec:
+  hard:
+    requests.cpu: "40"
+    requests.memory: "80Gi"
+    limits.cpu: "80"
+    limits.memory: "160Gi"
+    persistentvolumeclaims: "50"
+    pods: "100"
+    services: "50"
+    secrets: "100"
+    configmaps: "100"
+
+---
+# Limit Range for containers
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: kartezy-limits
+  namespace: kartezy
+spec:
+  limits:
+  - default:
+      cpu: "500m"
+      memory: "768Mi"
+    defaultRequest:
+      cpu: "250m"
+      memory: "384Mi"
+    type: Container

@@ -1,0 +1,35 @@
+// lib/features/notifications/data/repository/notification_repository_impl.dart
+import 'package:customer_mobile/core/repository/base_repository.dart';
+import 'package:customer_mobile/features/notifications/data/datasource/notification_remote_data_source.dart';
+import 'package:customer_mobile/features/notifications/domain/entities/notification.dart';
+import 'package:customer_mobile/features/notifications/domain/repository/notification_repository.dart';
+
+class NotificationRepositoryImpl extends BaseRepository
+    implements NotificationRepository {
+  final NotificationRemoteDataSource _remoteDataSource;
+
+  NotificationRepositoryImpl(this._remoteDataSource);
+
+  @override
+  Future<List<Notification>> getNotifications({
+    int limit = 20,
+    int offset = 0,
+    bool unreadOnly = false,
+  }) async {
+    final notifications = await _remoteDataSource.getNotifications(
+      limit: limit,
+      offset: offset,
+    );
+
+    if (unreadOnly) {
+      return notifications.where((n) => !n.isRead).toList();
+    }
+    return notifications;
+  }
+
+  @override
+  Future<Notification> getNotificationById(String id) async {
+    return await _remoteDataSource.getNotificationById(id);
+  }
+
+  @over;

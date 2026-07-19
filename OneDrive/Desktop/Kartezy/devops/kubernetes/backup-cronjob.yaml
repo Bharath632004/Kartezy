@@ -1,0 +1,105 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: database-backup
+  namespace: kartezy
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: bitnami/kubectl:latest
+            env:
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_USER
+              value: kartezy
+            - name: POSTGRES_DB
+              value: kartezy
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kartezy-secrets
+                  key: postgres-password
+            - name: BACKUP_DIR
+              value: /backups
+            command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache postgresql-client
+              DATE=$(date +%Y%m%d_%H%M%S)
+              PGPASSWORD=$POSTGRES_PASSWORD pg_dump \
+                -h $POSTGRES_HOST \
+                -U $POSTGRES_USER \
+                -d $POSTGRES_DB \
+                --format=custom \
+                --compress=9 \
+                --file=/backups/postgres_${DATE}.dump
+              find /backups -name "*.dump" -mtime +30 -delete
+            volumeMounts:
+            - mountPath: /backups
+              name: backup-storage
+          restartPolicy: OnFailure
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-pvc
+  namespace: kartezy
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: config-backup
+  namespace: kartezy
+spec:
+  schedule: "0 3 * * 0"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: busybox:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              DATE=$(date +%Y%m%d_%H%M%S)
+              tar -czf /backups/config_${DATE}.tar.gz /config-repo
+              find /backups -name "config_*.tar.gz" -mtime +90 -delete
+            volumeMounts:
+            - mountPath: /config-repo
+              name: config-repo
+              readOnly: true
+            - mountPath: /backups
+              name: backup-storage
+          restartPolicy: OnFailure
+          volumes:
+          - name: config-repo
+            configMap:
+              name: config-repo
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc

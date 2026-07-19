@@ -1,0 +1,23 @@
+name: delivery_mobile
+description: "A new Flutter project for delivery partners."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  kartezy_core:
+    path: kartezy_core
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.9
+  freezed: ^2.5.2
+  lint: ^2.3.0
+  flutter_lints: ^6.0.0
+  custom_lint: ^0.6.4
+  analyzer: ^6.4.1
