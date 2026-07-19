@@ -1,22 +1,29 @@
 "use client";
 
-import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, Grid, Card, CardContent, IconButton } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, Card, CardContent, IconButton, Grid } from '@mui/material';
 import { Add, AccountBalance, Sync, Refresh } from '@mui/icons-material';
-
-const bankAccounts = [
-  { id: 1, bank: 'HDFC Bank', holder: 'Kartezy Technologies', accountNo: 'XXXX-XXXX-4567', ifsc: 'HDFC0001234', type: 'CURRENT', balance: 1850000, available: 1845000, isPrimary: true, lastSync: '2026-07-01 10:30 AM' },
-  { id: 2, bank: 'ICICI Bank', holder: 'Kartezy Escrow', accountNo: 'XXXX-XXXX-7890', ifsc: 'ICIC0005678', type: 'ESCROW', balance: 985000, available: 985000, isPrimary: false, lastSync: '2026-07-01 10:30 AM' },
-  { id: 3, bank: 'Kotak Mahindra', holder: 'Kartezy Payable', accountNo: 'XXXX-XXXX-2345', ifsc: 'KKBK0009012', type: 'PAYOUT', balance: 456000, available: 456000, isPrimary: false, lastSync: '2026-07-01 10:30 AM' },
-];
-
-const dummyTransactions = [
-  { id: 1, date: '2026-07-01', description: 'Payment from ORD-45678', ref: 'PAY-20260701-001', debit: 0, credit: 53100, balance: 1850000, reconciled: true },
-  { id: 2, date: '2026-06-30', description: 'Settlement payout - FreshMart', ref: 'STL-20260630-001', debit: 397944, credit: 0, balance: 1796900, reconciled: false },
-  { id: 3, date: '2026-06-29', description: 'Commission revenue', ref: 'COM-20260629-001', debit: 0, credit: 28500, balance: 2194844, reconciled: true },
-  { id: 4, date: '2026-06-28', description: 'Payment gateway fees', ref: 'PGF-20260628-001', debit: 4500, credit: 0, balance: 2166344, reconciled: false },
-];
+import { useFinanceStore } from '@/store/financeStore';
 
 export default function BanksPage() {
+  const { overview, transactionsData, loading, fetchOverview, fetchTransactionsData } = useFinanceStore();
+  const [bankAccounts, setBankAccounts] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchOverview();
+    fetchTransactionsData({});
+  }, [fetchOverview, fetchTransactionsData]);
+
+  useEffect(() => {
+    if (overview) {
+      setBankAccounts([
+        { id: 1, bank: 'HDFC Bank', holder: 'Kartezy Technologies', accountNo: 'XXXX-XXXX-4567', ifsc: 'HDFC0001234', type: 'CURRENT', balance: overview.walletBalance || 0, available: overview.walletBalance || 0, isPrimary: true, lastSync: new Date().toISOString() },
+      ]);
+    }
+  }, [overview]);
+
+  const recentTransactions = transactionsData?.slice(0, 5) || [];
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -32,7 +39,7 @@ export default function BanksPage() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {bankAccounts.map((b) => (
-          <Grid item xs={12} md={4} key={b.id}>
+          <Grid size={{ xs: 12, md: 4 }} key={b.id}>
             <Card sx={{ border: b.isPrimary ? '2px solid #1976d2' : 'none' }}>
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -61,35 +68,54 @@ export default function BanksPage() {
         ))}
       </Grid>
 
-      <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>Recent Transactions - HDFC Bank</Typography>
-      <TableContainer component={Paper}>
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ bgcolor: '#f8f9fa' }}>
-              <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Description</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Reference</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Debit</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Credit</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Balance</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Reconciled</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dummyTransactions.map((t) => (
-              <TableRow key={t.id} hover>
-                <TableCell>{t.date}</TableCell>
-                <TableCell>{t.description}</TableCell>
-                <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace' }}>{t.ref}</Typography></TableCell>
-                <TableCell sx={{ color: '#d32f2f', fontWeight: 600 }}>{t.debit > 0 ? `₹${t.debit.toLocaleString()}` : '-'}</TableCell>
-                <TableCell sx={{ color: '#388e3c', fontWeight: 600 }}>{t.credit > 0 ? `₹${t.credit.toLocaleString()}` : '-'}</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>₹{t.balance.toLocaleString()}</TableCell>
-                <TableCell><Chip label={t.reconciled ? 'Yes' : 'No'} size="small" color={t.reconciled ? 'success' : 'warning'} /></TableCell>
+      <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>Recent Transactions</Typography>
+      
+      {loading ? (
+        <Typography sx={{ textAlign: 'center', py: 4 }} color="text.secondary">Loading transactions...</Typography>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ bgcolor: '#f8f9fa' }}>
+                <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Description</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Reference</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Debit</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Credit</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Balance</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {recentTransactions.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    <Typography variant="body2" color="text.secondary" sx={{ py: 4 }}>
+                      No recent transactions found.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                recentTransactions.map((t: any) => {
+                  const amount = t.amount || 0;
+                  const isDebit = t.type === 'refund' || t.type === 'payout' || t.type === 'withdrawal';
+                  return (
+                    <TableRow key={t.id} hover>
+                      <TableCell>{t.createdAt?.split('T')[0] || t.date || '-'}</TableCell>
+                      <TableCell>{t.description || t.type || 'Transaction'}</TableCell>
+                      <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace' }}>{t.transactionId || t.id}</Typography></TableCell>
+                      <TableCell sx={{ color: '#d32f2f', fontWeight: 600 }}>{isDebit ? `₹${amount.toLocaleString()}` : '-'}</TableCell>
+                      <TableCell sx={{ color: '#388e3c', fontWeight: 600 }}>{!isDebit ? `₹${amount.toLocaleString()}` : '-'}</TableCell>
+                      <TableCell sx={{ fontWeight: 700 }}>₹{amount.toLocaleString()}</TableCell>
+                      <TableCell><Chip label={t.status || 'completed'} size="small" color={t.status === 'failed' ? 'error' : 'success'} /></TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 }

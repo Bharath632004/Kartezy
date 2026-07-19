@@ -1,28 +1,35 @@
 "use client";
 
-import { useState } from 'react';
-import {
-  Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
+import { useState, useEffect } from 'react';import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Chip, Button, TextField, IconButton, Grid, Card, CardContent,
   Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
 import { Search, FilterList, Add, Visibility, Send, Payment } from '@mui/icons-material';
-
-const mockInvoices = [
-  { id: 1, invNo: 'INV-20260701-001', merchant: 'FreshMart Grocery', vendor: 'Dairy Fresh Ltd', orderNo: 'ORD-45678', date: '2026-07-01', dueDate: '2026-07-31', subtotal: 45000, taxAmount: 8100, total: 53100, paid: 53100, balance: 0, status: 'PAID' },
-  { id: 2, invNo: 'INV-20260630-001', merchant: 'TechZone', vendor: 'Samsung India', orderNo: 'ORD-45612', date: '2026-06-30', dueDate: '2026-07-30', subtotal: 89000, taxAmount: 16020, total: 105020, paid: 50000, balance: 55020, status: 'PARTIALLY_PAID' },
-  { id: 3, invNo: 'INV-20260628-001', merchant: 'BookWorld', vendor: 'Penguin Books', orderNo: 'ORD-45589', date: '2026-06-28', dueDate: '2026-07-13', subtotal: 12400, taxAmount: 2232, total: 14632, paid: 0, balance: 14632, status: 'SENT' },
-  { id: 4, invNo: 'INV-20260625-001', merchant: 'Organic Foods', vendor: 'Green Valley Farms', orderNo: 'ORD-45500', date: '2026-06-25', dueDate: '2026-07-10', subtotal: 32000, taxAmount: 5760, total: 37760, paid: 0, balance: 37760, status: 'OVERDUE' },
-  { id: 5, invNo: 'INV-20260620-001', merchant: 'Daily Needs', vendor: 'ITC Limited', orderNo: 'ORD-45421', date: '2026-06-20', dueDate: '2026-07-05', subtotal: 28000, taxAmount: 5040, total: 33040, paid: 33040, balance: 0, status: 'PAID' },
-  { id: 6, invNo: 'INV-20260618-001', merchant: 'FreshMart Grocery', vendor: 'Mother Dairy', orderNo: 'ORD-45389', date: '2026-06-18', dueDate: '2026-07-03', subtotal: 15600, taxAmount: 2808, total: 18408, paid: 0, balance: 18408, status: 'DRAFT' },
-];
+import { useFinanceStore } from '@/store/financeStore';
 
 const statusColors: Record<string, string> = {
-  DRAFT: '#757575', SENT: '#1976d2', PARTIALLY_PAID: '#f57c00', PAID: '#388e3c', OVERDUE: '#d32f2f', CANCELLED: '#c62828', REFUNDED: '#7b1fa2', WRITTEN_OFF: '#4e342e',
+  DRAFT: '#757575', SENT: '#1976d2', PARTIALLY_PAID: '#f57c00', PAID: '#388e3c', 
+  OVERDUE: '#d32f2f', CANCELLED: '#c62828', REFUNDED: '#7b1fa2', WRITTEN_OFF: '#4e342e',
 };
 
 export default function InvoicesPage() {
+  const { transactionsData, loading, fetchTransactionsData } = useFinanceStore();
   const [openCreate, setOpenCreate] = useState(false);
+
+  useEffect(() => {
+    fetchTransactionsData({});
+  }, [fetchTransactionsData]);
+
+  const invoices = transactionsData?.length > 0 ? transactionsData.slice(0, 10) : [];
+
+  const totalOutstanding = invoices
+    .filter((inv: any) => inv.status !== 'PAID' && inv.status !== 'paid')
+    .reduce((sum: number, inv: any) => sum + (inv.total || inv.amount || 0), 0);
+  const overdueCount = invoices.filter((inv: any) => inv.status === 'OVERDUE' || inv.status === 'overdue').length;
+  const collectedMtd = invoices
+    .filter((inv: any) => inv.status === 'PAID' || inv.status === 'paid')
+    .reduce((sum: number, inv: any) => sum + (inv.paid || inv.amount || 0), 0);
+  const pendingDraft = invoices.filter((inv: any) => inv.status === 'DRAFT' || inv.status === 'draft').length;
 
   return (
     <Box sx={{ p: 3 }}>
@@ -36,12 +43,12 @@ export default function InvoicesPage() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {[
-          { label: 'Total Outstanding', value: '₹2,62,422', count: '14 invoices', color: '#f57c00' },
-          { label: 'Overdue', value: '₹37,760', count: '3 invoices', color: '#d32f2f' },
-          { label: 'Collected (MTD)', value: '₹1,84,532', count: '23 invoices', color: '#388e3c' },
-          { label: 'Pending Approval', value: '₹18,408', count: '2 invoices', color: '#1976d2' },
+          { label: 'Total Outstanding', value: `₹${totalOutstanding.toLocaleString()}`, count: `${invoices.length} invoices`, color: '#f57c00' },
+          { label: 'Overdue', value: `₹...`, count: `${overdueCount} invoices`, color: '#d32f2f' },
+          { label: 'Collected (MTD)', value: `₹${collectedMtd.toLocaleString()}`, count: `${invoices.filter((i: any) => i.status === 'PAID' || i.status === 'paid').length} invoices`, color: '#388e3c' },
+          { label: 'Pending Approval', value: `₹...`, count: `${pendingDraft} invoices`, color: '#1976d2' },
         ].map((stat) => (
-          <Grid item xs={3} key={stat.label}>
+          <Grid size={{ xs: 3 }} key={stat.label}>
             <Card sx={{ bgcolor: `${stat.color}08` }}>
               <CardContent sx={{ p: 2 }}>
                 <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
@@ -61,43 +68,77 @@ export default function InvoicesPage() {
         </Box>
       </Paper>
 
-      <TableContainer component={Paper}>
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ bgcolor: '#f8f9fa' }}>
-              <TableCell sx={{ fontWeight: 600 }}>Invoice #</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Merchant/Vendor</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Amount</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Paid</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Balance</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Due Date</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {mockInvoices.map((row) => (
-              <TableRow key={row.id} hover>
-                <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{row.invNo}</Typography></TableCell>
-                <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>{row.vendor}</Typography>
-                  <Typography variant="caption" color="text.secondary">{row.merchant}</Typography>
-                </TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>₹{row.total.toLocaleString()}</TableCell>
-                <TableCell>₹{row.paid.toLocaleString()}</TableCell>
-                <TableCell><Typography sx={{ color: row.balance > 0 ? '#f57c00' : '#388e3c', fontWeight: 600 }}>₹{row.balance.toLocaleString()}</Typography></TableCell>
-                <TableCell><Typography variant="body2">{row.dueDate}</Typography></TableCell>
-                <TableCell><Chip label={row.status.replace('_', ' ')} size="small" sx={{ bgcolor: `${statusColors[row.status]}20`, color: statusColors[row.status], fontWeight: 600 }} /></TableCell>
-                <TableCell>
-                  <IconButton size="small" color="primary"><Visibility fontSize="small" /></IconButton>
-                  {row.status === 'SENT' && <IconButton size="small" color="warning"><Payment fontSize="small" /></IconButton>}
-                  {row.status === 'DRAFT' && <IconButton size="small" color="info"><Send fontSize="small" /></IconButton>}
-                </TableCell>
+      {loading ? (
+        <Typography sx={{ textAlign: 'center', py: 4 }} color="text.secondary">Loading invoices...</Typography>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ bgcolor: '#f8f9fa' }}>
+                <TableCell sx={{ fontWeight: 600 }}>Invoice #</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Merchant/Vendor</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Amount</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Paid</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Balance</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Due Date</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {invoices.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} align="center">
+                    <Typography variant="body2" color="text.secondary" sx={{ py: 4 }}>
+                      No invoices found. Create one to get started.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                invoices.map((row: any) => {
+                  const totalAmt = row.total || row.amount || 0;
+                  const paidAmt = row.paid || 0;
+                  const balanceAmt = totalAmt - paidAmt;
+                  return (
+                    <TableRow key={row.id} hover>
+                      <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{row.invNo || row.transactionId || `INV-${String(row.id).padStart(6, '0')}`}</Typography></TableCell>
+                      <TableCell>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{row.vendor || row.merchantName || '-'}</Typography>
+                        <Typography variant="caption" color="text.secondary">{row.merchant || '-'}</Typography>
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>₹{totalAmt.toLocaleString()}</TableCell>
+                      <TableCell>₹{paidAmt.toLocaleString()}</TableCell>
+                      <TableCell><Typography sx={{ color: balanceAmt > 0 ? '#f57c00' : '#388e3c', fontWeight: 600 }}>₹{balanceAmt.toLocaleString()}</Typography></TableCell>
+                      <TableCell><Typography variant="body2">{row.dueDate || row.createdAt?.split('T')[0] || '-'}</Typography></TableCell>
+                      <TableCell><Chip label={(row.status || 'DRAFT').replace('_', ' ')} size="small" sx={{ bgcolor: `${statusColors[row.status || 'DRAFT']}20`, color: statusColors[row.status || 'DRAFT'], fontWeight: 600 }} /></TableCell>
+                      <TableCell>
+                        <IconButton size="small" color="primary"><Visibility fontSize="small" /></IconButton>
+                        {(row.status === 'SENT') && <IconButton size="small" color="warning"><Payment fontSize="small" /></IconButton>}
+                        {(row.status === 'DRAFT') && <IconButton size="small" color="info"><Send fontSize="small" /></IconButton>}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      <Dialog open={openCreate} onClose={() => setOpenCreate(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Create Invoice</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+            <TextField size="small" label="Merchant/Vendor" fullWidth />
+            <TextField size="small" label="Amount" type="number" fullWidth />
+            <TextField size="small" label="Due Date" type="date" InputLabelProps={{ shrink: true }} />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenCreate(false)}>Cancel</Button>
+          <Button variant="contained" onClick={() => setOpenCreate(false)}>Create</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

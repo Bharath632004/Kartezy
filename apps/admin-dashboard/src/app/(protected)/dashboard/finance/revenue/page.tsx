@@ -1,27 +1,36 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { Box, Typography, Paper, Grid, Card, CardContent } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { TrendingUp, TrendingDown } from '@mui/icons-material';
-
-const monthlyRevenue = [
-  { month: 'Jan', commission: 85000, platformFee: 25000, deliveryFee: 65000, total: 175000 },
-  { month: 'Feb', commission: 95000, platformFee: 28000, deliveryFee: 72000, total: 195000 },
-  { month: 'Mar', commission: 110000, platformFee: 32000, deliveryFee: 80000, total: 222000 },
-  { month: 'Apr', commission: 105000, platformFee: 30000, deliveryFee: 78000, total: 213000 },
-  { month: 'May', commission: 130000, platformFee: 38000, deliveryFee: 95000, total: 263000 },
-  { month: 'Jun', commission: 155000, platformFee: 42000, deliveryFee: 108000, total: 305000 },
-];
-
-const revenueBreakdown = [
-  { name: 'Commission', value: 680000, color: '#1976d2' },
-  { name: 'Platform Fees', value: 195000, color: '#388e3c' },
-  { name: 'Delivery Fees', value: 498000, color: '#f57c00' },
-  { name: 'Interest', value: 25000, color: '#7b1fa2' },
-  { name: 'Other', value: 15000, color: '#00838f' },
-];
+import { useFinanceStore } from '@/store/financeStore';
 
 export default function RevenuePage() {
+  const { revenueData, loading, fetchRevenueData } = useFinanceStore();
+
+  useEffect(() => {
+    fetchRevenueData({ dateRange: 'year' });
+  }, [fetchRevenueData]);
+
+  const monthlyRevenue = (revenueData || []).length > 0
+    ? revenueData
+    : [];
+
+  const totalRevenue = monthlyRevenue.reduce((sum: number, r: any) => sum + (r.total || r.revenue || 0), 0);
+  const commissionTotal = monthlyRevenue.reduce((sum: number, r: any) => sum + (r.commission || 0), 0);
+  const platformFeeTotal = monthlyRevenue.reduce((sum: number, r: any) => sum + (r.platformFee || r.platform_fee || 0), 0);
+  const deliveryFeeTotal = monthlyRevenue.reduce((sum: number, r: any) => sum + (r.deliveryFee || r.delivery_fee || 0), 0);
+
+  const revenueBreakdown = (commissionTotal || platformFeeTotal || deliveryFeeTotal)
+    ? [
+        { name: 'Commission', value: commissionTotal, color: '#1976d2' },
+        { name: 'Platform Fees', value: platformFeeTotal, color: '#388e3c' },
+        { name: 'Delivery Fees', value: deliveryFeeTotal, color: '#f57c00' },
+        { name: 'Other', value: 0, color: '#00838f' },
+      ]
+    : [];
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
@@ -31,10 +40,10 @@ export default function RevenuePage() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {[
-          { label: 'Total Revenue (YTD)', value: '₹14,13,000', trend: 18.5, color: '#1976d2' },
-          { label: 'Commission Revenue', value: '₹6,80,000', trend: 22.3, color: '#388e3c' },
-          { label: 'Platform Fees', value: '₹1,95,000', trend: 12.8, color: '#f57c00' },
-          { label: 'Delivery Fees', value: '₹4,98,000', trend: 15.2, color: '#7b1fa2' },
+          { label: 'Total Revenue (YTD)', value: `₹${totalRevenue.toLocaleString()}`, trend: 18.5, color: '#1976d2' },
+          { label: 'Commission Revenue', value: `₹${commissionTotal.toLocaleString()}`, trend: 22.3, color: '#388e3c' },
+          { label: 'Platform Fees', value: `₹${platformFeeTotal.toLocaleString()}`, trend: 12.8, color: '#f57c00' },
+          { label: 'Delivery Fees', value: `₹${deliveryFeeTotal.toLocaleString()}`, trend: 15.2, color: '#7b1fa2' },
         ].map((stat) => (
           <Grid item xs={3} key={stat.label}>
             <Card>
@@ -53,37 +62,41 @@ export default function RevenuePage() {
         ))}
       </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Revenue Trends</Typography>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={monthlyRevenue}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis tickFormatter={(v) => `₹${(v/1000).toFixed(0)}K`} />
-                <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
-                <Bar dataKey="commission" fill="#1976d2" name="Commission" stackId="a" />
-                <Bar dataKey="platformFee" fill="#388e3c" name="Platform Fees" stackId="a" />
-                <Bar dataKey="deliveryFee" fill="#f57c00" name="Delivery Fees" stackId="a" />
-              </BarChart>
-            </ResponsiveContainer>
-          </Paper>
+      {loading ? (
+        <Typography sx={{ textAlign: 'center', py: 4 }} color="text.secondary">Loading revenue data...</Typography>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            <Paper sx={{ p: 2 }}>
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Revenue Trends</Typography>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart data={monthlyRevenue.length > 0 ? monthlyRevenue : [{ month: 'N/A', commission: 0, platformFee: 0, deliveryFee: 0, total: 0 }]}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis tickFormatter={(v) => `₹${(v/1000).toFixed(0)}K`} />
+                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
+                  <Bar dataKey="commission" fill="#1976d2" name="Commission" stackId="a" />
+                  <Bar dataKey="platformFee" fill="#388e3c" name="Platform Fees" stackId="a" />
+                  <Bar dataKey="deliveryFee" fill="#f57c00" name="Delivery Fees" stackId="a" />
+                </BarChart>
+              </ResponsiveContainer>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ p: 2, height: '100%' }}>
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Revenue Breakdown</Typography>
+              <ResponsiveContainer width="100%" height={280}>
+                <PieChart>
+                  <Pie data={revenueBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }: any) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                    {revenueBreakdown.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
+                  </Pie>
+                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
+                </PieChart>
+              </ResponsiveContainer>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, height: '100%' }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Revenue Breakdown</Typography>
-            <ResponsiveContainer width="100%" height={280}>
-              <PieChart>
-                <Pie data={revenueBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                  {revenueBreakdown.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
-                </Pie>
-                <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
-              </PieChart>
-            </ResponsiveContainer>
-          </Paper>
-        </Grid>
-      </Grid>
+      )}
     </Box>
   );
 }

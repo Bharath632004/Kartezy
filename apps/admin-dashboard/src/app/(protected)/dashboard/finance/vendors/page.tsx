@@ -1,19 +1,28 @@
 "use client";
 
-import { useState } from 'react';
-import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, TextField, IconButton, Grid, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { Search, Add, Edit, Visibility, Delete } from '@mui/icons-material';
-
-const mockVendors = [
-  { id: 1, code: 'VND-20260601-001', name: 'Dairy Fresh Ltd', contact: 'Rajesh Kumar', email: 'rajesh@dairyfresh.com', phone: '+91-9876543210', gstin: '27AABCU1234D1Z1', city: 'Mumbai', outstanding: 45000, status: 'ACTIVE', creditDays: 30 },
-  { id: 2, code: 'VND-20260605-002', name: 'Samsung India', contact: 'Priya Sharma', email: 'priya@samsung.com', phone: '+91-9876543211', gstin: '07AABCU5678E1Z1', city: 'Delhi', outstanding: 105020, status: 'ACTIVE', creditDays: 45 },
-  { id: 3, code: 'VND-20260610-003', name: 'Green Valley Farms', contact: 'Amit Singh', email: 'amit@greenvalley.com', phone: '+91-9876543212', gstin: '29AABCU9012F1Z1', city: 'Pune', outstanding: 37760, status: 'ACTIVE', creditDays: 30 },
-  { id: 4, code: 'VND-20260615-004', name: 'ITC Limited', contact: 'Suresh Patel', email: 'suresh@itc.in', phone: '+91-9876543213', gstin: '24AABCU3456G1Z1', city: 'Kolkata', outstanding: 0, status: 'INACTIVE', creditDays: 60 },
-  { id: 5, code: 'VND-20260620-005', name: 'Mother Dairy', contact: 'Neha Kapoor', email: 'neha@motherdairy.com', phone: '+91-9876543214', gstin: '27AABCU7890H1Z1', city: 'Mumbai', outstanding: 53100, status: 'ACTIVE', creditDays: 30 },
-];
+import { useState, useEffect } from 'react';
+import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, TextField, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Search, Add, Edit, Visibility } from '@mui/icons-material';
+import { useFinanceStore } from '@/store/financeStore';
 
 export default function VendorsPage() {
+  const { payoutsData, loading, fetchPayoutsData } = useFinanceStore();
   const [openCreate, setOpenCreate] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    fetchPayoutsData({});
+  }, [fetchPayoutsData]);
+
+  const displayedVendors = payoutsData?.length > 0
+    ? payoutsData
+        .filter((v: any) => 
+          !searchTerm || 
+          (v.name && v.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (v.code && v.code.includes(searchTerm))
+        )
+        .slice(0, 10)
+    : [];
 
   return (
     <Box sx={{ p: 3 }}>
@@ -27,48 +36,97 @@ export default function VendorsPage() {
 
       <Paper sx={{ p: 2, mb: 2 }}>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField size="small" placeholder="Search by name, code, or GSTIN..." sx={{ flex: 1 }} InputProps={{ startAdornment: <Search sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} /> }} />
+          <TextField 
+            size="small" 
+            placeholder="Search by name, code, or GSTIN..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{ flex: 1 }} 
+            InputProps={{ startAdornment: <Search sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} /> }} 
+          />
         </Box>
       </Paper>
 
-      <TableContainer component={Paper}>
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ bgcolor: '#f8f9fa' }}>
-              <TableCell sx={{ fontWeight: 600 }}>Vendor Code</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Contact</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>GSTIN</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>City</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Outstanding</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Credit</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {mockVendors.map((v) => (
-              <TableRow key={v.id} hover>
-                <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{v.code}</Typography></TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>{v.name}</TableCell>
-                <TableCell>
-                  <Typography variant="body2">{v.contact}</Typography>
-                  <Typography variant="caption" color="text.secondary">{v.email}</Typography>
-                </TableCell>
-                <TableCell><Chip label={v.gstin} size="small" variant="outlined" /></TableCell>
-                <TableCell>{v.city}</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: v.outstanding > 0 ? '#f57c00' : '#388e3c' }}>₹{v.outstanding.toLocaleString()}</TableCell>
-                <TableCell>{v.creditDays} days</TableCell>
-                <TableCell><Chip label={v.status} size="small" color={v.status === 'ACTIVE' ? 'success' : 'default'} /></TableCell>
-                <TableCell>
-                  <IconButton size="small" color="primary"><Visibility fontSize="small" /></IconButton>
-                  <IconButton size="small" color="info"><Edit fontSize="small" /></IconButton>
-                </TableCell>
+      {loading ? (
+        <Typography sx={{ textAlign: 'center', py: 4 }} color="text.secondary">Loading vendors...</Typography>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ bgcolor: '#f8f9fa' }}>
+                <TableCell sx={{ fontWeight: 600 }}>Vendor Code</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Name</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Contact</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>GSTIN</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>City</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Outstanding</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Credit</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {displayedVendors.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9} align="center">
+                    <Typography variant="body2" color="text.secondary" sx={{ py: 4 }}>
+                      No vendors found. Add a vendor to get started.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                displayedVendors.map((v: any) => (
+                  <TableRow key={v.id} hover>
+                    <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{v.code || v.payoutId || `VND-${String(v.id).padStart(6, '0')}`}</Typography></TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>{v.name || v.merchantName || 'Vendor'}</TableCell>
+                    <TableCell>
+                      <Typography variant="body2">{v.contact || '-'}</Typography>
+                      <Typography variant="caption" color="text.secondary">{v.email || '-'}</Typography>
+                    </TableCell>
+                    <TableCell><Chip label={v.gstin || 'N/A'} size="small" variant="outlined" /></TableCell>
+                    <TableCell>{v.city || '-'}</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: (v.amount || v.outstanding || 0) > 0 ? '#f57c00' : '#388e3c' }}>
+                      ₹{((v.amount || v.outstanding || 0)).toLocaleString()}
+                    </TableCell>
+                    <TableCell>{v.creditDays || 30} days</TableCell>
+                    <TableCell><Chip label={v.status || 'ACTIVE'} size="small" color={(v.status || 'ACTIVE') === 'ACTIVE' ? 'success' : 'default'} /></TableCell>
+                    <TableCell>
+                      <IconButton size="small" color="primary"><Visibility fontSize="small" /></IconButton>
+                      <IconButton size="small" color="info"><Edit fontSize="small" /></IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      <Dialog open={openCreate} onClose={() => setOpenCreate(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add New Vendor</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+            <TextField size="small" label="Vendor Name" fullWidth />
+            <TextField size="small" label="Contact Person" fullWidth />
+            <TextField size="small" label="Email" fullWidth />
+            <TextField size="small" label="Phone" fullWidth />
+            <TextField size="small" label="GSTIN" fullWidth />
+            <FormControl fullWidth size="small">
+              <InputLabel>Credit Terms</InputLabel>
+              <Select label="Credit Terms">
+                <MenuItem value={15}>15 Days</MenuItem>
+                <MenuItem value={30}>30 Days</MenuItem>
+                <MenuItem value={45}>45 Days</MenuItem>
+                <MenuItem value={60}>60 Days</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenCreate(false)}>Cancel</Button>
+          <Button variant="contained" onClick={() => setOpenCreate(false)}>Save Vendor</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

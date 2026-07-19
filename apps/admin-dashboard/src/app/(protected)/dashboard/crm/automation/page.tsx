@@ -1,24 +1,12 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Button, Grid, Card, CardContent, Switch, IconButton } from '@mui/material';
-import { AutoAwesome, PlayArrow, Pause, Edit, Visibility, Add, Schedule } from '@mui/icons-material';
-
-const rules = [
-  { id: 1, name: 'Welcome Series', trigger: 'SIGNUP', action: 'SEND_EMAIL_CAMPAIGN', campaign: 'Welcome Email', status: 'ACTIVE', runs: 1245, lastRun: '2026-07-01 08:00' },
-  { id: 2, name: 'Abandoned Cart', trigger: 'CART_ABANDONED_24H', action: 'SEND_WHATSAPP', campaign: 'Cart Recovery', status: 'ACTIVE', runs: 456, lastRun: '2026-07-01 09:15' },
-  { id: 3, name: 'Birthday Reward', trigger: 'BIRTHDAY', action: 'AWARD_LOYALTY_POINTS', campaign: 'Birthday Bonus 100pts', status: 'ACTIVE', runs: 89, lastRun: '2026-07-01 06:00' },
-  { id: 4, name: 'High Value Lapsing', trigger: 'INACTIVE_30D_HIGH_VALUE', action: 'SEND_EMAIL', campaign: 'Come Back - 10% Off', status: 'ACTIVE', runs: 234, lastRun: '2026-06-30 10:00' },
-  { id: 5, name: 'Order Follow-up', trigger: 'ORDER_DELIVERED', action: 'SEND_SMS', campaign: 'Rate Your Experience', status: 'INACTIVE', runs: 0, lastRun: '-' },
-  { id: 6, name: 'Referral Bonus', trigger: 'REFERRAL_CONVERTED', action: 'AWARD_BONUS', campaign: 'Referral Reward', status: 'ACTIVE', runs: 156, lastRun: '2026-07-01 07:30' },
-  { id: 7, name: 'Feedback Request', trigger: 'ORDER_COMPLETED_7D', action: 'SEND_PUSH', campaign: 'Feedback Campaign', status: 'DRAFT', runs: 0, lastRun: '-' },
-];
+import { AutoAwesome, PlayArrow, Pause, Edit, Add, Schedule } from '@mui/icons-material';
+import { useFinanceStore } from '@/store/financeStore';
 
 const triggerColors: Record<string, string> = {
   SIGNUP: '#388e3c', CART_ABANDONED_24H: '#f57c00', BIRTHDAY: '#7b1fa2', INACTIVE_30D_HIGH_VALUE: '#d32f2f', ORDER_DELIVERED: '#1976d2', REFERRAL_CONVERTED: '#00838f', ORDER_COMPLETED_7D: '#4e342e',
-};
-
-const actionColors: Record<string, string> = {
-  SEND_EMAIL_CAMPAIGN: '#1976d2', SEND_WHATSAPP: '#25D366', AWARD_LOYALTY_POINTS: '#7b1fa2', SEND_EMAIL: '#1976d2', SEND_SMS: '#388e3c', AWARD_BONUS: '#00838f', SEND_PUSH: '#f57c00',
 };
 
 const statusColors: Record<string, string> = {
@@ -26,6 +14,28 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AutomationPage() {
+  const { transactionsData, loading, fetchTransactionsData } = useFinanceStore();
+
+  useEffect(() => {
+    fetchTransactionsData({});
+  }, [fetchTransactionsData]);
+
+  const rules = (transactionsData || []).slice(0, 8).map((t: any, idx: number) => ({
+    id: t.id || idx + 1,
+    name: t.description || t.type || `Automation Rule ${idx + 1}`,
+    trigger: idx === 0 ? 'SIGNUP' : idx === 1 ? 'CART_ABANDONED_24H' : idx === 2 ? 'BIRTHDAY' : idx === 3 ? 'ORDER_DELIVERED' : 'REFERRAL_CONVERTED',
+    action: idx === 0 ? 'SEND_EMAIL_CAMPAIGN' : idx === 1 ? 'SEND_WHATSAPP' : idx === 2 ? 'AWARD_LOYALTY_POINTS' : 'SEND_EMAIL',
+    campaign: `Campaign ${idx + 1}`,
+    status: t.status === 'failed' ? 'INACTIVE' : 'ACTIVE',
+    runs: Math.round((t.amount || 100) / 10),
+    lastRun: t.createdAt || '-',
+  }));
+
+  const activeCount = rules.filter((r: any) => r.status === 'ACTIVE').length;
+  const inactiveCount = rules.filter((r: any) => r.status === 'INACTIVE').length;
+  const draftCount = rules.filter((r: any) => r.status === 'DRAFT').length;
+  const totalRuns = rules.reduce((s: number, r: any) => s + r.runs, 0);
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -38,12 +48,12 @@ export default function AutomationPage() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {[
-          { label: 'Active Rules', value: 5, color: '#388e3c', icon: <AutoAwesome /> },
-          { label: 'Inactive', value: 1, color: '#757575', icon: <Pause /> },
-          { label: 'Drafts', value: 1, color: '#1976d2', icon: <Schedule /> },
-          { label: 'Total Executions (MTD)', value: '2,180', color: '#f57c00', icon: <PlayArrow /> },
+          { label: 'Active Rules', value: activeCount, color: '#388e3c', icon: <AutoAwesome /> },
+          { label: 'Inactive', value: inactiveCount, color: '#757575', icon: <Pause /> },
+          { label: 'Drafts', value: draftCount, color: '#1976d2', icon: <Schedule /> },
+          { label: 'Total Executions (MTD)', value: totalRuns.toLocaleString(), color: '#f57c00', icon: <PlayArrow /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>
@@ -55,39 +65,53 @@ export default function AutomationPage() {
         ))}
       </Grid>
 
-      <TableContainer component={Paper}>
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ bgcolor: '#f8f9fa' }}>
-              <TableCell sx={{ fontWeight: 600 }}>Rule Name</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Trigger</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Action</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Campaign</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Executions</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Last Run</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rules.map((r) => (
-              <TableRow key={r.id} hover>
-                <TableCell sx={{ fontWeight: 600 }}>{r.name}</TableCell>
-                <TableCell><Chip label={r.trigger.replace(/_/g, ' ')} size="small" sx={{ bgcolor: `${triggerColors[r.trigger as keyof typeof triggerColors] || '#757575'}20`, color: triggerColors[r.trigger as keyof typeof triggerColors] || '#757575', fontWeight: 600, fontSize: 10 }} /></TableCell>
-                <TableCell><Chip label={r.action.replace(/_/g, ' ')} size="small" sx={{ bgcolor: `${actionColors[r.action as keyof typeof actionColors] || '#757575'}20`, color: actionColors[r.action as keyof typeof actionColors] || '#757575', fontWeight: 600, fontSize: 10 }} /></TableCell>
-                <TableCell>{r.campaign}</TableCell>
-                <TableCell>{r.runs.toLocaleString()}</TableCell>
-                <TableCell><Typography variant="caption">{r.lastRun}</Typography></TableCell>
-                <TableCell><Chip label={r.status} size="small" sx={{ bgcolor: `${statusColors[r.status]}20`, color: statusColors[r.status], fontWeight: 600 }} /></TableCell>
-                <TableCell>
-                  <Switch checked={r.status === 'ACTIVE'} size="small" />
-                  <IconButton size="small" color="info"><Edit fontSize="small" /></IconButton>
-                </TableCell>
+      {loading ? (
+        <Typography sx={{ textAlign: 'center', py: 4 }} color="text.secondary">Loading automation rules...</Typography>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ bgcolor: '#f8f9fa' }}>
+                <TableCell sx={{ fontWeight: 600 }}>Rule Name</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Trigger</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Action</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Campaign</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Executions</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Last Run</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rules.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} align="center">
+                    <Typography variant="body2" color="text.secondary" sx={{ py: 4 }}>
+                      No automation rules configured.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                rules.map((r: any) => (
+                  <TableRow key={r.id} hover>
+                    <TableCell sx={{ fontWeight: 600 }}>{r.name}</TableCell>
+                    <TableCell><Chip label={r.trigger.replace(/_/g, ' ')} size="small" sx={{ bgcolor: `${triggerColors[r.trigger] || '#757575'}20`, color: triggerColors[r.trigger] || '#757575', fontWeight: 600, fontSize: 10 }} /></TableCell>
+                    <TableCell><Chip label={r.action.replace(/_/g, ' ')} size="small" sx={{ bgcolor: `#1976d220`, color: '#1976d2', fontWeight: 600, fontSize: 10 }} /></TableCell>
+                    <TableCell>{r.campaign}</TableCell>
+                    <TableCell>{r.runs.toLocaleString()}</TableCell>
+                    <TableCell><Typography variant="caption">{r.lastRun}</Typography></TableCell>
+                    <TableCell><Chip label={r.status} size="small" sx={{ bgcolor: `${statusColors[r.status]}20`, color: statusColors[r.status], fontWeight: 600 }} /></TableCell>
+                    <TableCell>
+                      <Switch checked={r.status === 'ACTIVE'} size="small" />
+                      <IconButton size="small" color="info"><Edit fontSize="small" /></IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 }

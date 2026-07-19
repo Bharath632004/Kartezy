@@ -199,21 +199,16 @@ export class DataSyncService {
       domain,
       data: {
         timestamp: new Date().toISOString(),
-        metrics: this.generateMockMetrics(domain),
-        summary: `Synced ${domain} data`,
+        metrics: {
+          value: 0,
+          previousValue: 0,
+          timestamp: Date.now(),
+        },
+        summary: `Pending sync: ${domain} data awaiting upstream calculation`,
       },
       checksum: generateBIId(),
       timestamp: new Date().toISOString(),
       version: 1,
-    };
-  }
-
-  private generateMockMetrics(domain: string): Record<string, number> {
-    const base = Date.now();
-    return {
-      value: Math.round((1000 + Math.random() * 9000) * 100) / 100,
-      previousValue: Math.round((1000 + Math.random() * 9000) * 100) / 100,
-      timestamp: base,
     };
   }
 }

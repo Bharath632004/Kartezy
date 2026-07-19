@@ -36,7 +36,7 @@ export default function BehaviorPage() {
           { label: 'Conversion Rate', value: '3.2%', color: '#7b1fa2', icon: <TrendingUp /> },
           { label: 'Avg Session (sec)', value: '185', color: '#f57c00', icon: <Language /> },
         ].map((s) => (
-          <Grid item xs={3} key={s.label}>
+          <Grid size={{ xs: 3 }} key={s.label}>
             <Card><CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box sx={{ color: s.color }}>{s.icon}</Box>
               <Box>

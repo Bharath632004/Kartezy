@@ -34,8 +34,11 @@ class ProductCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Text(
-                  '\$${product.price.toStringAsFixed(2)}',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  '₹${product.price.toStringAsFixed(2)}',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
