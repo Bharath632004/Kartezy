@@ -37,7 +37,6 @@ import org.springframework.core.Ordered;
         "com.kartezy.shared.enterprise.franchise",
         "com.kartezy.shared.enterprise.marketplace",
         "com.kartezy.shared.enterprise.warehouse",
-        "com.kartezy.shared.enterprise.vendor",
         "com.kartezy.shared.enterprise.whitelabel"
 })
 public class EnterpriseAutoConfiguration {

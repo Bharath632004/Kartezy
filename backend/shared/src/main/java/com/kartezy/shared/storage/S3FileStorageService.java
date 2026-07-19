@@ -55,7 +55,11 @@ public class S3FileStorageService implements FileStorageService {
 
     @Override
     public String upload(String bucket, String key, InputStream inputStream, String contentType, long size) {
-        return upload(bucket, key, (MultipartFile) null);
+        String targetBucket = bucket != null ? bucket : defaultBucket;
+        String objectKey = key != null ? key : UUID.randomUUID().toString();
+        String url = "https://" + targetBucket + ".s3." + region + ".amazonaws.com/" + objectKey;
+        log.info("S3 upload simulated: {} -> {} (inputStream, {} bytes)", objectKey, url, size);
+        return url;
     }
 
     @Override

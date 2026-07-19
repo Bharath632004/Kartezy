@@ -13,26 +13,26 @@ public class TenantProvisioningService {
 
     public Tenant provisionTenant(ProvisioningRequest request) {
         log.info("Starting tenant provisioning for: {} ({})",
-                request.getName(), request.getTenantId());
+                request.name(), request.tenantId());
 
         // 1. Validate request
         validateRequest(request);
 
         // 2. Create tenant record
         Tenant tenant = Tenant.builder()
-                .tenantId(request.getTenantId())
-                .name(request.getName())
-                .domain(request.getDomain())
+                .tenantId(request.tenantId())
+                .name(request.name())
+                .domain(request.domain())
                 .status(Tenant.TenantStatus.PENDING)
-                .tier(request.getTier() != null ? request.getTier() : Tenant.TenantTier.STARTER)
-                .countryCode(request.getCountryCode())
-                .defaultLanguage(request.getDefaultLanguage())
-                .defaultCurrency(request.getDefaultCurrency())
-                .timezone(request.getTimezone())
-                .contactEmail(request.getContactEmail())
-                .maxUsers(getDefaultMaxUsers(request.getTier()))
-                .whiteLabelEnabled(request.getTier() == Tenant.TenantTier.ENTERPRISE
-                        || request.getTier() == Tenant.TenantTier.ULTIMATE)
+                .tier(request.tier() != null ? request.tier() : Tenant.TenantTier.STARTER)
+                .countryCode(request.countryCode())
+                .defaultLanguage(request.defaultLanguage())
+                .defaultCurrency(request.defaultCurrency())
+                .timezone(request.timezone())
+                .contactEmail(request.contactEmail())
+                .maxUsers(getDefaultMaxUsers(request.tier()))
+                .whiteLabelEnabled(request.tier() == Tenant.TenantTier.ENTERPRISE
+                        || request.tier() == Tenant.TenantTier.ULTIMATE)
                 .build();
 
         log.info("Tenant provisioned successfully: {}", tenant.getTenantId());
@@ -45,13 +45,13 @@ public class TenantProvisioningService {
     }
 
     private void validateRequest(ProvisioningRequest request) {
-        if (request.getTenantId() == null || request.getTenantId().isBlank()) {
+        if (request.tenantId() == null || request.tenantId().isBlank()) {
             throw new IllegalArgumentException("Tenant ID is required");
         }
-        if (request.getName() == null || request.getName().isBlank()) {
+        if (request.name() == null || request.name().isBlank()) {
             throw new IllegalArgumentException("Tenant name is required");
         }
-        if (!TenantResolver.isValidTenantId(request.getTenantId())) {
+        if (!TenantResolver.isValidTenantId(request.tenantId())) {
             throw new IllegalArgumentException("Invalid tenant ID format");
         }
     }

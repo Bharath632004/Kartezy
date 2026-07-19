@@ -2,6 +2,7 @@ package com.kartezy.shared.enterprise.geography;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
@@ -12,6 +13,8 @@ import java.time.ZonedDateTime;
 @MappedSuperclass
 @Getter @Setter @ToString @EqualsAndHashCode
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class GeoEntity implements Serializable {
 
     @Id

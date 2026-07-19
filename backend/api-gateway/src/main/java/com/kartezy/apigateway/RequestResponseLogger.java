@@ -7,7 +7,6 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
@@ -29,24 +28,26 @@ public class RequestResponseLogger extends AbstractGatewayFilterFactory<RequestR
             ServerHttpRequest request = exchange.getRequest();
 
             // Log request
-            if (config.isLogRequest()
             if (config.isLogRequest()) {
-                logRequest(request);
+                logRequest(request, config);
             }
 
             // Process the request and capture the response
-            return chain.filter(exchange).doOnSuccessOrError((response, error) -> {
-                ServerHttpResponse servletResponse = exchange.getResponse();
-
-                // Log response if configured
-                if (config.isLogResponse()) {
-                    logResponse(servletResponse, error);
-                }
-            });
+            return chain.filter(exchange)
+                .doOnSuccess(v -> {
+                    if (config.isLogResponse()) {
+                        logResponse(exchange.getResponse(), null, config);
+                    }
+                })
+                .doOnError(error -> {
+                    if (config.isLogResponse()) {
+                        logResponse(exchange.getResponse(), error, config);
+                    }
+                });
         };
     }
 
-    private void logRequest(ServerHttpRequest request) {
+    private void logRequest(ServerHttpRequest request, Config config) {
         StringBuilder sb = new StringBuilder();
         sb.append("Incoming Request: ")
           .append("[")
@@ -57,7 +58,6 @@ public class RequestResponseLogger extends AbstractGatewayFilterFactory<RequestR
         if (config.isLogHeaders()) {
             sb.append(" Headers: [");
             request.getHeaders().entrySet().forEach(entry -> {
-                // Skip sensitive headers
                 if (!isSensitiveHeader(entry.getKey())) {
                     sb.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
                 }
@@ -76,7 +76,7 @@ public class RequestResponseLogger extends AbstractGatewayFilterFactory<RequestR
         logger.info(sb.toString());
     }
 
-    private void logResponse(ServerHttpResponse response, Throwable error) {
+    private void logResponse(ServerHttpResponse response, Throwable error, Config config) {
         StringBuilder sb = new StringBuilder();
         sb.append("Outgoing Response: ")
           .append("[")
@@ -90,7 +90,6 @@ public class RequestResponseLogger extends AbstractGatewayFilterFactory<RequestR
         if (config.isLogHeaders()) {
             sb.append(" Headers: [");
             response.getHeaders().entrySet().forEach(entry -> {
-                // Skip sensitive headers
                 if (!isSensitiveHeader(entry.getKey())) {
                     sb.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
                 }
@@ -110,45 +109,19 @@ public class RequestResponseLogger extends AbstractGatewayFilterFactory<RequestR
         };
     }
 
-    /**
-     * Configuration class for the RequestResponseLogger.
-     */
     public static class Config {
         private boolean logRequest = true;
         private boolean logResponse = true;
         private boolean logHeaders = true;
         private boolean logQueryParams = true;
 
-        public boolean isLogRequest() {
-            return logRequest;
-        }
-
-        public void setLogRequest(boolean logRequest) {
-            this.logRequest = logRequest;
-        }
-
-        public boolean isLogResponse() {
-            return logResponse;
-        }
-
-        public void setLogResponse(boolean logResponse) {
-            this.logResponse = logResponse;
-        }
-
-        public boolean isLogHeaders() {
-            return logHeaders;
-        }
-
-        public void setLogHeaders(boolean logHeaders) {
-            this.logHeaders = logHeaders;
-        }
-
-        public boolean isLogQueryParams() {
-            return logQueryParams;
-        }
-
-        public void setLogQueryParams(boolean logQueryParams) {
-            this.logQueryParams = logQueryParams;
-        }
+        public boolean isLogRequest() { return logRequest; }
+        public void setLogRequest(boolean logRequest) { this.logRequest = logRequest; }
+        public boolean isLogResponse() { return logResponse; }
+        public void setLogResponse(boolean logResponse) { this.logResponse = logResponse; }
+        public boolean isLogHeaders() { return logHeaders; }
+        public void setLogHeaders(boolean logHeaders) { this.logHeaders = logHeaders; }
+        public boolean isLogQueryParams() { return logQueryParams; }
+        public void setLogQueryParams(boolean logQueryParams) { this.logQueryParams = logQueryParams; }
     }
 }

@@ -41,9 +41,29 @@ public interface EnhancedAuditEventRepository extends JpaRepository<EnhancedAudi
     List<EnhancedAuditEvent> findByOutcome(String outcome);
 
     /**
-     * Find events within a time range.
+     * Find events within a time range ordered by timestamp ascending.
      */
-    List<EnhancedAuditEvent> findByEventTimestampBetween(Instant startTime, Instant endTime);
+    List<EnhancedAuditEvent> findByEventTimestampBetweenOrderByEventTimestampAsc(Instant startTime, Instant endTime);
+
+    /**
+     * Find events after a timestamp ordered by timestamp ascending.
+     */
+    List<EnhancedAuditEvent> findByEventTimestampAfterOrderByEventTimestampAsc(Instant startTime);
+
+    /**
+     * Find events before a timestamp ordered by timestamp ascending.
+     */
+    List<EnhancedAuditEvent> findByEventTimestampBeforeOrderByEventTimestampAsc(Instant endTime);
+
+    /**
+     * Find all events ordered by timestamp ascending.
+     */
+    List<EnhancedAuditEvent> findAllByOrderByEventTimestampAsc();
+
+    /**
+     * Find the most recent non-redacted event.
+     */
+    java.util.Optional<EnhancedAuditEvent> findTopByRedactedFalseOrderByEventTimestampDesc();
 
     /**
      * Find events by event type within a time range.

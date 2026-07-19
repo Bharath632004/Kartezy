@@ -56,7 +56,7 @@ public class ExchangeRateService {
         String directKey = fromCurrency + "_" + toCurrency;
         ExchangeRate directRate = rates.get(directKey);
         if (directRate != null) {
-            return directRate.getRate();
+            return directRate.rate();
         }
 
         // Convert via base currency
@@ -68,7 +68,7 @@ public class ExchangeRateService {
 
         if (fromRate != null && toRate != null) {
             // Cross-rate calculation
-            BigDecimal crossRate = toRate.getRate().divide(fromRate.getRate(), 6, RoundingMode.HALF_UP);
+            BigDecimal crossRate = toRate.rate().divide(fromRate.rate(), 6, RoundingMode.HALF_UP);
             return crossRate;
         }
 

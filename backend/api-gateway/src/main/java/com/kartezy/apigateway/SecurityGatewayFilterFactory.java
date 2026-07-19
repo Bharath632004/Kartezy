@@ -7,7 +7,7 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.server.ServerWebExchange;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -62,7 +62,7 @@ public class SecurityGatewayFilterFactory extends AbstractGatewayFilterFactory<S
             }
 
             // Validate the request for security threats
-            if (isRequestMalicious(exchange.getRequest())) {
+            if (isRequestMalicious(exchange.getRequest(), config)) {
                 exchange.getResponse().setStatusCode(HttpStatus.BAD_REQUEST);
                 return exchange.getResponse().setComplete();
             }
@@ -77,7 +77,7 @@ public class SecurityGatewayFilterFactory extends AbstractGatewayFilterFactory<S
      * @param request the server request to check
      * @return true if malicious content is detected, false otherwise
      */
-    private boolean isRequestMalicious(org.springframework.http.server.reactive.ServerHttpRequest request) {
+    private boolean isRequestMalicious(org.springframework.http.server.reactive.ServerHttpRequest request, Config config) {
         // Check query parameters
         if (hasMaliciousParams(request.getQueryParams())) {
             return true;
@@ -94,7 +94,7 @@ public class SecurityGatewayFilterFactory extends AbstractGatewayFilterFactory<S
         }
 
         // Check for suspicious user agent (bot protection)
-        if (config.isEnableBotProtection() && isSuspiciousUserAgent(request.getHeaders())) {
+        if (config.isEnableBotProtection() && isSuspiciousUserAgent(request.getHeaders(), config)) {
             return true;
         }
 
@@ -107,13 +107,13 @@ public class SecurityGatewayFilterFactory extends AbstractGatewayFilterFactory<S
      * @param queryParams the query parameters to check
      * @return true if malicious parameters are found, false otherwise
      */
-    private boolean hasMaliciousParams(org.springframework.http.server.reactive.ServerHttpRequest.QueryParams queryParams) {
-        if (queryParams == null) {
+    private boolean hasMaliciousParams(org.springframework.util.MultiValueMap<String, String> queryParams) {
+        if (queryParams == null || queryParams.isEmpty()) {
             return false;
         }
 
-        for (String key : queryParams.keySet()) {
-            List<String> values = queryParams.get(key);
+        for (java.util.Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+            List<String> values = entry.getValue();
             if (values != null) {
                 for (String value : values) {
                     if (isMaliciousValue(value)) {
@@ -203,9 +203,10 @@ public class SecurityGatewayFilterFactory extends AbstractGatewayFilterFactory<S
      * Checks if the user agent indicates a bot or suspicious client.
      *
      * @param headers the request headers
+     * @param config the filter configuration
      * @return true if user agent is suspicious, false otherwise
      */
-    private boolean isSuspiciousUserAgent(org.springframework.http.HttpHeaders headers) {
+    private boolean isSuspiciousUserAgent(org.springframework.http.HttpHeaders headers, Config config) {
         String userAgent = headers.getFirst(HttpHeaders.USER_AGENT);
 
         // If no user agent, likely a bot or script

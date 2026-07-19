@@ -1,5 +1,7 @@
 package com.kartezy.shared.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -9,6 +11,7 @@ import java.util.Base64;
  * Security utility class for common security operations including JWT token handling.
  */
 public final class SecurityUtils {
+    private static final Logger log = LoggerFactory.getLogger(SecurityUtils.class);
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private SecurityUtils() {
@@ -81,7 +84,7 @@ public final class SecurityUtils {
             }
         } catch (Exception e) {
             // Log and return null on any parsing error
-            System.err.println("Failed to extract user ID from token: " + e.getMessage());
+            log.warn("Failed to extract user ID from token: {}", e.getMessage());
         }
 
         return null;

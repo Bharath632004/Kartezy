@@ -5,7 +5,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.server.ServerWebExchange;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -37,13 +37,10 @@ public class ApiThreatProtectionFilter extends AbstractGatewayFilterFactory<ApiT
         return (exchange, chain) -> {
             // Check content length to prevent large payload attacks
             if (config.isEnableRequestSizeLimiting()) {
-                List<Long> contentLengthHeaders = exchange.getRequest().getHeaders().getContentLength();
-                if (contentLengthHeaders != null && !contentLengthHeaders.isEmpty()) {
-                    long contentLength = contentLengthHeaders.get(0);
-                    if (contentLength > config.getMaxRequestSize()) {
-                        exchange.getResponse().setStatusCode(HttpStatus.PAYLOAD_TOO_LARGE);
-                        return exchange.getResponse().setComplete();
-                    }
+                long contentLength = exchange.getRequest().getHeaders().getContentLength();
+                if (contentLength > config.getMaxRequestSize()) {
+                    exchange.getResponse().setStatusCode(HttpStatus.PAYLOAD_TOO_LARGE);
+                    return exchange.getResponse().setComplete();
                 }
             }
 
@@ -87,13 +84,13 @@ public class ApiThreatProtectionFilter extends AbstractGatewayFilterFactory<ApiT
     }
 
     private boolean hasMaliciousParameters(org.springframework.http.server.reactive.ServerHttpRequest request) {
-        org.springframework.http.server.reactive.ServerHttpRequest.QueryParams queryParams = request.getQueryParams();
-        if (queryParams == null) {
+        org.springframework.util.MultiValueMap<String, String> queryParams = request.getQueryParams();
+        if (queryParams == null || queryParams.isEmpty()) {
             return false;
         }
 
-        for (String key : queryParams.keySet()) {
-            List<String> values = queryParams.get(key);
+        for (java.util.Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+            List<String> values = entry.getValue();
             if (values != null) {
                 for (String value : values) {
                     if (isMaliciousValue(value)) {

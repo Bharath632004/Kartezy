@@ -1,8 +1,10 @@
-/*
+package com.kartezy.shared.logging;
+
+import org.slf4j.MDC;
+
+/**
  * Utility class for logging operations, particularly for handling correlation IDs.
  */
-package com.kartezy.shared.logging;
-import org.slf4j.MDC;
 public class LoggingUtils {
     public static final String CORRELATION_ID_HEADER = "X-Correlation-ID";
     public static final String CORRELATION_ID_MDC_KEY = "correlationId";

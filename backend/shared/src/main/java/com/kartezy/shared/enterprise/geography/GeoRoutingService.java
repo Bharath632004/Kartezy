@@ -25,7 +25,7 @@ public class GeoRoutingService {
         return regionRoutes.values().stream()
                 .min(Comparator.comparingDouble(r ->
                         haversineDistance(latitude, longitude,
-                                r.getLatitude(), r.getLongitude())))
+                                r.latitude(), r.longitude())))
                 .orElseThrow(() -> new IllegalStateException("No region available"));
     }
 
@@ -51,9 +51,9 @@ public class GeoRoutingService {
      * Register a new region route.
      */
     public void registerRegion(RegionRoute route) {
-        regionRoutes.put(route.getCityCode(), route);
+        regionRoutes.put(route.cityCode(), route);
         log.info("Registered region route for city: {} ({}, {})",
-                route.getCityName(), route.getCountryCode(), route.getCityCode());
+                route.cityName(), route.countryCode(), route.cityCode());
     }
 
     /**

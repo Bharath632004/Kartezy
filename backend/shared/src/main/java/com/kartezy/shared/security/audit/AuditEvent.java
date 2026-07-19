@@ -98,7 +98,7 @@ public class AuditEvent {
         return eventTimestamp;
     }
 
-    public void setEventTimestamp(int eventTimestamp) {
+    public void setEventTimestamp(long eventTimestamp) {
         this.eventTimestamp = Instant.ofEpochMilli(eventTimestamp);
     }
 

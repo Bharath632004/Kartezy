@@ -101,7 +101,7 @@ public final class AuditHashUtil {
 
         String previousHash = "";
         for (int i = 0; i < events.size(); i++) {
-            Event event = events.get(i);
+            EnhancedAuditEvent event = events.get(i);
 
             // Skip redacted events in chain verification (their content has been modified for GDPR)
             // but we still need to verify their hash matches what was stored when redacted

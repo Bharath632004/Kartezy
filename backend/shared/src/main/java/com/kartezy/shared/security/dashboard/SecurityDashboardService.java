@@ -1,7 +1,6 @@
 package com.kartezy.shared.security.dashboard;
 
 import com.kartezy.shared.security.compliance.ComplianceService;
-import com.kartezy.shared.security.audit.EnhancedAuditLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

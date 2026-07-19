@@ -1,4 +1,4 @@
-package com.kratezy.shared.security.mfa;
+package com.kartezy.shared.security.mfa;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
