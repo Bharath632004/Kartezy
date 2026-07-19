@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8086
 
 spring:
   application:
@@ -33,9 +33,17 @@ jwt:
   refresh-token:
     expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000} # 7 days in milliseconds
 
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        spring.json.type.mapping: event:com.kartezy.shared.events.OrderEvent
+
 security:
   oauth2:
     resourceserver:
       jwt:
-        issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8080}
-        jwk-set-uri: ${JWK_SET_URI:http://auth-service:8080/oauth2/jwks}
+        issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8081}
+        jwk-set-uri: ${JWK_SET_URI:http://auth-service:8081/oauth2/jwks}

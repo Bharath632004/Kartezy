@@ -20,7 +20,7 @@ import java.util.Base64;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Value("${jwt.secret:KartezyPlatformSecretKeyForJWTTokenSigning2024VerySecure}")
+    @Value("${jwt.secret}")
     private String jwtSecretBase64;
 
     @Bean
@@ -39,13 +39,10 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        // Use environment variable or externalized config; never hardcode in production
-        String secret = jwtSecretBase64;
-        if (secret == null || secret.isEmpty()) {
-            secret = Base64.getEncoder().encodeToString(
-                "KartezyPlatformSecretKeyForJWTTokenSigning2024VerySecure".getBytes());
+        if (jwtSecretBase64 == null || jwtSecretBase64.isEmpty()) {
+            throw new IllegalStateException("JWT secret must be configured via ${jwt.secret} property");
         }
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        byte[] keyBytes = Base64.getDecoder().decode(jwtSecretBase64);
         SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
         return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }

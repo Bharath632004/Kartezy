@@ -32,6 +32,7 @@ public class State extends GeoEntity {
     private String taxLabel; // "State GST", "Provincial Tax"
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @Column
@@ -39,11 +40,14 @@ public class State extends GeoEntity {
 
     @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
+    @Builder.Default
     private Set<City> cities = new HashSet<>();
 
     @Column
+    @Builder.Default
     private Boolean hasSundayRestrictions = false;
 
     @Column
+    @Builder.Default
     private Boolean hasAlcoholRestrictions = false;
 }

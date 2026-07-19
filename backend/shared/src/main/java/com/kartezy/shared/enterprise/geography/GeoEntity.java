@@ -28,6 +28,7 @@ public abstract class GeoEntity implements Serializable {
     private String code;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean active = true;
 
     @Column(nullable = false, updatable = false)

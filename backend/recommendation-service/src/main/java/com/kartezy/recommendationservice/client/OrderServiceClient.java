@@ -18,14 +18,14 @@ public class OrderServiceClient {
 
     public Flux<OrderDto> getOrdersByUserId(String userId) {
         return webClient.get()
-                .uri("/orders?userId={userId}", userId)
+                .uri("/orders/user/{userId}", userId)
                 .retrieve()
                 .bodyToFlux(OrderDto.class);
     }
 
     public Flux<OrderDto> getOrdersByProductId(Long productId) {
         return webClient.get()
-                .uri("/orders?productId={productId}", productId)
+                .uri("/orders/status/{status}", "DELIVERED")
                 .retrieve()
                 .bodyToFlux(OrderDto.class);
     }

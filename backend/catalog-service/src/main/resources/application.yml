@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8084
 
 spring:
   application:
@@ -37,5 +37,5 @@ security:
   oauth2:
     resourceserver:
       jwt:
-        issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8080}
-        jwk-set-uri: ${JWK_SET_URI:http://auth-service:8080/oauth2/jwks}
+        issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8081}
+        jwk-set-uri: ${JWK_SET_URI:http://auth-service:8081/oauth2/jwks}

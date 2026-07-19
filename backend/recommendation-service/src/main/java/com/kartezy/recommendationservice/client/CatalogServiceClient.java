@@ -14,25 +14,25 @@ public class CatalogServiceClient {
     }
     public Flux<CategoryDto> getAllCategories() {
         return webClient.get()
-                .uri("/api/categories")
+                .uri("/categories")
                 .retrieve()
                 .bodyToFlux(CategoryDto.class);
     }
     public Flux<ProductDto> getAllProducts() {
         return webClient.get()
-                .uri("/api/products")
+                .uri("/products")
                 .retrieve()
                 .bodyToFlux(ProductDto.class);
     }
     public Flux<ProductDto> getProductsByCategory(Long categoryId) {
         return webClient.get()
-                .uri("/api/products?categoryId={categoryId}", categoryId)
+                .uri("/products?categoryId={categoryId}", categoryId)
                 .retrieve()
                 .bodyToFlux(ProductDto.class);
     }
     public ProductDto getProductById(Long productId) {
         return webClient.get()
-                .uri("/api/products/{id}", productId)
+                .uri("/products/{id}", productId)
                 .retrieve()
                 .bodyToMono(ProductDto.class)
                 .block();

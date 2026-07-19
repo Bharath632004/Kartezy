@@ -18,21 +18,21 @@ public class OrderServiceClient {
 
     public Flux<OrderDto> getOrdersByUserId(String userId) {
         return webClient.get()
-                .uri("/api/users/{userId}/orders", userId)
+                .uri("/orders/user/{userId}", userId)
                 .retrieve()
                 .bodyToFlux(OrderDto.class);
     }
 
     public Flux<OrderDto> getAllOrders() {
         return webClient.get()
-                .uri("/api/orders")
+                .uri("/orders")
                 .retrieve()
                 .bodyToFlux(OrderDto.class);
     }
 
     public Mono<OrderDto> getOrderById(String orderId) {
         return webClient.get()
-                .uri("/api/orders/{id}", orderId)
+                .uri("/orders/{id}", orderId)
                 .retrieve()
                 .bodyToMono(OrderDto.class);
     }

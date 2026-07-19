@@ -21,31 +21,31 @@ public class UserServiceClient {
     }
     public Mono<CustomerProfileDto> getCustomerProfileByUserId(UUID userId) {
         return webClient.get()
-                .uri("/api/users/{userId}/customer-profile", userId)
+                .uri("/users/{userId}/customer-profile", userId)
                 .retrieve()
                 .bodyToMono(CustomerProfileDto.class);
     }
     public Flux<WishlistItemDto> getWishlistItems(String userId) {
         return webClient.get()
-                .uri("/api/users/{userId}/wishlist", userId)
+                .uri("/users/{userId}/wishlist", userId)
                 .retrieve()
                 .bodyToFlux(WishlistItemDto.class);
     }
     public Flux<FavoriteProductDto> getFavoriteProducts(String userId) {
         return webClient.get()
-                .uri("/api/users/{userId}/favorite-products", userId)
+                .uri("/users/{userId}/favorite-products", userId)
                 .retrieve()
                 .bodyToFlux(FavoriteProductDto.class);
     }
     public Flux<SearchHistoryDto> getSearchHistory(String userId) {
         return webClient.get()
-                .uri("/api/users/{userId}/search-history", userId)
+                .uri("/users/{userId}/search-history", userId)
                 .retrieve()
                 .bodyToFlux(SearchHistoryDto.class);
     }
     public Flux<OrderDto> getOrders(String userId) {
         return webClient.get()
-                .uri("/api/users/{userId}/orders", userId)
+                .uri("/users/{userId}/orders", userId)
                 .retrieve()
                 .bodyToFlux(OrderDto.class);
     }

@@ -1,7 +1,6 @@
 package com.kartezy.authservice.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,18 +17,19 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
                 // Public endpoints - no authentication required
+                // Note: API Gateway strips the /api prefix, so requests arrive without it
                 .requestMatchers(
-                        "/api/auth/login",
-                        "/api/auth/register",
-                        "/api/auth/refresh",
-                        "/api/auth/forgot-password",
-                        "/api/auth/reset-password",
-                        "/api/auth/send-otp",
-                        "/api/auth/verify-otp",
-                        "/api/auth/logout",
-                        "/api/auth/logout-all-devices",
-                        "/api/auth",  // home endpoint
-                        "/api/auth/health"
+                        "/auth/login",
+                        "/auth/register",
+                        "/auth/refresh",
+                        "/auth/forgot-password",
+                        "/auth/reset-password",
+                        "/auth/send-otp",
+                        "/auth/verify-otp",
+                        "/auth/logout",
+                        "/auth/logout-all-devices",
+                        "/auth",  // home endpoint
+                        "/auth/health"
                 ).permitAll()
                 // Actuator endpoints - require authentication
                 .requestMatchers("/actuator/**", "/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").authenticated()

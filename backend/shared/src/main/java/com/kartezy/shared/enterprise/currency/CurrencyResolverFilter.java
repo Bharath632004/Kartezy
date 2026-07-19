@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Currency;
+import java.util.Locale;
 
 /**
  * Servlet filter that resolves the user's preferred currency from:
@@ -71,7 +72,7 @@ public class CurrencyResolverFilter implements Filter {
             if (parts.length >= 2) {
                 String countryCode = parts[1].toUpperCase();
                 try {
-                    return Currency.getInstance(new java.util.Locale("", countryCode));
+                    return Currency.getInstance(Locale.of("", countryCode));
                 } catch (IllegalArgumentException e) {
                     // Fall through
                 }

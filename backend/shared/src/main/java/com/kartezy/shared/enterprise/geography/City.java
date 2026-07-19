@@ -32,12 +32,15 @@ public class City extends GeoEntity {
     private String timezone;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isOperational = false;
 
     @Column
+    @Builder.Default
     private Integer deliveryRadiusKm = 10;
 
     @Column
+    @Builder.Default
     private Integer maxDeliveryDistanceKm = 25;
 
     @Column(nullable = false)
@@ -47,6 +50,7 @@ public class City extends GeoEntity {
     private String languageCode;
 
     @Column
+    @Builder.Default
     private Boolean isMetro = false;
 
     @Column
@@ -59,5 +63,6 @@ public class City extends GeoEntity {
     private String googlePlaceId;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean requiresSpecialPermit = false;
 }

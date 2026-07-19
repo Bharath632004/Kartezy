@@ -189,8 +189,8 @@ public class PolicyEngine {
         if (roleRepository != null) {
             return roleRepository.getUserRoles(userId);
         }
-        // Fallback: return default role when no repository configured
-        return Set.of("CUSTOMER");
+        // Fallback: deny all when no repository configured
+        return Collections.emptySet();
     }
 
     private void initializeDefaultPolicies() {

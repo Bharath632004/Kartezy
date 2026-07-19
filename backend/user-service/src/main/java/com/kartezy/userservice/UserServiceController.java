@@ -89,7 +89,7 @@ public class UserServiceController {
     public ResponseEntity<?> unblockUser(@PathVariable UUID id) {
         return userRepository.findById(id)
                 .map(user -> {
-                    // If user was locked, set to active; otherwise, otherwise, otherwise, keep current status
+                    // If user was locked, set to active; otherwise, keep current status
                     if (user.getStatus() == UserStatus.LOCKED) {
                         user.setStatus(UserStatus.ACTIVE);
                     }

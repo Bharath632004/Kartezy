@@ -1,20 +1,22 @@
 server:
-  port: 8085
+  port: 8105
 
 spring:
   application:
-    name: inventory-service
-  cloud:
-    config:
-      uri: http://config-server:8888
-    discovery:
-      enabled: true
-      service-id: config-server
+    name: pricing-service
+  cache:
+    type: redis
+    redis:
+      time-to-live: 300000
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-server:8761/eureka/
+      defaultZone: ${EUREKA_URI:http://discovery-server:8761/eureka}
     fetch-registry: true
     register-with-eureka: true
 
@@ -29,9 +31,6 @@ management:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION:86400000}
-  refresh-token:
-    expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000}
 
 security:
   oauth2:
@@ -39,3 +38,7 @@ security:
       jwt:
         issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8081}
         jwk-set-uri: ${JWK_SET_URI:http://auth-service:8081/oauth2/jwks}
+
+logging:
+  level:
+    com.kartezy.pricingservice: INFO

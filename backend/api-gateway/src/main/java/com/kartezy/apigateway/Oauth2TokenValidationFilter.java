@@ -9,8 +9,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 /**
  * OAuth2 Token Validation Filter for API Gateway.
@@ -87,6 +91,7 @@ public class Oauth2TokenValidationFilter extends AbstractGatewayFilterFactory<Oa
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean isValidToken(String token, Config config) {
         if (token == null || token.isEmpty()) {
             return false;
@@ -100,9 +105,9 @@ public class Oauth2TokenValidationFilter extends AbstractGatewayFilterFactory<Oa
             }
 
             // Decode and parse the JWT claims
-            String payload = new String(java.util.Base64.getUrlDecoder().decode(parts[1]));
-            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-            java.util.Map<String, Object> claims = mapper.readValue(payload, java.util.Map.class);
+            String payload = new String(Base64.getUrlDecoder().decode(parts[1]));
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> claims = mapper.readValue(payload, new TypeReference<Map<String, Object>>() {});
 
             // Check expiration
             Long exp = claims.containsKey("exp") ? ((Number) claims.get("exp")).longValue() : null;
@@ -124,7 +129,7 @@ public class Oauth2TokenValidationFilter extends AbstractGatewayFilterFactory<Oa
                 if (aud instanceof String && !config.getAudience().equals(aud)) {
                     return false;
                 }
-                if (aud instanceof java.util.List && !((java.util.List<String>) aud).contains(config.getAudience())) {
+                if (aud instanceof List && !((List<String>) aud).contains(config.getAudience())) {
                     return false;
                 }
             }

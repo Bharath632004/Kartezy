@@ -104,24 +104,8 @@ class AuthServiceImplTest {
         when(request.getHeader("User-Agent")).thenReturn("Mozilla/5.0 Test Agent");
         when(request.getHeader("X-Device-ID")).thenReturn("device123");
 
-        // Add debug output to trace execution
-        when(refreshTokenRepository.save(any(RefreshToken.class))).thenAnswer(invocation -> {
-            System.out.println("refreshTokenRepository.save called");
-            return invocation.getArgument(0);
-        });
-        when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
-            System.out.println("sessionRepository.save called");
-            return invocation.getArgument(0);
-        });
-        when(deviceRepository.save(any(Device.class))).thenAnswer(invocation -> {
-            System.out.println("deviceRepository.save called");
-            return invocation.getArgument(0);
-        });
-
         // Act
-        System.out.println("About to call authService.login");
         ResponseEntity<?> response = authService.login(loginRequest, request);
-        System.out.println("authService.login returned: status=" + response.getStatusCodeValue() + ", body=" + response.getBody());
 
         // Assert
         assertNotNull(response);

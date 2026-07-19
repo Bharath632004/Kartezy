@@ -36,6 +36,7 @@ public class Country extends GeoEntity {
     private String defaultTimezone;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @Column(length = 500)
@@ -43,9 +44,11 @@ public class Country extends GeoEntity {
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
+    @Builder.Default
     private Set<State> states = new HashSet<>();
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean requiresVat = false;
 
     @Column
@@ -55,8 +58,10 @@ public class Country extends GeoEntity {
     private Integer vatPercentage;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean gdprEnabled = false;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean dataLocalizationRequired = false;
 }

@@ -9,18 +9,15 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 @Repository
-public interface OTPRepository extends JpaRepository<OTP, UUID> {
-    // Find OTP by email and purpose
-    Optional<OTP> findByEmailAndPurpose(String email, String purpose);
-    // Find OTP by phone and purpose
-    Optional<OTP> findByPhoneAndPurpose(String phone, String purpose);
-    // Find OTP by otp value and purpose and used status
+public interface OTPRepository extends JpaRepository<OTP, UUID> {    // Find OTP by otp value and purpose and used status
     Optional<OTP> findByOtpAndPurposeAndUsedFalse(String otp, String purpose);
+
     // Find valid OTP (not expired and not used)
-    @Query("SELECT o FROM OTP o WHERE o.email = :email AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
+    @Query("SELECT o FROM OTP o WHERE o.user.email = :email AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
     Optional<OTP> findValidByEmailAndPurpose(@Param("email") String email, @Param("purpose") String purpose, @Param("now") Instant now);
+
     // Find valid OTP by phone
-    @Query("SELECT o FROM OTP o WHERE o.phone = :phone AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
+    @Query("SELECT o FROM OTP o WHERE o.user.phoneNumber = :phone AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
     Optional<OTP> findValidByPhoneAndPurpose(@Param("phone") String phone, @Param("purpose") String purpose, @Param("now") Instant now);
     // Mark OTP as used
     @Modifying

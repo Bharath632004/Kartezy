@@ -19,7 +19,7 @@ public class JwtUtil {
     private String secretKey;
     @Value("${jwt.expiration}")
     private long jwtExpiration;
-    @Value("${jwt.refresh-expiration}")
+    @Value("${jwt.refresh-token.expiration}")
     private long refreshExpiration;
     /**
      * Get access token expiration in milliseconds.
