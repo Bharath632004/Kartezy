@@ -124,7 +124,7 @@ class OrderDetailPage extends ConsumerWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '\$${(order.totalAmount - order.deliveryCharges).toStringAsFixed(2)}',
+                        '₹${(order.totalAmount - order.deliveryCharges).toStringAsFixed(2)}',
                       ),
                     ],
                   ),
@@ -136,7 +136,7 @@ class OrderDetailPage extends ConsumerWidget {
                         'Delivery:',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text('\$${order.deliveryCharges.toStringAsFixed(2)}'),
+                      Text('₹${order.deliveryCharges.toStringAsFixed(2)}'),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -148,7 +148,7 @@ class OrderDetailPage extends ConsumerWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '\$${order.totalAmount.toStringAsFixed(2)}',
+                        '₹${order.totalAmount.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

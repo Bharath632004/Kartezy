@@ -40,7 +40,7 @@ const ContactPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>Contact Us</Typography>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>Contact Us</Typography>
         <Typography variant="body1" color="text.secondary">Get in touch with our team for any questions or support.</Typography>
       </Box>
 
@@ -60,11 +60,11 @@ const ContactPage = () => {
         </Box>
 
         <Box sx={{ flex: 1 }}>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Our Offices</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>Our Offices</Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
             {officeLocations.map((office) => (
               <Box key={office.id} sx={{ flex: '1 1 200px', border: '1px solid #e0e0e0', borderRadius: 4, p: 3 }}>
-                <Typography variant="h6" fontWeight={600}>{office.city}</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>{office.city}</Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{office.address}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                   <Phone sx={{ mr: 1, fontSize: 'small' }} />

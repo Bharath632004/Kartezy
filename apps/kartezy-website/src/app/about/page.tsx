@@ -7,7 +7,7 @@ const AboutPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>
           About Kartify
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
@@ -19,7 +19,7 @@ const AboutPage = () => {
         <CardContent>
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <LocalMall sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h3" fontWeight={600} sx={{ mb: 2 }}>
+            <Typography variant="h3" sx={{ fontWeight: 600, mb: 2 }}>
               Who We Are
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
@@ -30,7 +30,7 @@ const AboutPage = () => {
           <Divider sx={{ my: 4 }} />
 
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
               Our Journey
             </Typography>
             <Stack spacing={3}>
@@ -45,7 +45,7 @@ const AboutPage = () => {
                     width: 48, height: 48, borderRadius: '50%', bgcolor: 'primary.main',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                   }}>
-                    <Typography color="white" fontWeight={700}>{item.year}</Typography>
+                    <Typography sx={{ color: 'white', fontWeight: 700 }}>{item.year}</Typography>
                   </Box>
                   <Box sx={{ flex: 1, pt: 1 }}>
                     <Typography variant="body1" color="text.secondary">{item.text}</Typography>
@@ -59,7 +59,7 @@ const AboutPage = () => {
 
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 6, mb: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
             Our Mission & Vision
           </Typography>
           <Divider sx={{ my: 3 }} />
@@ -68,8 +68,8 @@ const AboutPage = () => {
               <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <CardContent>
                   <TrendingUp sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Our Mission
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+              Our Mission
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     To make grocery shopping effortless, affordable, and sustainable for every Indian household through lightning-fast delivery and exceptional service.
@@ -81,8 +81,8 @@ const AboutPage = () => {
               <Card sx={{ p: 4, borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <CardContent>
                   <RocketLaunch sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                    Our Vision
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+              Our Vision
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     To be India's most trusted and loved grocery platform, connecting local stores with customers through technology and innovation.
@@ -96,7 +96,7 @@ const AboutPage = () => {
 
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 6, mb: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
             Meet Our Team
           </Typography>
           <Divider sx={{ my: 3 }} />
@@ -113,7 +113,7 @@ const AboutPage = () => {
                     <Avatar sx={{ width: 80, height: 80, bgcolor: 'primary.main', mb: 2, mx: 'auto', fontSize: 32 }}>
                       {member.initials}
                     </Avatar>
-                    <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                       {member.name}
                     </Typography>
                     <Typography variant="body2" color="primary" sx={{ mb: 2 }}>

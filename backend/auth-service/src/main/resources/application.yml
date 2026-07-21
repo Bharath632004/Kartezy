@@ -5,13 +5,10 @@ spring:
   application:
     name: auth-service
   datasource:
-    url: jdbc:postgresql://postgres:5432/kartezy_auth
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:postgres}
-    initialization-mode: always
-    hikari:
-      connection-timeout: 30000
-      maximum-pool-size: 10
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/kartezy_auth}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:kartezy}
+    password: ${DB_PASSWORD:kartezy}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -20,22 +17,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-  mail:
-    host: ${MAIL_HOST:localhost}
-    port: ${MAIL_PORT:1025}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          auth-mechanisms: LOGIN PLAIN
-  redis:
-    host: redis
-    port: 6379
-    timeout: 10s
+  config:
+    import: configserver:http://config-server:8888
   cloud:
     config:
       uri: http://config-server:8888
@@ -48,6 +31,7 @@ spring:
     discovery:
       enabled: true
       service-id: config-server
+
   security:
     oauth2:
       resourceserver:
@@ -83,7 +67,6 @@ jwt:
   expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
   refresh-token:
     expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000} # 7 days in milliseconds
-
 
 eureka:
   client:

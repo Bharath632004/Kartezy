@@ -16,37 +16,32 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   int _currentPage = 0;
   bool _isLoading = false;
 
-  // Onboarding pages data
-  static const List<Map<String, String>> _pages = [
-    {
-      'title': 'Welcome to Kartezy',
-      'description':
+  // Onboarding pages data with icons
+  static const List<_OnboardingPageData> _pages = [
+    _OnboardingPageData(
+      title: 'Welcome to Kartezy',
+      description:
           'Get groceries and essentials delivered to your doorstep in minutes.',
-      'image': 'assets/onboarding/welcome.png',
-    },
-    {
-      'title': 'Fast & Reliable Delivery',
-      'description':
+      icon: Icons.shopping_bag_outlined,
+    ),
+    _OnboardingPageData(
+      title: 'Fast & Reliable Delivery',
+      description:
           'Our network of local stores ensures you get what you need, when you need it.',
-      'image': 'assets/onboarding/fast_delivery.png',
-    },
-    {
-      'title': 'Wide Selection',
-      'description': 'Choose from thousands of products across categories.',
-      'image': 'assets/onboarding/selection.png',
-    },
-    {
-      'title': 'Exclusive Member Benefits',
-      'description':
+      icon: Icons.local_shipping_outlined,
+    ),
+    _OnboardingPageData(
+      title: 'Wide Selection',
+      description: 'Choose from thousands of products across categories.',
+      icon: Icons.category_outlined,
+    ),
+    _OnboardingPageData(
+      title: 'Exclusive Member Benefits',
+      description:
           'Join our loyalty program for discounts, free delivery, and early access to sales.',
-      'image': 'assets/onboarding/member_benefits.png',
-    },
+      icon: Icons.workspace_premium_outlined,
+    ),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -61,13 +56,6 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       final settingsBox = hiveManager.getBox<bool>(boxName: 'settings');
       await settingsBox.put('onboardingCompleted', true);
       if (mounted) {
-        // Navigate to login or home based on auth status
-        // For simplicity, we'll go to login; the splash screen will handle redirection
-        // But we are already in onboarding, so we can go to login directly.
-        // However, we should let the splash decide after onboarding.
-        // We'll just go to splash again, which will redirect appropriately.
-        // But to avoid infinite loop, we can go to login.
-        // We'll use the router from ref.
         final goRouter = ref.read(goRouterProvider);
         goRouter.go('/login');
       }
@@ -102,20 +90,30 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      page['image']!,
-                      height: 250,
-                      fit: BoxFit.contain,
+                    Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Icon(
+                        page.icon,
+                        size: 100,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                     const SizedBox(height: 32),
                     Text(
-                      page['title']!,
+                      page.title,
                       style: Theme.of(context).textTheme.headlineMedium,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      page['description']!,
+                      page.description,
                       style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.center,
                     ),
@@ -141,7 +139,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(
                             context,
-                          ).colorScheme.primary.withValues(alpha:0.3),
+                          ).colorScheme.primary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -195,4 +193,16 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       ),
     );
   }
+}
+
+class _OnboardingPageData {
+  final String title;
+  final String description;
+  final IconData icon;
+
+  const _OnboardingPageData({
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
 }

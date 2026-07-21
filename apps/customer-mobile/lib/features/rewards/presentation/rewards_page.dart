@@ -30,7 +30,7 @@ class RewardsPage extends ConsumerWidget {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha:0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -47,7 +47,7 @@ class RewardsPage extends ConsumerWidget {
                       Text(
                         'Reward Points',
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha:0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           fontSize: 14,
                         ),
                       ),
@@ -69,7 +69,7 @@ class RewardsPage extends ConsumerWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha:0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
@@ -183,7 +183,7 @@ class RewardsPage extends ConsumerWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: color.withValues(alpha:0.1),
+                color: color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(Icons.emoji_events_outlined, color: color, size: 20),
@@ -242,7 +242,7 @@ class RewardsPage extends ConsumerWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: theme.primaryColor.withValues(alpha:0.08),
+              color: theme.primaryColor.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: theme.primaryColor, size: 22),

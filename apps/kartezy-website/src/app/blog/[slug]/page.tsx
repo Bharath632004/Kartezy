@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Container, Typography, Card, CardContent, Button, Divider, Chip, Avatar, TextField } from '@mui/material';
-import { Person, Category, CalendarToday, Comment, Share, Favorite, BookmarkBorder } from '@mui/icons-material';
+import { Share, Favorite, BookmarkBorder } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { getBlogPostBySlug } from '@/lib/services';
 import { useParams } from 'next/navigation';
@@ -38,7 +38,7 @@ const BlogPostDetailPage = () => {
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>{post.title}</Typography>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>{post.title}</Typography>
         <Typography variant="body1" color="text.secondary">
           {new Date(post.createdAt).toLocaleDateString()} &bull; {post.author?.name || 'Anonymous'} &bull; {post.category || 'General'}
         </Typography>
@@ -58,7 +58,7 @@ const BlogPostDetailPage = () => {
       <Divider sx={{ my: 4 }} />
 
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Tags</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>Tags</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
           {post.tags?.map((tag: string) => (
             <Chip key={tag} label={tag} size="small" sx={{ backgroundColor: '#f5f5f5' }} />
@@ -69,7 +69,7 @@ const BlogPostDetailPage = () => {
       <Divider sx={{ my: 4 }} />
 
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Comments ({comments.length})</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>Comments ({comments.length})</Typography>
         <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 2 }}>
           {comments.map((comment) => (
             <Box key={comment.id} sx={{ display: 'flex', p: 2, borderBottom: '1px solid #f0f0f0' }}>
@@ -77,7 +77,7 @@ const BlogPostDetailPage = () => {
                 {comment.author.name?.[0]}
               </Avatar>
               <Box>
-                <Typography variant="body2" fontWeight={600}>{comment.author.name}</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>{comment.author.name}</Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
                   {new Date(comment.date).toLocaleDateString()}
                 </Typography>
@@ -97,7 +97,7 @@ const BlogPostDetailPage = () => {
       <Divider sx={{ my: 4 }} />
 
       <Box>
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Share this article</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>Share this article</Typography>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
           <Button variant="outlined" startIcon={<Share />}>Share</Button>
           <Button variant="outlined" startIcon={<Favorite />}>Like</Button>
@@ -108,12 +108,12 @@ const BlogPostDetailPage = () => {
       <Divider sx={{ my: 4 }} />
 
       <Box>
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Related Articles</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>Related Articles</Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 3 }}>
           {['How to Save Money on Groceries', 'Top 10 Healthy Snacks for Kids', 'The Benefits of Organic Food'].map((title) => (
             <Card key={title} sx={{ borderRadius: 2, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', '&:hover': { transform: 'translateY(-4px)' } }}>
               <CardContent>
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>{title}</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>{title}</Typography>
                 <Button variant="outlined" size="small">Read More</Button>
               </CardContent>
             </Card>

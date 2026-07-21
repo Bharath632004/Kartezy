@@ -13,11 +13,11 @@ public interface OTPRepository extends JpaRepository<OTP, UUID> {    // Find OTP
     Optional<OTP> findByOtpAndPurposeAndUsedFalse(String otp, String purpose);
 
     // Find valid OTP (not expired and not used)
-    @Query("SELECT o FROM OTP o WHERE o.user.email = :email AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
+    @Query("SELECT o FROM OTP o WHERE o.user.email = :email AND o.purpose = :purpose AND o.used = false AND o.expiresAt > :now")
     Optional<OTP> findValidByEmailAndPurpose(@Param("email") String email, @Param("purpose") String purpose, @Param("now") Instant now);
 
     // Find valid OTP by phone
-    @Query("SELECT o FROM OTP o WHERE o.user.phoneNumber = :phone AND o.purpose = :purpose AND o.used = false AND o.expiryDate > :now")
+    @Query("SELECT o FROM OTP o WHERE o.user.phoneNumber = :phone AND o.purpose = :purpose AND o.used = false AND o.expiresAt > :now")
     Optional<OTP> findValidByPhoneAndPurpose(@Param("phone") String phone, @Param("purpose") String purpose, @Param("now") Instant now);
     // Mark OTP as used
     @Modifying
@@ -25,6 +25,6 @@ public interface OTPRepository extends JpaRepository<OTP, UUID> {    // Find OTP
     void markAsUsed(@Param("id") UUID id);
     // Delete expired OTPs
     @Modifying
-    @Query("DELETE FROM OTP o WHERE o.expiryDate < :now")
+    @Query("DELETE FROM OTP o WHERE o.expiresAt < :now")
     int deleteExpired(@Param("now") Instant now);
 }

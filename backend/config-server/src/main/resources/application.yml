@@ -12,7 +12,9 @@ spring:
         # For development, we can use the native profile
         # In production, we can use a Git repository
       # Enable encryption and decryption of property values
-      # (requires setting up a key)
+      # (requires setting up a key via ENCRYPT_KEY env var)
+      encrypt:
+        enabled: true
 # eureka client configuration
 eureka:
   client:

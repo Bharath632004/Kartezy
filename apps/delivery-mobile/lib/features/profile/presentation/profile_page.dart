@@ -34,7 +34,7 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 48,
-                    backgroundColor: theme.primaryColor.withOpacity(0.1),
+                    backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
                     child: Icon(
                       Icons.person,
                       size: 48,

@@ -1,20 +1,15 @@
 package com.kartezy.aiservice.controller;
 
-import com.kartezy.aiservice.dto.ApiResponse;
+import com.kartezy.shared.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/analytics/ai")
@@ -36,7 +31,7 @@ public class AnalyticsAIController {
                 "orderGrowth", Math.round((random.nextDouble() * 30 - 5) * 100.0) / 100.0,
                 "activeCustomers", 50000 + random.nextInt(200000)
         );
-        return ResponseEntity.ok(ApiResponse.success("Business insights retrieved", insights));
+        return ResponseEntity.ok(ApiResponse.success(insights, "Business insights retrieved"));
     }
 
     @Operation(summary = "Get customer insights")
@@ -44,14 +39,14 @@ public class AnalyticsAIController {
     public ResponseEntity<ApiResponse<Map<String, Object>>> getCustomerInsights(
             @Parameter(description = "Time range") @RequestParam String timeRange) {
         Random random = new Random(timeRange.hashCode());
-        return ResponseEntity.ok(ApiResponse.success("Customer insights retrieved", Map.of(
+        return ResponseEntity.ok(ApiResponse.success(Map.of(
                 "newCustomers", random.nextInt(10000),
                 "returningCustomers", random.nextInt(50000),
                 "customerRetentionRate", Math.round((0.6 + random.nextDouble() * 0.3) * 100.0) / 100.0,
                 "customerSatisfactionScore", Math.round((3.5 + random.nextDouble() * 1.5) * 10.0) / 10.0,
                 "averageCustomerLifetime", 90 + random.nextInt(270),
                 "repeatPurchaseRate", Math.round((0.3 + random.nextDouble() * 0.4) * 100.0) / 100.0
-        )));
+        ), "Customer insights retrieved"));
     }
 
     @Operation(summary = "Get product insights")
@@ -67,7 +62,7 @@ public class AnalyticsAIController {
                     "growthRate", Math.round((random.nextDouble() * 0.5 - 0.15) * 100.0) / 100.0
             ));
         }
-        return ResponseEntity.ok(ApiResponse.success("Product insights retrieved", products));
+        return ResponseEntity.ok(ApiResponse.success(products, "Product insights retrieved"));
     }
 
     @Operation(summary = "Get sales insights")
@@ -80,7 +75,7 @@ public class AnalyticsAIController {
         for (int i = days; i >= 0; i--) {
             trend.add(Map.of("date", LocalDate.now().minusDays(i).toString(), "sales", Math.round((5000 + random.nextDouble() * 20000) * 100.0) / 100.0));
         }
-        return ResponseEntity.ok(ApiResponse.success("Sales insights retrieved", Map.of("trend", trend, "totalSales", trend.stream().mapToDouble(t -> (double) t.get("sales")).sum())));
+        return ResponseEntity.ok(ApiResponse.success(Map.of("trend", trend, "totalSales", trend.stream().mapToDouble(t -> (double) t.get("sales")).sum()), "Sales insights retrieved"));
     }
 
     @Operation(summary = "Get inventory insights")
@@ -88,13 +83,13 @@ public class AnalyticsAIController {
     public ResponseEntity<ApiResponse<Map<String, Object>>> getInventoryInsights(
             @Parameter(description = "Time range") @RequestParam String timeRange) {
         Random random = new Random(timeRange.hashCode());
-        return ResponseEntity.ok(ApiResponse.success("Inventory insights retrieved", Map.of(
+        return ResponseEntity.ok(ApiResponse.success(Map.of(
                 "totalSKUs", 5000 + random.nextInt(5000),
                 "outOfStockCount", random.nextInt(200),
                 "lowStockCount", random.nextInt(500),
                 "inventoryTurnover", Math.round((3 + random.nextDouble() * 7) * 10.0) / 10.0,
                 "stockoutRate", Math.round((random.nextDouble() * 0.1) * 100.0) / 100.0
-        )));
+        ), "Inventory insights retrieved"));
     }
 
     @Operation(summary = "Get marketing insights")
@@ -102,13 +97,13 @@ public class AnalyticsAIController {
     public ResponseEntity<ApiResponse<Map<String, Object>>> getMarketingInsights(
             @Parameter(description = "Time range") @RequestParam String timeRange) {
         Random random = new Random(timeRange.hashCode());
-        return ResponseEntity.ok(ApiResponse.success("Marketing insights retrieved", Map.of(
+        return ResponseEntity.ok(ApiResponse.success(Map.of(
                 "totalCampaigns", 10 + random.nextInt(50),
                 "activeCampaigns", 3 + random.nextInt(10),
                 "couponRedemptionRate", Math.round((0.15 + random.nextDouble() * 0.25) * 100.0) / 100.0,
                 "customerAcquisitionCost", Math.round((50 + random.nextDouble() * 150) * 100.0) / 100.0,
                 "marketingAttributedRevenue", Math.round(random.nextDouble() * 1000000 * 100.0) / 100.0
-        )));
+        ), "Marketing insights retrieved"));
     }
 
     @Operation(summary = "Detect anomalies")
@@ -120,7 +115,7 @@ public class AnalyticsAIController {
         for (int i = 0; i < random.nextInt(5); i++) {
             anomalies.add(Map.of("metric", metric, "date", LocalDate.now().minusDays(random.nextInt(30)).toString(), "deviation", Math.round((random.nextDouble() * 0.5 + 0.2) * 100.0) / 100.0, "severity", random.nextDouble() > 0.6 ? "HIGH" : "MEDIUM"));
         }
-        return ResponseEntity.ok(ApiResponse.success("Anomalies detected", anomalies));
+        return ResponseEntity.ok(ApiResponse.success(anomalies, "Anomalies detected"));
     }
 
     @Operation(summary = "Get cohort analysis")
@@ -137,7 +132,7 @@ public class AnalyticsAIController {
             }
             cohorts.add(Map.of("cohort", "Cohort " + (c + 1), "retention", retention, "size", 1000 + random.nextInt(5000)));
         }
-        return ResponseEntity.ok(ApiResponse.success("Cohort analysis performed", Map.of("cohorts", cohorts)));
+        return ResponseEntity.ok(ApiResponse.success(Map.of("cohorts", cohorts), "Cohort analysis performed"));
     }
 
     @Operation(summary = "Get funnel analysis")
@@ -153,7 +148,7 @@ public class AnalyticsAIController {
             currentUsers = (int) (currentUsers * (1 - dropRate));
             stages.add(Map.of("stage", stage, "users", Math.max(currentUsers, 100), "conversionRate", Math.round((1 - dropRate) * 100.0) / 100.0));
         }
-        return ResponseEntity.ok(ApiResponse.success("Funnel analysis performed", Map.of("stages", stages)));
+        return ResponseEntity.ok(ApiResponse.success(Map.of("stages", stages), "Funnel analysis performed"));
     }
 
     @Operation(summary = "Get sales prediction")
@@ -164,7 +159,7 @@ public class AnalyticsAIController {
         for (int i = 0; i < daysAhead; i++) {
             predictions.add(Map.of("date", LocalDate.now().plusDays(i + 1).toString(), "predictedRevenue", Math.round((50000 + random.nextDouble() * 50000) * 100.0) / 100.0));
         }
-        return ResponseEntity.ok(ApiResponse.success("Sales prediction generated", Map.of("predictions", predictions, "totalPredictedRevenue", predictions.stream().mapToDouble(p -> (double) p.get("predictedRevenue")).sum())));
+        return ResponseEntity.ok(ApiResponse.success(Map.of("predictions", predictions, "totalPredictedRevenue", predictions.stream().mapToDouble(p -> (double) p.get("predictedRevenue")).sum()), "Sales prediction generated"));
     }
 
     @Operation(summary = "Get inventory prediction")
@@ -175,13 +170,13 @@ public class AnalyticsAIController {
         for (int i = 0; i < Math.min(20, daysAhead); i++) {
             predictions.add(Map.of("productId", "PROD-" + (10000 + random.nextInt(5000)), "predictedDemand", 10 + random.nextInt(100), "needsReplenishment", random.nextBoolean()));
         }
-        return ResponseEntity.ok(ApiResponse.success("Inventory prediction generated", Map.of("predictions", predictions)));
+        return ResponseEntity.ok(ApiResponse.success(Map.of("predictions", predictions), "Inventory prediction generated"));
     }
 
     @Operation(summary = "Train analytics models")
     @PostMapping("/model/train")
     public ResponseEntity<ApiResponse<Map<String, String>>> trainAnalyticsModels(@Valid @RequestBody Map<String, Object> request) {
-        return ResponseEntity.ok(ApiResponse.success("Model training initiated", Map.of("status", "TRAINING_STARTED", "jobId", UUID.randomUUID().toString())));
+        return ResponseEntity.ok(ApiResponse.success(Map.of("status", "TRAINING_STARTED", "jobId", UUID.randomUUID().toString()), "Model training initiated"));
     }
 
     private int parseTimeRange(String timeRange) {

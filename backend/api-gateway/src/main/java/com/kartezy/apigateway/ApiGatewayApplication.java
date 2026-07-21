@@ -7,17 +7,14 @@ import com.kartezy.apigateway.JwtTokenEnhancerFilter;
 import com.kartezy.apigateway.Oauth2TokenValidationFilter;
 import com.kartezy.apigateway.RequestResponseLogger;
 import com.kartezy.apigateway.SecurityGatewayFilterFactory;
-import com.kartezy.shared.security.api.EnhancedApiSecurityFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -133,22 +130,6 @@ public class ApiGatewayApplication {
                                 }))
                         .uri("lb://catalog-service"))
                 .route("catalog-categories", r -> r.path("/api/categories/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://catalog-service"))
                         .filters(f -> f
                                 .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
                                 .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
@@ -559,22 +540,4 @@ public class ApiGatewayApplication {
         return new CorsWebFilter(source);
     }
 
-    /**
-     * Registers the enhanced API security filter as a servlet filter.
-     * This provides an additional layer of protection for servlet-based requests.
-     */
-    @Bean
-    public org.springframework.boot.web.servlet.FilterRegistrationBean<EnhancedApiSecurityFilter> loggingFilter(
-            EnhancedApiSecurityFilter filter) {
-        org.springframework.boot.web.servlet.FilterRegistrationBean<EnhancedApiSecurityFilter> registrationBean
-                = new org.springframework.boot.web.servlet.FilterRegistrationBean<>();
-
-        registrationBean.setFilter(filter);
-        // Apply to all URLs - adjust as needed for your application
-        registrationBean.addUrlPatterns("/*");
-        // Set order to ensure it runs early in the filter chain
-        registrationBean.setOrder(1);
-
-        return registrationBean;
-    }
 }

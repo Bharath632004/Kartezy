@@ -8,9 +8,14 @@ import { useRouter } from 'next/navigation';
 
 const MerchantLandingPage = () => {
   const router = useRouter();
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState<{
+    activeMerchants: string;
+    avgRevenue: string;
+    cities: string;
+    customerBase: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const loadStats = useCallback(async () => {
     try {
@@ -19,8 +24,9 @@ const MerchantLandingPage = () => {
       const res = await api.get('/api/merchants/stats');
       setStats(res.data);
     } catch (err) {
-      if (err.response?.status !== 401) {
-        setError(err.response?.data?.message || 'Failed to load stats');
+      const apiError = err as { response?: { status?: number; data?: { message?: string } } };
+      if (apiError.response?.status !== 401) {
+        setError(apiError.response?.data?.message || 'Failed to load stats');
       }
       setStats({ activeMerchants: '0', avgRevenue: '₹0', cities: '0', customerBase: '0' });
     } finally {
@@ -49,9 +55,8 @@ const MerchantLandingPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
-      {/* Hero */}
       <Box sx={{ mb: 6, textAlign: 'center' }}>
-        <Typography variant="h2" fontWeight={700} sx={{ mb: 2 }}>Sell on Kartezy</Typography>
+        <Typography variant="h2" sx={{ fontWeight: 700, mb: 2 }}>Sell on Kartezy</Typography>
         <Typography variant="h6" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
           Reach millions of customers and grow your business with India&apos;s fastest grocery delivery platform
         </Typography>
@@ -61,10 +66,9 @@ const MerchantLandingPage = () => {
         </Button>
       </Box>
 
-      {/* Stats */}
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 6 }, mb: 4 }}>
         <CardContent>
-          <Typography variant="h3" fontWeight={600} sx={{ mb: 4, textAlign: 'center' }}>Join Thousands of Successful Merchants</Typography>
+          <Typography variant="h3" sx={{ fontWeight: 600, mb: 4, textAlign: 'center' }}>Join Thousands of Successful Merchants</Typography>
           {loading ? (
             <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
           ) : (
@@ -75,10 +79,10 @@ const MerchantLandingPage = () => {
                 { value: stats?.cities ?? '10+', label: 'Cities Covered', icon: LocationOn },
                 { value: stats?.customerBase ?? '500K+', label: 'Customer Base', icon: Group }
               ].map((stat, i) => (
-                <Grid item xs={12} sm={6} md={3} key={i}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
                   <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                     <stat.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="h4" fontWeight={700} color="primary.main">{stat.value}</Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 700 }} color="primary.main">{stat.value}</Typography>
                     <Typography variant="body2" color="text.secondary">{stat.label}</Typography>
                   </Card>
                 </Grid>
@@ -88,16 +92,15 @@ const MerchantLandingPage = () => {
         </CardContent>
       </Card>
 
-      {/* Features */}
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 6 }, mb: 4 }}>
         <CardContent>
-          <Typography variant="h3" fontWeight={600} sx={{ mb: 4, textAlign: 'center' }}>Why Sell on Kartezy?</Typography>
+          <Typography variant="h3" sx={{ fontWeight: 600, mb: 4, textAlign: 'center' }}>Why Sell on Kartezy?</Typography>
           <Grid container spacing={3}>
             {features.map((f, i) => (
-              <Grid item xs={12} sm={6} md={4} key={i}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
                 <Card sx={{ p: 3, borderRadius: 4, height: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                   <f.icon sx={{ fontSize: 36, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>{f.title}</Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>{f.title}</Typography>
                   <Typography variant="body2" color="text.secondary">{f.desc}</Typography>
                 </Card>
               </Grid>
@@ -106,19 +109,18 @@ const MerchantLandingPage = () => {
         </CardContent>
       </Card>
 
-      {/* How it works */}
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: { xs: 3, md: 6 } }}>
         <CardContent>
-          <Typography variant="h3" fontWeight={600} sx={{ mb: 4, textAlign: 'center' }}>How It Works</Typography>
-          <Grid container spacing={3} justifyContent="center">
+          <Typography variant="h3" sx={{ fontWeight: 600, mb: 4, textAlign: 'center' }}>How It Works</Typography>
+          <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
             {howItWorks.map((step, i) => (
-              <Grid item xs={12} sm={6} md={4} key={i}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
                 <Box sx={{ textAlign: 'center', p: 3 }}>
                   <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: 'primary.main', color: 'white',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 700, mx: 'auto', mb: 2 }}>
                     {step.icon}
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>{step.title}</Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>{step.title}</Typography>
                   <Typography variant="body2" color="text.secondary">{step.desc}</Typography>
                 </Box>
               </Grid>

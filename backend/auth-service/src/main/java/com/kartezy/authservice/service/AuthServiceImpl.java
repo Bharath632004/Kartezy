@@ -1,7 +1,12 @@
 package com.kartezy.authservice.service;
 import com.kartezy.authservice.dto.*;
 import com.kartezy.authservice.entity.*;
-import com.kartezy.authservice.repository.*;
+import com.kartezy.authservice.repository.DeviceRepository;
+import com.kartezy.authservice.repository.OTPRepository;
+import com.kartezy.authservice.repository.RefreshTokenRepository;
+import com.kartezy.authservice.repository.RoleRepository;
+import com.kartezy.authservice.repository.SessionRepository;
+import com.kartezy.authservice.repository.UserRepository;
 import com.kartezy.authservice.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +30,10 @@ import java.util.UUID;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PermissionRepository permissionRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final OTPRepository otpRepository;
     private final SessionRepository sessionRepository;
     private final DeviceRepository deviceRepository;
-    private final OAuthAccountRepository oauthAccountRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;

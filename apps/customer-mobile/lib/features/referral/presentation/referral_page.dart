@@ -218,7 +218,7 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
                                 ),
                                 _buildStatColumn(
                                   'Rewards',
-                                  '\$${_referral!.rewardsEarned.toStringAsFixed(2)}',
+                                  '₹${_referral!.rewardsEarned.toStringAsFixed(2)}',
                                   Icons.monetization_on,
                                 ),
                               ],
@@ -258,7 +258,7 @@ class _ReferralPageState extends ConsumerState<ReferralPage> {
                               ),
                               title: Text('Referral #${index + 1}'),
                               subtitle: Text(
-                                'Rewards: \$${referral.rewardsEarned.toStringAsFixed(2)}',
+                                'Rewards: ₹${referral.rewardsEarned.toStringAsFixed(2)}',
                               ),
                               trailing: Text(
                                 '${referral.referralCount} friends',

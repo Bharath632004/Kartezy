@@ -4,13 +4,33 @@ server:
 spring:
   application:
     name: order-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/kartezy_order}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:kartezy}
+    password: ${DB_PASSWORD:kartezy}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  config:
+    import: configserver:http://config-server:8888
   cloud:
     config:
       uri: http://config-server:8888
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+        max-attempts: 6
     discovery:
       enabled: true
       service-id: config-server
-  # For Consul or other service discovery, but we are using Eureka
 eureka:
   client:
     service-url:
@@ -33,13 +53,11 @@ jwt:
   refresh-token:
     expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000} # 7 days in milliseconds
 
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      properties:
-        spring.json.type.mapping: event:com.kartezy.shared.events.OrderEvent
 
 security:
   oauth2:

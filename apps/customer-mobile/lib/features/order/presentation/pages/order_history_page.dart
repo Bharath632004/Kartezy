@@ -143,7 +143,7 @@ class OrderHistoryItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('${order.items.length} items'),
-            Text('Total: \$${order.totalAmount.toStringAsFixed(2)}'),
+            Text('Total: ₹${order.totalAmount.toStringAsFixed(2)}'),
             Text(
               'Status: ${_formatStatus(order.orderStatus)}',
               style: TextStyle(

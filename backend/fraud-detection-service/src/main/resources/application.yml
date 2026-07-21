@@ -4,9 +4,17 @@ server:
 spring:
   application:
     name: fraud-detection-service
+  config:
+    import: configserver:http://config-server:8888
   cloud:
     config:
       uri: http://config-server:8888
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+        max-attempts: 6
 
 eureka:
   client:

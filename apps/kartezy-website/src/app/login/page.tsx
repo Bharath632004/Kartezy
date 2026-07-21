@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, Stack, Typography, Card, CardContent, TextField, Button, Link as MuiLink, Checkbox, FormControlLabel, RadioGroup, Radio } from '@mui/material';
+import { Box, Container, Stack, Typography, Card, CardContent, TextField, Button, Link as MuiLink, Checkbox, FormControlLabel, RadioGroup, Radio, Divider } from '@mui/material';
 import { Person, Lock, CheckCircle, Link } from '@mui/icons-material';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -10,23 +10,24 @@ import { login } from '@/lib/services';
 const LoginPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false,
   });
 
-  const { mutate: loginMutation, isLoading: isMutating } = useMutation({
+  const { mutate: loginMutation, isPending: isMutating } = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
+    onSuccess: (data: { token: string }) => {
       // Store token in localStorage (already handled by api interceptor)
       localStorage.setItem('token', data.token);
       // Redirect to home or previous page
       router.push('/');
     },
-    onError: (error) => {
-      setError(error.response?.data?.message || 'Login failed');
+    onError: (error: Error) => {
+      const axiosErr = error as { response?: { data?: { message?: string } } };
+      setError(axiosErr.response?.data?.message || 'Login failed');
       setLoading(false);
     },
   });
@@ -52,8 +53,8 @@ const LoginPage = () => {
     <Container maxWidth="md" sx={{ py: { xs: 4, md: 6 }, display: 'flex', alignItems: 'center', minHeight: '100vh' }}>
       <Card sx={{ width: '100%', maxWidth: 400, borderRadius: 8, boxShadow: '0 4px 20px rgba(0,0,0,0.08)', p: 6 }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Person fontSize={48} color="primary.main" sx={{ mb: 2 }} />
-          <Typography variant="h4" fontWeight={600} sx={{ mb: 1 }}>
+          <Person sx={{ fontSize: 48, mb: 2 }} color="primary" />
+          <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
             Welcome Back
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

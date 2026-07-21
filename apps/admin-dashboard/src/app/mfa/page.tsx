@@ -25,7 +25,7 @@ const MfaPage = () => {
   };
 
   const generateQrCodeUrl = (secret: string) => {
-    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=otpauth://totp/Kartezy:admin@kartezy.com?secret=${secret}&issuer=Kartezy`;
+    return `https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=otpauth://totp/Kartezy:${encodeURIComponent('admin@kartezy.com')}?secret=${secret}&issuer=Kartezy`;
   };
 
   const generateBackupCodes = () => {

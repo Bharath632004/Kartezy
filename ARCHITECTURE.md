@@ -34,15 +34,15 @@ Kartezy is an AI-powered Hyperlocal Quick Commerce Platform connecting customers
 | config-server | 8888 | Spring Cloud Config |
 | auth-service | 8081 | Authentication & Authorization |
 | user-service | 8082 | User management |
-| catalog-service | 8083 | Product catalog |
-| inventory-service | 8084 | Inventory management |
-| order-service | 8085 | Order processing |
-| merchant-service | 8086 | Merchant management |
+| merchant-service | 8083 | Merchant management |
+| catalog-service | 8084 | Product catalog |
+| inventory-service | 8085 | Inventory management |
+| order-service | 8086 | Order processing |
 | delivery-service | 8091 | Delivery management |
 | payment-service | 8092 | Payment processing |
 | notification-service | 8093 | Notifications |
 | review-service | 8094 | Reviews & ratings |
-| wallet-service | 8095 | Wallet management |
+| wallet-service | 8090 | Wallet management |
 
 ## Technology Stack
 

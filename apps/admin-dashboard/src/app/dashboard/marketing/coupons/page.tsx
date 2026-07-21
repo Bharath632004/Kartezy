@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Stack, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, TextField as MuiTextField, InputLabel, MenuItem, FormControl, Select, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';

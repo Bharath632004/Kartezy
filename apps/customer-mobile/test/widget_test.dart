@@ -32,15 +32,17 @@ void main() {
     await Hive.deleteFromDisk();
   });
 
-  testWidgets('HiveManager initializes and opens boxes', (
-    WidgetTester tester,
-  ) async {
-    final hive = MockHiveManager();
-    await hive.init();
+  testWidgets(
+    'HiveManager initializes and opens boxes',
+    (WidgetTester tester) async {
+      final hive = MockHiveManager();
+      await hive.init();
 
-    final settingsBox = Hive.box<int>('settings');
-    expect(settingsBox.isOpen, true);
-  });
+      final settingsBox = Hive.box<int>('settings');
+      expect(settingsBox.isOpen, true);
+    },
+    timeout: const Timeout(Duration(seconds: 10)),
+  );
 
   testWidgets('Hive settings box read/write', (WidgetTester tester) async {
     final hive = MockHiveManager();
@@ -50,5 +52,5 @@ void main() {
     await settingsBox.put('testKey', 42);
     final value = settingsBox.get('testKey');
     expect(value, 42);
-  });
+  }, timeout: const Timeout(Duration(seconds: 10)));
 }

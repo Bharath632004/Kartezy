@@ -7,11 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * Main application class for the Encryption Service.
  */
-@SpringBootApplication
-@ComponentScan(basePackages = {
-    "com.kartezy.encryptionservice",
-    "com.kartezy.shared.security.encryption"
-})
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication(scanBasePackages = {"com.kartezy.encryptionservice", "com.kartezy.shared"})
+@EnableDiscoveryClient
 public class EncryptionServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(EncryptionServiceApplication.class, args);

@@ -8,12 +8,11 @@ import com.kartezy.shared.security.audit.EnhancedAuditLogService;
 import com.kartezy.shared.security.audit.EnhancedAuditLogServiceImpl;
 import com.kartezy.shared.security.api.FixedWindowRateLimiter;
 import com.kartezy.shared.security.api.RateLimiter;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 
 /**
  * Auto-configuration for the Kartezy Security module.
@@ -35,17 +34,19 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Configures an EnhancedAuditLogService bean if an EnhancedAuditEventRepository is present.
-     * This provides tamper-evident audit logging with cryptographic hashing.
-     * Falls back to the basic AuditLogService if enhanced repository is not available.
+     * Configures an AuditLogService bean.
+     * If EnhancedAuditLogService is available as a fallback, it is used (it implements AuditLogService).
+     * Otherwise, falls back to the basic AuditLogServiceImpl.
      */
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(AuditLogService.class)
     public AuditLogService auditLogService(AuditEventRepository auditEventRepository,
-                                           EnhancedAuditLogService enhancedAuditLogService) {
-        // If enhanced service is available, use it (it implements AuditLogService)
-        // Otherwise, fall back to basic implementation
-        return (enhancedAuditLogService != null) ? enhancedAuditLogService : new AuditLogServiceImpl(auditEventRepository);
+                                           ObjectProvider<EnhancedAuditLogService> enhancedAuditLogServiceProvider) {
+        EnhancedAuditLogService enhancedService = enhancedAuditLogServiceProvider.getIfAvailable();
+        if (enhancedService != null) {
+            return enhancedService;
+        }
+        return new AuditLogServiceImpl(auditEventRepository);
     }
 
     /**

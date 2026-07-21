@@ -25,11 +25,8 @@ import java.util.Map;
 @Component
 public class ApiThreatProtectionFilter extends AbstractGatewayFilterFactory<ApiThreatProtectionFilter.Config> {
 
-    private final OwaspTop10Protector owaspTop10Protector;
-
-    public ApiThreatProtectionFilter(OwaspTop10Protector owaspTop10Protector) {
+    public ApiThreatProtectionFilter() {
         super(Config.class);
-        this.owaspTop10Protector = owaspTop10Protector;
     }
 
     @Override
@@ -122,22 +119,22 @@ public class ApiThreatProtectionFilter extends AbstractGatewayFilterFactory<ApiT
         }
 
         // Check for SQL injection
-        if (owaspTop10Protector.containsSqlInjection(value)) {
+        if (OwaspTop10Protector.containsSqlInjection(value)) {
             return true;
         }
 
         // Check for NoSQL injection
-        if (owaspTop10Protector.containsNosqlInjection(value)) {
+        if (OwaspTop10Protector.containsNosqlInjection(value)) {
             return true;
         }
 
         // Check for XSS
-        if (owaspTop10Protector.containsXss(value)) {
+        if (OwaspTop10Protector.containsXss(value)) {
             return true;
         }
 
         // Check for OS command injection
-        if (owaspTop10Protector.containsOsCommandInjection(value)) {
+        if (OwaspTop10Protector.containsOsCommandInjection(value)) {
             return true;
         }
 

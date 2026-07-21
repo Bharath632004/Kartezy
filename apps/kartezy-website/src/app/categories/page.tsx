@@ -42,7 +42,7 @@ const CategoriesPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
       <Box sx={{ mb: { xs: 4, md: 6 } }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>
           Shop by Category
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
@@ -75,7 +75,7 @@ const CategoriesPage = () => {
       </Box>
 
       <Box>
-        <Typography variant="h4" fontWeight={600} sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 600, mb: 4 }}>
           All Categories
         </Typography>
         {filteredCategories.length === 0 ? (
@@ -129,9 +129,8 @@ const CategoriesPage = () => {
 
                     <Typography
                       variant="h6"
-                      fontWeight={600}
-                      color={selectedCategoryId === category.id ? (category.color || 'primary.main') : 'text.primary'}
-                      sx={{ mb: 1 }}
+                      color={selectedCategoryId === category.id ? 'primary' : 'text.primary'}
+                      sx={{ fontWeight: 600, mb: 1 }}
                     >
                       {category.name}
                     </Typography>
@@ -147,7 +146,7 @@ const CategoriesPage = () => {
                         label={`${category.productCount} products`}
                         size="small"
                         sx={{
-                          backgroundColor: selectedCategoryId === category.id ? (category.color || 'primary.main') : 'transparent',
+                          backgroundColor: selectedCategoryId === category.id ? 'primary.main' : 'transparent',
                           color: selectedCategoryId === category.id ? 'white' : 'text.secondary',
                           fontWeight: 600,
                         }}
@@ -171,10 +170,10 @@ const CategoriesPage = () => {
           textAlign: 'center',
         }}
       >
-        <Typography variant="h3" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h3" sx={{ fontWeight: 600, mb: 2 }}>
           Ready to Start Shopping?
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4, opacity: 0.9 }} maxWidth={600} mx="auto">
+        <Typography variant="body1" sx={{ mb: 4, opacity: 0.9, maxWidth: 600, mx: 'auto' }}>
           Browse through our categories to find the perfect products for your needs.
           Everything is just a click away!
         </Typography>

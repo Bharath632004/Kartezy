@@ -9,7 +9,6 @@ class CategoriesPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  
     if (categoryId != null) {
       return Scaffold(
         appBar: AppBar(title: Text(categoryId!)),
@@ -62,7 +61,7 @@ class CategoriesPage extends ConsumerWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: cat.color.withValues(alpha:0.1),
+                    color: cat.color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(cat.icon, color: cat.color, size: 28),

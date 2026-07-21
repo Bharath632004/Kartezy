@@ -35,7 +35,7 @@ const BlogHomePage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>
           Kartify Blog
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -47,7 +47,7 @@ const BlogHomePage = () => {
         <CardContent>
           <Box sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
                 Latest Articles
               </Typography>
               <Box sx={{ display: 'flex', gap: 2 }}>
@@ -100,7 +100,7 @@ const BlogHomePage = () => {
                         />
                       ))}
                     </Box>
-                    <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
                       {post.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

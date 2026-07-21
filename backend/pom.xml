@@ -44,6 +44,11 @@
         <module>analytics-service</module>
         <module>fraud-detection-service</module>
         <module>ai-service</module>
+        <module>integration-tests</module>
+        <module>pricing-service</module>
+        <module>secrets-service</module>
+        <module>encryption-service</module>
+        <module>security-dashboard</module>
         <!-- Enterprise services - uncomment when service stubs are created
         <module>tenant-service</module>
         <module>warehouse-service</module>
@@ -141,6 +146,12 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>4.1.4</version>
             </dependency>
         </dependencies>
 

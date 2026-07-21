@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:dio/dio.dart';
+import 'package:merchant_mobile/core/api/api_constants.dart';
 
-final customersListProvider = FutureProvider<List<Map<String, dynamic>>>((
-  ref,
-) async {
-  return [];
+final dioProvider = Provider<Dio>((ref) {
+  final dio = Dio(BaseOptions(
+    baseUrl: ApiConstants.baseUrl,
+    connectTimeout: const Duration(seconds: 15),
+    receiveTimeout: const Duration(seconds: 15),
+    headers: {'Content-Type': 'application/json'},
+  ));
+  return dio;
+});
+
+final customersListProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final dio = ref.read(dioProvider);
+  final response = await dio.get('/merchant/customers');
+  final List<dynamic> data = response.data is List ? response.data : (response.data['data'] ?? []);
+  return data.cast<Map<String, dynamic>>();
 });
 
 class CustomersPage extends ConsumerWidget {
@@ -73,7 +86,7 @@ class CustomersPage extends ConsumerWidget {
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: theme.primaryColor.withValues(alpha:0.08),
+                        color: theme.primaryColor.withValues(alpha: 0.08),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -120,8 +133,8 @@ class CustomersPage extends ConsumerWidget {
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: theme.primaryColor.withValues(alpha:
-                        0.1,
+                      backgroundColor: theme.primaryColor.withValues(
+                        alpha: 0.1,
                       ),
                       child: Text(
                         ((customer['name'] as String?) ?? '?')
@@ -148,7 +161,7 @@ class CustomersPage extends ConsumerWidget {
                         '${customer['orders_count'] ?? 0}',
                         style: const TextStyle(fontSize: 12),
                       ),
-                      backgroundColor: theme.primaryColor.withValues(alpha:
+                      backgroundColor: theme.primaryColor.withValues(
                         alpha: 0.08,
                       ),
                     ),

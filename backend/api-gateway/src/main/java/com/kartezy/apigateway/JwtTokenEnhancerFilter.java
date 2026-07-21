@@ -63,17 +63,6 @@ public class JwtTokenEnhancerFilter extends AbstractGatewayFilterFactory<JwtToke
         };
     }
 
-    // Helper methods for JWT parsing would go here in a real implementation
-    private String extractUserIdFromToken(String token) {
-        // Implementation would decode JWT and extract user ID claim
-        return null;
-    }
-
-    private String extractRolesFromToken(String token) {
-        // Implementation would decode JWT and extract roles claim
-        return null;
-    }
-
     /**
      * Configuration class for the JwtTokenEnhancerFilter.
      */

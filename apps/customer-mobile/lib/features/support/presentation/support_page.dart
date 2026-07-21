@@ -31,7 +31,7 @@ class SupportPage extends ConsumerWidget {
             gradient: LinearGradient(
               colors: [
                 theme.primaryColor,
-                theme.primaryColor.withValues(alpha:0.8),
+                theme.primaryColor.withValues(alpha: 0.8),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -55,14 +55,14 @@ class SupportPage extends ConsumerWidget {
                 decoration: InputDecoration(
                   hintText: 'Search help articles...',
                   hintStyle: TextStyle(
-                    color: Colors.white.withValues(alpha:0.6),
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                   prefixIcon: Icon(
                     Icons.search,
-                    color: Colors.white.withValues(alpha:0.8),
+                    color: Colors.white.withValues(alpha: 0.8),
                   ),
                   filled: true,
-                  fillColor: Colors.white.withValues(alpha:0.15),
+                  fillColor: Colors.white.withValues(alpha: 0.15),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -182,7 +182,7 @@ class SupportPage extends ConsumerWidget {
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: theme.primaryColor.withValues(alpha:0.08),
+            color: theme.primaryColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: theme.primaryColor, size: 22),

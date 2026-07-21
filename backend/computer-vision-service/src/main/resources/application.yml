@@ -4,16 +4,19 @@ server:
 spring:
   application:
     name: computer-vision-service
+  config:
+    import: configserver:http://config-server:8888
   cloud:
     config:
-      enabled: false
+      uri: http://config-server:8888
+      fail-fast: false
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://discovery-server:8761/eureka}
-    fetchRegistry: true
-    registerWithEureka: true
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
 
 management:
   endpoints:

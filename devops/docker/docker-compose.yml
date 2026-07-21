@@ -14,7 +14,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # Optional: mount SQL init scripts at ./init/postgres/ (create dir if needed)
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kartezy}"]
       interval: 10s
@@ -167,16 +166,15 @@ services:
     ports:
       - "${CONFIG_SERVER_PORT:-8888}:8888"
     environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_PROFILES_ACTIVE: native
       SPRING_APPLICATION_NAME: config-server
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
-      SPRING_CLOUD_SERVER_GIT_URI: file:///config-repo
-      SPRING_CLOUD_SERVER_GIT_CLONE_ON_START: "true"
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:///config-repo
+      # Set a strong random encryption key in production (min 32 chars)
+      ENCRYPT_KEY: ${ENCRYPT_KEY:-changeit}
     volumes:
       - ../../config-repo:/config-repo:ro
-    depends_on:
-      discovery-server:
-        condition: service_healthy
+    # Config Server starts standalone to avoid chicken-and-egg with Eureka
+    # It serves configs for all services including discovery-server
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
       interval: 30s
@@ -439,7 +437,7 @@ services:
       context: ../..
       dockerfile: ./backend/payment-service/Dockerfile
     ports:
-      - "${PAYMENT_SERVICE_PORT:-8087}:8087"
+      - "${PAYMENT_SERVICE_PORT:-8092}:8092"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: payment-service
@@ -463,7 +461,7 @@ services:
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8092/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -512,83 +510,10 @@ services:
       context: ../..
       dockerfile: ./backend/delivery-service/Dockerfile
     ports:
-      - "${DELIVERY_SERVICE_PORT:-8088}:8088"
+      - "${DELIVERY_SERVICE_PORT:-8091}:8091"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: delivery-service
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
-    depends_on:
-      discovery-server:
-        condition: service_healthy
-      config-server:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8088/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    restart: unless-stopped
-    networks:
-      - kartezy-network
-
-  notification-service:
-    build:
-      context: ../..
-      dockerfile: ./backend/notification-service/Dockerfile
-    ports:
-      - "${NOTIFICATION_SERVICE_PORT:-8089}:8089"
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
-      SPRING_APPLICATION_NAME: notification-service
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      discovery-server:
-        condition: service_healthy
-      config-server:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8089/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    restart: unless-stopped
-    networks:
-      - kartezy-network
-
-  review-service:
-    build:
-      context: ../..
-      dockerfile: ./backend/review-service/Dockerfile
-    ports:
-      - "${REVIEW_SERVICE_PORT:-8091}:8091"
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
-      SPRING_APPLICATION_NAME: review-service
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
@@ -615,12 +540,85 @@ services:
     networks:
       - kartezy-network
 
+  notification-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/notification-service/Dockerfile
+    ports:
+      - "${NOTIFICATION_SERVICE_PORT:-8093}:8093"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: notification-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8093/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  review-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/review-service/Dockerfile
+    ports:
+      - "${REVIEW_SERVICE_PORT:-8094}:8094"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: review-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8094/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
   recommendation-service:
     build:
       context: ../..
       dockerfile: ./backend/recommendation-service/Dockerfile
     ports:
-      - "${RECOMMENDATION_SERVICE_PORT:-8092}:8092"
+      - "${RECOMMENDATION_SERVICE_PORT:-8087}:8087"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: recommendation-service
@@ -641,7 +639,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8092/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -655,7 +653,7 @@ services:
       context: ../..
       dockerfile: ./backend/analytics-service/Dockerfile
     ports:
-      - "${ANALYTICS_SERVICE_PORT:-8093}:8093"
+      - "${ANALYTICS_SERVICE_PORT:-8089}:8089"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: analytics-service
@@ -681,7 +679,273 @@ services:
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8093/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8089/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  support-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/support-service/Dockerfile
+    ports:
+      - "${SUPPORT_SERVICE_PORT:-8097}:8097"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: support-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8097/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  cms-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/cms-service/Dockerfile
+    ports:
+      - "${CMS_SERVICE_PORT:-8098}:8098"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: cms-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8098/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  finance-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/finance-service/Dockerfile
+    ports:
+      - "${FINANCE_SERVICE_PORT:-8099}:8099"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: finance-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8099/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  lead-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/lead-service/Dockerfile
+    ports:
+      - "${LEAD_SERVICE_PORT:-8107}:8107"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: lead-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy_leads
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8107/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  search-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/search-service/Dockerfile
+    ports:
+      - "${SEARCH_SERVICE_PORT:-8102}:8102"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: search-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      ELASTICSEARCH_URIS: http://elasticsearch:9200
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      REDIS_HOST: redis
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8102/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  pricing-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/pricing-service/Dockerfile
+    ports:
+      - "${PRICING_SERVICE_PORT:-8105}:8105"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: pricing-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      REDIS_HOST: redis
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8105/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  # =====================
+  # Security & Infrastructure Services
+  # =====================
+  encryption-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/encryption-service/Dockerfile
+    ports:
+      - "${ENCRYPTION_SERVICE_PORT:-8110}:8110"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: encryption-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8110/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  secrets-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/secrets-service/Dockerfile
+    ports:
+      - "${SECRETS_SERVICE_PORT:-8111}:8111"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: secrets-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8111/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  security-dashboard:
+    build:
+      context: ../..
+      dockerfile: ./backend/security-dashboard/Dockerfile
+    ports:
+      - "${SECURITY_DASHBOARD_PORT:-8112}:8112"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: security-dashboard
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kartezy_security
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-kartezy}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8112/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -698,7 +962,7 @@ services:
       context: ../..
       dockerfile: ./backend/ai-service/Dockerfile
     ports:
-      - "${AI_SERVICE_PORT:-8094}:8094"
+      - "${AI_SERVICE_PORT:-8106}:8106"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: ai-service
@@ -716,7 +980,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8094/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8106/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -790,7 +1054,7 @@ services:
       context: ../..
       dockerfile: ./backend/computer-vision-service/Dockerfile
     ports:
-      - "${CV_SERVICE_PORT:-8097}:8097"
+      - "${CV_SERVICE_PORT:-8104}:8104"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: computer-vision-service
@@ -806,7 +1070,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8097/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8104/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -820,70 +1084,10 @@ services:
       context: ../..
       dockerfile: ./backend/nlp-service/Dockerfile
     ports:
-      - "${NLP_SERVICE_PORT:-8098}:8098"
+      - "${NLP_SERVICE_PORT:-8100}:8100"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: nlp-service
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
-    depends_on:
-      discovery-server:
-        condition: service_healthy
-      config-server:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8098/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    restart: unless-stopped
-    networks:
-      - kartezy-network
-
-  ocr-service:
-    build:
-      context: ../..
-      dockerfile: ./backend/ocr-service/Dockerfile
-    ports:
-      - "${OCR_SERVICE_PORT:-8099}:8099"
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
-      SPRING_APPLICATION_NAME: ocr-service
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
-    depends_on:
-      discovery-server:
-        condition: service_healthy
-      config-server:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8099/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    restart: unless-stopped
-    networks:
-      - kartezy-network
-
-  voice-service:
-    build:
-      context: ../..
-      dockerfile: ./backend/voice-service/Dockerfile
-    ports:
-      - "${VOICE_SERVICE_PORT:-8100}:8100"
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
-      SPRING_APPLICATION_NAME: voice-service
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SPRING_REDIS_HOST: redis
@@ -905,12 +1109,72 @@ services:
     networks:
       - kartezy-network
 
+  ocr-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/ocr-service/Dockerfile
+    ports:
+      - "${OCR_SERVICE_PORT:-8101}:8101"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: ocr-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8101/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
+  voice-service:
+    build:
+      context: ../..
+      dockerfile: ./backend/voice-service/Dockerfile
+    ports:
+      - "${VOICE_SERVICE_PORT:-8103}:8103"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
+      SPRING_APPLICATION_NAME: voice-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: "${REDIS_PORT:-6379}"
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8103/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - kartezy-network
+
   fraud-detection-service:
     build:
       context: ../..
       dockerfile: ./backend/fraud-detection-service/Dockerfile
     ports:
-      - "${FRAUD_SERVICE_PORT:-8101}:8101"
+      - "${FRAUD_SERVICE_PORT:-8088}:8088"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES:-prod}
       SPRING_APPLICATION_NAME: fraud-detection-service
@@ -934,7 +1198,7 @@ services:
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8101/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8088/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3

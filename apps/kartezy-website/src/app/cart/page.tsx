@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Container, Stack, Typography, Card, CardContent, CardActions, Button, Divider, TextField, Chip, Stack as MuiStack, IconButton, Typography as MuiTypography } from '@mui/material';
-import { Remove, CheckCircle, OutlineOutlined, LocalMall, Money, Schedule, LocalAtm, Person, SupportAgent } from '@mui/icons-material';
+import { Remove, CheckCircle, Add as AddIcon, LocalOfferOutlined as TagOutlined, LocalMall, Money, Schedule, LocalAtm, Person, SupportAgent } from '@mui/icons-material';
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getCart, updateCartItem, removeFromCart, createOrder } from '@/lib/services';
@@ -91,7 +91,7 @@ const CartPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>
           Your Cart
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -101,7 +101,7 @@ const CartPage = () => {
 
       {!cart || cart.items.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <LocalMall fontSize={48} color="text.secondary" sx={{ mb: 3 }} />
+          <LocalMall sx={{ fontSize: 48, mb: 3 }} color="action" />
           <Typography variant="h5" color="text.secondary">
             Your cart is empty
           </Typography>
@@ -132,17 +132,17 @@ const CartPage = () => {
                       justifyContent: 'center',
                     }}
                   >
-                    <img src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    <img src={item.product.image} alt={item.product.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   </Box>
                   <Box sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                       {item.product.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                       {item.product.store} • {item.product.deliveryTime}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Typography variant="body2" fontWeight={600} sx={{ mr: 2 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 600, mr: 2 }}>
                         ₹{item.product.price}
                       </Typography>
                       {item.product.originalPrice && (
@@ -197,10 +197,10 @@ const CartPage = () => {
 
           <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, p: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-              <Typography variant="h6" fontWeight={600}>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Subtotal
               </Typography>
-              <Typography variant="h6" fontWeight={600}>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 ₹{cart.totalAmount}
               </Typography>
             </Box>
@@ -215,12 +215,14 @@ const CartPage = () => {
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   sx={{ width: 200 }}
-                  InputProps={{
-                    startAdornment: (
-                      <Box sx={{ pointerEvents: 'none', px: 1 }}>
-                        <TagOutlined fontSize="small" />
-                      </Box>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <Box sx={{ pointerEvents: 'none', px: 1 }}>
+                          <TagOutlined fontSize="small" />
+                        </Box>
+                      ),
+                    },
                   }}
                 />
                 <Button
@@ -249,10 +251,10 @@ const CartPage = () => {
             <Divider sx={{ my: 3 }} />
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
-              <Typography variant="h5" fontWeight={600}>
+              <Typography variant="h5" sx={{ fontWeight: 600 }}>
                 Total
               </Typography>
-              <Typography variant="h5" fontWeight={600} color="primary.main">
+              <Typography variant="h5" sx={{ fontWeight: 600, color: 'primary.main' }}>
                 ₹{cart.totalAmount - discount}
               </Typography>
             </Box>

@@ -174,7 +174,7 @@ class ProductReviewsTab extends StatelessWidget {
         selected: selected,
         onSelected: (_) {},
         visualDensity: VisualDensity.compact,
-        selectedColor: Theme.of(context).primaryColor.withValues(alpha:0.1),
+        selectedColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         checkmarkColor: Theme.of(context).primaryColor,
       ),
     );

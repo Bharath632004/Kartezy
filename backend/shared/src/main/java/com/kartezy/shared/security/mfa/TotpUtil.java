@@ -14,7 +14,7 @@ import java.util.Base64;
 public class TotpUtil {
 
     private static final int CODE_DIGITS = 6;
-    private static long TIME_STEP_SIZE = 30; // 30 seconds
+    private static final long TIME_STEP_SIZE = 30; // 30 seconds
     private static final String HMAC_ALGORITHM = "HmacSHA1";
 
     private TotpUtil() {

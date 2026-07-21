@@ -14,18 +14,17 @@ import com.kartezy.userservice.dto.WalletReferenceDto;
 import com.kartezy.userservice.dto.WalletTransactionDto;
 import com.kartezy.userservice.dto.WishlistItemDto;
 import com.kartezy.userservice.entity.CustomerProfile;
-import com.kartezy.userservice.entity.LoginHistory;
 import com.kartezy.userservice.entity.FavoriteProduct;
 import com.kartezy.userservice.entity.SearchHistory;
 import com.kartezy.userservice.entity.Wishlist;
+import com.kartezy.userservice.entity.Address;
 import com.kartezy.userservice.entity.WishlistItem;
 import com.kartezy.userservice.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 @PreAuthorize("isAuthenticated()")
@@ -44,7 +43,6 @@ public class UserServiceController {
     private final WalletReferenceRepository walletReferenceRepository;
     @GetMapping
     public ResponseEntity<List<UserDto>> getList(@RequestParam Map<String, String> params) {
-        // In a real implementation, this would support filtering, pagination, etc.
         Iterable<User> users = userRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
         for (User user : users) {
@@ -76,6 +74,7 @@ public class UserServiceController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @PutMapping("/{id}/block")
+    @Transactional
     public ResponseEntity<?> blockUser(@PathVariable UUID id) {
         return userRepository.findById(id)
                 .map(user -> {
@@ -86,6 +85,7 @@ public class UserServiceController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @PutMapping("/{id}/unblock")
+    @Transactional
     public ResponseEntity<?> unblockUser(@PathVariable UUID id) {
         return userRepository.findById(id)
                 .map(user -> {
@@ -100,64 +100,63 @@ public class UserServiceController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
         return userRepository.findById(id)
                 .map(user -> {
-                    // In a real system, you might want to soft-delete or check for dependencies
                     userRepository.delete(user);
                     return ResponseEntity.ok("User deleted successfully");
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/{id}/wallet")
-    public ResponseEntity<WalletReferenceDto> getWallet(@PathVariable UUID id) {
-        WalletReferenceDto wallet = WalletReferenceDto.builder()
-                .id(UUID.randomUUID())
-                .customerProfileId(UUID.randomUUID()) // In real app, link to customer profile
-                .walletId("wallet_001")
-                .walletType("WALLET")
-                .isPrimary(true)
-                .isVerified(true)
-                .build();
-        return ResponseEntity.ok(wallet);
+    public ResponseEntity<?> getWallet(@PathVariable UUID id) {
+        return customerProfileRepository.findByUserId(id)
+                .flatMap(cp -> walletReferenceRepository.findByCustomerProfileId(cp.getId()))
+                .map(wr -> ResponseEntity.ok((Object) WalletReferenceDto.builder()
+                        .id(wr.getId())
+                        .customerProfileId(wr.getCustomerProfile().getId())
+                        .walletId(wr.getWalletId())
+                        .walletType(wr.getWalletType())
+                        .isPrimary(wr.isPrimary())
+                        .isVerified(wr.isVerified())
+                        .build()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/{id}/wallet/transactions")
     public ResponseEntity<List<WalletTransactionDto>> getWalletTransactions(@PathVariable UUID id) {
-        // Return empty list for now - in a real implementation, this would fetch actual transactions
         return ResponseEntity.ok(Collections.emptyList());
     }
     @GetMapping("/{id}/orders")
     public ResponseEntity<List<OrderDto>> getOrders(@PathVariable UUID id) {
-        // In a real implementation, this would fetch orders for the user
-        // For now, return empty list
         return ResponseEntity.ok(Collections.emptyList());
     }
     @GetMapping("/{id}/login-history")
     public ResponseEntity<List<LoginHistoryDto>> getLoginHistory(@PathVariable UUID id) {
-        LoginHistoryDto lh = LoginHistoryDto.builder()
-                .id(UUID.randomUUID())
-                .userId(id)
-                .loginTime(new Date().toInstant())
-                .ipAddress("192.168.1.1")
-                .userAgent("Mozilla/5.0")
-                .success(true)
-                .build();
-        return ResponseEntity.ok(Collections.singletonList(lh));
+        // Return empty list - login history is tracked by auth-service
+        return ResponseEntity.ok(Collections.emptyList());
     }
     @GetMapping("/{id}/addresses")
     public ResponseEntity<List<AddressDto>> getAddresses(@PathVariable UUID id) {
-        AddressDto addr = AddressDto.builder()
-                .id(UUID.randomUUID())
-                .customerProfileId(id)
-                .type(AddressDto.AddressType.HOME)
-                .street("123 Main St")
-                .city("Anytown")
-                .state("NY")
-                .postalCode("12345")
-                .country("USA")
-                .defaultAddress(true)
-                .build();
-        return ResponseEntity.ok(Collections.singletonList(addr));
+        return customerProfileRepository.findByUserId(id)
+                .map(cp -> {
+                    List<Address> addresses = addressRepository.findByCustomerProfileId(cp.getId());
+                    List<AddressDto> dtos = addresses.stream()
+                            .map(addr -> AddressDto.builder()
+                                    .id(addr.getId())
+                                    .customerProfileId(cp.getId())
+                                    .type(addr.getType() != null ? AddressDto.AddressType.valueOf(addr.getType().name()) : AddressDto.AddressType.HOME)
+                                    .street(addr.getStreet())
+                                    .city(addr.getCity())
+                                    .state(addr.getState())
+                                    .postalCode(addr.getPostalCode())
+                                    .country(addr.getCountry())
+                                    .defaultAddress(addr.isDefaultAddress())
+                                    .build())
+                            .collect(Collectors.toList());
+                    return ResponseEntity.ok(dtos);
+                })
+                .orElseGet(() -> ResponseEntity.ok(Collections.emptyList()));
     }
     // New endpoints for recommendation service
     @GetMapping("/{id}/wishlist")

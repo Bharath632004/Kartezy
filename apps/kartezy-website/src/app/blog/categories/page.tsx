@@ -61,7 +61,7 @@ const BlogCategoriesPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2"  sx={{ fontWeight: 600, mb: 2 }}>
           Blog Categories
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -84,7 +84,7 @@ const BlogCategoriesPage = () => {
           ) : (
             <>
               <Box sx={{ mb: 4 }}>
-                <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
                   All Categories
                 </Typography>
                 <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 3 }}>
@@ -106,7 +106,7 @@ const BlogCategoriesPage = () => {
                     >
                       <CardContent sx={{ p: 4, textAlign: 'center' }}>
                         <Folder sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-                        <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                           {category.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -121,7 +121,7 @@ const BlogCategoriesPage = () => {
               {selectedCategory && (
                 <Box sx={{ mt: 4 }}>
                   <Box sx={{ mb: 4 }}>
-                    <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
                       Articles in &quot;{selectedCategory}&quot;
                     </Typography>
                     <Button
@@ -151,7 +151,7 @@ const BlogCategoriesPage = () => {
                                 sx={{ backgroundColor: '#e3f2fd', color: '#1976d2' }}
                               />
                             </Box>
-                            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
                               {post.title}
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

@@ -2,8 +2,10 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import { useAuthStore } from '@/store/authStore';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.kartezy.com';
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -39,7 +41,7 @@ api.interceptors.response.use(
           throw new Error('No refresh token');
         }
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/auth/refresh`,
+          `${API_BASE_URL}/api/auth/refresh`,
           { refreshToken }
         );
         const { accessToken } = response.data;

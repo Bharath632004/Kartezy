@@ -1,17 +1,17 @@
 package com.kartezy.encryptionservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Service for automatically rotating encryption keys based on policies.
  */
+@Slf4j
 @Service
 public class KeyRotationService {
 
@@ -33,12 +33,11 @@ public class KeyRotationService {
             if (isKeyExpired(entry.getValue(), defaultKeyLifetimeDays)) {
                 String newKeyId = rotateKey(entry.getKey());
                 if (newKeyId != null) {
-                    // Log rotation and notify dependent services
-                    System.out.println("Rotated key: " + entry.getKey() + " -> new key: " + newKeyId);
+                    log.info("Rotated key: {} -> new key: {}", entry.getKey(), newKeyId);
                 }
             }
         }
-        System.out.println("Key rotation check completed at: " + java.time.LocalDateTime.now());
+        log.info("Key rotation check completed at: {}", LocalDateTime.now());
     }
 
     /**

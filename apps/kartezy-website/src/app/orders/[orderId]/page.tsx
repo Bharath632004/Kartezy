@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography, Card, CardContent, CardActions, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, Table, TableHead, TableRow, TableCell, TableBody, Paper, LinearProgress } from '@mui/material';
-import { History, Receipt, LocalShipping as LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutline, LocalMall, LocationOn, Phone, Email } from '@mui/icons-material';
+import { History, Receipt, LocalShipping as LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutlined, LocalMall, LocationOn, Phone, Email } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { getOrderById } from '@/lib/services';
 import Link from 'next/link';
@@ -54,7 +54,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>
           Order Details
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -64,7 +64,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
 
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 4, mb: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
             Order Status
           </Typography>
           <Box sx={{ mb: 3 }}>
@@ -97,7 +97,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Order Date
             </Typography>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               {new Date(order.createdAt).toLocaleDateString()} at {new Date(order.createdAt).toLocaleTimeString()}
             </Typography>
           </Box>
@@ -106,7 +106,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Status
             </Typography>
-            <Typography variant="body2" fontWeight={600} color={statusLabels[order.status]?.color || 'text.primary'}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }} color={statusLabels[order.status]?.color || 'text.primary'}>
               {statusLabels[order.status]?.label || order.status}
             </Typography>
           </Box>
@@ -115,7 +115,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Delivery Address
             </Typography>
-            <Typography variant="body2" fontWeight={600} maxWidth={200}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }} maxWidth={200}>
               {order.shippingAddress?.fullName}, {order.shippingAddress?.address}, {order.shippingAddress?.city} {order.shippingAddress?.pincode}
             </Typography>
           </Box>
@@ -124,7 +124,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Contact
             </Typography>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               {order.shippingAddress?.phone}
             </Typography>
           </Box>
@@ -133,7 +133,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Payment Method
             </Typography>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               {order.paymentMethod?.toUpperCase() || 'Cash on Delivery'}
             </Typography>
           </Box>
@@ -142,7 +142,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
 
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 4, mb: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
             Order Items
           </Typography>
           <Divider sx={{ mb: 2 }} />
@@ -175,9 +175,9 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
                         >
                           <img src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         </Box>
-                        <Typography variant="body2" fontWeight={600} sx={{ mb: 1 }}>
-                          {item.product.name}
-                        </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+              {item.product.name}
+            </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {item.product.brand || 'Brand'}
                         </Typography>
@@ -196,7 +196,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
 
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
             Order Summary
           </Typography>
           <Divider sx={{ mb: 2 }} />
@@ -204,7 +204,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Subtotal
             </Typography>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               ₹{order.subtotal}
             </Typography>
           </Box>
@@ -212,7 +212,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Delivery Fee
             </Typography>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               ₹{order.deliveryFee || 0}
             </Typography>
           </Box>
@@ -220,16 +220,16 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Discount
             </Typography>
-            <Typography variant="body2" fontWeight={600} color="error">
+            <Typography variant="body2" sx={{ fontWeight: 600 }} color="error">
               -₹{order.discount || 0}
             </Typography>
           </Box>
           <Divider sx={{ mb: 2 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-            <Typography variant="h5" fontWeight={600}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
               Total
             </Typography>
-            <Typography variant="h5" fontWeight={600} color="primary.main">
+            <Typography variant="h5" sx={{ fontWeight: 600 }} color="primary.main">
               ₹{order.totalAmount}
             </Typography>
           </Box>

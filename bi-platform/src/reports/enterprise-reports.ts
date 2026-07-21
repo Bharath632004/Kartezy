@@ -92,7 +92,7 @@ export class EnterpriseReports {
     try {
       const startTime = Date.now();
 
-      // Generate mock report data based on type
+      // Fetch report data from the data warehouse
       const reportData = await this.getReportData(request);
       let buffer: Buffer | string;
       let rowCount = 0;

@@ -1,5 +1,6 @@
 package com.kartezy.secretservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.Map;
 /**
  * Service for automatically rotating secrets based on policies.
  */
+@Slf4j
 @Service
 public class SecretsRotationService {
 
@@ -30,9 +32,7 @@ public class SecretsRotationService {
         // 4. Update the secrets in the store
         // 5. Notify dependent applications/services of the changes
 
-        // For this example, we're just logging that the check occurred
-        System.out.println("Secrets rotation check performed at: " +
-                java.time.LocalDateTime.now());
+        log.info("Secrets rotation check performed at: {}", java.time.LocalDateTime.now());
     }
 
     /**

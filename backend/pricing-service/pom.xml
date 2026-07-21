@@ -7,11 +7,12 @@
     <parent>
         <groupId>com.kartezy</groupId>
         <artifactId>kartezy-backend</artifactId>
-        <version>1.0.0</version>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>pricing-service</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>Kartezy Pricing Service</name>
     <description>Dynamic pricing engine with demand, inventory, time-based, and festival pricing</description>
 
@@ -43,12 +44,17 @@
         <dependency>
             <groupId>com.kartezy</groupId>
             <artifactId>shared</artifactId>
-            <version>1.0.0</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

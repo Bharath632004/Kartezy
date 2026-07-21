@@ -1,19 +1,29 @@
 "use client";
 
 import { Box, Container, Typography, Card, CardContent, Button, Chip, CircularProgress, Alert, Snackbar } from '@mui/material';
-import { Favorite, LocalOffer } from '@mui/icons-material';
+import { Favorite } from '@mui/icons-material';
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
 
 const CATEGORIES = ['all', 'groceries', 'snacks', 'dairy', 'beverages', 'breakfast', 'personal-care'];
 
+interface Offer {
+  id: string;
+  title: string;
+  description: string;
+  discount: string;
+  store?: string;
+  validUntil?: string;
+  isFeatured?: boolean;
+}
+
 const OffersPage = () => {
-  const [offers, setOffers] = useState([]);
+  const [offers, setOffers] = useState<Offer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState('all');
-  const [savedOffers, setSavedOffers] = useState(new Set());
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [savedOffers, setSavedOffers] = useState<Set<string>>(new Set());
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({ open: false, message: '', severity: 'success' });
 
   const loadOffers = useCallback(async () => {
     try {
@@ -23,7 +33,8 @@ const OffersPage = () => {
       const res = await api.get('/api/offers', { params });
       setOffers(res.data.offers ?? res.data ?? []);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load offers');
+      const apiError = err as { response?: { data?: { message?: string } } };
+      setError(apiError.response?.data?.message || 'Failed to load offers');
     } finally {
       setLoading(false);
     }
@@ -31,7 +42,7 @@ const OffersPage = () => {
 
   useEffect(() => { loadOffers(); }, [loadOffers]);
 
-  const handleSaveOffer = async (offerId) => {
+  const handleSaveOffer = async (offerId: string) => {
     try {
       await api.post(`/api/offers/${offerId}/save`);
       setSavedOffers(prev => { const next = new Set(prev); next.add(offerId); return next; });
@@ -44,7 +55,7 @@ const OffersPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>Special Offers & Deals</Typography>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>Special Offers & Deals</Typography>
         <Typography variant="body1" color="text.secondary">Save big on your favorite products</Typography>
       </Box>
 
@@ -77,15 +88,15 @@ const OffersPage = () => {
               border: offer.isFeatured ? '2px solid #1976d2' : 'none' }}>
               <CardContent sx={{ p: 3 }}>
                 {offer.isFeatured && <Chip label="FEATURED" size="small" color="primary" sx={{ mb: 1 }} />}
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>{offer.title}</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>{offer.title}</Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{offer.description}</Typography>
                 {offer.validUntil && (
-                  <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 2 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2 }}>
                     Valid till: {new Date(offer.validUntil).toLocaleDateString('en-IN')}
                   </Typography>
                 )}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="h5" fontWeight={700} color="primary.main">{offer.discount}</Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 700 }} color="primary.main">{offer.discount}</Typography>
                   {offer.store && <Chip label={offer.store} size="small" sx={{ backgroundColor: '#e3f2fd', color: '#1976d2' }} />}
                 </Box>
                 <Button variant="contained" fullWidth onClick={() => handleSaveOffer(offer.id)}

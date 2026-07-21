@@ -1,0 +1,49 @@
+# Integration Test Configuration
+spring:
+  application:
+    name: integration-tests
+
+  # JPA / Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Disable cloud components for tests
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+
+  # Disable security for test endpoints
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+# JWT Configuration for tests
+jwt:
+  secret: dGhpcyBpcyBhIHRlc3Qgc2VjcmV0IGtleSBmb3IgaW50ZWdyYXRpb24gdGVzdHM=
+  expiration: 86400000
+  refresh-token:
+    expiration: 604800000
+
+# Eureka disabled for tests
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.kartezy: DEBUG
+    org.testcontainers: INFO
+    org.springframework.test: INFO
+    org.springframework.boot.test: INFO

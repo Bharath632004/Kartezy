@@ -19,9 +19,9 @@ public abstract class BaseEntity {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
     @Column(name = "created_at", nullable = false, updatable = false)
-    private long createdAt = Instant.now().toEpochMilli();
+    private long createdAt;
     @Column(name = "updated_at", nullable = false)
-    private long updatedAt = Instant.now().toEpochMilli();
+    private long updatedAt;
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
     public UUID getId() {

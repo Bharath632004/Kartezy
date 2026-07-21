@@ -1,5 +1,6 @@
 package com.kartezy.encryptionservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -11,6 +12,7 @@ import java.util.Optional;
  * Provides an abstraction layer that allows the application to use either software-based keys
  * or HSM-based keys depending on configuration.
  */
+@Slf4j
 @Service
 public class HsmIntegrationService {
 
@@ -86,20 +88,29 @@ public class HsmIntegrationService {
             // Attempt PKCS#11 provider initialization
             java.security.Provider provider = java.security.Security.getProvider(hsmProvider);
             if (provider == null) {
-                // Try loading SunPKCS11 provider
-                provider = new sun.security.pkcs11.SunPKCS11(new java.io.ByteArrayInputStream(
-                    ("name=" + hsmProvider + "\\nlibrary=/usr/local/lib/softhsm/libsofthsm2.so").getBytes()
-                ));
-                java.security.Security.addProvider(provider);
+                // Try loading SunPKCS11 provider via reflection (Java 9+ compatible)
+                try {
+                    Class<?> pkcs11Class = Class.forName("sun.security.pkcs11.SunPKCS11");
+                    java.security.Provider newProvider = (java.security.Provider) pkcs11Class.getConstructor(
+                        java.io.InputStream.class).newInstance(
+                        new java.io.ByteArrayInputStream(
+                            ("name=" + hsmProvider + "\nlibrary=/usr/local/lib/softhsm/libsofthsm2.so").getBytes()
+                        ));
+                    java.security.Security.addProvider(newProvider);
+                    provider = newProvider;
+                } catch (Exception reflectionEx) {
+                    log.error("Failed to load PKCS#11 provider via reflection: {}", reflectionEx.getMessage());
+                    return generateSoftwareKey(algorithm, keySize, alias);
+                }
             }
 
             javax.crypto.KeyGenerator keyGen = javax.crypto.KeyGenerator.getInstance(algorithm, provider);
             keyGen.init(keySize, new java.security.SecureRandom());
             SecretKey key = keyGen.generateKey();
-            System.out.println("Successfully retrieved/generated key from HSM: " + alias);
+            log.info("Successfully retrieved/generated key from HSM: {}", alias);
             return Optional.of(key);
         } catch (Exception e) {
-            System.err.println("Failed to retrieve key from HSM: " + e.getMessage());
+            log.error("Failed to retrieve key from HSM: {}", e.getMessage());
             // Fall back to software-based key generation
             return generateSoftwareKey(algorithm, keySize, alias);
         }
@@ -118,10 +129,10 @@ public class HsmIntegrationService {
             javax.crypto.KeyGenerator keyGen = javax.crypto.KeyGenerator.getInstance(algorithm);
             keyGen.init(keySize);
             SecretKey key = keyGen.generateKey();
-            System.out.println("Generated software key: " + alias);
+            log.info("Generated software key: {}", alias);
             return Optional.of(key);
         } catch (Exception e) {
-            System.err.println("Failed to generate software key: " + e.getMessage());
+            log.error("Failed to generate software key: {}", e.getMessage());
             return empty();
         }
     }
@@ -147,10 +158,10 @@ public class HsmIntegrationService {
                 throw new IllegalArgumentException("Invalid operation: " + operation);
             }
             byte[] result = cipher.doFinal(input);
-            System.out.println("HSM crypto operation completed: " + operation);
+            log.info("HSM crypto operation completed: {}", operation);
             return Optional.of(result);
         } catch (Exception e) {
-            System.err.println("Failed HSM crypto operation, falling back to software: " + e.getMessage());
+            log.error("Failed HSM crypto operation, falling back to software: {}", e.getMessage());
             return performSoftwareCryptoOperation(key, algorithm, input, operation);
         }
     }
@@ -180,7 +191,7 @@ public class HsmIntegrationService {
             byte[] result = cipher.doFinal(input);
             return Optional.of(result);
         } catch (Exception e) {
-            System.err.println("Failed to perform crypto operation: " + e.getMessage());
+            log.error("Failed to perform crypto operation: {}", e.getMessage());
             return empty();
         }
     }

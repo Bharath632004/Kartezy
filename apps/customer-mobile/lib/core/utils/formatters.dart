@@ -20,7 +20,7 @@ String formatTimeOfDay(TimeOfDay timeOfDay) {
 
 String formatCurrency(
   double amount, {
-  String symbol = '\$',
+  String symbol = '₹',
   int decimalPlaces = 2,
 }) {
   return '$symbol${amount.toStringAsFixed(decimalPlaces)}';
