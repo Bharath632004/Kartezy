@@ -13,6 +13,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
@@ -28,6 +30,11 @@ import java.util.List;
  * Main application class for the API Gateway with enhanced security features.
  */
 @SpringBootApplication(scanBasePackages = {"com.kartezy.apigateway", "com.kartezy.shared"})
+@ComponentScan(basePackages = {"com.kartezy.apigateway", "com.kartezy.shared"},
+    excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.REGEX,
+            pattern = "com\\.kartezy\\.shared\\.enterprise\\.multitenant\\..*")
+    })
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
     public static void main(String[] args) {

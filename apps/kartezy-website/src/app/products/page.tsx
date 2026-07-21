@@ -1,4 +1,5 @@
 "use client";
+import React from 'react';
 
 import { Box, Container, Grid, Typography, TextField, InputAdornment, Card, CardContent, Stack, Chip, Button, IconButton } from '@mui/material';
 import { Search as SearchIcon, Favorite, Visibility, LocalOffer, AccessTime, Store } from '@mui/icons-material';
@@ -63,7 +64,7 @@ const ProductsPage = () => {
     <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
       <Grid container spacing={4}>
         {/* Sidebar Filters */}
-        <Grid item xs={12} md={3}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <Stack spacing={4}>
             {/* Search */}
             <Box>
@@ -197,7 +198,7 @@ const ProductsPage = () => {
         </Grid>
 
         {/* Products Grid */}
-        <Grid item xs={12} md={9}>
+        <Grid size={{ xs: 12, md: 9 }}>
           {/* Results Count */}
           <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant="h5" fontWeight={600}>
@@ -257,7 +258,7 @@ const ProductsPage = () => {
           {/* Products Grid */}
           <Grid container spacing={3}>
             {products.map((product: any) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product.id}>
                 <Card
                   sx={{
                     height: '100%',

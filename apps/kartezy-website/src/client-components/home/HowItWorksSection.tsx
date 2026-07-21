@@ -17,7 +17,7 @@ const iconMap = {
   // Add more as needed
 };
 
-export default function HowItWorksSection({ data } = {}) {
+export default function HowItWorksSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = [
     {

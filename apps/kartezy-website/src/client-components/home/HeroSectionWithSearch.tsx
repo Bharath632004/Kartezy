@@ -4,7 +4,11 @@ import { Search as SearchIcon, AccessTime, LocalShipping as Truck } from '@mui/i
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-export default function HeroSectionWithSearch({ data } = {}) {
+interface HeroSectionWithSearchProps {
+  data?: any;
+}
+
+export default function HeroSectionWithSearch({ data }: HeroSectionWithSearchProps) {
   // Default data if none provided
   const defaultData = {
     title: 'Get essentials delivered in minutes',

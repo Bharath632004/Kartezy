@@ -1,18 +1,11 @@
 package com.kartezy.shared.security.audit;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Implementation of EnhancedAuditLogService that provides tamper-evident audit logging.
@@ -23,13 +16,6 @@ import java.util.Objects;
  */
 @Service
 public class EnhancedAuditLogServiceImpl implements EnhancedAuditLogService {
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    static {
-        // Configure ObjectMapper for consistent serialization
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
 
     private final EnhancedAuditEventRepository enhancedAuditEventRepository;
     private final AuditEventRepository auditEventRepository; // For backward compatibility
@@ -155,32 +141,7 @@ public class EnhancedAuditLogServiceImpl implements EnhancedAuditLogService {
      * @return hexadecimal string representation of the SHA-256 hash
      */
     private String generateEventHash(EnhancedAuditEvent event) {
-        try {
-            // Create a map of the fields to include in the hash
-            // We exclude: id, previousHash, eventHash, schemaVersion, redacted, createdAt, updatedAt
-            // as these are either database-generated or part of the chaining mechanism
-            var data = java.util.Map.<String, Object>of(
-                    "eventType", event.getEventType(),
-                    "principal", event.getPrincipal(),
-                    "ipAddress", event.getIpAddress(),
-                    "description", event.getDescription(),
-                    "outcome", event.getOutcome(),
-                    "details", event.getDetails(),
-                    "eventTimestamp", event.getEventTimestamp()
-            );
-
-            // Convert to JSON string for consistent hashing
-            String jsonString = objectMapper.writeValueAsString(data);
-
-            // Generate SHA-256 hash
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(jsonString.getBytes(StandardCharsets.UTF_8));
-
-            // Convert to hexadecimal string
-            return bytesToHex(hashBytes);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to generate audit event hash", e);
-        }
+        return AuditHashUtil.generateEventHash(event);
     }
 
     /**
@@ -190,11 +151,7 @@ public class EnhancedAuditLogServiceImpl implements EnhancedAuditLogService {
      * @return true if the hash matches, false otherwise
      */
     private boolean verifyEventHash(EnhancedAuditEvent event) {
-        if (event == null || event.getEventHash() == null) {
-            return false;
-        }
-        String computedHash = generateEventHash(event);
-        return Objects.equals(event.getEventHash(), computedHash);
+        return AuditHashUtil.verifyEventHash(event);
     }
 
     /**
@@ -208,60 +165,7 @@ public class EnhancedAuditLogServiceImpl implements EnhancedAuditLogService {
      * @return true if the chain is valid, false otherwise
      */
     private boolean verifyChain(List<EnhancedAuditEvent> events) {
-        if (events == null || events.isEmpty()) {
-            return true;
-        }
-
-        String previousHash = "";
-        for (int i = 0; i < events.size(); i++) {
-            EnhancedAuditEvent event = events.get(i);
-
-            // Skip redacted events in chain verification (their content has been modified for GDPR)
-            // but we still need to verify their hash matches what was stored when redacted
-            if (event.isRedacted()) {
-                // For redacted events, we only verify that the stored hash matches what
-                // it would be with the redacted content
-                if (!verifyEventHash(event)) {
-                    return false;
-                }
-                // Continue with the stored hash for chaining
-                previousHash = event.getEventHash();
-                continue;
-            }
-
-            // Check that the previous hash matches
-            String eventPreviousHash = event.getPreviousHash();
-            if (!Objects.equals(eventPreviousHash, previousHash)) {
-                return false;
-            }
-
-            // Verify the event's own hash
-            if (!verifyEventHash(event)) {
-                return false;
-            }
-
-            // Update previous hash for next iteration
-            previousHash = event.getEventHash();
-        }
-        return true;
-    }
-
-    /**
-     * Converts a byte array to a hexadecimal string.
-     *
-     * @param bytes the byte array to convert
-     * @return hexadecimal string representation
-     */
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder(2 * bytes.length);
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
+        return AuditHashUtil.verifyChain(events);
     }
 
     /**

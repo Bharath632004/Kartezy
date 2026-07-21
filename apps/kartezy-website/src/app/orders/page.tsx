@@ -1,7 +1,7 @@
 "use client";
 
-import { Box, Container, Stack, Typography, Card, CardContent, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
-import { History, Receipt, LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutline } from '@mui/icons-material';
+import { Box, Container, Typography, Card, CardContent, Button, Divider, Chip, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
+import { History } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { getOrders } from '@/lib/services';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ const OrdersPage = () => {
     queryFn: getOrders,
   });
 
-  const statusLabels = {
+  const statusLabels: Record<string, { label: string; color?: string }> = {
     pending: { label: 'Pending', color: 'warning' },
     confirmed: { label: 'Confirmed', color: 'info' },
     processing: { label: 'Processing', color: 'info' },
@@ -22,13 +22,18 @@ const OrdersPage = () => {
     returned: { label: 'Returned', color: 'error' },
   };
 
+  const cancelOrder = (orderId: string) => {
+    // TODO: Implement cancel order API call
+    console.log('Cancel order:', orderId);
+  };
+
   if (isLoading) return <div>Loading orders...</div>;
   if (error) return <div>Error loading orders: {(error as Error).message}</div>;
 
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600, mb: 2 }}>
           My Orders
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -38,7 +43,7 @@ const OrdersPage = () => {
 
       {orders.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <History fontSize={48} color="text.secondary" sx={{ mb: 3 }} />
+          <History sx={{ fontSize: 48, color: 'text.secondary', mb: 3 }} />
           <Typography variant="h5" color="text.secondary">
             No orders yet
           </Typography>
@@ -54,7 +59,7 @@ const OrdersPage = () => {
       ) : (
         <>
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
               Recent Orders
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
@@ -74,13 +79,13 @@ const OrdersPage = () => {
                 >
                   <CardContent sx={{ p: 4 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                      <Typography variant="h6" fontWeight={600}>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
                         Order #{order.id}
                       </Typography>
                       <Chip
                         label={statusLabels[order.status]?.label || order.status}
                         size="small"
-                        color={statusLabels[order.status]?.color || 'grey'}
+                        color={(statusLabels[order.status]?.color as any) || 'default'}
                       />
                     </Box>
                     <Box sx={{ mb: 2 }}>
@@ -90,7 +95,7 @@ const OrdersPage = () => {
                       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                         {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                       </Typography>
-                      <Typography variant="body2" fontWeight={600} color="primary.main">
+                      <Typography variant="body2" sx={{ fontWeight: 600 }} color="primary.main">
                         ₹{order.totalAmount}
                       </Typography>
                     </Box>
@@ -121,7 +126,7 @@ const OrdersPage = () => {
           <Divider sx={{ my: 4 }} />
 
           <Box>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
               Order History
             </Typography>
             <Paper sx={{ borderRadius: 4, overflow: 'hidden' }}>
@@ -140,7 +145,7 @@ const OrdersPage = () => {
                   {orders.map((order: any) => (
                     <TableRow key={order.id}>
                       <TableCell>
-                        <Typography variant="body2" fontWeight={600}>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           #{order.id}
                         </Typography>
                       </TableCell>
@@ -153,7 +158,7 @@ const OrdersPage = () => {
                         <Chip label={`${order.items.length} items`} size="small" />
                       </TableCell>
                       <TableCell align="right">
-                        <Typography variant="body2" fontWeight={600} color="primary.main">
+                        <Typography variant="body2" sx={{ fontWeight: 600 }} color="primary.main">
                           ₹{order.totalAmount}
                         </Typography>
                       </TableCell>
@@ -161,7 +166,7 @@ const OrdersPage = () => {
                         <Chip
                           label={statusLabels[order.status]?.label || order.status}
                           size="small"
-                          color={statusLabels[order.status]?.color || 'grey'}
+                          color={(statusLabels[order.status]?.color as any) || 'default'}
                         />
                       </TableCell>
                       <TableCell align="center">

@@ -22,7 +22,7 @@ const iconMap = {
   LocalDrink: () => <LocalDrink fontSize="large" />,
 };
 
-export default function CategoriesSection({ data } = {}) {
+export default function CategoriesSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = [
     {

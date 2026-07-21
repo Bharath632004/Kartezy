@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography, Chip, Button } from '@mui/material';
 import { Place } from '@mui/icons-material';
 
-export default function CitiesSection({ data } = {}) {
+export default function CitiesSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = [
     "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai",

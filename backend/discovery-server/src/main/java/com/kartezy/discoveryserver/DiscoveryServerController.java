@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DiscoveryServerController {
-    @GetMapping("/")
+    @GetMapping("/welcome")
     public String home() {
         return "Welcome to discovery-server service";
     }

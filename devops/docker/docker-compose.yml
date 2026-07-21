@@ -88,7 +88,7 @@ services:
       - "${KAFKA_PORT:-9092}:9092"
       - "${KAFKA_CTRL_PORT:-9093}:9093"
     environment:
-      CLUSTER_ID: ${KAFKA_CLUSTER_ID:-kartezy-cluster}
+      CLUSTER_ID: ${KAFKA_CLUSTER_ID:-4T6WJZJhQUSzI456Q6F3cw}
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093

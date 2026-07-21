@@ -5,11 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.Instant;
-import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Utility class for generating and verifying cryptographic hashes of audit events.

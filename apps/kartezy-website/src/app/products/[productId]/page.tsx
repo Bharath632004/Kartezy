@@ -54,7 +54,7 @@ export default function ProductDetailsPage({ params }: { params: { productId: st
 
       <Grid container spacing={4}>
         {/* Product Image */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card sx={{ borderRadius: 4, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
             {product.images && product.images.length > 0 ? (
               <CardMedia
@@ -75,18 +75,18 @@ export default function ProductDetailsPage({ params }: { params: { productId: st
         </Grid>
 
         {/* Product Details */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card sx={{ borderRadius: 4, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
             <CardContent sx={{ px: 4, py: 4 }}>
               <Stack spacing={3}>
                 {/* Product Name and Rating */}
-                <Typography variant="h4" fontWeight={600}>
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {product.name}
                 </Typography>
 
                 {/* Rating */}
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="body2" fontWeight={600}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     {product.rating ?? 0} ★
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -95,8 +95,8 @@ export default function ProductDetailsPage({ params }: { params: { productId: st
                 </Stack>
 
                 {/* Price */}
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <Typography variant="h3" fontWeight={600} color="primary.main">
+                <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }} color="primary.main">
                     ₹{product.price}
                   </Typography>
                   {product.originalPrice && (
@@ -112,11 +112,11 @@ export default function ProductDetailsPage({ params }: { params: { productId: st
                 </Typography>
 
                 {/* Quantity Selector */}
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                   <Typography variant="body2" color="text.secondary">
                     Quantity:
                   </Typography>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     <IconButton
                       size="small"
                       onClick={() => handleQuantityChange(-1)}

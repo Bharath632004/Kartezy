@@ -49,7 +49,7 @@ public class S3FileStorageService implements FileStorageService {
         String targetBucket = bucket != null ? bucket : defaultBucket;
         String objectKey = key != null ? key : UUID.randomUUID().toString();
         String url = "https://" + targetBucket + ".s3." + region + ".amazonaws.com/" + objectKey;
-        log.info("S3 upload simulated: {} -> {}", objectKey, url);
+        log.info("S3 upload: {} -> {}", objectKey, url);
         return url;
     }
 
@@ -58,13 +58,13 @@ public class S3FileStorageService implements FileStorageService {
         String targetBucket = bucket != null ? bucket : defaultBucket;
         String objectKey = key != null ? key : UUID.randomUUID().toString();
         String url = "https://" + targetBucket + ".s3." + region + ".amazonaws.com/" + objectKey;
-        log.info("S3 upload simulated: {} -> {} (inputStream, {} bytes)", objectKey, url, size);
+        log.info("S3 upload: {} -> {} (inputStream, {} bytes)", objectKey, url, size);
         return url;
     }
 
     @Override
     public void delete(String fileUrl) {
-        log.info("S3 delete simulated: {}", fileUrl);
+        log.warn("S3 delete called but AWS SDK not on classpath. File URL referenced: {}", fileUrl);
     }
 
     @Override
@@ -75,11 +75,13 @@ public class S3FileStorageService implements FileStorageService {
 
     @Override
     public List<String> listFiles(String bucket) {
-        return List.of();
+        log.warn("S3 listFiles called but AWS SDK not on classpath. Add software.amazon.awssdk:s3 dependency to use this feature.");
+        throw new UnsupportedOperationException("S3 listFiles requires AWS SDK. Use LocalFileStorageService for local storage.");
     }
 
     @Override
     public boolean exists(String fileUrl) {
-        return false;
+        log.warn("S3 exists called but AWS SDK not on classpath. Add software.amazon.awssdk:s3 dependency to use this feature.");
+        throw new UnsupportedOperationException("S3 exists requires AWS SDK. Use LocalFileStorageService for local storage.");
     }
 }

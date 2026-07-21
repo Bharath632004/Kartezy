@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography, Card, CardContent, Avatar, Divider } from '@mui/material';
 import { Star } from '@mui/icons-material';
 
-export default function TestimonialsSection({ data } = {}) {
+export default function TestimonialsSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = [
     {

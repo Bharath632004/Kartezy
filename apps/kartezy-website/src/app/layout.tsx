@@ -1,11 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import Navigation from '@/client-components/layout/Navigation';
 import Footer from '@/client-components/layout/Footer';
-
-const inter = Inter({ subsets: ['latin'] });
 
 // Create a theme customizable for the Kartezy brand
 const theme = createTheme({
@@ -66,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Navigation />

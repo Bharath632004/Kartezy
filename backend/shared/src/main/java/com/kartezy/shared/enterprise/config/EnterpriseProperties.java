@@ -22,7 +22,7 @@ public class EnterpriseProperties {
     private Marketplace marketplace = new Marketplace();
     private Warehouse warehouse = new Warehouse();
     private WhiteLabel whiteLabel = new WhiteLabel();
-    private HorizonatalScaling horizontalScaling = new HorizonatalScaling();
+    private HorizontalScaling horizontalScaling = new HorizontalScaling();
     private DisasterRecovery disasterRecovery = new DisasterRecovery();
     private GeoReplication geoReplication = new GeoReplication();
 
@@ -96,7 +96,7 @@ public class EnterpriseProperties {
     }
 
     @Data
-    public static class HorizonatalScaling {
+    public static class HorizontalScaling {
         private boolean enabled = true;
         private int minReplicas = 2;
         private int maxReplicas = 10;

@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { ExpandMore } from '@mui/icons-material';
 
-export default function FAQSection({ data } = {}) {
+export default function FAQSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = [
     {

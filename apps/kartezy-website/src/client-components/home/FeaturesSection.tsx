@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography, Card, CardContent } from '@mui/material';
 import { Schedule, LocalGroceryStore, Inventory, Shield, AccessTime, LocalOffer } from '@mui/icons-material';
 
-export default function FeaturesSection({ data } = {}) {
+export default function FeaturesSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = [
     {

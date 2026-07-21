@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography, Card, CardContent, CardActions, Button, Divider, Chip, Stack as MuiStack, Typography as MuiTypography, Table, TableHead, TableRow, TableCell, TableBody, Paper, LinearProgress } from '@mui/material';
+import { Box, Container, Stack, Typography, Card, CardContent, CardActions, Button, Divider, Chip, Table, TableHead, TableRow, TableCell, TableBody, Paper, LinearProgress } from '@mui/material';
 import { History, Receipt, LocalShipping as LocalTruck, AccessTime, Schedule, Cancel, CheckCircle, ErrorOutlined, LocalMall, LocationOn, Phone, Email } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { getOrderById } from '@/lib/services';
@@ -20,7 +20,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
     { label: 'Delivered', icon: CheckCircle, completed: false },
   ];
 
-  const statusLabels = {
+  const statusLabels: Record<string, { label: string; color?: string }> = {
     pending: { label: 'Pending', color: 'warning' },
     confirmed: { label: 'Confirmed', color: 'info' },
     processing: { label: 'Processing', color: 'info' },
@@ -68,16 +68,16 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             Order Status
           </Typography>
           <Box sx={{ mb: 3 }}>
-            <Stack direction="row" spacing={4} alignItems="center">
+            <Stack direction="row" spacing={4} sx={{ alignItems: 'center' }}>
               {statusSteps.map((step, index) => (
                 <Box key={step.label} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
                   {getStepStatus(index) ? (
                     <Box sx={{ width: 40, height: 40, borderRadius: '50%', backgroundColor: 'primary.main', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                      <step.icon fontSize="small" color="white" />
+                      <step.icon fontSize="small" sx={{ color: 'white' }} />
                     </Box>
                   ) : (
                     <Box sx={{ width: 40, height: 40, borderRadius: '50%', backgroundColor: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                      <step.icon fontSize="small" color="text.secondary" />
+                      <step.icon fontSize="small" sx={{ color: 'text.secondary' }} />
                     </Box>
                   )}
                   <Typography variant="body2" color={getStepStatus(index) ? 'primary.main' : 'text.secondary'} sx={{ mb: 1, fontWeight: 500 }}>
@@ -115,7 +115,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
             <Typography variant="body2">
               Delivery Address
             </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 600 }} maxWidth={200}>
+            <Typography variant="body2" sx={{ fontWeight: 600, maxWidth: 200 }}>
               {order.shippingAddress?.fullName}, {order.shippingAddress?.address}, {order.shippingAddress?.city} {order.shippingAddress?.pincode}
             </Typography>
           </Box>
@@ -173,7 +173,7 @@ const OrderDetailPage = ({ params }: { params: { orderId: string } }) => {
                             justifyContent: 'center',
                           }}
                         >
-                          <img src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                          <Box component="img" src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         </Box>
             <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
               {item.product.name}

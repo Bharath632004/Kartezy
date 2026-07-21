@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography, Grid } from '@mui/material';
 
-export default function BrandsSection({ data } = {}) {
+export default function BrandsSection({ data }: { data?: any } = {}) {
   // Default brand data with real Indian brand names
   const defaultData = [
     { id: 1, name: 'Tata', logo: '/images/brand-tata.svg' },

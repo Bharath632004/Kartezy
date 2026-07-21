@@ -2,7 +2,7 @@
 import { Box, Container, Stack, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
 
-export default function NewsletterSection({ data } = {}) {
+export default function NewsletterSection({ data }: { data?: any } = {}) {
   // Default data if none provided
   const defaultData = {
     title: 'Stay Updated with Kartezy',
