@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     Optional<Payment> findByTransactionId(String transactionId);
+    Optional<Payment> findByGatewayReference(String gatewayReference);
     Optional<Payment> findByOrderId(UUID orderId);
     Optional<Payment> findByIdempotencyKey(String idempotencyKey);
     List<Payment> findByUserIdOrderByCreatedAtDesc(UUID userId);

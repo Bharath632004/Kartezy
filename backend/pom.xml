@@ -14,10 +14,12 @@
     <description>Parent project for Kartezy backend services</description>
 
     <modules>
+        <!-- Core Infrastructure -->
         <module>shared</module>
         <module>config-server</module>
         <module>discovery-server</module>
         <module>api-gateway</module>
+        <!-- MVP Domain Services -->
         <module>auth-service</module>
         <module>user-service</module>
         <module>merchant-service</module>
@@ -28,33 +30,7 @@
         <module>delivery-service</module>
         <module>notification-service</module>
         <module>wallet-service</module>
-        <module>review-service</module>
-        <module>support-service</module>
-        <module>cms-service</module>
-        <module>finance-service</module>
-        <module>lead-service</module>
         <module>search-service</module>
-        <module>recommendation-service</module>
-        <module>ocr-service</module>
-        <module>computer-vision-service</module>
-        <module>nlp-service</module>
-        <module>chatbot-service</module>
-        <module>forecasting-service</module>
-        <module>voice-service</module>
-        <module>analytics-service</module>
-        <module>fraud-detection-service</module>
-        <module>ai-service</module>
-        <module>integration-tests</module>
-        <module>pricing-service</module>
-        <module>secrets-service</module>
-        <module>encryption-service</module>
-        <module>security-dashboard</module>
-        <!-- Enterprise services - uncomment when service stubs are created
-        <module>tenant-service</module>
-        <module>warehouse-service</module>
-        <module>marketplace-service</module>
-        <module>procurement-service</module>
-        -->
     </modules>
 
     <properties>

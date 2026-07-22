@@ -1,6 +1,10 @@
 package com.kartezy.paymentservice.controller;
 
 import com.kartezy.paymentservice.dto.*;
+import com.kartezy.paymentservice.entity.Payment;
+import com.kartezy.paymentservice.integration.PaymentVerificationRequest;
+import com.kartezy.paymentservice.integration.RazorpayOrderResponse;
+import com.kartezy.paymentservice.integration.RazorpayService;
 import com.kartezy.paymentservice.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +20,49 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PaymentServiceController {
     private final PaymentService paymentService;
+    private final RazorpayService razorpayService;
 
+    /**
+     * Processes a payment. For COD returns PaymentDto, for Razorpay returns RazorpayOrderResponse.
+     */
     @PostMapping("/process")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<PaymentDto> processPayment(@Valid @RequestBody PaymentRequestDto request) {
-        PaymentDto payment = paymentService.processPayment(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(payment);
+    public ResponseEntity<Object> processPayment(@Valid @RequestBody PaymentRequestDto request) {
+        Object result = paymentService.processPayment(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    /**
+     * Creates a Razorpay order for the frontend to complete payment.
+     */
+    @PostMapping("/razorpay/create-order")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<RazorpayOrderResponse> createRazorpayOrder(@Valid @RequestBody PaymentRequestDto request) {
+        RazorpayOrderResponse response = razorpayService.createRazorpayOrder(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * Verifies a Razorpay payment after the frontend completes it.
+     */
+    @PostMapping("/razorpay/verify")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<PaymentDto> verifyPayment(@Valid @RequestBody PaymentVerificationRequest request) {
+        Payment payment = razorpayService.verifyAndConfirmPayment(
+            request.getRazorpayOrderId(),
+            request.getRazorpayPaymentId(),
+            request.getRazorpaySignature()
+        );
+        return ResponseEntity.ok(paymentService.toDto(payment));
+    }
+
+    /**
+     * Confirms a COD payment after delivery is completed.
+     */
+    @PutMapping("/cod/confirm/{orderId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<PaymentDto> confirmCodPayment(@PathVariable UUID orderId) {
+        return ResponseEntity.ok(paymentService.confirmCodPayment(orderId));
     }
 
     @GetMapping("/{id}")

@@ -8,6 +8,8 @@ import com.kartezy.paymentservice.entity.Refund.RefundReason;
 import com.kartezy.paymentservice.entity.Refund.RefundStatus;
 import com.kartezy.paymentservice.entity.Settlement.SettlementCycle;
 import com.kartezy.paymentservice.entity.Settlement.SettlementStatus;
+import com.kartezy.paymentservice.integration.RazorpayOrderResponse;
+import com.kartezy.paymentservice.integration.RazorpayService;
 import com.kartezy.paymentservice.repository.*;
 import com.kartezy.shared.exception.BadRequestException;
 import com.kartezy.shared.exception.ResourceNotFoundException;
@@ -28,9 +30,16 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final RefundRepository refundRepository;
     private final SettlementRepository settlementRepository;
+    private final RazorpayService razorpayService;
 
+    /**
+     * Processes a payment.
+     * For COD: creates a PENDING payment record (collected on delivery).
+     * For Razorpay/online: creates a Razorpay order via the gateway service
+     *                      (which also creates the payment record internally).
+     */
     @Transactional
-    public PaymentDto processPayment(PaymentRequestDto request) {
+    public Object processPayment(PaymentRequestDto request) {
         log.info("Processing payment for order: {}, method: {}, amount: {}",
             request.getOrderId(), request.getPaymentMethod(), request.getAmount());
 
@@ -50,7 +59,42 @@ public class PaymentService {
             throw new BadRequestException("Invalid payment method: " + request.getPaymentMethod());
         }
 
-        Payment payment = Payment.builder()
+        // Check if payment already exists for this order
+        var existingPayment = paymentRepository.findByOrderId(request.getOrderId());
+        if (existingPayment.isPresent()) {
+            Payment existing = existingPayment.get();
+            if (existing.getStatus() == PaymentStatus.SUCCESS) {
+                throw new BadRequestException("Order already paid");
+            }
+            return toDto(existing);
+        }
+
+        // COD: create PENDING payment record (collected on delivery)
+        if (method == PaymentMethod.COD) {
+            Payment payment = createPaymentRecord(request, method, PaymentStatus.PENDING);
+            payment = paymentRepository.save(payment);
+            log.info("COD payment created: {} for order: {}", payment.getId(), request.getOrderId());
+            return toDto(payment);
+        }
+
+        // Razorpay/online: delegate to RazorpayService which creates both the
+        // Razorpay order AND the payment record in a single transaction.
+        try {
+            RazorpayOrderResponse gatewayResponse = razorpayService.createRazorpayOrder(request);
+            log.info("Payment initiated via Razorpay for order: {}", request.getOrderId());
+            return gatewayResponse;
+        } catch (Exception e) {
+            log.error("Failed to initiate payment via Razorpay: {}", e.getMessage(), e);
+            throw new BadRequestException("Payment gateway unavailable: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Creates a payment record for COD payments.
+     * For Razorpay payments, the record is created inside {@link RazorpayService#createRazorpayOrder}.
+     */
+    private Payment createPaymentRecord(PaymentRequestDto request, PaymentMethod method, PaymentStatus status) {
+        return Payment.builder()
             .orderId(request.getOrderId())
             .userId(request.getUserId())
             .merchantId(request.getMerchantId())
@@ -63,29 +107,34 @@ public class PaymentService {
                 .subtract(request.getGatewayFee() != null ? request.getGatewayFee() : BigDecimal.ZERO)
                 .subtract(request.getTax() != null ? request.getTax() : BigDecimal.ZERO))
             .paymentMethod(method)
-            .status(PaymentStatus.PENDING)
+            .status(status)
             .currency("INR")
             .idempotencyKey(request.getIdempotencyKey())
             .ipAddress(request.getIpAddress())
             .userAgent(request.getUserAgent())
             .splitPayment(request.isSplitPayment())
             .build();
+    }
 
-        payment = paymentRepository.save(payment);
-        log.info("Payment created with ID: {}, transaction: {}", payment.getId(), payment.getTransactionId());
+    /**
+     * Confirms a COD payment after delivery is completed.
+     * Called by the delivery service when the order is delivered with COD.
+     */
+    @Transactional
+    public PaymentDto confirmCodPayment(UUID orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+            .orElseThrow(() -> new ResourceNotFoundException("Payment not found for order: " + orderId));
 
-        // Simulate gateway processing - in production, actual gateway integration
-        payment.setStatus(PaymentStatus.PROCESSING);
-        payment.setGatewayReference("GATEWAY-" + UUID.randomUUID().toString().substring(0, 12).toUpperCase());
-        payment = paymentRepository.save(payment);
+        if (payment.getPaymentMethod() != PaymentMethod.COD) {
+            throw new BadRequestException("Payment is not COD for order: " + orderId);
+        }
 
-        // Simulate success for demo
         payment.setStatus(PaymentStatus.SUCCESS);
         payment.setCompletedAt(LocalDateTime.now());
-        payment.setBankReference("BANK-" + UUID.randomUUID().toString().substring(0, 12).toUpperCase());
+        payment.setBankReference("COD-COL-" + UUID.randomUUID().toString().substring(0, 12).toUpperCase());
         payment = paymentRepository.save(payment);
 
-        log.info("Payment completed successfully for transaction: {}", payment.getTransactionId());
+        log.info("COD payment confirmed for order: {}", orderId);
         return toDto(payment);
     }
 
@@ -125,7 +174,6 @@ public class PaymentService {
 
         // Process refund
         refund.setStatus(RefundStatus.PROCESSING);
-        refund.setGatewayRefundId("GATEWAY-REF-" + UUID.randomUUID().toString().substring(0, 12).toUpperCase());
         refund = refundRepository.save(refund);
 
         refund.setStatus(RefundStatus.COMPLETED);
@@ -250,7 +298,7 @@ public class PaymentService {
             .build();
     }
 
-    private PaymentDto toDto(Payment payment) {
+    public PaymentDto toDto(Payment payment) {
         return PaymentDto.builder()
             .id(payment.getId())
             .orderId(payment.getOrderId())

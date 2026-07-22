@@ -162,31 +162,32 @@ class DashboardPage extends ConsumerWidget {
           );
       }(),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // Dashboard index
+        currentIndex: 0,
         onTap: (index) {
-          //  Handle navigation
           switch (index) {
             case 0:
-              // Dashboard
               break;
             case 1:
-              // Orders
+              context.go('/home/orders');
               break;
             case 2:
-              // Wallet
+              // Wallet - could navigate to earnings page
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Wallet coming soon')),
+              );
               break;
             case 3:
-              // Profile
+              context.go('/profile');
               break;
           }
         },
-        items: [
-          const BottomNavigationBarItem(
+        items: const [
+          BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
-          const BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Orders'),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Orders'),
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet),
             label: 'Wallet',
           ),

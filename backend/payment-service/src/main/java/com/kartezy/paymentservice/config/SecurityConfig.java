@@ -32,6 +32,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/health", "/", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/**/health", "/**/").permitAll()
+                .requestMatchers("/payments/webhook/**").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();

@@ -74,8 +74,3 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 }
 
-/// Provider for order repository
-final orderRepositoryProvider = Provider<OrderRepository>((ref) {
-  final remoteDataSource = ref.read(orderRemoteDataSourceProvider);
-  return OrderRepositoryImpl(remoteDataSource);
-});

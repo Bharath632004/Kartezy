@@ -1,5 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
+
+export const dynamic = 'force-dynamic';
+
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import Navigation from '@/client-components/layout/Navigation';
 import Footer from '@/client-components/layout/Footer';

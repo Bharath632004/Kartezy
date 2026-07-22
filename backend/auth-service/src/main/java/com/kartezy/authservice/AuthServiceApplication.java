@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@SpringBootApplication(scanBasePackages = {"com.kartezy.authservice", "com.kartezy.shared"})
+@SpringBootApplication
 @EnableDiscoveryClient
 public class AuthServiceApplication {
 

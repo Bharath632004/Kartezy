@@ -3,9 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:kartezy_core/network/api_constants.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
 import 'package:delivery_mobile/shared/models/order_timeline.dart';
-import 'package:kartezy_core/providers/network_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 class OrderRemoteDataSource {
   final Dio _dio;
 
@@ -97,8 +94,3 @@ class OrderRemoteDataSource {
   }
 }
 
-/// Provider for order remote data source
-final orderRemoteDataSourceProvider = Provider<OrderRemoteDataSource>((ref) {
-  final dio = ref.read(dioProvider);
-  return OrderRemoteDataSource(dio);
-});

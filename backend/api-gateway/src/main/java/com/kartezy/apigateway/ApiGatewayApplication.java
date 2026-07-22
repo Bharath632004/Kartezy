@@ -12,9 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
@@ -29,12 +28,7 @@ import java.util.List;
 /**
  * Main application class for the API Gateway with enhanced security features.
  */
-@SpringBootApplication(scanBasePackages = {"com.kartezy.apigateway", "com.kartezy.shared"})
-@ComponentScan(basePackages = {"com.kartezy.apigateway", "com.kartezy.shared"},
-    excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.REGEX,
-            pattern = "com\\.kartezy\\.shared\\.enterprise\\.multitenant\\..*")
-    })
+@SpringBootApplication(scanBasePackages = {"com.kartezy.apigateway"})
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
     public static void main(String[] args) {
@@ -42,7 +36,6 @@ public class ApiGatewayApplication {
     }
 
     @Bean
-    @Primary
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder,
                                       SecurityGatewayFilterFactory securityFilterFactory,
                                       AdvancedRateLimiter rateLimiter,
@@ -255,230 +248,6 @@ public class ApiGatewayApplication {
                                     return chain.filter(exchange.mutate().request(mutatedRequest).build());
                                 }))
                         .uri("lb://wallet-service"))
-                .route("review-service", r -> r.path("/api/reviews/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://review-service"))
-                .route("recommendation-service", r -> r.path("/api/recommendations/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://recommendation-service"))
-                .route("analytics-service", r -> r.path("/api/analytics/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://analytics-service"))
-                .route("voice-service", r -> r.path("/api/voice/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://voice-service"))
-                .route("forecasting-service", r -> r.path("/api/forecasting/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://forecasting-service"))
-                .route("fraud-detection-service", r -> r.path("/api/fraud/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://fraud-detection-service"))
-                .route("chatbot-service", r -> r.path("/api/chatbot/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://chatbot-service"))
-                .route("ocr-service", r -> r.path("/api/ocr/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://ocr-service"))
-                .route("computer-vision-service", r -> r.path("/api/computer-vision/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://computer-vision-service"))
-                .route("nlp-service", r -> r.path("/api/nlp/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://nlp-service"))
-                // Support / Ticketing
-                .route("support-service", r -> r.path("/api/support/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://support-service"))
-                // CMS
-                .route("cms-service", r -> r.path("/api/cms/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://cms-service"))
-                // Finance
-                .route("finance-service", r -> r.path("/api/finance/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://finance-service"))
                 // Search
                 .route("search-service", r -> r.path("/api/search/**")
                         .filters(f -> f
@@ -497,42 +266,32 @@ public class ApiGatewayApplication {
                                     return chain.filter(exchange.mutate().request(mutatedRequest).build());
                                 }))
                         .uri("lb://search-service"))
-                // AI Service
-                .route("ai-service", r -> r.path("/api/v1/**")
-                        .filters(f -> f
-                                .filter(securityFilterFactory.apply(new SecurityGatewayFilterFactory.Config()))
-                                .filter(apiThreatProtectionFilter.apply(new ApiThreatProtectionFilter.Config()))
-                                .filter(botProtectionFilter.apply(new BotProtectionFilter.Config()))
-                                .filter(oauth2TokenValidationFilter.apply(new Oauth2TokenValidationFilter.Config()))
-                                .filter(jwtTokenEnhancerFilter.apply(new JwtTokenEnhancerFilter.Config()))
-                                .filter(requestResponseLogger.apply(new RequestResponseLogger.Config()))
-                                .stripPrefix(1)
-                                .filter((exchange, chain) -> {
-                                    var request = exchange.getRequest();
-                                    var mutatedRequest = request.mutate()
-                                            .header("X-Request-ID", java.util.UUID.randomUUID().toString())
-                                            .build();
-                                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
-                                }))
-                        .uri("lb://ai-service"))
                 .build();
     }
 
     @Bean
     @Order(-1) // High precedence
-    public SecurityWebFilterChain securityWebFilterChain(org.springframework.security.config.web.server.ServerHttpSecurity http) {
+    public SecurityWebFilterChain securityWebFilterChain(
+            org.springframework.security.oauth2.jwt.ReactiveJwtDecoder jwtDecoder) {
+        var http = org.springframework.security.config.web.server.ServerHttpSecurity.http();
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(authz -> authz
                         .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
                         .pathMatchers("/api/auth/**").permitAll()
-                        .anyExchange().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(Customizer.withDefaults())
+                        .anyExchange().permitAll()
                 )
                 .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public org.springframework.security.oauth2.jwt.ReactiveJwtDecoder noopJwtDecoder() {
+        // Development-only no-op decoder
+        return token -> {
+            throw new org.springframework.security.oauth2.jwt.BadJwtException("JWT validation not configured in dev mode");
+        };
     }
 
     @Bean

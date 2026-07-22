@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = 'force-dynamic';
+
 import { Box, Container, Stack, Typography, Card, CardContent, Button, Chip, TextField, CircularProgress } from '@mui/material';
 import { Search, Person, CalendarToday } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
