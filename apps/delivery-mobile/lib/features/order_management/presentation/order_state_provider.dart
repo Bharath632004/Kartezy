@@ -5,7 +5,6 @@ import 'package:delivery_mobile/features/order_management/domain/usecase/get_ava
 import 'package:delivery_mobile/features/order_management/domain/usecase/reject_order_use_case.dart';
 import 'package:delivery_mobile/features/order_management/domain/usecase/deliver_order_use_case.dart';
 import 'package:delivery_mobile/features/order_management/domain/usecase/pickup_order_use_case.dart';
-import 'package:delivery_mobile/features/order_management/domain/usecase/get_order_history_use_case.dart';
 import 'package:delivery_mobile/features/order_management/provider/provider.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
 

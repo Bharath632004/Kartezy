@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:delivery_mobile/features/order_management/provider/provider.dart';
+import 'package:delivery_mobile/features/order_management/presentation/order_state_provider.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
+import 'package:delivery_mobile/shared/models/order_item.dart';
+import 'package:delivery_mobile/features/order_management/provider/provider.dart';
 
 class ActiveOrderDetailPage extends ConsumerStatefulWidget {
   final String orderId;
@@ -15,132 +17,151 @@ class ActiveOrderDetailPage extends ConsumerStatefulWidget {
 }
 
 class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
-  final _otpController = TextEditingController();
+  final _pickupOtpController = TextEditingController();
+  final _deliveryOtpController = TextEditingController();
 
   @override
-  void dispose() {
-    _otpController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    // Load order data on init
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadOrderData();
+    });
   }
 
-  OrderStatus _determineStatus(Order order) {
-    switch (order.orderStatus.toUpperCase()) {
-      case 'ACCEPTED':
-        return OrderStatus.accepted;
-      case 'PICKED_UP':
-      case 'PICKUP':
-        return OrderStatus.pickedUp;
-      case 'DELIVERED':
-        return OrderStatus.delivered;
-      default:
-        return OrderStatus.accepted;
+  Future<void> _loadOrderData() async {
+    // First check if the order was passed via navigation extra
+    final extraOrder = GoRouterState.of(context).extra;
+    if (extraOrder is Order) {
+      ref.read(activeDeliveryProvider.notifier).setOrder(extraOrder);
+      return;
+    }
+    
+    // Fallback: try to find the order in the available orders list
+    final availableOrders = ref.read(availableOrdersProvider).orders;
+    final order = availableOrders.where((o) => o.id == widget.orderId).firstOrNull;
+    if (order != null) {
+      ref.read(activeDeliveryProvider.notifier).setOrder(order);
     }
   }
 
   @override
+  void dispose() {
+    _pickupOtpController.dispose();
+    _deliveryOtpController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final deliveryState = ref.watch(activeDeliveryProvider);
+    final order = deliveryState.order;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Order #${widget.orderId.substring(0, 8)}'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.phone),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Calling customer...')),
-              );
-            },
-          ),
+          if (order != null) ...[
+            IconButton(
+              icon: const Icon(Icons.phone),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Calling customer...')),
+                );
+              },
+            ),
+          ],
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
-              _showOrderDetails(context);
+              if (order != null) {
+                _showOrderDetails(context, order);
+              }
             },
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Status Timeline
-            _buildStatusTimeline(),
-            const SizedBox(height: 24),
+      body: deliveryState.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : deliveryState.error != null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                      const SizedBox(height: 16),
+                      Text('Error: ${deliveryState.error}'),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: _loadOrderData,
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                )
+              : order == null
+                  ? const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.inbox, size: 64, color: Colors.grey),
+                          SizedBox(height: 16),
+                          Text('Order not found',
+                              style: TextStyle(fontSize: 18, color: Colors.grey)),
+                        ],
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Status Timeline
+                          _buildStatusTimeline(order),
+                          const SizedBox(height: 24),
 
-            // Delivery Address
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.location_on, color: Colors.red),
-                        SizedBox(width: 8),
-                        Text(
-                          'Delivery Address',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                          // Delivery Address
+                          _buildDeliveryAddressCard(order),
+                          const SizedBox(height: 16),
+
+                          // Store Info
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.store, color: Colors.blue),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      order.deliveryAddress.addressLine1,
+                                      style: const TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const Divider(),
-                    _buildAddressRow('Address', '123 Main Street, Area, City'),
-                    _buildAddressRow('Pincode', '560001'),
-                    _buildAddressRow('Landmark', 'Near City Hospital'),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
+                          const SizedBox(height: 16),
 
-            // Order Items Summary
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.receipt_long, color: Colors.blue),
-                        SizedBox(width: 8),
-                        Text(
-                          'Order Items',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Divider(),
-                    _buildItemRow('Item 1', '2', '\$40.00'),
-                    _buildItemRow('Item 2', '1', '\$25.00'),
-                    _buildItemRow('Item 3', '3', '\$60.00'),
-                    const Divider(),
-                    _buildTotalRow('Subtotal', '\$125.00'),
-                    _buildTotalRow('Delivery Fee', '\$10.00'),
-                    _buildTotalRow('Total', '\$135.00', isBold: true),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
+                          // Order Items Summary
+                          _buildOrderItemsCard(order),
+                          const SizedBox(height: 24),
 
-            // Action Buttons based on status
-            _buildActionButtons(),
-          ],
-        ),
-      ),
+                          // Action Buttons
+                          _buildActionButtons(order),
+                        ],
+                      ),
+                    ),
     );
   }
 
-  Widget _buildStatusTimeline() {
+  Widget _buildStatusTimeline(Order order) {
+    final status = order.orderStatus.toUpperCase();
+    final isAccepted = status == 'ACCEPTED' || status == 'PICKED_UP' || status == 'DELIVERED';
+    final isPickedUp = status == 'PICKED_UP' || status == 'DELIVERED';
+    final isDelivered = status == 'DELIVERED';
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -152,10 +173,10 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 16),
-            _buildTimelineStep('Order Accepted', 'You accepted this order', true),
-            _buildTimelineStep('Pickup from Store', 'Go to store for pickup', false),
-            _buildTimelineStep('Deliver to Customer', 'Deliver to customer address', false),
-            _buildTimelineStep('Complete', 'Mark order as delivered', false),
+            _buildTimelineStep('Order Accepted', 'You accepted this order', isAccepted),
+            _buildTimelineStep('Pickup from Store', 'Go to store for pickup', isPickedUp),
+            _buildTimelineStep('Deliver to Customer', 'Deliver to customer address', isDelivered),
+            _buildTimelineStep('Complete', 'Mark order as delivered', isDelivered),
           ],
         ),
       ),
@@ -205,126 +226,182 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildDeliveryAddressCard(Order order) {
+    final addr = order.deliveryAddress;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.red),
+                SizedBox(width: 8),
+                Text(
+                  'Delivery Address',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ],
+            ),
+            const Divider(),
+            _buildAddressRow('Address', addr.addressLine1),
+            if (addr.addressLine2.isNotEmpty)
+              _buildAddressRow('Area', addr.addressLine2),
+            _buildAddressRow('City', '${addr.city}, ${addr.state}'),
+            _buildAddressRow('Pincode', addr.postalCode),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderItemsCard(Order order) {
+    final subtotal = order.items.fold<double>(0, (sum, item) => sum + item.total);
+    final deliveryFee = order.deliveryCharges;
+    final total = order.totalAmount;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.receipt_long, color: Colors.blue),
+                SizedBox(width: 8),
+                Text(
+                  'Order Items',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ],
+            ),
+            const Divider(),
+            ...order.items.map((item) => _buildItemRow(item)),
+            const Divider(),
+            _buildTotalRow('Subtotal', '₹${subtotal.toStringAsFixed(2)}'),
+            _buildTotalRow('Delivery Fee', '₹${deliveryFee.toStringAsFixed(2)}'),
+            if (order.discountAmount > 0)
+              _buildTotalRow('Discount', '-₹${order.discountAmount.toStringAsFixed(2)}',
+                  color: Colors.green),
+            _buildTotalRow('Total', '₹${total.toStringAsFixed(2)}', isBold: true),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButtons(Order order) {
+    final status = order.orderStatus.toUpperCase();
+
     return Column(
       children: [
-        // Pickup OTP verification
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Store Pickup OTP',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: _otpController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter OTP from store',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.lock),
+        // Pickup section - show when not yet picked up
+        if (status != 'PICKED_UP' && status != 'DELIVERED')
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Store Pickup',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => _pickupOrder(),
-                    icon: const Icon(Icons.shopping_bag),
-                    label: const Text('Confirm Pickup'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _pickupOtpController,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter OTP from store',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.lock),
+                    ),
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _handlePickup(order),
+                      icon: const Icon(Icons.shopping_bag),
+                      label: const Text('Confirm Pickup'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
         const SizedBox(height: 16),
 
-        // Navigate to customer
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () => _navigateToCustomer(),
-            icon: const Icon(Icons.navigation),
-            label: const Text('Navigate to Customer'),
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 14),
+        // Navigate to customer (always visible when not delivered)
+        if (status != 'DELIVERED')
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => _navigateToCustomer(),
+              icon: const Icon(Icons.navigation),
+              label: const Text('Navigate to Customer'),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 16),
+        if (status != 'DELIVERED') const SizedBox(height: 16),
 
-        // Deliver button
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: () => _deliverOrder(),
-            icon: const Icon(Icons.check_circle),
-            label: const Text('Mark as Delivered'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-            ),
-          ),
-        ),
-        const SizedBox(height: 12),
-
-        // Customer OTP verification
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Delivery OTP Verification',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter OTP from customer',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.verified_user),
+        // Delivery section - show when picked up and not delivered
+        if (status == 'PICKED_UP' || status == 'ACCEPTED')
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Delivery OTP Verification',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.verified),
-                    label: const Text('Verify OTP & Complete'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _deliveryOtpController,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter OTP from customer',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.verified_user),
+                    ),
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _handleDeliver(order),
+                      icon: const Icon(Icons.verified),
+                      label: const Text('Verify OTP & Complete'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
 
-  void _pickupOrder() {
-    if (_otpController.text.isEmpty) {
+  Future<void> _handlePickup(Order order) async {
+    if (_pickupOtpController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please enter the pickup OTP'),
@@ -334,35 +411,83 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Order picked up successfully!'),
-        backgroundColor: Colors.green,
-      ),
-    );
+    final notifier = ref.read(activeDeliveryProvider.notifier);
+    final success = await notifier.pickupOrder(order.id, _pickupOtpController.text.trim());
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(success ? 'Order picked up successfully!' : 'Pickup failed'),
+          backgroundColor: success ? Colors.green : Colors.red,
+        ),
+      );
+    }
   }
 
   void _navigateToCustomer() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Opening navigation...'),
-      ),
+      const SnackBar(content: Text('Opening navigation...')),
     );
+    // TODO: Integrate with actual maps/navigation service
   }
 
-  Future<void> _deliverOrder() async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Order delivered successfully!'),
-        backgroundColor: Colors.green,
-      ),
-    );
-    if (mounted) {
-      context.go('/home');
+  Future<void> _handleDeliver(Order order) async {
+    if (_deliveryOtpController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter the delivery OTP from customer'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // First verify OTP, then deliver
+    final notifier = ref.read(activeDeliveryProvider.notifier);
+    final verifyUseCase = ref.read(verifyOtpUseCaseProvider);
+    
+    try {
+      await verifyUseCase.call(order.id, _deliveryOtpController.text.trim());
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('OTP verification failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      return;
+    }
+    
+    // OTP verified, now deliver
+    try {
+      final success = await notifier.deliverOrder(order.id);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(success ? 'Order delivered successfully!' : 'Delivery failed'),
+            backgroundColor: success ? Colors.green : Colors.red,
+          ),
+        );
+        if (success) {
+          context.go('/home');
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Delivery failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
-  void _showOrderDetails(BuildContext context) {
+  void _showOrderDetails(BuildContext context, Order order) {
     showModalBottomSheet(
       context: context,
       builder: (ctx) => Padding(
@@ -377,9 +502,11 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
             ),
             const SizedBox(height: 16),
             _buildDetailRow('Order ID', widget.orderId),
-            _buildDetailRow('Customer', 'Customer Name'),
-            _buildDetailRow('Phone', '+91-9876543210'),
-            _buildDetailRow('Payment', 'COD'),
+            _buildDetailRow('Status', order.orderStatus),
+            _buildDetailRow('Items', '${order.itemCount} items'),
+            _buildDetailRow('Amount', '₹${order.totalAmount.toStringAsFixed(2)}'),
+            _buildDetailRow('Payment', order.paymentMethod ?? 'N/A'),
+            _buildDetailRow('Payment Status', order.paymentStatus),
             const SizedBox(height: 16),
           ],
         ),
@@ -416,24 +543,25 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
     );
   }
 
-  Widget _buildItemRow(String name, String qty, String price) {
+  Widget _buildItemRow(OrderItem item) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Expanded(child: Text(name)),
-          Text('x$qty', style: const TextStyle(color: Colors.grey)),
+          Expanded(child: Text(item.productName)),
+          Text('x${item.quantity}', style: const TextStyle(color: Colors.grey)),
           const SizedBox(width: 16),
           SizedBox(
-            width: 70,
-            child: Text(price, textAlign: TextAlign.right),
+            width: 80,
+            child: Text('₹${item.total.toStringAsFixed(2)}',
+                textAlign: TextAlign.right),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTotalRow(String label, String value, {bool isBold = false}) {
+  Widget _buildTotalRow(String label, String value, {bool isBold = false, Color? color}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
@@ -443,12 +571,14 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
             label,
             style: TextStyle(
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: color,
             ),
           ),
           Text(
             value,
             style: TextStyle(
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: color,
             ),
           ),
         ],
@@ -456,5 +586,3 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
     );
   }
 }
-
-enum OrderStatus { accepted, pickedUp, delivered }

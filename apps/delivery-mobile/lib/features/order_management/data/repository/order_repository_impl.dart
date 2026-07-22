@@ -3,7 +3,6 @@ import 'package:delivery_mobile/features/order_management/data/datasource/order_
 import 'package:delivery_mobile/features/order_management/domain/repository/order_repository.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
 import 'package:delivery_mobile/shared/models/order_timeline.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource _remoteDataSource;

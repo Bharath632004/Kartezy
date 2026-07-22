@@ -278,30 +278,52 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
     }
   }
 
-  /// Places the order.
-  Future<void> placeOrder() async {
+  /// Places the order by calling the backend order service.
+  Future<void> placeOrder({String? userId, String? paymentMethod}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      // Prepare order data
-      final orderData = {
-        'cartId': state.cartSummary?.id,
-        'addressId': state.selectedAddress?.id,
-        'deliveryInstructions': state.deliveryInstructions,
-        'contactlessDelivery': state.contactlessDelivery,
-        'instantDelivery': state.instantDelivery,
-        'scheduledDeliveryDateTime': state.scheduledDeliveryDateTime
-            ?.toIso8601String(),
-        'deliverySlot': state.deliverySlot,
-        'orderNotes': state.orderNotes,
+      // Build request matching backend CreateOrderRequestDto
+      final address = state.selectedAddress;
+      final items = state.cartSummary?.items ?? [];
+      
+      final orderData = <String, dynamic>{
+        'userId': userId,
+        'deliveryType': state.instantDelivery ? 'INSTANT' : 'SCHEDULED',
+        'deliveryAddress': address != null
+            ? '${address.addressLine1}${address.addressLine2.isNotEmpty ? ', ${address.addressLine2}' : ''}'
+            : '',
+        'deliveryCity': address?.city ?? '',
+        'deliveryState': address?.state ?? '',
+        'deliveryPincode': address?.postalCode ?? '',
+        'deliveryLatitude': address?.latitude,
+        'deliveryLongitude': address?.longitude,
+        'notes': state.deliveryInstructions ?? state.orderNotes,
+        'paymentMethod': paymentMethod ?? 'COD',
+        'items': items.map((item) {
+          final itemMap = <String, dynamic>{
+            'productId': item.productId,
+            'productName': item.product.name,
+            'productImage': item.product.imageUrl,
+            'quantity': item.quantity,
+            'unitPrice': item.product.price,
+            'variantName': item.selectedVariants.values.join(', '),
+          };
+          // Only include merchantId if available (avoid fake UUIDs)
+          if (item.product.merchantId != null) {
+            itemMap['merchantId'] = item.product.merchantId;
+          }
+          return itemMap;
+        }).toList(),
       };
+      
       // Remove null values
       orderData.removeWhere((key, value) => value == null);
+      
       await _placeOrderUseCase.call(orderData);
-      // Optionally, you can emit an event or update state with the order
-      // For now, we just return the order; the UI can handle navigation.
+      
+      // Clear the local cart after successful order
+      // The cart clear is handled by the caller (navigation to order confirmation)
       state = state.copyWith(isLoading: false);
-      // In a real app, you might show a success screen with the order details.
-      // We'll leave state as is for now.
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }

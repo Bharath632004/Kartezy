@@ -14,6 +14,7 @@ public interface DeliveryAssignmentRepository extends JpaRepository<DeliveryAssi
     Optional<DeliveryAssignment> findByOrderId(UUID orderId);
     List<DeliveryAssignment> findByStatus(AssignmentStatus status);
     List<DeliveryAssignment> findByPartnerIdAndStatus(UUID partnerId, AssignmentStatus status);
+    List<DeliveryAssignment> findByPartnerIdAndStatusOrderByCreatedAtDesc(UUID partnerId, AssignmentStatus status);
     long countByPartnerIdAndStatus(UUID partnerId, AssignmentStatus status);
 }
 

@@ -573,7 +573,10 @@ class CheckoutPage extends ConsumerWidget {
                 onPressed: state.isLoading || state.selectedAddress == null
                     ? null
                     : () async {
-                        await notifier.placeOrder();
+                        await notifier.placeOrder(
+                          userId: null, // TODO: get from auth provider
+                          paymentMethod: 'COD',
+                        );
                         if (context.mounted) {
                           context.go('/orders');
                         }

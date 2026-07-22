@@ -53,6 +53,7 @@ dependencies:
   video_player: ^2.8.0
   dartz: ^0.10.1
   speech_to_text: ^7.4.0
+  web_socket_channel: ^3.0.0
 
   # Authentication dependencies
   google_sign_in: ^6.2.1

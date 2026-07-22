@@ -9,6 +9,7 @@ import com.kartezy.deliveryservice.entity.DeliveryPartner.KycStatus;
 import com.kartezy.deliveryservice.entity.DeliveryPartner.PartnerStatus;
 import com.kartezy.deliveryservice.entity.DeliveryPartner.VehicleType;
 import com.kartezy.deliveryservice.repository.*;
+import com.kartezy.deliveryservice.websocket.DeliveryWebSocketPublisher;
 import com.kartezy.shared.exception.BadRequestException;
 import com.kartezy.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class DeliveryService {
     private final DeliveryPartnerRepository partnerRepository;
     private final DeliveryAssignmentRepository assignmentRepository;
     private final DeliveryEarningRepository earningRepository;
+    private final DeliveryWebSocketPublisher webSocketPublisher;
 
     @Transactional
     public DeliveryPartnerDto registerPartner(DeliveryPartnerRequestDto request) {
@@ -224,6 +226,17 @@ public class DeliveryService {
         partner.setCurrentLongitude(location.getLongitude());
         partner.setLastOnlineAt(LocalDateTime.now());
         partner = partnerRepository.save(partner);
+
+        // Broadcast location to customers tracking this partner's active order
+        assignmentRepository.findByPartnerIdAndStatusOrderByCreatedAtDesc(
+                partnerId, AssignmentStatus.ACCEPTED)
+            .stream().findFirst()
+            .ifPresent(assignment ->
+                webSocketPublisher.broadcastLocation(
+                    assignment.getOrderId().toString(),
+                    location.getLatitude(),
+                    location.getLongitude()));
+
         return toPartnerDto(partner);
     }
 

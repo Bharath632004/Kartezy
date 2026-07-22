@@ -109,7 +109,7 @@ class AuthServiceImplTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody() instanceof LoginResponse);
         LoginResponse loginResponse = (LoginResponse) response.getBody();
         assertEquals("fakeAccessToken", loginResponse.getAccessToken());
@@ -141,7 +141,7 @@ class AuthServiceImplTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(401, response.getStatusCodeValue());
+        assertEquals(401, response.getStatusCode().value());
         assertEquals("Invalid credentials", response.getBody());
     }
 
@@ -163,7 +163,7 @@ class AuthServiceImplTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCode().value());
         assertEquals("User not found", response.getBody());
     }
 }

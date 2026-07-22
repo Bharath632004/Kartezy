@@ -3,6 +3,7 @@ package com.kartezy.orderservice.service;
 import com.kartezy.orderservice.dto.*;
 import com.kartezy.orderservice.entity.*;
 import com.kartezy.orderservice.repository.*;
+import com.kartezy.orderservice.websocket.OrderStatusWebSocketHandler;
 import com.kartezy.shared.exception.BadRequestException;
 import com.kartezy.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderDeliveryInfoRepository deliveryInfoRepository;
     private final OrderTimelineRepository timelineRepository;
+    private final OrderStatusWebSocketHandler statusWebSocketHandler;
 
     @Transactional
     public OrderEnhancedDto createOrder(CreateOrderRequestDto request) {
@@ -112,6 +114,11 @@ public class OrderService {
         addTimelineEntry(order.getId(), "PENDING", "Order placed successfully", "SYSTEM");
 
         log.info("Order created: {} with number: {}", order.getId(), orderNumber);
+
+        // Broadcast order created event
+        statusWebSocketHandler.broadcastStatusUpdate(
+            order.getId().toString(), "PENDING", "Order placed successfully");
+
         return getOrderDetail(order.getId());
     }
 
@@ -142,6 +149,11 @@ public class OrderService {
         }
 
         log.info("Order {} status updated to: {}", orderId, update.getStatus());
+
+        // Broadcast status change in real-time
+        statusWebSocketHandler.broadcastStatusUpdate(
+            orderId.toString(), update.getStatus(), update.getDescription());
+
         return getOrderDetail(orderId);
     }
 

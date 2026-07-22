@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:customer_mobile/features/cart/data/datasource/cart_remote_data_source.dart';
+import 'package:customer_mobile/features/cart/data/datasource/cart_local_data_source.dart';
 import 'package:customer_mobile/features/cart/data/repository/cart_repository_impl.dart';
 import 'package:customer_mobile/features/cart/domain/repository/cart_repository.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/add_to_cart_usecase.dart';
@@ -15,14 +16,14 @@ import 'package:customer_mobile/features/cart/domain/usecase/update_cart_item_qu
 import 'package:customer_mobile/features/cart/domain/usecase/update_cart_item_variants_usecase.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/update_wallet_amount_usecase.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/merge_guest_cart_usecase.dart';
-import 'package:customer_mobile/core/providers/network_provider.dart';
+
 import 'package:customer_mobile/shared/models/cart.dart';
 import 'package:hive/hive.dart';
 
 // Providers for data source and repository
 final cartRemoteDataSourceProvider = Provider<CartRemoteDataSource>((ref) {
-  final dioClient = ref.read(dioProvider);
-  return CartRemoteDataSourceImpl(dioClient);
+  // Use local cart data source for MVP (no backend cart service)
+  return CartLocalDataSource();
 });
 
 final cartRepositoryProvider = Provider<CartRepository>((ref) {

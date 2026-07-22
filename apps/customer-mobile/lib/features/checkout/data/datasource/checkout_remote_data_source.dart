@@ -1,7 +1,12 @@
 // lib/features/checkout/data/datasource/checkout_remote_data_source.dart
+// For MVP, checkout operations that require backend calls are routed to
+// the order service (POST /orders). Cart summary is derived locally.
 import 'package:dio/dio.dart';
 import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/shared/models/order.dart';
+import 'package:customer_mobile/shared/utils/order_json_mapper.dart';
+import 'package:customer_mobile/features/cart/data/datasource/cart_remote_data_source.dart';
+import 'package:customer_mobile/features/cart/data/datasource/cart_local_data_source.dart';
 
 abstract class CheckoutRemoteDataSource {
   Future<CheckoutSummary> getCheckoutSummary(String? userId);
@@ -18,78 +23,112 @@ abstract class CheckoutRemoteDataSource {
 
 class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
   final Dio _dio;
+  final CartRemoteDataSource _cartLocalSource;
 
-  CheckoutRemoteDataSourceImpl(this._dio);
+  CheckoutRemoteDataSourceImpl(this._dio, {CartRemoteDataSource? cartLocalSource})
+      : _cartLocalSource = cartLocalSource ?? CartLocalDataSource();
 
   @override
   Future<CheckoutSummary> getCheckoutSummary(String? userId) async {
-    final response = await _dio.get(
-      userId == null ? '/checkout/guest-summary' : '/checkout/user-summary',
-      queryParameters: {'userId': userId},
+    // Derive checkout summary from local cart (no backend checkout endpoint)
+    final cart = await _cartLocalSource.getCart(userId);
+    return CheckoutSummary(
+      id: cart.id,
+      userId: cart.userId,
+      items: cart.items,
+      couponCode: cart.couponCode,
+      discountAmount: cart.discountAmount,
+      totalAmount: cart.totalAmount,
+      itemCount: cart.itemCount,
+      platformFee: cart.platformFee,
+      deliveryCharges: cart.deliveryCharges,
+      packagingFee: cart.packagingFee,
+      gstAmount: cart.gstAmount,
+      tipAmount: cart.tipAmount,
+      walletAmount: cart.walletAmount,
+      netAmount: cart.netAmount,
     );
-    return CheckoutSummary.fromJson(response.data);
   }
 
   @override
   Future<Order> placeOrder(Map<String, dynamic> orderData) async {
-    final response = await _dio.post('/checkout/place-order', data: orderData);
-    return Order.fromJson(response.data);
+    // Backend: POST /orders accepts CreateOrderRequestDto
+    final response = await _dio.post('/orders', data: orderData);
+    return Order.fromJson(normalizeOrderJson(response.data));
   }
 
   @override
   Future<void> saveAddress(String addressId, bool isDefault) async {
-    await _dio.post(
-      '/address/save',
-      data: {'addressId': addressId, 'isDefault': isDefault},
-    );
+    // Stored locally via address feature provider; no backend call for MVP
   }
 
   @override
   Future<void> setDeliveryInstructions(String instructions) async {
-    await _dio.post(
-      '/checkout/set-delivery-instructions',
-      data: {'instructions': instructions},
-    );
+    // Handled locally in checkout state
   }
 
   @override
   Future<void> setContactlessDelivery(bool value) async {
-    await _dio.post(
-      '/checkout/set-contactless-delivery',
-      data: {'value': value},
-    );
+    // Handled locally in checkout state
   }
 
   @override
   Future<void> setInstantDelivery(bool value) async {
-    await _dio.post('/checkout/set-instant-delivery', data: {'value': value});
+    // Handled locally in checkout state
   }
 
   @override
   Future<void> setScheduledDelivery(DateTime dateTime) async {
-    await _dio.post(
-      '/checkout/set-scheduled-delivery',
-      data: {'dateTime': dateTime.toIso8601String()},
-    );
+    // Handled locally in checkout state
   }
 
   @override
   Future<void> selectDeliverySlot(String slot) async {
-    await _dio.post('/checkout/select-delivery-slot', data: {'slot': slot});
+    // Handled locally in checkout state
   }
 
   @override
   Future<CheckoutSummary> applyCoupon(String couponCode) async {
-    final response = await _dio.post(
-      '/checkout/apply-coupon',
-      data: {'couponCode': couponCode},
+    // Applied locally via cart data source
+    final cart = await _cartLocalSource.applyCoupon(couponCode);
+    return CheckoutSummary(
+      id: cart.id,
+      userId: cart.userId,
+      items: cart.items,
+      couponCode: cart.couponCode,
+      discountAmount: cart.discountAmount,
+      totalAmount: cart.totalAmount,
+      itemCount: cart.itemCount,
+      platformFee: cart.platformFee,
+      deliveryCharges: cart.deliveryCharges,
+      packagingFee: cart.packagingFee,
+      gstAmount: cart.gstAmount,
+      tipAmount: cart.tipAmount,
+      walletAmount: cart.walletAmount,
+      netAmount: cart.netAmount,
     );
-    return CheckoutSummary.fromJson(response.data);
   }
 
   @override
   Future<CheckoutSummary> removeCoupon() async {
-    final response = await _dio.post('/checkout/remove-coupon');
-    return CheckoutSummary.fromJson(response.data);
+    final cart = await _cartLocalSource.removeCoupon();
+    return CheckoutSummary(
+      id: cart.id,
+      userId: cart.userId,
+      items: cart.items,
+      couponCode: cart.couponCode,
+      discountAmount: cart.discountAmount,
+      totalAmount: cart.totalAmount,
+      itemCount: cart.itemCount,
+      platformFee: cart.platformFee,
+      deliveryCharges: cart.deliveryCharges,
+      packagingFee: cart.packagingFee,
+      gstAmount: cart.gstAmount,
+      tipAmount: cart.tipAmount,
+      walletAmount: cart.walletAmount,
+      netAmount: cart.netAmount,
+    );
   }
+
+
 }

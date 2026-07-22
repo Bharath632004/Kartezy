@@ -1,6 +1,7 @@
 // lib/features/order/presentation/pages/order_history_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/order/provider/provider.dart';
 import 'package:customer_mobile/shared/models/order.dart';
 
@@ -122,6 +123,11 @@ class OrderHistoryItem extends StatelessWidget {
 
   const OrderHistoryItem({super.key, required this.order});
 
+  void _navigateToDetail(BuildContext context, String orderId) {
+    // GoRouter push for detail page (back button works naturally)
+    context.push('/orders/$orderId');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -156,11 +162,11 @@ class OrderHistoryItem extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            //  Navigate to order details page
+            _navigateToDetail(context, order.id);
           },
         ),
         onTap: () {
-          //  Navigate to order details page
+          _navigateToDetail(context, order.id);
         },
       ),
     );

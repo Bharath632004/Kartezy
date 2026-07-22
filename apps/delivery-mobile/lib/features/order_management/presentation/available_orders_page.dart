@@ -101,7 +101,8 @@ class _AvailableOrdersPageState extends ConsumerState<AvailableOrdersPage> {
           backgroundColor: Colors.green,
         ),
       );
-      context.go('/order/$orderId');
+      // Pass the order via extra so the detail page can load it
+      context.go('/order/$orderId', extra: order);
     }
   }
 
@@ -199,7 +200,7 @@ class _OrderCard extends StatelessWidget {
                 const Icon(Icons.store, size: 16, color: Colors.grey),
                 const SizedBox(width: 4),
                 Text(
-                  order.deliveryAddress.addressLine1 ?? 'Unknown store',
+                  order.deliveryAddress.addressLine1,
                   style: const TextStyle(color: Colors.grey),
                 ),
               ],
@@ -213,7 +214,7 @@ class _OrderCard extends StatelessWidget {
                 const Spacer(),
                 const Icon(Icons.currency_rupee, size: 16, color: Colors.green),
                 Text(
-                  '${order.totalAmount.toStringAsFixed(2)}',
+                  order.totalAmount.toStringAsFixed(2),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -222,23 +223,21 @@ class _OrderCard extends StatelessWidget {
                 ),
               ],
             ),
-            if (order.deliveryAddress.addressLine1 != null) ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(Icons.location_on, size: 16, color: Colors.red),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      order.deliveryAddress.addressLine1!,
-                      style: const TextStyle(color: Colors.grey),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const Icon(Icons.location_on, size: 16, color: Colors.red),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    order.deliveryAddress.addressLine1,
+                    style: const TextStyle(color: Colors.grey),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
             const SizedBox(height: 12),
             Row(
               children: [
