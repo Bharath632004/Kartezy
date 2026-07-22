@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:delivery_mobile/features/order_management/presentation/order_state_provider.dart';
 import 'package:delivery_mobile/shared/models/order.dart';
 import 'package:delivery_mobile/shared/models/order_item.dart';
@@ -424,11 +425,42 @@ class _ActiveOrderDetailPageState extends ConsumerState<ActiveOrderDetailPage> {
     }
   }
 
-  void _navigateToCustomer() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Opening navigation...')),
-    );
-    // TODO: Integrate with actual maps/navigation service
+  Future<void> _navigateToCustomer() async {
+    final order = ref.read(activeDeliveryProvider).order;
+    if (order == null) return;
+
+    final addr = order.deliveryAddress;
+    final lat = addr.latitude;
+    final lng = addr.longitude;
+
+    if (lat != null && lng != null && lat != 0 && lng != 0) {
+      final googleMapsUrl = Uri.parse(
+        'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng',
+      );
+      final uri = Uri.tryParse('geo:$lat,$lng?q=$lat,$lng');
+
+      // Try Google Maps app first, fall back to web
+      if (await canLaunchUrl(googleMapsUrl)) {
+        await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
+      } else if (uri != null && await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open maps')),
+        );
+      }
+    } else {
+      // Fallback: open with address text
+      final addressStr = Uri.encodeComponent(
+        '${addr.addressLine1}, ${addr.city}, ${addr.state} ${addr.postalCode}',
+      );
+      final mapsUrl = Uri.parse(
+        'https://www.google.com/maps/search/?api=1&query=$addressStr',
+      );
+      if (await canLaunchUrl(mapsUrl)) {
+        await launchUrl(mapsUrl, mode: LaunchMode.externalApplication);
+      }
+    }
   }
 
   Future<void> _handleDeliver(Order order) async {

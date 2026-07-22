@@ -12,46 +12,7 @@ class TrackingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Start tracking when the page is first built
-    // We'll use a WidgetsBinding callback to start tracking after the first frame
-    // But for simplicity, we'll start tracking in the initState equivalent using a flag
-    // We'll use a State.Notifier to handle the subscription, but we are using a ConsumerWidget.
-    // Instead, we'll use the trackingProvider's notifier to start tracking when the orderId is available.
-    // We'll do it in a useEffect-like manner using a StateNotifier that we control.
-    // Since we are using a ConsumerWidget, we can't have state. We'll use a StateNotifierProvider that we control.
-    // But we already have a StateNotifierProvider for trackingProvider that we can use.
-    // We'll start tracking in the provider when the orderId is set.
-    // We'll modify the TrackingNotifier to have a method to start tracking with an orderId.
-    // We'll call that method when the orderId changes.
-    // We'll use a WidgetsBinding to call it after the first frame.
-    // For now, we'll start tracking in the build method when we first get a non-null orderId.
-    // We'll use a State variable in the StateNotifier to track the current orderId.
-    // We'll update the TrackingNotifier to accept orderId in the startTracking method.
-    // We'll call it from the build method if the orderId has changed.
-    // To avoid calling it multiple times, we'll keep track of the last orderId we started tracking for.
-    // We'll use a State variable in the StateNotifier to store the current orderId.
-    // We'll update the TrackingNotifier to have a currentOrderId field and update it when startTracking is called.
-    // Then in the build method, we can check if the currentOrderId in the provider matches the orderId passed in.
-    // If not, we call startTracking.
-    // We'll do this by updating the TrackingNotifier to have a method to set the orderId and start tracking if it's different.
-
-    // However, to keep the example simple, we'll assume that the orderId is passed in and we start tracking immediately.
-    // We'll call ref.read(trackingProvider.notifier).startTracking(orderId) in the build method.
-    // But calling it in the build method will cause it to be called on every rebuild.
-    // We'll use a WidgetsBinding callback to call it once after the first frame.
-
-    // We'll use a State variable in the StateNotifier to track whether we have started tracking for this orderId.
-    // We'll update the TrackingNotifier to have a startedOrderId field.
-    // We'll modify the startTracking method to only start if the orderId is different from the startedOrderId.
-    // We'll then call startTracking in the build method, and it will only start once.
-
-    // We'll update the TrackingNotifier accordingly, but for now, we'll just call it and accept that it may be called multiple times.
-    // In a real app, we would fix the provider to handle this.
-
-    // For the purpose of this example, we'll start tracking in the build method.
-    // We'll add a comment that this should be improved.
-
-    // Start tracking
+    // Start tracking via the provider; the notifier deduplicates calls by orderId
     ref.read(trackingProvider.notifier).startTracking(orderId);
 
     final trackingState = ref.watch(trackingProvider);
@@ -63,7 +24,6 @@ class TrackingPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              // Refresh tracking data
               ref.read(trackingProvider.notifier).startTracking(orderId);
             },
           ),
@@ -113,7 +73,7 @@ class TrackingPage extends ConsumerWidget {
                 myLocationButtonEnabled: true,
                 zoomControlsEnabled: true,
               ),
-              // Positioned widget for ETA and status
+              // ETA and status overlay
               Positioned(
                 top: 16,
                 left: 16,
@@ -187,16 +147,14 @@ class TrackingPage extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.phone),
                     onPressed: () {
-                      //  Implement call functionality
-                      // final phoneNumber = tracking.driver.phoneNumber;
-                      // launch('tel:$phoneNumber');
+                      // Call functionality - will use url_launcher when integrated
                     },
                     tooltip: 'Call Driver',
                   ),
                   IconButton(
                     icon: const Icon(Icons.chat_bubble),
                     onPressed: () {
-                      //  Implement chat functionality
+                      // Chat functionality to be implemented
                     },
                     tooltip: 'Chat with Driver',
                   ),
@@ -214,7 +172,7 @@ class TrackingPage extends ConsumerWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    //  Implement share functionality
+                    // Share live location to be implemented
                   },
                   icon: const Icon(Icons.share),
                   label: const Text('Share Live Location'),
@@ -224,7 +182,7 @@ class TrackingPage extends ConsumerWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    //  Implement contact support
+                    // Contact support to be implemented
                   },
                   icon: const Icon(Icons.headset),
                   label: const Text('Contact Support'),
@@ -248,7 +206,6 @@ class TrackingPage extends ConsumerWidget {
           snippet: 'Vehicle: ${tracking.driver.vehicleNumber}',
         ),
       ),
-      // Destination marker
       Marker(
         markerId: const MarkerId('destination'),
         position: tracking.route.endPoint,

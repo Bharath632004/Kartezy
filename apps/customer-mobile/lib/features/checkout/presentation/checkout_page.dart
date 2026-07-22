@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:customer_mobile/core/services/auth_service.dart';
 import 'package:customer_mobile/features/checkout/provider/provider.dart';
 import 'package:customer_mobile/shared/models/checkout_summary.dart';
 import 'package:customer_mobile/core/utils/formatters.dart';
@@ -573,8 +574,9 @@ class CheckoutPage extends ConsumerWidget {
                 onPressed: state.isLoading || state.selectedAddress == null
                     ? null
                     : () async {
+                        final uid = await ref.read(authServiceProvider).getUserId();
                         await notifier.placeOrder(
-                          userId: null, // TODO: get from auth provider
+                          userId: uid,
                           paymentMethod: 'COD',
                         );
                         if (context.mounted) {

@@ -76,8 +76,8 @@ class CartLocalDataSource implements CartRemoteDataSource {
         selectedVariants: existing.selectedVariants,
       );
     } else {
-      // Add new item with a placeholder product
-      // In a real app, product details would be fetched from catalog service
+      // Create cart item with product ID; full details will be populated
+      // when the checkout summary is fetched from the order service
       newItems.add(CartItem(
         id: 'ci_${DateTime.now().millisecondsSinceEpoch}',
         productId: productId,

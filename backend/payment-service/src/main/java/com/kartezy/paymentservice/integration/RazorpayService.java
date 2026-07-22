@@ -35,13 +35,13 @@ public class RazorpayService {
 
     private final PaymentRepository paymentRepository;
 
-    @Value("${razorpay.key-id}")
+    @Value("${razorpay.key-id:#{null}}")
     private String razorpayKeyId;
 
-    @Value("${razorpay.key-secret}")
+    @Value("${razorpay.key-secret:#{null}}")
     private String razorpayKeySecret;
 
-    @Value("${razorpay.webhook-secret}")
+    @Value("${razorpay.webhook-secret:#{null}}")
     private String razorpayWebhookSecret;
 
     @Value("${razorpay.currency:INR}")
@@ -53,13 +53,12 @@ public class RazorpayService {
     public void init() {
         try {
             if (razorpayKeyId != null && !razorpayKeyId.isEmpty()
-                    && razorpayKeySecret != null && !razorpayKeySecret.isEmpty()
-                    && !"rzp_test_placeholder".equals(razorpayKeyId)) {
+                    && razorpayKeySecret != null && !razorpayKeySecret.isEmpty()) {
                 razorpayClient = new com.razorpay.RazorpayClient(razorpayKeyId, razorpayKeySecret);
                 log.info("Razorpay client initialized successfully");
             } else {
-                log.warn("Razorpay client not initialized - using placeholder credentials. " +
-                        "Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET environment variables.");
+                log.warn("Razorpay client not initialized - set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET environment variables. " +
+                        "Payment will operate in simulation mode.");
             }
         } catch (Exception e) {
             log.error("Failed to initialize Razorpay client: {}", e.getMessage());
