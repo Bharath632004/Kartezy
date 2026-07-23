@@ -41,7 +41,7 @@ const FraudAlerts = () => {
     error,
   } = useQuery({
     queryKey: ['fraud-alerts'],
-    queryFn: () => operationsService.getFraudAlerts(),
+    queryFn: () => operationsService.getFraudAlerts().then(res => res.data),
     refetchInterval: refreshInterval || false,
   });
 
@@ -162,10 +162,12 @@ const FraudAlerts = () => {
                     <TableCell align="right">
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Box
-                          width={10}
-                          height={10}
-                          borderRadius="50%"
-                          sx={{ bgcolor: alert.riskLevel === 'high' ? 'error.main' : alert.riskLevel === 'medium' ? 'warning.main' : alert.riskLevel === 'low' ? 'info.main' : 'grey.main' }}
+                          sx={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: '50%',
+                            bgcolor: alert.riskLevel === 'high' ? 'error.main' : alert.riskLevel === 'medium' ? 'warning.main' : alert.riskLevel === 'low' ? 'info.main' : 'grey.main'
+                          }}
                         />
                         <Typography>{alert.riskLevel.toUpperCase()}</Typography>
                       </Box>
@@ -174,10 +176,12 @@ const FraudAlerts = () => {
                     <TableCell align="right">
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Box
-                          width={10}
-                          height={10}
-                          borderRadius="50%"
-                          sx={{ bgcolor: alert.status === 'reviewing' ? 'warning.main' : alert.status === 'blocked' ? 'error.main' : alert.status === 'cleared' ? 'success.main' : 'grey.main' }}
+                          sx={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: '50%',
+                            bgcolor: alert.status === 'reviewing' ? 'warning.main' : alert.status === 'blocked' ? 'error.main' : alert.status === 'cleared' ? 'success.main' : 'grey.main'
+                          }}
                         />
                         <Typography>{alert.status}</Typography>
                       </Box>
@@ -195,9 +199,9 @@ const FraudAlerts = () => {
         {alerts?.length > 0 && (
           <Typography>
             Total Alerts: <strong>{alerts.length}</strong> (
-            <span sx={{ color: 'error.main' }}>{highRiskAlerts.length}</span> High Risk,
-            <span sx={{ color: 'warning.main' }}>{mediumRiskAlerts.length}</span> Medium Risk,
-            <span sx={{ color: 'info.main' }}>{lowRiskAlerts.length}</span> Low Risk)
+            <Box component="span" sx={{ color: 'error.main' }}>{highRiskAlerts.length}</Box> High Risk,
+            <Box component="span" sx={{ color: 'warning.main' }}>{mediumRiskAlerts.length}</Box> Medium Risk,
+            <Box component="span" sx={{ color: 'info.main' }}>{lowRiskAlerts.length}</Box> Low Risk)
           </Typography>
         )}
       </Box>

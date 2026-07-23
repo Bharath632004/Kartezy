@@ -23,7 +23,7 @@ class OrderDetailPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              //  Share order
+              // Share order
             },
           ),
         ],

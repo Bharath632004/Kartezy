@@ -8,7 +8,7 @@ export default function MarketingOverview() {
         <Typography variant="h4" gutterBottom>
           Marketing Overview
         </Typography>
-        <Grid container spacing={3}>
+        <Grid spacing={3}>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <Card sx={{ height: '100%' }}>
               <CardContent>
@@ -47,7 +47,7 @@ export default function MarketingOverview() {
           </Grid>
         </Grid>
 
-        <Grid container spacing={3} mt={4}>
+        <Grid spacing={3} sx={{ mt: 4 }}>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <Card sx={{ height: '100%' }}>
               <CardContent>

@@ -85,7 +85,7 @@ class OrderHistoryPage extends ConsumerWidget {
               ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //  Navigate to new order/cart
+            // Navigate to new order/cart
           },
           child: const Icon(Icons.shopping_cart),
         ),

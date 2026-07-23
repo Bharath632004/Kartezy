@@ -19,7 +19,7 @@ const severityColors: Record<string, 'error' | 'warning' | 'info' | 'success'> =
 };
 
 const incidentStatusColors: Record<string, 'warning' | 'info' | 'primary' | 'success' | 'error'> = {
-  DETECTED: 'warning', ACKNOWLEDGED: 'info', INVESTIGATING: 'primary', MITIGATING: 'warning', RESOLVED: 'success', CLOSED: 'default',
+  DETECTED: 'warning', ACKNOWLEDGED: 'info', INVESTIGATING: 'primary', MITIGATING: 'warning', RESOLVED: 'success',  CLOSED: 'primary',
 };
 
 const categoryIcons: Record<string, React.ReactNode> = {

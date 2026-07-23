@@ -274,17 +274,45 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                   child: const Text('Clear Reports'),
                 ),
                 ElevatedButton.icon(
-                  onPressed: reportsState.isLoading
+                  onPressed: reportsState.isLoading ||
+                          (reportsState.dailyReport == null &&
+                              reportsState.monthlyReport == null &&
+                              reportsState.salesReport == null)
                       ? null
-                      : () {
-                          //  Implement export functionality
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Export functionality not implemented yet',
-                              ),
-                            ),
-                          );
+                      : () async {
+                          try {
+                            final data = StringBuffer();
+                            if (reportsState.dailyReport != null) {
+                              data.writeln('=== Daily Report ===');
+                              data.writeln(reportsState.dailyReport.toString());
+                            }
+                            if (reportsState.monthlyReport != null) {
+                              data.writeln('=== Monthly Report ===');
+                              data.writeln(reportsState.monthlyReport.toString());
+                            }
+                            if (reportsState.salesReport != null) {
+                              data.writeln('=== Sales Report ===');
+                              data.writeln(reportsState.salesReport.toString());
+                            }
+
+                            await reportsNotifier.exportReports(data.toString());
+
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Report exported successfully'),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Export failed: ${e.toString()}'),
+                                ),
+                              );
+                            }
+                          }
                         },
                   icon: const Icon(Icons.download),
                   label: const Text('Export'),

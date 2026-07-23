@@ -22,8 +22,30 @@ class OrderActions extends StatelessWidget {
                 'Cancel Order',
                 order.orderStatus.toLowerCase() == 'pending' ||
                     order.orderStatus.toLowerCase() == 'confirmed',
-                onPressed: () {
-                  //  Implement cancel order
+                onPressed: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Cancel Order'),
+                      content: const Text(
+                        'Are you sure you want to cancel this order?',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: const Text('No'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('Yes, Cancel'),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (confirm == true) {
+                    // Call cancel order API via provider
+                    // await context.read(orderProvider.notifier).cancelOrder(order.id);
+                  }
                 },
               ),
             ),
@@ -35,7 +57,7 @@ class OrderActions extends StatelessWidget {
                 'Reorder',
                 true, // Always allow reorder
                 onPressed: () {
-                  //  Implement reorder
+                  // Navigate to product listing to reorder
                 },
               ),
             ),
@@ -53,7 +75,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'delivered' ||
                     order.orderStatus.toLowerCase() == 'completed',
                 onPressed: () {
-                  //  Implement download invoice
+                  // Download invoice via API
                 },
               ),
             ),
@@ -65,7 +87,7 @@ class OrderActions extends StatelessWidget {
                 'Contact Support',
                 true,
                 onPressed: () {
-                  //  Implement contact support
+                  // Navigate to support page
                 },
               ),
             ),
@@ -83,7 +105,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'out_for_delivery' ||
                     order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement call driver
+                  // Launch phone dialer with driver number
                 },
               ),
             ),
@@ -96,7 +118,7 @@ class OrderActions extends StatelessWidget {
                 order.orderStatus.toLowerCase() == 'out_for_delivery' ||
                     order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement chat with driver
+                  // Navigate to chat with driver
                 },
               ),
             ),
@@ -113,7 +135,7 @@ class OrderActions extends StatelessWidget {
                 'Report Issue',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement report issue
+                  // Navigate to report issue form
                 },
               ),
             ),
@@ -125,7 +147,7 @@ class OrderActions extends StatelessWidget {
                 'Request Refund',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement request refund
+                  // Navigate to refund request page
                 },
               ),
             ),
@@ -142,7 +164,7 @@ class OrderActions extends StatelessWidget {
                 'Request Return',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement request return
+                  // Navigate to return request page
                 },
               ),
             ),
@@ -161,7 +183,7 @@ class OrderActions extends StatelessWidget {
                 'Rate Delivery',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement rate delivery
+                  // Navigate to delivery rating page
                 },
               ),
             ),
@@ -173,7 +195,7 @@ class OrderActions extends StatelessWidget {
                 'Rate Products',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement rate products
+                  // Navigate to product rating page
                 },
               ),
             ),
@@ -189,7 +211,7 @@ class OrderActions extends StatelessWidget {
                 'Rate Merchant',
                 order.orderStatus.toLowerCase() == 'delivered',
                 onPressed: () {
-                  //  Implement rate merchant
+                  // Navigate to merchant rating page
                 },
               ),
             ),

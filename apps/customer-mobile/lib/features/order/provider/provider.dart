@@ -54,7 +54,7 @@ final cancelOrderUseCaseProvider = Provider<CancelOrderUseCase>((ref) {
 // Example: OrderStateNotifier for managing a list of user orders.
 class OrderState {
   final List<Order> orders;
-  final bool isLocked; //  Add other fields if needed
+  final bool isLocked; // Add other fields if needed
   final bool isLoading;
   final String? errorMessage;
 

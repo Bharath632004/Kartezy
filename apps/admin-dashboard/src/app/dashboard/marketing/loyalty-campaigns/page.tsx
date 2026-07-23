@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
 export default function LoyaltyCampaignsPage() {
-  const { loyaltyData, loading, error, fetchLoyaltyData, createLoyalty, updateLoyalty, deleteLoyalty } = useMarketingStore();
+  const { loyaltyData, loading, error, fetchLoyaltyData, createLoyalty, updateLoyalty, deleteLoyalty } = useMarketingStore() as any;
   const [filters, setFilters] = React.useState({
     status: '',
     tier: '',
@@ -14,7 +14,7 @@ export default function LoyaltyCampaignsPage() {
   });
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedLoyalty, setSelectedLoyalty] = React.useState(null);
+  const [selectedLoyalty, setSelectedLoyalty] = React.useState<any>(null);
 
   React.useEffect(() => {
     fetchLoyaltyData(filters);
@@ -30,24 +30,23 @@ export default function LoyaltyCampaignsPage() {
     setOpenEditDialog(!openEditDialog);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Loyalty Programs Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Status"
             select
-            labelId="status-label"
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            SelectProps={{ MenuProps: { sx: { width: 200 } } }}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Statuses</option>
             <option value="active">Active</option>
@@ -57,13 +56,10 @@ export default function LoyaltyCampaignsPage() {
           <TextField
             label="Tier"
             select
-            labelId="tier-label"
             id="tier-select"
             value={filters.tier || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, tier: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Tiers</option>
             <option value="bronze">Bronze</option>
@@ -96,12 +92,12 @@ export default function LoyaltyCampaignsPage() {
       </Box>
 
       {!loyaltyData || loyaltyData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No loyalty programs available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Loyalty Programs List
             </Typography>
@@ -131,7 +127,7 @@ export default function LoyaltyCampaignsPage() {
                       <TableCell align="right">{loyalty.totalPointsIssued?.toLocaleString() ?? '0'}</TableCell>
                       <TableCell align="right">{loyalty.totalPointsRedeemed?.toLocaleString() ?? '0'}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: loyalty.status.toLowerCase() === 'active' ? 'success.main' :
                                    loyalty.status.toLowerCase() === 'paused' ? 'warning.main' :
                                    loyalty.status.toLowerCase() === 'maintenance' ? 'info.main' : 'error.main',
@@ -140,7 +136,7 @@ export default function LoyaltyCampaignsPage() {
                           borderRadius: 1
                         }}>
                           {loyalty.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }} onClick={() => handleToggleEditDialog(loyalty)}>
@@ -192,7 +188,6 @@ export default function LoyaltyCampaignsPage() {
           <TextField
             label="Tier"
             select
-            labelId="loyalty-tier-label"
             id="loyalty-tier-select"
             value={selectedLoyalty?.tier || ''}
             onChange={(e) => {
@@ -332,7 +327,6 @@ export default function LoyaltyCampaignsPage() {
           <TextField
             label="Tier"
             select
-            labelId="edit-loyalty-tier-label"
             id="edit-loyalty-tier-select"
             value={selectedLoyalty?.tier || ''}
             onChange={(e) => {

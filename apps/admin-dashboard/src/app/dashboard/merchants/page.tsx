@@ -65,7 +65,7 @@ const MerchantList = () => {
         search,
         page,
         size: rowsPerPage,
-      }),
+      }).then(res => res.data),
   });
 
   const handleSuspendClick = (id: string) => {
@@ -262,7 +262,7 @@ const MerchantList = () => {
             <Select
               value={rowsPerPage}
               onChange={(e) => {
-                setRowsPerPage(parseInt(e.target.value));
+                setRowsPerPage(Number(e.target.value));
                 setPage(0);
               }}
               inputProps={{

@@ -30,7 +30,7 @@ const lifecycleColors: Record<string, string> = {
   VIP: '#9c27b0',
 };
 
-const tierIcons: Record<string, React.ReactNode> = {
+const tierIcons: Record<string, React.ReactElement> = {
   BRONZE: <Typography variant="caption" sx={{ fontWeight: 700, color: '#cd7f32' }}>B</Typography>,
   SILVER: <Typography variant="caption" sx={{ fontWeight: 700, color: '#9e9e9e' }}>S</Typography>,
   GOLD: <Typography variant="caption" sx={{ fontWeight: 700, color: '#ffd700' }}>G</Typography>,
@@ -78,7 +78,7 @@ export default function CustomersPage() {
     <Box sx={{ py: 3 }}>
       <Container maxWidth="xl">
         {/* Header */}
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+        <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 700 }}>Customer CRM</Typography>
           <Stack direction="row" spacing={1}>
             <Button variant="outlined" startIcon={<FilterListIcon />}>Save Segment</Button>
@@ -93,7 +93,7 @@ export default function CustomersPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">Total Customers</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }}>
@@ -113,7 +113,7 @@ export default function CustomersPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">Avg. LTV</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }}>
@@ -135,7 +135,7 @@ export default function CustomersPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">At Risk</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1, color: 'warning.main' }}>
@@ -155,7 +155,7 @@ export default function CustomersPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">VIP Members</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1, color: 'secondary.main' }}>
@@ -176,7 +176,7 @@ export default function CustomersPage() {
 
         {/* Filters */}
         <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ md: 'center' }}>
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ alignItems: { md: 'center' } }}>
             <TextField
               size="small"
               placeholder="Search customers..."
@@ -266,7 +266,7 @@ export default function CustomersPage() {
                       onClick={() => handleViewCustomer(customer)}
                     >
                       <TableCell>
-                        <Stack direction="row" spacing={1.5} alignItems="center">
+                        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
                           <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main', fontSize: 14 }}>
                             {customer.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                           </Avatar>
@@ -330,7 +330,7 @@ export default function CustomersPage() {
                         </Typography>
                       </TableCell>
                       <TableCell align="center">
-                        <Stack direction="row" spacing={0.5} justifyContent="center">
+                        <Stack direction="row" spacing={0.5} sx={{ justifyContent: 'center' }}>
                           <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleViewCustomer(customer); }}>
                             <VisibilityIcon fontSize="small" />
                           </IconButton>
@@ -355,8 +355,8 @@ export default function CustomersPage() {
           {selectedCustomer && (
             <>
               <DialogTitle sx={{ pb: 1 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
-                  <Stack direction="row" spacing={2} alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                     <Avatar sx={{ width: 48, height: 48, bgcolor: 'primary.main', fontSize: 18 }}>
                       {selectedCustomer.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                     </Avatar>
@@ -394,22 +394,22 @@ export default function CustomersPage() {
                       <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
                         <Typography variant="subtitle2" gutterBottom>Customer Details</Typography>
                         <Stack spacing={1.5}>
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Phone</Typography>
                             <Typography variant="body2">{selectedCustomer.phone || '-'}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Member Since</Typography>
                             <Typography variant="body2">{selectedCustomer.signupDate}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Last Order</Typography>
                             <Typography variant="body2">{selectedCustomer.lastOrderDate}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Last Activity</Typography>
                             <Typography variant="body2">{selectedCustomer.lastActivityDate}</Typography>
                           </Stack>
@@ -420,34 +420,34 @@ export default function CustomersPage() {
                       <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
                         <Typography variant="subtitle2" gutterBottom>Metrics</Typography>
                         <Stack spacing={1.5}>
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Total Orders</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 600 }}>{selectedCustomer.totalOrders}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Total Spent</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 600 }}>${selectedCustomer.totalSpent.toLocaleString()}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Avg Order Value</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 600 }}>${selectedCustomer.averageOrderValue.toFixed(2)}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Lifetime Value</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 700, color: 'success.main' }}>
                               ${selectedCustomer.lifetimeValue.toLocaleString()}
                             </Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Loyalty Points</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 600 }}>{selectedCustomer.loyaltyPoints}</Typography>
                           </Stack>
                           <Divider />
-                          <Stack direction="row" justifyContent="space-between">
+                          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">Referrals</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 600 }}>{selectedCustomer.referralCount}</Typography>
                           </Stack>
@@ -467,8 +467,8 @@ export default function CustomersPage() {
                       <Stack spacing={1.5}>
                         {customerActivities.map((activity) => (
                           <Paper key={activity.id} variant="outlined" sx={{ p: 1.5, borderRadius: 2 }}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                              <Stack direction="row" spacing={1} alignItems="center">
+                            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                                 <Chip
                                   label={activity.type}
                                   size="small"
@@ -495,7 +495,7 @@ export default function CustomersPage() {
                 {detailTab === 2 && (
                   <Box>
                     <Typography variant="subtitle2" gutterBottom>Tags</Typography>
-                    <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 3 }}>
+                    <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: 'wrap' }}>
                       {selectedCustomer.tags.length > 0 ? selectedCustomer.tags.map((tag) => (
                         <Chip key={tag} label={tag} size="small" variant="outlined" />
                       )) : (

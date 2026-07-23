@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
 export default function SmsCampaignsPage() {
-  const { campaignsData, loading, error, fetchCampaignsData, createCampaign, updateCampaign, deleteCampaign } = useMarketingStore();
+  const { campaignsData, loading, error, fetchCampaignsData, createCampaign, updateCampaign, deleteCampaign } = useMarketingStore() as any;
   const [filters, setFilters] = React.useState({
     status: '',
     type: '',
@@ -14,7 +14,7 @@ export default function SmsCampaignsPage() {
   });
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedCampaign, setSelectedCampaign] = React.useState(null);
+  const [selectedCampaign, setSelectedCampaign] = React.useState<any>(null);
 
   React.useEffect(() => {
     fetchCampaignsData(filters);
@@ -30,24 +30,23 @@ export default function SmsCampaignsPage() {
     setOpenEditDialog(!openEditDialog);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           SMS Campaigns Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Status"
             select
-            labelId="status-label"
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            SelectProps={{ MenuProps: { sx: { width: 200 } } }}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Statuses</option>
             <option value="draft">Draft</option>
@@ -59,11 +58,10 @@ export default function SmsCampaignsPage() {
           <TextField
             label="Type"
             select
-            labelId="type-label"
             id="type-select"
             value={filters.type || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-            SelectProps={{ MenuProps: { sx: { width: 200 } } }}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Types</option>
             <option value="promotional">Promotional</option>
@@ -95,12 +93,12 @@ export default function SmsCampaignsPage() {
       </Box>
 
       {!campaignsData || campaignsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No SMS campaigns available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               SMS Campaigns List
             </Typography>
@@ -130,7 +128,7 @@ export default function SmsCampaignsPage() {
                       <TableCell align="right">{campaign.clickRate?.toFixed(1) ?? '0'}%</TableCell>
                       <TableCell align="right">{campaign.conversionRate?.toFixed(1) ?? '0'}%</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: campaign.status.toLowerCase() === 'sent' ? 'success.main' :
                                    campaign.status.toLowerCase() === 'scheduled' ? 'warning.main' :
                                    campaign.status.toLowerCase() === 'draft' ? 'info.main' : 'error.main',
@@ -139,7 +137,7 @@ export default function SmsCampaignsPage() {
                           borderRadius: 1
                         }}>
                           {campaign.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }} onClick={() => handleToggleEditDialog(campaign)}>
@@ -193,7 +191,6 @@ export default function SmsCampaignsPage() {
           <TextField
             label="Type"
             select
-            labelId="sms-type-label"
             id="sms-type-select"
             value={selectedCampaign?.type || ''}
             onChange={(e) => {
@@ -214,7 +211,6 @@ export default function SmsCampaignsPage() {
           <TextField
             label="Target Audience"
             select
-            labelId="target-audience-label"
             id="target-audience-select"
             value={selectedCampaign?.targetAudience || ''}
             onChange={(e) => {
@@ -313,7 +309,6 @@ export default function SmsCampaignsPage() {
           <TextField
             label="Type"
             select
-            labelId="edit-sms-type-label"
             id="edit-sms-type-select"
             value={selectedCampaign?.type || ''}
             onChange={(e) => {
@@ -332,7 +327,6 @@ export default function SmsCampaignsPage() {
           <TextField
             label="Target Audience"
             select
-            labelId="edit-target-audience-label"
             id="edit-target-audience-select"
             value={selectedCampaign?.targetAudience || ''}
             onChange={(e) => {

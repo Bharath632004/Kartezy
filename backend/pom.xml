@@ -20,6 +20,7 @@
         <module>discovery-server</module>
         <module>api-gateway</module>
         <!-- MVP Domain Services -->
+        <module>cart-service</module>
         <module>auth-service</module>
         <module>user-service</module>
         <module>merchant-service</module>
@@ -31,6 +32,28 @@
         <module>notification-service</module>
         <module>wallet-service</module>
         <module>search-service</module>
+        <!-- Enterprise Domain Services -->
+        <module>pricing-service</module>
+        <module>promotion-service</module>
+        <module>wishlist-service</module>
+        <module>checkout-service</module>
+        <module>invoice-service</module>
+        <module>tracking-service</module>
+        <module>review-service</module>
+        <module>recommendation-service</module>
+        <module>analytics-service</module>
+        <module>finance-service</module>
+        <module>settlement-service</module>
+        <module>support-service</module>
+        <module>cms-service</module>
+        <module>admin-service</module>
+        <module>membership-service</module>
+        <module>subscription-service</module>
+        <module>loyalty-service</module>
+        <module>fraud-service</module>
+        <module>report-service</module>
+        <module>audit-service</module>
+        <module>scheduler-service</module>
     </modules>
 
     <properties>

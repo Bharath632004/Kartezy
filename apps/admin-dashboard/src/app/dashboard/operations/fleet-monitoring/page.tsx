@@ -44,7 +44,7 @@ const FleetMonitoring = () => {
     error,
   } = useQuery({
     queryKey: ['fleet-monitoring'],
-    queryFn: () => operationsService.getFleetMonitoring(),
+    queryFn: () => operationsService.getFleetMonitoring().then(res => res.data),
     refetchInterval: refreshInterval || false,
   });
 
@@ -113,10 +113,12 @@ const FleetMonitoring = () => {
                 <TableCell align="right">
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Box
-                      width={10}
-                      height={10}
-                      borderRadius="50%"
-                      sx={{ bgcolor: driver.status === 'available' ? 'success.main' : driver.status === 'busy' ? 'warning.main' : driver.status === 'offline' ? 'error.main' : 'grey.main' }}
+                      sx={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: '50%',
+                        bgcolor: driver.status === 'available' ? 'success.main' : driver.status === 'busy' ? 'warning.main' : driver.status === 'offline' ? 'error.main' : 'grey.main'
+                      }}
                     />
                     <Typography sx={{ textTransform: 'capitalize' }}>{driver.status}</Typography>
                   </Box>

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
 export default function SponsoredProductsPage() {
-  const { sponsoredProductsData, loading, error, fetchSponsoredProductsData, createSponsoredProduct, updateSponsoredProduct, deleteSponsoredProduct } = useMarketingStore();
+  const { sponsoredProductsData, loading, error, fetchSponsoredProductsData, createSponsoredProduct, updateSponsoredProduct, deleteSponsoredProduct } = useMarketingStore() as any;
   const [filters, setFilters] = React.useState({
     status: '',
     category: '',
@@ -14,7 +14,7 @@ export default function SponsoredProductsPage() {
   });
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedProduct, setSelectedProduct] = React.useState(null);
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
 
   React.useEffect(() => {
     fetchSponsoredProductsData(filters);
@@ -30,26 +30,23 @@ export default function SponsoredProductsPage() {
     setOpenEditDialog(!openEditDialog);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Sponsored Products Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Status"
             select
-            labelId="status-label"
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Statuses</option>
             <option value="active">Active</option>
@@ -60,13 +57,10 @@ export default function SponsoredProductsPage() {
           <TextField
             label="Category"
             select
-            labelId="category-label"
             id="category-select"
             value={filters.category || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Categories</option>
             <option value="electronics">Electronics</option>
@@ -100,12 +94,12 @@ export default function SponsoredProductsPage() {
       </Box>
 
       {!sponsoredProductsData || sponsoredProductsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No sponsored products available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Sponsored Products List
             </Typography>
@@ -135,7 +129,7 @@ export default function SponsoredProductsPage() {
                       <TableCell align="right">{product.clicks?.toLocaleString() ?? '0'}</TableCell>
                       <TableCell align="right">{product.ctr?.toFixed(2) ?? '0'}%</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: product.status.toLowerCase() === 'active' ? 'success.main' :
                                    product.status.toLowerCase() === 'paused' ? 'warning.main' :
                                    product.status.toLowerCase() === 'expired' ? 'error.main' : 'info.main',
@@ -144,7 +138,7 @@ export default function SponsoredProductsPage() {
                           borderRadius: 1
                         }}>
                           {product.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }} onClick={() => handleToggleEditDialog(product)}>
@@ -196,7 +190,6 @@ export default function SponsoredProductsPage() {
           <TextField
             label="Category"
             select
-            labelId="sponsored-category-label"
             id="sponsored-category-select"
             value={selectedProduct?.category || ''}
             onChange={(e) => {
@@ -363,7 +356,6 @@ export default function SponsoredProductsPage() {
           <TextField
             label="Category"
             select
-            labelId="edit-sponsored-category-label"
             id="edit-sponsored-category-select"
             value={selectedProduct?.category || ''}
             onChange={(e) => {

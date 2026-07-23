@@ -8,8 +8,8 @@ export default function EmailCampaignsPage() {
   const { campaigns, loading, error, fetchCampaigns } = useMarketingStore();
   const [filters, setFilters] = useState({ status: '', type: '', startDate: '', endDate: '' });
 
-  if (loading) return <Box p={4}><Typography>Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography>Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography color="error">Error: {error}</Typography></Box>;
 
   return (
     <Container maxWidth="lg">

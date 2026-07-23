@@ -1,26 +1,22 @@
-# Database
+# Kartezy Database Infrastructure
 
-This directory contains database schemas, migrations, and seed data for the Kartezy platform.
+All database, cache, queue, and search infrastructure configuration for the Kartezy platform.
 
-## Structure
+## Subsystems
 
-```
-database/
-├── postgres/        # PostgreSQL migrations and schemas
-├── mongodb/         # MongoDB schemas and seed data
-└── README.md
-```
+| System | Purpose | Status |
+|--------|---------|--------|
+| `postgres/` | Primary relational database (PostgreSQL 15) | ✅ Configured |
+| `mongodb/` | Document store for orders, products, reviews | ✅ Configured |
+| `redis/` | Caching and session management (Redis 7) | 📋 Planned |
+| `kafka/` | Event streaming and async communication | 📋 Planned |
+| `rabbitmq/` | Message queuing for task distribution | 📋 Planned |
+| `opensearch/` | Full-text search and analytics (OpenSearch) | 📋 Planned |
+| `object-storage/` | File/image storage (S3-compatible) | 📋 Planned |
 
-## PostgreSQL Migrations
+## Configuration Guidelines
 
-PostgreSQL migrations are managed via Flyway and stored in each backend service's resources directory or centrally here.
-
-## MongoDB
-
-MongoDB schemas and indexes are documented in the `mongodb/` directory.
-
-## Conventions
-
-- Migration scripts should be idempotent
-- Use `V{version}__{description}.sql` naming for Flyway migrations
-- Document any breaking schema changes
+- All database containers use health checks in Docker Compose
+- Connection strings are managed via environment variables
+- Migrations use Flyway (PostgreSQL) and manual scripts (MongoDB)
+- Production databases use connection pooling (PgBouncer for PostgreSQL)

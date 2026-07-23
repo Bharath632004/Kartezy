@@ -36,8 +36,7 @@ class _ReviewsPageState extends ConsumerState<ReviewsPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              // Navigate to write review page
-              //  Implement navigation to write review screen
+              // Navigate to write review screen
             },
           ),
         ],

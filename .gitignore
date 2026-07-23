@@ -226,6 +226,8 @@ local.properties
 !**.yaml
 !**.yml
 !**.toml
+!**/application.yml
+!**/bootstrap.yml
 !/*.md
 !/*.txt
 !/*.json
@@ -262,7 +264,8 @@ poetry.lock
  Pipfile.lock
  composer.lock
  Gemfile.lock
- pom.xml
+# Don't ignore pom.xml - these are tracked source files for microservices
+# pom.xml
  build.gradle
  build.gradle.kts
  settings.gradle

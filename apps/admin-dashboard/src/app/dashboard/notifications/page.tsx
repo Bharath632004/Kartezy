@@ -24,7 +24,7 @@ const typeColors: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
   error: 'error',
 };
 
-const typeIcons: Record<string, React.ReactNode> = {
+const typeIcons: Record<string, React.ReactElement> = {
   info: <Info />,
   success: <CheckCircleOutlined />,
   warning: <Warning />,
@@ -46,7 +46,7 @@ export default function NotificationsPage() {
       page, size: rowsPerPage,
       type: typeFilter === 'all' ? undefined : typeFilter,
       read: readFilter === 'all' ? undefined : readFilter === 'read',
-    }),
+    }).then(res => res.data),
   });
 
   const markReadMutation = useMutation({
@@ -64,8 +64,8 @@ export default function NotificationsPage() {
     onSuccess: () => { setSendDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['notifications'] }); },
   });
 
-  const notifications = response?.data?.content || response?.content || [];
-  const totalElements = response?.data?.totalElements || response?.totalElements || 0;
+  const notifications = response?.content || [];
+  const totalElements = response?.totalElements || 0;
 
   return (
     <Box sx={{ py: 3 }}>
@@ -107,8 +107,7 @@ export default function NotificationsPage() {
         </Grid>
 
         {/* Filters */}
-        <Paper sx={{ p: 2, mb: 2 }}>
-          <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+        <Paper sx={{ p: 2, mb: 2 }}>            <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
             <FormControl size="small" sx={{ minWidth: 140 }}>
               <InputLabel>Type</InputLabel>
               <Select value={typeFilter} label="Type" onChange={(e) => { setTypeFilter(e.target.value); setPage(0); }}>

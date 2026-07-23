@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
 export default function ReferralCampaignsPage() {
-  const { referralsData, loading, error, fetchReferralsData, createReferral, updateReferral, deleteReferral } = useMarketingStore();
+  const { referralsData, loading, error, fetchReferralsData, createReferral, updateReferral, deleteReferral } = useMarketingStore() as any;
   const [filters, setFilters] = React.useState({
     status: '',
     type: '',
@@ -14,7 +14,7 @@ export default function ReferralCampaignsPage() {
   });
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedReferral, setSelectedReferral] = React.useState(null);
+  const [selectedReferral, setSelectedReferral] = React.useState<any>(null);
 
   React.useEffect(() => {
     fetchReferralsData(filters);
@@ -30,26 +30,23 @@ export default function ReferralCampaignsPage() {
     setOpenEditDialog(!openEditDialog);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Referral Programs Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Status"
             select
-            labelId="status-label"
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Statuses</option>
             <option value="active">Active</option>
@@ -60,13 +57,10 @@ export default function ReferralCampaignsPage() {
           <TextField
             label="Type"
             select
-            labelId="type-label"
             id="type-select"
             value={filters.type || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Types</option>
             <option value="standard">Standard Referral</option>
@@ -97,12 +91,12 @@ export default function ReferralCampaignsPage() {
       </Box>
 
       {!referralsData || referralsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No referral programs available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Referral Programs List
             </Typography>
@@ -132,7 +126,7 @@ export default function ReferralCampaignsPage() {
                       <TableCell align="right">{referral.conversionRate?.toFixed(1) ?? '0'}%</TableCell>
                       <TableCell align="right">${referral.totalRewardsPaid?.toFixed(2) ?? '0.00'}</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: referral.status.toLowerCase() === 'active' ? 'success.main' :
                                    referral.status.toLowerCase() === 'paused' ? 'warning.main' :
                                    referral.status.toLowerCase() === 'completed' ? 'info.main' : 'error.main',
@@ -141,7 +135,7 @@ export default function ReferralCampaignsPage() {
                           borderRadius: 1
                         }}>
                           {referral.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }} onClick={() => handleToggleEditDialog(referral)}>
@@ -193,7 +187,6 @@ export default function ReferralCampaignsPage() {
           <TextField
             label="Type"
             select
-            labelId="referral-type-label"
             id="referral-type-select"
             value={selectedReferral?.type || ''}
             onChange={(e) => {
@@ -330,7 +323,6 @@ export default function ReferralCampaignsPage() {
           <TextField
             label="Type"
             select
-            labelId="edit-referral-type-label"
             id="edit-referral-type-select"
             value={selectedReferral?.type || ''}
             onChange={(e) => {

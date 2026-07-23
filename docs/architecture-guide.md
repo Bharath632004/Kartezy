@@ -1,127 +1,71 @@
 # Kartezy Architecture Guide
 
-## Overview
+## System Overview
 
-Kartezy is a hyperlocal quick commerce platform built with a **microservices architecture** on the backend and **feature-first** organization on the frontend. The platform connects nearby customers with local merchants for instant and scheduled delivery of essentials.
+Kartezy is an AI-powered hyperlocal quick-commerce platform built on a microservices architecture with mobile-first delivery.
 
 ## Architecture Principles
 
-1. **Domain-Driven Design**: Each microservice owns a bounded context
-2. **Event-Driven Communication**: Asynchronous events via Kafka and RabbitMQ
-3. **API Gateway Pattern**: All client traffic routes through Spring Cloud Gateway
-4. **Service Discovery**: Eureka handles dynamic service registration
-5. **Externalized Configuration**: Spring Cloud Config with Git-backed repository
-6. **CQRS Ready**: Services designed to support command/query separation
-7. **Clean Architecture**: Layered design within each service
+1. **Microservices** — Each business capability is an independently deployable service
+2. **Event-Driven** — Async communication via Kafka/RabbitMQ for resilience
+3. **API Gateway** — Single entry point with routing, auth, rate limiting
+4. **Service Discovery** — Eureka for dynamic service registration
+5. **Config Centralization** — Spring Cloud Config Server for externalized config
+6. **Observability** — OpenTelemetry tracing, Prometheus metrics, structured logging
 
-## System Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Client Applications                        │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────────────┐  │
-│  │ Customer │ │ Merchant │ │ Delivery │ │ Admin/Website   │  │
-│  │  Mobile  │ │  Mobile  │ │  Mobile  │ │  (Next.js)     │  │
-│  └────┬─────┘ └────┬─────┘ └────┬─────┘ └───────┬────────┘  │
-└───────┼────────────┼────────────┼────────────────┼───────────┘
-        │            │            │                │
-┌───────▼────────────▼────────────▼────────────────▼───────────┐
-│                    API Gateway (port 8080)                     │
-│              Spring Cloud Gateway + Security                    │
-└───────────────────────────────┬───────────────────────────────┘
-                                │
-┌───────────────────────────────▼───────────────────────────────┐
-│                    Service Discovery (Eureka)                   │
-│                        Config Server                           │
-└───────┬───────────────────────────────┬───────────────────────┘
-        │                               │
-┌───────▼───────────────────┐ ┌────────▼──────────────────────┐
-│   Business Microservices  │ │     AI/ML Microservices       │
-│                           │ │                               │
-│  ┌─────────────────────┐  │ │  ┌─────────────────────────┐  │
-│  │   Auth Service      │  │ │  │   AI Service            │  │
-│  │   User Service      │  │ │  │   Recommendation        │  │
-│  │   Merchant Service  │  │ │  │   Forecasting           │  │
-│  │   Catalog Service   │  │ │  │   Fraud Detection       │  │
-│  │   Inventory Service │  │ │  │   Computer Vision       │  │
-│  │   Order Service     │  │ │  │   NLP Service           │  │
-│  │   Payment Service   │  │ │  │   OCR Service           │  │
-│  │   Delivery Service  │  │ │  │   Voice Service         │  │
-│  │   Notification Svc  │  │ │  │   Chatbot Service       │  │
-│  │   Review Service    │  │ │  └─────────────────────────┘  │
-│  │   Wallet Service    │  │ │                               │
-│  │   Analytics Service │  │ │                               │
-│  └─────────────────────┘  │ └───────────────────────────────┘
-└───────┬───────────────────┘
-        │
-┌───────▼───────────────────────────────────────────────────────┐
-│                    Data Layer                                   │
-│  ┌──────────┐ ┌──────────┐ ┌──────┐ ┌────────┐ ┌─────────┐   │
-│  │PostgreSQL│ │ MongoDB  │ │ Redis│ │ Kafka  │ │Elastic  │   │
-│  │(Relational)│ (NoSQL)  │ │Cache │ │Events  │ │Search   │   │
-│  └──────────┘ └──────────┘ └──────┘ └────────┘ └─────────┘   │
-└────────────────────────────────────────────────────────────────┘
-```
-
-## Service Communication
-
-### Synchronous (REST)
-- API Gateway routes to services via Eureka discovery
-- Services communicate via Feign clients for query operations
-- Circuit breakers (Resilience4J) protect against failures
-
-### Asynchronous (Events)
-- **Kafka**: Order lifecycle events, payment events, delivery updates
-- **RabbitMQ**: Notification delivery, analytics events
-- Event sourcing ready for audit trails and replay
-
-## Data Architecture
-
-### Databases
-- **PostgreSQL**: Primary relational data (users, orders, products, merchants)
-- **MongoDB**: Catalog data, reviews, analytics events
-- **Redis**: Session cache, rate limiting, real-time inventory
-- **Elasticsearch**: Full-text search, analytics, log aggregation
-
-### Data Flow
-```
-Order Creation:
-Customer -> API Gateway -> Order Service -> Kafka Event
-  -> Inventory Service (reserve stock)
-  -> Payment Service (process payment)
-  -> Notification Service (send confirmation)
-  -> Delivery Service (assign delivery partner)
-```
-
-## Security Architecture
-
-1. **Authentication**: JWT-based with refresh tokens
-2. **Authorization**: Role-based (CUSTOMER, MERCHANT, DELIVERY, ADMIN)
-3. **API Security**: Rate limiting, request validation, CORS
-4. **Data Security**: Encrypted at rest, TLS in transit
-5. **Secret Management**: Externalized via environment variables
-
-## Deployment Architecture
+## System Diagram
 
 ```
-Development: Docker Compose (local)
-Staging: Kubernetes (single cluster)
-Production: Kubernetes (multi-cluster, HA)
+                    ┌──────────────┐
+                    │  API Gateway  │
+                    │   (Port 8080) │
+                    └──────┬───────┘
+                           │
+          ┌────────────────┼────────────────┐
+          ▼                ▼                 ▼
+   ┌──────────┐    ┌──────────────┐    ┌──────────┐
+   │ Auth     │    │ Domain       │    │ Infra    │
+   │ Service  │    │ Services     │    │ Services │
+   └──────────┘    │ (Order,      │    │ (Config, │
+                   │  Payment,    │    │  Discovery│
+                   │  Delivery...)│    │  etc.)   │
+                   └──────────────┘    └──────────┘
+                           │
+                    ┌──────┴──────┐
+                    ▼             ▼
+              ┌──────────┐ ┌──────────┐
+              │  Kafka   │ │  Redis   │
+              │ (Events) │ │ (Cache)  │
+              └──────────┘ └──────────┘
 ```
 
-## Monitoring & Observability
+## Service Map
 
-- **Metrics**: Prometheus + Grafana dashboards
-- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
-- **Tracing**: Distributed tracing with Spring Cloud Sleuth
-- **Alerting**: Prometheus AlertManager
-- **Health Checks**: Spring Boot Actuator + readiness/liveness probes
+| Layer | Services |
+|-------|----------|
+| **Infrastructure** | Config Server, Discovery Server, API Gateway |
+| **Identity** | Auth Service |
+| **Customer Domain** | User Service, Cart Service, Checkout Service, Wishlist Service, Review Service |
+| **Merchant Domain** | Merchant Service, Catalog Service, Inventory Service, Pricing Service, Promotion Service |
+| **Order Domain** | Order Service, Payment Service, Wallet Service, Invoice Service |
+| **Delivery Domain** | Delivery Service, Tracking Service |
+| **Communication** | Notification Service, Support Service, CMS Service |
+| **Intelligence** | Search Service, Recommendation Service, Analytics Service, Report Service |
+| **Admin** | Admin Service, Finance Service, Settlement Service |
+| **Operations** | Membership Service, Subscription Service, Loyalty Service |
+| **Security** | Fraud Service, Audit Service, Scheduler Service |
 
-## Key Design Decisions
+## Technology Stack
 
-1. **Microservices over Monolith**: Enables independent scaling and deployment
-2. **Kafka for Order Events**: Guaranteed delivery, replay capability
-3. **Redis for Inventory**: Real-time stock management with pub/sub
-4. **PostgreSQL for Transactions**: ACID compliance for financial operations
-5. **Feature-First Flutter**: Organized by business capability for maintainability
-6. **Next.js App Router**: Server components for SEO, client components for interactivity
+- **Backend:** Java 21, Spring Boot 3.2, Spring Cloud 2023, Spring Security
+- **Mobile:** Flutter 3.x (Dart)
+- **Web:** Next.js 16 (React 19, MUI v9, Tailwind CSS 4)
+- **Databases:** PostgreSQL 15, MongoDB 7, Redis 7
+- **Messaging:** Kafka, RabbitMQ
+- **Search:** Elasticsearch 8 / OpenSearch
+- **Infrastructure:** Docker, Kubernetes, NGINX, GitHub Actions
+- **Monitoring:** Prometheus, Grafana, OpenTelemetry, ELK Stack
+
+## Engineering Rules
+
+See [ENGINEERING_RULES.md](../ENGINEERING_RULES.md) for the complete set of engineering standards enforced across the entire repository.

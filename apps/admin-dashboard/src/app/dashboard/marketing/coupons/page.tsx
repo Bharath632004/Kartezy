@@ -11,7 +11,7 @@ export default function CouponsPage() {
   const { coupons, loading, error, fetchCoupons, createCoupon, updateCoupon, deleteCoupon } = useMarketingStore();
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedCoupon, setSelectedCoupon] = React.useState(null);
+  const [selectedCoupon, setSelectedCoupon] = React.useState<any>(null);
   const [filters, setFilters] = React.useState({
     status: '',
     type: '',
@@ -54,11 +54,11 @@ export default function CouponsPage() {
     setSelectedCoupon(null);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Coupons Management
@@ -74,7 +74,7 @@ export default function CouponsPage() {
         <Typography variant="h6" gutterBottom>
           Filters
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Search"
             value={filters.search || ''}
@@ -84,13 +84,9 @@ export default function CouponsPage() {
           <TextField
             label="Status"
             select
-            labelId="status-label"
-            id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
             <option value="">All Statuses</option>
             <option value="active">Active</option>
@@ -101,13 +97,9 @@ export default function CouponsPage() {
           <TextField
             label="Type"
             select
-            labelId="type-label"
-            id="type-select"
             value={filters.type || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            sx={{ width: 200 }}
           >
             <option value="">All Types</option>
             <option value="percentage">Percentage</option>
@@ -121,12 +113,12 @@ export default function CouponsPage() {
       </Box>
 
       {!coupons || coupons.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No coupons available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Coupons List
             </Typography>
@@ -170,15 +162,15 @@ export default function CouponsPage() {
                       <TableCell align="center">{coupon.validFrom}</TableCell>
                       <TableCell align="center">{coupon.validUntil}</TableCell>
                       <TableCell align="center">
-                        <span sx={{
-                          bgcolor: coupon.status === 'active' ? 'success.main' :
-                                   coupon.status === 'expired' ? 'error.main' : 'warning.main',
-                          color: 'white',
-                          px: 1,
-                          borderRadius: 1
-                        }}>
+                        <Box component="span" sx={{
+                            bgcolor: coupon.status === 'active' ? 'success.main' :
+                                     coupon.status === 'expired' ? 'error.main' : 'warning.main',
+                            color: 'white',
+                            px: 1,
+                            borderRadius: 1
+                          }}>
                           {coupon.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell align="center">
                         <Button size="small" variant="text" onClick={() => handleEditClick(coupon)}>
@@ -234,12 +226,14 @@ export default function CouponsPage() {
                   setSelectedCoupon({ ...(selectedCoupon || {}), value: parseFloat(e.target.value) || 0 });
                 }
               }}
-              InputProps={{
-                startAdornment: selectedCoupon?.type === 'percentage' ? (
-                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>%</span>
-                ) : selectedCoupon?.type === 'fixed_amount' ? (
-                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>$ </span>
-                ) : null
+              slotProps={{
+                input: {
+                  startAdornment: selectedCoupon?.type === 'percentage' ? (
+                    <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>%</span>
+                  ) : selectedCoupon?.type === 'fixed_amount' ? (
+                    <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>$ </span>
+                  ) : null,
+                },
               }}
             />
           )}
@@ -360,12 +354,14 @@ export default function CouponsPage() {
                   setSelectedCoupon({ ...selectedCoupon, value: parseFloat(e.target.value) || 0 });
                 }
               }}
-              InputProps={{
-                startAdornment: selectedCoupon?.type === 'percentage' ? (
-                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>%</span>
-                ) : selectedCoupon?.type === 'fixed_amount' ? (
-                  <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>$ </span>
-                ) : null
+              slotProps={{
+                input: {
+                  startAdornment: selectedCoupon?.type === 'percentage' ? (
+                    <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>%</span>
+                  ) : selectedCoupon?.type === 'fixed_amount' ? (
+                    <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>$ </span>
+                  ) : null,
+                },
               }}
             />
           )}

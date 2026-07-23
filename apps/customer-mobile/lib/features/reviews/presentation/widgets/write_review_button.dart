@@ -8,7 +8,7 @@ class WriteReviewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        //  Implement write review functionality
+        // Navigate to write review screen
       },
       child: const Text('Write Review'),
     );

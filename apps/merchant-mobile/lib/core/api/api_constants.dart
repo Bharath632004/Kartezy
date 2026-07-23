@@ -102,6 +102,7 @@ class ApiConstants {
   static const String reportsFinancial = 'reports/financial';
   static const String reportsRefund = 'reports/refund';
   static const String reportsSettlement = 'reports/settlement';
+  static const String reportsExport = 'reports/export';
 
   // Marketing endpoints
   static const String marketingSponsoredProducts =

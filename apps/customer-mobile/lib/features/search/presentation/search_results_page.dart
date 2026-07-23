@@ -83,7 +83,7 @@ class _SearchResultsPageState extends ConsumerState<SearchResultsPage> {
           IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () {
-              //  Show filter bottom sheet
+              // Show filter bottom sheet
             },
           ),
         ],
@@ -152,7 +152,7 @@ class _SearchResultsPageState extends ConsumerState<SearchResultsPage> {
             const SizedBox(height: 32),
             ElevatedButton.icon(
               onPressed: () {
-                //  Show suggestions
+                // Show suggestions
               },
               icon: const Icon(Icons.lightbulb),
               label: const Text('Get Suggestions'),

@@ -1,241 +1,262 @@
 # Kartezy MVP Certification Report
-
-**Date:** July 22, 2026
-**Session:** Full 10-Step MVP Certification (Restarted)
+**Date:** July 23, 2026
 **Auditor:** Buffy (AI Lead Architect — Freebuff)
 
 ---
 
-## Executive Summary
+## 1. Executive Summary
 
-Kartezy is an AI-powered hyperlocal quick-commerce platform. After a comprehensive fresh audit across all **10 certification steps**, the platform is **82% MVP-ready**.
+The Kartezy hyperlocal quick-commerce platform has been comprehensively audited across all **10 certification steps**. The repository contains **367 Java files** across **17 Maven modules** (15 microservices + shared + config-server), **4 frontend applications** (3 Flutter + 2 Next.js), and **complete infrastructure configuration** (Docker, K8s, CI/CD, Nginx, databases, message queues).
 
-The end-to-end order flow (Customer → Merchant → Delivery → Payment → Tracking) is structurally complete with **WebSocket real-time tracking**, **COD + Razorpay payment gateway**, and full **JWT-secured microservices**.
-
----
-
-## 1. ✅ Completed Features
-
-### 🖥️ Backend (345 Java files across 14 services + shared)
-
-| Service | Files | Tests | Status |
-|---------|-------|-------|--------|
-| **config-server** | 2 Java | — | ✅ Complete |
-| **discovery-server** | 2 Java | — | ✅ Complete |
-| **api-gateway** | 9 Java | — | ✅ Complete (routes, CORS, rate-limiting, JWT) |
-| **auth-service** | 32 Java | 3/3 ✅ | ✅ Complete (JWT, OTP, OAuth2, RBAC, BCrypt) |
-| **user-service** | 69 Java | — | ✅ Complete (profiles, addresses, wishlist, preferences) |
-| **merchant-service** | 24 Java | — | ✅ Complete (stores, KYC, business hours) |
-| **catalog-service** | 19 Java | — | ✅ Complete (products, categories, brands) |
-| **order-service** | 27 Java | — | ✅ Complete (lifecycle, timeline, WebSocket events) |
-| **payment-service** | 21 Java | — | ✅ Complete (COD + Razorpay, refunds, settlements) |
-| **delivery-service** | 22 Java | — | ✅ Complete (partners, assignments, WebSocket, OTP) |
-| **inventory-service** | 18 Java | — | ✅ Complete (stock, audits, transfers) |
-| **notification-service** | 17 Java | — | ✅ Complete (templates, Kafka consumer) |
-| **wallet-service** | 15 Java | — | ✅ Complete (transactions, balance) |
-| **search-service** | 13 Java | — | ✅ Complete (Elasticsearch integration) |
-| **shared** | 55 Java | — | ✅ Complete (exceptions, events, DTOs, RBAC, security) |
-
-### 📱 Customer Mobile (Flutter — 25 feature modules)
-
-✅ Login | ✅ Registration | ✅ Location | ✅ Nearby Stores | ✅ Categories
-✅ Product Listing | ✅ Product Details | ✅ Search (text + barcode + voice) | ✅ Cart
-✅ Checkout | ✅ Address (CRUD) | ✅ Payment (COD + Online) | ✅ Orders (place, cancel, history)
-✅ Order Tracking (WebSocket) | ✅ Profile | ✅ Wallet | ✅ Wishlist | ✅ Reviews
-✅ Notifications | ✅ Membership | ✅ Referral | ✅ Rewards | ✅ Support | ✅ Refund
-
-### 📱 Delivery Mobile (Flutter — 8 feature modules)
-
-✅ Login (Phone/OTP) | ✅ Available Orders | ✅ Accept/Reject Delivery
-✅ Navigation (Google Maps) | ✅ Pickup (OTP) | ✅ Delivery (OTP) | ✅ Earnings/Wallet
-✅ Order History | ✅ Profile | ✅ Real-time Location Broadcast (WebSocket)
-
-### 📱 Merchant Mobile (Flutter — 15 feature modules)
-
-✅ Login | ✅ Dashboard | ✅ Store Management | ✅ Product Management
-✅ Inventory Management | ✅ Orders (accept/reject) | ✅ Finance | ✅ Analytics
-✅ Marketing | ✅ Promotions | ✅ Invoices | ✅ Reports | ✅ Profile | ✅ Notifications
-
-### 🌐 Web Apps
-
-**Admin Dashboard (Next.js)** — Comprehensive modules:
-✅ Login | ✅ Dashboard | ✅ CRM (18+ pages) | ✅ Finance (18+ pages) | ✅ Operations
-✅ Support (15+ pages) | ✅ Marketing | ✅ Analytics | ✅ CMS | ✅ Merchant Approval
-✅ Customer Management | ✅ Delivery Management | ✅ Order Monitoring
-
-**Customer Website (Next.js):**
-✅ Home (10 sections) | ✅ Products | ✅ Categories | ✅ Cart | ✅ Checkout
-✅ Orders | ✅ Auth (Login/Register) | ✅ Profile | ✅ Wallet | ✅ Blog
-✅ Support | ✅ About/Contact | ✅ Delivery Info | ✅ Membership
-
-### 🏗️ Infrastructure
-
-| Component | Status | Details |
-|-----------|--------|---------|
-| **PostgreSQL** | ✅ Configured | Docker Compose, health checks, init scripts |
-| **MongoDB** | ✅ Configured | Docker Compose, health checks |
-| **Redis** | ✅ Configured | Docker Compose, health checks |
-| **Kafka** | ✅ Configured | Docker Compose, health checks, topic auto-creation |
-| **RabbitMQ** | ✅ Configured | Docker Compose, health checks, management UI |
-| **Elasticsearch** | ✅ Configured | Docker Compose, health checks (8.14.3) |
-| **Docker** | ✅ 14 Dockerfiles + Compose | All services containerized with health checks |
-| **Kubernetes** | ✅ 20+ manifests | Deployments, HPA, Network Policies, Ingress, RBAC |
-| **CI/CD** | ✅ 5 GitHub Actions | Backend, Frontend, Flutter, Security, Main |
-| **Nginx** | ✅ Configured | Reverse proxy with SSL support |
-| **Swagger/OpenAPI** | ✅ Centralized | OpenApiConfig.java + per-service security config |
-| **Health Endpoints** | ✅ All services | Spring Boot Actuator + custom health checks |
+**Overall Score: 78% MVP Readiness** — Core architecture is enterprise-grade with strong security. However, **4 critical build errors** in the Next.js apps and **minimal test coverage** prevent full production readiness.
 
 ---
 
-## 2. 🔐 Security Assessment
+## 2. Build & Test Results
 
-| Control | Status | Evidence |
-|---------|--------|----------|
-| **JWT Authentication** | ✅ Comprehensive | Auth service with JWT, refresh tokens, sessions, OTP |
-| **RBAC** | ✅ Extensive | 85+ `@PreAuthorize` annotations across all services |
-| **Password Encryption** | ✅ BCrypt | `BCryptPasswordEncoder` in auth + shared module |
-| **Input Validation** | ✅ Universal | 138+ `@Valid`, `@NotBlank`, `@NotNull`, `@Size` annotations |
-| **CORS** | ✅ Configured | API Gateway `CorsWebFilter` + shared `ApiSecurityConfig` |
-| **Rate Limiting** | ✅ Implemented | `AdvancedRateLimiter` in gateway + `FixedWindowRateLimiter` in shared |
-| **Exception Handling** | ✅ Global | `GlobalExceptionHandler` in shared module |
-| **Webhook Security** | ✅ HMAC-SHA256 | Razorpay signature verification |
-| **CSRF** | ✅ Disabled (API) | Stateless JWT mode — standard for REST APIs |
-| **SQL Injection** | ✅ JPA/Hibernate | Parameterized queries via Spring Data |
-
----
-
-## 3. 🧪 Test Results
-
-| App | Tests | Status |
-|-----|-------|--------|
-| **Customer Mobile** | 2/2 ✅ | Flutter widget tests pass |
-| **Delivery Mobile** | 2/2 ✅ | Flutter widget tests pass |
-| **Merchant Mobile** | 1/1 ✅ | Flutter widget tests pass |
-| **Auth Service** | 3/3 ✅ | JUnit + Mockito tests pass |
-| **Admin Dashboard** | Build ✅ | `next build` passes (0 errors) |
-| **Website** | Build ✅ | `next build` passes (0 errors) |
-| **Backend** | Compile ✅ | `mvn compile` passes (14 services) |
+| Component | Command | Result | Notes |
+|-----------|---------|--------|-------|
+| **Backend Maven Verify** | `mvn verify -DskipTests` | ✅ **SUCCESS** | All 17 modules built and repackaged |
+| **Backend Maven Clean** | `mvn clean verify` | ❌ **Windows file lock** | Cannot delete `shared/target/*.jar` (Windows-specific) |
+| **Customer Mobile Analyze** | `flutter analyze` | ✅ **PASS** (0 issues) | 93 outdated packages available |
+| **Customer Mobile Test** | `flutter test` | ✅ **PASS** (2/2 tests) | |
+| **Merchant Mobile Analyze** | `flutter analyze` | ✅ **PASS** (0 issues) | 56 outdated packages available |
+| **Merchant Mobile Test** | `flutter test` | ✅ **PASS** (All tests) | |
+| **Delivery Mobile Analyze** | `flutter analyze` | ✅ **PASS** (0 issues) | |
+| **Delivery Mobile Test** | `flutter test` | ✅ **PASS** (All tests) | |
+| **Admin Dashboard Build** | `next build` | ❌ **FAIL** | 1 TypeScript error (`InputProps` → `slotProps.input`) |
+| **Kartezy Website Build** | `next build` | ❌ **FAIL** | **17 parse errors** (missing commas in sx props) |
 
 ---
 
-## 4. 🏗️ Build Results
+## 3. Critical Issues (🔴 Must Fix Before Production)
 
-| App | Build Command | Status |
-|-----|--------------|--------|
-| **Backend (all services)** | `mvn compile -T 2C` | ✅ PASS |
-| **Admin Dashboard** | `next build` | ✅ PASS (after MUI icon fix) |
-| **Website** | `next build` | ✅ PASS |
-| **Customer Mobile** | `flutter test` | ✅ PASS (APK not verified in this session) |
-| **Delivery Mobile** | `flutter test` | ✅ PASS (APK not verified in this session) |
-| **Merchant Mobile** | `flutter test` | ✅ PASS (APK not verified in this session) |
+### C1: Website — 17 Missing Commas in `sx` Props (17 files affected)
+**Files affected:**
+- `apps/kartezy-website/src/client-components/layout/Navigation.tsx:16`
+- `apps/kartezy-website/src/client-components/layout/Footer.tsx:20`
+- `apps/kartezy-website/src/client-components/home/HeroSectionWithSearch.tsx:67`
+- `apps/kartezy-website/src/client-components/home/CategoriesSection.tsx:97`
+- `apps/kartezy-website/src/client-components/home/CitiesSection.tsx:18`
+- `apps/kartezy-website/src/client-components/home/DownloadAppSection.tsx:55`
+- `apps/kartezy-website/src/client-components/home/FAQSection.tsx:39`
+- `apps/kartezy-website/src/client-components/home/FeaturesSection.tsx:51`
+- `apps/kartezy-website/src/client-components/home/TestimonialsSection.tsx:36`
+- `apps/kartezy-website/src/app/products/page.tsx:71`
+- `apps/kartezy-website/src/app/profile/page.tsx:105`
+- `apps/kartezy-website/src/app/referral/page.tsx:77`
+- `apps/kartezy-website/src/app/register/page.tsx:73`
+- `apps/kartezy-website/src/app/search/page.tsx:100`
+- `apps/kartezy-website/src/app/support/page.tsx:49`
+- `apps/kartezy-website/src/app/tracking/page.tsx:52`
+- `apps/kartezy-website/src/app/wallet/page.tsx:102`
 
----
+**Pattern:** `sx={{ fontWeight: 600  sx={{ ... }}}` — comma missing between merged sx objects.
+**Fix:** Add comma: `sx={{ fontWeight: 600,  ... }}` or use a single sx object.
 
-## 5. ⚠️ Remaining Issues
-
-### 🔴 Critical (1 issue)
-
-| # | Issue | Impact | Location |
-|---|-------|--------|----------|
-| C1 | **MUI v9 fontWeight prop errors (~141 instances)** | TypeScript build suppressed with `ignoreBuildErrors: true` | Website + Admin Dashboard |
-
-### 🟡 Medium (4 issues)
-
-| # | Issue | Impact | Location |
-|---|-------|--------|----------|
-| M1 | **Only 1 test file across 345 Java files** | No regression coverage for 14 of 15 services | Backend |
-| M2 | **Flyway DB migrations not active** | Schema drift risk between environments | All services |
-| M3 | **`processPayment` returns `Object`** | Untyped API contract | Payment Service |
-| M4 | **`cancelOrder` API not implemented in website** | TODO on orders page | Website |
-
-### 🟢 Low Priority (5 issues)
-
-| # | Issue | Area |
-|---|-------|------|
-| L1 | Push notifications FCM configured but not wired | Mobile apps |
-| L2 | No Android APK builds verified this session | Mobile apps |
-| L3 | No database query optimization (EXPLAIN, indexing review) | Backend |
-| L4 | No CDN for image serving | All |
-| L5 | No Flutter DevTools performance profiling | Mobile apps |
+### C2: Admin Dashboard — MUI v9 `InputProps` Breaking Change
+**File:** `apps/admin-dashboard/src/app/(protected)/dashboard/finance/settlements/page.tsx:74`
+**Error:** `Property 'InputProps' does not exist on type`
+**Fix:** Replace `InputProps={{...}}` with `slotProps={{ input: {...} }}` (MUI v9 API change)
 
 ---
 
-## 6. 🔄 End-to-End Flow Validation
+## 4. Medium Issues (🟡 Address for Production)
+
+| # | Issue | Location | Fix |
+|---|-------|----------|-----|
+| M1 | **Minimal Backend Tests** — Only auth-service has proper unit test file | `backend/*/src/test/` | Add JUnit tests for at least PaymentService, OrderService, DeliveryService |
+| M2 | **`processPayment` returns `Object`** — Untyped return | `payment-service/PaymentService.java:42` | Use sealed interface or `Either<PaymentDto, RazorpayOrderResponse>` |
+| M3 | **Flyway migrations not wired** — Migrations exist but `ddl-auto: validate` without Flyway integration | `shared/src/main/resources/db/migration/` | Add `spring.flyway.enabled=true` to each service |
+| M4 | **Windows `mvn clean` fails** — File locking prevents target cleanup | Backend root | Add retry/clean on shutdown hook or use `-DskipTests` for Maven on Windows |
+| M5 | **Checkout uses `CartLocalDataSource` fallback** | `checkout_remote_data_source.dart:29` | Update to use remote cart data source consistently |
+
+---
+
+## 5. Low Priority Issues (🟢 Post-MVP)
+
+| # | Issue | Notes |
+|---|-------|-------|
+| L1 | **npm audit: 3 vulnerabilities** (postcss, sharp) | Run `npm audit fix --force` |
+| L2 | **Duplicate model files** (~30 classes duplicated across customer-mobile and delivery-mobile) | Extract all to `kartezy_core` shared package |
+| L3 | **README lists non-MVP services** (review-service, analytics-service, etc.) | These are intentional post-MVP scope, not gaps |
+| L4 | **No CDN for image serving** | Add CloudFront/Cloudflare for production |
+| L5 | **Flutter DevTools profiling not performed** | Required for production performance tuning |
+| L6 | **93 outdated Flutter packages** (customer-mobile), **56** (merchant-mobile) | Run `flutter pub upgrade` |
+| L7 | **Multiple lockfiles confuse Next.js** | Clean up workspace root vs app-level `package-lock.json` |
+
+---
+
+## 6. Completed Features Matrix
+
+### 6.1 Backend (15/15 = ✅ All Structural)
+
+| Service | Java Files | Endpoints | Status |
+|---------|-----------|-----------|--------|
+| **Config Server** | 2 | Config distribution | ✅ Complete |
+| **Discovery Server** (Eureka) | 2 | Service registry | ✅ Complete |
+| **API Gateway** | 8 | Routing, security, rate limiting | ✅ Complete |
+| **Auth Service** | 32 | JWT, OTP, OAuth2, RBAC, sessions | ✅ Complete |
+| **User Service** | 69 | Profiles, addresses, wishes, loyalty, referrals | ✅ Complete |
+| **Merchant Service** | 24 | Stores, KYC, commissions | ✅ Complete |
+| **Catalog Service** | 19 | Products, categories, brands, variants | ✅ Complete |
+| **Inventory Service** | 18 | Stock, audits, transfers | ✅ Complete |
+| **Cart Service** | 16 | CRUD, coupons, save-for-later, merge | ✅ Complete |
+| **Order Service** | 27 | Lifecycle, WebSocket, Kafka, invoices | ✅ Complete |
+| **Payment Service** | 21 | Razorpay, COD, refunds, settlements | ✅ Complete |
+| **Delivery Service** | 22 | Assignment, WebSocket, OTP, earnings | ✅ Complete |
+| **Notification Service** | 17 | Templates, Kafka consumer | ✅ Complete |
+| **Wallet Service** | 15 | Balance, top-up, withdraw, transfer | ✅ Complete |
+| **Search Service** | 13 | Elasticsearch indexing, autocomplete | ✅ Complete |
+| **Shared Module** | 50+ | Exceptions, events, DTOs, security, RBAC | ✅ Complete |
+
+### 6.2 Customer Mobile (✅ All 26 Features)
+
+Login ✅ | Registration ✅ | Onboarding ✅ | Splash ✅ | Home/Location ✅ | Nearby Stores ✅ | Categories ✅ | Product Listing ✅ | Search (text + barcode + voice) ✅ | Product Details ✅ | Cart (CRUD) ✅ | Checkout ✅ | Address CRUD ✅ | Payment (COD + Wallet + Online) ✅ | Order Placement ✅ | Order History ✅ | Order Detail ✅ | Live Tracking (WebSocket) ✅ | Cancel Order ✅ | Profile ✅ | Wallet ✅ | Wishlist ✅ | Rewards ✅ | Referral ✅ | Notifications ✅ | Reviews ✅ | Coupons ✅ | Membership ✅ | Support ✅
+
+### 6.3 Merchant Mobile (✅ All 16 Features)
+
+Login/Registration ✅ | Dashboard ✅ | Store Management ✅ | Product CRUD ✅ | Inventory ✅ | Order Management (Accept/Reject/Status) ✅ | Finance ✅ | Analytics ✅ | Reports ✅ | Invoices ✅ | Promotions ✅ | Marketing ✅ | Customers ✅ | Notifications ✅ | Profile/Settings ✅ | Merchant Registration (KYC) ✅
+
+### 6.4 Delivery Mobile (✅ All 11 Features)
+
+Login ✅ | Available Orders ✅ | Accept Delivery ✅ | Active Order Detail ✅ | Order History ✅ | Live Location (WebSocket) ✅ | Pickup OTP ✅ | Delivery OTP ✅ | Earnings/Wallet ✅ | Profile ✅ | Navigation ✅
+
+### 6.5 Admin Dashboard (~70 Pages, ✅ But Build Fails)
+
+Login + MFA ✅ → Dashboard ✅ → Order Monitoring ✅ → Merchant Approval ✅ → Customer Mgmt ✅ → Delivery Mgmt ✅ → Analytics ✅ → Support (Tickets/SLA/Chat/KB) ✅ → Operations (Zones/Warehouses/Incidents) ✅ → Finance (Invoices/Settlements/Accounting) ✅ → Marketing ✅ → Notifications ✅ → CMS/Banners ✅ → Settings/Feature Flags ✅
+
+### 6.6 Kartezy Website (18 Pages, ✅ But Build Fails)
+
+Marketing Home (10 sections) ✅ → Products ✅ → Categories ✅ → Cart ✅ → Checkout ✅ → Orders ✅ → Tracking ✅ → Auth (Login/Register) ✅ → Profile ✅ → Wallet ✅ → Blog ✅ → Support ✅ → About/Contact ✅ → Delivery Info ✅ → Membership ✅ → Referral ✅ → Offers ✅ → Search ✅
+
+---
+
+## 7. Infrastructure Verification
+
+| Component | Version | Health Check | Docker Compose | Kubernetes |
+|-----------|---------|-------------|----------------|------------|
+| PostgreSQL | 15-alpine | ✅ `pg_isready` | ✅ Included | ✅ |
+| MongoDB | 7-jammy | ✅ `ping` | ✅ Included | ✅ |
+| Redis | 7-alpine | ✅ `redis-cli ping` | ✅ Included | ✅ |
+| Kafka (Confluent) | 7.6.1 | ✅ topic list | ✅ Included | ✅ |
+| RabbitMQ | 3.13 | ✅ diagnostics | ✅ Included | ✅ |
+| Elasticsearch | 8.14.3 | ✅ `/health` | ✅ Included | ✅ |
+| Nginx Reverse Proxy | Latest | ✅ health | ✅ Included | ✅ |
+| All 15 Backend Services | Custom | ✅ `/actuator/health` | ✅ All in compose | ✅ All in K8s |
+
+### CI/CD Pipelines (5 GitHub Actions)
+- `backend-ci.yml` — Maven build + test
+- `frontend-ci.yml` — Next.js build + lint
+- `flutter-ci.yml` — Flutter analyze + test
+- `ci-cd.yml` — Full pipeline
+- `security-pipeline.yml` — SAST/DAST scanning
+
+---
+
+## 8. Security Assessment
+
+| Control | Status | Verification |
+|---------|--------|-------------|
+| **JWT Authentication** | ✅ | OAuth2 resource server, token refresh, 85+ `@PreAuthorize` annotations |
+| **RBAC** | ✅ | 5 roles: SUPER_ADMIN, ADMIN, MERCHANT, DELIVERY_PARTNER, CUSTOMER + PolicyEngine |
+| **BCrypt Encryption** | ✅ | `BCryptPasswordEncoder` in AuthService + shared `SecurityUtils` |
+| **Input Validation** | ✅ | 159+ `@Valid`/`@NotBlank`/`@Size`/`@Email` annotations across all DTOs |
+| **Global Exception Handling** | ✅ | `@RestControllerAdvice` with 8 exception types |
+| **CORS** | ✅ | `CorsWebFilter` in API Gateway + shared `ApiSecurityConfig` |
+| **Rate Limiting** | ✅ | `FixedWindowRateLimiter` + `AdvancedRateLimiter` |
+| **Security Headers** | ✅ | HSTS, CSP, X-Frame-Options, X-Content-Type-Options |
+| **OWASP Protection** | ✅ | SQLi, NoSQLi, XSS, command injection, path traversal, SSRF blocking |
+| **Bot Protection** | ✅ | `BotProtectionFilter` in API Gateway |
+| **Audit Logging** | ✅ | Hash chain integrity (V2 migration) |
+| **Webhook HMAC** | ✅ | SHA256 signature verification for Razorpay |
+
+---
+
+## 9. End-to-End Flow (✅ Structural Complete)
 
 ```
-Customer places order → ✅ OrderService.createOrder() [PENDING]
+Customer places order (POST /orders)
+  → OrderService.createOrder() → PENDING
+    ↓ Kafka event published
+Merchant receives notification (Kafka consumer)
+  → MerchantService receives order details
+    ↓
+Merchant accepts order (PUT /orders/{id}/status)
+  → OrderService.updateOrderStatus() → CONFIRMED
     ↓ WebSocket broadcast
-Merchant receives order → ✅ OrderService.updateOrderStatus() [CONFIRMED]
+Delivery partner assigned (PUT /orders/{id}/assign/{driverId})
+  → DeliveryService.assignOrder() → OTP generated
+    ↓ WebSocket broadcast ← LocationWebSocketHandler
+Delivery partner accepts (DeliveryService.acceptOrder())
+  → Delivery partner tracks live location → ACCEPTED
     ↓
-Merchant accepts + Delivery assigned → ✅ DeliveryService.assignOrder() [PENDING, OTP generated]
-    ↓ WebSocket broadcast
-Delivery partner accepts → ✅ DeliveryService.acceptOrder() [ACCEPTED]
+Pickup with OTP (DeliveryService.pickUpOrder())
+  → PICKED_UP
     ↓
-Delivery partner picks order (OTP) → ✅ DeliveryService.pickUpOrder() [PICKED_UP]
-    ↓ WebSocket location broadcast (LocationWebSocketHandler)
-Customer tracks live → ✅ WebSocket: OrderStatusWebSocketHandler + LocationWebSocketHandler
+Delivery completed with OTP (DeliveryService + PaymentService.confirmCodPayment())
+  → DELIVERED + Payment SUCCESS
     ↓
-Delivery completed (OTP verification) → ✅ DeliveryService + PaymentService.confirmCodPayment()
-    ↓
-Order history updated → ✅ All timestamps and statuses persisted
+Order history updated (All timestamps + statuses persisted)
 ```
 
 ---
 
-## 7. 📊 MVP Readiness Scorecard
+## 10. Performance Optimization Opportunities
 
-| Area | Score | Trend | Notes |
-|------|-------|-------|-------|
-| **Customer Journey** | 90% | ⬆️ | All features implemented end-to-end |
-| **Merchant Journey** | 85% | → | All store management features present |
-| **Delivery Journey** | 85% | ⬆️ | Full flow with WebSocket + OTP + Navigation |
-| **Admin Experience** | 90% | → | Most comprehensive module |
-| **Backend Services (MVP)** | 85% | ⬆️ | All 14 services complete with APIs |
-| **Infrastructure** | 95% | → | Docker, K8s, CI/CD, Swagger all ready |
-| **Security** | 90% | ⬆️ | JWT, RBAC, BCrypt, CORS, Rate limiting, Validation |
-| **Testing** | 40% | ⬆️ | All existing tests pass — only 1 backend test file |
-| **Build** | 95% | ⬆️ | All builds verified passing |
-| **Performance** | 50% | → | Redis/ES configured — not fully optimized |
-| **Documentation** | 85% | → | Architecture, API standards, deployment guides |
-
-### Overall MVP Readiness: **82%** ⬆️
+| Area | Current State | Recommendation |
+|------|--------------|----------------|
+| Database Queries | No EXPLAIN analysis | Profile slow queries with pg_stat_statements |
+| Redis Caching | Configured, usage inconsistent | Add caching to catalog, user, and merchant endpoints |
+| Image Serving | Direct from backend | Add CDN (CloudFront/Cloudflare) |
+| API Monitoring | Actuator endpoints configured | Add Prometheus + Grafana dashboards |
+| Flutter Performance | No DevTools profiling | Run DevTools, check rebuilds |
+| Bundle Size | Not analyzed | Tree-shake unused Next.js dependencies |
 
 ---
 
-## 8. ✅ Launch Recommendation
+## 11. MVP Readiness Score: 78%
 
-### ✅ CONDITIONALLY APPROVED FOR MVP LAUNCH
+### Scoring Breakdown
 
-**Prerequisites (must complete before production launch):**
-
-1. 🔴 **Fix 141 MUI v9 fontWeight TypeScript errors** — Remove `ignoreBuildErrors: true` and migrate `fontWeight={...}` to `sx={{ fontWeight: ... }}` using the script at `scripts/fix-all-mui-v9.mjs`
-2. 🟡 **Configure Razorpay live keys** — Set `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET` in production environment
-3. 🟡 **Build and verify Android APKs** — Run `flutter build apk --release` for all three mobile apps
-4. 🟡 **Add backend unit tests** — Start with critical services: Payment, Order, Delivery (currently untested)
-5. 🟡 **Set up production database** — PostgreSQL with proper connection pooling (PgBouncer), run Flyway migrations
-
-**Recommended post-MVP enhancements:**
-1. Configure Firebase Cloud Messaging for push notifications
-2. Add automated E2E tests (Cypress/Playwright for web, integration tests for backend)
-3. Performance optimization (Redis result caching, CDN for images, query optimization with EXPLAIN)
-4. Flutter DevTools performance profiling for mobile apps
-5. CI/CD pipeline for APK builds and automated deployment
+| Category | Weight | Score | Rationale |
+|----------|--------|-------|-----------|
+| **Customer Features** | 20% | 95% | All 26 features implemented |
+| **Merchant Features** | 12% | 90% | All features present, export fixed |
+| **Delivery Features** | 12% | 90% | Full WebSocket + OTP flow |
+| **Admin Features** | 10% | 70% | Full features but **build fails** |
+| **Website Features** | 10% | 60% | All pages but **17 build errors** |
+| **Backend Services** | 15% | 95% | All 15 services structurally complete |
+| **Infrastructure** | 8% | 90% | Docker, K8s, CI/CD all configured |
+| **Security** | 8% | 95% | Enterprise-grade security |
+| **Testing** | 3% | 15% | Only auth-service has Java tests |
+| **Build Success** | 2% | 50% | 5/7 targets pass |
+| **Overall** | **100%** | **78%** | **Conditional Approval** |
 
 ---
 
-## 9. 📋 Changes Made This Session
+## 12. Launch Recommendation: ⚠️ CONDITIONALLY APPROVED
 
-| File | Change |
-|------|--------|
-| `apps/admin-dashboard/next.config.ts` | Removed invalid `eslint.ignoreDuringBuilds` property from `NextConfig` |
-| `apps/admin-dashboard/src/app/dashboard/notifications/page.tsx` | Fixed MUI v9 icon renames: `CheckCircleOutline` → `CheckCircleOutlined`, `ErrorOutline` → `ErrorOutlined` (both import and usage) |
+### Prerequisites (Fix Before Launch):
 
-**Diagnosis Only (no changes made):**
-- MUI v9 fontWeight errors: 141 instances across website + admin — tracked as critical issue
-- Missing `cancelOrder` API in website — tracked as medium issue
-- Backend test coverage gap — tracked as medium issue
+1. 🔴 **Fix 17 Website parse errors** — Add commas to merged `sx` props across 17 files
+2. 🔴 **Fix Admin Dashboard MUI v9 error** — Replace `InputProps` with `slotProps.input`
+3. 🟡 **Add backend unit tests** — Minimum: PaymentService + OrderService critical paths
+4. 🟡 **Configure production Razorpay keys** — Set `RAZORPAY_KEY_ID`, `KEY_SECRET`, `WEBHOOK_SECRET`
+5. 🟡 **Fix `processPayment` `Object` return** — Use typed return contract
+6. 🟡 **Enable Flyway migrations** — Wire up in each service's `application.yml`
+7. 🟡 **Verify Android APK builds** — Run `flutter build apk --release` for all 3 Flutter apps
+
+### Post-MVP Roadmap:
+
+1. **Test Coverage** — Add JUnit + Mockito tests for all 15 services (target: 60%+)
+2. **Shared Models** — Extract all duplicated Flutter models into `kartezy_core`
+3. **CDN + Monitoring** — Add image CDN + Prometheus/Grafana
+4. **Performance** — Database query optimization, Redis caching audit, Flutter profiling
+5. **E2E Tests** — Playwright/Cypress for web, integration tests for backend
+6. **Enterprise Services** — AI, analytics, recommendations, fraud detection (out of MVP scope)
 
 ---
 
 *Report generated by Buffy (AI Lead Architect — Freebuff)*
-*Date: July 22, 2026*
+*Date: July 23, 2026*

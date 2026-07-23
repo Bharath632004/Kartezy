@@ -25,7 +25,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: merchantError,
   } = useQuery({
     queryKey: ['merchant', id],
-    queryFn: () => merchantService.getDetail(id),
+    queryFn: () => merchantService.getDetail(id).then(res => res.data),
   });
 
   const {
@@ -34,7 +34,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: kycError,
   } = useQuery({
     queryKey: ['kyc', id],
-    queryFn: () => merchantService.getKYC(id),
+    queryFn: () => merchantService.getKYC(id).then(res => res.data),
     enabled: !!id,
   });
 
@@ -44,7 +44,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: documentsError,
   } = useQuery({
     queryKey: ['documents', id],
-    queryFn: () => merchantService.getDocuments(id),
+    queryFn: () => merchantService.getDocuments(id).then(res => res.data),
     enabled: !!id,
   });
 
@@ -54,7 +54,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: storeError,
   } = useQuery({
     queryKey: ['store', id],
-    queryFn: () => merchantService.getStoreDetails(id),
+    queryFn: () => merchantService.getStoreDetails(id).then(res => res.data),
     enabled: !!id,
   });
 
@@ -64,7 +64,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: ratingsError,
   } = useQuery({
     queryKey: ['ratings', id],
-    queryFn: () => merchantService.getRatings(id),
+    queryFn: () => merchantService.getRatings(id).then(res => res.data),
     enabled: !!id,
   });
 
@@ -74,7 +74,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: revenueError,
   } = useQuery({
     queryKey: ['revenue', id],
-    queryFn: () => merchantService.getRevenue(id),
+    queryFn: () => merchantService.getRevenue(id).then(res => res.data),
     enabled: !!id,
   });
 
@@ -84,7 +84,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
     error: commissionError,
   } = useQuery({
     queryKey: ['commission', id],
-    queryFn: () => merchantService.getCommission(id),
+    queryFn: () => merchantService.getCommission(id).then(res => res.data),
     enabled: !!id,
   });
 
@@ -121,7 +121,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
       <Stack spacing={3}>
         <Box>
           <Typography variant="h6">
-            {merchant.name}
+            {merchant?.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {merchant.email}
@@ -129,13 +129,13 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
         </Box>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Phone
             </Typography>
             <Typography>{merchant.phoneNumber}</Typography>
           </Box>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Status
             </Typography>
             <Typography>
@@ -143,7 +143,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             </Typography>
           </Box>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Rating
             </Typography>
             <Typography>
@@ -151,7 +151,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             </Typography>
           </Box>
           <Box>
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Revenue
             </Typography>
             <Typography>
@@ -169,7 +169,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
           <Tab label="Revenue" />
           <Tab label="Commission" />
         </Tabs>
-        <TabPanelContent value={0} index={0}>
+        <TabPanelContent value={0} index={0} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Merchant Information
@@ -206,7 +206,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             </Table>
           </Box>
         </TabPanelContent>
-        <TabPanelContent value={1} index={1}>
+        <TabPanelContent value={1} index={1} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               KYC Status
@@ -234,7 +234,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
                     <>
                       <TableRow>
                         <TableCell colSpan={2}>
-                          <Typography variant="body2" fontWeight="medium">
+                          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
                             Notes
                           </Typography>
                         </TableCell>
@@ -253,7 +253,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             )}
           </Box>
         </TabPanelContent>
-        <TabPanelContent value={2} index={2}>
+        <TabPanelContent value={2} index={2} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Documents
@@ -288,7 +288,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             )}
           </Box>
         </TabPanelContent>
-        <TabPanelContent value={3} index={3}>
+        <TabPanelContent value={3} index={3} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Store Details
@@ -341,7 +341,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             )}
           </Box>
         </TabPanelContent>
-        <TabPanelContent value={4} index={4}>
+        <TabPanelContent value={4} index={4} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Ratings
@@ -378,7 +378,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             )}
           </Box>
         </TabPanelContent>
-        <TabPanelContent value={5} index={5}>
+        <TabPanelContent value={5} index={5} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Revenue
@@ -408,7 +408,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
                     <>
                       <TableRow>
                         <TableCell colSpan={2}>
-                          <Typography variant="body2" fontWeight="medium">
+                          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
                             Revenue Breakdown
                           </Typography>
                         </TableCell>
@@ -430,7 +430,7 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
             )}
           </Box>
         </TabPanelContent>
-        <TabPanelContent value={6} index={6}>
+        <TabPanelContent value={6} index={6} id={id}>
           <Box>
             <Typography variant="h5" gutterBottom>
               Commission
@@ -471,9 +471,10 @@ export default function MerchantDetails({ params }: { params: { id: string } }) 
 function TabPanelContent(props: {
   value: number;
   index: number;
+  id: string;
   children: React.ReactNode;
 }) {
-  const { value, index, children } = props;
+  const { value, index, id, children } = props;
   return (
     <div
       role="tabpanel"
@@ -482,7 +483,7 @@ function TabPanelContent(props: {
       aria-labelledby={`tab-${id}-${index}`}
     >
       {value === index && (
-        <Box p={3}>{children}</Box>
+        <Box sx={{ p: 3 }}>{children}</Box>
       )}
     </div>
   );

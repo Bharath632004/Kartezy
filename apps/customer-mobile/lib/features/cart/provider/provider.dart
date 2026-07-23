@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:customer_mobile/features/cart/data/datasource/cart_remote_data_source.dart';
-import 'package:customer_mobile/features/cart/data/datasource/cart_local_data_source.dart';
+
 import 'package:customer_mobile/features/cart/data/repository/cart_repository_impl.dart';
 import 'package:customer_mobile/features/cart/domain/repository/cart_repository.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/add_to_cart_usecase.dart';
@@ -17,13 +17,14 @@ import 'package:customer_mobile/features/cart/domain/usecase/update_cart_item_va
 import 'package:customer_mobile/features/cart/domain/usecase/update_wallet_amount_usecase.dart';
 import 'package:customer_mobile/features/cart/domain/usecase/merge_guest_cart_usecase.dart';
 
+import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:customer_mobile/shared/models/cart.dart';
 import 'package:hive/hive.dart';
 
 // Providers for data source and repository
 final cartRemoteDataSourceProvider = Provider<CartRemoteDataSource>((ref) {
-  // Use local cart data source for MVP (no backend cart service)
-  return CartLocalDataSource();
+  final dio = ref.read(dioProvider);
+  return CartRemoteDataSourceImpl(dio);
 });
 
 final cartRepositoryProvider = Provider<CartRepository>((ref) {
@@ -143,13 +144,13 @@ class CartNotifier extends StateNotifier<CartState> {
     required this._mergeGuestCartUseCase,
   }) : super(const CartState());
 
-  /// Saves the guest cart ID to local storage.
+  // Saves the guest cart ID to local storage.
   Future<void> _saveGuestCartId(String cartId) async {
     final box = await Hive.openBox<String>('guestCart');
     await box.put('cartId', cartId);
   }
 
-  /// Fetches the cart for the given userId (null for guest cart).
+  // Fetches the cart for the given userId (null for guest cart).
   Future<void> fetchCart(String? userId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -164,7 +165,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Adds a product to the cart.
+  // Adds a product to the cart.
   Future<void> addToCart(
     String productId,
     int quantity,
@@ -179,7 +180,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Updates the quantity of a cart item.
+  // Updates the quantity of a cart item.
   Future<void> updateCartItemQuantity(String cartItemId, int quantity) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -190,7 +191,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Updates the variant of a cart item.
+  // Updates the variant of a cart item.
   Future<void> updateCartItemVariants(
     String cartItemId,
     Map<String, String> variants,
@@ -204,7 +205,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Removes a cart item.
+  // Removes a cart item.
   Future<void> removeCartItem(String cartItemId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -215,7 +216,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Clears the entire cart.
+  // Clears the entire cart.
   Future<void> clearCart() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -226,7 +227,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Applies a coupon to the cart.
+  // Applies a coupon to the cart.
   Future<void> applyCoupon(String couponCode) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -237,7 +238,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Removes the applied coupon from the cart.
+  // Removes the applied coupon from the cart.
   Future<void> removeCoupon() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -248,7 +249,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Saves a cart item for later.
+  // Saves a cart item for later.
   Future<void> saveForLater(String cartItemId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -259,7 +260,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Moves a cart item to the wishlist.
+  // Moves a cart item to the wishlist.
   Future<void> moveToWishlist(String cartItemId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -270,7 +271,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Updates the wallet amount to be used for payment.
+  // Updates the wallet amount to be used for payment.
   Future<void> updateWalletAmount(double amount) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
@@ -281,7 +282,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  /// Merges guest cart with user cart after login.
+  // Merges guest cart with user cart after login.
   Future<void> mergeGuestCart(String guestCartId, String userId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {

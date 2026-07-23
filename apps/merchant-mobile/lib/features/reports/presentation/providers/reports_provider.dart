@@ -48,6 +48,17 @@ class ReportsNotifier extends StateNotifier<ReportsState> {
     }
   }
 
+  Future<void> exportReports(String data) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      await _reportsService.exportReportFile(data);
+      state = state.copyWith(isLoading: false);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+      rethrow;
+    }
+  }
+
   void clearReports() {
     state = const ReportsState();
   }

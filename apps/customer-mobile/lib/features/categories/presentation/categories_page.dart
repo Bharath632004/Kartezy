@@ -166,7 +166,7 @@ class CategoriesPage extends ConsumerWidget {
                           width: 64,
                           height: 64,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
+                          errorBuilder: (_, _, _) =>
                               Icon(icon, color: color, size: 28),
                         ),
                       )

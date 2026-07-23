@@ -117,7 +117,7 @@ export default function LeadsPage() {
   return (
     <Box sx={{ py: 3 }}>
       <Container maxWidth="xl">
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+        <Stack direction="row" sx={{ mb: 3, justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ fontWeight: 700 }}>Lead Management</Typography>
           <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpenCreate}>
             Add Lead
@@ -129,7 +129,7 @@ export default function LeadsPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">Total Leads</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }}>{leads.length}</Typography>
@@ -144,7 +144,7 @@ export default function LeadsPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">Conversion Rate</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1, color: 'success.main' }}>
@@ -161,7 +161,7 @@ export default function LeadsPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">Avg Score</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }}>{avgScore.toFixed(0)}</Typography>
@@ -176,7 +176,7 @@ export default function LeadsPage() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card elevation={2} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
                     <Typography variant="body2" color="text.secondary">Won</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 700, mt: 1, color: 'success.main' }}>
@@ -227,7 +227,7 @@ export default function LeadsPage() {
 
         {/* Filters */}
         <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ md: 'center' }}>
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ alignItems: { md: 'center' } }}>
             <TextField
               size="small" placeholder="Search leads..."
               value={filters.search}
@@ -290,7 +290,7 @@ export default function LeadsPage() {
                   {leads.map((lead) => (
                     <TableRow key={lead.id} hover sx={{ '&:last-child td': { border: 0 } }}>
                       <TableCell>
-                        <Stack direction="row" spacing={1.5} alignItems="center">
+                        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
                           <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main', fontSize: 14 }}>
                             {lead.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                           </Avatar>
@@ -331,7 +331,7 @@ export default function LeadsPage() {
                         <Typography variant="body2">{lead.assignedTo || '-'}</Typography>
                       </TableCell>
                       <TableCell align="center">
-                        <Stack direction="row" spacing={0.5} justifyContent="center">
+                        <Stack direction="row" spacing={0.5} sx={{ justifyContent: 'center' }}>
                           <IconButton size="small" onClick={() => handleOpenEdit(lead)}>
                             <EditIcon fontSize="small" />
                           </IconButton>
@@ -360,13 +360,13 @@ export default function LeadsPage() {
               <TextField label="Phone" fullWidth value={editingLead?.phone || ''}
                 onChange={(e) => setEditingLead(p => ({ ...p!, phone: e.target.value }))} />
               <TextField select label="Source" fullWidth value={editingLead?.source || 'WEBSITE'}
-                onChange={(e) => setEditingLead(p => ({ ...p!, source: e.target.value }))}>
+                onChange={(e) => setEditingLead(p => ({ ...p!, source: e.target.value as Lead['source'] }))}>
                 {['WEBSITE', 'REFERRAL', 'SOCIAL', 'EMAIL', 'ADS', 'ORGANIC', 'OTHER'].map(s => (
                   <MenuItem key={s} value={s}>{s}</MenuItem>
                 ))}
               </TextField>
               <TextField select label="Status" fullWidth value={editingLead?.status || 'NEW'}
-                onChange={(e) => setEditingLead(p => ({ ...p!, status: e.target.value }))}>
+                onChange={(e) => setEditingLead(p => ({ ...p!, status: e.target.value as Lead['status'] }))}>
                 {['NEW', 'CONTACTED', 'QUALIFIED', 'PROPOSAL', 'NEGOTIATION', 'WON', 'LOST'].map(s => (
                   <MenuItem key={s} value={s}>{s}</MenuItem>
                 ))}

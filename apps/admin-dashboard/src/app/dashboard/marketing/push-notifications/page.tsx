@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useMarketingStore } from '@/store/marketingStore';
 
 export default function PushNotificationsPage() {
-  const { notificationsData, loading, error, fetchNotificationsData, createNotification, updateNotification, deleteNotification } = useMarketingStore();
+  const { notificationsData, loading, error, fetchNotificationsData, createNotification, updateNotification, deleteNotification } = useMarketingStore() as any;
   const [filters, setFilters] = React.useState({
     status: '',
     type: '',
@@ -14,7 +14,7 @@ export default function PushNotificationsPage() {
   });
   const [openCreateDialog, setOpenCreateDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [selectedNotification, setSelectedNotification] = React.useState(null);
+  const [selectedNotification, setSelectedNotification] = React.useState<any>(null);
 
   React.useEffect(() => {
     fetchNotificationsData(filters);
@@ -30,26 +30,23 @@ export default function PushNotificationsPage() {
     setOpenEditDialog(!openEditDialog);
   };
 
-  if (loading) return <Box p={4}><Typography variant="body2">Loading...</Typography></Box>;
-  if (error) return <Box p={4}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography variant="body2">Loading...</Typography></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Typography variant="body2" color="error">Error: {error}</Typography></Box>;
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Push Notifications Overview
         </Typography>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
           <TextField
             label="Status"
             select
-            labelId="status-label"
             id="status-select"
             value={filters.status || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Statuses</option>
             <option value="draft">Draft</option>
@@ -61,13 +58,10 @@ export default function PushNotificationsPage() {
           <TextField
             label="Type"
             select
-            labelId="type-label"
             id="type-select"
             value={filters.type || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-            select
-            MenuProps={{ MenuProps: { sx: { width: 200 } } }}
-            labelWidth={100}
+            slotProps={{ select: { MenuProps: { sx: { width: 200 } } } }}
           >
             <option value="">All Types</option>
             <option value="promotional">Promotional</option>
@@ -99,12 +93,12 @@ export default function PushNotificationsPage() {
       </Box>
 
       {!notificationsData || notificationsData.length === 0 ? (
-        <Box p={4} textAlign="center">
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body2">No notifications available</Typography>
         </Box>
       ) : (
         <Paper elevation={3}>
-          <Box p={3}>
+          <Box sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Notifications List
             </Typography>
@@ -134,7 +128,7 @@ export default function PushNotificationsPage() {
                       <TableCell align="right">{notification.deliveryRate?.toFixed(1) ?? '0'}%</TableCell>
                       <TableCell align="right">{notification.clickRate?.toFixed(1) ?? '0'}%</TableCell>
                       <TableCell>
-                        <span sx={{
+                        <Box component="span" sx={{
                           bgcolor: notification.status.toLowerCase() === 'sent' ? 'success.main' :
                                    notification.status.toLowerCase() === 'scheduled' ? 'warning.main' :
                                    notification.status.toLowerCase() === 'draft' ? 'info.main' : 'error.main',
@@ -143,7 +137,7 @@ export default function PushNotificationsPage() {
                           borderRadius: 1
                         }}>
                           {notification.status}
-                        </span>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Button size="small" variant="text" sx={{ color: 'primary.main' }} onClick={() => handleToggleEditDialog(notification)}>
@@ -197,7 +191,6 @@ export default function PushNotificationsPage() {
           <TextField
             label="Type"
             select
-            labelId="notification-type-label"
             id="notification-type-select"
             value={selectedNotification?.type || ''}
             onChange={(e) => {
@@ -218,7 +211,6 @@ export default function PushNotificationsPage() {
           <TextField
             label="Target Audience"
             select
-            labelId="target-audience-label"
             id="target-audience-select"
             value={selectedNotification?.targetAudience || ''}
             onChange={(e) => {
@@ -304,7 +296,6 @@ export default function PushNotificationsPage() {
           <TextField
             label="Type"
             select
-            labelId="edit-notification-type-label"
             id="edit-notification-type-select"
             value={selectedNotification?.type || ''}
             onChange={(e) => {
@@ -323,7 +314,6 @@ export default function PushNotificationsPage() {
           <TextField
             label="Target Audience"
             select
-            labelId="edit-target-audience-label"
             id="edit-target-audience-select"
             value={selectedNotification?.targetAudience || ''}
             onChange={(e) => {

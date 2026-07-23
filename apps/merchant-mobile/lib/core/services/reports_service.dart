@@ -182,4 +182,16 @@ class ReportsService {
       throw Exception('Failed to fetch settlement report: $e');
     }
   }
+
+  /// Export report data to a file (CSV format)
+  Future<void> exportReportFile(String data) async {
+    try {
+      await _dio.post(
+        ApiConstants.reportsExport,
+        data: {'data': data, 'format': 'csv'},
+      );
+    } catch (e) {
+      throw Exception('Failed to export report: $e');
+    }
+  }
 }
