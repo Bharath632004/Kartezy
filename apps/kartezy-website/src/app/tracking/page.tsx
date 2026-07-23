@@ -49,7 +49,7 @@ const TrackingPage = () => {
   return (
     <Container maxWidth="md" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
           Track Your Order
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -96,7 +96,7 @@ const TrackingPage = () => {
         ) : (
           <>
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Order #{order.id}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -107,7 +107,7 @@ const TrackingPage = () => {
             <Divider sx={{ my: 3 }} />
 
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Delivery Progress
               </Typography>
               <LinearProgress
@@ -125,7 +125,7 @@ const TrackingPage = () => {
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 3 }}>
               <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <LocalMall fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Store
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -135,7 +135,7 @@ const TrackingPage = () => {
 
               <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <AccessTime fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Delivery Time
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -145,7 +145,7 @@ const TrackingPage = () => {
 
               <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <LocationOn fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Distance
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -155,7 +155,7 @@ const TrackingPage = () => {
 
               <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <Person fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Delivery Agent
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -167,7 +167,7 @@ const TrackingPage = () => {
             <Divider sx={{ my: 3 }} />
 
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Order Items
               </Typography>
               <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 4, p: 3 }}>
@@ -188,14 +188,14 @@ const TrackingPage = () => {
                       <img src={item.product.image} alt={item.product.name} sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                     </Box>
                     <Box sx={{ flexGrow: 1 }}>
-                      <Typography variant="body2" fontWeight={600} sx={{ mb: 0.5 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 600  sx={{ mb: 0.5 }}>
                         {item.product.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
                         {item.product.store}
                       </Typography>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Typography variant="body2" fontWeight={600}>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           ₹{item.product.price}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">

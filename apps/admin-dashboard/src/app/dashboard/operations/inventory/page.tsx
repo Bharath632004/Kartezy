@@ -104,14 +104,14 @@ export default function InventoryOperations() {
               return (
                 <TableRow key={item.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
                   <TableCell><Chip label={item.sku} size="small" variant="outlined" /></TableCell>
-                  <TableCell><Typography fontWeight={600}>{item.name}</Typography></TableCell>
+                  <TableCell><Typography sx={{ fontWeight: 600 }}>{item.name}</Typography></TableCell>
                   <TableCell>{item.category}</TableCell>
                   <TableCell>{item.warehouseName}</TableCell>
                   <TableCell><Chip label={item.status.replace('_', ' ')} color={stockStatusColors[item.status] ?? 'default'} size="small" /></TableCell>
                   <TableCell align="right">{item.currentStock}</TableCell>
                   <TableCell align="right">{item.reservedStock}</TableCell>
                   <TableCell align="right">
-                    <Typography fontWeight={600} color={item.availableStock <= 0 ? 'error.main' : 'text.primary'}>{item.availableStock}</Typography>
+                    <Typography sx={{ fontWeight: 600 }} color={item.availableStock <= 0 ? 'error.main' : 'text.primary'}>{item.availableStock}</Typography>
                   </TableCell>
                   <TableCell align="right">{item.minimumStock} / {item.maximumStock}</TableCell>
                   <TableCell align="right">

@@ -73,7 +73,7 @@ export default function BrandsSection({ data }: { data?: any } = {}) {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      fontWeight={500}
+                      sx={{ fontWeight: 500 }}
                       textAlign="center"
                     >
                       {brand.name}

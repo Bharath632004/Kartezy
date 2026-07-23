@@ -48,7 +48,7 @@ export default function HowItWorksSection({ data }: { data?: any } = {}) {
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.paper' }}>
       <Container maxWidth="lg">
         <Stack spacing={6}>
-          <Typography variant="h2" fontWeight={600} textAlign="center">
+          <Typography variant="h2" sx={{ fontWeight: 600 }} textAlign="center">
             How It Works
           </Typography>
 
@@ -57,7 +57,7 @@ export default function HowItWorksSection({ data }: { data?: any } = {}) {
               <Step key={index}>
                 <StepLabel icon={iconMap[step.icon] ? iconMap[step.icon]() : null}>
                   <Stack spacing={1} sx={{ mt: 2 }}>
-                    <Typography variant="h6" fontWeight={600}>
+                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
                       {step.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 200, mx: 'auto' }}>

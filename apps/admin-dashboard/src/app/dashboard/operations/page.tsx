@@ -373,28 +373,28 @@ export default function OperationsDashboard() {
           <Stack spacing={1.5}>
             <Paper sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderLeft: 4, borderColor: 'error.main' }}>
               <Box>
-                <Typography variant="body2" fontWeight={600}>Inventory Alerts</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>Inventory Alerts</Typography>
                 <Typography variant="caption" color="text.secondary">Low stock & overstock</Typography>
               </Box>
               <Chip label={dashboard?.alertSummary?.inventoryAlerts ?? 0} color="error" />
             </Paper>
             <Paper sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderLeft: 4, borderColor: 'warning.main' }}>
               <Box>
-                <Typography variant="body2" fontWeight={600}>Fraud Alerts</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>Fraud Alerts</Typography>
                 <Typography variant="caption" color="text.secondary">Suspicious activities</Typography>
               </Box>
               <Chip label={dashboard?.alertSummary?.fraudAlerts ?? 0} color="warning" />
             </Paper>
             <Paper sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderLeft: 4, borderColor: 'info.main' }}>
               <Box>
-                <Typography variant="body2" fontWeight={600}>Delivery Alerts</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>Delivery Alerts</Typography>
                 <Typography variant="caption" color="text.secondary">Failed & delayed</Typography>
               </Box>
               <Chip label={dashboard?.alertSummary?.deliveryAlerts ?? 0} color="info" />
             </Paper>
             <Paper sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderLeft: 4, borderColor: 'secondary.main' }}>
               <Box>
-                <Typography variant="body2" fontWeight={600}>Pending Escalations</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>Pending Escalations</Typography>
                 <Typography variant="caption" color="text.secondary">Needs assignment</Typography>
               </Box>
               <Chip label={dashboard?.summary?.pendingEscalations ?? 0} color="secondary" />

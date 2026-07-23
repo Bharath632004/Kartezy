@@ -90,7 +90,7 @@ export default function CustomerOperations() {
           <TableBody>
             {filtered.map((c) => (
               <TableRow key={c.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                <TableCell><Typography fontWeight={600}>{c.name}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }}>{c.name}</Typography></TableCell>
                 <TableCell>
                   <Typography variant="caption">{c.email}</Typography>
                   <br /><Typography variant="caption" color="text.secondary">{c.phone}</Typography>
@@ -101,7 +101,7 @@ export default function CustomerOperations() {
                 <TableCell align="right">{c.totalOrders}</TableCell>
                 <TableCell align="right">₹{c.totalSpent.toLocaleString()}</TableCell>
                 <TableCell align="right">₹{c.avgOrderValue}</TableCell>
-                <TableCell align="right"><Typography fontWeight={600}>₹{c.lifetimeValue.toLocaleString()}</Typography></TableCell>
+                <TableCell align="right"><Typography sx={{ fontWeight: 600 }}>₹{c.lifetimeValue.toLocaleString()}</Typography></TableCell>
                 <TableCell align="right">
                   <Chip label={`${(c.churnProbability * 100).toFixed(0)}%`} color={c.churnProbability > 0.5 ? 'error' : c.churnProbability > 0.3 ? 'warning' : 'success'} size="small" />
                 </TableCell>

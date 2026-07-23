@@ -47,7 +47,7 @@ export default function HeroSection() {
 
             <Typography
               variant="h1"
-              fontWeight={700}
+              sx={{ fontWeight: 700 }}
               lineHeight={1.2}
               sx={{ mb: 2, fontSize: { xs: '2.5rem', md: '3.75rem' } }}
             >
@@ -159,11 +159,11 @@ export default function HeroSection() {
                   mb: 2,
                 }}
               >
-                <Typography variant="h3" fontWeight={800} color="#ff6b35">
+                <Typography variant="h3" sx={{ fontWeight: 800 }} color="#ff6b35">
                   K
                 </Typography>
               </Box>
-              <Typography variant="h5" fontWeight={600} color="white" sx={{ mb: 1 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  color="white" sx={{ mb: 1 }}>
                 Kartezy
               </Typography>
               <Typography variant="body2" color="rgba(255,255,255,0.8)">
@@ -179,7 +179,7 @@ export default function HeroSection() {
                   alignItems: 'center',
                   gap: 1,
                 }}>
-                  <Typography variant="caption" color="white" fontWeight={500}>App Store</Typography>
+                  <Typography variant="caption" color="white" sx={{ fontWeight: 500 }}>App Store</Typography>
                 </Box>
                 <Box sx={{
                   px: 2, py: 1,
@@ -189,7 +189,7 @@ export default function HeroSection() {
                   alignItems: 'center',
                   gap: 1,
                 }}>
-                  <Typography variant="caption" color="white" fontWeight={500}>Google Play</Typography>
+                  <Typography variant="caption" color="white" sx={{ fontWeight: 500 }}>Google Play</Typography>
                 </Box>
               </Box>
             </Box>

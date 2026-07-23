@@ -116,7 +116,7 @@ export default function FinanceDashboard() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
                     <XAxis dataKey="month" />
                     <YAxis tickFormatter={(v) => `₹${(v/1000).toFixed(0)}K`} />
-                    <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
+                    <Tooltip formatter={(v: any) => v ? `₹${Number(v).toLocaleString()}` : ''} />
                     <Area type="monotone" dataKey="revenue" stroke="#1976d2" fill="url(#colorRevenue)" strokeWidth={2} name="Revenue" />
                     <Area type="monotone" dataKey="expenses" stroke="#d32f2f" fill="url(#colorExpenses)" strokeWidth={2} name="Expenses" />
                   </AreaChart>

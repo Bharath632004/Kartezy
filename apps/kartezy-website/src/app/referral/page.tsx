@@ -74,7 +74,7 @@ const ReferralPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>Refer and Earn</Typography>
+        <Typography variant="h2" sx={{ fontWeight: 600  sx={{ mb: 2 }}>Refer and Earn</Typography>
         <Typography variant="body1" color="text.secondary">Share and earn rewards with every friend who joins</Typography>
       </Box>
 
@@ -82,17 +82,17 @@ const ReferralPage = () => {
         <CardContent>
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Group sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h3" fontWeight={600} sx={{ mb: 1 }}>Referral Program</Typography>
+            <Typography variant="h3" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Referral Program</Typography>
             <Typography variant="body2" color="text.secondary">Share your code and earn rewards</Typography>
           </Box>
 
           <Divider sx={{ my: 4 }} />
 
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Your Referral Code</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>Your Referral Code</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#f5f5f5', px: 4, py: 2, borderRadius: 2 }}>
-                <Typography variant="h5" fontWeight={700} letterSpacing={2} fontFamily="monospace">
+                <Typography variant="h5" sx={{ fontWeight: 700 }} letterSpacing={2} fontFamily="monospace">
                   {referralData?.referralCode || '------'}
                 </Typography>
               </Box>
@@ -104,24 +104,24 @@ const ReferralPage = () => {
           <Divider sx={{ my: 4 }} />
 
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Your Earnings</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>Your Earnings</Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 3 }}>
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <Wallet sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>Total Earned</Typography>
-                <Typography variant="h4" fontWeight={600} color="primary.main">
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Total Earned</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 600 }} color="primary.main">
                   ₹{(referralData?.totalEarned ?? 0).toLocaleString('en-IN')}
                 </Typography>
               </Card>
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <History sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>Referred Friends</Typography>
-                <Typography variant="h4" fontWeight={600} color="primary.main">{referralData?.referredFriends ?? 0}</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Referred Friends</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 600 }} color="primary.main">{referralData?.referredFriends ?? 0}</Typography>
               </Card>
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <HourglassEmpty sx={{ fontSize: 32, color: 'warning.main', mb: 2 }} />
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>Pending</Typography>
-                <Typography variant="h4" fontWeight={600} color="warning.main">
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Pending</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 600 }} color="warning.main">
                   ₹{(referralData?.pendingEarnings ?? 0).toLocaleString('en-IN')}
                 </Typography>
               </Card>
@@ -131,7 +131,7 @@ const ReferralPage = () => {
           <Divider sx={{ my: 4 }} />
 
           <Box>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Rewards & Milestones</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>Rewards & Milestones</Typography>
             {(!referralData?.rewards || referralData.rewards.length === 0) ? (
               <Typography color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>No rewards yet. Start referring friends!</Typography>
             ) : (
@@ -144,7 +144,7 @@ const ReferralPage = () => {
                         ? <CheckCircle sx={{ color: 'success.main', mr: 2 }} />
                         : <HourglassEmpty sx={{ color: 'warning.main', mr: 2 }} />}
                       <Box>
-                        <Typography variant="body2" fontWeight={600}>{reward.title}</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{reward.title}</Typography>
                         <Typography variant="caption" color="text.secondary">{reward.description}</Typography>
                       </Box>
                     </Box>

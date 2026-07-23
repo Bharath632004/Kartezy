@@ -57,14 +57,14 @@ export default function HeroSectionWithSearch({ data }: HeroSectionWithSearchPro
                       <badge.icon fontSize="small" />
                     </Box>
                   )}
-                  <Typography variant="caption" fontWeight={500} color="text.secondary">
+                  <Typography variant="caption" sx={{ fontWeight: 500 }} color="text.secondary">
                     {badge.text}
                   </Typography>
                 </Box>
               ))}
 
               {/* Title */}
-              <Typography variant="h3" fontWeight={700} color="text.primary" sx={{ mb: 2 }}>
+              <Typography variant="h3" sx={{ fontWeight: 700  color="text.primary" sx={{ mb: 2 }}>
                 {dataToUse.title}
               </Typography>
 
@@ -175,7 +175,7 @@ export default function HeroSectionWithSearch({ data }: HeroSectionWithSearchPro
               </Button>
 
               <Typography variant="body2" color="text.secondary" sx={{ mt: 3, textAlign: 'center' }}>
-                <Typography component="span" fontWeight={600} color="primary">Popular Searches:</Typography>
+                <Typography component="span" sx={{ fontWeight: 600 }} color="primary">Popular Searches:</Typography>
               </Typography>
 
               <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center">

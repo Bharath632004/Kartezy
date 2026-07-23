@@ -48,7 +48,7 @@ export default function FeaturesSection({ data }: { data?: any } = {}) {
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
-          <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 8 }}>
+          <Typography variant="h2" sx={{ fontWeight: 600  textAlign="center" sx={{ mb: 8 }}>
             Why Choose Kartezy?
           </Typography>
 
@@ -71,7 +71,7 @@ export default function FeaturesSection({ data }: { data?: any } = {}) {
                       </Box>
                     )}
                   </Box>
-                  <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
+                  <Typography variant="h5" sx={{ fontWeight: 600  color="text.primary" sx={{ mb: 2 }}>
                     {feature.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" textAlign="center">

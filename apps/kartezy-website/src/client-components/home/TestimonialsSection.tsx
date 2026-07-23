@@ -33,7 +33,7 @@ export default function TestimonialsSection({ data }: { data?: any } = {}) {
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
-          <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 4 }}>
+          <Typography variant="h2" sx={{ fontWeight: 600  textAlign="center" sx={{ mb: 4 }}>
             What Our Customers Say
           </Typography>
 
@@ -55,7 +55,7 @@ export default function TestimonialsSection({ data }: { data?: any } = {}) {
                       {testimonial.name[0]}
                     </Avatar>
                     <Stack>
-                      <Typography variant="h6" fontWeight={600}>
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
                         {testimonial.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">

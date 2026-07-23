@@ -36,7 +36,7 @@ export default function FAQSection({ data }: { data?: any } = {}) {
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg">
         <Stack spacing={4}>
-          <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 4 }}>
+          <Typography variant="h2" sx={{ fontWeight: 600  textAlign="center" sx={{ mb: 4 }}>
             Frequently Asked Questions
           </Typography>
 
@@ -55,7 +55,7 @@ export default function FAQSection({ data }: { data?: any } = {}) {
                   expandIcon={<ExpandMore />}
                   sx={{ backgroundColor: '#fff', borderRadius: 2 }}
                 >
-                  <Typography variant="body1" fontWeight={600}>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
                     {faq.question}
                   </Typography>
                 </AccordionSummary>

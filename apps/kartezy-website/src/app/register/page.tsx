@@ -70,7 +70,7 @@ const RegisterPage = () => {
       <Card sx={{ width: '100%', maxWidth: 450, borderRadius: 8, boxShadow: '0 4px 20px rgba(0,0,0,0.08)', p: 6 }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Person fontSize={48} color="primary.main" sx={{ mb: 2 }} />
-          <Typography variant="h4" fontWeight={600} sx={{ mb: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
             Create Account
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

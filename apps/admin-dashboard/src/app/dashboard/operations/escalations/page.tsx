@@ -113,7 +113,7 @@ export default function EscalationManagement() {
                 onClick={() => setDetailDialog({ open: true, escalation: esc })}
               >
                 <TableCell><Chip label={`#${esc.id.slice(0, 8)}`} size="small" variant="outlined" /></TableCell>
-                <TableCell><Typography fontWeight={600} noWrap sx={{ maxWidth: 200 }}>{esc.reason}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }} noWrap sx={{ maxWidth: 200 }}>{esc.reason}</Typography></TableCell>
                 <TableCell>
                   <Chip
                     label={levelLabels[esc.level] ?? `L${esc.level}`}

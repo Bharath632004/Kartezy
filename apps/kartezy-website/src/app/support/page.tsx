@@ -46,7 +46,7 @@ const SupportPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
           Help & Support
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -57,7 +57,7 @@ const SupportPage = () => {
       <Card sx={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', p: 6, mb: 4 }}>
         <CardContent>
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
               Need Help?
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -102,7 +102,7 @@ const SupportPage = () => {
           {contactMethod === 'chat' && (
             <Box sx={{ mb: 4 }}>
               <Divider sx={{ my: 3 }} />
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Live Chat
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -153,7 +153,7 @@ const SupportPage = () => {
           {contactMethod === 'email' && (
             <Box sx={{ mb: 4 }}>
               <Divider sx={{ my: 3 }} />
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Email Support
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -174,7 +174,7 @@ const SupportPage = () => {
           {contactMethod === 'phone' && (
             <Box sx={{ mb: 4 }}>
               <Divider sx={{ my: 3 }} />
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Phone Support
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -182,7 +182,7 @@ const SupportPage = () => {
               </Typography>
               <Box sx={{ textAlign: 'center', mb: 4 }}>
                 <Phone sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-                <Typography variant="h4" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h4" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   1800-123-4567
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -197,14 +197,14 @@ const SupportPage = () => {
       <Divider sx={{ my: 4 }} />
 
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
           Frequently Asked Questions
         </Typography>
         <Box sx={{ borderRadius: 4, overflow: 'hidden' }}>
           {faqs.map((faq, index) => (
             <Accordion key={index} disableGutters square sx={{ '&:not(:last-child)': { borderBottom: '1px solid #e0e0e0' } }}>
               <AccordionSummary expandIcon={<ExpandMore />}>
-                <Typography fontWeight={500}>{faq.question}</Typography>
+                <Typography sx={{ fontWeight: 500 }}>{faq.question}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography color="text.secondary">{faq.answer}</Typography>
@@ -217,43 +217,43 @@ const SupportPage = () => {
       <Divider sx={{ my: 4 }} />
 
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
           Quick Links
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 3 }}>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <LinkIcon sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
               Track Order
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <Receipt sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
               Order History
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <AccountBalanceWallet sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
               Wallet
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <LocalMall sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
               Shop Now
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <Person sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
               My Account
             </Typography>
           </Card>
           <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <Help sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
               Help Center
             </Typography>
           </Card>

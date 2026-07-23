@@ -95,7 +95,7 @@ export default function BusinessRulesEngine() {
             {filtered.map((rule) => (
               <TableRow key={rule.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
                 <TableCell>
-                  <Typography fontWeight={600}>{rule.name}</Typography>
+                  <Typography sx={{ fontWeight: 600 }}>{rule.name}</Typography>
                   <Typography variant="caption" color="text.secondary">{rule.description}</Typography>
                 </TableCell>
                 <TableCell><Chip label={rule.domain} color={domainColors[rule.domain] ?? 'default'} size="small" /></TableCell>

@@ -49,8 +49,7 @@ export default function NewsletterSection({ data }: { data?: any } = {}) {
         <Stack spacing={4} alignItems="center" textAlign="center">
           <Typography
             variant="h2"
-            fontWeight={600}
-            sx={{ mb: 2 }}
+            sx={{ fontWeight: 600, mb: 2 }}
           >
             {dataToUse.title}
           </Typography>

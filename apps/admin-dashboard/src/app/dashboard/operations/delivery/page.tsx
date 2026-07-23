@@ -83,12 +83,12 @@ export default function DeliveryOperations() {
               <TableRow key={d.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
                 <TableCell>
                   <Link href={`/dashboard/orders/${d.orderId}`} underline="hover" color="inherit">
-                    <Typography variant="body2" fontWeight={600}>#{d.orderId.slice(0, 8)}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>#{d.orderId.slice(0, 8)}</Typography>
                   </Link>
                 </TableCell>
                 <TableCell>
                   <Box>
-                    <Typography variant="body2" fontWeight={600}>{d.driverName}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>{d.driverName}</Typography>
                     <Typography variant="caption" color="text.secondary">{d.vehicleType}</Typography>
                   </Box>
                 </TableCell>

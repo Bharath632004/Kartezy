@@ -12,7 +12,7 @@ import {
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Notifications as NotifIcon, Delete, CheckCircle, Refresh,
-  Send, Warning, Info, CheckCircleOutline, ErrorOutline,
+  Send, Warning, Info,  CheckCircleOutlined, ErrorOutlined,
   Schedule, FilterList,
 } from '@mui/icons-material';
 import { notificationService } from '@/lib/api';
@@ -26,9 +26,9 @@ const typeColors: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
 
 const typeIcons: Record<string, React.ReactNode> = {
   info: <Info />,
-  success: <CheckCircleOutline />,
+  success: <CheckCircleOutlined />,
   warning: <Warning />,
-  error: <ErrorOutline />,
+  error: <ErrorOutlined />,
 };
 
 export default function NotificationsPage() {

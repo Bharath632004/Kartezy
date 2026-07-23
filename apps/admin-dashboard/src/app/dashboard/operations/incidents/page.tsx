@@ -105,7 +105,7 @@ export default function IncidentTracking() {
           <TableBody>
             {filtered.map((inc) => (
               <TableRow key={inc.id} sx={{ '&:hover': { bgcolor: 'action.hover' }, cursor: 'pointer' }} onClick={() => { fetchIncidentById(inc.id); setDetailDialog({ open: true, incident: inc }); }}>
-                <TableCell><Typography fontWeight={600} noWrap sx={{ maxWidth: 250 }}>{inc.title}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }} noWrap sx={{ maxWidth: 250 }}>{inc.title}</Typography></TableCell>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                     {categoryIcons[inc.category] ?? <BugReport fontSize="small" />}

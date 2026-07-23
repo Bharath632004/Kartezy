@@ -2,14 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // TypeScript errors exist due to MUI v9 fontWeight prop changes
-  // TODO: Fix all fontWeight={...} direct props to use sx={{ fontWeight: ... }} instead
   // See: https://mui.com/material-ui/migration/upgrade-to-v9/
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // fontWeight fixes applied via scripts/fix-fontweight-precise.mjs
 };
 
 export default nextConfig;

@@ -99,7 +99,7 @@ export default function ZoneManagement() {
           <TableBody>
             {filteredZones.map((zone) => (
               <TableRow key={zone.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                <TableCell><Typography fontWeight={600}>{zone.name}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }}>{zone.name}</Typography></TableCell>
                 <TableCell>{zone.cityName}</TableCell>
                 <TableCell><Chip label={zone.type} color={zoneTypeColors[zone.type] ?? 'default'} size="small" /></TableCell>
                 <TableCell><Chip label={zone.status} color={zone.status === 'ACTIVE' ? 'success' : zone.status === 'SUSPENDED' ? 'error' : 'warning'} size="small" /></TableCell>

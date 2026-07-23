@@ -111,7 +111,7 @@ export default function SLAMonitoring() {
           <TableBody>
             {filtered.map((sla) => (
               <TableRow key={sla.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                <TableCell><Typography fontWeight={600}>{sla.name}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }}>{sla.name}</Typography></TableCell>
                 <TableCell><Chip label={sla.type} size="small" variant="outlined" /></TableCell>
                 <TableCell><Chip label={sla.priority} color={slaPriorityColors[sla.priority] ?? 'default'} size="small" /></TableCell>
                 <TableCell>{sla.scope}{sla.scopeValue ? `: ${sla.scopeValue}` : ''}</TableCell>

@@ -107,7 +107,7 @@ export default function SupportOperations() {
             {filtered.map((t) => (
               <TableRow key={t.id} sx={{ '&:hover': { bgcolor: 'action.hover' }, cursor: 'pointer' }} onClick={() => setDetailDialog({ open: true, ticket: t })}>
                 <TableCell><Chip label={t.ticketNumber} size="small" variant="outlined" /></TableCell>
-                <TableCell><Typography fontWeight={600} noWrap sx={{ maxWidth: 200 }}>{t.subject}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }} noWrap sx={{ maxWidth: 200 }}>{t.subject}</Typography></TableCell>
                 <TableCell>{t.customerName}</TableCell>
                 <TableCell><Chip label={t.type} size="small" variant="outlined" /></TableCell>
                 <TableCell><Chip label={t.priority} color={ticketPriorityColors[t.priority] ?? 'default'} size="small" /></TableCell>

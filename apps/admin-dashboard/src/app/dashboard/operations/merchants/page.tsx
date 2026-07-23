@@ -95,7 +95,7 @@ export default function MerchantOperations() {
           <TableBody>
             {filtered.map((m) => (
               <TableRow key={m.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                <TableCell><Typography fontWeight={600}>{m.storeName}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }}>{m.storeName}</Typography></TableCell>
                 <TableCell>{m.name}</TableCell>
                 <TableCell>{m.cityName}{m.zoneName ? ` / ${m.zoneName}` : ''}</TableCell>
                 <TableCell><Chip label={m.status} color={merchantStatusColors[m.status] ?? 'default'} size="small" /></TableCell>

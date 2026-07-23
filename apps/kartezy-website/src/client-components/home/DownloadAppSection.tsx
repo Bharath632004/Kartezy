@@ -52,7 +52,7 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
     <Box sx={{ padding: { xs: 4, md: 8 }, backgroundColor: 'background.default' }} id="download">
       <Container maxWidth="lg">
         <Stack spacing={4}>
-          <Typography variant="h2" fontWeight={600} textAlign="center" sx={{ mb: 4 }}>
+          <Typography variant="h2" sx={{ fontWeight: 600  textAlign="center" sx={{ mb: 4 }}>
             {dataToUse.title}
           </Typography>
           <Typography
@@ -118,11 +118,11 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
                           boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                         }}
                       >
-                        <Typography variant="h4" fontWeight={700} color="primary.main">
+                        <Typography variant="h4" sx={{ fontWeight: 700 }} color="primary.main">
                           KT
                         </Typography>
                       </Box>
-                      <Typography variant="h5" fontWeight={600} color="white">
+                      <Typography variant="h5" sx={{ fontWeight: 600 }} color="white">
                         Kartezy
                       </Typography>
                       <Typography variant="body2" color="rgba(255,255,255,0.8)">
@@ -131,7 +131,7 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
                     </Stack>
                   </Box>
 
-                  <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ mb: 3 }}>
+                  <Typography variant="h5" sx={{ fontWeight: 600  color="text.primary" sx={{ mb: 3 }}>
                     Available on all platforms
                   </Typography>
 
@@ -199,13 +199,13 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
                   >
                     <Stack alignItems="center" spacing={1}>
                       <QrCode fontSize="large" color="primary" />
-                      <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                         Scan QR Code
                       </Typography>
                     </Stack>
                     <Stack alignItems="center" spacing={1}>
                       <Download fontSize="large" color="success" />
-                      <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                         Direct Download
                       </Typography>
                     </Stack>
@@ -217,7 +217,7 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
             {/* Features */}
             <Grid item size={{ xs: 12, md: 6 }}>
               <Stack spacing={4}>
-                <Typography variant="h3" fontWeight={600} color="text.primary">
+                <Typography variant="h3" sx={{ fontWeight: 600 }} color="text.primary">
                   Why Download the Kartezy App?
                 </Typography>
 
@@ -230,7 +230,7 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
                         </Box>
                       )}
                       <Box>
-                        <Typography variant="h6" fontWeight={600} color="text.primary" sx={{ mb: 1 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 600  color="text.primary" sx={{ mb: 1 }}>
                           {feature.title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" lineHeight={1.6}>
@@ -252,7 +252,7 @@ export default function DownloadAppSection({ data }: { data?: any } = {}) {
                       textAlign: 'center',
                     }}
                   >
-                    <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                       {dataToUse.alreadyDownloaded.text}
                     </Typography>
                     <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">

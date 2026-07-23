@@ -45,7 +45,7 @@ export default function RevenuePage() {
           { label: 'Platform Fees', value: `₹${platformFeeTotal.toLocaleString()}`, trend: 12.8, color: '#f57c00' },
           { label: 'Delivery Fees', value: `₹${deliveryFeeTotal.toLocaleString()}`, trend: 15.2, color: '#7b1fa2' },
         ].map((stat) => (
-          <Grid item xs={3} key={stat.label}>
+          <Grid size={{ xs: 3 }} key={stat.label}>
             <Card>
               <CardContent>
                 <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
@@ -66,7 +66,7 @@ export default function RevenuePage() {
         <Typography sx={{ textAlign: 'center', py: 4 }} color="text.secondary">Loading revenue data...</Typography>
       ) : (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Paper sx={{ p: 2 }}>
               <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Revenue Trends</Typography>
               <ResponsiveContainer width="100%" height={350}>
@@ -74,7 +74,7 @@ export default function RevenuePage() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis tickFormatter={(v) => `₹${(v/1000).toFixed(0)}K`} />
-                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
+                  <Tooltip formatter={(v: any) => v ? `₹${Number(v).toLocaleString()}` : ''} />
                   <Bar dataKey="commission" fill="#1976d2" name="Commission" stackId="a" />
                   <Bar dataKey="platformFee" fill="#388e3c" name="Platform Fees" stackId="a" />
                   <Bar dataKey="deliveryFee" fill="#f57c00" name="Delivery Fees" stackId="a" />
@@ -82,7 +82,7 @@ export default function RevenuePage() {
               </ResponsiveContainer>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Paper sx={{ p: 2, height: '100%' }}>
               <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Revenue Breakdown</Typography>
               <ResponsiveContainer width="100%" height={280}>
@@ -90,7 +90,7 @@ export default function RevenuePage() {
                   <Pie data={revenueBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }: any) => `${name} ${(percent * 100).toFixed(0)}%`}>
                     {revenueBreakdown.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
                   </Pie>
-                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString()}`} />
+                  <Tooltip formatter={(v: any) => v ? `₹${Number(v).toLocaleString()}` : ''} />
                 </PieChart>
               </ResponsiveContainer>
             </Paper>

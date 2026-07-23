@@ -102,7 +102,7 @@ const ProfilePage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
           My Profile
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -118,7 +118,7 @@ const ProfilePage = () => {
                 {(user.firstName?.[0] || 'U') + (user.lastName?.[0] || '')}
               </Avatar>
               <Box sx={{ ml: 4, flexGrow: 1 }}>
-                <Typography variant="h4" fontWeight={600}>
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {user.firstName} {user.lastName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -136,10 +136,10 @@ const ProfilePage = () => {
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 4 }}>
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <Wallet fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Wallet Balance
                 </Typography>
-                <Typography variant="h3" fontWeight={600} color="primary.main">
+                <Typography variant="h3" sx={{ fontWeight: 600 }} color="primary.main">
                   ₹{user.walletBalance || 0}
                 </Typography>
                 <Button
@@ -153,10 +153,10 @@ const ProfilePage = () => {
 
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <History fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Total Orders
                 </Typography>
-                <Typography variant="h3" fontWeight={600} color="primary.main">
+                <Typography variant="h3" sx={{ fontWeight: 600 }} color="primary.main">
                   {user.totalOrders || 0}
                 </Typography>
                 <Button
@@ -170,10 +170,10 @@ const ProfilePage = () => {
 
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <LocalOffer fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Loyalty Points
                 </Typography>
-                <Typography variant="h3" fontWeight={600} color="primary.main">
+                <Typography variant="h3" sx={{ fontWeight: 600 }} color="primary.main">
                   {user.loyaltyPoints || 0}
                 </Typography>
                 <Button
@@ -187,7 +187,7 @@ const ProfilePage = () => {
 
               <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                 <Shield fontSize={32} color="primary.main" sx={{ mb: 2 }} />
-                <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 1 }}>
                   Referral Code
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -220,7 +220,7 @@ const ProfilePage = () => {
         ) : (
           <>
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h4" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h4" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Edit Profile
               </Typography>
               <Typography variant="body2" color="text.secondary">

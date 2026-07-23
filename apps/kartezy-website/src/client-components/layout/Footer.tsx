@@ -17,7 +17,7 @@ export default function Footer() {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center' }}>
           {/* About */}
           <Box sx={{ textAlign: 'center', minWidth: 200 }}>
-            <Typography variant="h6" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  color="text.primary" sx={{ mb: 2 }}>
               About Kartezy
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <Box sx={{ textAlign: 'center', minWidth: 200 }}>
-            <Typography variant="h6" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  color="text.primary" sx={{ mb: 2 }}>
               Quick Links
             </Typography>
             <Stack spacing={2} sx={{ alignItems: 'center' }}>
@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* Download App */}
           <Box sx={{ textAlign: 'center', minWidth: 200 }}>
-            <Typography variant="h6" fontWeight={600} color="text.primary" sx={{ mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600  color="text.primary" sx={{ mb: 2 }}>
               Download Our App
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

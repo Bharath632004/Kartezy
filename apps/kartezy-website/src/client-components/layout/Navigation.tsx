@@ -13,7 +13,7 @@ export default function Navigation() {
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
           {/* Logo */}
           <Link href="/" passHref>
-            <Typography variant="h6" fontWeight={700} color="text.primary" sx={{ mr: 2, flexShrink: 0, cursor: 'pointer' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700  color="text.primary" sx={{ mr: 2, flexShrink: 0, cursor: 'pointer' }}>
               Kartezy
             </Typography>
           </Link>

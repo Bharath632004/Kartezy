@@ -68,7 +68,7 @@ const ProductsPage = () => {
           <Stack spacing={4}>
             {/* Search */}
             <Box>
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Search Products
               </Typography>
               <TextField
@@ -89,7 +89,7 @@ const ProductsPage = () => {
 
             {/* Sort Options */}
             <Box>
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Sort By
               </Typography>
               <Stack spacing={1}>
@@ -116,7 +116,7 @@ const ProductsPage = () => {
 
             {/* Price Range */}
             <Box>
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Price Range
               </Typography>
               <Stack spacing={1}>
@@ -137,7 +137,7 @@ const ProductsPage = () => {
             {/* Category Filter */}
             {!categoriesLoading && (
               <Box>
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                   Category
                 </Typography>
                 <Stack spacing={1}>
@@ -158,7 +158,7 @@ const ProductsPage = () => {
 
             {/* Store Filters */}
             <Box>
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                 Store Filters
               </Typography>
               <Stack spacing={1}>
@@ -201,7 +201,7 @@ const ProductsPage = () => {
         <Grid size={{ xs: 12, md: 9 }}>
           {/* Results Count */}
           <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h5" fontWeight={600}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
               All Products ({products.length})
             </Typography>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -345,22 +345,19 @@ const ProductsPage = () => {
                       {/* Product name */}
                       <Typography
                         variant="subtitle1"
-                        fontWeight={600}
-                        sx={{
-                          display: '-webkit-box',
+                        sx={{ fontWeight: 600, display: '-webkit-box',
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
                           minHeight: '2.4rem',
-                          fontSize: '1rem',
-                        }}
+                          fontSize: '1rem', }}
                       >
                         {product.name}
                       </Typography>
 
                       {/* Rating */}
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="body2" fontWeight={600} color="text.primary">
+                        <Typography variant="body2" sx={{ fontWeight: 600 }} color="text.primary">
                           {product.rating}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" fontSize='0.75rem'>
@@ -370,7 +367,7 @@ const ProductsPage = () => {
 
                       {/* Price */}
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="h6" fontWeight={700} color="primary.main" fontSize='1.1rem'>
+                        <Typography variant="h6" sx={{ fontWeight: 700 }} color="primary.main" fontSize='1.1rem'>
                           ₹{product.price}
                         </Typography>
                         {product.originalPrice && (

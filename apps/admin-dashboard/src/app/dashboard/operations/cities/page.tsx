@@ -110,7 +110,7 @@ export default function CityOperations() {
           <TableBody>
             {filteredCities.map((city) => (
               <TableRow key={city.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                <TableCell><Typography fontWeight={600}>{city.name}</Typography></TableCell>
+                <TableCell><Typography sx={{ fontWeight: 600 }}>{city.name}</Typography></TableCell>
                 <TableCell>{city.state}</TableCell>
                 <TableCell>{city.zone}</TableCell>
                 <TableCell><Chip label={city.status} color={cityStatusColors[city.status] ?? 'default'} size="small" /></TableCell>

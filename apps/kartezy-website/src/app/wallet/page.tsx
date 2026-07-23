@@ -99,7 +99,7 @@ const WalletPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" fontWeight={600} sx={{ mb: 2 }}>Kartezy Wallet</Typography>
+        <Typography variant="h2" sx={{ fontWeight: 600  sx={{ mb: 2 }}>Kartezy Wallet</Typography>
         <Typography variant="body1" color="text.secondary">Your secure digital wallet for faster transactions</Typography>
       </Box>
 
@@ -107,8 +107,8 @@ const WalletPage = () => {
         <CardContent>
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <WalletIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h3" fontWeight={600} sx={{ mb: 1 }}>Wallet Balance</Typography>
-            <Typography variant="h4" fontWeight={600} color="primary.main">₹{balance.toLocaleString('en-IN')}</Typography>
+            <Typography variant="h3" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Wallet Balance</Typography>
+            <Typography variant="h4" sx={{ fontWeight: 600 }} color="primary.main">₹{balance.toLocaleString('en-IN')}</Typography>
           </Box>
 
           <Divider sx={{ my: 4 }} />
@@ -116,7 +116,7 @@ const WalletPage = () => {
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 3, mb: 4 }}>
             <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
               <Bank sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>Add Money</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Add Money</Typography>
               <TextField label="Amount (₹)" value={addMoneyAmount} onChange={(e) => setAddMoneyAmount(e.target.value)}
                 sx={{ mb: 2, width: '100%' }} type="number" inputProps={{ min: 1 }} />
               <Button variant="contained" color="primary" size="medium" sx={{ width: '100%' }}
@@ -127,7 +127,7 @@ const WalletPage = () => {
 
             <Card sx={{ p: 4, textAlign: 'center', borderRadius: 4, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
               <CreditCard sx={{ fontSize: 32, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>Withdraw to Bank</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 600  sx={{ mb: 1 }}>Withdraw to Bank</Typography>
               <TextField label="Amount (₹)" value={withdrawAmount} onChange={(e) => setWithdrawAmount(e.target.value)}
                 sx={{ mb: 2, width: '100%' }} type="number" inputProps={{ min: 1, max: balance }} />
               <Button variant="contained" color="secondary" size="medium" sx={{ width: '100%' }}
@@ -140,7 +140,7 @@ const WalletPage = () => {
           <Divider sx={{ my: 4 }} />
 
           <Box>
-            <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>Transaction History</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600  sx={{ mb: 2 }}>Transaction History</Typography>
             {transactions.length === 0 ? (
               <Typography color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>No transactions yet</Typography>
             ) : (
@@ -158,14 +158,14 @@ const WalletPage = () => {
                           : <Box sx={{ color: 'error.main', fontSize: 20 }}>-</Box>}
                       </Box>
                       <Box>
-                        <Typography variant="body2" fontWeight={600}>{txn.description || txn.type}</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{txn.description || txn.type}</Typography>
                         <Typography variant="caption" color="text.secondary">
                           {txn.date ? new Date(txn.date).toLocaleDateString('en-IN') : ''}
                         </Typography>
                       </Box>
                     </Box>
                     <Box sx={{ textAlign: 'right' }}>
-                      <Typography variant="body2" fontWeight={600}
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}
                         color={(txn.type === 'credit' || txn.amount > 0) ? 'success.main' : 'error.main'}>
                         {(txn.type === 'credit' || txn.amount > 0) ? '+' : ''}₹{Math.abs(txn.amount).toLocaleString('en-IN')}
                       </Typography>

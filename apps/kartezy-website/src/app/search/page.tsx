@@ -90,14 +90,14 @@ const SearchPage = () => {
         <Grid item xs={12} md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
           <Paper elevation={2} sx={{ p: 3, borderRadius: 3 }}>
             <Stack spacing={3}>
-              <Typography variant="h6" fontWeight={600}>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Filters
               </Typography>
 
               {/* Categories */}
               {!categoriesLoading && (
                 <Box>
-                  <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                     Category
                   </Typography>
                   <Stack spacing={1}>
@@ -118,7 +118,7 @@ const SearchPage = () => {
 
               {/* Price Range */}
               <Box>
-                <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                   Price Range
                 </Typography>
                 <Stack spacing={1}>
@@ -138,7 +138,7 @@ const SearchPage = () => {
 
               {/* Store Filters */}
               <Box>
-                <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                   Store
                 </Typography>
                 <Stack spacing={1}>
@@ -158,7 +158,7 @@ const SearchPage = () => {
 
               {/* Sort Options */}
               <Box>
-                <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600  sx={{ mb: 2 }}>
                   Sort By
                 </Typography>
                 <Stack spacing={1}>
@@ -208,7 +208,7 @@ const SearchPage = () => {
         <Grid item xs={12} md={9}>
           {/* Results Count */}
           <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h5" fontWeight={600}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
               Search Results ({products.length})
             </Typography>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -335,20 +335,17 @@ const SearchPage = () => {
                     <Stack spacing={2}>
                       <Typography
                         variant="subtitle1"
-                        fontWeight={600}
-                        sx={{
-                          display: '-webkit-box',
+                        sx={{ fontWeight: 600, display: '-webkit-box',
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
-                          minHeight: '2.4rem',
-                        }}
+                          minHeight: '2.4rem', }}
                       >
                         {product.name}
                       </Typography>
 
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="body2" fontWeight={600}>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {product.rating}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -357,7 +354,7 @@ const SearchPage = () => {
                       </Stack>
 
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="h6" fontWeight={700} color="primary.main">
+                        <Typography variant="h6" sx={{ fontWeight: 700 }} color="primary.main">
                           ₹{product.price}
                         </Typography>
                         {product.originalPrice && (

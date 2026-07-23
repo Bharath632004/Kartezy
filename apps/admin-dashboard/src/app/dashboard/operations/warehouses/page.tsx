@@ -97,7 +97,7 @@ export default function WarehouseOperations() {
               const capacityPercent = w.capacity > 0 ? Math.round((w.utilizedCapacity / w.capacity) * 100) : 0;
               return (
                 <TableRow key={w.id} sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
-                  <TableCell><Typography fontWeight={600}>{w.name}</Typography></TableCell>
+                  <TableCell><Typography sx={{ fontWeight: 600 }}>{w.name}</Typography></TableCell>
                   <TableCell><Chip label={w.code} size="small" variant="outlined" /></TableCell>
                   <TableCell>{w.cityName}{w.zoneName ? ` / ${w.zoneName}` : ''}</TableCell>
                   <TableCell><Chip label={w.type.replace('_', ' ')} color={warehouseTypeColors[w.type] ?? 'default'} size="small" /></TableCell>
