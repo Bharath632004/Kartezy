@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:customer_mobile/features/splash/pages/splash_screen.dart';
 import 'package:customer_mobile/features/authentication/presentation/login_page.dart';
+import 'package:customer_mobile/features/mfa/presentation/mfa_verification_page.dart';
+import 'package:customer_mobile/features/mfa/presentation/mfa_enrollment_page.dart';
 import 'package:customer_mobile/features/home/home_page.dart';
 import 'package:customer_mobile/features/onboarding/onboarding_page.dart';
 import 'package:customer_mobile/features/authentication/presentation/phone_login_page.dart';
@@ -34,6 +36,8 @@ const Set<String> _publicRoutePrefixes = {
   '/login',
   '/phone-login',
   '/otp-verification',
+  '/mfa-verify',
+  '/mfa-enroll',
 };
 
 /// A ChangeNotifier that the GoRouter can listen to for refreshing redirects
@@ -104,6 +108,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+      GoRoute(
+        path: '/mfa-verify',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return MfaVerificationPage(
+            email: extra?['email'] as String? ?? '',
+            mfaSessionToken: extra?['mfaSessionToken'] as String? ?? '',
+          );
+        },
+      ),
+      GoRoute(
+        path: '/mfa-enroll',
+        builder: (context, state) => const MfaEnrollmentPage(),
+      ),
       GoRoute(
         path: '/phone-login',
         builder: (context, state) => const PhoneLoginPage(),

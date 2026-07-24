@@ -1,7 +1,10 @@
 server:
+  shutdown: graceful
   port: 8091
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   application:
     name: delivery-service
   datasource:
@@ -50,6 +53,12 @@ management:
   endpoint:
     health:
       show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}"
 
 springdoc:
   api-docs:

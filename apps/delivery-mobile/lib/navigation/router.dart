@@ -11,6 +11,8 @@ import 'package:delivery_mobile/features/order_management/presentation/available
 import 'package:delivery_mobile/features/order_management/presentation/active_order_detail_page.dart';
 import 'package:delivery_mobile/features/order_management/presentation/order_history_page.dart';
 import 'package:kartezy_core/services/auth_service.dart';
+import 'package:kartezy_core/ui/mfa/mfa_verification_page.dart';
+import 'package:kartezy_core/ui/mfa/mfa_enrollment_page.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
@@ -28,12 +30,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final loggingIn = matchedLocation == '/login';
       final signingUp = matchedLocation == '/sign-up';
       final verifyingOtp = matchedLocation == '/otp-verification';
+      final mfaVerify = matchedLocation == '/mfa-verify';
+      final mfaEnroll = matchedLocation == '/mfa-enroll';
       final phoneLogin = matchedLocation == '/phone-login';
 
       if (!loggedIn &&
           !loggingIn &&
           !signingUp &&
           !verifyingOtp &&
+          !mfaVerify &&
+          !mfaEnroll &&
           !phoneLogin &&
           !matchedLocation.startsWith('/splash')) {
         return '/login';
@@ -53,6 +59,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+      GoRoute(
+        path: '/mfa-verify',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return MfaVerificationPage(
+            email: extra?['email'] as String? ?? '',
+            mfaSessionToken: extra?['mfaSessionToken'] as String? ?? '',
+          );
+        },
+      ),
+      GoRoute(
+        path: '/mfa-enroll',
+        builder: (context, state) => const MfaEnrollmentPage(),
+      ),
       GoRoute(
         path: '/phone-login',
         builder: (context, state) => const PhoneLoginPage(),

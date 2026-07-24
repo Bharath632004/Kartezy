@@ -1,6 +1,9 @@
 package com.kartezy.authservice.dto;
+
 import lombok.*;
+import java.util.Set;
 import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,4 +20,10 @@ public class LoginResponse {
     private String email;
     private String firstName;
     private String lastName;
+    // MFA fields
+    private boolean mfaRequired;
+    private String mfaSessionToken;
+    // Roles
+    @Builder.Default
+    private Set<String> roles = new java.util.HashSet<>();
 }

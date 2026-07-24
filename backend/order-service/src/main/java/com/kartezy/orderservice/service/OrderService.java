@@ -4,8 +4,12 @@ import com.kartezy.orderservice.dto.*;
 import com.kartezy.orderservice.entity.*;
 import com.kartezy.orderservice.repository.*;
 import com.kartezy.orderservice.websocket.OrderStatusWebSocketHandler;
+import com.kartezy.shared.events.KafkaEventPublisher;
 import com.kartezy.shared.exception.BadRequestException;
 import com.kartezy.shared.exception.ResourceNotFoundException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,8 +31,11 @@ public class OrderService {
     private final OrderDeliveryInfoRepository deliveryInfoRepository;
     private final OrderTimelineRepository timelineRepository;
     private final OrderStatusWebSocketHandler statusWebSocketHandler;
+    private final KafkaEventPublisher eventPublisher;
 
     @Transactional
+    @CircuitBreaker(name = "orderService", fallbackMethod = "createOrderFallback")
+    @Retry(name = "orderService")
     public OrderEnhancedDto createOrder(CreateOrderRequestDto request) {
         log.info("Creating order for user: {}", request.getUserId());
 
@@ -122,7 +130,13 @@ public class OrderService {
         return getOrderDetail(order.getId());
     }
 
+    public OrderEnhancedDto createOrderFallback(CreateOrderRequestDto request, Throwable t) {
+        log.error("Order creation failed for user {}: {}", request.getUserId(), t.getMessage());
+        throw new BadRequestException("Order service is temporarily unavailable. Please try again.");
+    }
+
     @Transactional
+    @CircuitBreaker(name = "orderService")
     public OrderEnhancedDto updateOrderStatus(UUID orderId, OrderStatusUpdateDto update) {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
@@ -150,7 +164,6 @@ public class OrderService {
 
         log.info("Order {} status updated to: {}", orderId, update.getStatus());
 
-        // Broadcast status change in real-time
         statusWebSocketHandler.broadcastStatusUpdate(
             orderId.toString(), update.getStatus(), update.getDescription());
 
@@ -200,6 +213,7 @@ public class OrderService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "paymentService")
     public OrderEnhancedDto refundOrder(UUID orderId) {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -213,6 +227,7 @@ public class OrderService {
         return getOrderDetail(orderId);
     }
 
+    @CircuitBreaker(name = "orderService")
     public OrderEnhancedDto getOrderDetail(UUID id) {
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + id));

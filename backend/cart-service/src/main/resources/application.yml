@@ -1,7 +1,10 @@
 server:
+  shutdown: graceful
   port: ${PORT:8087}
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   application:
     name: cart-service
   datasource:
@@ -24,3 +27,7 @@ eureka:
       defaultZone: http://discovery-server:8761/eureka/
     instance:
       prefer-ip-address: true
+management:
+  tracing:
+    sampling:
+      probability: 1.0

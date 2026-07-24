@@ -29,7 +29,16 @@ public class SecurityConfig {
                         "/auth/logout",
                         "/auth/logout-all-devices",
                         "/auth",  // home endpoint
-                        "/auth/health"
+                        "/auth/health",
+                        // Social login
+                        "/auth/social/login",
+                        "/auth/social/id-token",
+                        "/auth/social/providers",
+                        // MFA (validate and backup-code are used before full auth)
+                        "/auth/mfa/validate",
+                        "/auth/mfa/backup-code",
+                        // Public account operations
+                        "/auth/login-status"
                 ).permitAll()
                 // Actuator endpoints - require authentication
                 .requestMatchers("/actuator/**", "/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").authenticated()

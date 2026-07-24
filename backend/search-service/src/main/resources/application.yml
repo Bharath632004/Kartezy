@@ -1,6 +1,9 @@
 server:
+  shutdown: graceful
   port: 8102
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   application:
     name: search-service
   elasticsearch:
@@ -39,3 +42,4 @@ springdoc:
 logging:
   level:
     com.kartezy.searchservice: INFO
+

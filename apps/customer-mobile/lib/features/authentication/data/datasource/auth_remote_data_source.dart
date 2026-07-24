@@ -1,10 +1,11 @@
 // lib/features/authentication/data/datasource/auth_remote_data_source.dart
 import 'package:customer_mobile/shared/models/user.dart';
+import 'package:customer_mobile/features/authentication/domain/models/login_response.dart';
 import 'package:customer_mobile/core/providers/network_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<User> login(String email, String password);
+  Future<LoginResponse> login(String email, String password);
   Future<void> logout();
   Future<User> refreshToken(String refreshToken);
   Future<User> sendOtp(String phoneNumber);
@@ -17,13 +18,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this._ref);
 
   @override
-  Future<User> login(String email, String password) async {
+  Future<LoginResponse> login(String email, String password) async {
     final dio = _ref.read(dioProvider);
     final response = await dio.post(
       '/auth/login',
       data: {'email': email, 'password': password},
     );
-    return User.fromJson(response.data);
+    return LoginResponse.fromJson(response.data);
   }
 
   @override

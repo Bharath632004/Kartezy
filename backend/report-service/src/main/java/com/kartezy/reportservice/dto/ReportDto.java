@@ -1,5 +1,6 @@
 package com.kartezy.reportservice.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +14,19 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ReportDto {
     private UUID id;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotBlank(message = "Description is required")
     private String description;
+
+    @NotBlank(message = "Report type is required")
     private String reportType;
+
+    @NotBlank(message = "Format is required")
     private String format;
+
     private String queryConfig;
     private String parameters;
     private String filePath;

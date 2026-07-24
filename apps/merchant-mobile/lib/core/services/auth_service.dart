@@ -17,13 +17,36 @@ class AuthService {
 
   Dio get _dio => _dioClient.instance;
 
+  /// Login and return raw response data (used for MFA detection).
+  Future<Map<String, dynamic>?> loginWithEmailRaw(
+      String email, String password) async {
+    try {
+      final response = await _dio.post(
+        ApiConstants.login,
+        data: {'email': email, 'password': password},
+      );
+      return response.data as Map<String, dynamic>?;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Save tokens directly (used after MFA verification).
+  Future<void> saveTokens({String? accessToken, String? refreshToken}) async {
+    if (accessToken != null && accessToken.isNotEmpty) {
+      await _secureStorage.write(key: 'access_token', value: accessToken);
+    }
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await _secureStorage.write(key: 'refresh_token', value: refreshToken);
+    }
+  }
+
   Future<void> loginWithEmail(String email, String password) async {
     try {
       final response = await _dio.post(
         ApiConstants.login,
         data: {'email': email, 'password': password},
       );
-      // Save tokens
       await _saveTokens(
         response.data['access_token'],
         response.data['refresh_token'],
@@ -57,7 +80,6 @@ class AuthService {
   }
 
   Future<void> loginWithPhone(String phone, String otp) async {
-    // For backward compatibility, we can call verifyOtp
     await verifyOtp(phone, otp);
   }
 
@@ -140,14 +162,14 @@ class AuthService {
 }
 
 // Provider for authentication state
-final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((
-  ref,
-) {
+final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
   return AuthStateNotifier(ref.read(authServiceProvider));
 });
 
 class AuthStateNotifier extends StateNotifier<AuthState> {
   final AuthService _authService;
+  String? pendingMfaToken;
+  String? pendingEmail;
 
   AuthStateNotifier(this._authService) : super(AuthState.initial()) {
     _checkAuthStatus();
@@ -170,20 +192,53 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> loginWithEmail(String email, String password) async {
+  /// Login with email, returns true if MFA is required.
+  Future<bool> loginWithEmail(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      await _authService.loginWithEmail(email, password);
+      final data = await _authService.loginWithEmailRaw(email, password);
+      if (data == null) {
+        throw Exception('No response from server');
+      }
+
+      final bool mfaRequired = data['mfaRequired'] == true ||
+          data['mfa_required'] == true;
+
+      if (mfaRequired) {
+        // Store MFA session token for the login page to use
+        pendingMfaToken = data['mfaSessionToken'] as String? ??
+            data['mfa_session_token'] as String?;
+        pendingEmail = email;
+        state = state.copyWith(isLoading: false);
+        return true;
+      }
+
+      await _authService.saveTokens(
+        accessToken: data['accessToken'] as String? ??
+            data['access_token'] as String?,
+        refreshToken: data['refreshToken'] as String? ??
+            data['refresh_token'] as String?,
+      );
       final accessToken = await _authService.getAccessToken();
       state = state.copyWith(
         isLoggedIn: true,
         userToken: accessToken,
         isLoading: false,
       );
+      return false;
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
       rethrow;
     }
+  }
+
+  /// Called after MFA verification completes successfully.
+  void completeMfaLogin() {
+    state = state.copyWith(
+      isLoggedIn: true,
+      isLoading: false,
+      error: null,
+    );
   }
 
   Future<void> loginWithPhone(String phone, String otp) async {
@@ -243,6 +298,17 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
       rethrow;
+    }
+  }
+
+  /// Refresh user auth status from storage.
+  Future<void> refreshAuthStatus() async {
+    final isLoggedIn = await _authService.isLoggedIn();
+    if (isLoggedIn) {
+      final accessToken = await _authService.getAccessToken();
+      state = state.copyWith(isLoggedIn: true, userToken: accessToken);
+    } else {
+      state = state.copyWith(isLoggedIn: false, userToken: null);
     }
   }
 }

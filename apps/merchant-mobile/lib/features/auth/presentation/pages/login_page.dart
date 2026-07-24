@@ -27,27 +27,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
     final authStateNotifier = ref.read(authStateProvider.notifier);
     try {
-      await authStateNotifier.loginWithEmail(
+      final mfaRequired = await authStateNotifier.loginWithEmail(
         _emailController.text.trim(),
         _passwordController.text,
       );
-      // If successful, navigate to dashboard
       if (mounted) {
-        // Assuming the authStateNotifier will update the state and the router will redirect
-        // We can also navigate directly if needed
-        // But we'll rely on the redirect logic in the router
+        if (mfaRequired) {
+          // MFA required - navigate to MFA verification page
+          context.go('/mfa-verify', extra: {
+            'email': _emailController.text.trim(),
+            'mfaSessionToken': authStateNotifier.pendingMfaToken ?? '',
+          });
+        }
+        // Otherwise the auth state notifier will update state and the router will redirect
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Login failed: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: $e')),
+        );
       }
     }
   }
 
   void _loginWithPhone() {
-    // Navigate to phone login page
     if (mounted) {
       GoRouter.of(context).go('/phone-login');
     }
@@ -64,9 +67,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Google login failed: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Google login failed: $e')),
+        );
       }
     }
   }
@@ -203,7 +206,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       : () {
                           GoRouter.of(context).go('/register');
                         },
-                  child: const Text('Don\'t have an account? Register'),
+                  child: const Text("Don't have an account? Register"),
                 ),
               ],
             ),

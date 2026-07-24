@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:merchant_mobile/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:merchant_mobile/features/auth/presentation/pages/login_page.dart';
+import 'package:merchant_mobile/features/mfa/presentation/mfa_verification_page.dart';
+import 'package:merchant_mobile/features/mfa/presentation/mfa_enrollment_page.dart';
 import 'package:merchant_mobile/features/auth/presentation/pages/register_page.dart';
 import 'package:merchant_mobile/features/auth/presentation/pages/splash_screen.dart';
 import 'package:merchant_mobile/features/auth/presentation/pages/phone_login_page.dart';
@@ -55,6 +57,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final loggingIn = state.uri.path == '/login';
       final signingUp = state.uri.path == '/register';
       final verifyingOtp = state.uri.path == '/otp-verification';
+      final mfaVerify = state.uri.path == '/mfa-verify';
+      final mfaEnroll = state.uri.path == '/mfa-enroll';
       final phoneLogin = state.uri.path == '/phone-login';
       final onboarding = state.uri.path == '/onboarding';
       final splash = state.uri.path == '/splash';
@@ -62,6 +66,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           loggingIn ||
           signingUp ||
           verifyingOtp ||
+          mfaVerify ||
+          mfaEnroll ||
           phoneLogin ||
           onboarding ||
           splash;
@@ -103,6 +109,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+      GoRoute(
+        path: '/mfa-verify',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return MfaVerificationPage(
+            email: extra?['email'] as String? ?? '',
+            mfaSessionToken: extra?['mfaSessionToken'] as String? ?? '',
+          );
+        },
+      ),
+      GoRoute(
+        path: '/mfa-enroll',
+        builder: (context, state) => const MfaEnrollmentPage(),
+      ),
       GoRoute(
         path: '/register',
         builder: (context, state) => const RegisterPage(),

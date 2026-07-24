@@ -1,13 +1,10 @@
 package com.kartezy.authservice.service;
+
 import com.kartezy.authservice.dto.*;
 import com.kartezy.authservice.entity.*;
-import com.kartezy.authservice.repository.DeviceRepository;
-import com.kartezy.authservice.repository.OTPRepository;
-import com.kartezy.authservice.repository.RefreshTokenRepository;
-import com.kartezy.authservice.repository.RoleRepository;
-import com.kartezy.authservice.repository.SessionRepository;
-import com.kartezy.authservice.repository.UserRepository;
+import com.kartezy.authservice.repository.*;
 import com.kartezy.authservice.util.JwtUtil;
+import com.kartezy.shared.security.crypto.PasswordPolicyValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,15 +12,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -34,12 +35,25 @@ public class AuthServiceImpl implements AuthService {
     private final OTPRepository otpRepository;
     private final SessionRepository sessionRepository;
     private final DeviceRepository deviceRepository;
+    private final LoginAttemptRepository loginAttemptRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final BruteForceProtectionService bruteForceProtectionService;
+    private final MfaService mfaService;
     @Override
     public ResponseEntity<?> login(LoginRequest loginRequest, HttpServletRequest request) {
+        String identifier = loginRequest.getEmail();
+        String ipAddress = getClientIp(request);
+        String userAgent = request.getHeader("User-Agent");
+
+        // Brute force check before attempting authentication
+        if (bruteForceProtectionService.shouldBlock(identifier, ipAddress)) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body("Account temporarily locked due to too many failed attempts. Please try again later.");
+        }
+
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
@@ -47,12 +61,36 @@ public class AuthServiceImpl implements AuthService {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             Optional<User> optionalUser = userRepository.findByEmail(userDetails.getUsername());
             if (optionalUser.isEmpty()) {
-                return ResponseEntity.badRequest().body("User not found");
+                bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
+                        false, "User not found", null, null, null);
+                return ResponseEntity.badRequest().body("Invalid credentials");
             }
             User user = optionalUser.get();
+
+            // Check if account is locked
+            if (user.getStatus() == UserStatus.LOCKED) {
+                bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
+                        false, "Account locked", null, null, null);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("Account is locked. Please reset your password or contact support.");
+            }
+
+            // Record successful login
+            bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
+                    true, null, null, null, null);
+
+            // Check if MFA is required
+            boolean mfaRequired = mfaService.isMfaEnabled(user);
+
+            // Get user roles
+            Set<String> roles = user.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet());
+
             // Generate access token and refresh token
             String accessToken = jwtUtil.generateAccessToken(user.getEmail());
             String refreshToken = jwtUtil.generateRefreshToken();
+
             // Save refresh token to database
             RefreshToken refreshTokenEntity = RefreshToken.builder()
                     .user(user)
@@ -61,10 +99,9 @@ public class AuthServiceImpl implements AuthService {
                     .revoked(false)
                     .build();
             refreshTokenRepository.save(refreshTokenEntity);
-            // Create session and device records (optional)
+
+            // Create session record
             String sessionId = UUID.randomUUID().toString();
-            String ipAddress = getClientIp(request);
-            String userAgent = request.getHeader("User-Agent");
             Session session = Session.builder()
                     .user(user)
                     .sessionId(sessionId)
@@ -75,7 +112,8 @@ public class AuthServiceImpl implements AuthService {
                     .valid(true)
                     .build();
             sessionRepository.save(session);
-            // Device (optional)
+
+            // Device tracking
             String deviceId = request.getHeader("X-Device-ID");
             if (deviceId != null && !deviceId.isBlank()) {
                 Device device = Device.builder()
@@ -90,6 +128,14 @@ public class AuthServiceImpl implements AuthService {
                         .build();
                 deviceRepository.save(device);
             }
+
+            // If MFA required, generate a session token and require MFA validation
+            String mfaSessionToken = null;
+            if (mfaRequired) {
+                mfaSessionToken = UUID.randomUUID().toString();
+                // In production, store this in a cache with expiry
+            }
+
             LoginResponse response = LoginResponse.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
@@ -99,14 +145,31 @@ public class AuthServiceImpl implements AuthService {
                     .email(user.getEmail())
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
+                    .mfaRequired(mfaRequired)
+                    .mfaSessionToken(mfaSessionToken)
+                    .roles(roles)
                     .build();
             return ResponseEntity.ok(response);
+        } catch (LockedException e) {
+            bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
+                    false, "Account locked", null, null, null);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Account is locked");
         } catch (Exception e) {
+            bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
+                    false, "Invalid credentials", null, null, null);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
     @Override
     public ResponseEntity<?> register(RegisterRequest registerRequest) {
+        // Validate password against enterprise policy
+        PasswordPolicyValidator.ValidationResult passwordValidation =
+                PasswordPolicyValidator.validate(registerRequest.getPassword());
+        if (!passwordValidation.isValid()) {
+            return ResponseEntity.badRequest()
+                    .body(passwordValidation.getErrorMessage());
+        }
+
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
@@ -153,16 +216,22 @@ public class AuthServiceImpl implements AuthService {
                 .revoked(false)
                 .build();
         refreshTokenRepository.save(newRefreshTokenEntity);
-        return ResponseEntity.ok(new LoginResponse(
-                accessToken,
-                newRefreshToken,
-                "Bearer",
-                jwtUtil.getJwtExpiration() / 1000,
-                user.getId(),
-                user.getEmail(),
-                user.getFirstName(),
-                user.getLastName()
-        ));
+        Set<String> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        return ResponseEntity.ok(LoginResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(newRefreshToken)
+                .tokenType("Bearer")
+                .expiresIn(jwtUtil.getJwtExpiration() / 1000)
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .mfaRequired(user.isMfaEnabled())
+                .roles(roles)
+                .build());
     }
     @Override
     public ResponseEntity<?> forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
@@ -203,9 +272,29 @@ public class AuthServiceImpl implements AuthService {
         if (user == null) {
             return ResponseEntity.badRequest().body("User not found");
         }
+        // Validate new password against enterprise policy
+        PasswordPolicyValidator.ValidationResult passwordValidation =
+                PasswordPolicyValidator.validate(newPassword);
+        if (!passwordValidation.isValid()) {
+            return ResponseEntity.badRequest()
+                    .body(passwordValidation.getErrorMessage());
+        }
+
+        // Prevent password reuse (check against last 5 passwords)
+        // In production, implement password history table
+        if (passwordEncoder.matches(newPassword, user.getPasswordHash())) {
+            return ResponseEntity.badRequest().body("New password must be different from current password");
+        }
+
         // Update password
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+
+        // Unlock account if was locked due to failed attempts
+        if (user.getStatus() == UserStatus.LOCKED) {
+            bruteForceProtectionService.unlockAccount(user);
+        }
+
         return ResponseEntity.ok("Password has been reset successfully");
     }
     @Override

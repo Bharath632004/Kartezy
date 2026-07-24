@@ -53,21 +53,43 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  Future<void> loginWithEmail(String email, String password) async {
+  /// Returns a [LoginResult] indicating success and whether MFA is required.
+  Future<LoginResult> loginWithEmail(String email, String password) async {
     try {
       final dio = _ref.read(dioProvider);
       final response = await dio.post(
         ApiConstants.deliveryPartnerAuthLogin,
         data: {'email': email, 'password': password},
       );
+      final data = response.data as Map<String, dynamic>;
+      
+      // Check if MFA is required
+      final bool mfaRequired = data['mfaRequired'] == true ||
+          data['mfa_required'] == true;
+      
+      if (mfaRequired) {
+        // Don't save tokens yet - require MFA verification first
+        final mfaSessionToken = data['mfaSessionToken'] as String? ??
+            data['mfa_session_token'] as String?;
+        return LoginResult(
+          success: true,
+          mfaRequired: true,
+          email: email,
+          mfaSessionToken: mfaSessionToken ?? '',
+        );
+      }
+      
       final authService = _ref.read(authServiceProvider);
       await authService.saveTokens(
-        accessToken: response.data['access_token'] as String?,
-        refreshToken: response.data['refresh_token'] as String?,
+        accessToken: data['accessToken'] as String? ??
+            data['access_token'] as String?,
+        refreshToken: data['refreshToken'] as String? ??
+            data['refresh_token'] as String?,
       );
       await _refreshState();
+      return LoginResult(success: true);
     } catch (e) {
-      rethrow;
+      return LoginResult(success: false, error: e.toString());
     }
   }
 
@@ -83,21 +105,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> verifyOtp(String phoneNumber, String otp) async {
+  Future<bool> verifyOtp(String phoneNumber, String otp) async {
     try {
       final dio = _ref.read(dioProvider);
       final response = await dio.post(
         ApiConstants.deliveryPartnerAuthVerifyOtp,
         data: {'phone_number': phoneNumber, 'otp': otp},
       );
+      final data = response.data as Map<String, dynamic>;
       final authService = _ref.read(authServiceProvider);
       await authService.saveTokens(
-        accessToken: response.data['access_token'] as String?,
-        refreshToken: response.data['refresh_token'] as String?,
+        accessToken: data['accessToken'] as String? ??
+            data['access_token'] as String?,
+        refreshToken: data['refreshToken'] as String? ??
+            data['refresh_token'] as String?,
       );
       await _refreshState();
+      return true;
     } catch (e) {
-      rethrow;
+      return false;
     }
   }
 
@@ -105,6 +131,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final authService = _ref.read(authServiceProvider);
     await authService.logout();
     state = const AuthState(isAuthenticated: false);
+  }
+
+  Future<void> completeMfaLogin({required String email, required String token}) async {
+    final authService = _ref.read(authServiceProvider);
+    await authService.saveTokens(accessToken: token);
+    await _refreshState();
   }
 
   Future<void> _refreshState() async {
@@ -124,3 +156,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(ref);
 });
+
+/// Result of a login attempt indicating success and whether MFA is required.
+class LoginResult {
+  final bool success;
+  final bool mfaRequired;
+  final String? email;
+  final String? mfaSessionToken;
+  final String? error;
+
+  const LoginResult({
+    required this.success,
+    this.mfaRequired = false,
+    this.email,
+    this.mfaSessionToken,
+    this.error,
+  });
+}

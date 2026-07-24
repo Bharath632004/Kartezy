@@ -1,7 +1,10 @@
 server:
+  shutdown: graceful
   port: 8103
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   application:
     name: settlement-service
   datasource:
@@ -47,6 +50,12 @@ management:
   endpoint:
     health:
       show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}"
 
 jwt:
   secret: ${JWT_SECRET}
@@ -60,3 +69,4 @@ security:
       jwt:
         issuer-uri: ${JWT_ISSUER_URI:http://auth-service:8081}
         jwk-set-uri: ${JWK_SET_URI:http://auth-service:8081/oauth2/jwks}
+

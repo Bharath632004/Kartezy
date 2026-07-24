@@ -12,6 +12,14 @@ class ApiConstants {
   static const String sendOtp = 'auth/send-otp';
   static const String verifyOtp = 'auth/verify-otp';
 
+  // MFA endpoints
+  static const String mfaEnroll = 'auth/mfa/enroll';
+  static const String mfaVerify = 'auth/mfa/verify';
+  static const String mfaValidate = 'auth/mfa/validate';
+  static const String mfaBackupCode = 'auth/mfa/backup-code';
+  static const String mfaStatus = 'auth/mfa/status';
+  static const String mfaDisable = 'auth/mfa/disable';
+
   // Merchant endpoints
   static const String merchantRegister = 'merchant/register';
   static const String merchantProfile = 'merchant/profile';
