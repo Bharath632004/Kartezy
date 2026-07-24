@@ -114,8 +114,8 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
           child: _showBackupCodes
               ? _buildBackupCodesView(theme)
               : _enrollmentResult == null
-                  ? _buildEnrollmentForm(theme)
-                  : _buildVerifyStep(theme),
+              ? _buildEnrollmentForm(theme)
+              : _buildVerifyStep(theme),
         ),
       ),
     );
@@ -149,9 +149,7 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
         Text(
           'Set up two-factor authentication to add an extra layer of security.',
           textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey[600],
-          ),
+          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
         ),
         const SizedBox(height: 32),
         TextField(
@@ -160,9 +158,7 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
             labelText: 'Device Name',
             hintText: 'e.g., My Phone',
             prefixIcon: const Icon(Icons.phone_android),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
         ),
         const SizedBox(height: 24),
@@ -182,8 +178,10 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Generate Secret Key',
-                    style: TextStyle(fontSize: 16)),
+                : const Text(
+                    'Generate Secret Key',
+                    style: TextStyle(fontSize: 16),
+                  ),
           ),
         ),
         if (_errorMessage != null) ...[
@@ -219,9 +217,7 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
         Text(
           'Enter this key into Google Authenticator, Authy, or any TOTP app.',
           textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey[600],
-          ),
+          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
         ),
         const SizedBox(height: 24),
         Container(
@@ -286,9 +282,7 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
               color: Colors.grey[300],
               fontSize: 32,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
         ),
         const SizedBox(height: 24),
@@ -308,8 +302,7 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Verify & Enable',
-                    style: TextStyle(fontSize: 16)),
+                : const Text('Verify & Enable', style: TextStyle(fontSize: 16)),
           ),
         ),
         if (_errorMessage != null) ...[
@@ -321,7 +314,8 @@ class _MfaEnrollmentPageState extends ConsumerState<MfaEnrollmentPage> {
   }
 
   Widget _buildBackupCodesView(ThemeData theme) {
-    final backupCodes = _enrollmentResult!['backupCodes'] as List<dynamic>? ?? [];
+    final backupCodes =
+        _enrollmentResult!['backupCodes'] as List<dynamic>? ?? [];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

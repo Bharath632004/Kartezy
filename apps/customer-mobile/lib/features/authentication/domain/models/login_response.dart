@@ -20,13 +20,14 @@ class LoginResponse {
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    final mfaRequired = json['mfaRequired'] == true ||
-        json['mfa_required'] == true;
+    final mfaRequired =
+        json['mfaRequired'] == true || json['mfa_required'] == true;
 
     if (mfaRequired) {
       return LoginResponse(
         mfaRequired: true,
-        mfaSessionToken: json['mfaSessionToken'] as String? ??
+        mfaSessionToken:
+            json['mfaSessionToken'] as String? ??
             json['mfa_session_token'] as String?,
         email: json['email'] as String?,
       );
@@ -34,14 +35,12 @@ class LoginResponse {
 
     return LoginResponse(
       user: json.containsKey('id') || json.containsKey('user')
-          ? User.fromJson(
-              json['user'] as Map<String, dynamic>? ?? json,
-            )
+          ? User.fromJson(json['user'] as Map<String, dynamic>? ?? json)
           : null,
-      accessToken: json['accessToken'] as String? ??
-          json['access_token'] as String?,
-      refreshToken: json['refreshToken'] as String? ??
-          json['refresh_token'] as String?,
+      accessToken:
+          json['accessToken'] as String? ?? json['access_token'] as String?,
+      refreshToken:
+          json['refreshToken'] as String? ?? json['refresh_token'] as String?,
       email: json['email'] as String?,
     );
   }

@@ -37,29 +37,37 @@ class AppButton extends ConsumerWidget {
         this.textColor ??
         (disabled ? Colors.grey.shade400 : theme.colorScheme.onPrimary);
 
-    return SizedBox(
-      width: width,
-      height: height,
-      child: ElevatedButton(
-        onPressed: disabled || isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
-          foregroundColor: textColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+    return Semantics(
+      button: true,
+      label: text,
+      enabled: !disabled && !isLoading,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: ElevatedButton(
+          onPressed: disabled || isLoading ? null : onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttonColor,
+            foregroundColor: textColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            elevation: disabled ? 0 : 2,
           ),
-          elevation: disabled ? 0 : 2,
+          child: isLoading
+              ? Semantics(
+                  label: 'Loading',
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                )
+              : Text(text),
         ),
-        child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )
-            : Text(text),
       ),
     );
   }

@@ -58,9 +58,11 @@ class _MfaVerificationPageState extends ConsumerState<MfaVerificationPage> {
         // MFA validated - save tokens and navigate to home
         final authService = ref.read(authServiceProvider);
         await authService.saveTokens(
-          accessToken: result['accessToken'] as String? ??
+          accessToken:
+              result['accessToken'] as String? ??
               result['access_token'] as String?,
-          refreshToken: result['refreshToken'] as String? ??
+          refreshToken:
+              result['refreshToken'] as String? ??
               result['refresh_token'] as String?,
         );
         if (mounted) context.go('/home');
@@ -95,15 +97,16 @@ class _MfaVerificationPageState extends ConsumerState<MfaVerificationPage> {
       if (result != null && mounted) {
         final authService = ref.read(authServiceProvider);
         await authService.saveTokens(
-          accessToken: result['accessToken'] as String? ??
+          accessToken:
+              result['accessToken'] as String? ??
               result['access_token'] as String?,
-          refreshToken: result['refreshToken'] as String? ??
+          refreshToken:
+              result['refreshToken'] as String? ??
               result['refresh_token'] as String?,
         );
         if (mounted) context.go('/home');
       } else if (mounted) {
-        setState(() =>
-            _errorMessage = 'Invalid or already used backup code.');
+        setState(() => _errorMessage = 'Invalid or already used backup code.');
       }
     } catch (e) {
       if (mounted) {
@@ -270,8 +273,10 @@ class _MfaVerificationPageState extends ConsumerState<MfaVerificationPage> {
                             height: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Verify Backup Code',
-                            style: TextStyle(fontSize: 16, color: Colors.white)),
+                        : const Text(
+                            'Verify Backup Code',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 16),

@@ -47,12 +47,16 @@ class _CartPageState extends ConsumerState<CartPage> {
       body: _buildBody(context, theme, cartState),
       bottomNavigationBar:
           cartState.cart != null && cartState.cart!.items.isNotEmpty
-              ? _buildBottomBar(context, theme, cartState)
-              : null,
+          ? _buildBottomBar(context, theme, cartState)
+          : null,
     );
   }
 
-  Widget _buildBody(BuildContext context, ThemeData theme, CartState cartState) {
+  Widget _buildBody(
+    BuildContext context,
+    ThemeData theme,
+    CartState cartState,
+  ) {
     // Loading state
     if (cartState.isLoading && cartState.cart == null) {
       return const Center(child: CircularProgressIndicator());
@@ -73,7 +77,11 @@ class _CartPageState extends ConsumerState<CartPage> {
                   color: Colors.red.shade50,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
+                child: Icon(
+                  Icons.error_outline,
+                  size: 48,
+                  color: Colors.red[300],
+                ),
               ),
               const SizedBox(height: 24),
               Text(
@@ -90,11 +98,15 @@ class _CartPageState extends ConsumerState<CartPage> {
               ),
               const SizedBox(height: 24),
               ElevatedButton.icon(
-                onPressed: () => ref.read(cartProvider.notifier).fetchCart(null),
+                onPressed: () =>
+                    ref.read(cartProvider.notifier).fetchCart(null),
                 icon: const Icon(Icons.refresh),
                 label: const Text('Retry'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 14,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -125,7 +137,13 @@ class _CartPageState extends ConsumerState<CartPage> {
 
           // Cart items
           ...cart.items.asMap().entries.map((entry) {
-            return _buildCartItemCard(context, theme, entry.value, entry.key, cartState);
+            return _buildCartItemCard(
+              context,
+              theme,
+              entry.value,
+              entry.key,
+              cartState,
+            );
           }),
 
           const SizedBox(height: 20),
@@ -203,7 +221,11 @@ class _CartPageState extends ConsumerState<CartPage> {
             Text(
               'Add products from nearby stores\nto get started',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[600], fontSize: 14, height: 1.5),
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 32),
             ElevatedButton.icon(
@@ -211,7 +233,10 @@ class _CartPageState extends ConsumerState<CartPage> {
               icon: const Icon(Icons.explore_outlined),
               label: const Text('Explore Stores'),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -220,10 +245,7 @@ class _CartPageState extends ConsumerState<CartPage> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () => ref.read(cartProvider.notifier).fetchCart(null),
-              child: Text(
-                'Refresh',
-                style: TextStyle(color: Colors.grey[500]),
-              ),
+              child: Text('Refresh', style: TextStyle(color: Colors.grey[500])),
             ),
           ],
         ),
@@ -247,7 +269,11 @@ class _CartPageState extends ConsumerState<CartPage> {
               color: theme.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(Icons.store_outlined, color: theme.primaryColor, size: 20),
+            child: Icon(
+              Icons.store_outlined,
+              color: theme.primaryColor,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -329,7 +355,11 @@ class _CartPageState extends ConsumerState<CartPage> {
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: Colors.grey[100],
-                    child: Icon(Icons.image_outlined, color: Colors.grey[400], size: 32),
+                    child: Icon(
+                      Icons.image_outlined,
+                      color: Colors.grey[400],
+                      size: 32,
+                    ),
                   ),
                 ),
               ),
@@ -392,14 +422,19 @@ class _CartPageState extends ConsumerState<CartPage> {
                                 } else {
                                   ref
                                       .read(cartProvider.notifier)
-                                      .updateCartItemQuantity(item.id, item.quantity - 1);
+                                      .updateCartItemQuantity(
+                                        item.id,
+                                        item.quantity - 1,
+                                      );
                                 }
                               },
                               borderRadius: BorderRadius.circular(8),
                               child: Container(
                                 padding: const EdgeInsets.all(6),
                                 child: Icon(
-                                  item.quantity <= 1 ? Icons.delete_outline : Icons.remove,
+                                  item.quantity <= 1
+                                      ? Icons.delete_outline
+                                      : Icons.remove,
                                   size: 18,
                                   color: item.quantity <= 1
                                       ? Colors.red[400]
@@ -410,7 +445,9 @@ class _CartPageState extends ConsumerState<CartPage> {
 
                             // Quantity
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
                               child: cartState.isLoading
                                   ? SizedBox(
                                       width: 16,
@@ -434,7 +471,10 @@ class _CartPageState extends ConsumerState<CartPage> {
                               onTap: () {
                                 ref
                                     .read(cartProvider.notifier)
-                                    .updateCartItemQuantity(item.id, item.quantity + 1);
+                                    .updateCartItemQuantity(
+                                      item.id,
+                                      item.quantity + 1,
+                                    );
                               },
                               borderRadius: BorderRadius.circular(8),
                               child: Container(
@@ -485,7 +525,11 @@ class _CartPageState extends ConsumerState<CartPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.local_offer_outlined, color: theme.primaryColor, size: 20),
+                Icon(
+                  Icons.local_offer_outlined,
+                  color: theme.primaryColor,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Coupon',
@@ -498,7 +542,10 @@ class _CartPageState extends ConsumerState<CartPage> {
             const SizedBox(height: 12),
             if (hasCoupon)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.green.shade50,
                   borderRadius: BorderRadius.circular(8),
@@ -506,7 +553,11 @@ class _CartPageState extends ConsumerState<CartPage> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.check_circle, color: Colors.green[600], size: 18),
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green[600],
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -527,8 +578,13 @@ class _CartPageState extends ConsumerState<CartPage> {
                     ),
                     const SizedBox(width: 8),
                     GestureDetector(
-                      onTap: () => ref.read(cartProvider.notifier).removeCoupon(),
-                      child: Icon(Icons.close, size: 18, color: Colors.green[700]),
+                      onTap: () =>
+                          ref.read(cartProvider.notifier).removeCoupon(),
+                      child: Icon(
+                        Icons.close,
+                        size: 18,
+                        color: Colors.green[700],
+                      ),
                     ),
                   ],
                 ),
@@ -546,7 +602,11 @@ class _CartPageState extends ConsumerState<CartPage> {
                         style: TextStyle(color: Colors.grey[500], fontSize: 14),
                       ),
                       const Spacer(),
-                      Icon(Icons.chevron_right, color: Colors.grey[400], size: 20),
+                      Icon(
+                        Icons.chevron_right,
+                        color: Colors.grey[400],
+                        size: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -571,7 +631,11 @@ class _CartPageState extends ConsumerState<CartPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.receipt_long_outlined, color: theme.primaryColor, size: 20),
+                Icon(
+                  Icons.receipt_long_outlined,
+                  color: theme.primaryColor,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Price Breakdown',
@@ -582,9 +646,15 @@ class _CartPageState extends ConsumerState<CartPage> {
               ],
             ),
             const SizedBox(height: 16),
-            _buildPriceRow('Subtotal (${cart.itemCount} items)', formatCurrency(cart.totalAmount)),
+            _buildPriceRow(
+              'Subtotal (${cart.itemCount} items)',
+              formatCurrency(cart.totalAmount),
+            ),
             const SizedBox(height: 8),
-            _buildPriceRow('Delivery Fee', formatCurrency(cart.deliveryCharges)),
+            _buildPriceRow(
+              'Delivery Fee',
+              formatCurrency(cart.deliveryCharges),
+            ),
             const SizedBox(height: 8),
             if (cart.discountAmount > 0) ...[
               _buildPriceRow(
@@ -599,7 +669,10 @@ class _CartPageState extends ConsumerState<CartPage> {
               const SizedBox(height: 8),
             ],
             if (cart.packagingFee > 0) ...[
-              _buildPriceRow('Packaging Fee', formatCurrency(cart.packagingFee)),
+              _buildPriceRow(
+                'Packaging Fee',
+                formatCurrency(cart.packagingFee),
+              ),
               const SizedBox(height: 8),
             ],
             _buildPriceRow('Tax (GST)', formatCurrency(cart.gstAmount)),
@@ -660,7 +733,11 @@ class _CartPageState extends ConsumerState<CartPage> {
     );
   }
 
-  Widget _buildBottomBar(BuildContext context, ThemeData theme, CartState cartState) {
+  Widget _buildBottomBar(
+    BuildContext context,
+    ThemeData theme,
+    CartState cartState,
+  ) {
     final cart = cartState.cart!;
 
     return Container(
@@ -743,7 +820,9 @@ class _CartPageState extends ConsumerState<CartPage> {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Clear Cart'),
-        content: const Text('Are you sure you want to remove all items from your cart?'),
+        content: const Text(
+          'Are you sure you want to remove all items from your cart?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -820,9 +899,9 @@ class _CartPageState extends ConsumerState<CartPage> {
               const SizedBox(height: 16),
               Text(
                 'Apply Coupon',
-                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Row(

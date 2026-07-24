@@ -191,11 +191,7 @@ class WalletPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionChip(
-    IconData icon,
-    String label,
-    VoidCallback onTap,
-  ) {
+  Widget _buildActionChip(IconData icon, String label, VoidCallback onTap) {
     return ActionChip(
       avatar: Icon(icon, size: 18),
       label: Text(label, style: const TextStyle(fontSize: 12)),
@@ -275,14 +271,13 @@ class WalletPage extends ConsumerWidget {
                   leading: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: (isCredit ? Colors.green : Colors.red)
-                          .withValues(alpha: 0.08),
+                      color: (isCredit ? Colors.green : Colors.red).withValues(
+                        alpha: 0.08,
+                      ),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      isCredit
-                          ? Icons.arrow_downward
-                          : Icons.arrow_upward,
+                      isCredit ? Icons.arrow_downward : Icons.arrow_upward,
                       size: 18,
                       color: isCredit ? Colors.green : Colors.red,
                     ),
@@ -294,9 +289,7 @@ class WalletPage extends ConsumerWidget {
                     style: const TextStyle(fontSize: 14),
                   ),
                   subtitle: Text(
-                    txn.createdAt.isNotEmpty
-                        ? _formatDate(txn.createdAt)
-                        : '',
+                    txn.createdAt.isNotEmpty ? _formatDate(txn.createdAt) : '',
                     style: const TextStyle(fontSize: 12),
                   ),
                   trailing: Text(
@@ -441,8 +434,8 @@ class WalletPage extends ConsumerWidget {
                   Text(
                     'Transaction History',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   if (walletState.isLoading && walletState.transactions.isEmpty)
@@ -457,7 +450,9 @@ class WalletPage extends ConsumerWidget {
                     Expanded(
                       child: ListView.separated(
                         controller: scrollController,
-                        itemCount: walletState.transactions.length,                          separatorBuilder: (context, index) => const Divider(height: 1),
+                        itemCount: walletState.transactions.length,
+                        separatorBuilder: (context, index) =>
+                            const Divider(height: 1),
                         itemBuilder: (_, index) {
                           final txn = walletState.transactions[index];
                           final isCredit = txn.type == 'CREDIT';
@@ -465,9 +460,8 @@ class WalletPage extends ConsumerWidget {
                             leading: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color:
-                                    (isCredit ? Colors.green : Colors.red)
-                                        .withValues(alpha: 0.08),
+                                color: (isCredit ? Colors.green : Colors.red)
+                                    .withValues(alpha: 0.08),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
@@ -475,8 +469,7 @@ class WalletPage extends ConsumerWidget {
                                     ? Icons.arrow_downward
                                     : Icons.arrow_upward,
                                 size: 18,
-                                color:
-                                    isCredit ? Colors.green : Colors.red,
+                                color: isCredit ? Colors.green : Colors.red,
                               ),
                             ),
                             title: Text(
@@ -493,8 +486,7 @@ class WalletPage extends ConsumerWidget {
                               '${isCredit ? '+' : '-'}${formatCurrency(txn.amount)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color:
-                                    isCredit ? Colors.green : Colors.red,
+                                color: isCredit ? Colors.green : Colors.red,
                                 fontSize: 14,
                               ),
                             ),

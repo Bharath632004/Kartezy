@@ -31,29 +31,32 @@ class AppCard extends ConsumerWidget {
     final theme = ref.watch(themeProvider);
     final cardColor = color ?? theme.cardColor;
 
-    return Container(
-      width: width,
-      height: height,
-      margin: margin,
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(radius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius),
-        child: Material(
-          color: Colors.transparent,
-          elevation: elevation,
-          child: Padding(
-            padding: padding ?? const EdgeInsets.all(16.0),
-            child: child,
+    return Semantics(
+      container: true,
+      child: Container(
+        width: width,
+        height: height,
+        margin: margin,
+        decoration: BoxDecoration(
+          color: cardColor,
+          borderRadius: BorderRadius.circular(radius),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(radius),
+          child: Material(
+            color: Colors.transparent,
+            elevation: elevation,
+            child: Padding(
+              padding: padding ?? const EdgeInsets.all(16.0),
+              child: child,
+            ),
           ),
         ),
       ),

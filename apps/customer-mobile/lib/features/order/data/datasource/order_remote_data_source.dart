@@ -34,7 +34,9 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final List<dynamic> data = response.data is List
         ? response.data
         : (response.data['data'] ?? response.data['content'] ?? []);
-    return data.map((json) => Order.fromJson(normalizeOrderJson(json))).toList();
+    return data
+        .map((json) => Order.fromJson(normalizeOrderJson(json)))
+        .toList();
   }
 
   @override

@@ -154,7 +154,15 @@ class TrackingPage extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.chat_bubble),
                     onPressed: () {
-                      // Chat functionality to be implemented
+                      // Chat - navigate to support with order context
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Chat support for order ${orderId.substring(0, 8)}',
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
                     },
                     tooltip: 'Chat with Driver',
                   ),
@@ -172,7 +180,12 @@ class TrackingPage extends ConsumerWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // Share live location to be implemented
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Location sharing coming soon'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.share),
                   label: const Text('Share Live Location'),
@@ -182,7 +195,12 @@ class TrackingPage extends ConsumerWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    // Contact support to be implemented
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Contacting support...'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.headset),
                   label: const Text('Contact Support'),

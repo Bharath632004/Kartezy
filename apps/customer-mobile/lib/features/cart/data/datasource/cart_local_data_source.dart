@@ -78,24 +78,26 @@ class CartLocalDataSource implements CartRemoteDataSource {
     } else {
       // Create cart item with product ID; full details will be populated
       // when the checkout summary is fetched from the order service
-      newItems.add(CartItem(
-        id: 'ci_${DateTime.now().millisecondsSinceEpoch}',
-        productId: productId,
-        product: Product(
-          id: productId,
-          name: 'Product',
-          description: '',
-          shortDescription: '',
-          price: 0,
-          compareAtPrice: null,
-          imageUrl: '',
-          images: [],
-          stock: 0,
-          tags: [],
+      newItems.add(
+        CartItem(
+          id: 'ci_${DateTime.now().millisecondsSinceEpoch}',
+          productId: productId,
+          product: Product(
+            id: productId,
+            name: 'Product',
+            description: '',
+            shortDescription: '',
+            price: 0,
+            compareAtPrice: null,
+            imageUrl: '',
+            images: [],
+            stock: 0,
+            tags: [],
+          ),
+          quantity: quantity,
+          selectedVariants: variants,
         ),
-        quantity: quantity,
-        selectedVariants: variants,
-      ));
+      );
     }
 
     final updatedCart = _recalculateCart(cart.copyWith(items: newItems));
@@ -123,8 +125,7 @@ class CartLocalDataSource implements CartRemoteDataSource {
   Future<Cart> removeCartItem(String cartItemId) async {
     final box = await _getBox();
     final cart = await getCart(null);
-    final newItems =
-        cart.items.where((item) => item.id != cartItemId).toList();
+    final newItems = cart.items.where((item) => item.id != cartItemId).toList();
     final updatedCart = _recalculateCart(cart.copyWith(items: newItems));
     await box.put('cart', updatedCart.toJson());
     return updatedCart;
@@ -156,10 +157,7 @@ class CartLocalDataSource implements CartRemoteDataSource {
   Future<Cart> removeCoupon() async {
     final box = await _getBox();
     final cart = await getCart(null);
-    final updatedCart = cart.copyWith(
-      couponCode: null,
-      discountAmount: 0,
-    );
+    final updatedCart = cart.copyWith(couponCode: null, discountAmount: 0);
     final recalculated = _recalculateCart(updatedCart);
     await box.put('cart', recalculated.toJson());
     return recalculated;
@@ -167,20 +165,52 @@ class CartLocalDataSource implements CartRemoteDataSource {
 
   @override
   Future<Cart> saveForLater(String cartItemId) async {
-    // Future: implement save-for-later
-    return getCart(null);
+    final box = await _getBox();
+    final cart = await getCart(null);
+    final itemToSave = cart.items
+        .where((item) => item.id == cartItemId)
+        .toList();
+    final remainingItems = cart.items
+        .where((item) => item.id != cartItemId)
+        .toList();
+    final savedItems =
+        box.get('saved_for_later', defaultValue: <dynamic>[]) as List<dynamic>;
+    final updatedSaved = [
+      ...savedItems,
+      ...itemToSave.map((item) => item.toJson()),
+    ];
+    await box.put('saved_for_later', updatedSaved);
+    final updatedCart = _recalculateCart(cart.copyWith(items: remainingItems));
+    await box.put('cart', updatedCart.toJson());
+    return updatedCart;
   }
 
   @override
   Future<Cart> moveToWishlist(String cartItemId) async {
-    // Future: implement move-to-wishlist
-    return getCart(null);
+    // Move to wishlist is handled by the wishlist feature;
+    // this just removes the item from cart.
+    return removeCartItem(cartItemId);
   }
 
   @override
   Future<Cart> restoreFromSaveForLater(String cartItemId) async {
-    // Future: implement restore
-    return getCart(null);
+    final box = await _getBox();
+    final cart = await getCart(null);
+    final savedItems =
+        box.get('saved_for_later', defaultValue: <dynamic>[]) as List<dynamic>;
+    final itemIndex = savedItems.indexWhere(
+      (item) => (item as Map<String, dynamic>)['id'] == cartItemId,
+    );
+    if (itemIndex < 0) return cart;
+    final restoredItem = CartItem.fromJson(
+      Map<String, dynamic>.from(savedItems[itemIndex] as Map),
+    );
+    savedItems.removeAt(itemIndex);
+    await box.put('saved_for_later', savedItems);
+    final updatedItems = [...cart.items, restoredItem];
+    final updatedCart = _recalculateCart(cart.copyWith(items: updatedItems));
+    await box.put('cart', updatedCart.toJson());
+    return updatedCart;
   }
 
   @override
@@ -218,8 +248,12 @@ class CartLocalDataSource implements CartRemoteDataSource {
 
   @override
   Future<Cart> mergeGuestCart(String guestCartId, String userId) async {
-    // Future: implement guest cart merge on login
-    return getCart(null);
+    final box = await _getBox();
+    final guestCart = await getCart(null);
+    if (guestCart.items.isEmpty) return guestCart;
+    final mergedCart = guestCart.copyWith(userId: userId);
+    await box.put('cart', mergedCart.toJson());
+    return mergedCart;
   }
 
   Cart _recalculateCart(Cart cart) {
@@ -234,8 +268,15 @@ class CartLocalDataSource implements CartRemoteDataSource {
     final tip = cart.tipAmount;
     final wallet = cart.walletAmount;
     final discount = cart.discountAmount;
-    final net = subtotal + deliveryFee + platformFee + packagingFee + gst +
-        tip - wallet - discount;
+    final net =
+        subtotal +
+        deliveryFee +
+        platformFee +
+        packagingFee +
+        gst +
+        tip -
+        wallet -
+        discount;
 
     return cart.copyWith(
       totalAmount: subtotal,

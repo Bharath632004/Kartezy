@@ -15,7 +15,8 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
       price: (json['price'] as num).toDouble(),
       compareAtPrice: (json['compareAtPrice'] as num?)?.toDouble(),
       imageUrl: json['imageUrl'] as String,
-      images: (json['images'] as List<dynamic>?)
+      images:
+          (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
@@ -29,9 +30,8 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
       reviewCount: (json['reviewCount'] as num?)?.toInt() ?? 0,
       isFavorite: json['isFavorite'] as bool? ?? false,
       hasVariants: json['hasVariants'] as bool? ?? false,
-      tags: (json['tags'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           const [],
     );
 

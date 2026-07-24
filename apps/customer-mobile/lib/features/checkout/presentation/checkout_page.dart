@@ -67,7 +67,8 @@ class CheckoutPage extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => ref.read(checkoutProvider.notifier).loadCartSummary(),
+                onPressed: () =>
+                    ref.read(checkoutProvider.notifier).loadCartSummary(),
                 child: const Text('Retry'),
               ),
             ],
@@ -116,7 +117,8 @@ class CheckoutPage extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               TextButton(
-                onPressed: () => ref.read(checkoutProvider.notifier).loadCartSummary(),
+                onPressed: () =>
+                    ref.read(checkoutProvider.notifier).loadCartSummary(),
                 child: const Text('Refresh'),
               ),
             ],
@@ -133,14 +135,22 @@ class CheckoutPage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // Delivery Address Section
-          _buildSectionHeader(theme, 'Delivery Address', Icons.location_on_outlined),
+          _buildSectionHeader(
+            theme,
+            'Delivery Address',
+            Icons.location_on_outlined,
+          ),
           const SizedBox(height: 8),
           _buildAddressCard(context, ref, theme, state),
 
           const SizedBox(height: 20),
 
           // Delivery Options
-          _buildSectionHeader(theme, 'Delivery Options', Icons.delivery_dining_outlined),
+          _buildSectionHeader(
+            theme,
+            'Delivery Options',
+            Icons.delivery_dining_outlined,
+          ),
           const SizedBox(height: 8),
           _buildDeliveryOptionsCard(context, ref, theme, state),
 
@@ -206,7 +216,9 @@ class CheckoutPage extends ConsumerWidget {
         const SizedBox(width: 8),
         Text(
           title,
-          style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -238,7 +250,11 @@ class CheckoutPage extends ConsumerWidget {
                   color: theme.primaryColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.home_outlined, color: theme.primaryColor, size: 20),
+                child: Icon(
+                  Icons.home_outlined,
+                  color: theme.primaryColor,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -255,14 +271,22 @@ class CheckoutPage extends ConsumerWidget {
                           if (address.isDefault) ...[
                             const SizedBox(height: 4),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
-                                color: theme.primaryColor.withValues(alpha: 0.1),
+                                color: theme.primaryColor.withValues(
+                                  alpha: 0.1,
+                                ),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 'Default',
-                                style: TextStyle(fontSize: 10, color: theme.primaryColor),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: theme.primaryColor,
+                                ),
                               ),
                             ),
                           ],
@@ -299,8 +323,14 @@ class CheckoutPage extends ConsumerWidget {
           children: [
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Instant Delivery', style: TextStyle(fontSize: 14)),
-              subtitle: const Text('Deliver within 30 minutes', style: TextStyle(fontSize: 12)),
+              title: const Text(
+                'Instant Delivery',
+                style: TextStyle(fontSize: 14),
+              ),
+              subtitle: const Text(
+                'Deliver within 30 minutes',
+                style: TextStyle(fontSize: 12),
+              ),
               value: state.instantDelivery,
               onChanged: (val) {
                 ref.read(checkoutProvider.notifier).setInstantDelivery(val);
@@ -309,8 +339,14 @@ class CheckoutPage extends ConsumerWidget {
             const Divider(height: 1),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Contactless Delivery', style: TextStyle(fontSize: 14)),
-              subtitle: const Text('Leave at my door', style: TextStyle(fontSize: 12)),
+              title: const Text(
+                'Contactless Delivery',
+                style: TextStyle(fontSize: 14),
+              ),
+              subtitle: const Text(
+                'Leave at my door',
+                style: TextStyle(fontSize: 12),
+              ),
               value: state.contactlessDelivery,
               onChanged: (val) {
                 ref.read(checkoutProvider.notifier).setContactlessDelivery(val);
@@ -326,7 +362,9 @@ class CheckoutPage extends ConsumerWidget {
               ),
               maxLines: 2,
               onChanged: (val) {
-                ref.read(checkoutProvider.notifier).setDeliveryInstructions(val);
+                ref
+                    .read(checkoutProvider.notifier)
+                    .setDeliveryInstructions(val);
               },
             ),
           ],
@@ -350,7 +388,10 @@ class CheckoutPage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            ...cartSummary.items.take(3).map((item) => Padding(
+            ...cartSummary.items
+                .take(3)
+                .map(
+                  (item) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Row(
                       children: [
@@ -360,15 +401,20 @@ class CheckoutPage extends ConsumerWidget {
                             item.product.imageUrl,
                             width: 48,
                             height: 48,
-                            fit: BoxFit.cover,                              errorBuilder: (context, error, stackTrace) => Container(
-                              width: 48,
-                              height: 48,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(Icons.image, color: Colors.grey[400]),
-                            ),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  width: 48,
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Icon(
+                                    Icons.image,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -378,30 +424,43 @@ class CheckoutPage extends ConsumerWidget {
                             children: [
                               Text(
                                 item.product.name,
-                                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               if (item.selectedVariants.isNotEmpty)
                                 Text(
                                   item.selectedVariants.values.join(', '),
-                                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
                             ],
                           ),
                         ),
                         Text(
                           'x${item.quantity}',
-                          style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 13,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Text(
                           formatCurrency(item.product.price * item.quantity),
-                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     ),
-                  )),
+                  ),
+                ),
             if (cartSummary.items.length > 3)
               TextButton(
                 onPressed: null,
@@ -429,7 +488,11 @@ class CheckoutPage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(Icons.local_offer_outlined, color: theme.primaryColor, size: 20),
+            Icon(
+              Icons.local_offer_outlined,
+              color: theme.primaryColor,
+              size: 20,
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -462,9 +525,22 @@ class CheckoutPage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildPriceRow('Subtotal', formatCurrency(cartSummary.netAmount + cartSummary.discountAmount - cartSummary.deliveryCharges - cartSummary.gstAmount - cartSummary.platformFee - cartSummary.packagingFee)),
+            _buildPriceRow(
+              'Subtotal',
+              formatCurrency(
+                cartSummary.netAmount +
+                    cartSummary.discountAmount -
+                    cartSummary.deliveryCharges -
+                    cartSummary.gstAmount -
+                    cartSummary.platformFee -
+                    cartSummary.packagingFee,
+              ),
+            ),
             const SizedBox(height: 8),
-            _buildPriceRow('Delivery Fee', formatCurrency(cartSummary.deliveryCharges)),
+            _buildPriceRow(
+              'Delivery Fee',
+              formatCurrency(cartSummary.deliveryCharges),
+            ),
             const SizedBox(height: 8),
             if (cartSummary.discountAmount > 0) ...[
               _buildPriceRow(
@@ -474,11 +550,17 @@ class CheckoutPage extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
             ],
-            _buildPriceRow('Platform Fee', formatCurrency(cartSummary.platformFee)),
+            _buildPriceRow(
+              'Platform Fee',
+              formatCurrency(cartSummary.platformFee),
+            ),
             const SizedBox(height: 8),
             _buildPriceRow('Tax (GST)', formatCurrency(cartSummary.gstAmount)),
             const SizedBox(height: 8),
-            _buildPriceRow('Packaging Fee', formatCurrency(cartSummary.packagingFee)),
+            _buildPriceRow(
+              'Packaging Fee',
+              formatCurrency(cartSummary.packagingFee),
+            ),
             const SizedBox(height: 8),
             const Divider(height: 1),
             const SizedBox(height: 8),
@@ -574,7 +656,9 @@ class CheckoutPage extends ConsumerWidget {
                 onPressed: state.isLoading || state.selectedAddress == null
                     ? null
                     : () async {
-                        final uid = await ref.read(authServiceProvider).getUserId();
+                        final uid = await ref
+                            .read(authServiceProvider)
+                            .getUserId();
                         await notifier.placeOrder(
                           userId: uid,
                           paymentMethod: 'COD',
@@ -593,7 +677,9 @@ class CheckoutPage extends ConsumerWidget {
                         ),
                       )
                     : const Icon(Icons.shopping_bag_outlined),
-                label: Text(state.isLoading ? 'Placing Order...' : 'Place Order'),
+                label: Text(
+                  state.isLoading ? 'Placing Order...' : 'Place Order',
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.primaryColor,
                   foregroundColor: Colors.white,
@@ -634,9 +720,9 @@ class CheckoutPage extends ConsumerWidget {
             const SizedBox(height: 16),
             Text(
               'Select Delivery Address',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             ListTile(
@@ -680,9 +766,9 @@ class CheckoutPage extends ConsumerWidget {
               const SizedBox(height: 16),
               Text(
                 'Apply Coupon',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Row(
@@ -693,7 +779,10 @@ class CheckoutPage extends ConsumerWidget {
                       decoration: const InputDecoration(
                         hintText: 'Enter coupon code',
                         border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ),
@@ -701,7 +790,9 @@ class CheckoutPage extends ConsumerWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (controller.text.isNotEmpty) {
-                        ref.read(checkoutProvider.notifier).applyCoupon(controller.text);
+                        ref
+                            .read(checkoutProvider.notifier)
+                            .applyCoupon(controller.text);
                         Navigator.pop(ctx);
                       }
                     },

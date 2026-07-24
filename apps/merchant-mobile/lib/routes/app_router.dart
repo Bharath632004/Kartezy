@@ -31,6 +31,7 @@ import 'package:merchant_mobile/features/profile/presentation/pages/support_page
 import 'package:merchant_mobile/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:merchant_mobile/features/customers/presentation/pages/customers_page.dart';
 import 'package:merchant_mobile/core/services/auth_service.dart';
+import 'package:merchant_mobile/features/dashboard/presentation/pages/main_shell.dart';
 
 /// A ChangeNotifier that triggers GoRouter redirect re-evaluation.
 class GoRouterRefreshNotifier extends ChangeNotifier {
@@ -139,21 +140,35 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return OtpVerificationPage(phoneNumber: phoneNumber ?? '');
         },
       ),
-      GoRoute(
-        path: '/dashboard',
-        builder: (context, state) => const DashboardPage(),
-      ),
-      GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfilePage(),
+      // Main app routes wrapped in ShellRoute for bottom navigation
+      ShellRoute(
+        builder: (context, state, child) => MainShell(child: child),
+        routes: [
+          GoRoute(
+            path: '/dashboard',
+            builder: (context, state) => const DashboardPage(),
+          ),
+          GoRoute(
+            path: '/orders',
+            builder: (context, state) => const OrderListPage(),
+          ),
+          GoRoute(
+            path: '/products',
+            builder: (context, state) => const ProductListPage(),
+          ),
+          GoRoute(
+            path: '/finance',
+            builder: (context, state) => const FinanceDashboardPage(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfilePage(),
+          ),
+        ],
       ),
       GoRoute(
         path: '/promotions',
         builder: (context, state) => const PromotionsPage(),
-      ),
-      GoRoute(
-        path: '/finance',
-        builder: (context, state) => const FinanceDashboardPage(),
       ),
       GoRoute(
         path: '/analytics',
@@ -174,10 +189,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/merchant-register',
         builder: (context, state) => const MerchantRegistrationPage(),
-      ),
-      GoRoute(
-        path: '/products',
-        builder: (context, state) => const ProductListPage(),
       ),
       GoRoute(
         path: '/add-product',
@@ -206,10 +217,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/inventory-detail',
         builder: (context, state) => const EditInventoryPage(),
-      ),
-      GoRoute(
-        path: '/orders',
-        builder: (context, state) => const OrderListPage(),
       ),
       GoRoute(
         path: '/settings',

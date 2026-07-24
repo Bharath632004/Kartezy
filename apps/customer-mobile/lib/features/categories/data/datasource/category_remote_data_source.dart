@@ -17,8 +17,8 @@ class CategoryRemoteDataSource {
     final List<dynamic> data = response.data is List
         ? response.data as List
         : (response.data['data'] as List? ??
-            response.data['content'] as List? ??
-            []);
+              response.data['content'] as List? ??
+              []);
     return data.map((json) {
       final map = Map<String, dynamic>.from(json as Map);
       // Backend CategoryDto uses Long id; convert to String for the Flutter model

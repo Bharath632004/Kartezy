@@ -63,7 +63,8 @@ Map<String, dynamic> normalizeOrderJson(dynamic raw) {
   json['id'] = json['id']?.toString() ?? '';
   json['userId'] = json['userId']?.toString();
   json['cartId'] = json['cartId'] ?? '';
-  json['itemCount'] = json['itemCount'] ?? (json['items'] as List?)?.length ?? 0;
+  json['itemCount'] =
+      json['itemCount'] ?? (json['items'] as List?)?.length ?? 0;
   json['totalAmount'] = _toDouble(json['totalAmount']);
   json['discountAmount'] = _toDouble(json['discount']);
   json['deliveryCharges'] = _toDouble(json['deliveryFee']);
@@ -83,7 +84,8 @@ Map<String, dynamic> normalizeOrderJson(dynamic raw) {
   // Timestamps
   json['createdAt'] = json['createdAt'] ?? DateTime.now().toIso8601String();
   json['updatedAt'] = json['updatedAt'] ?? DateTime.now().toIso8601String();
-  json['estimatedDeliveryTime'] = json['estimatedDeliveryTime'] ??
+  json['estimatedDeliveryTime'] =
+      json['estimatedDeliveryTime'] ??
       DateTime.now().add(const Duration(minutes: 30)).toIso8601String();
 
   return json;

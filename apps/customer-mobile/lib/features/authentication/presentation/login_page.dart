@@ -33,15 +33,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     try {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-      final response = await ref.read(loginUseCaseProvider).call(email, password);
+      final response = await ref
+          .read(loginUseCaseProvider)
+          .call(email, password);
 
       if (mounted) {
         if (response.mfaRequired) {
           // MFA required - navigate to MFA verification page
-          context.go('/mfa-verify', extra: {
-            'email': response.email ?? email,
-            'mfaSessionToken': response.mfaSessionToken ?? '',
-          });
+          context.go(
+            '/mfa-verify',
+            extra: {
+              'email': response.email ?? email,
+              'mfaSessionToken': response.mfaSessionToken ?? '',
+            },
+          );
         } else {
           // Login successful, navigate to home
           context.go('/home');

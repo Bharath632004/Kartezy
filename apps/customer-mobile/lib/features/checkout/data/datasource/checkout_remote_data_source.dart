@@ -25,8 +25,10 @@ class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
   final Dio _dio;
   final CartRemoteDataSource _cartLocalSource;
 
-  CheckoutRemoteDataSourceImpl(this._dio, {CartRemoteDataSource? cartLocalSource})
-      : _cartLocalSource = cartLocalSource ?? CartLocalDataSource();
+  CheckoutRemoteDataSourceImpl(
+    this._dio, {
+    CartRemoteDataSource? cartLocalSource,
+  }) : _cartLocalSource = cartLocalSource ?? CartLocalDataSource();
 
   @override
   Future<CheckoutSummary> getCheckoutSummary(String? userId) async {
@@ -129,6 +131,4 @@ class CheckoutRemoteDataSourceImpl implements CheckoutRemoteDataSource {
       netAmount: cart.netAmount,
     );
   }
-
-
 }

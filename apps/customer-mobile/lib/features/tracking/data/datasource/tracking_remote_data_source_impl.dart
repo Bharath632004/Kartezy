@@ -54,10 +54,9 @@ class TrackingRemoteDataSourceImpl implements TrackingRemoteDataSource {
       _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
 
       // Send subscribe message
-      _channel!.sink.add(jsonEncode({
-        'type': 'SUBSCRIBE_CUSTOMER',
-        'orderId': orderId,
-      }));
+      _channel!.sink.add(
+        jsonEncode({'type': 'SUBSCRIBE_CUSTOMER', 'orderId': orderId}),
+      );
 
       // Listen for location updates
       await for (final data in _channel!.stream) {

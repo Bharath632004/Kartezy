@@ -8,7 +8,9 @@ import 'package:customer_mobile/features/wallet/domain/usecase/withdraw_wallet_m
 import 'package:customer_mobile/core/providers/network_provider.dart';
 
 // Providers for data source and repository
-final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSourceImpl>((ref) {
+final walletRemoteDataSourceProvider = Provider<WalletRemoteDataSourceImpl>((
+  ref,
+) {
   final dioClient = ref.read(dioProvider);
   return WalletRemoteDataSourceImpl(dioClient);
 });
@@ -19,7 +21,9 @@ final walletRepositoryProvider = Provider<WalletRepository>((ref) {
 });
 
 // Providers for use cases
-final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((ref) {
+final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>((
+  ref,
+) {
   final repository = ref.read(walletRepositoryProvider);
   return GetWalletBalanceUseCase(repository);
 });
@@ -29,10 +33,12 @@ final addWalletMoneyUseCaseProvider = Provider<AddWalletMoneyUseCase>((ref) {
   return AddWalletMoneyUseCase(repository);
 });
 
-final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>((ref) {
-  final repository = ref.read(walletRepositoryProvider);
-  return WithdrawWalletMoneyUseCase(repository);
-});
+final withdrawWalletMoneyUseCaseProvider = Provider<WithdrawWalletMoneyUseCase>(
+  (ref) {
+    final repository = ref.read(walletRepositoryProvider);
+    return WithdrawWalletMoneyUseCase(repository);
+  },
+);
 
 // Wallet transaction entry
 class WalletTransactionEntry {
@@ -124,7 +130,9 @@ class WalletNotifier extends StateNotifier<WalletState> {
   }
 }
 
-final walletProvider = StateNotifierProvider<WalletNotifier, WalletState>((ref) {
+final walletProvider = StateNotifierProvider<WalletNotifier, WalletState>((
+  ref,
+) {
   return WalletNotifier(
     getWalletBalanceUseCase: ref.read(getWalletBalanceUseCaseProvider),
     addWalletMoneyUseCase: ref.read(addWalletMoneyUseCaseProvider),

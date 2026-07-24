@@ -109,83 +109,84 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   }) {
     return _then(
       _value.copyWith(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                as String,
-        name: null == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                as String,
-        description: null == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                as String,
-        shortDescription: null == shortDescription
-            ? _value.shortDescription
-            : shortDescription // ignore: cast_nullable_to_non_nullable
-                as String,
-        price: null == price
-            ? _value.price
-            : price // ignore: cast_nullable_to_non_nullable
-                as double,
-        compareAtPrice: freezed == compareAtPrice
-            ? _value.compareAtPrice
-            : compareAtPrice // ignore: cast_nullable_to_non_nullable
-                as double?,
-        imageUrl: null == imageUrl
-            ? _value.imageUrl
-            : imageUrl // ignore: cast_nullable_to_non_nullable
-                as String,
-        images: null == images
-            ? _value.images
-            : images // ignore: cast_nullable_to_non_nullable
-                as List<String>,
-        unit: freezed == unit
-            ? _value.unit
-            : unit // ignore: cast_nullable_to_non_nullable
-                as String?,
-        stock: null == stock
-            ? _value.stock
-            : stock // ignore: cast_nullable_to_non_nullable
-                as int,
-        sku: freezed == sku
-            ? _value.sku
-            : sku // ignore: cast_nullable_to_non_nullable
-                as String?,
-        categoryId: freezed == categoryId
-            ? _value.categoryId
-            : categoryId // ignore: cast_nullable_to_non_nullable
-                as String?,
-        merchantId: freezed == merchantId
-            ? _value.merchantId
-            : merchantId // ignore: cast_nullable_to_non_nullable
-                as String?,
-        merchantName: freezed == merchantName
-            ? _value.merchantName
-            : merchantName // ignore: cast_nullable_to_non_nullable
-                as String?,
-        rating: freezed == rating
-            ? _value.rating
-            : rating // ignore: cast_nullable_to_non_nullable
-                as double?,
-        reviewCount: null == reviewCount
-            ? _value.reviewCount
-            : reviewCount // ignore: cast_nullable_to_non_nullable
-                as int,
-        isFavorite: null == isFavorite
-            ? _value.isFavorite
-            : isFavorite // ignore: cast_nullable_to_non_nullable
-                as bool,
-        hasVariants: null == hasVariants
-            ? _value.hasVariants
-            : hasVariants // ignore: cast_nullable_to_non_nullable
-                as bool,
-        tags: null == tags
-            ? _value.tags
-            : tags // ignore: cast_nullable_to_non_nullable
-                as List<String>,
-      ) as $Val,
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            shortDescription: null == shortDescription
+                ? _value.shortDescription
+                : shortDescription // ignore: cast_nullable_to_non_nullable
+                      as String,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            compareAtPrice: freezed == compareAtPrice
+                ? _value.compareAtPrice
+                : compareAtPrice // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            imageUrl: null == imageUrl
+                ? _value.imageUrl
+                : imageUrl // ignore: cast_nullable_to_non_nullable
+                      as String,
+            images: null == images
+                ? _value.images
+                : images // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            unit: freezed == unit
+                ? _value.unit
+                : unit // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            stock: null == stock
+                ? _value.stock
+                : stock // ignore: cast_nullable_to_non_nullable
+                      as int,
+            sku: freezed == sku
+                ? _value.sku
+                : sku // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            categoryId: freezed == categoryId
+                ? _value.categoryId
+                : categoryId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            merchantId: freezed == merchantId
+                ? _value.merchantId
+                : merchantId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            merchantName: freezed == merchantName
+                ? _value.merchantName
+                : merchantName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            rating: freezed == rating
+                ? _value.rating
+                : rating // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            reviewCount: null == reviewCount
+                ? _value.reviewCount
+                : reviewCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            isFavorite: null == isFavorite
+                ? _value.isFavorite
+                : isFavorite // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            hasVariants: null == hasVariants
+                ? _value.hasVariants
+                : hasVariants // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            tags: null == tags
+                ? _value.tags
+                : tags // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+          )
+          as $Val,
     );
   }
 }
@@ -193,8 +194,9 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
 /// @nodoc
 abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
   factory _$$ProductImplCopyWith(
-          _$ProductImpl value, $Res Function(_$ProductImpl) then) =
-      __$$ProductImplCopyWithImpl<$Res>;
+    _$ProductImpl value,
+    $Res Function(_$ProductImpl) then,
+  ) = __$$ProductImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -225,8 +227,9 @@ class __$$ProductImplCopyWithImpl<$Res>
     extends _$ProductCopyWithImpl<$Res, _$ProductImpl>
     implements _$$ProductImplCopyWith<$Res> {
   __$$ProductImplCopyWithImpl(
-      _$ProductImpl _value, $Res Function(_$ProductImpl) _then)
-      : super(_value, _then);
+    _$ProductImpl _value,
+    $Res Function(_$ProductImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -256,79 +259,79 @@ class __$$ProductImplCopyWithImpl<$Res>
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                as String,
+                  as String,
         name: null == name
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
-                as String,
+                  as String,
         description: null == description
             ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
-                as String,
+                  as String,
         shortDescription: null == shortDescription
             ? _value.shortDescription
             : shortDescription // ignore: cast_nullable_to_non_nullable
-                as String,
+                  as String,
         price: null == price
             ? _value.price
             : price // ignore: cast_nullable_to_non_nullable
-                as double,
+                  as double,
         compareAtPrice: freezed == compareAtPrice
             ? _value.compareAtPrice
             : compareAtPrice // ignore: cast_nullable_to_non_nullable
-                as double?,
+                  as double?,
         imageUrl: null == imageUrl
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
-                as String,
+                  as String,
         images: null == images
-            ? _value.images
+            ? _value._images
             : images // ignore: cast_nullable_to_non_nullable
-                as List<String>,
+                  as List<String>,
         unit: freezed == unit
             ? _value.unit
             : unit // ignore: cast_nullable_to_non_nullable
-                as String?,
+                  as String?,
         stock: null == stock
             ? _value.stock
             : stock // ignore: cast_nullable_to_non_nullable
-                as int,
+                  as int,
         sku: freezed == sku
             ? _value.sku
             : sku // ignore: cast_nullable_to_non_nullable
-                as String?,
+                  as String?,
         categoryId: freezed == categoryId
             ? _value.categoryId
             : categoryId // ignore: cast_nullable_to_non_nullable
-                as String?,
+                  as String?,
         merchantId: freezed == merchantId
             ? _value.merchantId
             : merchantId // ignore: cast_nullable_to_non_nullable
-                as String?,
+                  as String?,
         merchantName: freezed == merchantName
             ? _value.merchantName
             : merchantName // ignore: cast_nullable_to_non_nullable
-                as String?,
+                  as String?,
         rating: freezed == rating
             ? _value.rating
             : rating // ignore: cast_nullable_to_non_nullable
-                as double?,
+                  as double?,
         reviewCount: null == reviewCount
             ? _value.reviewCount
             : reviewCount // ignore: cast_nullable_to_non_nullable
-                as int,
+                  as int,
         isFavorite: null == isFavorite
             ? _value.isFavorite
             : isFavorite // ignore: cast_nullable_to_non_nullable
-                as bool,
+                  as bool,
         hasVariants: null == hasVariants
             ? _value.hasVariants
             : hasVariants // ignore: cast_nullable_to_non_nullable
-                as bool,
+                  as bool,
         tags: null == tags
-            ? _value.tags
+            ? _value._tags
             : tags // ignore: cast_nullable_to_non_nullable
-                as List<String>,
+                  as List<String>,
       ),
     );
   }
@@ -345,7 +348,7 @@ class _$ProductImpl implements _Product {
     required this.price,
     this.compareAtPrice,
     required this.imageUrl,
-    this.images = const [],
+    final List<String> images = const [],
     this.unit,
     this.stock = 0,
     this.sku,
@@ -356,8 +359,9 @@ class _$ProductImpl implements _Product {
     this.reviewCount = 0,
     this.isFavorite = false,
     this.hasVariants = false,
-    this.tags = const [],
-  });
+    final List<String> tags = const [],
+  }) : _images = images,
+       _tags = tags;
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductImplFromJson(json);
@@ -377,9 +381,15 @@ class _$ProductImpl implements _Product {
   final double? compareAtPrice;
   @override
   final String imageUrl;
+  final List<String> _images;
   @override
   @JsonKey()
-  final List<String> images;
+  List<String> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
   @override
   final String? unit;
   @override
@@ -404,9 +414,14 @@ class _$ProductImpl implements _Product {
   @override
   @JsonKey()
   final bool hasVariants;
+  final List<String> _tags;
   @override
   @JsonKey()
-  final List<String> tags;
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
 
   @override
   String toString() {
@@ -429,7 +444,7 @@ class _$ProductImpl implements _Product {
                 other.compareAtPrice == compareAtPrice) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            const DeepCollectionEquality().equals(other.images, images) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.stock, stock) || other.stock == stock) &&
             (identical(other.sku, sku) || other.sku == sku) &&
@@ -446,33 +461,33 @@ class _$ProductImpl implements _Product {
                 other.isFavorite == isFavorite) &&
             (identical(other.hasVariants, hasVariants) ||
                 other.hasVariants == hasVariants) &&
-            const DeepCollectionEquality().equals(other.tags, tags));
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        name,
-        description,
-        shortDescription,
-        price,
-        compareAtPrice,
-        imageUrl,
-        const DeepCollectionEquality().hash(images),
-        unit,
-        stock,
-        sku,
-        categoryId,
-        merchantId,
-        merchantName,
-        rating,
-        reviewCount,
-        isFavorite,
-        hasVariants,
-        const DeepCollectionEquality().hash(tags),
-      ]);
+    runtimeType,
+    id,
+    name,
+    description,
+    shortDescription,
+    price,
+    compareAtPrice,
+    imageUrl,
+    const DeepCollectionEquality().hash(_images),
+    unit,
+    stock,
+    sku,
+    categoryId,
+    merchantId,
+    merchantName,
+    rating,
+    reviewCount,
+    isFavorite,
+    hasVariants,
+    const DeepCollectionEquality().hash(_tags),
+  ]);
 
   @JsonKey(ignore: true)
   @override

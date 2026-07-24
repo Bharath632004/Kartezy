@@ -285,7 +285,7 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
       // Build request matching backend CreateOrderRequestDto
       final address = state.selectedAddress;
       final items = state.cartSummary?.items ?? [];
-      
+
       final orderData = <String, dynamic>{
         'userId': userId,
         'deliveryType': state.instantDelivery ? 'INSTANT' : 'SCHEDULED',
@@ -315,12 +315,12 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
           return itemMap;
         }).toList(),
       };
-      
+
       // Remove null values
       orderData.removeWhere((key, value) => value == null);
-      
+
       await _placeOrderUseCase.call(orderData);
-      
+
       // Clear the local cart after successful order
       // The cart clear is handled by the caller (navigation to order confirmation)
       state = state.copyWith(isLoading: false);

@@ -1,5 +1,8 @@
 package com.kartezy.inventoryservice.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +21,7 @@ public class StockTransferDto {
     private UUID fromWarehouseId;
     private UUID toWarehouseId;
     private UUID productId;
+    @NotBlank @Size(max = 100)
     private String sku;
     private Integer quantity;
     private String reason;

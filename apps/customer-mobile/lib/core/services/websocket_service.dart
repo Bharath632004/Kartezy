@@ -120,10 +120,9 @@ class WebSocketTrackingService {
       );
 
       // Send subscribe message
-      _locationChannel!.sink.add(jsonEncode({
-        'type': 'SUBSCRIBE_CUSTOMER',
-        'orderId': orderId,
-      }));
+      _locationChannel!.sink.add(
+        jsonEncode({'type': 'SUBSCRIBE_CUSTOMER', 'orderId': orderId}),
+      );
     } catch (e) {
       _isLocationConnected = false;
       _locationController.addError(e);
@@ -168,10 +167,9 @@ class WebSocketTrackingService {
       );
 
       // Send subscribe message
-      _statusChannel!.sink.add(jsonEncode({
-        'type': 'SUBSCRIBE',
-        'orderId': orderId,
-      }));
+      _statusChannel!.sink.add(
+        jsonEncode({'type': 'SUBSCRIBE', 'orderId': orderId}),
+      );
     } catch (e) {
       _isStatusConnected = false;
       _statusController.addError(e);

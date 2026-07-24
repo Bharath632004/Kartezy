@@ -5,6 +5,8 @@ import com.kartezy.authservice.entity.*;
 import com.kartezy.authservice.repository.*;
 import com.kartezy.authservice.util.JwtUtil;
 import com.kartezy.shared.security.crypto.PasswordPolicyValidator;
+import com.kartezy.shared.dto.ApiResponse;
+import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
     private final BruteForceProtectionService bruteForceProtectionService;
     private final MfaService mfaService;
     @Override
-    public ResponseEntity<?> login(LoginRequest loginRequest, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(LoginRequest loginRequest, HttpServletRequest request) {
         String identifier = loginRequest.getEmail();
         String ipAddress = getClientIp(request);
         String userAgent = request.getHeader("User-Agent");
@@ -51,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
         // Brute force check before attempting authentication
         if (bruteForceProtectionService.shouldBlock(identifier, ipAddress)) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
-                    .body("Account temporarily locked due to too many failed attempts. Please try again later.");
+                    .body(ApiResponse.error("Account temporarily locked due to too many failed attempts. Please try again later.", UUID.randomUUID().toString()));
         }
 
         try {
@@ -63,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
             if (optionalUser.isEmpty()) {
                 bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
                         false, "User not found", null, null, null);
-                return ResponseEntity.badRequest().body("Invalid credentials");
+                return ResponseEntity.badRequest().body(ApiResponse.error("Invalid credentials", UUID.randomUUID().toString()));
             }
             User user = optionalUser.get();
 
@@ -72,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
                 bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
                         false, "Account locked", null, null, null);
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("Account is locked. Please reset your password or contact support.");
+                        .body(ApiResponse.error("Account is locked. Please reset your password or contact support.", UUID.randomUUID().toString()));
             }
 
             // Record successful login
@@ -149,29 +151,31 @@ public class AuthServiceImpl implements AuthService {
                     .mfaSessionToken(mfaSessionToken)
                     .roles(roles)
                     .build();
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(ApiResponse.success(response));
         } catch (LockedException e) {
             bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
                     false, "Account locked", null, null, null);
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Account is locked");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(ApiResponse.error("Account is locked", UUID.randomUUID().toString()));
         } catch (Exception e) {
             bruteForceProtectionService.recordAndCheck(identifier, ipAddress, userAgent,
                     false, "Invalid credentials", null, null, null);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.error("Invalid credentials", UUID.randomUUID().toString()));
         }
     }
     @Override
-    public ResponseEntity<?> register(RegisterRequest registerRequest) {
+    public ResponseEntity<ApiResponse<String>> register(RegisterRequest registerRequest) {
         // Validate password against enterprise policy
         PasswordPolicyValidator.ValidationResult passwordValidation =
                 PasswordPolicyValidator.validate(registerRequest.getPassword());
         if (!passwordValidation.isValid()) {
             return ResponseEntity.badRequest()
-                    .body(passwordValidation.getErrorMessage());
+                    .body(ApiResponse.error(passwordValidation.getErrorMessage(), UUID.randomUUID().toString()));
         }
 
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            return ResponseEntity.badRequest().body(ApiResponse.error("Email already exists", UUID.randomUUID().toString()));
         }
         if (userRepository.existsByPhoneNumber(registerRequest.getPhoneNumber())) {
             return ResponseEntity.badRequest().body("Phone number already exists");
@@ -277,7 +281,7 @@ public class AuthServiceImpl implements AuthService {
                 PasswordPolicyValidator.validate(newPassword);
         if (!passwordValidation.isValid()) {
             return ResponseEntity.badRequest()
-                    .body(passwordValidation.getErrorMessage());
+                    .body(ApiResponse.error(passwordValidation.getErrorMessage(), UUID.randomUUID().toString()));
         }
 
         // Prevent password reuse (check against last 5 passwords)

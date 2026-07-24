@@ -34,7 +34,9 @@ class Product with _$Product {
 extension ProductExtensions on Product {
   /// Returns the discount percentage if there's a compare-at price.
   double? get discountPercentage {
-    if (compareAtPrice != null && compareAtPrice! > 0 && compareAtPrice! > price) {
+    if (compareAtPrice != null &&
+        compareAtPrice! > 0 &&
+        compareAtPrice! > price) {
       return ((compareAtPrice! - price) / compareAtPrice!) * 100;
     }
     return null;
