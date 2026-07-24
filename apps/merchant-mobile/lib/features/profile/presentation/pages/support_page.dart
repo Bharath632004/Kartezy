@@ -167,7 +167,7 @@ class _SupportPageState extends State<SupportPage> {
         leading: CircleAvatar(
           backgroundColor: Theme.of(
             context,
-          ).colorScheme.primary.withValues(alpha:0.1),
+          ).colorScheme.primary.withValues(alpha: 0.1),
           child: Icon(icon, color: Theme.of(context).colorScheme.primary),
         ),
         title: Text(title),

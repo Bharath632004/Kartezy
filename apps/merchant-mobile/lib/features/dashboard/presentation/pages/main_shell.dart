@@ -93,7 +93,7 @@ class MainShell extends ConsumerWidget {
               duration: const Duration(milliseconds: 200),
               child: Icon(
                 isSelected ? d.activeIcon : d.icon,
-                key: ValueKey('${d.label}_${isSelected}'),
+                key: ValueKey('${d.label}_$isSelected'),
                 color: isSelected
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurfaceVariant,

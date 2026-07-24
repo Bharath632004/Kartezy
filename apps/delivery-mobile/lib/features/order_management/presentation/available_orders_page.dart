@@ -9,7 +9,8 @@ class AvailableOrdersPage extends ConsumerStatefulWidget {
   const AvailableOrdersPage({super.key});
 
   @override
-  ConsumerState<AvailableOrdersPage> createState() => _AvailableOrdersPageState();
+  ConsumerState<AvailableOrdersPage> createState() =>
+      _AvailableOrdersPageState();
 }
 
 class _AvailableOrdersPageState extends ConsumerState<AvailableOrdersPage> {
@@ -33,7 +34,9 @@ class _AvailableOrdersPageState extends ConsumerState<AvailableOrdersPage> {
   }
 
   Widget _buildBody(
-      AvailableOrdersState state, AvailableOrdersNotifier notifier) {
+    AvailableOrdersState state,
+    AvailableOrdersNotifier notifier,
+  ) {
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -92,7 +95,9 @@ class _AvailableOrdersPageState extends ConsumerState<AvailableOrdersPage> {
   }
 
   Future<void> _acceptOrder(
-      AvailableOrdersNotifier notifier, String orderId) async {
+    AvailableOrdersNotifier notifier,
+    String orderId,
+  ) async {
     final order = await notifier.acceptOrder(orderId);
     if (order != null && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +112,9 @@ class _AvailableOrdersPageState extends ConsumerState<AvailableOrdersPage> {
   }
 
   Future<void> _rejectOrder(
-      AvailableOrdersNotifier notifier, String orderId) async {
+    AvailableOrdersNotifier notifier,
+    String orderId,
+  ) async {
     final reason = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(

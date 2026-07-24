@@ -19,7 +19,9 @@ class AuthService {
 
   /// Login and return raw response data (used for MFA detection).
   Future<Map<String, dynamic>?> loginWithEmailRaw(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       final response = await _dio.post(
         ApiConstants.login,
@@ -162,7 +164,9 @@ class AuthService {
 }
 
 // Provider for authentication state
-final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
+final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((
+  ref,
+) {
   return AuthStateNotifier(ref.read(authServiceProvider));
 });
 
@@ -201,12 +205,13 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         throw Exception('No response from server');
       }
 
-      final bool mfaRequired = data['mfaRequired'] == true ||
-          data['mfa_required'] == true;
+      final bool mfaRequired =
+          data['mfaRequired'] == true || data['mfa_required'] == true;
 
       if (mfaRequired) {
         // Store MFA session token for the login page to use
-        pendingMfaToken = data['mfaSessionToken'] as String? ??
+        pendingMfaToken =
+            data['mfaSessionToken'] as String? ??
             data['mfa_session_token'] as String?;
         pendingEmail = email;
         state = state.copyWith(isLoading: false);
@@ -214,10 +219,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       }
 
       await _authService.saveTokens(
-        accessToken: data['accessToken'] as String? ??
-            data['access_token'] as String?,
-        refreshToken: data['refreshToken'] as String? ??
-            data['refresh_token'] as String?,
+        accessToken:
+            data['accessToken'] as String? ?? data['access_token'] as String?,
+        refreshToken:
+            data['refreshToken'] as String? ?? data['refresh_token'] as String?,
       );
       final accessToken = await _authService.getAccessToken();
       state = state.copyWith(
@@ -234,11 +239,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   /// Called after MFA verification completes successfully.
   void completeMfaLogin() {
-    state = state.copyWith(
-      isLoggedIn: true,
-      isLoading: false,
-      error: null,
-    );
+    state = state.copyWith(isLoggedIn: true, isLoading: false, error: null);
   }
 
   Future<void> loginWithPhone(String phone, String otp) async {

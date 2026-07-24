@@ -53,11 +53,13 @@ class LocationWebSocketService {
       );
 
       // Subscribe as delivery partner
-      _channel!.sink.add(jsonEncode({
-        'type': 'SUBSCRIBE_DELIVERY',
-        'orderId': orderId,
-        'partnerId': _partnerId,
-      }));
+      _channel!.sink.add(
+        jsonEncode({
+          'type': 'SUBSCRIBE_DELIVERY',
+          'orderId': orderId,
+          'partnerId': _partnerId,
+        }),
+      );
 
       // Start periodic location updates (every 5 seconds)
       _startLocationUpdates();
@@ -85,16 +87,20 @@ class LocationWebSocketService {
       // import 'package:geolocator/geolocator.dart';
       // final position = await Geolocator.getCurrentPosition();
       // For MVP, simulate with a small random offset from a fixed point
-      final latitude = 12.9716 + (DateTime.now().millisecondsSinceEpoch % 100) / 10000.0;
-      final longitude = 77.5946 + (DateTime.now().millisecondsSinceEpoch % 100) / 10000.0;
+      final latitude =
+          12.9716 + (DateTime.now().millisecondsSinceEpoch % 100) / 10000.0;
+      final longitude =
+          77.5946 + (DateTime.now().millisecondsSinceEpoch % 100) / 10000.0;
 
-      _channel!.sink.add(jsonEncode({
-        'type': 'LOCATION_UPDATE',
-        'orderId': _currentOrderId,
-        'latitude': latitude,
-        'longitude': longitude,
-        'timestamp': DateTime.now().toUtc().toIso8601String(),
-      }));
+      _channel!.sink.add(
+        jsonEncode({
+          'type': 'LOCATION_UPDATE',
+          'orderId': _currentOrderId,
+          'latitude': latitude,
+          'longitude': longitude,
+          'timestamp': DateTime.now().toUtc().toIso8601String(),
+        }),
+      );
     } catch (e) {
       // Handle location error silently
     }
@@ -109,13 +115,15 @@ class LocationWebSocketService {
     if (_channel == null || !_isConnected) return;
 
     try {
-      _channel!.sink.add(jsonEncode({
-        'type': 'LOCATION_UPDATE',
-        'orderId': orderId,
-        'latitude': latitude,
-        'longitude': longitude,
-        'timestamp': DateTime.now().toUtc().toIso8601String(),
-      }));
+      _channel!.sink.add(
+        jsonEncode({
+          'type': 'LOCATION_UPDATE',
+          'orderId': orderId,
+          'latitude': latitude,
+          'longitude': longitude,
+          'timestamp': DateTime.now().toUtc().toIso8601String(),
+        }),
+      );
     } catch (e) {
       // Handle error
     }
@@ -143,6 +151,4 @@ class LocationWebSocketService {
   void dispose() {
     disconnect();
   }
-
-
 }

@@ -8,11 +8,7 @@ class DashboardState {
   final Map<String, dynamic>? data;
   final String? error;
 
-  const DashboardState({
-    this.isLoading = false,
-    this.data,
-    this.error,
-  });
+  const DashboardState({this.isLoading = false, this.data, this.error});
 
   factory DashboardState.loading() => const DashboardState(isLoading: true);
   factory DashboardState.success(Map<String, dynamic> data) =>
@@ -49,9 +45,10 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       final currentData = Map<String, dynamic>.from(state.data ?? {});
       currentData['isOnline'] = isOnline;
       state = DashboardState.success(currentData);
-      await _dioClient.put('/api/delivery/partner/status', data: {
-        'is_online': isOnline,
-      });
+      await _dioClient.put(
+        '/api/delivery/partner/status',
+        data: {'is_online': isOnline},
+      );
     } catch (e) {
       final currentData = Map<String, dynamic>.from(state.data ?? {});
       currentData['isOnline'] = !isOnline;
@@ -63,6 +60,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
 // Provider for the dashboard notifier
 final dashboardProvider =
     StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
-  final dioClient = ref.watch(dioClientProvider);
-  return DashboardNotifier(dioClient);
-});
+      final dioClient = ref.watch(dioClientProvider);
+      return DashboardNotifier(dioClient);
+    });

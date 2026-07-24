@@ -5,19 +5,25 @@ import 'package:dio/dio.dart';
 import 'package:merchant_mobile/core/api/api_constants.dart';
 
 final dioProvider = Provider<Dio>((ref) {
-  final dio = Dio(BaseOptions(
-    baseUrl: ApiConstants.baseUrl,
-    connectTimeout: const Duration(seconds: 15),
-    receiveTimeout: const Duration(seconds: 15),
-    headers: {'Content-Type': 'application/json'},
-  ));
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+      headers: {'Content-Type': 'application/json'},
+    ),
+  );
   return dio;
 });
 
-final customersListProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final customersListProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
   final dio = ref.read(dioProvider);
   final response = await dio.get('/merchant/customers');
-  final List<dynamic> data = response.data is List ? response.data : (response.data['data'] ?? []);
+  final List<dynamic> data = response.data is List
+      ? response.data
+      : (response.data['data'] ?? []);
   return data.cast<Map<String, dynamic>>();
 });
 

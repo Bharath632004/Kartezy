@@ -30,6 +30,9 @@ import 'package:merchant_mobile/features/profile/presentation/pages/settings_pag
 import 'package:merchant_mobile/features/profile/presentation/pages/support_page.dart';
 import 'package:merchant_mobile/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:merchant_mobile/features/customers/presentation/pages/customers_page.dart';
+import 'package:merchant_mobile/features/store/presentation/pages/store_profile_page.dart';
+import 'package:merchant_mobile/features/delivery/presentation/pages/delivery_tracking_page.dart';
+import 'package:merchant_mobile/features/communication/presentation/pages/communication_page.dart';
 import 'package:merchant_mobile/core/services/auth_service.dart';
 import 'package:merchant_mobile/features/dashboard/presentation/pages/main_shell.dart';
 
@@ -233,6 +236,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/customers',
         builder: (context, state) => const CustomersPage(),
+      ),
+      GoRoute(
+        path: '/store-management',
+        builder: (context, state) => const StoreProfilePage(),
+      ),
+      GoRoute(
+        path: '/delivery-tracking',
+        builder: (context, state) => const DeliveryTrackingPage(),
+      ),
+      GoRoute(
+        path: '/customer-communication',
+        builder: (context, state) => const CommunicationPage(),
       ),
     ],
   );

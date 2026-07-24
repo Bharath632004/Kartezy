@@ -274,7 +274,8 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                   child: const Text('Clear Reports'),
                 ),
                 ElevatedButton.icon(
-                  onPressed: reportsState.isLoading ||
+                  onPressed:
+                      reportsState.isLoading ||
                           (reportsState.dailyReport == null &&
                               reportsState.monthlyReport == null &&
                               reportsState.salesReport == null)
@@ -288,14 +289,18 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                             }
                             if (reportsState.monthlyReport != null) {
                               data.writeln('=== Monthly Report ===');
-                              data.writeln(reportsState.monthlyReport.toString());
+                              data.writeln(
+                                reportsState.monthlyReport.toString(),
+                              );
                             }
                             if (reportsState.salesReport != null) {
                               data.writeln('=== Sales Report ===');
                               data.writeln(reportsState.salesReport.toString());
                             }
 
-                            await reportsNotifier.exportReports(data.toString());
+                            await reportsNotifier.exportReports(
+                              data.toString(),
+                            );
 
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -308,7 +313,9 @@ class _ReportsPageState extends ConsumerState<ReportsPage> {
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Export failed: ${e.toString()}'),
+                                  content: Text(
+                                    'Export failed: ${e.toString()}',
+                                  ),
                                 ),
                               );
                             }

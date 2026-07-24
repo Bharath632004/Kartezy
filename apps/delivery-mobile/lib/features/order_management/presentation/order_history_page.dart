@@ -18,7 +18,8 @@ class OrderHistoryState {
     this.error,
   });
 
-  factory OrderHistoryState.loading() => const OrderHistoryState(isLoading: true);
+  factory OrderHistoryState.loading() =>
+      const OrderHistoryState(isLoading: true);
 
   factory OrderHistoryState.success(List<Order> orders) =>
       OrderHistoryState(isLoading: false, orders: orders);
@@ -30,14 +31,19 @@ class OrderHistoryState {
 class OrderHistoryNotifier extends StateNotifier<OrderHistoryState> {
   final GetOrderHistoryUseCase _getOrderHistory;
 
-  OrderHistoryNotifier(this._getOrderHistory) : super(const OrderHistoryState()) {
+  OrderHistoryNotifier(this._getOrderHistory)
+    : super(const OrderHistoryState()) {
     loadHistory();
   }
 
   Future<void> loadHistory({int? page, int? limit, String? status}) async {
     state = OrderHistoryState.loading();
     try {
-      final orders = await _getOrderHistory.call(page: page, limit: limit, status: status);
+      final orders = await _getOrderHistory.call(
+        page: page,
+        limit: limit,
+        status: status,
+      );
       state = OrderHistoryState.success(orders);
     } catch (e) {
       state = OrderHistoryState.error(e.toString());
@@ -47,8 +53,8 @@ class OrderHistoryNotifier extends StateNotifier<OrderHistoryState> {
 
 final orderHistoryProvider =
     StateNotifierProvider<OrderHistoryNotifier, OrderHistoryState>((ref) {
-  return OrderHistoryNotifier(ref.read(getOrderHistoryUseCaseProvider));
-});
+      return OrderHistoryNotifier(ref.read(getOrderHistoryUseCaseProvider));
+    });
 
 class OrderHistoryPage extends ConsumerStatefulWidget {
   const OrderHistoryPage({super.key});
@@ -83,7 +89,8 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage>
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(orderHistoryProvider.notifier).loadHistory(),
+            onPressed: () =>
+                ref.read(orderHistoryProvider.notifier).loadHistory(),
           ),
         ],
         bottom: TabBar(
@@ -114,7 +121,8 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage>
             Text('Error: ${state.error}'),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => ref.read(orderHistoryProvider.notifier).loadHistory(),
+              onPressed: () =>
+                  ref.read(orderHistoryProvider.notifier).loadHistory(),
               child: const Text('Retry'),
             ),
           ],
@@ -144,14 +152,19 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage>
     }
 
     final now = DateTime.now();
-    final todayOrders = state.orders.where((o) =>
-        o.createdAt.year == now.year &&
-        o.createdAt.month == now.month &&
-        o.createdAt.day == now.day).toList();
+    final todayOrders = state.orders
+        .where(
+          (o) =>
+              o.createdAt.year == now.year &&
+              o.createdAt.month == now.month &&
+              o.createdAt.day == now.day,
+        )
+        .toList();
 
     final weekAgo = now.subtract(const Duration(days: 7));
-    final weeklyOrders = state.orders.where((o) =>
-        o.createdAt.isAfter(weekAgo)).toList();
+    final weeklyOrders = state.orders
+        .where((o) => o.createdAt.isAfter(weekAgo))
+        .toList();
 
     return TabBarView(
       controller: _tabController,
@@ -190,19 +203,19 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage>
                 backgroundColor: isDelivered
                     ? Colors.green.withValues(alpha: 0.1)
                     : isCancelled
-                        ? Colors.orange.withValues(alpha: 0.1)
-                        : Colors.blue.withValues(alpha: 0.1),
+                    ? Colors.orange.withValues(alpha: 0.1)
+                    : Colors.blue.withValues(alpha: 0.1),
                 child: Icon(
                   isDelivered
                       ? Icons.check_circle
                       : isCancelled
-                          ? Icons.cancel
-                          : Icons.access_time,
+                      ? Icons.cancel
+                      : Icons.access_time,
                   color: isDelivered
                       ? Colors.green
                       : isCancelled
-                          ? Colors.orange
-                          : Colors.blue,
+                      ? Colors.orange
+                      : Colors.blue,
                 ),
               ),
               title: Text(
@@ -218,8 +231,8 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage>
                   color: isDelivered
                       ? Colors.green
                       : isCancelled
-                          ? Colors.orange
-                          : Colors.blue,
+                      ? Colors.orange
+                      : Colors.blue,
                   fontWeight: FontWeight.w500,
                 ),
               ),

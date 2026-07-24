@@ -37,9 +37,7 @@ class SplashViewModel extends StateNotifier<SplashState> {
 
       // Check if onboarding has been completed
       final onboardingBox = hiveManager.getBox<bool>(boxName: 'onboarding');
-      final hasSeenOnboarding = onboardingBox.get(
-        'hasSeenOnboarding',
-      ) ?? false;
+      final hasSeenOnboarding = onboardingBox.get('hasSeenOnboarding') ?? false;
 
       // Check if user is logged in
       final accessToken = await secureStorage.read(key: 'accessToken');

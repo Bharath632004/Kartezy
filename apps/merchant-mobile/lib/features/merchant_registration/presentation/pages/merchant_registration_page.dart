@@ -350,7 +350,7 @@ class _MerchantRegistrationPageState
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.orange.withValues(alpha:0.08),
+              color: Colors.orange.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Row(

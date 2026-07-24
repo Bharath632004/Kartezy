@@ -12,7 +12,8 @@ part of 'membership.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 MembershipPlan _$MembershipPlanFromJson(Map<String, dynamic> json) {
   return _MembershipPlan.fromJson(json);
@@ -36,16 +37,18 @@ mixin _$MembershipPlan {
 /// @nodoc
 abstract class $MembershipPlanCopyWith<$Res> {
   factory $MembershipPlanCopyWith(
-          MembershipPlan value, $Res Function(MembershipPlan) then) =
-      _$MembershipPlanCopyWithImpl<$Res, MembershipPlan>;
+    MembershipPlan value,
+    $Res Function(MembershipPlan) then,
+  ) = _$MembershipPlanCopyWithImpl<$Res, MembershipPlan>;
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      double price,
-      String duration,
-      List<String> benefits,
-      bool isPopular});
+  $Res call({
+    String id,
+    String name,
+    double price,
+    String duration,
+    List<String> benefits,
+    bool isPopular,
+  });
 }
 
 /// @nodoc
@@ -68,50 +71,55 @@ class _$MembershipPlanCopyWithImpl<$Res, $Val extends MembershipPlan>
     Object? benefits = null,
     Object? isPopular = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      duration: null == duration
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      benefits: null == benefits
-          ? _value.benefits
-          : benefits // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      isPopular: null == isPopular
-          ? _value.isPopular
-          : isPopular // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            duration: null == duration
+                ? _value.duration
+                : duration // ignore: cast_nullable_to_non_nullable
+                      as String,
+            benefits: null == benefits
+                ? _value.benefits
+                : benefits // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            isPopular: null == isPopular
+                ? _value.isPopular
+                : isPopular // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$MembershipPlanImplCopyWith<$Res>
     implements $MembershipPlanCopyWith<$Res> {
-  factory _$$MembershipPlanImplCopyWith(_$MembershipPlanImpl value,
-          $Res Function(_$MembershipPlanImpl) then) =
-      __$$MembershipPlanImplCopyWithImpl<$Res>;
+  factory _$$MembershipPlanImplCopyWith(
+    _$MembershipPlanImpl value,
+    $Res Function(_$MembershipPlanImpl) then,
+  ) = __$$MembershipPlanImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      double price,
-      String duration,
-      List<String> benefits,
-      bool isPopular});
+  $Res call({
+    String id,
+    String name,
+    double price,
+    String duration,
+    List<String> benefits,
+    bool isPopular,
+  });
 }
 
 /// @nodoc
@@ -119,8 +127,9 @@ class __$$MembershipPlanImplCopyWithImpl<$Res>
     extends _$MembershipPlanCopyWithImpl<$Res, _$MembershipPlanImpl>
     implements _$$MembershipPlanImplCopyWith<$Res> {
   __$$MembershipPlanImplCopyWithImpl(
-      _$MembershipPlanImpl _value, $Res Function(_$MembershipPlanImpl) _then)
-      : super(_value, _then);
+    _$MembershipPlanImpl _value,
+    $Res Function(_$MembershipPlanImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -132,46 +141,48 @@ class __$$MembershipPlanImplCopyWithImpl<$Res>
     Object? benefits = null,
     Object? isPopular = null,
   }) {
-    return _then(_$MembershipPlanImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      duration: null == duration
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      benefits: null == benefits
-          ? _value._benefits
-          : benefits // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      isPopular: null == isPopular
-          ? _value.isPopular
-          : isPopular // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$MembershipPlanImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+        duration: null == duration
+            ? _value.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        benefits: null == benefits
+            ? _value._benefits
+            : benefits // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        isPopular: null == isPopular
+            ? _value.isPopular
+            : isPopular // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$MembershipPlanImpl implements _MembershipPlan {
-  const _$MembershipPlanImpl(
-      {required this.id,
-      required this.name,
-      required this.price,
-      required this.duration,
-      required final List<String> benefits,
-      required this.isPopular})
-      : _benefits = benefits;
+  const _$MembershipPlanImpl({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.duration,
+    required final List<String> benefits,
+    required this.isPopular,
+  }) : _benefits = benefits;
 
   factory _$MembershipPlanImpl.fromJson(Map<String, dynamic> json) =>
       _$$MembershipPlanImplFromJson(json);
@@ -217,32 +228,40 @@ class _$MembershipPlanImpl implements _MembershipPlan {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, price, duration,
-      const DeepCollectionEquality().hash(_benefits), isPopular);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    price,
+    duration,
+    const DeepCollectionEquality().hash(_benefits),
+    isPopular,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MembershipPlanImplCopyWith<_$MembershipPlanImpl> get copyWith =>
       __$$MembershipPlanImplCopyWithImpl<_$MembershipPlanImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MembershipPlanImplToJson(
-      this,
-    );
+    return _$$MembershipPlanImplToJson(this);
   }
 }
 
 abstract class _MembershipPlan implements MembershipPlan {
-  const factory _MembershipPlan(
-      {required final String id,
-      required final String name,
-      required final double price,
-      required final String duration,
-      required final List<String> benefits,
-      required final bool isPopular}) = _$MembershipPlanImpl;
+  const factory _MembershipPlan({
+    required final String id,
+    required final String name,
+    required final double price,
+    required final String duration,
+    required final List<String> benefits,
+    required final bool isPopular,
+  }) = _$MembershipPlanImpl;
 
   factory _MembershipPlan.fromJson(Map<String, dynamic> json) =
       _$MembershipPlanImpl.fromJson;
@@ -286,15 +305,17 @@ mixin _$Membership {
 /// @nodoc
 abstract class $MembershipCopyWith<$Res> {
   factory $MembershipCopyWith(
-          Membership value, $Res Function(Membership) then) =
-      _$MembershipCopyWithImpl<$Res, Membership>;
+    Membership value,
+    $Res Function(Membership) then,
+  ) = _$MembershipCopyWithImpl<$Res, Membership>;
   @useResult
-  $Res call(
-      {String planId,
-      DateTime startDate,
-      DateTime endDate,
-      bool isActive,
-      List<String> usedBenefits});
+  $Res call({
+    String planId,
+    DateTime startDate,
+    DateTime endDate,
+    bool isActive,
+    List<String> usedBenefits,
+  });
 }
 
 /// @nodoc
@@ -316,28 +337,31 @@ class _$MembershipCopyWithImpl<$Res, $Val extends Membership>
     Object? isActive = null,
     Object? usedBenefits = null,
   }) {
-    return _then(_value.copyWith(
-      planId: null == planId
-          ? _value.planId
-          : planId // ignore: cast_nullable_to_non_nullable
-              as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isActive: null == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      usedBenefits: null == usedBenefits
-          ? _value.usedBenefits
-          : usedBenefits // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            planId: null == planId
+                ? _value.planId
+                : planId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            startDate: null == startDate
+                ? _value.startDate
+                : startDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            endDate: null == endDate
+                ? _value.endDate
+                : endDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            isActive: null == isActive
+                ? _value.isActive
+                : isActive // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            usedBenefits: null == usedBenefits
+                ? _value.usedBenefits
+                : usedBenefits // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -345,16 +369,18 @@ class _$MembershipCopyWithImpl<$Res, $Val extends Membership>
 abstract class _$$MembershipImplCopyWith<$Res>
     implements $MembershipCopyWith<$Res> {
   factory _$$MembershipImplCopyWith(
-          _$MembershipImpl value, $Res Function(_$MembershipImpl) then) =
-      __$$MembershipImplCopyWithImpl<$Res>;
+    _$MembershipImpl value,
+    $Res Function(_$MembershipImpl) then,
+  ) = __$$MembershipImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String planId,
-      DateTime startDate,
-      DateTime endDate,
-      bool isActive,
-      List<String> usedBenefits});
+  $Res call({
+    String planId,
+    DateTime startDate,
+    DateTime endDate,
+    bool isActive,
+    List<String> usedBenefits,
+  });
 }
 
 /// @nodoc
@@ -362,8 +388,9 @@ class __$$MembershipImplCopyWithImpl<$Res>
     extends _$MembershipCopyWithImpl<$Res, _$MembershipImpl>
     implements _$$MembershipImplCopyWith<$Res> {
   __$$MembershipImplCopyWithImpl(
-      _$MembershipImpl _value, $Res Function(_$MembershipImpl) _then)
-      : super(_value, _then);
+    _$MembershipImpl _value,
+    $Res Function(_$MembershipImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -374,41 +401,43 @@ class __$$MembershipImplCopyWithImpl<$Res>
     Object? isActive = null,
     Object? usedBenefits = null,
   }) {
-    return _then(_$MembershipImpl(
-      planId: null == planId
-          ? _value.planId
-          : planId // ignore: cast_nullable_to_non_nullable
-              as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isActive: null == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      usedBenefits: null == usedBenefits
-          ? _value._usedBenefits
-          : usedBenefits // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
+    return _then(
+      _$MembershipImpl(
+        planId: null == planId
+            ? _value.planId
+            : planId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        startDate: null == startDate
+            ? _value.startDate
+            : startDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        endDate: null == endDate
+            ? _value.endDate
+            : endDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        isActive: null == isActive
+            ? _value.isActive
+            : isActive // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        usedBenefits: null == usedBenefits
+            ? _value._usedBenefits
+            : usedBenefits // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$MembershipImpl implements _Membership {
-  const _$MembershipImpl(
-      {required this.planId,
-      required this.startDate,
-      required this.endDate,
-      required this.isActive,
-      required final List<String> usedBenefits})
-      : _usedBenefits = usedBenefits;
+  const _$MembershipImpl({
+    required this.planId,
+    required this.startDate,
+    required this.endDate,
+    required this.isActive,
+    required final List<String> usedBenefits,
+  }) : _usedBenefits = usedBenefits;
 
   factory _$MembershipImpl.fromJson(Map<String, dynamic> json) =>
       _$$MembershipImplFromJson(json);
@@ -445,14 +474,22 @@ class _$MembershipImpl implements _Membership {
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
-            const DeepCollectionEquality()
-                .equals(other._usedBenefits, _usedBenefits));
+            const DeepCollectionEquality().equals(
+              other._usedBenefits,
+              _usedBenefits,
+            ));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, planId, startDate, endDate,
-      isActive, const DeepCollectionEquality().hash(_usedBenefits));
+  int get hashCode => Object.hash(
+    runtimeType,
+    planId,
+    startDate,
+    endDate,
+    isActive,
+    const DeepCollectionEquality().hash(_usedBenefits),
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -462,19 +499,18 @@ class _$MembershipImpl implements _Membership {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MembershipImplToJson(
-      this,
-    );
+    return _$$MembershipImplToJson(this);
   }
 }
 
 abstract class _Membership implements Membership {
-  const factory _Membership(
-      {required final String planId,
-      required final DateTime startDate,
-      required final DateTime endDate,
-      required final bool isActive,
-      required final List<String> usedBenefits}) = _$MembershipImpl;
+  const factory _Membership({
+    required final String planId,
+    required final DateTime startDate,
+    required final DateTime endDate,
+    required final bool isActive,
+    required final List<String> usedBenefits,
+  }) = _$MembershipImpl;
 
   factory _Membership.fromJson(Map<String, dynamic> json) =
       _$MembershipImpl.fromJson;
@@ -515,8 +551,9 @@ mixin _$MembershipBenefit {
 /// @nodoc
 abstract class $MembershipBenefitCopyWith<$Res> {
   factory $MembershipBenefitCopyWith(
-          MembershipBenefit value, $Res Function(MembershipBenefit) then) =
-      _$MembershipBenefitCopyWithImpl<$Res, MembershipBenefit>;
+    MembershipBenefit value,
+    $Res Function(MembershipBenefit) then,
+  ) = _$MembershipBenefitCopyWithImpl<$Res, MembershipBenefit>;
   @useResult
   $Res call({String id, String title, String description, String icon});
 }
@@ -539,33 +576,37 @@ class _$MembershipBenefitCopyWithImpl<$Res, $Val extends MembershipBenefit>
     Object? description = null,
     Object? icon = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      icon: null == icon
-          ? _value.icon
-          : icon // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            icon: null == icon
+                ? _value.icon
+                : icon // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$MembershipBenefitImplCopyWith<$Res>
     implements $MembershipBenefitCopyWith<$Res> {
-  factory _$$MembershipBenefitImplCopyWith(_$MembershipBenefitImpl value,
-          $Res Function(_$MembershipBenefitImpl) then) =
-      __$$MembershipBenefitImplCopyWithImpl<$Res>;
+  factory _$$MembershipBenefitImplCopyWith(
+    _$MembershipBenefitImpl value,
+    $Res Function(_$MembershipBenefitImpl) then,
+  ) = __$$MembershipBenefitImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String title, String description, String icon});
@@ -575,9 +616,10 @@ abstract class _$$MembershipBenefitImplCopyWith<$Res>
 class __$$MembershipBenefitImplCopyWithImpl<$Res>
     extends _$MembershipBenefitCopyWithImpl<$Res, _$MembershipBenefitImpl>
     implements _$$MembershipBenefitImplCopyWith<$Res> {
-  __$$MembershipBenefitImplCopyWithImpl(_$MembershipBenefitImpl _value,
-      $Res Function(_$MembershipBenefitImpl) _then)
-      : super(_value, _then);
+  __$$MembershipBenefitImplCopyWithImpl(
+    _$MembershipBenefitImpl _value,
+    $Res Function(_$MembershipBenefitImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -587,35 +629,38 @@ class __$$MembershipBenefitImplCopyWithImpl<$Res>
     Object? description = null,
     Object? icon = null,
   }) {
-    return _then(_$MembershipBenefitImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      icon: null == icon
-          ? _value.icon
-          : icon // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$MembershipBenefitImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        icon: null == icon
+            ? _value.icon
+            : icon // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$MembershipBenefitImpl implements _MembershipBenefit {
-  const _$MembershipBenefitImpl(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.icon});
+  const _$MembershipBenefitImpl({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
 
   factory _$MembershipBenefitImpl.fromJson(Map<String, dynamic> json) =>
       _$$MembershipBenefitImplFromJson(json);
@@ -655,22 +700,23 @@ class _$MembershipBenefitImpl implements _MembershipBenefit {
   @pragma('vm:prefer-inline')
   _$$MembershipBenefitImplCopyWith<_$MembershipBenefitImpl> get copyWith =>
       __$$MembershipBenefitImplCopyWithImpl<_$MembershipBenefitImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MembershipBenefitImplToJson(
-      this,
-    );
+    return _$$MembershipBenefitImplToJson(this);
   }
 }
 
 abstract class _MembershipBenefit implements MembershipBenefit {
-  const factory _MembershipBenefit(
-      {required final String id,
-      required final String title,
-      required final String description,
-      required final String icon}) = _$MembershipBenefitImpl;
+  const factory _MembershipBenefit({
+    required final String id,
+    required final String title,
+    required final String description,
+    required final String icon,
+  }) = _$MembershipBenefitImpl;
 
   factory _MembershipBenefit.fromJson(Map<String, dynamic> json) =
       _$MembershipBenefitImpl.fromJson;

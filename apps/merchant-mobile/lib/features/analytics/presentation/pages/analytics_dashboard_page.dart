@@ -65,22 +65,41 @@ class AnalyticsDashboardPage extends ConsumerWidget {
                               color: Colors.grey[50],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: (analyticsState.revenueAnalytics != null && (analyticsState.revenueAnalytics as List).isNotEmpty)
+                            child:
+                                (analyticsState.revenueAnalytics != null &&
+                                    (analyticsState.revenueAnalytics as List)
+                                        .isNotEmpty)
                                 ? ListView(
-                                    children: (analyticsState.revenueAnalytics as List).map((point) {
+                                    children: (analyticsState.revenueAnalytics as List).map((
+                                      point,
+                                    ) {
                                       return ListTile(
                                         dense: true,
-                                        title: Text('${point['date'] ?? point['month'] ?? ''}'),
-                                        trailing: Text('₹${point['revenue'] ?? point['value'] ?? 0}'),
+                                        title: Text(
+                                          '${point['date'] ?? point['month'] ?? ''}',
+                                        ),
+                                        trailing: Text(
+                                          '₹${point['revenue'] ?? point['value'] ?? 0}',
+                                        ),
                                       );
                                     }).toList(),
                                   )
                                 : Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.trending_up, size: 48, color: Colors.grey[300]),
+                                      Icon(
+                                        Icons.trending_up,
+                                        size: 48,
+                                        color: Colors.grey[300],
+                                      ),
                                       const SizedBox(height: 8),
-                                      Text('No revenue data yet', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
+                                      Text(
+                                        'No revenue data yet',
+                                        style: TextStyle(
+                                          color: Colors.grey[500],
+                                          fontSize: 13,
+                                        ),
+                                      ),
                                     ],
                                   ),
                           ),
@@ -295,7 +314,7 @@ class AnalyticsDashboardPage extends ConsumerWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.deepPurple.withValues(alpha:0.08),
+            color: Colors.deepPurple.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, size: 24, color: Colors.deepPurple),

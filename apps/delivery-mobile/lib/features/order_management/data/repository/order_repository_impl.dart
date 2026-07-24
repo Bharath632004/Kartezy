@@ -72,4 +72,3 @@ class OrderRepositoryImpl implements OrderRepository {
     return await _remoteDataSource.getOrderTimeline(orderId);
   }
 }
-

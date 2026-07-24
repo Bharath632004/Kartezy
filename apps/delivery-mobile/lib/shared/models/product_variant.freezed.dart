@@ -12,7 +12,8 @@ part of 'product_variant.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 ProductVariant _$ProductVariantFromJson(Map<String, dynamic> json) {
   return _ProductVariant.fromJson(json);
@@ -36,16 +37,18 @@ mixin _$ProductVariant {
 /// @nodoc
 abstract class $ProductVariantCopyWith<$Res> {
   factory $ProductVariantCopyWith(
-          ProductVariant value, $Res Function(ProductVariant) then) =
-      _$ProductVariantCopyWithImpl<$Res, ProductVariant>;
+    ProductVariant value,
+    $Res Function(ProductVariant) then,
+  ) = _$ProductVariantCopyWithImpl<$Res, ProductVariant>;
   @useResult
-  $Res call(
-      {String id,
-      String productId,
-      String sku,
-      double price,
-      Map<String, String> attributes,
-      bool isDefault});
+  $Res call({
+    String id,
+    String productId,
+    String sku,
+    double price,
+    Map<String, String> attributes,
+    bool isDefault,
+  });
 }
 
 /// @nodoc
@@ -68,50 +71,55 @@ class _$ProductVariantCopyWithImpl<$Res, $Val extends ProductVariant>
     Object? attributes = null,
     Object? isDefault = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      productId: null == productId
-          ? _value.productId
-          : productId // ignore: cast_nullable_to_non_nullable
-              as String,
-      sku: null == sku
-          ? _value.sku
-          : sku // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      attributes: null == attributes
-          ? _value.attributes
-          : attributes // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      isDefault: null == isDefault
-          ? _value.isDefault
-          : isDefault // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            productId: null == productId
+                ? _value.productId
+                : productId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            sku: null == sku
+                ? _value.sku
+                : sku // ignore: cast_nullable_to_non_nullable
+                      as String,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            attributes: null == attributes
+                ? _value.attributes
+                : attributes // ignore: cast_nullable_to_non_nullable
+                      as Map<String, String>,
+            isDefault: null == isDefault
+                ? _value.isDefault
+                : isDefault // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$ProductVariantImplCopyWith<$Res>
     implements $ProductVariantCopyWith<$Res> {
-  factory _$$ProductVariantImplCopyWith(_$ProductVariantImpl value,
-          $Res Function(_$ProductVariantImpl) then) =
-      __$$ProductVariantImplCopyWithImpl<$Res>;
+  factory _$$ProductVariantImplCopyWith(
+    _$ProductVariantImpl value,
+    $Res Function(_$ProductVariantImpl) then,
+  ) = __$$ProductVariantImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String productId,
-      String sku,
-      double price,
-      Map<String, String> attributes,
-      bool isDefault});
+  $Res call({
+    String id,
+    String productId,
+    String sku,
+    double price,
+    Map<String, String> attributes,
+    bool isDefault,
+  });
 }
 
 /// @nodoc
@@ -119,8 +127,9 @@ class __$$ProductVariantImplCopyWithImpl<$Res>
     extends _$ProductVariantCopyWithImpl<$Res, _$ProductVariantImpl>
     implements _$$ProductVariantImplCopyWith<$Res> {
   __$$ProductVariantImplCopyWithImpl(
-      _$ProductVariantImpl _value, $Res Function(_$ProductVariantImpl) _then)
-      : super(_value, _then);
+    _$ProductVariantImpl _value,
+    $Res Function(_$ProductVariantImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -132,46 +141,48 @@ class __$$ProductVariantImplCopyWithImpl<$Res>
     Object? attributes = null,
     Object? isDefault = null,
   }) {
-    return _then(_$ProductVariantImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      productId: null == productId
-          ? _value.productId
-          : productId // ignore: cast_nullable_to_non_nullable
-              as String,
-      sku: null == sku
-          ? _value.sku
-          : sku // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      attributes: null == attributes
-          ? _value._attributes
-          : attributes // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      isDefault: null == isDefault
-          ? _value.isDefault
-          : isDefault // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$ProductVariantImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        productId: null == productId
+            ? _value.productId
+            : productId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        sku: null == sku
+            ? _value.sku
+            : sku // ignore: cast_nullable_to_non_nullable
+                  as String,
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+        attributes: null == attributes
+            ? _value._attributes
+            : attributes // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>,
+        isDefault: null == isDefault
+            ? _value.isDefault
+            : isDefault // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ProductVariantImpl implements _ProductVariant {
-  const _$ProductVariantImpl(
-      {required this.id,
-      required this.productId,
-      required this.sku,
-      required this.price,
-      required final Map<String, String> attributes,
-      required this.isDefault})
-      : _attributes = attributes;
+  const _$ProductVariantImpl({
+    required this.id,
+    required this.productId,
+    required this.sku,
+    required this.price,
+    required final Map<String, String> attributes,
+    required this.isDefault,
+  }) : _attributes = attributes;
 
   factory _$ProductVariantImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductVariantImplFromJson(json);
@@ -210,40 +221,50 @@ class _$ProductVariantImpl implements _ProductVariant {
                 other.productId == productId) &&
             (identical(other.sku, sku) || other.sku == sku) &&
             (identical(other.price, price) || other.price == price) &&
-            const DeepCollectionEquality()
-                .equals(other._attributes, _attributes) &&
+            const DeepCollectionEquality().equals(
+              other._attributes,
+              _attributes,
+            ) &&
             (identical(other.isDefault, isDefault) ||
                 other.isDefault == isDefault));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, productId, sku, price,
-      const DeepCollectionEquality().hash(_attributes), isDefault);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    productId,
+    sku,
+    price,
+    const DeepCollectionEquality().hash(_attributes),
+    isDefault,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProductVariantImplCopyWith<_$ProductVariantImpl> get copyWith =>
       __$$ProductVariantImplCopyWithImpl<_$ProductVariantImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProductVariantImplToJson(
-      this,
-    );
+    return _$$ProductVariantImplToJson(this);
   }
 }
 
 abstract class _ProductVariant implements ProductVariant {
-  const factory _ProductVariant(
-      {required final String id,
-      required final String productId,
-      required final String sku,
-      required final double price,
-      required final Map<String, String> attributes,
-      required final bool isDefault}) = _$ProductVariantImpl;
+  const factory _ProductVariant({
+    required final String id,
+    required final String productId,
+    required final String sku,
+    required final double price,
+    required final Map<String, String> attributes,
+    required final bool isDefault,
+  }) = _$ProductVariantImpl;
 
   factory _ProductVariant.fromJson(Map<String, dynamic> json) =
       _$ProductVariantImpl.fromJson;

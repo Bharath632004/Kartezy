@@ -83,12 +83,12 @@ class AvailableOrdersNotifier extends StateNotifier<AvailableOrdersState> {
 
 final availableOrdersProvider =
     StateNotifierProvider<AvailableOrdersNotifier, AvailableOrdersState>((ref) {
-  return AvailableOrdersNotifier(
-    ref.read(getAvailableOrdersUseCaseProvider),
-    ref.read(acceptOrderUseCaseProvider),
-    ref.read(rejectOrderUseCaseProvider),
-  );
-});
+      return AvailableOrdersNotifier(
+        ref.read(getAvailableOrdersUseCaseProvider),
+        ref.read(acceptOrderUseCaseProvider),
+        ref.read(rejectOrderUseCaseProvider),
+      );
+    });
 
 // Active Delivery State
 class ActiveDeliveryState {
@@ -136,10 +136,8 @@ class ActiveDeliveryNotifier extends StateNotifier<ActiveDeliveryState> {
   final PickupOrderUseCase _pickupOrder;
   final DeliverOrderUseCase _deliverOrder;
 
-  ActiveDeliveryNotifier(
-    this._pickupOrder,
-    this._deliverOrder,
-  ) : super(const ActiveDeliveryState());
+  ActiveDeliveryNotifier(this._pickupOrder, this._deliverOrder)
+    : super(const ActiveDeliveryState());
 
   void setOrder(Order order) {
     state = ActiveDeliveryState.loaded(order);
@@ -161,10 +159,7 @@ class ActiveDeliveryNotifier extends StateNotifier<ActiveDeliveryState> {
     state = state.copyWith(isLoading: true);
     try {
       await _deliverOrder.call(orderId);
-      state = state.copyWith(
-        isLoading: false,
-        deliveryComplete: true,
-      );
+      state = state.copyWith(isLoading: false, deliveryComplete: true);
       return true;
     } catch (e) {
       state = state.copyWith(isLoading: false, error: 'Delivery failed: $e');
@@ -179,8 +174,8 @@ class ActiveDeliveryNotifier extends StateNotifier<ActiveDeliveryState> {
 
 final activeDeliveryProvider =
     StateNotifierProvider<ActiveDeliveryNotifier, ActiveDeliveryState>((ref) {
-  return ActiveDeliveryNotifier(
-    ref.read(pickupOrderUseCaseProvider),
-    ref.read(deliverOrderUseCaseProvider),
-  );
-});
+      return ActiveDeliveryNotifier(
+        ref.read(pickupOrderUseCaseProvider),
+        ref.read(deliverOrderUseCaseProvider),
+      );
+    });

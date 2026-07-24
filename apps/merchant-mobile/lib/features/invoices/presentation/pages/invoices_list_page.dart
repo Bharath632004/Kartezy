@@ -150,7 +150,9 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
     showDialog(
       context: context,
       builder: (ctx) => FutureBuilder<Map<String, dynamic>>(
-        future: ref.read(invoicesProvider.notifier).getInvoiceDetails(invoiceId),
+        future: ref
+            .read(invoicesProvider.notifier)
+            .getInvoiceDetails(invoiceId),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const AlertDialog(
@@ -174,9 +176,7 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
           }
           return AlertDialog(
             title: const Text('Invoice Details'),
-            content: SingleChildScrollView(
-              child: Text('${snapshot.data}'),
-            ),
+            content: SingleChildScrollView(child: Text('${snapshot.data}')),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
@@ -211,9 +211,7 @@ class _InvoicesListPageState extends ConsumerState<InvoicesListPage> {
         const SnackBar(content: Text('Print command sent')),
       );
     } catch (e) {
-      messenger?.showSnackBar(
-        SnackBar(content: Text('Error printing: $e')),
-      );
+      messenger?.showSnackBar(SnackBar(content: Text('Error printing: $e')));
     }
   }
 

@@ -7,24 +7,27 @@ import 'package:delivery_mobile/navigation/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables
   await dotenv.load(fileName: '.env');
 
-  // Initialize Hive
+  // Initialize Hive for local storage
   final hiveManager = HiveManager();
   await hiveManager.init();
 
-  runApp(
-    ProviderScope(
-      overrides: [
-        // Override providers if needed for testing
-      ],
-      child: const MyApp(),
-    ),
-  );
+  // Initialize Firebase (wrapped in try-catch for development)
+  // try {
+  //   await Firebase.initializeApp();
+  // } catch (e) {
+  //   debugPrint('Firebase init skipped in development: $e');
+  // }
+
+  runApp(ProviderScope(overrides: const [], child: const DeliveryPartnerApp()));
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+/// Root widget of the Delivery Partner Application.
+class DeliveryPartnerApp extends ConsumerWidget {
+  const DeliveryPartnerApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,6 +39,16 @@ class MyApp extends ConsumerWidget {
       theme: themeData,
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(
+              MediaQuery.of(context).textScaler.scale(1.0).clamp(0.8, 2.0),
+            ),
+          ),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

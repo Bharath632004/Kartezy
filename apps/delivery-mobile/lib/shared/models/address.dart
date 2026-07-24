@@ -8,7 +8,8 @@ class Address with _$Address {
   const factory Address({
     required String id,
     // ignore: invalid_annotation_target
-    @JsonKey(includeToJson: false, includeFromJson: false) required String? userId,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    required String? userId,
     required String name,
     required String phone,
     required String addressLine1,

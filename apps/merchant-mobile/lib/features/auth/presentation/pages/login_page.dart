@@ -34,18 +34,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (mounted) {
         if (mfaRequired) {
           // MFA required - navigate to MFA verification page
-          context.go('/mfa-verify', extra: {
-            'email': _emailController.text.trim(),
-            'mfaSessionToken': authStateNotifier.pendingMfaToken ?? '',
-          });
+          context.go(
+            '/mfa-verify',
+            extra: {
+              'email': _emailController.text.trim(),
+              'mfaSessionToken': authStateNotifier.pendingMfaToken ?? '',
+            },
+          );
         }
         // Otherwise the auth state notifier will update state and the router will redirect
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Login failed: $e')));
       }
     }
   }
@@ -67,9 +70,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Google login failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Google login failed: $e')));
       }
     }
   }

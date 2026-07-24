@@ -29,10 +29,9 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
       reviewCount: (json['reviewCount'] as num?)?.toInt() ?? 0,
       isFavorite: json['isFavorite'] as bool? ?? false,
       hasVariants: json['hasVariants'] as bool? ?? false,
-      tags: (json['tags'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
     );
 
 Map<String, dynamic> _$$ProductImplToJson(_$ProductImpl instance) =>

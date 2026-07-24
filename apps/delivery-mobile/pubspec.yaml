@@ -1,5 +1,5 @@
 name: delivery_mobile
-description: "A new Flutter project for delivery partners."
+description: "World-class Delivery Partner Application by Kartezy."
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -11,29 +11,95 @@ dependencies:
     sdk: flutter
   kartezy_core:
     path: kartezy_core
+  
+  # State Management
   flutter_riverpod: ^2.5.1
+  
+  # Routing
   go_router: ^14.2.7
+  
+  # Networking
   dio: ^5.4.3+1
+  web_socket_channel: ^3.0.0
+  
+  # Serialization
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
+  
+  # Local Storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^9.2.2
+  
+  # Environment
   flutter_dotenv: ^5.1.0
+  
+  # UI
   cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+  flutter_svg: ^2.0.10+1
+  percent_indicator: ^4.2.3
+  flutter_slidable: ^3.1.1
+  flutter_staggered_animations: ^1.1.1
+  pull_to_refresh: ^2.0.0
+  flutter_staggered_grid_view: ^0.7.0
+  badges: ^3.1.2
+  
+  # Utility
   intl: ^0.19.0
   equatable: ^2.0.5
   dartz: ^0.10.1
-  geolocator: ^12.0.0
-  google_maps_flutter: ^2.5.3
-  shimmer: ^3.0.0
-  country_code_picker: ^3.1.0
-  connectivity_plus: ^6.1.4
-  permission_handler: ^11.3.1
   uuid: ^4.4.2
   collection: ^1.18.0
   url_launcher: ^6.2.6
-  web_socket_channel: ^3.0.0
+  country_code_picker: ^3.1.0
+  
+  # Location & Maps
+  geolocator: ^12.0.0
+  google_maps_flutter: ^2.5.3
+  permission_handler: ^11.3.1
+  
+  # Connectivity
+  connectivity_plus: ^6.1.4
+  
+  # Firebase
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.1
+  firebase_analytics: ^11.4.6
+  firebase_crashlytics: ^4.3.9
+  firebase_messaging: ^15.2.5
+  
+  # Biometric Authentication
+  local_auth: ^2.3.0
+  
+  # Image Picker (for proof of delivery, KYC uploads)
+  image_picker: ^1.1.2
+  
+  # Background Services
+  flutter_background_service: ^5.0.1
+  flutter_background_service_android: ^6.2.0
+  
+  # Local Notifications
+  flutter_local_notifications: ^18.0.1
+  
+  # Date & Time
+  timezone: ^0.10.0
+  
+  # Crypto (for certificate pinning readiness)
+  crypto: ^3.0.6
+  
+  # App Review
+  in_app_review: ^2.0.9
+  
+  # Share (for trip sharing)
+  share_plus: ^10.1.4
+  
+  # QR Code Scanner
+  mobile_scanner: ^6.0.2
+  
+  # Screen brightness (for SOS feature)
+  screen_brightness: ^2.1.11
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -44,3 +110,14 @@ dev_dependencies:
   custom_lint: ^0.6.4
   json_serializable: ^6.8.0
   analyzer: ^6.4.1
+  mocktail: ^1.0.4
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/
+    - assets/images/
+    - assets/icons/

@@ -13,8 +13,9 @@ _$OrderItemImpl _$$OrderItemImplFromJson(Map<String, dynamic> json) =>
       productName: json['productName'] as String,
       price: (json['price'] as num).toDouble(),
       quantity: (json['quantity'] as num).toInt(),
-      selectedVariants:
-          Map<String, String>.from(json['selectedVariants'] as Map),
+      selectedVariants: Map<String, String>.from(
+        json['selectedVariants'] as Map,
+      ),
       total: (json['total'] as num).toDouble(),
     );
 

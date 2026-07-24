@@ -12,7 +12,8 @@ part of 'tracking_info.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 TrackingInfo _$TrackingInfoFromJson(Map<String, dynamic> json) {
   return _TrackingInfo.fromJson(json);
@@ -39,19 +40,21 @@ mixin _$TrackingInfo {
 /// @nodoc
 abstract class $TrackingInfoCopyWith<$Res> {
   factory $TrackingInfoCopyWith(
-          TrackingInfo value, $Res Function(TrackingInfo) then) =
-      _$TrackingInfoCopyWithImpl<$Res, TrackingInfo>;
+    TrackingInfo value,
+    $Res Function(TrackingInfo) then,
+  ) = _$TrackingInfoCopyWithImpl<$Res, TrackingInfo>;
   @useResult
-  $Res call(
-      {String orderId,
-      DriverInfo driver,
-      RouteInfo route,
-      String currentStatus,
-      DateTime lastUpdated,
-      double distanceRemaining,
-      Duration eta,
-      double currentLatitude,
-      double currentLongitude});
+  $Res call({
+    String orderId,
+    DriverInfo driver,
+    RouteInfo route,
+    String currentStatus,
+    DateTime lastUpdated,
+    double distanceRemaining,
+    Duration eta,
+    double currentLatitude,
+    double currentLongitude,
+  });
 
   $DriverInfoCopyWith<$Res> get driver;
 }
@@ -79,44 +82,47 @@ class _$TrackingInfoCopyWithImpl<$Res, $Val extends TrackingInfo>
     Object? currentLatitude = null,
     Object? currentLongitude = null,
   }) {
-    return _then(_value.copyWith(
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
-      driver: null == driver
-          ? _value.driver
-          : driver // ignore: cast_nullable_to_non_nullable
-              as DriverInfo,
-      route: null == route
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
-              as RouteInfo,
-      currentStatus: null == currentStatus
-          ? _value.currentStatus
-          : currentStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastUpdated: null == lastUpdated
-          ? _value.lastUpdated
-          : lastUpdated // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      distanceRemaining: null == distanceRemaining
-          ? _value.distanceRemaining
-          : distanceRemaining // ignore: cast_nullable_to_non_nullable
-              as double,
-      eta: null == eta
-          ? _value.eta
-          : eta // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      currentLatitude: null == currentLatitude
-          ? _value.currentLatitude
-          : currentLatitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      currentLongitude: null == currentLongitude
-          ? _value.currentLongitude
-          : currentLongitude // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            orderId: null == orderId
+                ? _value.orderId
+                : orderId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            driver: null == driver
+                ? _value.driver
+                : driver // ignore: cast_nullable_to_non_nullable
+                      as DriverInfo,
+            route: null == route
+                ? _value.route
+                : route // ignore: cast_nullable_to_non_nullable
+                      as RouteInfo,
+            currentStatus: null == currentStatus
+                ? _value.currentStatus
+                : currentStatus // ignore: cast_nullable_to_non_nullable
+                      as String,
+            lastUpdated: null == lastUpdated
+                ? _value.lastUpdated
+                : lastUpdated // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            distanceRemaining: null == distanceRemaining
+                ? _value.distanceRemaining
+                : distanceRemaining // ignore: cast_nullable_to_non_nullable
+                      as double,
+            eta: null == eta
+                ? _value.eta
+                : eta // ignore: cast_nullable_to_non_nullable
+                      as Duration,
+            currentLatitude: null == currentLatitude
+                ? _value.currentLatitude
+                : currentLatitude // ignore: cast_nullable_to_non_nullable
+                      as double,
+            currentLongitude: null == currentLongitude
+                ? _value.currentLongitude
+                : currentLongitude // ignore: cast_nullable_to_non_nullable
+                      as double,
+          )
+          as $Val,
+    );
   }
 
   @override
@@ -132,20 +138,22 @@ class _$TrackingInfoCopyWithImpl<$Res, $Val extends TrackingInfo>
 abstract class _$$TrackingInfoImplCopyWith<$Res>
     implements $TrackingInfoCopyWith<$Res> {
   factory _$$TrackingInfoImplCopyWith(
-          _$TrackingInfoImpl value, $Res Function(_$TrackingInfoImpl) then) =
-      __$$TrackingInfoImplCopyWithImpl<$Res>;
+    _$TrackingInfoImpl value,
+    $Res Function(_$TrackingInfoImpl) then,
+  ) = __$$TrackingInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String orderId,
-      DriverInfo driver,
-      RouteInfo route,
-      String currentStatus,
-      DateTime lastUpdated,
-      double distanceRemaining,
-      Duration eta,
-      double currentLatitude,
-      double currentLongitude});
+  $Res call({
+    String orderId,
+    DriverInfo driver,
+    RouteInfo route,
+    String currentStatus,
+    DateTime lastUpdated,
+    double distanceRemaining,
+    Duration eta,
+    double currentLatitude,
+    double currentLongitude,
+  });
 
   @override
   $DriverInfoCopyWith<$Res> get driver;
@@ -156,8 +164,9 @@ class __$$TrackingInfoImplCopyWithImpl<$Res>
     extends _$TrackingInfoCopyWithImpl<$Res, _$TrackingInfoImpl>
     implements _$$TrackingInfoImplCopyWith<$Res> {
   __$$TrackingInfoImplCopyWithImpl(
-      _$TrackingInfoImpl _value, $Res Function(_$TrackingInfoImpl) _then)
-      : super(_value, _then);
+    _$TrackingInfoImpl _value,
+    $Res Function(_$TrackingInfoImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -172,60 +181,63 @@ class __$$TrackingInfoImplCopyWithImpl<$Res>
     Object? currentLatitude = null,
     Object? currentLongitude = null,
   }) {
-    return _then(_$TrackingInfoImpl(
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
-      driver: null == driver
-          ? _value.driver
-          : driver // ignore: cast_nullable_to_non_nullable
-              as DriverInfo,
-      route: null == route
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
-              as RouteInfo,
-      currentStatus: null == currentStatus
-          ? _value.currentStatus
-          : currentStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastUpdated: null == lastUpdated
-          ? _value.lastUpdated
-          : lastUpdated // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      distanceRemaining: null == distanceRemaining
-          ? _value.distanceRemaining
-          : distanceRemaining // ignore: cast_nullable_to_non_nullable
-              as double,
-      eta: null == eta
-          ? _value.eta
-          : eta // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      currentLatitude: null == currentLatitude
-          ? _value.currentLatitude
-          : currentLatitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      currentLongitude: null == currentLongitude
-          ? _value.currentLongitude
-          : currentLongitude // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+    return _then(
+      _$TrackingInfoImpl(
+        orderId: null == orderId
+            ? _value.orderId
+            : orderId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        driver: null == driver
+            ? _value.driver
+            : driver // ignore: cast_nullable_to_non_nullable
+                  as DriverInfo,
+        route: null == route
+            ? _value.route
+            : route // ignore: cast_nullable_to_non_nullable
+                  as RouteInfo,
+        currentStatus: null == currentStatus
+            ? _value.currentStatus
+            : currentStatus // ignore: cast_nullable_to_non_nullable
+                  as String,
+        lastUpdated: null == lastUpdated
+            ? _value.lastUpdated
+            : lastUpdated // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        distanceRemaining: null == distanceRemaining
+            ? _value.distanceRemaining
+            : distanceRemaining // ignore: cast_nullable_to_non_nullable
+                  as double,
+        eta: null == eta
+            ? _value.eta
+            : eta // ignore: cast_nullable_to_non_nullable
+                  as Duration,
+        currentLatitude: null == currentLatitude
+            ? _value.currentLatitude
+            : currentLatitude // ignore: cast_nullable_to_non_nullable
+                  as double,
+        currentLongitude: null == currentLongitude
+            ? _value.currentLongitude
+            : currentLongitude // ignore: cast_nullable_to_non_nullable
+                  as double,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$TrackingInfoImpl implements _TrackingInfo {
-  const _$TrackingInfoImpl(
-      {required this.orderId,
-      required this.driver,
-      required this.route,
-      required this.currentStatus,
-      required this.lastUpdated,
-      required this.distanceRemaining,
-      required this.eta,
-      required this.currentLatitude,
-      required this.currentLongitude});
+  const _$TrackingInfoImpl({
+    required this.orderId,
+    required this.driver,
+    required this.route,
+    required this.currentStatus,
+    required this.lastUpdated,
+    required this.distanceRemaining,
+    required this.eta,
+    required this.currentLatitude,
+    required this.currentLongitude,
+  });
 
   factory _$TrackingInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TrackingInfoImplFromJson(json);
@@ -278,16 +290,17 @@ class _$TrackingInfoImpl implements _TrackingInfo {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      orderId,
-      driver,
-      route,
-      currentStatus,
-      lastUpdated,
-      distanceRemaining,
-      eta,
-      currentLatitude,
-      currentLongitude);
+    runtimeType,
+    orderId,
+    driver,
+    route,
+    currentStatus,
+    lastUpdated,
+    distanceRemaining,
+    eta,
+    currentLatitude,
+    currentLongitude,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -297,23 +310,22 @@ class _$TrackingInfoImpl implements _TrackingInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TrackingInfoImplToJson(
-      this,
-    );
+    return _$$TrackingInfoImplToJson(this);
   }
 }
 
 abstract class _TrackingInfo implements TrackingInfo {
-  const factory _TrackingInfo(
-      {required final String orderId,
-      required final DriverInfo driver,
-      required final RouteInfo route,
-      required final String currentStatus,
-      required final DateTime lastUpdated,
-      required final double distanceRemaining,
-      required final Duration eta,
-      required final double currentLatitude,
-      required final double currentLongitude}) = _$TrackingInfoImpl;
+  const factory _TrackingInfo({
+    required final String orderId,
+    required final DriverInfo driver,
+    required final RouteInfo route,
+    required final String currentStatus,
+    required final DateTime lastUpdated,
+    required final double distanceRemaining,
+    required final Duration eta,
+    required final double currentLatitude,
+    required final double currentLongitude,
+  }) = _$TrackingInfoImpl;
 
   factory _TrackingInfo.fromJson(Map<String, dynamic> json) =
       _$TrackingInfoImpl.fromJson;

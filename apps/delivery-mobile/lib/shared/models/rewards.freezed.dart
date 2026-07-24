@@ -12,7 +12,8 @@ part of 'rewards.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 RewardPoints _$RewardPointsFromJson(Map<String, dynamic> json) {
   return _RewardPoints.fromJson(json);
@@ -32,8 +33,9 @@ mixin _$RewardPoints {
 /// @nodoc
 abstract class $RewardPointsCopyWith<$Res> {
   factory $RewardPointsCopyWith(
-          RewardPoints value, $Res Function(RewardPoints) then) =
-      _$RewardPointsCopyWithImpl<$Res, RewardPoints>;
+    RewardPoints value,
+    $Res Function(RewardPoints) then,
+  ) = _$RewardPointsCopyWithImpl<$Res, RewardPoints>;
   @useResult
   $Res call({int points, DateTime? expiresAt});
 }
@@ -50,20 +52,20 @@ class _$RewardPointsCopyWithImpl<$Res, $Val extends RewardPoints>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? points = null,
-    Object? expiresAt = freezed,
-  }) {
-    return _then(_value.copyWith(
-      points: null == points
-          ? _value.points
-          : points // ignore: cast_nullable_to_non_nullable
-              as int,
-      expiresAt: freezed == expiresAt
-          ? _value.expiresAt
-          : expiresAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
+  $Res call({Object? points = null, Object? expiresAt = freezed}) {
+    return _then(
+      _value.copyWith(
+            points: null == points
+                ? _value.points
+                : points // ignore: cast_nullable_to_non_nullable
+                      as int,
+            expiresAt: freezed == expiresAt
+                ? _value.expiresAt
+                : expiresAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -71,8 +73,9 @@ class _$RewardPointsCopyWithImpl<$Res, $Val extends RewardPoints>
 abstract class _$$RewardPointsImplCopyWith<$Res>
     implements $RewardPointsCopyWith<$Res> {
   factory _$$RewardPointsImplCopyWith(
-          _$RewardPointsImpl value, $Res Function(_$RewardPointsImpl) then) =
-      __$$RewardPointsImplCopyWithImpl<$Res>;
+    _$RewardPointsImpl value,
+    $Res Function(_$RewardPointsImpl) then,
+  ) = __$$RewardPointsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int points, DateTime? expiresAt});
@@ -83,25 +86,25 @@ class __$$RewardPointsImplCopyWithImpl<$Res>
     extends _$RewardPointsCopyWithImpl<$Res, _$RewardPointsImpl>
     implements _$$RewardPointsImplCopyWith<$Res> {
   __$$RewardPointsImplCopyWithImpl(
-      _$RewardPointsImpl _value, $Res Function(_$RewardPointsImpl) _then)
-      : super(_value, _then);
+    _$RewardPointsImpl _value,
+    $Res Function(_$RewardPointsImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? points = null,
-    Object? expiresAt = freezed,
-  }) {
-    return _then(_$RewardPointsImpl(
-      points: null == points
-          ? _value.points
-          : points // ignore: cast_nullable_to_non_nullable
-              as int,
-      expiresAt: freezed == expiresAt
-          ? _value.expiresAt
-          : expiresAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
+  $Res call({Object? points = null, Object? expiresAt = freezed}) {
+    return _then(
+      _$RewardPointsImpl(
+        points: null == points
+            ? _value.points
+            : points // ignore: cast_nullable_to_non_nullable
+                  as int,
+        expiresAt: freezed == expiresAt
+            ? _value.expiresAt
+            : expiresAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+      ),
+    );
   }
 }
 
@@ -145,16 +148,15 @@ class _$RewardPointsImpl implements _RewardPoints {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RewardPointsImplToJson(
-      this,
-    );
+    return _$$RewardPointsImplToJson(this);
   }
 }
 
 abstract class _RewardPoints implements RewardPoints {
-  const factory _RewardPoints(
-      {required final int points,
-      final DateTime? expiresAt}) = _$RewardPointsImpl;
+  const factory _RewardPoints({
+    required final int points,
+    final DateTime? expiresAt,
+  }) = _$RewardPointsImpl;
 
   factory _RewardPoints.fromJson(Map<String, dynamic> json) =
       _$RewardPointsImpl.fromJson;
@@ -190,15 +192,17 @@ mixin _$RewardTransaction {
 /// @nodoc
 abstract class $RewardTransactionCopyWith<$Res> {
   factory $RewardTransactionCopyWith(
-          RewardTransaction value, $Res Function(RewardTransaction) then) =
-      _$RewardTransactionCopyWithImpl<$Res, RewardTransaction>;
+    RewardTransaction value,
+    $Res Function(RewardTransaction) then,
+  ) = _$RewardTransactionCopyWithImpl<$Res, RewardTransaction>;
   @useResult
-  $Res call(
-      {String id,
-      String type,
-      int points,
-      String description,
-      DateTime timestamp});
+  $Res call({
+    String id,
+    String type,
+    int points,
+    String description,
+    DateTime timestamp,
+  });
 }
 
 /// @nodoc
@@ -220,54 +224,60 @@ class _$RewardTransactionCopyWithImpl<$Res, $Val extends RewardTransaction>
     Object? description = null,
     Object? timestamp = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      points: null == points
-          ? _value.points
-          : points // ignore: cast_nullable_to_non_nullable
-              as int,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as String,
+            points: null == points
+                ? _value.points
+                : points // ignore: cast_nullable_to_non_nullable
+                      as int,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            timestamp: null == timestamp
+                ? _value.timestamp
+                : timestamp // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$RewardTransactionImplCopyWith<$Res>
     implements $RewardTransactionCopyWith<$Res> {
-  factory _$$RewardTransactionImplCopyWith(_$RewardTransactionImpl value,
-          $Res Function(_$RewardTransactionImpl) then) =
-      __$$RewardTransactionImplCopyWithImpl<$Res>;
+  factory _$$RewardTransactionImplCopyWith(
+    _$RewardTransactionImpl value,
+    $Res Function(_$RewardTransactionImpl) then,
+  ) = __$$RewardTransactionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String type,
-      int points,
-      String description,
-      DateTime timestamp});
+  $Res call({
+    String id,
+    String type,
+    int points,
+    String description,
+    DateTime timestamp,
+  });
 }
 
 /// @nodoc
 class __$$RewardTransactionImplCopyWithImpl<$Res>
     extends _$RewardTransactionCopyWithImpl<$Res, _$RewardTransactionImpl>
     implements _$$RewardTransactionImplCopyWith<$Res> {
-  __$$RewardTransactionImplCopyWithImpl(_$RewardTransactionImpl _value,
-      $Res Function(_$RewardTransactionImpl) _then)
-      : super(_value, _then);
+  __$$RewardTransactionImplCopyWithImpl(
+    _$RewardTransactionImpl _value,
+    $Res Function(_$RewardTransactionImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -278,40 +288,43 @@ class __$$RewardTransactionImplCopyWithImpl<$Res>
     Object? description = null,
     Object? timestamp = null,
   }) {
-    return _then(_$RewardTransactionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      points: null == points
-          ? _value.points
-          : points // ignore: cast_nullable_to_non_nullable
-              as int,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$RewardTransactionImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+        points: null == points
+            ? _value.points
+            : points // ignore: cast_nullable_to_non_nullable
+                  as int,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        timestamp: null == timestamp
+            ? _value.timestamp
+            : timestamp // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RewardTransactionImpl implements _RewardTransaction {
-  const _$RewardTransactionImpl(
-      {required this.id,
-      required this.type,
-      required this.points,
-      required this.description,
-      required this.timestamp});
+  const _$RewardTransactionImpl({
+    required this.id,
+    required this.type,
+    required this.points,
+    required this.description,
+    required this.timestamp,
+  });
 
   factory _$RewardTransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$RewardTransactionImplFromJson(json);
@@ -356,23 +369,24 @@ class _$RewardTransactionImpl implements _RewardTransaction {
   @pragma('vm:prefer-inline')
   _$$RewardTransactionImplCopyWith<_$RewardTransactionImpl> get copyWith =>
       __$$RewardTransactionImplCopyWithImpl<_$RewardTransactionImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RewardTransactionImplToJson(
-      this,
-    );
+    return _$$RewardTransactionImplToJson(this);
   }
 }
 
 abstract class _RewardTransaction implements RewardTransaction {
-  const factory _RewardTransaction(
-      {required final String id,
-      required final String type,
-      required final int points,
-      required final String description,
-      required final DateTime timestamp}) = _$RewardTransactionImpl;
+  const factory _RewardTransaction({
+    required final String id,
+    required final String type,
+    required final int points,
+    required final String description,
+    required final DateTime timestamp,
+  }) = _$RewardTransactionImpl;
 
   factory _RewardTransaction.fromJson(Map<String, dynamic> json) =
       _$RewardTransactionImpl.fromJson;
@@ -412,8 +426,9 @@ mixin _$RewardLevel {
 /// @nodoc
 abstract class $RewardLevelCopyWith<$Res> {
   factory $RewardLevelCopyWith(
-          RewardLevel value, $Res Function(RewardLevel) then) =
-      _$RewardLevelCopyWithImpl<$Res, RewardLevel>;
+    RewardLevel value,
+    $Res Function(RewardLevel) then,
+  ) = _$RewardLevelCopyWithImpl<$Res, RewardLevel>;
   @useResult
   $Res call({String level, int minPoints, List<String> benefits});
 }
@@ -435,20 +450,23 @@ class _$RewardLevelCopyWithImpl<$Res, $Val extends RewardLevel>
     Object? minPoints = null,
     Object? benefits = null,
   }) {
-    return _then(_value.copyWith(
-      level: null == level
-          ? _value.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as String,
-      minPoints: null == minPoints
-          ? _value.minPoints
-          : minPoints // ignore: cast_nullable_to_non_nullable
-              as int,
-      benefits: null == benefits
-          ? _value.benefits
-          : benefits // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            level: null == level
+                ? _value.level
+                : level // ignore: cast_nullable_to_non_nullable
+                      as String,
+            minPoints: null == minPoints
+                ? _value.minPoints
+                : minPoints // ignore: cast_nullable_to_non_nullable
+                      as int,
+            benefits: null == benefits
+                ? _value.benefits
+                : benefits // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -456,8 +474,9 @@ class _$RewardLevelCopyWithImpl<$Res, $Val extends RewardLevel>
 abstract class _$$RewardLevelImplCopyWith<$Res>
     implements $RewardLevelCopyWith<$Res> {
   factory _$$RewardLevelImplCopyWith(
-          _$RewardLevelImpl value, $Res Function(_$RewardLevelImpl) then) =
-      __$$RewardLevelImplCopyWithImpl<$Res>;
+    _$RewardLevelImpl value,
+    $Res Function(_$RewardLevelImpl) then,
+  ) = __$$RewardLevelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String level, int minPoints, List<String> benefits});
@@ -468,8 +487,9 @@ class __$$RewardLevelImplCopyWithImpl<$Res>
     extends _$RewardLevelCopyWithImpl<$Res, _$RewardLevelImpl>
     implements _$$RewardLevelImplCopyWith<$Res> {
   __$$RewardLevelImplCopyWithImpl(
-      _$RewardLevelImpl _value, $Res Function(_$RewardLevelImpl) _then)
-      : super(_value, _then);
+    _$RewardLevelImpl _value,
+    $Res Function(_$RewardLevelImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -478,31 +498,33 @@ class __$$RewardLevelImplCopyWithImpl<$Res>
     Object? minPoints = null,
     Object? benefits = null,
   }) {
-    return _then(_$RewardLevelImpl(
-      level: null == level
-          ? _value.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as String,
-      minPoints: null == minPoints
-          ? _value.minPoints
-          : minPoints // ignore: cast_nullable_to_non_nullable
-              as int,
-      benefits: null == benefits
-          ? _value._benefits
-          : benefits // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
+    return _then(
+      _$RewardLevelImpl(
+        level: null == level
+            ? _value.level
+            : level // ignore: cast_nullable_to_non_nullable
+                  as String,
+        minPoints: null == minPoints
+            ? _value.minPoints
+            : minPoints // ignore: cast_nullable_to_non_nullable
+                  as int,
+        benefits: null == benefits
+            ? _value._benefits
+            : benefits // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RewardLevelImpl implements _RewardLevel {
-  const _$RewardLevelImpl(
-      {required this.level,
-      required this.minPoints,
-      required final List<String> benefits})
-      : _benefits = benefits;
+  const _$RewardLevelImpl({
+    required this.level,
+    required this.minPoints,
+    required final List<String> benefits,
+  }) : _benefits = benefits;
 
   factory _$RewardLevelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RewardLevelImplFromJson(json);
@@ -537,8 +559,12 @@ class _$RewardLevelImpl implements _RewardLevel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, level, minPoints,
-      const DeepCollectionEquality().hash(_benefits));
+  int get hashCode => Object.hash(
+    runtimeType,
+    level,
+    minPoints,
+    const DeepCollectionEquality().hash(_benefits),
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -548,17 +574,16 @@ class _$RewardLevelImpl implements _RewardLevel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RewardLevelImplToJson(
-      this,
-    );
+    return _$$RewardLevelImplToJson(this);
   }
 }
 
 abstract class _RewardLevel implements RewardLevel {
-  const factory _RewardLevel(
-      {required final String level,
-      required final int minPoints,
-      required final List<String> benefits}) = _$RewardLevelImpl;
+  const factory _RewardLevel({
+    required final String level,
+    required final int minPoints,
+    required final List<String> benefits,
+  }) = _$RewardLevelImpl;
 
   factory _RewardLevel.fromJson(Map<String, dynamic> json) =
       _$RewardLevelImpl.fromJson;
@@ -617,32 +642,36 @@ class _$RewardCopyWithImpl<$Res, $Val extends Reward>
     Object? description = null,
     Object? pointsRequired = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      pointsRequired: null == pointsRequired
-          ? _value.pointsRequired
-          : pointsRequired // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            pointsRequired: null == pointsRequired
+                ? _value.pointsRequired
+                : pointsRequired // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$RewardImplCopyWith<$Res> implements $RewardCopyWith<$Res> {
   factory _$$RewardImplCopyWith(
-          _$RewardImpl value, $Res Function(_$RewardImpl) then) =
-      __$$RewardImplCopyWithImpl<$Res>;
+    _$RewardImpl value,
+    $Res Function(_$RewardImpl) then,
+  ) = __$$RewardImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String name, String description, int pointsRequired});
@@ -653,8 +682,9 @@ class __$$RewardImplCopyWithImpl<$Res>
     extends _$RewardCopyWithImpl<$Res, _$RewardImpl>
     implements _$$RewardImplCopyWith<$Res> {
   __$$RewardImplCopyWithImpl(
-      _$RewardImpl _value, $Res Function(_$RewardImpl) _then)
-      : super(_value, _then);
+    _$RewardImpl _value,
+    $Res Function(_$RewardImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -664,35 +694,38 @@ class __$$RewardImplCopyWithImpl<$Res>
     Object? description = null,
     Object? pointsRequired = null,
   }) {
-    return _then(_$RewardImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      pointsRequired: null == pointsRequired
-          ? _value.pointsRequired
-          : pointsRequired // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$RewardImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        pointsRequired: null == pointsRequired
+            ? _value.pointsRequired
+            : pointsRequired // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RewardImpl implements _Reward {
-  const _$RewardImpl(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.pointsRequired});
+  const _$RewardImpl({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.pointsRequired,
+  });
 
   factory _$RewardImpl.fromJson(Map<String, dynamic> json) =>
       _$$RewardImplFromJson(json);
@@ -737,18 +770,17 @@ class _$RewardImpl implements _Reward {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RewardImplToJson(
-      this,
-    );
+    return _$$RewardImplToJson(this);
   }
 }
 
 abstract class _Reward implements Reward {
-  const factory _Reward(
-      {required final String id,
-      required final String name,
-      required final String description,
-      required final int pointsRequired}) = _$RewardImpl;
+  const factory _Reward({
+    required final String id,
+    required final String name,
+    required final String description,
+    required final int pointsRequired,
+  }) = _$RewardImpl;
 
   factory _Reward.fromJson(Map<String, dynamic> json) = _$RewardImpl.fromJson;
 

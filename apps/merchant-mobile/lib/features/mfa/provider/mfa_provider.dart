@@ -32,12 +32,16 @@ class MfaService {
   }
 
   /// Validate a TOTP code during login with MFA session token.
-  Future<Map<String, dynamic>?> validate(String code, {String? mfaSessionToken}) async {
+  Future<Map<String, dynamic>?> validate(
+    String code, {
+    String? mfaSessionToken,
+  }) async {
     try {
       final response = await _dio.post(
         ApiConstants.mfaValidate,
         data: {
           'code': code,
+          // ignore: use_null_aware_elements - `?` key syntax triggers invalid_null_aware_operator
           if (mfaSessionToken != null) 'mfaSessionToken': mfaSessionToken,
         },
       );
@@ -48,7 +52,10 @@ class MfaService {
   }
 
   /// Use a backup code to bypass MFA.
-  Future<Map<String, dynamic>?> useBackupCode(String email, String backupCode) async {
+  Future<Map<String, dynamic>?> useBackupCode(
+    String email,
+    String backupCode,
+  ) async {
     try {
       final response = await _dio.post(
         ApiConstants.mfaBackupCode,

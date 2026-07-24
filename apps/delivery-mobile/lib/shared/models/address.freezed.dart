@@ -20,11 +20,11 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Address {
-  String get id => throw _privateConstructorUsedError;
+  String get id =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(includeToJson: false, includeFromJson: false)
   String? get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'recipientName')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phoneNumber')
   String get phone => throw _privateConstructorUsedError;
   String get addressLine1 => throw _privateConstructorUsedError;
   String get addressLine2 => throw _privateConstructorUsedError;
@@ -50,9 +50,9 @@ abstract class $AddressCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String? userId,
-      @JsonKey(name: 'recipientName') String name,
-      @JsonKey(name: 'phoneNumber') String phone,
+      @JsonKey(includeToJson: false, includeFromJson: false) String? userId,
+      String name,
+      String phone,
       String addressLine1,
       String addressLine2,
       String city,
@@ -169,9 +169,9 @@ abstract class _$$AddressImplCopyWith<$Res> implements $AddressCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String? userId,
-      @JsonKey(name: 'recipientName') String name,
-      @JsonKey(name: 'phoneNumber') String phone,
+      @JsonKey(includeToJson: false, includeFromJson: false) String? userId,
+      String name,
+      String phone,
       String addressLine1,
       String addressLine2,
       String city,
@@ -282,9 +282,10 @@ class __$$AddressImplCopyWithImpl<$Res>
 class _$AddressImpl implements _Address {
   const _$AddressImpl(
       {required this.id,
+      @JsonKey(includeToJson: false, includeFromJson: false)
       required this.userId,
-      @JsonKey(name: 'recipientName') required this.name,
-      @JsonKey(name: 'phoneNumber') required this.phone,
+      required this.name,
+      required this.phone,
       required this.addressLine1,
       required this.addressLine2,
       required this.city,
@@ -302,13 +303,13 @@ class _$AddressImpl implements _Address {
 
   @override
   final String id;
+// ignore: invalid_annotation_target
   @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
   final String? userId;
   @override
-  @JsonKey(name: 'recipientName')
   final String name;
   @override
-  @JsonKey(name: 'phoneNumber')
   final String phone;
   @override
   final String addressLine1;
@@ -405,9 +406,10 @@ class _$AddressImpl implements _Address {
 abstract class _Address implements Address {
   const factory _Address(
       {required final String id,
+      @JsonKey(includeToJson: false, includeFromJson: false)
       required final String? userId,
-      @JsonKey(name: 'recipientName') required final String name,
-      @JsonKey(name: 'phoneNumber') required final String phone,
+      required final String name,
+      required final String phone,
       required final String addressLine1,
       required final String addressLine2,
       required final String city,
@@ -424,13 +426,12 @@ abstract class _Address implements Address {
 
   @override
   String get id;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(includeToJson: false, includeFromJson: false)
   String? get userId;
   @override
-  @JsonKey(name: 'recipientName')
   String get name;
   @override
-  @JsonKey(name: 'phoneNumber')
   String get phone;
   @override
   String get addressLine1;

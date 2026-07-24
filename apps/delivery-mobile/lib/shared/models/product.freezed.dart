@@ -12,8 +12,7 @@ part of 'product.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Product _$ProductFromJson(Map<String, dynamic> json) {
   return _Product.fromJson(json);
@@ -51,27 +50,26 @@ abstract class $ProductCopyWith<$Res> {
   factory $ProductCopyWith(Product value, $Res Function(Product) then) =
       _$ProductCopyWithImpl<$Res, Product>;
   @useResult
-  $Res call({
-    String id,
-    String name,
-    String description,
-    String shortDescription,
-    double price,
-    double? compareAtPrice,
-    String imageUrl,
-    List<String> images,
-    String? unit,
-    int stock,
-    String? sku,
-    String? categoryId,
-    String? merchantId,
-    String? merchantName,
-    double? rating,
-    int reviewCount,
-    bool isFavorite,
-    bool hasVariants,
-    List<String> tags,
-  });
+  $Res call(
+      {String id,
+      String name,
+      String description,
+      String shortDescription,
+      double price,
+      double? compareAtPrice,
+      String imageUrl,
+      List<String> images,
+      String? unit,
+      int stock,
+      String? sku,
+      String? categoryId,
+      String? merchantId,
+      String? merchantName,
+      double? rating,
+      int reviewCount,
+      bool isFavorite,
+      bool hasVariants,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -107,86 +105,84 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? hasVariants = null,
     Object? tags = null,
   }) {
-    return _then(
-      _value.copyWith(
-        id: null == id
-            ? _value.id
-            : id
-                as String,
-        name: null == name
-            ? _value.name
-            : name
-                as String,
-        description: null == description
-            ? _value.description
-            : description
-                as String,
-        shortDescription: null == shortDescription
-            ? _value.shortDescription
-            : shortDescription
-                as String,
-        price: null == price
-            ? _value.price
-            : price
-                as double,
-        compareAtPrice: freezed == compareAtPrice
-            ? _value.compareAtPrice
-            : compareAtPrice
-                as double?,
-        imageUrl: null == imageUrl
-            ? _value.imageUrl
-            : imageUrl
-                as String,
-        images: null == images
-            ? _value.images
-            : images
-                as List<String>,
-        unit: freezed == unit
-            ? _value.unit
-            : unit
-                as String?,
-        stock: null == stock
-            ? _value.stock
-            : stock
-                as int,
-        sku: freezed == sku
-            ? _value.sku
-            : sku
-                as String?,
-        categoryId: freezed == categoryId
-            ? _value.categoryId
-            : categoryId
-                as String?,
-        merchantId: freezed == merchantId
-            ? _value.merchantId
-            : merchantId
-                as String?,
-        merchantName: freezed == merchantName
-            ? _value.merchantName
-            : merchantName
-                as String?,
-        rating: freezed == rating
-            ? _value.rating
-            : rating
-                as double?,
-        reviewCount: null == reviewCount
-            ? _value.reviewCount
-            : reviewCount
-                as int,
-        isFavorite: null == isFavorite
-            ? _value.isFavorite
-            : isFavorite
-                as bool,
-        hasVariants: null == hasVariants
-            ? _value.hasVariants
-            : hasVariants
-                as bool,
-        tags: null == tags
-            ? _value.tags
-            : tags
-                as List<String>,
-      ) as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      shortDescription: null == shortDescription
+          ? _value.shortDescription
+          : shortDescription // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      compareAtPrice: freezed == compareAtPrice
+          ? _value.compareAtPrice
+          : compareAtPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      unit: freezed == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      stock: null == stock
+          ? _value.stock
+          : stock // ignore: cast_nullable_to_non_nullable
+              as int,
+      sku: freezed == sku
+          ? _value.sku
+          : sku // ignore: cast_nullable_to_non_nullable
+              as String?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      merchantId: freezed == merchantId
+          ? _value.merchantId
+          : merchantId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      merchantName: freezed == merchantName
+          ? _value.merchantName
+          : merchantName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double?,
+      reviewCount: null == reviewCount
+          ? _value.reviewCount
+          : reviewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasVariants: null == hasVariants
+          ? _value.hasVariants
+          : hasVariants // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
   }
 }
 
@@ -197,27 +193,26 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       __$$ProductImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String name,
-    String description,
-    String shortDescription,
-    double price,
-    double? compareAtPrice,
-    String imageUrl,
-    List<String> images,
-    String? unit,
-    int stock,
-    String? sku,
-    String? categoryId,
-    String? merchantId,
-    String? merchantName,
-    double? rating,
-    int reviewCount,
-    bool isFavorite,
-    bool hasVariants,
-    List<String> tags,
-  });
+  $Res call(
+      {String id,
+      String name,
+      String description,
+      String shortDescription,
+      double price,
+      double? compareAtPrice,
+      String imageUrl,
+      List<String> images,
+      String? unit,
+      int stock,
+      String? sku,
+      String? categoryId,
+      String? merchantId,
+      String? merchantName,
+      double? rating,
+      int reviewCount,
+      bool isFavorite,
+      bool hasVariants,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -251,113 +246,112 @@ class __$$ProductImplCopyWithImpl<$Res>
     Object? hasVariants = null,
     Object? tags = null,
   }) {
-    return _then(
-      _$ProductImpl(
-        id: null == id
-            ? _value.id
-            : id
-                as String,
-        name: null == name
-            ? _value.name
-            : name
-                as String,
-        description: null == description
-            ? _value.description
-            : description
-                as String,
-        shortDescription: null == shortDescription
-            ? _value.shortDescription
-            : shortDescription
-                as String,
-        price: null == price
-            ? _value.price
-            : price
-                as double,
-        compareAtPrice: freezed == compareAtPrice
-            ? _value.compareAtPrice
-            : compareAtPrice
-                as double?,
-        imageUrl: null == imageUrl
-            ? _value.imageUrl
-            : imageUrl
-                as String,
-        images: null == images
-            ? _value.images
-            : images
-                as List<String>,
-        unit: freezed == unit
-            ? _value.unit
-            : unit
-                as String?,
-        stock: null == stock
-            ? _value.stock
-            : stock
-                as int,
-        sku: freezed == sku
-            ? _value.sku
-            : sku
-                as String?,
-        categoryId: freezed == categoryId
-            ? _value.categoryId
-            : categoryId
-                as String?,
-        merchantId: freezed == merchantId
-            ? _value.merchantId
-            : merchantId
-                as String?,
-        merchantName: freezed == merchantName
-            ? _value.merchantName
-            : merchantName
-                as String?,
-        rating: freezed == rating
-            ? _value.rating
-            : rating
-                as double?,
-        reviewCount: null == reviewCount
-            ? _value.reviewCount
-            : reviewCount
-                as int,
-        isFavorite: null == isFavorite
-            ? _value.isFavorite
-            : isFavorite
-                as bool,
-        hasVariants: null == hasVariants
-            ? _value.hasVariants
-            : hasVariants
-                as bool,
-        tags: null == tags
-            ? _value.tags
-            : tags
-                as List<String>,
-      ),
-    );
+    return _then(_$ProductImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      shortDescription: null == shortDescription
+          ? _value.shortDescription
+          : shortDescription // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      compareAtPrice: freezed == compareAtPrice
+          ? _value.compareAtPrice
+          : compareAtPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      unit: freezed == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      stock: null == stock
+          ? _value.stock
+          : stock // ignore: cast_nullable_to_non_nullable
+              as int,
+      sku: freezed == sku
+          ? _value.sku
+          : sku // ignore: cast_nullable_to_non_nullable
+              as String?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      merchantId: freezed == merchantId
+          ? _value.merchantId
+          : merchantId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      merchantName: freezed == merchantName
+          ? _value.merchantName
+          : merchantName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double?,
+      reviewCount: null == reviewCount
+          ? _value.reviewCount
+          : reviewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasVariants: null == hasVariants
+          ? _value.hasVariants
+          : hasVariants // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ProductImpl implements _Product {
-  const _$ProductImpl({
-    required this.id,
-    required this.name,
-    required this.description,
-    this.shortDescription = '',
-    required this.price,
-    this.compareAtPrice,
-    required this.imageUrl,
-    this.images = const [],
-    this.unit,
-    this.stock = 0,
-    this.sku,
-    this.categoryId,
-    this.merchantId,
-    this.merchantName,
-    this.rating,
-    this.reviewCount = 0,
-    this.isFavorite = false,
-    this.hasVariants = false,
-    this.tags = const [],
-  });
+  const _$ProductImpl(
+      {required this.id,
+      required this.name,
+      required this.description,
+      this.shortDescription = '',
+      required this.price,
+      this.compareAtPrice,
+      required this.imageUrl,
+      final List<String> images = const [],
+      this.unit,
+      this.stock = 0,
+      this.sku,
+      this.categoryId,
+      this.merchantId,
+      this.merchantName,
+      this.rating,
+      this.reviewCount = 0,
+      this.isFavorite = false,
+      this.hasVariants = false,
+      final List<String> tags = const []})
+      : _images = images,
+        _tags = tags;
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductImplFromJson(json);
@@ -377,9 +371,15 @@ class _$ProductImpl implements _Product {
   final double? compareAtPrice;
   @override
   final String imageUrl;
+  final List<String> _images;
   @override
   @JsonKey()
-  final List<String> images;
+  List<String> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
   @override
   final String? unit;
   @override
@@ -404,9 +404,14 @@ class _$ProductImpl implements _Product {
   @override
   @JsonKey()
   final bool hasVariants;
+  final List<String> _tags;
   @override
   @JsonKey()
-  final List<String> tags;
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
 
   @override
   String toString() {
@@ -429,7 +434,7 @@ class _$ProductImpl implements _Product {
                 other.compareAtPrice == compareAtPrice) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            const DeepCollectionEquality().equals(other.images, images) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.stock, stock) || other.stock == stock) &&
             (identical(other.sku, sku) || other.sku == sku) &&
@@ -446,7 +451,7 @@ class _$ProductImpl implements _Product {
                 other.isFavorite == isFavorite) &&
             (identical(other.hasVariants, hasVariants) ||
                 other.hasVariants == hasVariants) &&
-            const DeepCollectionEquality().equals(other.tags, tags));
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(ignore: true)
@@ -460,7 +465,7 @@ class _$ProductImpl implements _Product {
         price,
         compareAtPrice,
         imageUrl,
-        const DeepCollectionEquality().hash(images),
+        const DeepCollectionEquality().hash(_images),
         unit,
         stock,
         sku,
@@ -471,7 +476,7 @@ class _$ProductImpl implements _Product {
         reviewCount,
         isFavorite,
         hasVariants,
-        const DeepCollectionEquality().hash(tags),
+        const DeepCollectionEquality().hash(_tags)
       ]);
 
   @JsonKey(ignore: true)
@@ -482,32 +487,33 @@ class _$ProductImpl implements _Product {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProductImplToJson(this);
+    return _$$ProductImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Product implements Product {
-  const factory _Product({
-    required final String id,
-    required final String name,
-    required final String description,
-    final String shortDescription,
-    required final double price,
-    final double? compareAtPrice,
-    required final String imageUrl,
-    final List<String> images,
-    final String? unit,
-    final int stock,
-    final String? sku,
-    final String? categoryId,
-    final String? merchantId,
-    final String? merchantName,
-    final double? rating,
-    final int reviewCount,
-    final bool isFavorite,
-    final bool hasVariants,
-    final List<String> tags,
-  }) = _$ProductImpl;
+  const factory _Product(
+      {required final String id,
+      required final String name,
+      required final String description,
+      final String shortDescription,
+      required final double price,
+      final double? compareAtPrice,
+      required final String imageUrl,
+      final List<String> images,
+      final String? unit,
+      final int stock,
+      final String? sku,
+      final String? categoryId,
+      final String? merchantId,
+      final String? merchantName,
+      final double? rating,
+      final int reviewCount,
+      final bool isFavorite,
+      final bool hasVariants,
+      final List<String> tags}) = _$ProductImpl;
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$ProductImpl.fromJson;
 
